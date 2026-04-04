@@ -1,0 +1,154 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Dr. Hernani Costa",
+  "honorificPrefix": "Dr.",
+  "givenName": "Hernani",
+  "familyName": "Costa",
+  "additionalName": ["H. P. Costa", "Hernani P. Costa"],
+  "gender": "Male",
+  "url": "https://drhernanicosta.com",
+  "image": "https://res.cloudinary.com/dhau5sdfv/image/upload/v1768406159/hernani_photo-foto.jpg",
+  "description": "AI strategy consultant, builder, and entrepreneur. PhD in Computational Linguistics. 25+ years designing and scaling AI systems, leading engineering teams, and navigating AI governance. Expert in AI strategy, EU AI Act compliance, business automation, and responsible AI implementation.",
+  "birthPlace": {"@type": "Place", "name": "Portugal"},
+  "homeLocation": {
+    "@type": "Place",
+    "name": "Amsterdam, Netherlands",
+    "addressCountry": "NL",
+    "geo": {"@type": "GeoCoordinates", "latitude": "52.3676", "longitude": "4.9041"}
+  },
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      "url": "https://calendar.app.google/eb8gH1onDTQnUtP6A",
+      "email": "info@firstaimovers.com",
+      "availableLanguage": ["en", "pt", "es", "nl"]
+    },
+    {
+      "@type": "ContactPoint",
+      "contactType": "Professional Inquiry",
+      "email": "contact@coreventures.xyz",
+      "url": "https://coreventures.xyz",
+      "availableLanguage": ["en", "pt", "es", "nl"]
+    }
+  ],
+  "jobTitle": ["Founder & CEO, First AI Movers", "Founder & CEO, Core Ventures", "Co-Founder, Desapega", "Co-Founder, Tarucca"],
+  "knowsAbout": [
+    "Artificial Intelligence",
+    "AI Strategy & Governance",
+    "Business Strategy",
+    "API Integration & Design",
+    "Workflow Automation",
+    "Machine Learning",
+    "Large Language Models (LLMs)",
+    "EU AI Act Compliance",
+    "Responsible AI",
+    "Business Scaling",
+    "Team Leadership",
+    "Technical Architecture",
+    "Product Development",
+    "Computational Linguistics",
+    "NLP Systems",
+    "Computer Vision"
+  ],
+  "hasOccupation": [
+    {
+      "@type": "Occupation",
+      "name": "Founder & CEO",
+      "description": "Leading AI education and daily intelligence platform",
+      "occupationalCategory": "Entrepreneurship & Leadership"
+    },
+    {
+      "@type": "Occupation",
+      "name": "AI Strategy Consultant",
+      "description": "Advising organizations on AI governance, compliance, and implementation",
+      "occupationalCategory": "Management & Strategy"
+    },
+    {
+      "@type": "Occupation",
+      "name": "Technical Architect",
+      "description": "Designing scalable AI systems and automation platforms",
+      "occupationalCategory": "Computer & Technology"
+    }
+  ],
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "degree",
+      "name": "PhD in Computational Linguistics",
+      "recognizedBy": {"@type": "Organization", "name": "University of Malaga"},
+      "url": "https://archive.org/details/hernani-costa-phd-certificate"
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "degree",
+      "name": "Master of Science (MSc)",
+      "recognizedBy": {"@type": "Organization", "name": "University of Coimbra"}
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "degree",
+      "name": "Bachelor of Science (BSc)",
+      "recognizedBy": {"@type": "Organization", "name": "University of Coimbra"}
+    }
+  ],
+  "alumniOf": [
+    {"@type": "Organization", "name": "University of Coimbra", "url": "https://www.cisuc.uc.pt/en/people/dr-hernani-costa"},
+    {"@type": "Organization", "name": "University of Malaga", "url": "https://www.lexytrad.es/en/members/hernani-costa/"},
+    {"@type": "Organization", "name": "University of Vigo"}
+  ],
+  "worksFor": [
+    {"@type": "Organization", "name": "First AI Movers", "url": "https://www.firstaimovers.com"},
+    {"@type": "Organization", "name": "Core Ventures", "url": "https://coreventures.xyz"},
+    {"@type": "Organization", "name": "Tarucca", "url": "https://tarucca.com"},
+    {"@type": "Organization", "name": "Desapega", "url": "https://www.desapega.nl"}
+  ],
+  "affiliation": [
+    {"@type": "Organization", "name": "First AI Movers", "url": "https://www.firstaimovers.com", "description": "Daily AI intelligence for 8,000+ executives and founders", "foundingDate": "2025"},
+    {"@type": "Organization", "name": "Core Ventures", "url": "https://coreventures.xyz", "description": "AI governance and strategy studio for European SMEs", "foundingDate": "2025", "areaServed": ["NL", "EU"]},
+    {"@type": "Organization", "name": "Desapega", "url": "https://www.desapega.nl", "description": "The operating system for the expats experience in the Netherlands (Food, Education and Community)", "foundingDate": "2024", "areaServed": ["NL"]},
+    {"@type": "Organization", "name": "Tarucca", "url": "https://www.tarucca.com", "description": "Intelligence for critical assets in renewable energy"},
+    {"@type": "Organization", "name": "University of Coimbra - CISUC", "url": "https://www.cisuc.uc.pt/en/people/dr-hernani-costa", "description": "Research in computational systems and information systems"}
+  ],
+  "memberOf": [
+    {"@type": "Organization", "name": "CISUC (Centre for Informatics and Systems at University of Coimbra)"},
+    {"@type": "Organization", "name": "LexiTrad (International Terminology Community)", "url": "https://www.lexytrad.es/en/members/hernani-costa/"}
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers",
+    "https://www.linkedin.com/company/first-ai-movers",
+    "https://www.linkedin.com/newsletters/first-ai-movers-7285707335191154688/",
+    "https://www.firstaimovers.com",
+    "https://www.linkedin.com/company/desapega-nl",
+    "https://www.linkedin.com/company/coreventuresxyz",
+    "https://www.linkedin.com/company/tarucca",
+    "https://radar.firstaimovers.com",
+    "https://open.spotify.com/show/5HX1cZF7Ojikm2VWcAzTnt?si=ddc2fa882f4a4941",
+    "https://open.spotify.com/show/0T5DC8sSsc1ZTQe3huB88U?si=185561904082434d",
+    "https://insights.firstaimovers.com",
+    "https://voices.firstaimovers.com",
+    "https://dev.to/dr_hernani_costa",
+    "https://medium.com/@firstaimovers",
+    "https://scholar.google.com/citations?user=N9pus4gAAAAJ",
+    "https://orcid.org/0000-0002-6813-4641",
+    "https://www.researchgate.net/profile/Hernani-Costa",
+    "https://github.com/hpcosta/",
+    "https://uma.academia.edu/hpcosta",
+    "https://www.cisuc.uc.pt/en/people/dr-hernani-costa",
+    "https://eden.dei.uc.pt/~hpcosta/",
+    "https://www.lexytrad.es/en/members/hernani-costa/",
+    "https://intch.org/hernani",
+    "https://about.me/hpcosta",
+    "https://x.com/firstaimovers",
+    "https://www.youtube.com/@DrHernaniCosta",
+    "https://www.facebook.com/hpgcosta/",
+    "https://stackoverflow.com/users/2343906/dr-hernani-costa",
+    "https://www.instagram.com/dr.hernani.costa/",
+    "https://www.instagram.com/drhernanicosta/"
+  ],
+  "mainEntityOfPage": {"@type": "WebPage", "url": "https://drhernanicosta.com", "@id": "https://drhernanicosta.com#main"},
+  "identifier": {"@type": "PropertyValue", "propertyID": "ORCID", "value": "0000-0002-6813-4641"}
+}
+</script>

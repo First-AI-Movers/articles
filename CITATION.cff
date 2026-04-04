@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use or cite this work, please use the following metadata."
+authors:
+  - family-names: Costa
+    given-names: Hernani
+    orcid: "https://orcid.org/0000-0002-6813-4641"
+    website: "https://drhernanicosta.com"
+    affiliation: "First AI Movers / Core Ventures"
+title: "First AI Movers — Article Archive"
+url: "https://github.com/First-AI-Movers/articles"
+license: CC-BY-4.0
+keywords:
+  - AI strategy
+  - EU AI Act
+  - AI governance
+  - European SME
+  - AI stack
+  - AI Agents
+  - AI Sovereignty
+  - artificial intelligence
+  - sofware development
+  - responsible AI
+  - AI literacy
