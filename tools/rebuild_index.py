@@ -54,7 +54,7 @@ def get_metadata(folder):
         return None
     r.raise_for_status()
     content = base64.b64decode(r.json()["content"]).decode("utf-8")
-    return json.loads(content)
+    return json.loads(content, strict=False)
 
 
 def get_sha(path):
@@ -96,8 +96,14 @@ def main():
 
     articles = []
     skipped = 0
+    errors = 0
     for folder in folders:
-        meta = get_metadata(folder)
+        try:
+            meta = get_metadata(folder)
+        except Exception as e:
+            print(f"  ERR  {folder} ({e})")
+            errors += 1
+            continue
         if not meta:
             print(f"  SKIP {folder} (no metadata.json)")
             skipped += 1
@@ -125,6 +131,7 @@ def main():
     print(f"\n--- Summary ---")
     print(f"Indexed: {len(articles)}")
     print(f"Skipped: {skipped}")
+    print(f"Errors:  {errors}")
 
     if args.dry_run:
         print("\n[DRY RUN] Index would be:\n")
