@@ -1,0 +1,23 @@
+---
+title: "Mistral Thinks It Through—Magistral Brings Lightning-Fast, Transparent Reasoning"
+author: "Dr. Hernani Costa"
+author_url: "https://drhernanicosta.com"
+author_linkedin: "https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/"
+publication: "First AI Movers"
+publication_url: "https://firstaimovers.com"
+canonical_url: "https://www.firstaimovers.com/p/mistral-magistral-reasoning"
+published_date: "2025-07-01"
+license: "CC BY 4.0"
+---
+```
+{
+ "title": "Mistral Thinks It Through—Magistral Brings Lightning-Fast, Transparent Reasoning",
+ "content": "# Mistral Thinks It Through—Magistral Brings Lightning-Fast, Transparent Reasoning\n\n*By Dr. Hernani Costa — Jul 1, 2025*\n\n*Dual-release model ships open 24 B weights and enterprise muscle, scoring 70-73 % on AIME 2024 while answering up to 10× faster.*\n\nGood morning,\n\nFrance-based **[Mistral AI](https://mistral.ai/)** just raised the bar for auditable reasoning with the launch of **Magistral**, a two-tier model built to solve multi-step problems quickly *and* show its work. Below, we break down the who-what-when-where-why, then sprint through three stealth updates you can bolt into your stack this week.\n\n## Lead Story — *Magistral*\n\nParis-founded **Mistral AI**, the open-weights upstart behind Codestral and Le Chat.\n\n**[Magistral](https://mistral.ai/news/magistral)**, its first *reasoning-first* large language model. It ships in two flavors: **Magistral Small**, a 24 B-parameter Apache-2 model, and **Magistral Medium**, an enterprise version with stronger weights and hosted API.\n\nReleased mid-June 2025 via GitHub for weights and through Mistral’s Le Chat interface for inference, Magistral emphasizes **transparent, chain-of-thought reasoning** in eight major languages—English, French, Spanish, German, Italian, Arabic, Russian, and Simplified Chinese. Each answer reveals step-by-step logic, a must for regulated verticals like healthcare and finance.\n\nOn the math-heavy **AIME 2024** benchmark, Magistral Small scores **70.7 %** and Medium **73.6 %**, climbing to 83–90 % with majority voting**, **beating many closed competitors at similar sizes. In Le Chat, a **Flash Answers** mode returns solutions up to **10× faster** than rival chatbots, thanks to optimized decoding and caching.\n\n**My take:** By merging speed with auditability, Mistral tackles two enterprise deal-blockers—latency and compliance. Being able to trace every reasoning step back to the *source of truth* should ease adoption in “red-tape” sectors and curb hallucinations before they hit production.\n\n## Fun Fact\n\nThe term **“API”** first appeared in a 1968 paper on software design, not web tech. Fifty-seven years later, APIs like [MCP](https://firstaimovers.substack.com/p/mcp-powered-ai-agents-a-new-era-of?r=n59mw) and [Mariner](https://medium.com/@hernanimax/what-google-i-o-2025-really-means-for-ai-founders-466c0e238eb0) let LLM agents browse email or drive a live browser, proving the acronym’s staying power.\n\nStay curious, keep those GPUs cool,\n— The AI Sailor ⚓️\n\n### About the Author\n\nHi, I’m [Dr. Hernani Costa](http://www.firstaimovers.com/c/connect?utm_source=www.firstaimovers.com&utm_medium=referral&utm_campaign=sme-business-automation-eliminate-manual-work-in-2025-with-first-ai-movers), founder of [First AI Movers](https://www.linkedin.com/company/first-ai-movers?utm_source=www.firstaimovers.com&utm_medium=referral&utm_campaign=sme-business-automation-eliminate-manual-work-in-2025-with-first-ai-movers). With a PhD and over 25 years of hands-on experience in technology, AI consulting, and Venture Building. I help leaders and founders create real business value through practical and ethical AI solutions. If you want to know more about what’s possible, visit [Core Ventures](https://coreventures.xyz). Don’t forget to follow us on [LinkedIn](https://www.linkedin.com/company/first-ai-movers/). To partner with us: [info@firstaimovers.com](mailto:info@firstaimovers.com).\n\n👉 Check out our newsletter [recommendations](https://recommendations.page/first-ai-movers?email={{email}})."
+}
+```
+
+---
+
+**Author:** [Dr. Hernani Costa](https://drhernanicosta.com) — Founder of [First AI Movers](https://firstaimovers.com) and [Core Ventures](https://coreventures.xyz). AI Architect, Strategic Advisor, and Fractional CTO helping Top Worldwide Innovation Companies navigate AI Innovations. PhD in Computational Linguistics, 25+ years in technology.
+
+*Originally published at [First AI Movers](https://www.firstaimovers.com/p/mistral-magistral-reasoning) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).*
