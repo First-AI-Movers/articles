@@ -118,6 +118,8 @@ def main():
         })
         print(f"  OK   {folder}")
 
+    articles.sort(key=lambda a: a.get("published_date", ""), reverse=True)
+
     index = {
         "last_updated": str(date.today()),
         "total_articles": len(articles),

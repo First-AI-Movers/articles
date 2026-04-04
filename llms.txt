@@ -1,0 +1,29 @@
+# First AI Movers — Article Archive
+
+> The canonical, open-access text archive of all First AI Movers articles by Dr. Hernani Costa. 209+ original articles on AI strategy, EU AI Act compliance, AI governance, agentic systems, and responsible AI adoption for European SMEs. Licensed under CC BY 4.0.
+
+## Author
+
+Dr. Hernani Costa — PhD in Computational Linguistics (University of Malaga), 25+ years in technology and AI systems. Founder of First AI Movers and Core Ventures. Based in Amsterdam, Netherlands. ORCID: 0000-0002-6813-4641.
+
+## Key Files
+
+- [README](https://github.com/First-AI-Movers/articles/blob/main/README.md): Full project overview, topics covered, usage instructions
+- [Article Index](https://github.com/First-AI-Movers/articles/blob/main/index.json): Machine-readable catalog of all articles with title, date, tags, and canonical URL
+- [Author Bio](https://github.com/First-AI-Movers/articles/blob/main/ABOUT.md): Dr. Hernani Costa's credentials, affiliations, and verified profiles
+- [Author Structured Data](https://github.com/First-AI-Movers/articles/blob/main/hernanicosta.json): Schema.org Person entity in JSON-LD format
+- [Citation](https://github.com/First-AI-Movers/articles/blob/main/CITATION.cff): Machine-readable citation metadata (CFF format)
+- [License](https://github.com/First-AI-Movers/articles/blob/main/LICENSE): Creative Commons Attribution 4.0 International
+
+## Topics
+
+AI strategy, EU AI Act compliance, AI governance, European SME AI adoption, agentic AI systems, MCP protocols, RAG architectures, AI coding stacks, Claude Code, prompt engineering, fractional CTO frameworks, sovereign AI, AI literacy, responsible AI, healthtech AI, renewable energy AI, digital transformation.
+
+## Platforms
+
+- Newsletter: https://firstaimovers.com
+- Radar: https://radar.firstaimovers.com
+- Insights: https://insights.firstaimovers.com
+- Dev.to: https://dev.to/dr_hernani_costa
+- Medium: https://medium.com/@firstaimovers
+- LinkedIn: https://linkedin.com/in/hernani-costa-ai-ceo-firstaimovers
