@@ -1,0 +1,18 @@
+{
+    "id":"recD8NSf8jEpmSGfG",
+    "title":"CPU-First Document Ingestion for RAG on Raspberry Pi 5",
+    "slug":"cpu-first-document-ingestion-rag-raspberry-pi-5",
+    "folder": "2026-03-27-cpu-first-document-ingestion-rag-raspberry-pi-5",
+    "published_date": "2026-03-27",
+    "author": "Dr. Hernani Costa",
+    "author_url": "https://drhernanicosta.com",
+    "company": "First AI Movers",
+    "company_url": "https://firstaimovers.com",
+    "canonical_url": "https://radar.firstaimovers.com/cpu-first-document-ingestion-rag-raspberry-pi-5",
+    "tags":["CPU-first document ingestion strategy","RAG system failures prevention","document extraction best practices","Raspberry Pi 5 AI applications","OCR optimization techniques","AI governance and risk advisory","efficient PDF processing workflows"],
+    "word_count": 1745,
+    "read_time_minutes":8,
+    "funnel_stage": "middle",
+    "first_ai_movers_services": [],
+    "status": "published"
+}
