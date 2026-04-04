@@ -1,21 +1,24 @@
 {
-    "id":"recdK7f0f6qaKDgUS",
-    "title":"
-Amazon's "Vulcan" Robot Feels Its Way Around Shelves
-",
-    "slug":"amazons-vulcan-robot-feels-its-way-around-shelves-dr-hernani-costa-oq0se",
+    "id": "recdK7f0f6qaKDgUS",
+    "title": "Amazon's \"Vulcan\" Robot Feels Its Way Around Shelves",
+    "slug": "amazons-vulcan-robot-feels-its-way-around-shelves-dr-hernani-costa-oq0se",
     "folder": "2026-01-21-amazons-vulcan-robot-feels-its-way-around-shelves-dr-he",
     "published_date": "2026-01-21",
     "author": "Dr. Hernani Costa",
     "author_url": "https://drhernanicosta.com",
     "company": "First AI Movers",
     "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/amazons-vulcan-robot-feels-its-way-around-shelves-dr-hernani-costa-oq0se
-",
-    "tags":["warehouse automation technology","tactile sensing in robotics","AI-driven fulfillment systems","human-robot collaboration","robotic logistics advancements","dexterity in automation"],
+    "canonical_url": "https://www.linkedin.com/pulse/amazons-vulcan-robot-feels-its-way-around-shelves-dr-hernani-costa-oq0se",
+    "tags": [
+        "warehouse automation technology",
+        "tactile sensing in robotics",
+        "AI-driven fulfillment systems",
+        "human-robot collaboration",
+        "robotic logistics advancements",
+        "dexterity in automation"
+    ],
     "word_count": 239,
-    "read_time_minutes":2,
+    "read_time_minutes": 2,
     "funnel_stage": "top",
     "first_ai_movers_services": [],
     "status": "published"
