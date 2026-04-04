@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-04-04",
-  "total_articles": 208,
+  "total_articles": 209,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -233,6 +233,21 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "\nhttps://www.linkedin.com/pulse/ai-translation-skills-hidden-leadership-edge-2025-dr-hernani-costa-fpode\n"
+    },
+    {
+      "folder": "2026-01-21-amazons-vulcan-robot-feels-its-way-around-shelves-dr-he",
+      "title": "Amazon's \"Vulcan\" Robot Feels Its Way Around Shelves",
+      "published_date": "2026-01-21",
+      "tags": [
+        "warehouse automation technology",
+        "tactile sensing in robotics",
+        "AI-driven fulfillment systems",
+        "human-robot collaboration",
+        "robotic logistics advancements",
+        "dexterity in automation"
+      ],
+      "funnel_stage": "top",
+      "canonical_url": "https://www.linkedin.com/pulse/amazons-vulcan-robot-feels-its-way-around-shelves-dr-hernani-costa-oq0se"
     },
     {
       "folder": "2026-01-21-apple-ai-crossroads-why-bold-innovation-perfection-defi",
