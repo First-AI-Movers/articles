@@ -1,0 +1,95 @@
+---
+title: "The Evolution of Venture Capital"
+author: "Dr. Hernani Costa"
+author_url: "https://drhernanicosta.com"
+author_linkedin: "https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/"
+publication: "First AI Movers"
+publication_url: "https://firstaimovers.com"
+canonical_url: "https://www.firstaimovers.com/p/the-evolution-of-venture-capital"
+published_date: "2025-05-19"
+license: "CC BY 4.0"
+---
+# The Evolution of Venture Capital
+_By Dr. Hernani Costa — May 5, 2025_
+
+_From Startup Investors to Transformation Engines_
+
+![The Evolution of Venture Capital](https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/asset/file/79daeefa-ff78-44f2-be72-928255dc55f7/The_Evolution_of_Venture_Capital_-_First_AI_Movers_-_Dr_Hernani_Costa.png?t=1746465231)
+
+Welcome to another edition of First AI Movers Pro! Today, we will explore the Evolution of Venture Capital: from startup investors to Transformation Engines.
+
+_Venture capital is undergoing a quiet revolution. Top VC firms that once stuck to funding startups are now reinventing themselves as multi-asset powerhouses. In this feature, we explore how **[Andreessen Horowitz](https://a16z.com/)**, **[Sequoia Capital](https://www.sequoiacap.com/)**, **[General Catalyst](https://www.generalcatalyst.com/)**, **[Thrive Capital](https://thrivecap.com/)**, **[Lightspeed](https://www.lightspeedhq.com/)**, and others are morphing from traditional startup investors into “transformation engines.” From registering as RIAs and launching evergreen funds, to dabbling in buyouts, permanent capital vehicles, secondary markets, and even acquiring entire companies, these firms are breaking the old VC mold. What’s driving this shift? A mix of market forces (startups staying private longer, scarce IPOs), regulatory leeway, and the massive opportunities (and challenges) of the AI era. Buckle up for an in-depth look at the new face of venture capital, complete with recent examples and the forces at play._
+
+## Venture Capital’s New Playbook: Go Big, Go Long, Go Broad
+
+The venture capital industry is **fundamentally changing**. High valuations and low liquidity in recent years have left many VC firms with huge funds but fewer exit opportunities. Rather than wait a decade for IPOs that may never come, elite VCs are adopting tactics once reserved for private equity. They’re launching new investment structures, **buying companies outright, and rolling up businesses** to create value beyond just writing startup checks. In short, venture capital is starting to look a lot more like a multi-asset **private equity-style operation** – albeit one fueled by technology and long-term “transformation,” not just financial engineering.
+
+### From VC to RIA: New Freedom to Invest in Anything
+
+A key enabler of this shift is regulatory. Several top firms have **registered as investment advisers (RIAs)**, freeing themselves from the old rules that constrained traditional VC funds. For example, **Lightspeed Venture Partners**, managing $31B, completed its RIA registration this year. This move – echoed by peers like Sequoia, Andreessen Horowitz, and General Catalyst – **liberates them to deploy capital beyond private startups**. As an RIA, Lightspeed can now **buy public stocks, invest in secondary shares, do buyouts, and pursue roll-up acquisitions** in a way not possible under a standard VC fund.
+
+They’re not alone. **Andreessen Horowitz (a16z)** took the RIA plunge back in 2019. Since then, a16z has massively expanded its scope – launching a crypto fund, a **wealth management division**, even joining [Elon Musk](https://en.wikipedia.org/wiki/Elon_Musk)’s buyout of [Twitter](https://x.com/) in 2022 (a very non-VC move). In fact, a16z has been **behaving more like a governance-heavy PE firm** than a classic venture investor, with active involvement in company operations and broad asset allocations.
+
+Meanwhile, **Sequoia Capital** made waves by **killing the 10-year fund cycle** entirely. In 2021, Sequoia restructured its U.S. & Europe business around a single **evergreen fund** – the [Sequoia Capital Fund](https://www.sequoiacap.com/article/the-sequoia-fund-patient-capital-for-building-enduring-companies/) – instead of traditional closed-end funds. This permanent fund holds public stocks of its portfolio companies and recycles gains into new ventures, effectively **abolishing “expiration dates” on investments**. Sequoia’s bold shift means it can back founders indefinitely, hold onto winners well after IPO, and deploy capital on a **much longer timeline** than before. The firm bluntly declared the 1970s-era 10-year VC model “obsolete” as startups now _“compound their value for decades”_ beyond an IPO.
+
+### Venture Firms Turn into Buyers and Builders
+
+Beyond new fund structures, leading VCs are directly **buying or building companies** – something traditionally done by corporates or buyout firms. Perhaps the most striking example is **General Catalyst**. Once known for early-stage tech bets, General Catalyst has rebranded itself around “**health assurance transformation**,” going so far as to **acquire an entire hospital system**. Through a special vehicle called HATCo (Health Assurance Transformation Corp.), GC signed a $485 million deal to buy [Summa Health](https://www.summahealth.org/), a large Ohio-based hospital network. This is not a typical VC deal at all – it’s a full buyout where the nonprofit hospital will become a for-profit, wholly owned subsidiary of GC’s platform. General Catalyst’s plan is to inject $350M in tech upgrades and $200M in strategic investments into the hospital over several years, aiming to **transform healthcare delivery with AI and digital tools**. The firm no longer even calls itself a VC; its CEO [Hemant Taneja](https://www.linkedin.com/in/hemanttaneja/) positions General Catalyst as a “**Transformation Company**” driving systemic change.
+
+**Thrive Capital** – the New York VC led by [Joshua Kushner](https://www.linkedin.com/in/joshua-kushner-711b45230/) – is also embracing the role of operator. Thrive recently set up **Thrive Holdings**, a $1 billion permanent capital vehicle dedicated to **“investing in, acquiring and operating businesses for the long-term”**. The mission of this new arm is to _transform companies through strategic technology, including AI_. In other words, Thrive isn’t just funding startups; it’s building an in-house portfolio of established companies that it can modernize and scale over an indefinite time horizon. _Not just investing – operating_, as one analyst put it. Thrive Holdings is explicitly designed to **start or buy companies and hold them indefinitely**, with AI as a key value driver. This mirrors a trend of VC firms creating their own “mini-conglomerates” to capture more value over the long run.
+
+Even **Sequoia** and **a16z** have dipped into this approach. Sequoia’s permanent fund structure means it can acquire more shares in later-stage rounds or in secondary markets and **hold onto public equities** instead of exiting. Andreessen Horowitz has been incubating companies internally and reportedly even exploring a private equity-style fund for growth deals. By raising a colossal $20 billion “mega fund” aimed at AI investments, a16z is testing how far a venture firm can scale up. Such scale inevitably pushes them toward **larger, more mature deals** (sometimes outright acquisitions) to deploy that capital. In fact, industry observers note that these mega-funds blur the line between late-stage venture and traditional buyouts, forcing VCs to evolve their playbooks.
+
+### Secondary Markets and New Liquidity Options
+
+Another facet of this evolution is engagement with the **secondary market** for private equity. As startups stay private 10+ years, VCs and founders seek liquidity through secondary share sales. RIA status allows firms like Lightspeed and a16z to **freely trade pre-IPO shares** or even set up continuation funds to hold stakes longer. Lightspeed reportedly launched a **multi-asset continuation fund** (valued at around $1B) to give its investors the choice to cash out or stay in certain late-stage winners. By facilitating secondary transactions and **buying shares from earlier investors or employees**, these firms keep skin in the game of top companies while providing liquidity, effectively acting like a secondary-market dealer alongside being a primary investor.
+
+Additionally, the biggest VCs have created **wealth management arms** to deepen relationships with founders and LPs. Andreessen Horowitz’s new wealth management division aims to manage the fortunes of tech founders it has backed. This not only diversifies a16z’s revenue (with advisory fees) but also **locks in an ecosystem**: successful entrepreneurs can keep their wealth under the same umbrella, which might then invest in the next generation of startups. It’s a virtuous cycle – and another way venture firms are extending their reach far beyond early-stage investing.
+
+## Why VC Firms Are Transforming: Key Drivers
+
+**What’s behind this grand makeover of venture capital?** Several converging forces:
+
+-   **Longer Private Timelines & Fewer IPOs:** Startups are staying private longer than ever, often a decade or more. The IPO market has been fickle, and much value accrues _after_ companies go public. Sequoia observed that many of its biggest wins (e.g., [Square](https://app.squareup.com/)) gained the bulk of their value years post-IPO. Rather than be forced out early, VCs want to **hold onto winners for the long haul**. Evergreen funds and permanent capital vehicles let them do exactly that, and buying stakes via secondaries or roll-ups helps increase ownership in mature, profitable tech companies.
+-   **Pressure to Deploy Massive Funds:** Top-tier VCs raised unprecedented sums from 2019 to 2021. Now they’re sitting on **mountains of dry powder** with limited traditional deal flow. Venture deal volumes slowed in 2022–2024, and exits were scarce, creating a logjam. For big-brand firms, not investing the capital is not an option – they need to put that money to work to justify management fees and carry. This has driven them into adjacent arenas (growth equity, public markets, PE deals) where they can write larger checks. As one report noted, Andreessen’s planned $20B AI fund would “**test how scalable this asset class is while maintaining returns**”. To maintain venture-level returns at that scale, firms feel they must **evolve their strategy**, or risk delivering mediocre results.
+-   **AI as a Transformation Catalyst:** The AI boom is both an opportunity and a challenge. On one hand, investors are chasing AI startups aggressively (over $50B global VC dollars went to AI in Q1 2025 alone). On the other hand, AI’s impact extends to transforming traditional industries, which is where VCs see a chance to play a bigger role. General Catalyst’s hospital acquisition, for instance, is driven by an AI-enabled healthcare vision. Thrive’s new holdco is explicitly about applying AI to old-line businesses. These firms want to **own the transformation, not just finance it**. By controlling assets (like a hospital or a portfolio of AI-modernized companies), they can implement AI solutions at scale and reap longer-term rewards. In Europe, a quarter of all venture funding now goes into AI startups, underlining that AI isn’t just a bubble – it’s becoming a core growth driver across the board. VC firms are repositioning to capture value from _AI-driven change in every sector_, whether through startups or by revamping incumbent businesses.
+-   **Competitive Moat and Brand Expansion:** As venture matures, top firms are creating **platforms that founders and LPs can’t easily replace**. Offering multi-stage funding, public market support, talent services, and wealth management makes a firm like a16z or Sequoia a one-stop shop. This full-stack approach attracts the best entrepreneurs (who see value beyond the check) and persuades LPs to commit more capital (since the firm can deploy in diverse ways). The shift to “transformation engines” is also a hedge against upstart VCs poaching early-stage deals; the giants are saying: _we can support you from garage to IPO and beyond_. It’s a powerful pitch, especially when combined with their war chests. In a tougher market, we’ve already seen **consolidation toward big funds** with access to top deals. The mega-firms are ensuring they stay on top by broadening what they do.
+-   **Regulatory Tailwinds:** The [SEC](https://www.sec.gov/)’s regulatory environment has pushed some of this evolution. The **venture adviser exemption** traditionally let VC funds avoid full registration, but limited them mostly to private startup equity. By volunteering as RIAs, firms accept more compliance burden in exchange for **flexibility to invest in “non-qualifying” assets** – be it crypto tokens, public stocks, or majority stakes in companies. This aligns with a broader trend of private capital moving into markets that were once public (and vice versa). Also, the advent of [SPACs](https://www.investopedia.com/terms/s/spac.asp), though short-lived, showed VCs a path to take companies public themselves. While SPAC mania faded, it signaled that **creative capital market maneuvers are on the table** for venture investors willing to navigate regulatory complexities.
+
+## The Bottom Line: Venture Firms Become Transformation Platforms
+
+In 2025, the definition of a venture capital firm is being rewritten. No longer just seed-and-Series A investors, the leading firms have become **multi-asset platforms** driving change at many levels. They still fund early-stage innovation, but they also run growth funds, partake in buyouts, launch specialized vehicles, and **operate as long-term partners to companies** rather than just shareholders. Think of it as VC evolving into a hybrid of venture studio, private equity, hedge fund, and consulting firm – all under one roof.
+
+This evolution has profound implications. For founders, partnering with these firms may mean access to unprecedented resources and staying private longer with continuous support. For limited partners (investors in VC funds), it means trusting GPs to go beyond the traditional mandate – a bet that these firms can generate outsized returns in unorthodox ways. For the venture ecosystem, it raises the question: who fills the gap at the earliest stages if big VCs focus on broader plays? Indeed, as giant funds chase later-stage and transformation deals, nimble **emerging managers** and specialized seed funds are seizing the early-stage opportunities the giants leave behind.
+
+From a European perspective, these shifts are being watched closely. Major European investors, often backed by corporate or institutional money, are also seeking longer-term holds and strategic impact. Some, like Sweden’s [EQT](https://eqtgroup.com/) (with its AI platform “Motherbrain”), had already blended PE and VC practices. European startups attracting international capital – especially in areas like healthtech and AI, which saw record funding in Q1 2025 – may find the lines blurring between their VC and would-be acquirers. The _Americanization_ of venture into a broader asset class could influence European venture to adopt similar models, albeit adapted to Europe’s regulatory environment and scale.
+
+One thing is clear: **venture capital’s future will look very different from its past**. The pioneers at a16z, Sequoia, GC, Thrive, and Lightspeed are forging a new model of innovation finance – one that doesn’t shy away from owning a hospital, running an evergreen fund, or managing a billionaire’s portfolio. They aim to be **transformation engines**, not just passive investors. As technology permeates every industry and timelines stretch, expect more VCs to follow suit, turning themselves into long-term stakeholders in the transformations they envision. The startup investors of yesterday are becoming the all-purpose value creators of tomorrow, and the ripple effects of this evolution are just beginning to spread across the globe.
+
+\*\*\*
+
+That’s it for the main article. Next, we will highlight...
+
+\*\*\*
+
+## AI Reasoning Models.
+
+-   **Microsoft’s Phi-4 “Reasoning” AIs** – This week [Microsoft](https://www.microsoft.com/en-us/) unveiled three new open-source language models (Phi-4, Phi-4-plus, and Phi-4-mini) focused on complex reasoning tasks. At just ~14 billion parameters, **Phi-4-reasoning** can generate step-by-step logical answers and _“rivals much larger models on complex reasoning”_ like math and science problems.
+-   **Small Model, Big Brains** – Don’t let the size fool you. Phi-4 models leverage clever training (distillation, reinforcement learning on curated reasoning data) to achieve performance on par with models 5–10× their size. In fact, Phi-4 outperforms some 70B+ parameter models on benchmark tests (even beating a 671B model on a recent math Olympiad qualifier). This marks a breakthrough showing that **efficient models can handle “chain-of-thought” reasoning** without giant scale.
+-   **Available to All** – In a nod to open innovation, Microsoft released the Phi-4 models openly via [Azure AI Foundry](https://azure.microsoft.com/en-us/products/ai-foundry) and [Hugging Face](https://huggingface.co/). Developers and researchers worldwide can now **tinker with these reasoning AIs**, embedding advanced logical reasoning capabilities into their own applications. From powering smarter virtual agents to aiding scientific research, these models lower the barrier to integrate **strong reasoning AI on modest hardware**. It’s an exciting development for the AI community, pointing toward a future where even lightweight models can think through tough problems.
+
+[Try Microsoft’s Phi-4 Models →](https://huggingface.co/microsoft/Phi-4-reasoning)
+
+## Next, let’s explore a Fast Fact.
+
+[Meta](https://www.linkedin.com/company/meta/posts/?feedView=all)’s internal forecasts (revealed in a court filing) project **$2–3 billion** in generative AI revenue for 2025 and a jaw-dropping **$1.4 trillion** by 2035. The AI gold rush might just be getting started!
+
+\*\*\*
+
+_Stay in the loop with the latest insights._ **Connect with me** on [LinkedIn→](https://www.linkedin.com/in/hernanicosta) and **subscribe** to the LinkedIn Newsletter [First AI Movers→](https://www.linkedin.com/newsletters/first-ai-movers-7285707335191154688/) for more in-depth analysis and exclusive updates.
+
+---
+
+**Author:** [Dr. Hernani Costa](https://drhernanicosta.com) — Founder of [First AI Movers](https://firstaimovers.com) and [Core Ventures](https://coreventures.xyz). AI Architect, Strategic Advisor, and Fractional CTO helping Top Worldwide Innovation Companies navigate AI Innovations. PhD in Computational Linguistics, 25+ years in technology.
+
+*Originally published at [First AI Movers](https://www.firstaimovers.com/p/the-evolution-of-venture-capital) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).*
