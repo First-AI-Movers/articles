@@ -1,7 +1,7 @@
 {
-    "id":"recGJmO4bVnmAg216",
-    "title":"GPT-5.1's Instruction Following: More Than Just "Warmer"",
-    "slug":"openai-gpt-5-1-instruction-following",
+    "id": "recGJmO4bVnmAg216",
+    "title": "GPT-5.1's Instruction Following: More Than Just \"Warmer\"",
+    "slug": "openai-gpt-5-1-instruction-following",
     "folder": "2025-11-21-openai-gpt-5-1-instruction-following",
     "published_date": "2025-11-21",
     "author": "Dr. Hernani Costa",
@@ -9,9 +9,16 @@
     "company": "First AI Movers",
     "company_url": "https://firstaimovers.com",
     "canonical_url": "https://www.firstaimovers.com/p/openai-gpt-5-1-instruction-following",
-    "tags":["AI instruction precision","GPT-5.1 capabilities","prompt engineering for SMEs","effective AI communication","AI model behavior","instruction following best practices"],
+    "tags": [
+        "AI instruction precision",
+        "GPT-5.1 capabilities",
+        "prompt engineering for SMEs",
+        "effective AI communication",
+        "AI model behavior",
+        "instruction following best practices"
+    ],
     "word_count": 683,
-    "read_time_minutes":3,
+    "read_time_minutes": 3,
     "funnel_stage": "middle",
     "first_ai_movers_services": [],
     "status": "published"
