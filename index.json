@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-04-05",
-  "total_articles": 640,
+  "total_articles": 648,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -3742,6 +3742,21 @@
       "canonical_url": "https://www.firstaimovers.com/p/social-media-content-strategy-2026-eu-business-owners"
     },
     {
+      "folder": "2026-01-19-the-company-assistant-playbook-for-holland",
+      "title": "The \"Company Assistant\" Playbook for Holland",
+      "published_date": "2026-01-19",
+      "tags": [
+        "AI implementation for SMEs",
+        "document-grounded AI assistants",
+        "prompt training for businesses",
+        "operational efficiency through AI",
+        "AI tools for onboarding",
+        "business process optimization"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://www.firstaimovers.com/p/the-company-assistant-playbook-for-holland"
+    },
+    {
       "folder": "2026-01-16-hidden-ai-capabilities-discovery-2026",
       "title": "What Hidden Layers Teach Us About Discovery: Why the Next Breakthrough Comes from Pushing Systems to Their Limits",
       "published_date": "2026-01-16",
@@ -4499,6 +4514,22 @@
       "canonical_url": "https://www.firstaimovers.com/p/ai-search-visibility-mistake-smes"
     },
     {
+      "folder": "2025-12-02-genai-projects-die",
+      "title": "The \"POC Purgatory\" Trap: Why 90% of GenAI Projects Die on the Vine (And How to Be the 10%)",
+      "published_date": "2025-12-02",
+      "tags": [
+        "POC Purgatory solutions",
+        "AI project success strategies",
+        "Generative AI implementation",
+        "AI governance for SMEs",
+        "AI integration challenges",
+        "Data optimization for AI",
+        "Last Mile AI deployment"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://www.firstaimovers.com/p/genai-projects-die"
+    },
+    {
       "folder": "2025-12-01-chatgpt-5-1-api-orchestration-ai-workflows",
       "title": "ChatGPT 5.1 Just Made Tool Use Standard—Here's Why Your API Strategy Now Matters More Than Your Prompts",
       "published_date": "2025-12-01",
@@ -4634,6 +4665,21 @@
       "canonical_url": "https://www.firstaimovers.com/p/ai-playbook-blueprint-scales-operations"
     },
     {
+      "folder": "2025-11-21-openai-gpt-5-1-instruction-following",
+      "title": "GPT-5.1's Instruction Following: More Than Just \"Warmer\"",
+      "published_date": "2025-11-21",
+      "tags": [
+        "AI instruction precision",
+        "GPT-5.1 capabilities",
+        "prompt engineering for SMEs",
+        "effective AI communication",
+        "AI model behavior",
+        "instruction following best practices"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://www.firstaimovers.com/p/openai-gpt-5-1-instruction-following"
+    },
+    {
       "folder": "2025-11-20-5-small-llms-run-locally-2025",
       "title": "The 5 Small LLMs You Can Run Locally On Your Computer Today",
       "published_date": "2025-11-20",
@@ -4678,6 +4724,21 @@
       ],
       "funnel_stage": "top",
       "canonical_url": "https://www.firstaimovers.com/p/75-ai-terms-product-teams-2025"
+    },
+    {
+      "folder": "2025-11-17-kimi-k2-hinking-intelligence",
+      "title": "The Pantheon Era: Why the \"One Model\" Fantasy Died in November 2025 with Kimi K2 Thinking",
+      "published_date": "2025-11-17",
+      "tags": [
+        "open-weight AI models",
+        "AI deployment strategies",
+        "Kimi K2 Thinking",
+        "AI cost optimization",
+        "geopolitical AI competition",
+        "enterprise-grade AI capabilities"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://www.firstaimovers.com/p/kimi-k2-hinking-intelligence"
     },
     {
       "folder": "2025-11-16-chatgpt-5-1-new-workflows-for-executives",
@@ -4969,6 +5030,22 @@
       "canonical_url": "https://www.firstaimovers.com/p/mechanics-pilots-ai-engineers-hiring-2025"
     },
     {
+      "folder": "2025-11-01-karpathy-agent-slop-production-ai-architecture-2025",
+      "title": "Why Karpathy's \"Agent Slop\" Message Matters More Than the Hype",
+      "published_date": "2025-11-01",
+      "tags": [
+        "AI agent deployment",
+        "memory-first architecture",
+        "human-in-the-loop systems",
+        "enterprise AI challenges",
+        "AI ROI strategies",
+        "Tier 1 agent systems",
+        "AI governance for SMEs"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://www.firstaimovers.com/p/karpathy-agent-slop-production-ai-architecture-2025"
+    },
+    {
       "folder": "2025-10-31-rag-implementation-guide-2025",
       "title": "RAG Implementation Guide 2025: Complete Step-by-Step",
       "published_date": "2025-10-31",
@@ -5045,6 +5122,21 @@
       "canonical_url": "https://www.firstaimovers.com/p/brand-voice-ai-authenticity-guide-2025-leaders"
     },
     {
+      "folder": "2025-10-27-ai-agents-production-architecture-karpathy-controversy-",
+      "title": "The Real Story Behind Andrej Karpathy's \"Agents Are Slop\" Controversy: Why Production AI Agents Need Architecture, Not Hype",
+      "published_date": "2025-10-27",
+      "tags": [
+        "AI agent deployment",
+        "memory architecture in AI",
+        "collaborative AI systems",
+        "AI implementation challenges",
+        "enterprise AI strategies",
+        "AI-driven business transformation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://www.firstaimovers.com/p/ai-agents-production-architecture-karpathy-controversy-2025"
+    },
+    {
       "folder": "2025-10-27-chatgpt-memory-governance-guide-2025-leaders",
       "title": "ChatGPT Memory 2025: Complete Governance Guide for Leaders",
       "published_date": "2025-10-27",
@@ -5119,6 +5211,20 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://www.firstaimovers.com/p/ai-education-personalized-learning-guide-2026"
+    },
+    {
+      "folder": "2025-10-23-ai-ceo-strategy-die-with-zero-2026",
+      "title": "The Zero-Regret CEO: How \"Die With Zero\" Principles Transform AI Leadership",
+      "published_date": "2025-10-23",
+      "tags": [
+        "strategic AI deployment",
+        "Die With Zero principles",
+        "innovation acceleration",
+        "ROI improvement for SMEs",
+        "AI leadership transformation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://www.firstaimovers.com/p/ai-ceo-strategy-die-with-zero-2026"
     },
     {
       "folder": "2025-10-23-chatgpt-atlas-guide-2025",
@@ -9247,6 +9353,22 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://insights.firstaimovers.com/the-new-database-frontier-how-ai-is-reshaping-data-architecture-6b1a84315d2e"
+    },
+    {
+      "folder": "2025-05-19-europe-s-ai-continent-power-play",
+      "title": "Europe's \"AI Continent\" Power Play",
+      "published_date": "2025-05-19",
+      "tags": [
+        "Europe AI strategy",
+        "AI adoption in SMEs",
+        "trustworthy AI initiatives",
+        "EU digital transformation",
+        "AI infrastructure development",
+        "AI talent retention",
+        "AI investment in Europe"
+      ],
+      "funnel_stage": "top",
+      "canonical_url": "https://www.firstaimovers.com/p/europe-s-ai-continent-power-play"
     },
     {
       "folder": "2025-05-19-navigating-the-expanding-ai-universe-adjacent-technolog",
