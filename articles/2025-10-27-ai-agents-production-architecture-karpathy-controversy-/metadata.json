@@ -1,7 +1,7 @@
 {
-    "id":"recjWFU00jqOUrT0l",
-    "title":"The Real Story Behind Andrej Karpathy's "Agents Are Slop" Controversy: Why Production AI Agents Need Architecture, Not Hype",
-    "slug":"ai-agents-production-architecture-karpathy-controversy-2025",
+    "id": "recjWFU00jqOUrT0l",
+    "title": "The Real Story Behind Andrej Karpathy's \"Agents Are Slop\" Controversy: Why Production AI Agents Need Architecture, Not Hype",
+    "slug": "ai-agents-production-architecture-karpathy-controversy-2025",
     "folder": "2025-10-27-ai-agents-production-architecture-karpathy-controversy-",
     "published_date": "2025-10-27",
     "author": "Dr. Hernani Costa",
@@ -9,9 +9,16 @@
     "company": "First AI Movers",
     "company_url": "https://firstaimovers.com",
     "canonical_url": "https://www.firstaimovers.com/p/ai-agents-production-architecture-karpathy-controversy-2025",
-    "tags":["AI agent deployment","memory architecture in AI","collaborative AI systems","AI implementation challenges","enterprise AI strategies","AI-driven business transformation"],
+    "tags": [
+        "AI agent deployment",
+        "memory architecture in AI",
+        "collaborative AI systems",
+        "AI implementation challenges",
+        "enterprise AI strategies",
+        "AI-driven business transformation"
+    ],
     "word_count": 2233,
-    "read_time_minutes":10,
+    "read_time_minutes": 10,
     "funnel_stage": "middle",
     "first_ai_movers_services": [],
     "status": "published"
