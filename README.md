@@ -171,6 +171,7 @@ articles/
 ├── index.json                 ← Machine-readable article catalog (auto-generated)
 ├── tools/
 │   ├── rebuild_index.py       ← Index rebuilder script
+│   ├── update_docs.py         ← Doc stats updater (runs after index rebuild)
 │   └── requirements.txt       ← Python dependencies
 └── articles/
     ├── 2026-04-04-best-ai-dev-stack-starts-with-review-design/
