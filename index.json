@@ -1,11 +1,499 @@
 {
   "last_updated": "2026-04-12",
-  "total_articles": 648,
+  "total_articles": 680,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-04-10-build-sovereign-ai-product-europe-without-overengineeri",
+      "title": "How to Build a Sovereign AI Product in Europe Without Overengineering the Infrastructure",
+      "published_date": "2026-04-10",
+      "tags": [
+        "sovereign AI architecture",
+        "EU data sovereignty",
+        "AI infrastructure for SMEs",
+        "cloud alternatives in Europe",
+        "AI product development",
+        "data boundary management",
+        "AI operational discipline"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/build-sovereign-ai-product-europe-without-overengineering"
+    },
+    {
+      "folder": "2026-04-10-test-staging-production-lean-ai-teams",
+      "title": "Test, Staging, and Production for Lean AI Teams: What to Run Permanently and What to Spin Up Only When Needed",
+      "published_date": "2026-04-10",
+      "tags": [
+        "AI product release strategies",
+        "lean AI team practices",
+        "on-demand staging environments",
+        "permanent test environments",
+        "AI product infrastructure",
+        "release risk management",
+        "AI development operations"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/test-staging-production-lean-ai-teams"
+    },
+    {
+      "folder": "2026-04-10-what-data-should-never-leave-eu-ai-infrastructure",
+      "title": "What Data Should Never Leave Your EU Infrastructure in an AI Product",
+      "published_date": "2026-04-10",
+      "tags": [
+        "EU data sovereignty guidelines",
+        "AI product data classification",
+        "GDPR compliance for AI",
+        "data governance in AI",
+        "transforming sensitive data",
+        "public vs private data in AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/what-data-should-never-leave-eu-ai-infrastructure"
+    },
+    {
+      "folder": "2026-04-10-when-to-self-host-models-in-europe-vs-api-first",
+      "title": "When to Self-Host Models in Europe and When API-First Is the Better Architecture",
+      "published_date": "2026-04-10",
+      "tags": [
+        "self-hosting AI models",
+        "API-first architecture",
+        "European AI sovereignty",
+        "AI infrastructure decisions",
+        "regulatory compliance in AI",
+        "AI product development strategies"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/when-to-self-host-models-in-europe-vs-api-first"
+    },
+    {
+      "folder": "2026-04-10-why-most-early-ai-products-do-not-need-kubernetes-redis",
+      "title": "Why Most Early AI Products Do Not Need Kubernetes, Redis, or a Monitoring Cluster Yet",
+      "published_date": "2026-04-10",
+      "tags": [
+        "early AI product infrastructure",
+        "Docker Compose for AI",
+        "Kubernetes for startups",
+        "Redis necessity in AI",
+        "monitoring solutions for AI",
+        "lean AI team operations",
+        "AI product development best practices"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/why-most-early-ai-products-do-not-need-kubernetes-redis-monitoring"
+    },
+    {
+      "folder": "2026-04-08-agentic-coding-without-chaos-3-layer-architecture",
+      "title": "Agentic Coding Without Chaos: A 3-Layer Architecture for Claude Code, MCP, and Hook-Based Proxies",
+      "published_date": "2026-04-08",
+      "tags": [
+        "3-layer architecture for AI coding",
+        "agentic coding best practices",
+        "MCP and Claude Code integration",
+        "hook-based proxies for efficiency",
+        "AI governance for SMEs",
+        "scalable AI deployment strategies"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/agentic-coding-without-chaos-3-layer-architecture"
+    },
+    {
+      "folder": "2026-04-08-claude-code-for-teams-2026-risk-aware-operating-model",
+      "title": "Claude Code for Teams in 2026: The Risk-Aware Operating Model",
+      "published_date": "2026-04-08",
+      "tags": [
+        "Claude Code operational model",
+        "AI governance for European SMEs",
+        "secure AI deployment strategies",
+        "agentic coding tools",
+        "workflow optimization in AI",
+        "MCP access governance",
+        "AI coding best practices"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-for-teams-2026-risk-aware-operating-model"
+    },
+    {
+      "folder": "2026-04-08-claude-code-operator-handbook-for-teams",
+      "title": "Claude Code Operator Handbook for Teams: Skills, Hooks, MCP, and Production Trust",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI governance for European SMEs",
+        "Claude Code implementation",
+        "AI agent deployment",
+        "production trust in AI",
+        "automation design for teams",
+        "AI skills management"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-operator-handbook-for-teams"
+    },
+    {
+      "folder": "2026-04-08-claude-code-security-2026-hooks-fake-installers-what-to",
+      "title": "Claude Code Security in 2026: Hooks, Fake Installers, and What You Must Lock Down First",
+      "published_date": "2026-04-08",
+      "tags": [
+        "Claude Code security best practices",
+        "AI deployment risk management",
+        "repository configuration vulnerabilities",
+        "hooks governance in AI tools",
+        "installation hygiene for AI software",
+        "MCP policy management",
+        "credential exposure prevention"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-security-2026-hooks-fake-installers-what-to-lock-down-first"
+    },
+    {
+      "folder": "2026-04-08-claude-code-threat-model-hooks-mcp-skills-untrusted-rep",
+      "title": "The Claude Code Threat Model: Hooks, MCP, Skills, and Untrusted Repos",
+      "published_date": "2026-04-08",
+      "tags": [
+        "Claude Code security model",
+        "AI agent behavior influence",
+        "untrusted repository risks",
+        "MCP server vulnerabilities",
+        "AI workflow customization",
+        "plugin governance in AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-threat-model-hooks-mcp-skills-untrusted-repos"
+    },
+    {
+      "folder": "2026-04-08-claude-code-vs-codex-vs-cursor-2026",
+      "title": "Claude Code vs Codex vs Cursor: Which Agent Belongs in a Risk-Aware Stack in 2026?",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI governance for European SMEs",
+        "AI coding tools comparison",
+        "risk-aware AI stack",
+        "Claude Code vs Codex vs Cursor",
+        "enterprise AI deployment",
+        "AI tool selection for SMEs"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-vs-codex-vs-cursor-2026"
+    },
+    {
+      "folder": "2026-04-08-claude-code-vs-junie-cli-terminal-vs-ide-agent",
+      "title": "Claude Code vs Junie CLI: Terminal Agent vs IDE Agent for Real Teams",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI governance for European SMEs",
+        "Claude Code vs Junie CLI",
+        "AI agent deployment",
+        "terminal-first engineering",
+        "JetBrains IDE integration",
+        "LLM-agnostic tools",
+        "CI/CD automation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-vs-junie-cli-terminal-vs-ide-agent"
+    },
+    {
+      "folder": "2026-04-08-cto-standardize-after-picking-coding-agent",
+      "title": "What CTOs Should Standardize First Once They Pick One Coding Agent",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI governance for European SMEs",
+        "coding agent standardization",
+        "AI tool implementation",
+        "enterprise AI strategy",
+        "AI integration policies"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/cto-standardize-after-picking-coding-agent"
+    },
+    {
+      "folder": "2026-04-08-how-technical-leaders-should-choose-an-ai-coding-agent-",
+      "title": "How Technical Leaders Should Choose an AI Coding Agent in 2026",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI coding agent selection",
+        "European SME AI strategy",
+        "AI governance frameworks",
+        "terminal vs IDE workflows",
+        "AI agent deployment models",
+        "enterprise AI policy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/how-technical-leaders-should-choose-an-ai-coding-agent-2026"
+    },
+    {
+      "folder": "2026-04-08-one-coding-agent-or-two-lane-stack",
+      "title": "Should You Standardize on One Coding Agent or Keep a Two-Lane Stack?",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI governance for European SMEs",
+        "coding agent standardization",
+        "two-lane stack decision",
+        "AI development tools",
+        "workflow optimization in AI",
+        "enterprise AI strategy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/one-coding-agent-or-two-lane-stack"
+    },
+    {
+      "folder": "2026-04-08-one-coding-agent-or-two-lane-stack-2026",
+      "title": "One Coding Agent or Two-Lane Stack? How Technical Leaders Should Decide in 2026",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI governance for European SMEs",
+        "AI agent deployment",
+        "one coding agent strategy",
+        "two-lane stack decision",
+        "technical leadership in AI",
+        "workflow optimization with AI",
+        "AI tool standardization"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/one-coding-agent-or-two-lane-stack-2026"
+    },
+    {
+      "folder": "2026-04-08-one-coding-agent-right-decision",
+      "title": "When One Coding Agent Is the Right Decision for a Team",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI governance for European SMEs",
+        "AI agent deployment",
+        "standardizing coding agents",
+        "AI tool selection strategies",
+        "team workflow optimization",
+        "enterprise AI rollout",
+        "AI-assisted engineering"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/one-coding-agent-right-decision"
+    },
+    {
+      "folder": "2026-04-08-rtk-vs-native-claude-code-optimization-what-to-fix-befo",
+      "title": "RTK vs Native Claude Code Optimization: What to Fix Before Adding Another Hook",
+      "published_date": "2026-04-08",
+      "tags": [
+        "RTK vs Native Claude Code optimization",
+        "Claude Code cost management",
+        "AI workflow efficiency for SMEs",
+        "Token consumption reduction strategies",
+        "Context management in AI development",
+        "Subagents and skills in Claude Code"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/rtk-vs-native-claude-code-optimization-what-to-fix-before-adding-another-hook"
+    },
+    {
+      "folder": "2026-04-08-should-you-standardize-rtk-for-claude-code-yet",
+      "title": "Should You Standardize RTK for Claude Code Across Your Team Yet?",
+      "published_date": "2026-04-08",
+      "tags": [
+        "RTK for Claude Code",
+        "AI coding tools",
+        "token economics in development",
+        "terminal-first workflows",
+        "AI governance for teams",
+        "Claude Code standardization"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/should-you-standardize-rtk-for-claude-code-yet"
+    },
+    {
+      "folder": "2026-04-08-should-you-trust-community-claude-skills-and-hooks-in-p",
+      "title": "Should You Trust Community Claude Skills and Hooks in Production Yet?",
+      "published_date": "2026-04-08",
+      "tags": [
+        "trusting community AI skills",
+        "AI governance for SMEs",
+        "production readiness for AI tools",
+        "automation risk management",
+        "community plugins evaluation",
+        "workflow automation in production"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/should-you-trust-community-claude-skills-and-hooks-in-production-yet"
+    },
+    {
+      "folder": "2026-04-08-what-ctos-should-lock-down-first-in-a-claude-code-rollo",
+      "title": "What CTOs Should Lock Down First in a Claude Code Rollout",
+      "published_date": "2026-04-08",
+      "tags": [
+        "Claude Code rollout strategy",
+        "AI governance for SMEs",
+        "managed settings in AI",
+        "permissions management in AI",
+        "MCP access control",
+        "plugin security in AI",
+        "network egress policies"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/what-ctos-should-lock-down-first-in-a-claude-code-rollout"
+    },
+    {
+      "folder": "2026-04-08-when-a-single-coding-agent-becomes-a-bottleneck",
+      "title": "When a Single Coding Agent Becomes a Bottleneck",
+      "published_date": "2026-04-08",
+      "tags": [
+        "AI governance for European SMEs",
+        "AI agent deployment",
+        "workflow optimization in coding",
+        "trust boundaries in AI",
+        "governance models for AI tools",
+        "coding agent architecture"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/when-a-single-coding-agent-becomes-a-bottleneck"
+    },
+    {
+      "folder": "2026-04-06-a2a-2026-what-technical-leaders-should-watch",
+      "title": "A2A in 2026: What Technical Leaders Should Watch Before Standardizing It",
+      "published_date": "2026-04-06",
+      "tags": [
+        "A2A protocol maturity",
+        "AI interoperability challenges",
+        "enterprise AI governance",
+        "agent-to-agent collaboration",
+        "AI deployment strategies",
+        "AI standardization risks"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/a2a-2026-what-technical-leaders-should-watch"
+    },
+    {
+      "folder": "2026-04-06-claude-skills-new-workflow-layer-for-teams",
+      "title": "Claude Skills Are More Than a Feature: They Are a New Workflow Layer",
+      "published_date": "2026-04-06",
+      "tags": [
+        "AI workflow design",
+        "reusable process assets",
+        "Claude Skills implementation",
+        "AI governance for SMEs",
+        "workflow consistency",
+        "AI productivity features"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-skills-new-workflow-layer-for-teams"
+    },
+    {
+      "folder": "2026-04-06-eu-ai-act-questions-before-scaling-agentic-workflows",
+      "title": "EU AI Act Questions Technical Leaders Should Answer Before Scaling Agentic Workflows",
+      "published_date": "2026-04-06",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "agentic workflow scaling",
+        "AI risk management strategies",
+        "AI literacy for technical leaders",
+        "high-risk AI systems",
+        "AI deployment readiness"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-questions-before-scaling-agentic-workflows"
+    },
+    {
+      "folder": "2026-04-06-metacognition-missing-layer-ai-rollouts",
+      "title": "Metacognition Is the Missing Layer in Most AI Rollouts",
+      "published_date": "2026-04-06",
+      "tags": [
+        "organizational metacognition",
+        "AI rollout challenges",
+        "self-correction in AI",
+        "AI governance for SMEs",
+        "effective AI adoption strategies",
+        "AI implementation frameworks"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/metacognition-missing-layer-ai-rollouts"
+    },
+    {
+      "folder": "2026-04-06-private-rag-2026-on-device-vs-managed-services",
+      "title": "Private RAG in 2026: What Still Belongs On-Device and What Should Move to Managed Services",
+      "published_date": "2026-04-06",
+      "tags": [
+        "Private RAG architecture",
+        "managed retrieval services",
+        "data sensitivity management",
+        "AI governance frameworks",
+        "cloud versus local processing",
+        "operational fit for AI systems"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/private-rag-2026-on-device-vs-managed-services"
+    },
+    {
+      "folder": "2026-04-06-should-your-team-standardize-claude-skills-now",
+      "title": "Should Your Team Standardize Claude Skills Now?",
+      "published_date": "2026-04-06",
+      "tags": [
+        "Claude Skills implementation",
+        "AI workflow standardization",
+        "cross-department AI governance",
+        "small team AI adoption",
+        "AI process design for SMEs",
+        "Anthropic Skills overview"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/should-your-team-standardize-claude-skills-now"
+    },
+    {
+      "folder": "2026-04-06-the-agent-is-not-the-broken-part-ai-delivery",
+      "title": "The Agent Is Not the Broken Part: Why Environment Readiness Now Decides AI Delivery",
+      "published_date": "2026-04-06",
+      "tags": [
+        "AI delivery environment readiness",
+        "AI governance for European SMEs",
+        "agent performance optimization",
+        "engineering hygiene for AI",
+        "AI implementation frameworks",
+        "AI review processes"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/the-agent-is-not-the-broken-part-ai-delivery"
+    },
+    {
+      "folder": "2026-04-06-when-agent-to-agent-interoperability-helps-2026",
+      "title": "When Agent-to-Agent Interoperability Helps and When It Just Adds Complexity",
+      "published_date": "2026-04-06",
+      "tags": [
+        "Agent-to-Agent interoperability",
+        "AI governance for European SMEs",
+        "AI collaboration frameworks",
+        "MCP and A2A protocols",
+        "AI workflow design",
+        "AI operational maturity"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/when-agent-to-agent-interoperability-helps-2026"
+    },
+    {
+      "folder": "2026-04-06-why-ai-hiring-feels-broken-companies-need-operators",
+      "title": "Why AI Hiring Feels Broken: Companies Need Operators, Not AI Enthusiasts",
+      "published_date": "2026-04-06",
+      "tags": [
+        "AI hiring challenges for SMEs",
+        "operational AI delivery",
+        "AI talent acquisition strategies",
+        "AI readiness assessment for businesses",
+        "effective AI operator skills"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/why-ai-hiring-feels-broken-companies-need-operators"
+    },
+    {
+      "folder": "2026-04-06-why-skills-are-becoming-the-operating-layer-for-ai-agen",
+      "title": "Why Skills Are Becoming the Operating Layer for AI Agents",
+      "published_date": "2026-04-06",
+      "tags": [
+        "AI skills infrastructure",
+        "workflow automation for SMEs",
+        "AI agent reliability",
+        "reusable AI workflows",
+        "organizational knowledge management",
+        "AI governance frameworks"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/why-skills-are-becoming-the-operating-layer-for-ai-agents"
+    },
     {
       "folder": "2026-04-04-ai-readiness-engineering-teams-15-questions",
       "title": "AI Readiness for Engineering Teams: 15 Questions Before You Scale",
