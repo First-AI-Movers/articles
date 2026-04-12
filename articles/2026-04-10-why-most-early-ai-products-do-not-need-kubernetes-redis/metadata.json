@@ -1,0 +1,18 @@
+{
+    "id":"rec7Zt6tr1MhmLOvE",
+    "title":"Why Most Early AI Products Do Not Need Kubernetes, Redis, or a Monitoring Cluster Yet",
+    "slug":"why-most-early-ai-products-do-not-need-kubernetes-redis-monitoring",
+    "folder": "2026-04-10-why-most-early-ai-products-do-not-need-kubernetes-redis",
+    "published_date": "2026-04-10",
+    "author": "Dr. Hernani Costa",
+    "author_url": "https://drhernanicosta.com",
+    "company": "First AI Movers",
+    "company_url": "https://firstaimovers.com",
+    "canonical_url": "https://radar.firstaimovers.com/why-most-early-ai-products-do-not-need-kubernetes-redis-monitoring",
+    "tags":["early AI product infrastructure","Docker Compose for AI","Kubernetes for startups","Redis necessity in AI","monitoring solutions for AI","lean AI team operations","AI product development best practices"],
+    "word_count": 1745,
+    "read_time_minutes":8,
+    "funnel_stage": "middle",
+    "first_ai_movers_services": [],
+    "status": "published"
+}
