@@ -1,6 +1,9 @@
 # Secrets
 .env
 
+# Claude Code local config
+.claude/
+
 # Python
 __pycache__/
 *.pyc
