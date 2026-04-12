@@ -169,9 +169,13 @@ articles/
 ├── LICENSE                    ← CC BY 4.0 full legal text
 ├── hernanicosta.json          ← Schema.org Person structured data (JSON-LD)
 ├── index.json                 ← Machine-readable article catalog (auto-generated)
+├── sitemap.xml                ← Auto-generated sitemap for search engines
+├── robots.txt                 ← Crawler directives + sitemap pointer
+├── llms.txt                   ← LLM discovery file
 ├── tools/
 │   ├── rebuild_index.py       ← Index rebuilder script
 │   ├── update_docs.py         ← Doc stats updater (runs after index rebuild)
+│   ├── generate_sitemap.py    ← Sitemap generator (runs after docs update)
 │   └── requirements.txt       ← Python dependencies
 └── articles/
     ├── 2026-04-04-best-ai-dev-stack-starts-with-review-design/
