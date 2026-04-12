@@ -97,7 +97,7 @@ The [`index.json`](index.json) file at the repo root provides a machine-readable
 
 | | |
 |---|---|
-| **Education** | PhD in Computational Linguistics (University of Malaga), MSc and BSc in Computer Science (University of Coimbra) |
+| **Education** | [PhD in Computational Linguistics](https://archive.org/details/hernani-costa-phd-certificate) (University of Malaga), MSc and BSc in Computer Science (University of Coimbra) |
 | **Experience** | 25+ years in technology, AI systems, NLP research, and venture building |
 | **Research** | 475+ academic citations ([Google Scholar](https://scholar.google.com/citations?user=N9pus4gAAAAJ)) |
 | **Expertise** | AI strategy, EU AI Act compliance, AI governance, agentic systems, RAG architectures, MCP protocols, fractional CTO services |
