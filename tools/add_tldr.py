@@ -42,7 +42,23 @@ if not GITHUB_TOKEN:
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
-    sys.exit("OPENAI_API_KEY not set. Add it to .env (get from 1Password).")
+    # Try fetching from 1Password at runtime
+    import subprocess
+    try:
+        result = subprocess.run(
+            ["op", "item", "get", "radar-engine",
+             "--vault", "publicinnovation-infra",
+             "--fields", "openrouter_api_key", "--reveal"],
+            capture_output=True, text=True, timeout=15,
+        )
+        OPENAI_API_KEY = result.stdout.strip()
+    except Exception:
+        pass
+    if not OPENAI_API_KEY:
+        sys.exit(
+            "OPENAI_API_KEY not set and 1Password lookup failed.\n"
+            "Either set OPENAI_API_KEY in .env or sign in to 1Password: eval $(op signin)"
+        )
 
 REPO = "First-AI-Movers/articles"
 API = f"https://api.github.com/repos/{REPO}"
@@ -52,7 +68,8 @@ HEADERS = {
     "X-GitHub-Api-Version": "2022-11-28",
 }
 
-MODEL = "gpt-4o-mini"
+OPENROUTER_BASE = "https://openrouter.ai/api/v1"
+MODEL = "openai/gpt-4o-mini"
 
 TLDR_PROMPT = """You are summarizing an article by Dr. Hernani Costa for First AI Movers.
 Write a TL;DR of exactly 2-3 sentences (40-60 words).
@@ -242,7 +259,7 @@ def main():
     parser.add_argument("--limit", type=int, default=0, help="Max articles to process (0=all)")
     args = parser.parse_args()
 
-    client = OpenAI(api_key=OPENAI_API_KEY)
+    client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENROUTER_BASE)
 
     print(f"Fetching article folders from {REPO}...")
     folders = get_all_folders()
