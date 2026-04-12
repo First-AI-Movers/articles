@@ -1,0 +1,18 @@
+{
+    "id":"recUmIa9GiOo2j20W",
+    "title":"The Claude Code Threat Model: Hooks, MCP, Skills, and Untrusted Repos",
+    "slug":"claude-code-threat-model-hooks-mcp-skills-untrusted-repos",
+    "folder": "2026-04-08-claude-code-threat-model-hooks-mcp-skills-untrusted-rep",
+    "published_date": "2026-04-08",
+    "author": "Dr. Hernani Costa",
+    "author_url": "https://drhernanicosta.com",
+    "company": "First AI Movers",
+    "company_url": "https://firstaimovers.com",
+    "canonical_url": "https://radar.firstaimovers.com/claude-code-threat-model-hooks-mcp-skills-untrusted-repos",
+    "tags":["Claude Code security model","AI agent behavior influence","untrusted repository risks","MCP server vulnerabilities","AI workflow customization","plugin governance in AI"],
+    "word_count": 1865,
+    "read_time_minutes":9,
+    "funnel_stage": "middle",
+    "first_ai_movers_services": [],
+    "status": "published"
+}
