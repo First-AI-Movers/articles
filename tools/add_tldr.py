@@ -42,22 +42,25 @@ if not GITHUB_TOKEN:
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
-    # Try fetching from 1Password at runtime
+    # Try fetching from 1Password at runtime using OP_ITEM_REF
+    # Set OP_ITEM_REF in .env to your 1Password secret reference, e.g.:
+    #   OP_ITEM_REF=op://vault-name/item-name/field-name
     import subprocess
-    try:
-        result = subprocess.run(
-            ["op", "item", "get", "radar-engine",
-             "--vault", "publicinnovation-infra",
-             "--fields", "openrouter_api_key", "--reveal"],
-            capture_output=True, text=True, timeout=15,
-        )
-        OPENAI_API_KEY = result.stdout.strip()
-    except Exception:
-        pass
+    op_ref = os.getenv("OP_ITEM_REF")
+    if op_ref:
+        try:
+            result = subprocess.run(
+                ["op", "read", op_ref],
+                capture_output=True, text=True, timeout=15,
+            )
+            OPENAI_API_KEY = result.stdout.strip()
+        except Exception:
+            pass
     if not OPENAI_API_KEY:
         sys.exit(
             "OPENAI_API_KEY not set and 1Password lookup failed.\n"
-            "Either set OPENAI_API_KEY in .env or sign in to 1Password: eval $(op signin)"
+            "Either set OPENAI_API_KEY in .env or set OP_ITEM_REF to your 1Password secret reference.\n"
+            "Ensure you are signed in: eval $(op signin)"
         )
 
 REPO = "First-AI-Movers/articles"
