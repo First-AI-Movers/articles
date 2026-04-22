@@ -7,10 +7,8 @@ pipeline pushes new article folders. Reads every articles/*/metadata.json
 on disk, regenerates the five derived artifacts in place, and exits 0 even
 if nothing changed.
 
-Differs from rebuild_index.py / update_docs.py / generate_sitemap.py: those
-fetch from and push to the GitHub Contents API. This one operates on the
-checked-out working tree, so the calling workflow can commit + push through
-normal git.
+Operates on the checked-out working tree — the calling workflow commits
+and pushes via normal git. No GitHub API calls, no .env required.
 
 Usage:
     python3 tools/rebuild_local.py

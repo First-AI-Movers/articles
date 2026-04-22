@@ -37,31 +37,7 @@ _repo_root = _script_dir.parent
 load_dotenv(_repo_root / ".env")
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-if not GITHUB_TOKEN:
-    sys.exit("GITHUB_TOKEN not set. Copy .env.example to .env and add your token.")
-
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    # Try fetching from 1Password at runtime using OP_ITEM_REF
-    # Set OP_ITEM_REF in .env to your 1Password secret reference, e.g.:
-    #   OP_ITEM_REF=op://vault-name/item-name/field-name
-    import subprocess
-    op_ref = os.getenv("OP_ITEM_REF")
-    if op_ref:
-        try:
-            result = subprocess.run(
-                ["op", "read", op_ref],
-                capture_output=True, text=True, timeout=15,
-            )
-            OPENAI_API_KEY = result.stdout.strip()
-        except Exception:
-            pass
-    if not OPENAI_API_KEY:
-        sys.exit(
-            "OPENAI_API_KEY not set and 1Password lookup failed.\n"
-            "Either set OPENAI_API_KEY in .env or set OP_ITEM_REF to your 1Password secret reference.\n"
-            "Ensure you are signed in: eval $(op signin)"
-        )
 
 REPO = "First-AI-Movers/articles"
 API = f"https://api.github.com/repos/{REPO}"
@@ -256,13 +232,44 @@ def inject_tldr(content, tldr_text):
 # ---------------------------------------------------------------------------
 
 
+def _resolve_openai_key():
+    """Return OPENAI_API_KEY from env, falling back to 1Password via OP_ITEM_REF."""
+    key = os.getenv("OPENAI_API_KEY")
+    if key:
+        return key
+    # Try fetching from 1Password using OP_ITEM_REF
+    #   OP_ITEM_REF=op://vault-name/item-name/field-name
+    import subprocess
+    op_ref = os.getenv("OP_ITEM_REF")
+    if op_ref:
+        try:
+            result = subprocess.run(
+                ["op", "read", op_ref],
+                capture_output=True, text=True, timeout=15,
+            )
+            return result.stdout.strip() or None
+        except Exception:
+            return None
+    return None
+
+
 def main():
     parser = argparse.ArgumentParser(description="Add TL;DR to articles missing one")
     parser.add_argument("--dry-run", action="store_true", help="Preview without pushing")
     parser.add_argument("--limit", type=int, default=0, help="Max articles to process (0=all)")
     args = parser.parse_args()
 
-    client = OpenAI(api_key=OPENAI_API_KEY, base_url=OPENROUTER_BASE)
+    if not GITHUB_TOKEN:
+        sys.exit("GITHUB_TOKEN not set. Copy .env.example to .env and add your token.")
+    openai_api_key = _resolve_openai_key()
+    if not openai_api_key:
+        sys.exit(
+            "OPENAI_API_KEY not set and 1Password lookup failed.\n"
+            "Either set OPENAI_API_KEY in .env or set OP_ITEM_REF to your 1Password secret reference.\n"
+            "Ensure you are signed in: eval $(op signin)"
+        )
+
+    client = OpenAI(api_key=openai_api_key, base_url=OPENROUTER_BASE)
 
     print(f"Fetching article folders from {REPO}...")
     folders = get_all_folders()

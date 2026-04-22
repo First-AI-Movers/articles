@@ -13,7 +13,6 @@ import re
 import sys
 from datetime import date
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 from xml.etree.ElementTree import fromstring
 
 import pytest
@@ -214,20 +213,18 @@ class TestRebuildIndex:
 
 
 # =========================================================================
-# Tests: update_docs.py logic
+# Tests: rebuild_local.py docs patchers (compute_stats + patch_readme + patch_llms)
 # =========================================================================
 
-class TestUpdateDocs:
-    """Test README/llms.txt patching logic."""
+class TestRebuildLocalDocs:
+    """Patching logic for README and llms.txt, plus stats computation."""
 
-    def _get_functions(self):
-        """Import update_docs functions."""
-        import update_docs
-        return update_docs
+    def _mod(self):
+        import rebuild_local
+        return rebuild_local
 
     def test_compute_stats(self):
-        mod = self._get_functions()
-        stats = mod.compute_stats(SAMPLE_INDEX)
+        stats = self._mod().compute_stats(SAMPLE_INDEX)
         assert stats["total"] == 3
         assert stats["tags_count"] == 4  # AI strategy, EU AI Act, AI governance, MCP
         assert stats["funnel"]["top"] == 1
@@ -236,131 +233,154 @@ class TestUpdateDocs:
         assert stats["date_min"] == "2025-06-01"
         assert stats["date_max"] == "2026-04-04"
 
-    def test_format_date_human(self):
-        mod = self._get_functions()
-        assert mod.format_date_human("2025-02-17") == "February 17, 2025"
-        assert mod.format_date_human("2026-04-04") == "April 4, 2026"
-        assert mod.format_date_human("invalid") == "invalid"
+    def test_human_date(self):
+        m = self._mod()
+        assert m._human_date("2025-02-17") == "February 17, 2025"
+        assert m._human_date("2026-04-04") == "April 4, 2026"
+        assert m._human_date("invalid") == "invalid"
 
     def test_funnel_summary(self):
-        mod = self._get_functions()
-        funnel = {"top": 221, "middle": 423, "bottom": 4}
-        result = mod.funnel_summary(funnel)
+        result = self._mod()._funnel_summary({"top": 221, "middle": 423, "bottom": 4})
         assert "top (221 articles)" in result
         assert "middle (423)" in result
         assert "bottom (4)" in result
 
     def test_funnel_summary_first_gets_articles_label(self):
-        mod = self._get_functions()
-        funnel = {"middle": 10, "top": 5}
-        result = mod.funnel_summary(funnel)
+        result = self._mod()._funnel_summary({"middle": 10, "top": 5})
         assert result.startswith("top (5 articles)")
 
     def test_patch_readme_updates_badge(self):
-        mod = self._get_functions()
         stats = {"total": 700, "tags_count": 4000, "funnel": {"top": 300, "middle": 395, "bottom": 5},
                  "date_min": "2025-02-17", "date_max": "2026-04-10"}
-        new_content, changes = mod.patch_readme(SAMPLE_README, stats)
+        new_content = self._mod().patch_readme(SAMPLE_README, stats)
         assert "Articles-700-orange" in new_content
-        assert "README.md" in changes
+        assert new_content != SAMPLE_README
 
     def test_patch_readme_updates_article_count_in_description(self):
-        mod = self._get_functions()
         stats = {"total": 700, "tags_count": 4000, "funnel": {"top": 300, "middle": 395, "bottom": 5},
                  "date_min": "2025-02-17", "date_max": "2026-04-10"}
-        new_content, _ = mod.patch_readme(SAMPLE_README, stats)
+        new_content = self._mod().patch_readme(SAMPLE_README, stats)
         assert "700 original articles" in new_content
 
     def test_patch_readme_updates_quick_stats(self):
-        mod = self._get_functions()
         stats = {"total": 700, "tags_count": 4000, "funnel": {"top": 300, "middle": 395, "bottom": 5},
                  "date_min": "2025-02-17", "date_max": "2026-04-10"}
-        new_content, _ = mod.patch_readme(SAMPLE_README, stats)
+        new_content = self._mod().patch_readme(SAMPLE_README, stats)
         assert "**700** articles indexed" in new_content
         assert "**4,000** unique topic tags" in new_content
 
-    def test_patch_readme_no_change_when_stats_match(self):
-        mod = self._get_functions()
+    def test_patch_readme_always_touches_date_modified(self):
+        """Even when article-count fields match, dateModified should be re-stamped."""
         stats = {"total": 648, "tags_count": 3147, "funnel": {"top": 221, "middle": 423, "bottom": 4},
                  "date_min": "2025-02-17", "date_max": "2026-04-04"}
-        _, changes = mod.patch_readme(SAMPLE_README, stats)
-        # dateModified will change to today, so there will be a change
-        # But article counts should match
-        assert "648 original articles" in SAMPLE_README
+        new_content = self._mod().patch_readme(SAMPLE_README, stats)
+        # article count unchanged since fixture matches the stats
+        assert "648 original articles" in new_content
+        # but dateModified is always updated to today
+        assert '"dateModified": "2026-04-05"' not in new_content
 
-    def test_patch_llms_txt_updates_count(self):
-        mod = self._get_functions()
+    def test_patch_llms_updates_count(self):
         stats = {"total": 700, "tags_count": 4000, "funnel": {}, "date_min": "2025-02-17", "date_max": "2026-04-10"}
-        new_content, changes = mod.patch_llms_txt(SAMPLE_LLMS_TXT, stats)
+        new_content = self._mod().patch_llms(SAMPLE_LLMS_TXT, stats)
         assert "700 original articles" in new_content
-        assert "llms.txt" in changes
+        assert new_content != SAMPLE_LLMS_TXT
 
 
 # =========================================================================
 # Tests: generate_sitemap.py logic
 # =========================================================================
 
-class TestGenerateSitemap:
-    """Test sitemap XML generation."""
+class TestRebuildLocalSitemap:
+    """Sitemap XML generation from rebuild_local.build_sitemap.
 
-    def _get_functions(self):
-        import generate_sitemap
-        return generate_sitemap
+    The newer signature takes a full index dict and writes sitemap.xml to
+    REPO_ROOT rather than returning XML. Tests redirect REPO_ROOT to a
+    temp directory and parse the written file.
 
-    def test_build_sitemap_produces_valid_xml(self):
-        mod = self._get_functions()
-        xml = mod.build_sitemap(SAMPLE_INDEX["articles"], "2026-04-12")
-        # Should parse as valid XML
+    Support-files block emits 9 URLs: home(1) + 7 weekly (ABOUT, CITATION,
+    hernanicosta.json, llms.txt, llms-full.txt, index.json, feed.xml) +
+    README.md(1). Article URLs are emitted only when the canonical_url
+    host is in CANONICAL_ALLOWED_HOSTS; third-party hosts are skipped.
+    """
+
+    SITEMAP_NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+
+    def _mod(self):
+        import rebuild_local
+        return rebuild_local
+
+    def _run(self, monkeypatch, tmp_path, articles):
+        m = self._mod()
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        m.build_sitemap({"articles": articles})
+        return (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
+
+    def test_produces_valid_sitemap_xml(self, monkeypatch, tmp_path):
+        xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
         root = fromstring(xml)
-        assert root.tag == "{http://www.sitemaps.org/schemas/sitemap/0.9}urlset"
+        assert root.tag == f"{self.SITEMAP_NS}urlset"
 
-    def test_build_sitemap_url_count(self):
-        mod = self._get_functions()
-        xml = mod.build_sitemap(SAMPLE_INDEX["articles"], "2026-04-12")
-        # 1 home + 5 support files + 1 README + 3 articles = 10
-        assert xml.count("<url>") == 10
+    def test_url_count_with_sample_index(self, monkeypatch, tmp_path):
+        """SAMPLE_INDEX has 3 articles, all on allow-listed hosts."""
+        xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
+        # home(1) + support(7) + README(1) + articles(3 allow-listed) = 12
+        assert xml.count("<url>") == 12
 
-    def test_build_sitemap_contains_article_urls(self):
-        mod = self._get_functions()
-        xml = mod.build_sitemap(SAMPLE_INDEX["articles"], "2026-04-12")
-        assert "articles/2026-04-04-test-article-one/" in xml
-        assert "articles/2026-03-15-test-article-two/" in xml
+    def test_article_entries_use_canonical_urls(self, monkeypatch, tmp_path):
+        xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
+        assert "https://radar.firstaimovers.com/test-one" in xml
+        assert "https://radar.firstaimovers.com/test-two" in xml
+        assert "https://insights.firstaimovers.com/test-three" in xml
+        # No fabricated /articles/<folder>/ paths
+        assert "/articles/2026-04-04-test-article-one/" not in xml
 
-    def test_build_sitemap_uses_correct_base_url(self):
-        mod = self._get_functions()
-        xml = mod.build_sitemap(SAMPLE_INDEX["articles"], "2026-04-12")
+    def test_third_party_canonicals_are_skipped(self, monkeypatch, tmp_path):
+        articles = [
+            {"folder": "2026-01-01-x", "title": "LinkedIn", "published_date": "2026-01-01",
+             "tags": [], "funnel_stage": "middle",
+             "canonical_url": "https://www.linkedin.com/pulse/x"},
+            {"folder": "2026-01-02-y", "title": "Medium", "published_date": "2026-01-02",
+             "tags": [], "funnel_stage": "middle",
+             "canonical_url": "https://medium.com/@x/y"},
+        ]
+        xml = self._run(monkeypatch, tmp_path, articles)
+        assert "linkedin.com" not in xml
+        assert "medium.com" not in xml
+        # Only support URLs remain: home(1) + 7 + README(1) = 9
+        assert xml.count("<url>") == 9
+
+    def test_uses_correct_base_url(self, monkeypatch, tmp_path):
+        xml = self._run(monkeypatch, tmp_path, [])
         assert "https://articles.firstaimovers.com/" in xml
 
-    def test_build_sitemap_home_has_highest_priority(self):
-        mod = self._get_functions()
-        xml = mod.build_sitemap([], "2026-04-12")
-        # Find the home URL entry
+    def test_home_has_highest_priority(self, monkeypatch, tmp_path):
+        xml = self._run(monkeypatch, tmp_path, [])
         root = fromstring(xml)
         ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
         for url in root.findall("s:url", ns):
             loc = url.find("s:loc", ns).text
             if loc.endswith(".com/"):
-                priority = url.find("s:priority", ns).text
-                assert priority == "1.0"
+                assert url.find("s:priority", ns).text == "1.0"
                 break
 
-    def test_build_sitemap_article_lastmod_uses_published_date(self):
-        mod = self._get_functions()
-        xml = mod.build_sitemap(SAMPLE_INDEX["articles"], "2026-04-12")
-        # The article from 2026-04-04 should have that as lastmod
+    def test_article_lastmod_uses_published_date(self, monkeypatch, tmp_path):
+        xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
         assert "<lastmod>2026-04-04</lastmod>" in xml
 
-    def test_build_sitemap_empty_articles(self):
-        mod = self._get_functions()
-        xml = mod.build_sitemap([], "2026-04-12")
-        # Should still have home + support files
-        assert xml.count("<url>") == 7  # home + 5 support + README
+    def test_empty_index_emits_only_support_urls(self, monkeypatch, tmp_path):
+        xml = self._run(monkeypatch, tmp_path, [])
+        # home(1) + 7 support + README(1) = 9
+        assert xml.count("<url>") == 9
 
-    def test_build_sitemap_skips_articles_without_folder(self):
-        mod = self._get_functions()
-        articles = [{"folder": "", "title": "No Folder", "published_date": "2026-01-01"}]
-        xml = mod.build_sitemap(articles, "2026-04-12")
-        assert xml.count("<url>") == 7  # only support files, no article
+    def test_malformed_canonical_is_skipped(self, monkeypatch, tmp_path):
+        articles = [
+            {"folder": "2026-01-01-x", "title": "Bad", "published_date": "2026-01-01",
+             "tags": [], "funnel_stage": "middle", "canonical_url": "not a url"},
+            {"folder": "2026-01-02-y", "title": "Empty", "published_date": "2026-01-02",
+             "tags": [], "funnel_stage": "middle", "canonical_url": ""},
+        ]
+        xml = self._run(monkeypatch, tmp_path, articles)
+        assert xml.count("<url>") == 9  # only support URLs
 
 
 # =========================================================================
@@ -371,14 +391,8 @@ class TestAddTldr:
     """Test TL;DR detection and injection logic."""
 
     def _get_functions(self):
-        # Patch env vars before importing
-        with patch.dict("os.environ", {"GITHUB_TOKEN": "fake", "OPENAI_API_KEY": "fake"}):
-            import importlib
-            if "add_tldr" in sys.modules:
-                importlib.reload(sys.modules["add_tldr"])
-            else:
-                import add_tldr
-            return sys.modules["add_tldr"]
+        import add_tldr
+        return add_tldr
 
     def test_has_summary_detects_tldr(self):
         mod = self._get_functions()
