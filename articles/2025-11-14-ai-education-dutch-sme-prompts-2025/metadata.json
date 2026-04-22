@@ -1,18 +1,32 @@
 {
-    "id":"recbuMoSZReNHU2Iv",
-    "title":"From Prompt to Project: How to Make Perplexity Labs Work for You",
-    "slug":"ai-education-dutch-sme-prompts-2025",
-    "folder": "2025-11-14-ai-education-dutch-sme-prompts-2025",
-    "published_date": "2025-11-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-education-dutch-sme-prompts-2025",
-    "tags":["AI education market analysis","Dutch B2B SME opportunities","interactive dashboard creation","two-step prompting for AI","market validation frameworks","AI product development strategies"],
-    "word_count": 1365,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recbuMoSZReNHU2Iv",
+  "title": "From Prompt to Project: How to Make Perplexity Labs Work for You",
+  "slug": "ai-education-dutch-sme-prompts-2025",
+  "folder": "2025-11-14-ai-education-dutch-sme-prompts-2025",
+  "published_date": "2025-11-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-education-dutch-sme-prompts-2025",
+  "tags": [
+    "AI education market analysis",
+    "Dutch B2B SME opportunities",
+    "interactive dashboard creation",
+    "two-step prompting for AI",
+    "market validation frameworks",
+    "AI product development strategies"
+  ],
+  "word_count": 1365,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Education AI",
+    "B2B SaaS Growth",
+    "European SME AI",
+    "Netherlands AI",
+    "Prompt Engineering"
+  ]
 }

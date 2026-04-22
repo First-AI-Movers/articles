@@ -1,22 +1,31 @@
 {
-    "id":"recxQb7KI0XT2oDQ2",
-    "title":"
-DeepSeek, OpenAI, and Nvidia: My Predictions on the Wild AI Race
-",
-    "slug":"deepseek-openai-nvidia-my-predictions-wild-ai-race-dr-hernani-costa-szn9e",
-    "folder": "2026-01-21-deepseek-openai-nvidia-my-predictions-wild-ai-race-dr-h",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/deepseek-openai-nvidia-my-predictions-wild-ai-race-dr-hernani-costa-szn9e
-",
-    "tags":["AI competition landscape","DeepSeek market strategy","Nvidia GPU investment","AI infrastructure development","European SME AI adoption"],
-    "word_count": 305,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recxQb7KI0XT2oDQ2",
+  "title": "\nDeepSeek, OpenAI, and Nvidia: My Predictions on the Wild AI Race\n",
+  "slug": "deepseek-openai-nvidia-my-predictions-wild-ai-race-dr-hernani-costa-szn9e",
+  "folder": "2026-01-21-deepseek-openai-nvidia-my-predictions-wild-ai-race-dr-h",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/deepseek-openai-nvidia-my-predictions-wild-ai-race-dr-hernani-costa-szn9e\n",
+  "tags": [
+    "AI competition landscape",
+    "DeepSeek market strategy",
+    "Nvidia GPU investment",
+    "AI infrastructure development",
+    "European SME AI adoption"
+  ],
+  "word_count": 305,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Chinese LLMs",
+    "AI Investment",
+    "Sovereign AI Infrastructure",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

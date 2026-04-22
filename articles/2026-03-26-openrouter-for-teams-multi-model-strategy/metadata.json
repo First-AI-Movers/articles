@@ -1,18 +1,30 @@
 {
-    "id":"rec6qRiqUo56mjdoq",
-    "title":"OpenRouter for Teams: Make Multi-Model Access an Advantage, Not a Distraction",
-    "slug":"openrouter-for-teams-multi-model-strategy",
-    "folder": "2026-03-26-openrouter-for-teams-multi-model-strategy",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/openrouter-for-teams-multi-model-strategy",
-    "tags":["multi-model access strategy","AI routing infrastructure","cost control in AI","provider selection for SMEs","AI experimentation frameworks","data privacy in AI","AI operational resilience"],
-    "word_count": 1555,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec6qRiqUo56mjdoq",
+  "title": "OpenRouter for Teams: Make Multi-Model Access an Advantage, Not a Distraction",
+  "slug": "openrouter-for-teams-multi-model-strategy",
+  "folder": "2026-03-26-openrouter-for-teams-multi-model-strategy",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/openrouter-for-teams-multi-model-strategy",
+  "tags": [
+    "multi-model access strategy",
+    "AI routing infrastructure",
+    "cost control in AI",
+    "provider selection for SMEs",
+    "AI experimentation frameworks",
+    "data privacy in AI",
+    "AI operational resilience"
+  ],
+  "word_count": 1555,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "GDPR & Data Privacy"
+  ]
 }

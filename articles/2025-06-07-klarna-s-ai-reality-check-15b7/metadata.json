@@ -1,18 +1,30 @@
 {
-    "id":"recb1CaJBozPXQyoA",
-    "title":"Klarna’s AI Reality Check",
-    "slug":"klarna-s-ai-reality-check-15b7",
-    "folder": "2025-06-07-klarna-s-ai-reality-check-15b7",
-    "published_date": "2025-06-07",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/klarna-s-ai-reality-check-15b7",
-    "tags":["Klarna customer service strategy","AI-human collaboration","fintech automation trends","customer satisfaction in AI","hybrid customer support models","AI implementation challenges"],
-    "word_count": 726,
-    "read_time_minutes":4,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recb1CaJBozPXQyoA",
+  "title": "Klarna’s AI Reality Check",
+  "slug": "klarna-s-ai-reality-check-15b7",
+  "folder": "2025-06-07-klarna-s-ai-reality-check-15b7",
+  "published_date": "2025-06-07",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/klarna-s-ai-reality-check-15b7",
+  "tags": [
+    "Klarna customer service strategy",
+    "AI-human collaboration",
+    "fintech automation trends",
+    "customer satisfaction in AI",
+    "hybrid customer support models",
+    "AI implementation challenges"
+  ],
+  "word_count": 726,
+  "read_time_minutes": 4,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Fintech AI",
+    "AI for Operations",
+    "AI Strategy"
+  ]
 }

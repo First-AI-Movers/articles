@@ -1,18 +1,30 @@
 {
-    "id":"recu0j9zt1aLaox6p",
-    "title":"AI Strategy Mistakes to Avoid in 2026",
-    "slug":"ai-strategy-mistakes-to-avoid-in-2026",
-    "folder": "2025-11-03-ai-strategy-mistakes-to-avoid-in-2026",
-    "published_date": "2025-11-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-strategy-mistakes-to-avoid-in-2026",
-    "tags":["AI strategy mistakes","efficiency in AI","AI implementation for SMEs","AI resource management","automation in small businesses","AI integration challenges","AI value creation"],
-    "word_count": 661,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recu0j9zt1aLaox6p",
+  "title": "AI Strategy Mistakes to Avoid in 2026",
+  "slug": "ai-strategy-mistakes-to-avoid-in-2026",
+  "folder": "2025-11-03-ai-strategy-mistakes-to-avoid-in-2026",
+  "published_date": "2025-11-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-strategy-mistakes-to-avoid-in-2026",
+  "tags": [
+    "AI strategy mistakes",
+    "efficiency in AI",
+    "AI implementation for SMEs",
+    "AI resource management",
+    "automation in small businesses",
+    "AI integration challenges",
+    "AI value creation"
+  ],
+  "word_count": 661,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "European SME AI"
+  ]
 }

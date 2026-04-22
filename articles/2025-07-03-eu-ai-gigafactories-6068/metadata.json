@@ -1,18 +1,32 @@
 {
-    "id":"recC3FAeraDsZcvV4",
-    "title":"EU AI Gigafactories",
-    "slug":"eu-ai-gigafactories-6068",
-    "folder": "2025-07-03-eu-ai-gigafactories-6068",
-    "published_date": "2025-07-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/eu-ai-gigafactories-6068",
-    "tags":["EU AI gigafactories","AI infrastructure investment","European AI strategy","AI energy demand","AI hardware production","AI model hosting","EU tech innovation"],
-    "word_count": 276,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recC3FAeraDsZcvV4",
+  "title": "EU AI Gigafactories",
+  "slug": "eu-ai-gigafactories-6068",
+  "folder": "2025-07-03-eu-ai-gigafactories-6068",
+  "published_date": "2025-07-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/eu-ai-gigafactories-6068",
+  "tags": [
+    "EU AI gigafactories",
+    "AI infrastructure investment",
+    "European AI strategy",
+    "AI energy demand",
+    "AI hardware production",
+    "AI model hosting",
+    "EU tech innovation"
+  ],
+  "word_count": 276,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Sovereign AI Infrastructure",
+    "AI Investment",
+    "AI Strategy",
+    "Energy AI"
+  ]
 }

@@ -1,18 +1,29 @@
 {
-    "id":"recOPd66NECaMYhWr",
-    "title":"Taming the AI Chat Chaos: Organize GPT, Gemini & More",
-    "slug":"organize-gpt-gemini-claude-perplexity",
-    "folder": "2025-05-31-organize-gpt-gemini-claude-perplexity",
-    "published_date": "2025-05-31",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/organize-gpt-gemini-claude-perplexity",
-    "tags":["AI chat organization strategies","cross-platform AI tools","AI conversation management","productivity tools for SMEs","AI chat history solutions","efficient AI usage for businesses"],
-    "word_count": 1165,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recOPd66NECaMYhWr",
+  "title": "Taming the AI Chat Chaos: Organize GPT, Gemini & More",
+  "slug": "organize-gpt-gemini-claude-perplexity",
+  "folder": "2025-05-31-organize-gpt-gemini-claude-perplexity",
+  "published_date": "2025-05-31",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/organize-gpt-gemini-claude-perplexity",
+  "tags": [
+    "AI chat organization strategies",
+    "cross-platform AI tools",
+    "AI conversation management",
+    "productivity tools for SMEs",
+    "AI chat history solutions",
+    "efficient AI usage for businesses"
+  ],
+  "word_count": 1165,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Productivity Tools",
+    "European SME AI"
+  ]
 }

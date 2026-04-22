@@ -1,22 +1,30 @@
 {
-    "id":"recjPngdZA7Fx5fqD",
-    "title":"
-Building Apps at Lightning Speed: How Lovable.dev Empowers Developers
-",
-    "slug":"building-apps-lightning-speed-how-lovabledev-empowers-costa-oi9ve",
-    "folder": "2026-01-21-building-apps-lightning-speed-how-lovabledev-empowers-c",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/building-apps-lightning-speed-how-lovabledev-empowers-costa-oi9ve
-",
-    "tags":["AI-powered app development","rapid prototyping for SMEs","no-code app solutions","AI integration for developers","efficient app deployment","collaborative coding tools"],
-    "word_count": 570,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recjPngdZA7Fx5fqD",
+  "title": "\nBuilding Apps at Lightning Speed: How Lovable.dev Empowers Developers\n",
+  "slug": "building-apps-lightning-speed-how-lovabledev-empowers-costa-oi9ve",
+  "folder": "2026-01-21-building-apps-lightning-speed-how-lovabledev-empowers-c",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/building-apps-lightning-speed-how-lovabledev-empowers-costa-oi9ve\n",
+  "tags": [
+    "AI-powered app development",
+    "rapid prototyping for SMEs",
+    "no-code app solutions",
+    "AI integration for developers",
+    "efficient app deployment",
+    "collaborative coding tools"
+  ],
+  "word_count": 570,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "AI Coding Tools"
+  ]
 }

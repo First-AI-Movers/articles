@@ -1,18 +1,35 @@
 {
-    "id":"recjNqNP7cremhroe",
-    "title":"EU-INC 28th Regime: AI Tools for European Startup Compliance",
-    "slug":"eu-inc-28th-regime-ai-compliance-2026",
-    "folder": "2025-12-11-eu-inc-28th-regime-ai-compliance-2026",
-    "published_date": "2025-12-11",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/eu-inc-28th-regime-ai-compliance-2026",
-    "tags":["EU-INC compliance framework","AI tools for startups","European startup legal challenges","cross-border investment solutions","AI-driven regulatory navigation","pan-European corporate structure"],
-    "word_count": 1868,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" compliance-audit","ai-strategy","automation-design "],
-    "status": "published"
+  "id": "recjNqNP7cremhroe",
+  "title": "EU-INC 28th Regime: AI Tools for European Startup Compliance",
+  "slug": "eu-inc-28th-regime-ai-compliance-2026",
+  "folder": "2025-12-11-eu-inc-28th-regime-ai-compliance-2026",
+  "published_date": "2025-12-11",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/eu-inc-28th-regime-ai-compliance-2026",
+  "tags": [
+    "EU-INC compliance framework",
+    "AI tools for startups",
+    "European startup legal challenges",
+    "cross-border investment solutions",
+    "AI-driven regulatory navigation",
+    "pan-European corporate structure"
+  ],
+  "word_count": 1868,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "compliance-audit",
+    "ai-strategy",
+    "automation-design"
+  ],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "B2B SaaS Growth",
+    "AI Investment",
+    "AI Regulation"
+  ]
 }

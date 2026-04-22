@@ -1,18 +1,29 @@
 {
-    "id":"recCjhBDqkdlWNkTg",
-    "title":"AI CTO: The Expanding AI Ecosystem and Its Adjacencies",
-    "slug":"ai-cto-the-expanding-ai-ecosystem-and-its-adjacencies-b0750e4e2f3f",
-    "folder": "2025-05-20-ai-cto-the-expanding-ai-ecosystem-and-its-adjacencies-b",
-    "published_date": "2025-05-20",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/ai-cto-the-expanding-ai-ecosystem-and-its-adjacencies-b0750e4e2f3f",
-    "tags":["AI ecosystem expansion","quantum computing and AI","edge computing for SMEs","Web3 and AI integration","AI-driven innovation strategies","AI hardware advancements"],
-    "word_count": 726,
-    "read_time_minutes":4,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recCjhBDqkdlWNkTg",
+  "title": "AI CTO: The Expanding AI Ecosystem and Its Adjacencies",
+  "slug": "ai-cto-the-expanding-ai-ecosystem-and-its-adjacencies-b0750e4e2f3f",
+  "folder": "2025-05-20-ai-cto-the-expanding-ai-ecosystem-and-its-adjacencies-b",
+  "published_date": "2025-05-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/ai-cto-the-expanding-ai-ecosystem-and-its-adjacencies-b0750e4e2f3f",
+  "tags": [
+    "AI ecosystem expansion",
+    "quantum computing and AI",
+    "edge computing for SMEs",
+    "Web3 and AI integration",
+    "AI-driven innovation strategies",
+    "AI hardware advancements"
+  ],
+  "word_count": 726,
+  "read_time_minutes": 4,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

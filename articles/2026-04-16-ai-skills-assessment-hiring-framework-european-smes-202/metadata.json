@@ -1,18 +1,31 @@
 {
-    "id":"recn1BMSq6XqHt9CV",
-    "title":"AI Skills Assessment When Hiring: A Practical Scoring Framework for SME Managers",
-    "slug":"ai-skills-assessment-hiring-framework-european-smes-2026",
-    "folder": "2026-04-16-ai-skills-assessment-hiring-framework-european-smes-202",
-    "published_date": "2026-04-16",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-skills-assessment-hiring-framework-european-smes-2026",
-    "tags":["AI skills assessment framework","hiring AI talent in SMEs","AI tool proficiency evaluation","European SME recruitment strategies","AI integration in operations","AI literacy for managers"],
-    "word_count": 1550,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recn1BMSq6XqHt9CV",
+  "title": "AI Skills Assessment When Hiring: A Practical Scoring Framework for SME Managers",
+  "slug": "ai-skills-assessment-hiring-framework-european-smes-2026",
+  "folder": "2026-04-16-ai-skills-assessment-hiring-framework-european-smes-202",
+  "published_date": "2026-04-16",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-skills-assessment-hiring-framework-european-smes-2026",
+  "tags": [
+    "AI skills assessment framework",
+    "hiring AI talent in SMEs",
+    "AI tool proficiency evaluation",
+    "European SME recruitment strategies",
+    "AI integration in operations",
+    "AI literacy for managers"
+  ],
+  "word_count": 1550,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Team Hiring",
+    "European SME AI",
+    "AI Strategy",
+    "AI Literacy"
+  ]
 }

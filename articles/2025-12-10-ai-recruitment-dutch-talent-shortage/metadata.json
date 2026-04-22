@@ -1,18 +1,32 @@
 {
-    "id":"recx0eobgPmnuV5ZB",
-    "title":"Talent Shortages in the Dutch Labor Market: Why “Easing” Isn’t Enough and How AI Recruitment Can Help SMEs",
-    "slug":"ai-recruitment-dutch-talent-shortage",
-    "folder": "2025-12-10-ai-recruitment-dutch-talent-shortage",
-    "published_date": "2025-12-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-recruitment-dutch-talent-shortage",
-    "tags":["AI-driven recruitment strategies","talent shortages in the Netherlands","SME workforce planning","skills-based hiring","AI talent analytics","healthcare staffing solutions","automation in recruitment"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recx0eobgPmnuV5ZB",
+  "title": "Talent Shortages in the Dutch Labor Market: Why “Easing” Isn’t Enough and How AI Recruitment Can Help SMEs",
+  "slug": "ai-recruitment-dutch-talent-shortage",
+  "folder": "2025-12-10-ai-recruitment-dutch-talent-shortage",
+  "published_date": "2025-12-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-recruitment-dutch-talent-shortage",
+  "tags": [
+    "AI-driven recruitment strategies",
+    "talent shortages in the Netherlands",
+    "SME workforce planning",
+    "skills-based hiring",
+    "AI talent analytics",
+    "healthcare staffing solutions",
+    "automation in recruitment"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Netherlands AI",
+    "European SME AI",
+    "AI Team Hiring",
+    "Healthcare AI"
+  ]
 }

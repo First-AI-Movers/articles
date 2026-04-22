@@ -1,18 +1,31 @@
 {
-    "id":"rec4c93WpSBkeH4LS",
-    "title":"Harness Design Is Becoming the Real Moat in AI Agents",
-    "slug":"harness-design-long-running-ai-agents",
-    "folder": "2026-03-26-harness-design-long-running-ai-agents",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/harness-design-long-running-ai-agents",
-    "tags":["harness design for AI agents","long-running AI applications","AI agent orchestration","AI consulting for SMEs","AI model evaluation strategies","AI system design principles"],
-    "word_count": 1865,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec4c93WpSBkeH4LS",
+  "title": "Harness Design Is Becoming the Real Moat in AI Agents",
+  "slug": "harness-design-long-running-ai-agents",
+  "folder": "2026-03-26-harness-design-long-running-ai-agents",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/harness-design-long-running-ai-agents",
+  "tags": [
+    "harness design for AI agents",
+    "long-running AI applications",
+    "AI agent orchestration",
+    "AI consulting for SMEs",
+    "AI model evaluation strategies",
+    "AI system design principles"
+  ],
+  "word_count": 1865,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "European SME AI",
+    "AI Consulting",
+    "Model Evaluation"
+  ]
 }

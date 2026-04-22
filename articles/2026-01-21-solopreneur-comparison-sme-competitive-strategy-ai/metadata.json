@@ -1,18 +1,31 @@
 {
-    "id":"rec277b1Jx9o2IrmO",
-    "title":"One Person Now Competes With Your Team: What the Solopreneur Boom Means for European SMEs",
-    "slug":"solopreneur-comparison-sme-competitive-strategy-ai",
-    "folder": "2026-01-21-solopreneur-comparison-sme-competitive-strategy-ai",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/solopreneur-comparison-sme-competitive-strategy-ai",
-    "tags":["solopreneur economy impact","AI tools for SMEs","competitive advantage strategies","European SME talent strategy","business process optimization","domain knowledge as advantage"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec277b1Jx9o2IrmO",
+  "title": "One Person Now Competes With Your Team: What the Solopreneur Boom Means for European SMEs",
+  "slug": "solopreneur-comparison-sme-competitive-strategy-ai",
+  "folder": "2026-01-21-solopreneur-comparison-sme-competitive-strategy-ai",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/solopreneur-comparison-sme-competitive-strategy-ai",
+  "tags": [
+    "solopreneur economy impact",
+    "AI tools for SMEs",
+    "competitive advantage strategies",
+    "European SME talent strategy",
+    "business process optimization",
+    "domain knowledge as advantage"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "B2B SaaS Growth",
+    "European SME AI",
+    "AI Team Hiring",
+    "Business Process Automation"
+  ]
 }

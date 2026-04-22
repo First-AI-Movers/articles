@@ -1,18 +1,31 @@
 {
-    "id":"rec5v1jNuXkAC8OhX",
-    "title":"Should You Deploy Claude Code Across Your Entire Dev Team?",
-    "slug":"should-you-deploy-claude-code-entire-dev-team-2026",
-    "folder": "2026-04-14-should-you-deploy-claude-code-entire-dev-team-2026",
-    "published_date": "2026-04-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/should-you-deploy-claude-code-entire-dev-team-2026",
-    "tags":["AI governance for European SMEs","Claude Code deployment","AI maturity assessment","Codebase complexity evaluation","Team-wide AI tool adoption","AI-assisted code review standards"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec5v1jNuXkAC8OhX",
+  "title": "Should You Deploy Claude Code Across Your Entire Dev Team?",
+  "slug": "should-you-deploy-claude-code-entire-dev-team-2026",
+  "folder": "2026-04-14-should-you-deploy-claude-code-entire-dev-team-2026",
+  "published_date": "2026-04-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/should-you-deploy-claude-code-entire-dev-team-2026",
+  "tags": [
+    "AI governance for European SMEs",
+    "Claude Code deployment",
+    "AI maturity assessment",
+    "Codebase complexity evaluation",
+    "Team-wide AI tool adoption",
+    "AI-assisted code review standards"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "Claude Code",
+    "AI Code Review"
+  ]
 }

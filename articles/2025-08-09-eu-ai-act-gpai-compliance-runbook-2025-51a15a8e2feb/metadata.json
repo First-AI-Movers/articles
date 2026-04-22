@@ -1,18 +1,32 @@
 {
-    "id":"reczXxlzSNsLXAFRP",
-    "title":"EU AI Act, August 2025: A Practical Compliance Runbook for GPAI & Startups",
-    "slug":"eu-ai-act-gpai-compliance-runbook-2025-51a15a8e2feb",
-    "folder": "2025-08-09-eu-ai-act-gpai-compliance-runbook-2025-51a15a8e2feb",
-    "published_date": "2025-08-09",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://voices.firstaimovers.com/eu-ai-act-gpai-compliance-runbook-2025-51a15a8e2feb",
-    "tags":["EU AI Act compliance","GPAI obligations for startups","AI governance for European SMEs","AI compliance frameworks","AI risk management strategies","Copyright safeguards in AI"],
-    "word_count": 1345,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reczXxlzSNsLXAFRP",
+  "title": "EU AI Act, August 2025: A Practical Compliance Runbook for GPAI & Startups",
+  "slug": "eu-ai-act-gpai-compliance-runbook-2025-51a15a8e2feb",
+  "folder": "2025-08-09-eu-ai-act-gpai-compliance-runbook-2025-51a15a8e2feb",
+  "published_date": "2025-08-09",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://voices.firstaimovers.com/eu-ai-act-gpai-compliance-runbook-2025-51a15a8e2feb",
+  "tags": [
+    "EU AI Act compliance",
+    "GPAI obligations for startups",
+    "AI governance for European SMEs",
+    "AI compliance frameworks",
+    "AI risk management strategies",
+    "Copyright safeguards in AI"
+  ],
+  "word_count": 1345,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "B2B SaaS Growth",
+    "European SME AI",
+    "AI Risk Management"
+  ]
 }

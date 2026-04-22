@@ -1,18 +1,31 @@
 {
-    "id":"recV4j6466HIM9R4m",
-    "title":"Small Models, Big Impact: Top Local LLMs You Can Run on a Laptop in 2026",
-    "slug":"small-models-big-impact-local-llms-laptop-2026",
-    "folder": "2026-01-08-small-models-big-impact-local-llms-laptop-2026",
-    "published_date": "2026-01-08",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/small-models-big-impact-local-llms-laptop-2026",
-    "tags":["local language models","AI deployment for SMEs","cost-effective AI solutions","data privacy in AI","AI model selection guide"],
-    "word_count": 1164,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recV4j6466HIM9R4m",
+  "title": "Small Models, Big Impact: Top Local LLMs You Can Run on a Laptop in 2026",
+  "slug": "small-models-big-impact-local-llms-laptop-2026",
+  "folder": "2026-01-08-small-models-big-impact-local-llms-laptop-2026",
+  "published_date": "2026-01-08",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/small-models-big-impact-local-llms-laptop-2026",
+  "tags": [
+    "local language models",
+    "AI deployment for SMEs",
+    "cost-effective AI solutions",
+    "data privacy in AI",
+    "AI model selection guide"
+  ],
+  "word_count": 1164,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "AI Cost Optimization",
+    "GDPR & Data Privacy",
+    "Model Selection"
+  ]
 }

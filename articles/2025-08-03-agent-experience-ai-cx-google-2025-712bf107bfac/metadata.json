@@ -1,18 +1,31 @@
 {
-    "id":"rec32knF2gxkmvIEb",
-    "title":"From UX to AX: Why Agent Experience Will Be the Defining Competitive Edge of the Next Decade",
-    "slug":"agent-experience-ai-cx-google-2025-712bf107bfac",
-    "folder": "2025-08-03-agent-experience-ai-cx-google-2025-712bf107bfac",
-    "published_date": "2025-08-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/agent-experience-ai-cx-google-2025-712bf107bfac",
-    "tags":["Agent Experience optimization","AI agent deployment","EU AI Act compliance","AI governance for European SMEs","AI-driven customer engagement"],
-    "word_count": 2765,
-    "read_time_minutes":13,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec32knF2gxkmvIEb",
+  "title": "From UX to AX: Why Agent Experience Will Be the Defining Competitive Edge of the Next Decade",
+  "slug": "agent-experience-ai-cx-google-2025-712bf107bfac",
+  "folder": "2025-08-03-agent-experience-ai-cx-google-2025-712bf107bfac",
+  "published_date": "2025-08-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/agent-experience-ai-cx-google-2025-712bf107bfac",
+  "tags": [
+    "Agent Experience optimization",
+    "AI agent deployment",
+    "EU AI Act compliance",
+    "AI governance for European SMEs",
+    "AI-driven customer engagement"
+  ],
+  "word_count": 2765,
+  "read_time_minutes": 13,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI",
+    "AI for Marketing Teams"
+  ]
 }

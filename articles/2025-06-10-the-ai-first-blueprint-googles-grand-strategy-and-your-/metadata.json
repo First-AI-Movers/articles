@@ -1,18 +1,31 @@
 {
-    "id":"recEOC8GQJjeywTag",
-    "title":"The AI-First Blueprint: Google’s Grand Strategy and Your Startup’s Place",
-    "slug":"the-ai-first-blueprint-googles-grand-strategy-and-your-startup-s-place-264dc8f4a0b2",
-    "folder": "2025-06-10-the-ai-first-blueprint-googles-grand-strategy-and-your-",
-    "published_date": "2025-06-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/the-ai-first-blueprint-googles-grand-strategy-and-your-startup-s-place-264dc8f4a0b2",
-    "tags":["Google I/O 2025 insights","AI-first company strategy","AI tools for startups","AI productization trends","AI solutions for user problems","AI ecosystem for founders"],
-    "word_count": 1045,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recEOC8GQJjeywTag",
+  "title": "The AI-First Blueprint: Google’s Grand Strategy and Your Startup’s Place",
+  "slug": "the-ai-first-blueprint-googles-grand-strategy-and-your-startup-s-place-264dc8f4a0b2",
+  "folder": "2025-06-10-the-ai-first-blueprint-googles-grand-strategy-and-your-",
+  "published_date": "2025-06-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/the-ai-first-blueprint-googles-grand-strategy-and-your-startup-s-place-264dc8f4a0b2",
+  "tags": [
+    "Google I/O 2025 insights",
+    "AI-first company strategy",
+    "AI tools for startups",
+    "AI productization trends",
+    "AI solutions for user problems",
+    "AI ecosystem for founders"
+  ],
+  "word_count": 1045,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Industry News",
+    "AI Strategy",
+    "B2B SaaS Growth",
+    "Executive AI Literacy"
+  ]
 }

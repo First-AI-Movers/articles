@@ -1,18 +1,32 @@
 {
-    "id":"rec3kdmvncChr5mJ1",
-    "title":"The AI Vendor Evaluation Scorecard Every European SME Needs Before Signing",
-    "slug":"ai-vendor-evaluation-scorecard-european-smes-2026",
-    "folder": "2026-04-17-ai-vendor-evaluation-scorecard-european-smes-2026",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-vendor-evaluation-scorecard-european-smes-2026",
-    "tags":["AI vendor evaluation","GDPR compliance for SMEs","EU AI Act implications","AI procurement strategies","AI integration best practices"],
-    "word_count": 1245,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec3kdmvncChr5mJ1",
+  "title": "The AI Vendor Evaluation Scorecard Every European SME Needs Before Signing",
+  "slug": "ai-vendor-evaluation-scorecard-european-smes-2026",
+  "folder": "2026-04-17-ai-vendor-evaluation-scorecard-european-smes-2026",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-vendor-evaluation-scorecard-european-smes-2026",
+  "tags": [
+    "AI vendor evaluation",
+    "GDPR compliance for SMEs",
+    "EU AI Act implications",
+    "AI procurement strategies",
+    "AI integration best practices"
+  ],
+  "word_count": 1245,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Vendor Evaluation",
+    "GDPR & Data Privacy",
+    "AI Governance",
+    "European SME AI",
+    "EU AI Act",
+    "AI Strategy"
+  ]
 }

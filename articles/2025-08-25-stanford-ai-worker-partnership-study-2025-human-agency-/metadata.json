@@ -1,18 +1,30 @@
 {
-    "id":"recdEHQ9Al7Ts4VNi",
-    "title":"What Workers Really Want from AI: Stanford’s 2025 Study Reveals the Partnership Truth",
-    "slug":"stanford-ai-worker-partnership-study-2025-human-agency-3a18bb4a09cc",
-    "folder": "2025-08-25-stanford-ai-worker-partnership-study-2025-human-agency-",
-    "published_date": "2025-08-25",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/stanford-ai-worker-partnership-study-2025-human-agency-3a18bb4a09cc",
-    "tags":["AI partnership strategies","worker preferences in AI","Human Agency Scale","AI adoption zones","collaboration over automation","future of work with AI","skills demand in AI era"],
-    "word_count": 1225,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recdEHQ9Al7Ts4VNi",
+  "title": "What Workers Really Want from AI: Stanford’s 2025 Study Reveals the Partnership Truth",
+  "slug": "stanford-ai-worker-partnership-study-2025-human-agency-3a18bb4a09cc",
+  "folder": "2025-08-25-stanford-ai-worker-partnership-study-2025-human-agency-",
+  "published_date": "2025-08-25",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/stanford-ai-worker-partnership-study-2025-human-agency-3a18bb4a09cc",
+  "tags": [
+    "AI partnership strategies",
+    "worker preferences in AI",
+    "Human Agency Scale",
+    "AI adoption zones",
+    "collaboration over automation",
+    "future of work with AI",
+    "skills demand in AI era"
+  ],
+  "word_count": 1225,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "Future of Work"
+  ]
 }

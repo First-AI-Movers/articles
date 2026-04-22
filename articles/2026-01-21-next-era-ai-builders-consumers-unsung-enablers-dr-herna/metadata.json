@@ -1,22 +1,30 @@
 {
-    "id":"recRgGDKTvUFaG5HM",
-    "title":"
-The Next Era of AI: Builders, Consumers, and the Unsung Enablers
-",
-    "slug":"next-era-ai-builders-consumers-unsung-enablers-dr-hernani-costa-fy46e",
-    "folder": "2026-01-21-next-era-ai-builders-consumers-unsung-enablers-dr-herna",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/next-era-ai-builders-consumers-unsung-enablers-dr-hernani-costa-fy46e
-",
-    "tags":["AI ecosystem roles","AI adoption strategies","AI implementation frameworks","AI in European SMEs","AI-driven operational efficiency","AI education and training"],
-    "word_count": 367,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recRgGDKTvUFaG5HM",
+  "title": "\nThe Next Era of AI: Builders, Consumers, and the Unsung Enablers\n",
+  "slug": "next-era-ai-builders-consumers-unsung-enablers-dr-hernani-costa-fy46e",
+  "folder": "2026-01-21-next-era-ai-builders-consumers-unsung-enablers-dr-herna",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/next-era-ai-builders-consumers-unsung-enablers-dr-hernani-costa-fy46e\n",
+  "tags": [
+    "AI ecosystem roles",
+    "AI adoption strategies",
+    "AI implementation frameworks",
+    "AI in European SMEs",
+    "AI-driven operational efficiency",
+    "AI education and training"
+  ],
+  "word_count": 367,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "European SME AI",
+    "Education AI"
+  ]
 }

@@ -1,18 +1,32 @@
 {
-    "id":"rec1pdL1ikTtDMMBo",
-    "title":"Edge Copilot vs Atlas 2025: The AI Browser War Starts Now",
-    "slug":"edge-copilot-vs-atlas-2025",
-    "folder": "2025-10-25-edge-copilot-vs-atlas-2025",
-    "published_date": "2025-10-25",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/edge-copilot-vs-atlas-2025",
-    "tags":["AI browser competition","Microsoft Edge Copilot","OpenAI ChatGPT Atlas","AI tools for SMEs","browser memory governance","AI research workflows"],
-    "word_count": 570,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec1pdL1ikTtDMMBo",
+  "title": "Edge Copilot vs Atlas 2025: The AI Browser War Starts Now",
+  "slug": "edge-copilot-vs-atlas-2025",
+  "folder": "2025-10-25-edge-copilot-vs-atlas-2025",
+  "published_date": "2025-10-25",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/edge-copilot-vs-atlas-2025",
+  "tags": [
+    "AI browser competition",
+    "Microsoft Edge Copilot",
+    "OpenAI ChatGPT Atlas",
+    "AI tools for SMEs",
+    "browser memory governance",
+    "AI research workflows"
+  ],
+  "word_count": 570,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Browser Agents",
+    "GitHub Copilot",
+    "GPT Models",
+    "European SME AI",
+    "AI Research"
+  ]
 }

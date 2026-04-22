@@ -1,18 +1,32 @@
 {
-    "id":"recco7tFAckpQDA6G",
-    "title":"Agent Experience (AX): Your C-Level Advantage in the Age of AI Agents",
-    "slug":"agent-experience-ax-your-c-level-advantage-in-the-age-of-ai-agents",
-    "folder": "2025-08-10-agent-experience-ax-your-c-level-advantage-in-the-age-o",
-    "published_date": "2025-08-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/agent-experience-ax-your-c-level-advantage-in-the-age-of-ai-agents",
-    "tags":["AI-driven customer journey","Agent Experience optimization","B2B AI inquiries","AI brand presence","Compliance in AI interactions","Structured content for agents","Digital transformation for SMEs"],
-    "word_count": 1165,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recco7tFAckpQDA6G",
+  "title": "Agent Experience (AX): Your C-Level Advantage in the Age of AI Agents",
+  "slug": "agent-experience-ax-your-c-level-advantage-in-the-age-of-ai-agents",
+  "folder": "2025-08-10-agent-experience-ax-your-c-level-advantage-in-the-age-o",
+  "published_date": "2025-08-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/agent-experience-ax-your-c-level-advantage-in-the-age-of-ai-agents",
+  "tags": [
+    "AI-driven customer journey",
+    "Agent Experience optimization",
+    "B2B AI inquiries",
+    "AI brand presence",
+    "Compliance in AI interactions",
+    "Structured content for agents",
+    "Digital transformation for SMEs"
+  ],
+  "word_count": 1165,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "B2B SaaS Growth",
+    "AI Governance",
+    "European SME AI",
+    "AI Change Management"
+  ]
 }

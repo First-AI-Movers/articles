@@ -1,0 +1,61 @@
+{% extends "base.html.j2" %}
+{% block title %}First AI Movers — Article Archive{% endblock %}
+{% block description %}Open-access archive of {{ stats.total }} original articles by Dr. Hernani Costa on AI strategy, EU AI Act compliance, AI governance, and agentic systems for European SMEs. Published {{ stats.date_min_month }}–{{ stats.date_max_month }}.{% endblock %}
+{% block main_class %} class="wide"{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "First AI Movers — Article Archive",
+  "url": "{{ site_url }}",
+  "description": "{{ self.description() }}",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Hernani Costa",
+    "url": "https://drhernanicosta.com",
+    "sameAs": ["https://orcid.org/0000-0002-6813-4641"]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://firstaimovers.com"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "inLanguage": "en"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>First AI Movers — Article Archive</h1>
+
+<p class="lede">{{ stats.total }} original articles by <a href="https://drhernanicosta.com">Dr. Hernani Costa</a>, PhD, on AI strategy, EU AI Act compliance, governance, and agentic systems for European businesses. Published under CC BY 4.0 — free to read, cite, adapt, and redistribute with attribution.</p>
+
+<div class="stats">
+  <div><b>{{ stats.total }}</b><span>articles</span></div>
+  <div><b>{{ stats.topics_count }}</b><span>canonical topics</span></div>
+  <div><b>{{ stats.date_min_month }}</b><span>first article</span></div>
+  <div><b>{{ stats.date_max_month }}</b><span>most recent</span></div>
+</div>
+
+<h2>Latest articles</h2>
+{% for article in latest %}
+  {% include "partials/article_card.html.j2" %}
+{% endfor %}
+
+<p style="margin-top: 2rem;"><a href="{{ rel_root }}topics/">Browse all {{ topics_with_page|length }} topic pages →</a></p>
+
+<div class="data-links">
+  <h3>Machine-readable surfaces</h3>
+  <ul>
+    <li><code>/index.json</code> — catalog of all {{ stats.total }} articles with metadata</li>
+    <li><code>/feed.xml</code> — Atom feed of the 50 most-recent articles</li>
+    <li><code>/llms.txt</code> — LLM discovery summary</li>
+    <li><code>/llms-full.txt</code> — full-text corpus for bulk LLM ingestion ({{ stats.total }} articles, ~7 MB)</li>
+    <li><code>/sitemap.xml</code> — XML sitemap pointing to canonical article URLs</li>
+    <li><code>/hernanicosta.json</code> — Schema.org Person entity for the author</li>
+  </ul>
+</div>
+{% endblock %}

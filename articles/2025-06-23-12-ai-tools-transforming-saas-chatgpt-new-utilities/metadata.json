@@ -1,18 +1,31 @@
 {
-    "id":"recU84I1zYxl7fneU",
-    "title":"ChatGPT Goes Super-Utility—12 Stealth AI Updates You Can Ship With Today",
-    "slug":"12-ai-tools-transforming-saas-chatgpt-new-utilities",
-    "folder": "2025-06-23-12-ai-tools-transforming-saas-chatgpt-new-utilities",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/12-ai-tools-transforming-saas-chatgpt-new-utilities",
-    "tags":["ChatGPT utility updates","AI tools for SMEs","no-code app development","AI meeting transcription","video editing with AI","automation in product development","AI-driven workflows"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recU84I1zYxl7fneU",
+  "title": "ChatGPT Goes Super-Utility—12 Stealth AI Updates You Can Ship With Today",
+  "slug": "12-ai-tools-transforming-saas-chatgpt-new-utilities",
+  "folder": "2025-06-23-12-ai-tools-transforming-saas-chatgpt-new-utilities",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/12-ai-tools-transforming-saas-chatgpt-new-utilities",
+  "tags": [
+    "ChatGPT utility updates",
+    "AI tools for SMEs",
+    "no-code app development",
+    "AI meeting transcription",
+    "video editing with AI",
+    "automation in product development",
+    "AI-driven workflows"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GPT Models",
+    "European SME AI",
+    "AI Workflow Automation"
+  ]
 }

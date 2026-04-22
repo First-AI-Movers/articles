@@ -1,18 +1,31 @@
 {
-    "id":"recVA1iCOBOvbASVq",
-    "title":"NotebookLM + Gems: Your Personal RAG System Without the Engineering",
-    "slug":"notebooklm-gems-personal-rag-system",
-    "folder": "2026-02-09-notebooklm-gems-personal-rag-system",
-    "published_date": "2026-02-09",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/notebooklm-gems-personal-rag-system",
-    "tags":["NotebookLM integration","personal RAG system","knowledge management transformation","AI-driven research synthesis","Gems for project documentation","structured thinking for AI","automated intelligence in SMEs"],
-    "word_count": 1744,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recVA1iCOBOvbASVq",
+  "title": "NotebookLM + Gems: Your Personal RAG System Without the Engineering",
+  "slug": "notebooklm-gems-personal-rag-system",
+  "folder": "2026-02-09-notebooklm-gems-personal-rag-system",
+  "published_date": "2026-02-09",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/notebooklm-gems-personal-rag-system",
+  "tags": [
+    "NotebookLM integration",
+    "personal RAG system",
+    "knowledge management transformation",
+    "AI-driven research synthesis",
+    "Gems for project documentation",
+    "structured thinking for AI",
+    "automated intelligence in SMEs"
+  ],
+  "word_count": 1744,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "RAG Architecture",
+    "Knowledge Management",
+    "European SME AI"
+  ]
 }

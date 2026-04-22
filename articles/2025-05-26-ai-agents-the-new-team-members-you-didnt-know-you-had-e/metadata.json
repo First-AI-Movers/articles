@@ -1,18 +1,32 @@
 {
-    "id":"recSBtD5JY3sMfz0y",
-    "title":"AI Agents: The New Team Members You Didn’t Know You Had",
-    "slug":"ai-agents-the-new-team-members-you-didnt-know-you-had-e6db016c8b6e",
-    "folder": "2025-05-26-ai-agents-the-new-team-members-you-didnt-know-you-had-e",
-    "published_date": "2025-05-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/ai-agents-the-new-team-members-you-didnt-know-you-had-e6db016c8b6e",
-    "tags":["AI agent deployment","AI team augmentation","automation for startups","AI tools for SMEs","AI in customer support","AI-driven market research"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recSBtD5JY3sMfz0y",
+  "title": "AI Agents: The New Team Members You Didn’t Know You Had",
+  "slug": "ai-agents-the-new-team-members-you-didnt-know-you-had-e6db016c8b6e",
+  "folder": "2025-05-26-ai-agents-the-new-team-members-you-didnt-know-you-had-e",
+  "published_date": "2025-05-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/ai-agents-the-new-team-members-you-didnt-know-you-had-e6db016c8b6e",
+  "tags": [
+    "AI agent deployment",
+    "AI team augmentation",
+    "automation for startups",
+    "AI tools for SMEs",
+    "AI in customer support",
+    "AI-driven market research"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "AI Team Building",
+    "B2B SaaS Growth",
+    "European SME AI",
+    "AI for Operations"
+  ]
 }

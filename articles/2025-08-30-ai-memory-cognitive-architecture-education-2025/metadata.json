@@ -1,18 +1,28 @@
 {
-    "id":"rec0Muyx1UcXVOzo7",
-    "title":"AI, Memory, and the Future of Learning: How Cognitive Architecture Is Changing in 2025",
-    "slug":"ai-memory-cognitive-architecture-education-2025",
-    "folder": "2025-08-30-ai-memory-cognitive-architecture-education-2025",
-    "published_date": "2025-08-30",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-memory-cognitive-architecture-education-2025",
-    "tags":["AI impact on education","cognitive development strategies","AI in learning environments","future of student engagement","educational technology trends","AI-assisted writing challenges"],
-    "word_count": 1164,
-    "read_time_minutes":6,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec0Muyx1UcXVOzo7",
+  "title": "AI, Memory, and the Future of Learning: How Cognitive Architecture Is Changing in 2025",
+  "slug": "ai-memory-cognitive-architecture-education-2025",
+  "folder": "2025-08-30-ai-memory-cognitive-architecture-education-2025",
+  "published_date": "2025-08-30",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-memory-cognitive-architecture-education-2025",
+  "tags": [
+    "AI impact on education",
+    "cognitive development strategies",
+    "AI in learning environments",
+    "future of student engagement",
+    "educational technology trends",
+    "AI-assisted writing challenges"
+  ],
+  "word_count": 1164,
+  "read_time_minutes": 6,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Education AI"
+  ]
 }

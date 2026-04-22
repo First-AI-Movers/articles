@@ -1,18 +1,31 @@
 {
-    "id":"recjCKzvNfn2zOq4k",
-    "title":"Data Silos Blocking Your SME’s AI Success? 5-Step Governance Guide for 2025",
-    "slug":"data-governance-made-simple-sme-guide-to-ai-ready-systems-in-2025-2d1e6a9b3be3",
-    "folder": "2025-08-20-data-governance-made-simple-sme-guide-to-ai-ready-syste",
-    "published_date": "2025-08-20",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/data-governance-made-simple-sme-guide-to-ai-ready-systems-in-2025-2d1e6a9b3be3",
-    "tags":["AI governance for European SMEs","overcoming data silos","AI readiness strategies","affordable AI solutions","data integration for SMEs","ethical AI practices"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recjCKzvNfn2zOq4k",
+  "title": "Data Silos Blocking Your SME’s AI Success? 5-Step Governance Guide for 2025",
+  "slug": "data-governance-made-simple-sme-guide-to-ai-ready-systems-in-2025-2d1e6a9b3be3",
+  "folder": "2025-08-20-data-governance-made-simple-sme-guide-to-ai-ready-syste",
+  "published_date": "2025-08-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/data-governance-made-simple-sme-guide-to-ai-ready-systems-in-2025-2d1e6a9b3be3",
+  "tags": [
+    "AI governance for European SMEs",
+    "overcoming data silos",
+    "AI readiness strategies",
+    "affordable AI solutions",
+    "data integration for SMEs",
+    "ethical AI practices"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "AI Readiness",
+    "AI Ethics"
+  ]
 }

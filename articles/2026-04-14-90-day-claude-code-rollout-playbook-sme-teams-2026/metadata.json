@@ -1,18 +1,32 @@
 {
-    "id":"recYXgeIKYV2mGHsZ",
-    "title":"The 90-Day Claude Code Rollout Playbook for SME Technical Leads",
-    "slug":"90-day-claude-code-rollout-playbook-sme-teams-2026",
-    "folder": "2026-04-14-90-day-claude-code-rollout-playbook-sme-teams-2026",
-    "published_date": "2026-04-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/90-day-claude-code-rollout-playbook-sme-teams-2026",
-    "tags":["Claude Code rollout strategy","AI governance for European SMEs","SME engineering team productivity","EU compliance in AI deployment","AI tool adoption framework"],
-    "word_count": 2150,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recYXgeIKYV2mGHsZ",
+  "title": "The 90-Day Claude Code Rollout Playbook for SME Technical Leads",
+  "slug": "90-day-claude-code-rollout-playbook-sme-teams-2026",
+  "folder": "2026-04-14-90-day-claude-code-rollout-playbook-sme-teams-2026",
+  "published_date": "2026-04-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/90-day-claude-code-rollout-playbook-sme-teams-2026",
+  "tags": [
+    "Claude Code rollout strategy",
+    "AI governance for European SMEs",
+    "SME engineering team productivity",
+    "EU compliance in AI deployment",
+    "AI tool adoption framework"
+  ],
+  "word_count": 2150,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Code",
+    "AI Governance",
+    "European SME AI",
+    "AI Productivity Tools",
+    "AI for Engineering Teams",
+    "AI Strategy"
+  ]
 }

@@ -1,18 +1,31 @@
 {
-    "id":"recrE3c1w2snApaX6",
-    "title":"LangGraph vs. LangChain vs. CrewAI vs. AutoGen: A 2026 CTO's Guide to AI Agent Frameworks",
-    "slug":"langgraph-vs-langchain-crewai-autogen-2026",
-    "folder": "2026-03-20-langgraph-vs-langchain-crewai-autogen-2026",
-    "published_date": "2026-03-20",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/langgraph-vs-langchain-crewai-autogen-2026",
-    "tags":["AI agent frameworks comparison","LangGraph vs LangChain","CrewAI for business automation","AutoGen and Microsoft Agent Framework","AI governance for SMEs","Production-grade AI systems"],
-    "word_count": 2847,
-    "read_time_minutes":13,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recrE3c1w2snApaX6",
+  "title": "LangGraph vs. LangChain vs. CrewAI vs. AutoGen: A 2026 CTO's Guide to AI Agent Frameworks",
+  "slug": "langgraph-vs-langchain-crewai-autogen-2026",
+  "folder": "2026-03-20-langgraph-vs-langchain-crewai-autogen-2026",
+  "published_date": "2026-03-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/langgraph-vs-langchain-crewai-autogen-2026",
+  "tags": [
+    "AI agent frameworks comparison",
+    "LangGraph vs LangChain",
+    "CrewAI for business automation",
+    "AutoGen and Microsoft Agent Framework",
+    "AI governance for SMEs",
+    "Production-grade AI systems"
+  ],
+  "word_count": 2847,
+  "read_time_minutes": 13,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "France and Benelux AI",
+    "European SME AI",
+    "AI Governance"
+  ]
 }

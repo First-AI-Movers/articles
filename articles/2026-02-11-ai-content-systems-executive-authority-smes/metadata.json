@@ -1,18 +1,32 @@
 {
-    "id":"rec7K0v7gr8Tf9LFY",
-    "title":"AI-Powered Content Systems: Building Executive Authority That Generates Business at Scale",
-    "slug":"ai-content-systems-executive-authority-smes",
-    "folder": "2026-02-11-ai-content-systems-executive-authority-smes",
-    "published_date": "2026-02-11",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-content-systems-executive-authority-smes",
-    "tags":["AI-powered content systems","executive authority generation","thought leadership for SMEs","systematic content production","European SME marketing strategies","AI-driven business growth"],
-    "word_count": 2275,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec7K0v7gr8Tf9LFY",
+  "title": "AI-Powered Content Systems: Building Executive Authority That Generates Business at Scale",
+  "slug": "ai-content-systems-executive-authority-smes",
+  "folder": "2026-02-11-ai-content-systems-executive-authority-smes",
+  "published_date": "2026-02-11",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-content-systems-executive-authority-smes",
+  "tags": [
+    "AI-powered content systems",
+    "executive authority generation",
+    "thought leadership for SMEs",
+    "systematic content production",
+    "European SME marketing strategies",
+    "AI-driven business growth"
+  ],
+  "word_count": 2275,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Executive AI Literacy",
+    "Thought Leadership",
+    "European SME AI",
+    "AI for Marketing Teams",
+    "AI Content Strategy"
+  ]
 }

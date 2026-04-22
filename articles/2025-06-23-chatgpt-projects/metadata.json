@@ -1,18 +1,32 @@
 {
-    "id":"recrn7esttI56NzTd",
-    "title":"What Are ChatGPT Projects?",
-    "slug":"chatgpt-projects",
-    "folder": "2025-06-23-chatgpt-projects",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/chatgpt-projects",
-    "tags":["ChatGPT project management","AI workflow organization","European SME productivity","OpenAI Projects feature","AI conversation grouping","digital workspace solutions"],
-    "word_count": 392,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recrn7esttI56NzTd",
+  "title": "What Are ChatGPT Projects?",
+  "slug": "chatgpt-projects",
+  "folder": "2025-06-23-chatgpt-projects",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/chatgpt-projects",
+  "tags": [
+    "ChatGPT project management",
+    "AI workflow organization",
+    "European SME productivity",
+    "OpenAI Projects feature",
+    "AI conversation grouping",
+    "digital workspace solutions"
+  ],
+  "word_count": 392,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GPT Models",
+    "AI PMO",
+    "AI Workflow Automation",
+    "AI Productivity Tools",
+    "European SME AI"
+  ]
 }

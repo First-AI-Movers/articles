@@ -1,18 +1,30 @@
 {
-    "id":"rechvjlKh5KWs24JG",
-    "title":"German Court Backs Meta’s AI Data Grab",
-    "slug":"german-court-backs-meta-s-ai-data-grab-877d",
-    "folder": "2025-05-24-german-court-backs-meta-s-ai-data-grab-877d",
-    "published_date": "2025-05-24",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/german-court-backs-meta-s-ai-data-grab-877d",
-    "tags":["EU data privacy regulations","Meta AI data usage","AI model training implications","European consumer rights","AI governance for SMEs","opt-out data policies"],
-    "word_count": 740,
-    "read_time_minutes":4,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rechvjlKh5KWs24JG",
+  "title": "German Court Backs Meta’s AI Data Grab",
+  "slug": "german-court-backs-meta-s-ai-data-grab-877d",
+  "folder": "2025-05-24-german-court-backs-meta-s-ai-data-grab-877d",
+  "published_date": "2025-05-24",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/german-court-backs-meta-s-ai-data-grab-877d",
+  "tags": [
+    "EU data privacy regulations",
+    "Meta AI data usage",
+    "AI model training implications",
+    "European consumer rights",
+    "AI governance for SMEs",
+    "opt-out data policies"
+  ],
+  "word_count": 740,
+  "read_time_minutes": 4,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GDPR & Data Privacy",
+    "AI Governance",
+    "European SME AI"
+  ]
 }

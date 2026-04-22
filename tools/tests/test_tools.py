@@ -227,6 +227,7 @@ class TestRebuildLocalDocs:
         stats = self._mod().compute_stats(SAMPLE_INDEX)
         assert stats["total"] == 3
         assert stats["tags_count"] == 4  # AI strategy, EU AI Act, AI governance, MCP
+        assert stats["topics_count"] == 0  # SAMPLE_INDEX has no topics field
         assert stats["funnel"]["top"] == 1
         assert stats["funnel"]["middle"] == 1
         assert stats["funnel"]["bottom"] == 1
@@ -249,39 +250,40 @@ class TestRebuildLocalDocs:
         result = self._mod()._funnel_summary({"middle": 10, "top": 5})
         assert result.startswith("top (5 articles)")
 
+    def _stats(self, **overrides):
+        base = {"total": 700, "tags_count": 4000, "topics_count": 105,
+                "funnel": {"top": 300, "middle": 395, "bottom": 5},
+                "date_min": "2025-02-17", "date_max": "2026-04-10"}
+        base.update(overrides)
+        return base
+
     def test_patch_readme_updates_badge(self):
-        stats = {"total": 700, "tags_count": 4000, "funnel": {"top": 300, "middle": 395, "bottom": 5},
-                 "date_min": "2025-02-17", "date_max": "2026-04-10"}
-        new_content = self._mod().patch_readme(SAMPLE_README, stats)
+        new_content = self._mod().patch_readme(SAMPLE_README, self._stats())
         assert "Articles-700-orange" in new_content
         assert new_content != SAMPLE_README
 
     def test_patch_readme_updates_article_count_in_description(self):
-        stats = {"total": 700, "tags_count": 4000, "funnel": {"top": 300, "middle": 395, "bottom": 5},
-                 "date_min": "2025-02-17", "date_max": "2026-04-10"}
-        new_content = self._mod().patch_readme(SAMPLE_README, stats)
+        new_content = self._mod().patch_readme(SAMPLE_README, self._stats())
         assert "700 original articles" in new_content
 
     def test_patch_readme_updates_quick_stats(self):
-        stats = {"total": 700, "tags_count": 4000, "funnel": {"top": 300, "middle": 395, "bottom": 5},
-                 "date_min": "2025-02-17", "date_max": "2026-04-10"}
-        new_content = self._mod().patch_readme(SAMPLE_README, stats)
+        new_content = self._mod().patch_readme(SAMPLE_README, self._stats(topics_count=105))
         assert "**700** articles indexed" in new_content
-        assert "**4,000** unique topic tags" in new_content
+        assert "**105** canonical topics" in new_content
+        assert "unique topic tags" not in new_content  # old label fully migrated
 
     def test_patch_readme_always_touches_date_modified(self):
         """Even when article-count fields match, dateModified should be re-stamped."""
-        stats = {"total": 648, "tags_count": 3147, "funnel": {"top": 221, "middle": 423, "bottom": 4},
-                 "date_min": "2025-02-17", "date_max": "2026-04-04"}
+        stats = self._stats(total=648, tags_count=3147, topics_count=100,
+                            funnel={"top": 221, "middle": 423, "bottom": 4},
+                            date_max="2026-04-04")
         new_content = self._mod().patch_readme(SAMPLE_README, stats)
-        # article count unchanged since fixture matches the stats
         assert "648 original articles" in new_content
-        # but dateModified is always updated to today
+        # dateModified is always updated to today
         assert '"dateModified": "2026-04-05"' not in new_content
 
     def test_patch_llms_updates_count(self):
-        stats = {"total": 700, "tags_count": 4000, "funnel": {}, "date_min": "2025-02-17", "date_max": "2026-04-10"}
-        new_content = self._mod().patch_llms(SAMPLE_LLMS_TXT, stats)
+        new_content = self._mod().patch_llms(SAMPLE_LLMS_TXT, self._stats(funnel={}))
         assert "700 original articles" in new_content
         assert new_content != SAMPLE_LLMS_TXT
 
@@ -692,6 +694,7 @@ class TestBuildLlmsFull:
                 "title": spec["title"],
                 "published_date": spec["published_date"],
                 "tags": spec.get("tags", []),
+                "topics": spec.get("topics", []),
                 "funnel_stage": "middle",
                 "canonical_url": spec.get("canonical_url", f"https://radar.firstaimovers.com/{folder}"),
             })
@@ -714,16 +717,16 @@ class TestBuildLlmsFull:
         ])
         assert out.index("Newer Article") < out.index("Older Article")
 
-    def test_per_entry_header_has_title_date_url_tags(self, monkeypatch, tmp_path):
+    def test_per_entry_header_has_title_date_url_topics(self, monkeypatch, tmp_path):
         out = self._run(monkeypatch, tmp_path, [
             {"folder": "2026-04-01-x", "title": "The Title", "published_date": "2026-04-01",
-             "tags": ["alpha", "beta"],
+             "topics": ["AI Strategy", "European SME AI"],
              "canonical_url": "https://radar.firstaimovers.com/the-title"},
         ])
         assert "# The Title" in out
         assert "**Published:** 2026-04-01" in out
         assert "**URL:** https://radar.firstaimovers.com/the-title" in out
-        assert "**Tags:** alpha, beta" in out
+        assert "**Topics:** AI Strategy, European SME AI" in out
 
     def test_leading_h1_in_body_is_stripped(self, monkeypatch, tmp_path):
         out = self._run(monkeypatch, tmp_path, [
@@ -757,3 +760,261 @@ class TestBuildLlmsFull:
              "canonical_url": "\nhttps://www.linkedin.com/pulse/linkedin-one\n"},
         ])
         assert "**URL:** https://www.linkedin.com/pulse/linkedin-one" in out
+
+
+# =========================================================================
+# Tests: normalize_tags.py — tag -> topic normalization
+# =========================================================================
+
+class TestNormalizeTags:
+    """Normalizer logic: canonical topic lookup, service cleanup."""
+
+    def _mod(self):
+        import normalize_tags
+        return normalize_tags
+
+    def _rules(self):
+        return self._mod().load_aliases()
+
+    def test_canonical_topics_cover_every_alias_reference(self):
+        """Every topic mentioned in aliases must exist in canonical_topics."""
+        # load_aliases() already validates this, but prove it here too.
+        canonical, _, _ = self._rules()
+        assert len(canonical) > 50  # sanity: we have a real vocabulary
+
+    def test_exact_override_short_circuits_patterns(self):
+        m = self._mod()
+        _, patterns, overrides = self._rules()
+        # "MCP" is an override -> ["Model Context Protocol"]
+        assert m.normalize_tag("MCP", patterns, overrides) == ["Model Context Protocol"]
+
+    def test_pattern_matching_is_case_insensitive(self):
+        m = self._mod()
+        _, patterns, overrides = self._rules()
+        topics = m.normalize_tag("EU AI ACT compliance strategies", patterns, overrides)
+        assert "EU AI Act" in topics
+
+    def test_multiple_patterns_contribute_multiple_topics(self):
+        m = self._mod()
+        _, patterns, overrides = self._rules()
+        topics = m.normalize_tag("AI governance for Dutch SMEs", patterns, overrides)
+        # should pick up AI Governance + Netherlands AI + European SME AI
+        assert "AI Governance" in topics
+        assert "Netherlands AI" in topics
+        assert "European SME AI" in topics
+
+    def test_topics_deduped_per_article(self):
+        m = self._mod()
+        _, patterns, overrides = self._rules()
+        topics = m.normalize_tags_for_article(
+            ["AI governance framework", "AI governance model", "AI Governance in Europe"],
+            patterns, overrides,
+        )
+        assert topics.count("AI Governance") == 1
+
+    def test_max_topics_cap_enforced(self):
+        m = self._mod()
+        _, patterns, overrides = self._rules()
+        # Tag that matches many patterns simultaneously
+        topics = m.normalize_tags_for_article(
+            ["EU AI Act compliance for Dutch healthcare SMEs with GDPR and Claude Code"],
+            patterns, overrides,
+        )
+        assert len(topics) <= m.MAX_TOPICS_PER_ARTICLE
+
+    def test_unknown_tag_returns_empty(self):
+        m = self._mod()
+        _, patterns, overrides = self._rules()
+        assert m.normalize_tag("xyzzy plugh fnord", patterns, overrides) == []
+
+    def test_normalize_service_strips_whitespace(self):
+        m = self._mod()
+        assert m.normalize_service("  ai-strategy  ") == "ai-strategy"
+        assert m.normalize_service(" fractional-caio") == "fractional-caio"
+
+    def test_normalize_service_lowercases(self):
+        m = self._mod()
+        assert m.normalize_service("AI-Strategy") == "ai-strategy"
+
+    def test_normalize_service_rejects_unknown(self):
+        m = self._mod()
+        assert m.normalize_service("not-a-real-service") is None
+
+    def test_normalize_services_dedupes(self):
+        m = self._mod()
+        result = m.normalize_services([" ai-strategy", "ai-strategy ", "ai-strategy"])
+        assert result == ["ai-strategy"]
+
+    def test_normalize_services_preserves_order(self):
+        m = self._mod()
+        result = m.normalize_services(["compliance-audit", " ai-strategy", "fractional-caio"])
+        assert result == ["compliance-audit", "ai-strategy", "fractional-caio"]
+
+
+# =========================================================================
+# Tests: rebuild_local.py static site builder
+# =========================================================================
+
+class TestBuildSite:
+    """HTML topic-hub site. Requires jinja2; skipped cleanly if not installed."""
+
+    def _mod(self):
+        pytest.importorskip("jinja2")
+        import rebuild_local
+        return rebuild_local
+
+    def _synthetic_index(self, topic_distribution):
+        """Build an index where topic_distribution is {topic_name: article_count}."""
+        articles = []
+        day = 1
+        for topic, count in topic_distribution.items():
+            for _ in range(count):
+                articles.append({
+                    "folder": f"2026-04-{day:02d}-slug{day}",
+                    "title": f"Article {day}",
+                    "published_date": f"2026-04-{day:02d}",
+                    "tags": [],
+                    "topics": [topic],
+                    "funnel_stage": "middle",
+                    "canonical_url": f"https://radar.firstaimovers.com/slug{day}",
+                })
+                day += 1
+        articles.sort(key=lambda a: a["published_date"], reverse=True)
+        return {"articles": articles}
+
+    def _run(self, monkeypatch, tmp_path, index):
+        m = self._mod()
+        # Redirect all IO roots to tmp_path
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        # Copy real templates + static so we don't re-fixture them
+        import shutil
+        from pathlib import Path as P
+        # Resolve repo root from this file's location, not a hardcoded path
+        # (this test file lives at <repo>/tools/tests/test_tools.py).
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        # Real hernanicosta.json is needed for about page
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+        # Sample article files so llms-full.txt summary lookups don't 404
+        for a in index["articles"]:
+            (tmp_path / "articles" / a["folder"]).mkdir(exist_ok=True)
+            (tmp_path / "articles" / a["folder"] / "article.md").write_text(
+                f"---\ntitle: {a['title']}\n---\n# {a['title']}\n\nBody paragraph with enough text to serve as a summary for this test article.\n")
+
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        m.build_site(index)
+        return tmp_path / "site"
+
+    def test_slugify_produces_stable_urls(self):
+        m = self._mod()
+        assert m._slugify("AI Governance") == "ai-governance"
+        assert m._slugify("GDPR & Data Privacy") == "gdpr-and-data-privacy"
+        assert m._slugify("European SME AI") == "european-sme-ai"
+        assert m._slugify("AI SEO and GEO") == "ai-seo-and-geo"
+        assert m._slugify("UK and Ireland AI") == "uk-and-ireland-ai"
+
+    def test_home_page_renders(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Governance": 6}))
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert "<title>First AI Movers" in home
+        assert 'rel="canonical" href="https://articles.firstaimovers.com/"' in home
+        assert 'name="robots" content="index, follow"' in home
+
+    def test_topics_index_lists_all_topics(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Governance": 6, "AI Agents": 2}))
+        idx = (site / "topics" / "index.html").read_text(encoding="utf-8")
+        # Both topics appear (under/over threshold), but only over-threshold is a link
+        assert "AI Governance" in idx
+        assert "AI Agents" in idx
+        assert "topics/ai-governance/" in idx
+        assert "topics/ai-agents/" not in idx  # below threshold → not linked
+
+    def test_topic_page_created_only_above_threshold(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Governance": 6, "AI Agents": 2}))
+        assert (site / "topics" / "ai-governance" / "index.html").exists()
+        assert not (site / "topics" / "ai-agents").exists()
+
+    def test_topic_page_lists_articles_newest_first(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        # Day 6 is newest; day 1 is oldest. Position check.
+        assert page.index("Article 6") < page.index("Article 1")
+
+    def test_topic_page_self_canonical(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'rel="canonical" href="https://articles.firstaimovers.com/topics/ai-strategy/"' in page
+        assert 'name="robots" content="index, follow"' in page
+
+    def test_article_cards_link_to_canonical_not_self(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Governance": 6}))
+        page = (site / "topics" / "ai-governance" / "index.html").read_text(encoding="utf-8")
+        assert "https://radar.firstaimovers.com/slug1" in page
+        # No self-links back to /articles/ paths on the site
+        assert 'href="/articles/' not in page
+
+    def test_about_page_canonicals_to_drhernanicosta(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        about = (site / "about" / "index.html").read_text(encoding="utf-8")
+        assert 'rel="canonical" href="https://drhernanicosta.com"' in about
+        assert 'application/ld+json' in about  # Person JSON-LD embedded
+
+    def test_404_page_noindex(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        page = (site / "404.html").read_text(encoding="utf-8")
+        assert 'name="robots" content="noindex"' in page
+
+    def test_stylesheet_copied(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        assert (site / "style.css").exists()
+        # Every page references it via relative path — spot-check topic page
+        topic = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'href="../../style.css"' in topic
+
+    def test_raw_data_mirror_files_copied(self, monkeypatch, tmp_path):
+        # Put some mirror files in the tmp root to simulate a full rebuild
+        (tmp_path / "index.json").write_text('{"articles": []}')
+        (tmp_path / "llms.txt").write_text("llms")
+        (tmp_path / "llms-full.txt").write_text("corpus")
+        (tmp_path / "feed.xml").write_text("<feed/>")
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        assert (site / "index.json").exists()
+        assert (site / "llms.txt").exists()
+        assert (site / "llms-full.txt").exists()
+        assert (site / "feed.xml").exists()
+        # Raw articles tree mirrored
+        assert (site / "articles").exists()
+
+    def test_related_topics_ranked_by_cooccurrence(self):
+        m = self._mod()
+        articles = [
+            {"topics": ["A", "B", "C"]},
+            {"topics": ["A", "B"]},
+            {"topics": ["A", "D"]},
+        ]
+        counts = {"A": 3, "B": 2, "C": 1, "D": 1}
+        related = m._related_topics_for("A", articles, counts, limit=3)
+        assert related == ["B", "C", "D"]  # B co-occurs twice, C/D once each
+
+    def test_canonical_host_label_maps_common_hosts(self):
+        m = self._mod()
+        assert m._canonical_host_label("https://radar.firstaimovers.com/foo") == "Radar"
+        assert m._canonical_host_label("https://www.linkedin.com/pulse/x") == "LinkedIn"
+        assert m._canonical_host_label("https://insights.firstaimovers.com/y") == "Insights"

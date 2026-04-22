@@ -1,18 +1,28 @@
 {
-    "id":"recUMHGnGvGUP727Q",
-    "title":"Building the Global AI Hospital Network",
-    "slug":"building-the-global-ai-hospital-network-3fc1",
-    "folder": "2025-05-29-building-the-global-ai-hospital-network-3fc1",
-    "published_date": "2025-05-29",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/building-the-global-ai-hospital-network-3fc1",
-    "tags":["global AI healthcare network","AI-driven patient care","predictive healthcare solutions","AI collaboration in medicine","health data integration","personalized treatment strategies"],
-    "word_count": 1865,
-    "read_time_minutes":9,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recUMHGnGvGUP727Q",
+  "title": "Building the Global AI Hospital Network",
+  "slug": "building-the-global-ai-hospital-network-3fc1",
+  "folder": "2025-05-29-building-the-global-ai-hospital-network-3fc1",
+  "published_date": "2025-05-29",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/building-the-global-ai-hospital-network-3fc1",
+  "tags": [
+    "global AI healthcare network",
+    "AI-driven patient care",
+    "predictive healthcare solutions",
+    "AI collaboration in medicine",
+    "health data integration",
+    "personalized treatment strategies"
+  ],
+  "word_count": 1865,
+  "read_time_minutes": 9,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Healthcare AI"
+  ]
 }

@@ -1,22 +1,29 @@
 {
-    "id":"recI8HyMtJSn2PwM7",
-    "title":"
-The AI Revolution: Jobs, Voices, and New Possibilities
-",
-    "slug":"ai-revolution-jobs-voices-new-possibilities-dr-hernani-costa-0j7bc",
-    "folder": "2026-01-21-ai-revolution-jobs-voices-new-possibilities-dr-hernani-",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/ai-revolution-jobs-voices-new-possibilities-dr-hernani-costa-0j7bc
-",
-    "tags":["AI-driven innovation","democratizing expertise","customer experience transformation","future of work with AI","new career opportunities in AI","AI interaction beyond screens"],
-    "word_count": 366,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recI8HyMtJSn2PwM7",
+  "title": "\nThe AI Revolution: Jobs, Voices, and New Possibilities\n",
+  "slug": "ai-revolution-jobs-voices-new-possibilities-dr-hernani-costa-0j7bc",
+  "folder": "2026-01-21-ai-revolution-jobs-voices-new-possibilities-dr-hernani-",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/ai-revolution-jobs-voices-new-possibilities-dr-hernani-costa-0j7bc\n",
+  "tags": [
+    "AI-driven innovation",
+    "democratizing expertise",
+    "customer experience transformation",
+    "future of work with AI",
+    "new career opportunities in AI",
+    "AI interaction beyond screens"
+  ],
+  "word_count": 366,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Future of Work",
+    "AI Training"
+  ]
 }

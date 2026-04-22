@@ -1,18 +1,30 @@
 {
-    "id":"recWxDWraK9pBfYiG",
-    "title":"OpenAI Launches o3‑pro, a Pro-Level AI Model for Deeper Reasoning",
-    "slug":"openai-launches-o3-pro-a-pro-level-ai-model-for-deeper-reasoning-5a1992243d1f",
-    "folder": "2025-06-23-openai-launches-o3-pro-a-pro-level-ai-model-for-deeper-",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/openai-launches-o3-pro-a-pro-level-ai-model-for-deeper-reasoning-5a1992243d1f",
-    "tags":["OpenAI o3-pro model","AI reasoning capabilities","advanced AI tools for SMEs","AI model deployment strategies","AI-driven product development","AI compliance and governance"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recWxDWraK9pBfYiG",
+  "title": "OpenAI Launches o3‑pro, a Pro-Level AI Model for Deeper Reasoning",
+  "slug": "openai-launches-o3-pro-a-pro-level-ai-model-for-deeper-reasoning-5a1992243d1f",
+  "folder": "2025-06-23-openai-launches-o3-pro-a-pro-level-ai-model-for-deeper-",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/openai-launches-o3-pro-a-pro-level-ai-model-for-deeper-reasoning-5a1992243d1f",
+  "tags": [
+    "OpenAI o3-pro model",
+    "AI reasoning capabilities",
+    "advanced AI tools for SMEs",
+    "AI model deployment strategies",
+    "AI-driven product development",
+    "AI compliance and governance"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Frontier Models",
+    "European SME AI",
+    "AI Governance"
+  ]
 }

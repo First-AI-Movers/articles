@@ -1,18 +1,30 @@
 {
-    "id":"recWCaiGiA4GKCVAa",
-    "title":"Enterprise AI Video Generation: Transforming Content Strategy & Engagement in 2025",
-    "slug":"enterprise-ai-video-generation-content-strategy-2025",
-    "folder": "2025-08-21-enterprise-ai-video-generation-content-strategy-2025",
-    "published_date": "2025-08-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/enterprise-ai-video-generation-content-strategy-2025",
-    "tags":["enterprise AI video generation","AI video tools for SMEs","content strategy transformation","AI-driven engagement solutions","video production automation","AI content creation trends"],
-    "word_count": 1147,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recWCaiGiA4GKCVAa",
+  "title": "Enterprise AI Video Generation: Transforming Content Strategy & Engagement in 2025",
+  "slug": "enterprise-ai-video-generation-content-strategy-2025",
+  "folder": "2025-08-21-enterprise-ai-video-generation-content-strategy-2025",
+  "published_date": "2025-08-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/enterprise-ai-video-generation-content-strategy-2025",
+  "tags": [
+    "enterprise AI video generation",
+    "AI video tools for SMEs",
+    "content strategy transformation",
+    "AI-driven engagement solutions",
+    "video production automation",
+    "AI content creation trends"
+  ],
+  "word_count": 1147,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "European SME AI",
+    "AI Content Strategy"
+  ]
 }

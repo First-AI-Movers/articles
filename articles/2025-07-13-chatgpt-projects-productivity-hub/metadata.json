@@ -1,18 +1,30 @@
 {
-    "id":"recfMvpN4GtfeGAGr",
-    "title":"ChatGPT Just Changed Work Forever—Here’s How Projects Will Replace Your Tabs",
-    "slug":"chatgpt-projects-productivity-hub",
-    "folder": "2025-07-13-chatgpt-projects-productivity-hub",
-    "published_date": "2025-07-13",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/chatgpt-projects-productivity-hub",
-    "tags":["AI project management tools","digital workspace solutions","AI-driven productivity","contextual AI assistance","collaborative project features","voice-enabled AI workflows"],
-    "word_count": 1035,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recfMvpN4GtfeGAGr",
+  "title": "ChatGPT Just Changed Work Forever—Here’s How Projects Will Replace Your Tabs",
+  "slug": "chatgpt-projects-productivity-hub",
+  "folder": "2025-07-13-chatgpt-projects-productivity-hub",
+  "published_date": "2025-07-13",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/chatgpt-projects-productivity-hub",
+  "tags": [
+    "AI project management tools",
+    "digital workspace solutions",
+    "AI-driven productivity",
+    "contextual AI assistance",
+    "collaborative project features",
+    "voice-enabled AI workflows"
+  ],
+  "word_count": 1035,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI PMO",
+    "AI Productivity Tools",
+    "AI Workflow Automation"
+  ]
 }

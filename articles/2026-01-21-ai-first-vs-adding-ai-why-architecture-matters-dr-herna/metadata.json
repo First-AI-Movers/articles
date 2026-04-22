@@ -1,22 +1,30 @@
 {
-    "id":"recrJ40mk2Xv7DrOj",
-    "title":"
-AI-First vs. 'Adding AI': Why Architecture Matters
-",
-    "slug":"ai-first-vs-adding-ai-why-architecture-matters-dr-hernani-costa-pgaue",
-    "folder": "2026-01-21-ai-first-vs-adding-ai-why-architecture-matters-dr-herna",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/ai-first-vs-adding-ai-why-architecture-matters-dr-hernani-costa-pgaue
-",
-    "tags":["AI-first company strategies","AI integration challenges","European SME AI adoption","legacy software and AI","AI-driven product architecture","AI feature implementation","AI innovation in Europe"],
-    "word_count": 570,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recrJ40mk2Xv7DrOj",
+  "title": "\nAI-First vs. 'Adding AI': Why Architecture Matters\n",
+  "slug": "ai-first-vs-adding-ai-why-architecture-matters-dr-hernani-costa-pgaue",
+  "folder": "2026-01-21-ai-first-vs-adding-ai-why-architecture-matters-dr-herna",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/ai-first-vs-adding-ai-why-architecture-matters-dr-hernani-costa-pgaue\n",
+  "tags": [
+    "AI-first company strategies",
+    "AI integration challenges",
+    "European SME AI adoption",
+    "legacy software and AI",
+    "AI-driven product architecture",
+    "AI feature implementation",
+    "AI innovation in Europe"
+  ],
+  "word_count": 570,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "European SME AI"
+  ]
 }

@@ -1,18 +1,31 @@
 {
-    "id":"recIVxPSM4lONxxOy",
-    "title":"Choosing Automation Platforms for SMBs 2026: n8n, Make, Zapier & Lindy Decision Framework",
-    "slug":"smb-automation-platform-comparison-guide-2026",
-    "folder": "2025-12-30-smb-automation-platform-comparison-guide-2026",
-    "published_date": "2025-12-30",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/smb-automation-platform-comparison-guide-2026",
-    "tags":["automation platform selection","SMB productivity enhancement","cost reduction strategies","AI-driven business growth","workflow automation frameworks","technical capacity assessment"],
-    "word_count": 3675,
-    "read_time_minutes":16,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recIVxPSM4lONxxOy",
+  "title": "Choosing Automation Platforms for SMBs 2026: n8n, Make, Zapier & Lindy Decision Framework",
+  "slug": "smb-automation-platform-comparison-guide-2026",
+  "folder": "2025-12-30-smb-automation-platform-comparison-guide-2026",
+  "published_date": "2025-12-30",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/smb-automation-platform-comparison-guide-2026",
+  "tags": [
+    "automation platform selection",
+    "SMB productivity enhancement",
+    "cost reduction strategies",
+    "AI-driven business growth",
+    "workflow automation frameworks",
+    "technical capacity assessment"
+  ],
+  "word_count": 3675,
+  "read_time_minutes": 16,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Automation Platforms",
+    "AI Productivity Tools",
+    "AI Cost Optimization",
+    "AI Workflow Automation"
+  ]
 }

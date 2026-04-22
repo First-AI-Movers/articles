@@ -1,18 +1,27 @@
 {
-    "id":"recsXT9zeLdKC86ZF",
-    "title":"S01S03 Talking to AI: Mastering the Art of the Prompt for Effective Results",
-    "slug":"s01s03-talking-to-ai-mastering-the-art-of-the-prompt-for-effective-results-03f555f08285",
-    "folder": "2025-06-05-s01s03-talking-to-ai-mastering-the-art-of-the-prompt-fo",
-    "published_date": "2025-06-05",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/s01s03-talking-to-ai-mastering-the-art-of-the-prompt-for-effective-results-03f555f08285",
-    "tags":["effective AI prompting techniques","AI communication strategies","prompt engineering for SMEs","maximizing AI output quality"],
-    "word_count": 564,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recsXT9zeLdKC86ZF",
+  "title": "S01S03 Talking to AI: Mastering the Art of the Prompt for Effective Results",
+  "slug": "s01s03-talking-to-ai-mastering-the-art-of-the-prompt-for-effective-results-03f555f08285",
+  "folder": "2025-06-05-s01s03-talking-to-ai-mastering-the-art-of-the-prompt-fo",
+  "published_date": "2025-06-05",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/s01s03-talking-to-ai-mastering-the-art-of-the-prompt-for-effective-results-03f555f08285",
+  "tags": [
+    "effective AI prompting techniques",
+    "AI communication strategies",
+    "prompt engineering for SMEs",
+    "maximizing AI output quality"
+  ],
+  "word_count": 564,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Prompt Engineering",
+    "European SME AI"
+  ]
 }

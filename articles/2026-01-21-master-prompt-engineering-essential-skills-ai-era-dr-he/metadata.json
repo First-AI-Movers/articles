@@ -1,22 +1,32 @@
 {
-    "id":"recyYwBFFJB8fXLtD",
-    "title":"
-Master Prompt Engineering: Essential Skills for the AI Era
-",
-    "slug":"master-prompt-engineering-essential-skills-ai-era-dr-hernani-costa-iicye",
-    "folder": "2026-01-21-master-prompt-engineering-essential-skills-ai-era-dr-he",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/master-prompt-engineering-essential-skills-ai-era-dr-hernani-costa-iicye
-",
-    "tags":["prompt engineering techniques","AI communication strategies","effective AI prompts","language model optimization","AI literacy for SMEs","AI-driven decision making"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recyYwBFFJB8fXLtD",
+  "title": "\nMaster Prompt Engineering: Essential Skills for the AI Era\n",
+  "slug": "master-prompt-engineering-essential-skills-ai-era-dr-hernani-costa-iicye",
+  "folder": "2026-01-21-master-prompt-engineering-essential-skills-ai-era-dr-he",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/master-prompt-engineering-essential-skills-ai-era-dr-hernani-costa-iicye\n",
+  "tags": [
+    "prompt engineering techniques",
+    "AI communication strategies",
+    "effective AI prompts",
+    "language model optimization",
+    "AI literacy for SMEs",
+    "AI-driven decision making"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Prompt Engineering",
+    "Model Selection",
+    "European SME AI",
+    "AI Literacy",
+    "AI Strategy"
+  ]
 }

@@ -1,18 +1,31 @@
 {
-    "id":"recORTRQ3etwMcHyr",
-    "title":"Claude Skills Are More Than a Feature: They Are a New Workflow Layer",
-    "slug":"claude-skills-new-workflow-layer-for-teams",
-    "folder": "2026-04-06-claude-skills-new-workflow-layer-for-teams",
-    "published_date": "2026-04-06",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-skills-new-workflow-layer-for-teams",
-    "tags":["AI workflow design","reusable process assets","Claude Skills implementation","AI governance for SMEs","workflow consistency","AI productivity features"],
-    "word_count": 2155,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recORTRQ3etwMcHyr",
+  "title": "Claude Skills Are More Than a Feature: They Are a New Workflow Layer",
+  "slug": "claude-skills-new-workflow-layer-for-teams",
+  "folder": "2026-04-06-claude-skills-new-workflow-layer-for-teams",
+  "published_date": "2026-04-06",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-skills-new-workflow-layer-for-teams",
+  "tags": [
+    "AI workflow design",
+    "reusable process assets",
+    "Claude Skills implementation",
+    "AI governance for SMEs",
+    "workflow consistency",
+    "AI productivity features"
+  ],
+  "word_count": 2155,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Workflow Automation",
+    "AI Governance",
+    "European SME AI",
+    "AI Productivity Tools"
+  ]
 }

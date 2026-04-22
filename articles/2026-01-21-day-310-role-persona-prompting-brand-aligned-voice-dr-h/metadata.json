@@ -1,22 +1,28 @@
 {
-    "id":"recKCFe5L9vSmjiZ4",
-    "title":"
-(Day 3/10) Role & Persona Prompting for Brand-Aligned Voice
-",
-    "slug":"day-310-role-persona-prompting-brand-aligned-voice-dr-hernani-costa-a36ie",
-    "folder": "2026-01-21-day-310-role-persona-prompting-brand-aligned-voice-dr-h",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/day-310-role-persona-prompting-brand-aligned-voice-dr-hernani-costa-a36ie
-",
-    "tags":["brand-aligned voice","health brand trust","AI persona development","role prompting for AI","engagement in health coaching"],
-    "word_count": 275,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recKCFe5L9vSmjiZ4",
+  "title": "\n(Day 3/10) Role & Persona Prompting for Brand-Aligned Voice\n",
+  "slug": "day-310-role-persona-prompting-brand-aligned-voice-dr-hernani-costa-a36ie",
+  "folder": "2026-01-21-day-310-role-persona-prompting-brand-aligned-voice-dr-h",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/day-310-role-persona-prompting-brand-aligned-voice-dr-hernani-costa-a36ie\n",
+  "tags": [
+    "brand-aligned voice",
+    "health brand trust",
+    "AI persona development",
+    "role prompting for AI",
+    "engagement in health coaching"
+  ],
+  "word_count": 275,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Healthcare AI",
+    "Prompt Engineering"
+  ]
 }

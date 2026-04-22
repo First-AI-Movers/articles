@@ -1,22 +1,31 @@
 {
-    "id":"recmRwmm5Us1Rl06a",
-    "title":"
-MCP-Powered AI Agents: A New Era of Automation
-",
-    "slug":"mcp-powered-ai-agents-new-era-automation-dr-hernani-costa-vuu8e",
-    "folder": "2026-01-21-mcp-powered-ai-agents-new-era-automation-dr-hernani-cos",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/mcp-powered-ai-agents-new-era-automation-dr-hernani-costa-vuu8e
-",
-    "tags":["MCP-powered AI agents","automation transformation","AI-driven workflows","intelligent coding assistants","dynamic process management","AI in customer support","no-code automation coexistence"],
-    "word_count": 726,
-    "read_time_minutes":4,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recmRwmm5Us1Rl06a",
+  "title": "\nMCP-Powered AI Agents: A New Era of Automation\n",
+  "slug": "mcp-powered-ai-agents-new-era-automation-dr-hernani-costa-vuu8e",
+  "folder": "2026-01-21-mcp-powered-ai-agents-new-era-automation-dr-hernani-cos",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/mcp-powered-ai-agents-new-era-automation-dr-hernani-costa-vuu8e\n",
+  "tags": [
+    "MCP-powered AI agents",
+    "automation transformation",
+    "AI-driven workflows",
+    "intelligent coding assistants",
+    "dynamic process management",
+    "AI in customer support",
+    "no-code automation coexistence"
+  ],
+  "word_count": 726,
+  "read_time_minutes": 4,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "AI Workflow Automation",
+    "AI for Operations"
+  ]
 }

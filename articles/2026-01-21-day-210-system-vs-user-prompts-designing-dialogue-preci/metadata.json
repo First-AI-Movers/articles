@@ -1,22 +1,27 @@
 {
-    "id":"recWVwnCFWU31yhxW",
-    "title":"
-(Day 2/10) System-vs-User Prompts: Designing Dialogue for Precision
-",
-    "slug":"day-210-system-vs-user-prompts-designing-dialogue-precision-costa-mcbre",
-    "folder": "2026-01-21-day-210-system-vs-user-prompts-designing-dialogue-preci",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/day-210-system-vs-user-prompts-designing-dialogue-precision-costa-mcbre
-",
-    "tags":["AI governance for European SMEs","health-focused AI prompts","user prompt types","system prompt structure"],
-    "word_count": 290,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recWVwnCFWU31yhxW",
+  "title": "\n(Day 2/10) System-vs-User Prompts: Designing Dialogue for Precision\n",
+  "slug": "day-210-system-vs-user-prompts-designing-dialogue-precision-costa-mcbre",
+  "folder": "2026-01-21-day-210-system-vs-user-prompts-designing-dialogue-preci",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/day-210-system-vs-user-prompts-designing-dialogue-precision-costa-mcbre\n",
+  "tags": [
+    "AI governance for European SMEs",
+    "health-focused AI prompts",
+    "user prompt types",
+    "system prompt structure"
+  ],
+  "word_count": 290,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI"
+  ]
 }

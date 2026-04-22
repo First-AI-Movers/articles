@@ -245,7 +245,7 @@ It contains every article's title, publication date, tags, funnel stage (top/mid
 
 **Quick stats:**
 - **769** articles indexed
-- **3,686** unique topic tags
+- **102** canonical topics
 - **3 funnel stages:** top (221 articles), middle (541), bottom (7)
 - **Date range:** February 17, 2025 – April 20, 2026
 - **Cadence:** Multiple articles per week

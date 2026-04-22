@@ -1,18 +1,29 @@
 {
-    "id":"recneuCyCNeeVcusI",
-    "title":"Time-Series LLMs: Your Body's Timeline Gets Its Own AI Interpreter",
-    "slug":"time-series-llms-ai-health-interpreter-2026",
-    "folder": "2026-02-14-time-series-llms-ai-health-interpreter-2026",
-    "published_date": "2026-02-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/time-series-llms-ai-health-interpreter-2026",
-    "tags":["time-series data analysis","health monitoring AI","personalized health insights","AI coaching for wellness","wearable technology integration","longitudinal health intelligence"],
-    "word_count": 3706,
-    "read_time_minutes":17,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recneuCyCNeeVcusI",
+  "title": "Time-Series LLMs: Your Body's Timeline Gets Its Own AI Interpreter",
+  "slug": "time-series-llms-ai-health-interpreter-2026",
+  "folder": "2026-02-14-time-series-llms-ai-health-interpreter-2026",
+  "published_date": "2026-02-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/time-series-llms-ai-health-interpreter-2026",
+  "tags": [
+    "time-series data analysis",
+    "health monitoring AI",
+    "personalized health insights",
+    "AI coaching for wellness",
+    "wearable technology integration",
+    "longitudinal health intelligence"
+  ],
+  "word_count": 3706,
+  "read_time_minutes": 17,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Observability",
+    "Healthcare AI"
+  ]
 }

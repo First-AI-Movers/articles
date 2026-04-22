@@ -1,18 +1,32 @@
 {
-    "id":"recSmQJh19OAGcfiW",
-    "title":"Claude Code Hooks and MCP Integration Explained",
-    "slug":"claude-code-hooks-mcp-integration-dev-workflow-2026",
-    "folder": "2026-04-14-claude-code-hooks-mcp-integration-dev-workflow-2026",
-    "published_date": "2026-04-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-code-hooks-mcp-integration-dev-workflow-2026",
-    "tags":["Claude Code automation","MCP server integration","dev workflow optimization","hooks system for developers","AI tooling for SMEs","software team productivity"],
-    "word_count": 1395,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recSmQJh19OAGcfiW",
+  "title": "Claude Code Hooks and MCP Integration Explained",
+  "slug": "claude-code-hooks-mcp-integration-dev-workflow-2026",
+  "folder": "2026-04-14-claude-code-hooks-mcp-integration-dev-workflow-2026",
+  "published_date": "2026-04-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-code-hooks-mcp-integration-dev-workflow-2026",
+  "tags": [
+    "Claude Code automation",
+    "MCP server integration",
+    "dev workflow optimization",
+    "hooks system for developers",
+    "AI tooling for SMEs",
+    "software team productivity"
+  ],
+  "word_count": 1395,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Code",
+    "Model Context Protocol",
+    "AI Workflow Automation",
+    "European SME AI",
+    "AI Productivity Tools"
+  ]
 }

@@ -1,18 +1,31 @@
 {
-    "id":"rec8GTNwsgAqKun7e",
-    "title":"🎓 YouTube: Your Free AI University — 10 Channels That Beat Expensive Courses",
-    "slug":"ai-10-youtube-channels-free-education",
-    "folder": "2025-11-03-ai-10-youtube-channels-free-education",
-    "published_date": "2025-11-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-10-youtube-channels-free-education",
-    "tags":["YouTube AI education","AI learning channels","AI skills development","practical AI applications","AI automation workflows","AI for European SMEs"],
-    "word_count": 2845,
-    "read_time_minutes":13,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec8GTNwsgAqKun7e",
+  "title": "🎓 YouTube: Your Free AI University — 10 Channels That Beat Expensive Courses",
+  "slug": "ai-10-youtube-channels-free-education",
+  "folder": "2025-11-03-ai-10-youtube-channels-free-education",
+  "published_date": "2025-11-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-10-youtube-channels-free-education",
+  "tags": [
+    "YouTube AI education",
+    "AI learning channels",
+    "AI skills development",
+    "practical AI applications",
+    "AI automation workflows",
+    "AI for European SMEs"
+  ],
+  "word_count": 2845,
+  "read_time_minutes": 13,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "YouTube Strategy",
+    "Education AI",
+    "AI Training",
+    "European SME AI"
+  ]
 }

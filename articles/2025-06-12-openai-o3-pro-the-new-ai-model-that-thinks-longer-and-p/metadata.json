@@ -1,18 +1,30 @@
 {
-    "id":"recxLA2SEOZuhyWug",
-    "title":"OpenAI o3‑pro: The New AI Model That Thinks Longer and Performs Better",
-    "slug":"openai-o3-pro-the-new-ai-model-that-thinks-longer-and-performs-better-00d367833f1b",
-    "folder": "2025-06-12-openai-o3-pro-the-new-ai-model-that-thinks-longer-and-p",
-    "published_date": "2025-06-12",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/openai-o3-pro-the-new-ai-model-that-thinks-longer-and-performs-better-00d367833f1b",
-    "tags":["OpenAI model updates","AI reasoning improvements","ChatGPT Pro features","AI tool integration for SMEs","advanced AI capabilities","AI-driven solutions for businesses"],
-    "word_count": 1395,
-    "read_time_minutes":7,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recxLA2SEOZuhyWug",
+  "title": "OpenAI o3‑pro: The New AI Model That Thinks Longer and Performs Better",
+  "slug": "openai-o3-pro-the-new-ai-model-that-thinks-longer-and-performs-better-00d367833f1b",
+  "folder": "2025-06-12-openai-o3-pro-the-new-ai-model-that-thinks-longer-and-p",
+  "published_date": "2025-06-12",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/openai-o3-pro-the-new-ai-model-that-thinks-longer-and-performs-better-00d367833f1b",
+  "tags": [
+    "OpenAI model updates",
+    "AI reasoning improvements",
+    "ChatGPT Pro features",
+    "AI tool integration for SMEs",
+    "advanced AI capabilities",
+    "AI-driven solutions for businesses"
+  ],
+  "word_count": 1395,
+  "read_time_minutes": 7,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Frontier Models",
+    "GPT Models",
+    "European SME AI"
+  ]
 }

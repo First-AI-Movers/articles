@@ -1,18 +1,32 @@
 {
-    "id":"recv0jfOOBsPwawMK",
-    "title":"CGM vs. Fingerstick: The Truth About Glucose Monitoring Accuracy (And Why It Matters More Than You…",
-    "slug":"a2e90ff4c1ce",
-    "folder": "2025-09-02-a2e90ff4c1ce",
-    "published_date": "2025-09-02",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://medium.com/p/a2e90ff4c1ce",
-    "tags":["glucose monitoring accuracy","CGM vs fingerstick","diabetes management tools","AI in health prediction","continuous glucose monitoring","blood glucose meter comparison","health data insights"],
-    "word_count": 1555,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recv0jfOOBsPwawMK",
+  "title": "CGM vs. Fingerstick: The Truth About Glucose Monitoring Accuracy (And Why It Matters More Than You…",
+  "slug": "a2e90ff4c1ce",
+  "folder": "2025-09-02-a2e90ff4c1ce",
+  "published_date": "2025-09-02",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://medium.com/p/a2e90ff4c1ce",
+  "tags": [
+    "glucose monitoring accuracy",
+    "CGM vs fingerstick",
+    "diabetes management tools",
+    "AI in health prediction",
+    "continuous glucose monitoring",
+    "blood glucose meter comparison",
+    "health data insights"
+  ],
+  "word_count": 1555,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Observability",
+    "Healthcare AI",
+    "France and Benelux AI",
+    "European SME AI"
+  ]
 }

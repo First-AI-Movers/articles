@@ -1,18 +1,30 @@
 {
-    "id":"recbrtLOeZQGtI8kv",
-    "title":"Why AI Rollouts Fail: A Change Management Playbook for European SME Teams",
-    "slug":"ai-change-management-european-sme-teams-2026",
-    "folder": "2026-04-17-ai-change-management-european-sme-teams-2026",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-change-management-european-sme-teams-2026",
-    "tags":["AI adoption strategies for SMEs","change management in European firms","overcoming AI resistance","AI tool implementation","workflow mapping for AI","psychological safety in AI use"],
-    "word_count": 1575,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recbrtLOeZQGtI8kv",
+  "title": "Why AI Rollouts Fail: A Change Management Playbook for European SME Teams",
+  "slug": "ai-change-management-european-sme-teams-2026",
+  "folder": "2026-04-17-ai-change-management-european-sme-teams-2026",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-change-management-european-sme-teams-2026",
+  "tags": [
+    "AI adoption strategies for SMEs",
+    "change management in European firms",
+    "overcoming AI resistance",
+    "AI tool implementation",
+    "workflow mapping for AI",
+    "psychological safety in AI use"
+  ],
+  "word_count": 1575,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "AI Change Management"
+  ]
 }

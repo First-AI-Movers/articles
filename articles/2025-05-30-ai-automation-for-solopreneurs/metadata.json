@@ -1,18 +1,29 @@
 {
-    "id":"recqH0v6fDP11PdFA",
-    "title":"AI Automation for Solopreneurs: The Solo Business Advantage",
-    "slug":"ai-automation-for-solopreneurs",
-    "folder": "2025-05-30-ai-automation-for-solopreneurs",
-    "published_date": "2025-05-30",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-automation-for-solopreneurs",
-    "tags":["AI automation for solopreneurs","impact of AI on small businesses","solopreneur growth trends","AI tools for one-person businesses","digital tools for entrepreneurs","AI-driven efficiency in startups"],
-    "word_count": 683,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recqH0v6fDP11PdFA",
+  "title": "AI Automation for Solopreneurs: The Solo Business Advantage",
+  "slug": "ai-automation-for-solopreneurs",
+  "folder": "2025-05-30-ai-automation-for-solopreneurs",
+  "published_date": "2025-05-30",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-automation-for-solopreneurs",
+  "tags": [
+    "AI automation for solopreneurs",
+    "impact of AI on small businesses",
+    "solopreneur growth trends",
+    "AI tools for one-person businesses",
+    "digital tools for entrepreneurs",
+    "AI-driven efficiency in startups"
+  ],
+  "word_count": 683,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "B2B SaaS Growth",
+    "European SME AI"
+  ]
 }

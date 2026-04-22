@@ -1,18 +1,31 @@
 {
-    "id":"rec70OujX6bMEXt0j",
-    "title":"Master AI in 90 Days: Why YouTube Beats $10,000 Bootcamps",
-    "slug":"ai-youtube-channels-mastery-guide",
-    "folder": "2025-11-09-ai-youtube-channels-mastery-guide",
-    "published_date": "2025-11-09",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-youtube-channels-mastery-guide",
-    "tags":["AI education gap","YouTube learning for AI","strategic tutoring in AI","practical AI application","AI capability development","AI training for SMEs"],
-    "word_count": 721,
-    "read_time_minutes":4,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec70OujX6bMEXt0j",
+  "title": "Master AI in 90 Days: Why YouTube Beats $10,000 Bootcamps",
+  "slug": "ai-youtube-channels-mastery-guide",
+  "folder": "2025-11-09-ai-youtube-channels-mastery-guide",
+  "published_date": "2025-11-09",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-youtube-channels-mastery-guide",
+  "tags": [
+    "AI education gap",
+    "YouTube learning for AI",
+    "strategic tutoring in AI",
+    "practical AI application",
+    "AI capability development",
+    "AI training for SMEs"
+  ],
+  "word_count": 721,
+  "read_time_minutes": 4,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Education AI",
+    "YouTube Strategy",
+    "European SME AI",
+    "AI Training"
+  ]
 }

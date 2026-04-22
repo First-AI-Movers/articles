@@ -1,18 +1,32 @@
 {
-    "id":"rechBp1gQr4rDoDkc",
-    "title":"DeepSeek AI Model Breakthrough and Dell's AI Revenue Growth",
-    "slug":"deepseek-ai-model-dell-ai-revenue-global-news",
-    "folder": "2025-06-01-deepseek-ai-model-dell-ai-revenue-global-news",
-    "published_date": "2025-06-01",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/deepseek-ai-model-dell-ai-revenue-global-news",
-    "tags":["DeepSeek AI model breakthrough","Dell AI revenue growth","AI-driven enterprise strategy","AI in healthcare advancements","AI in education updates","AI in agriculture innovation","AI in energy solutions"],
-    "word_count": 661,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rechBp1gQr4rDoDkc",
+  "title": "DeepSeek AI Model Breakthrough and Dell's AI Revenue Growth",
+  "slug": "deepseek-ai-model-dell-ai-revenue-global-news",
+  "folder": "2025-06-01-deepseek-ai-model-dell-ai-revenue-global-news",
+  "published_date": "2025-06-01",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/deepseek-ai-model-dell-ai-revenue-global-news",
+  "tags": [
+    "DeepSeek AI model breakthrough",
+    "Dell AI revenue growth",
+    "AI-driven enterprise strategy",
+    "AI in healthcare advancements",
+    "AI in education updates",
+    "AI in agriculture innovation",
+    "AI in energy solutions"
+  ],
+  "word_count": 661,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Chinese LLMs",
+    "Healthcare AI",
+    "Education AI",
+    "Energy AI"
+  ]
 }

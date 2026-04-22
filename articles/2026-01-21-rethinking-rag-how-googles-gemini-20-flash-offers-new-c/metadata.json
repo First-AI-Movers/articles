@@ -1,22 +1,32 @@
 {
-    "id":"recMGqoEH5RjYVqWR",
-    "title":"
-Rethinking RAG: How Google's Gemini 2.0 Flash Offers a New Paradigm in AI Retrieval
-",
-    "slug":"rethinking-rag-how-googles-gemini-20-flash-offers-new-costa-smebe",
-    "folder": "2026-01-21-rethinking-rag-how-googles-gemini-20-flash-offers-new-c",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/rethinking-rag-how-googles-gemini-20-flash-offers-new-costa-smebe
-",
-    "tags":["AI document processing solutions","Gemini 2.0 Flash overview","RAG system advancements","contextual AI retrieval strategies","hybrid AI methodologies","European SME AI adoption"],
-    "word_count": 487,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recMGqoEH5RjYVqWR",
+  "title": "\nRethinking RAG: How Google's Gemini 2.0 Flash Offers a New Paradigm in AI Retrieval\n",
+  "slug": "rethinking-rag-how-googles-gemini-20-flash-offers-new-costa-smebe",
+  "folder": "2026-01-21-rethinking-rag-how-googles-gemini-20-flash-offers-new-c",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/rethinking-rag-how-googles-gemini-20-flash-offers-new-costa-smebe\n",
+  "tags": [
+    "AI document processing solutions",
+    "Gemini 2.0 Flash overview",
+    "RAG system advancements",
+    "contextual AI retrieval strategies",
+    "hybrid AI methodologies",
+    "European SME AI adoption"
+  ],
+  "word_count": 487,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Document Automation",
+    "Gemini Models",
+    "RAG Architecture",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

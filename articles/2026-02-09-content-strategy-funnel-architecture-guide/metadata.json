@@ -1,18 +1,32 @@
 {
-    "id":"recSe1GrjgbgRUa5O",
-    "title":"Your Website Is Answering the Wrong Questions",
-    "slug":"content-strategy-funnel-architecture-guide",
-    "folder": "2026-02-09-content-strategy-funnel-architecture-guide",
-    "published_date": "2026-02-09",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/content-strategy-funnel-architecture-guide",
-    "tags":["content strategy for AI consulting","buyer intent in digital marketing","top of funnel content examples","AI automation consultant Netherlands","website architecture for conversions","educational content for SMEs"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recSe1GrjgbgRUa5O",
+  "title": "Your Website Is Answering the Wrong Questions",
+  "slug": "content-strategy-funnel-architecture-guide",
+  "folder": "2026-02-09-content-strategy-funnel-architecture-guide",
+  "published_date": "2026-02-09",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/content-strategy-funnel-architecture-guide",
+  "tags": [
+    "content strategy for AI consulting",
+    "buyer intent in digital marketing",
+    "top of funnel content examples",
+    "AI automation consultant Netherlands",
+    "website architecture for conversions",
+    "educational content for SMEs"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Content Strategy",
+    "AI Consulting",
+    "Netherlands AI",
+    "European SME AI",
+    "Education AI"
+  ]
 }

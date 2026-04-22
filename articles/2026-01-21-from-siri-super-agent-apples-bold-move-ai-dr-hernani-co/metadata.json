@@ -1,22 +1,31 @@
 {
-    "id":"recmtXFILaCrf5YCk",
-    "title":"
-From Siri to Super-Agent: Apple's Bold Move in AI
-",
-    "slug":"from-siri-super-agent-apples-bold-move-ai-dr-hernani-costa-oigne",
-    "folder": "2026-01-21-from-siri-super-agent-apples-bold-move-ai-dr-hernani-co",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/from-siri-super-agent-apples-bold-move-ai-dr-hernani-costa-oigne
-",
-    "tags":["Apple AI integration","Siri transformation","smartphone AI interface","privacy-first AI ecosystem","AI competition in Europe","future of wearable technology","generative AI advancements"],
-    "word_count": 487,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recmtXFILaCrf5YCk",
+  "title": "\nFrom Siri to Super-Agent: Apple's Bold Move in AI\n",
+  "slug": "from-siri-super-agent-apples-bold-move-ai-dr-hernani-costa-oigne",
+  "folder": "2026-01-21-from-siri-super-agent-apples-bold-move-ai-dr-hernani-co",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/from-siri-super-agent-apples-bold-move-ai-dr-hernani-costa-oigne\n",
+  "tags": [
+    "Apple AI integration",
+    "Siri transformation",
+    "smartphone AI interface",
+    "privacy-first AI ecosystem",
+    "AI competition in Europe",
+    "future of wearable technology",
+    "generative AI advancements"
+  ],
+  "word_count": 487,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "AI Industry News",
+    "GDPR & Data Privacy"
+  ]
 }

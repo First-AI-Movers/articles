@@ -1,22 +1,31 @@
 {
-    "id":"recJ8wYT5vsm297Qp",
-    "title":"
-The AI Revolution: It's Not About Tools - It's About People
-",
-    "slug":"ai-revolution-its-toolsits-people-dr-hernani-costa-rijze",
-    "folder": "2026-01-21-ai-revolution-its-toolsits-people-dr-hernani-costa-rijz",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/ai-revolution-its-toolsits-people-dr-hernani-costa-rijze
-",
-    "tags":["AI adoption strategies for SMEs","empowering teams with AI","AI tools and workforce transformation","AI innovation in European businesses","upskilling for AI readiness","AI experimentation culture"],
-    "word_count": 366,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recJ8wYT5vsm297Qp",
+  "title": "\nThe AI Revolution: It's Not About Tools - It's About People\n",
+  "slug": "ai-revolution-its-toolsits-people-dr-hernani-costa-rijze",
+  "folder": "2026-01-21-ai-revolution-its-toolsits-people-dr-hernani-costa-rijz",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/ai-revolution-its-toolsits-people-dr-hernani-costa-rijze\n",
+  "tags": [
+    "AI adoption strategies for SMEs",
+    "empowering teams with AI",
+    "AI tools and workforce transformation",
+    "AI innovation in European businesses",
+    "upskilling for AI readiness",
+    "AI experimentation culture"
+  ],
+  "word_count": 366,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "AI Readiness",
+    "AI Training"
+  ]
 }

@@ -1,22 +1,33 @@
 {
-    "id":"recUibz2qJhqYbgOe",
-    "title":"
-What Google I/O 2025 Really Means for AI Founders
-",
-    "slug":"what-google-io-2025-really-means-ai-founders-dr-hernani-costa-rddfe",
-    "folder": "2026-01-21-what-google-io-2025-really-means-ai-founders-dr-hernani",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/what-google-io-2025-really-means-ai-founders-dr-hernani-costa-rddfe
-",
-    "tags":["AI product development tools","AI-driven feature deployment","asynchronous coding agents","cloud-based application development","real-world AI agent capabilities","AI pair programming benefits","Google I/O 2025 insights"],
-    "word_count": 525,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recUibz2qJhqYbgOe",
+  "title": "\nWhat Google I/O 2025 Really Means for AI Founders\n",
+  "slug": "what-google-io-2025-really-means-ai-founders-dr-hernani-costa-rddfe",
+  "folder": "2026-01-21-what-google-io-2025-really-means-ai-founders-dr-hernani",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/what-google-io-2025-really-means-ai-founders-dr-hernani-costa-rddfe\n",
+  "tags": [
+    "AI product development tools",
+    "AI-driven feature deployment",
+    "asynchronous coding agents",
+    "cloud-based application development",
+    "real-world AI agent capabilities",
+    "AI pair programming benefits",
+    "Google I/O 2025 insights"
+  ],
+  "word_count": 525,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Coding Agent Architecture",
+    "AI Coding Tools",
+    "AI Agents",
+    "AI Pair Programming",
+    "AI Industry News"
+  ]
 }

@@ -1,18 +1,29 @@
 {
-    "id":"rec3SAWG75huPeDZj",
-    "title":"S01E05 Prompting in Practice: Examples for Your ChatGPT Toolbox",
-    "slug":"s01e05-prompting-in-practice-examples-for-your-chatgpt-toolbox-fc5dfc686bea",
-    "folder": "2025-06-05-s01e05-prompting-in-practice-examples-for-your-chatgpt-",
-    "published_date": "2025-06-05",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/s01e05-prompting-in-practice-examples-for-your-chatgpt-toolbox-fc5dfc686bea",
-    "tags":["ChatGPT prompting strategies","AI tool optimization","creative idea generation","technical concept explanation","learning plan development","AI interaction techniques"],
-    "word_count": 661,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec3SAWG75huPeDZj",
+  "title": "S01E05 Prompting in Practice: Examples for Your ChatGPT Toolbox",
+  "slug": "s01e05-prompting-in-practice-examples-for-your-chatgpt-toolbox-fc5dfc686bea",
+  "folder": "2025-06-05-s01e05-prompting-in-practice-examples-for-your-chatgpt-",
+  "published_date": "2025-06-05",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/s01e05-prompting-in-practice-examples-for-your-chatgpt-toolbox-fc5dfc686bea",
+  "tags": [
+    "ChatGPT prompting strategies",
+    "AI tool optimization",
+    "creative idea generation",
+    "technical concept explanation",
+    "learning plan development",
+    "AI interaction techniques"
+  ],
+  "word_count": 661,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GPT Models",
+    "Prompt Engineering"
+  ]
 }

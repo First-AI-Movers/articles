@@ -1,18 +1,30 @@
 {
-    "id":"recsxdlZkOAupaVO0",
-    "title":"From Figma to Production: How AI-Native Teams Compress the Frontend Cycle",
-    "slug":"figma-to-production-ai-native-frontend-workflow",
-    "folder": "2026-03-26-figma-to-production-ai-native-frontend-workflow",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/figma-to-production-ai-native-frontend-workflow",
-    "tags":["Figma to production workflow","AI-native frontend development","design-to-code integration","frontend cycle optimization","AI in software engineering","Claude Code Figma plugin","React Flow for SaaS"],
-    "word_count": 1552,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recsxdlZkOAupaVO0",
+  "title": "From Figma to Production: How AI-Native Teams Compress the Frontend Cycle",
+  "slug": "figma-to-production-ai-native-frontend-workflow",
+  "folder": "2026-03-26-figma-to-production-ai-native-frontend-workflow",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/figma-to-production-ai-native-frontend-workflow",
+  "tags": [
+    "Figma to production workflow",
+    "AI-native frontend development",
+    "design-to-code integration",
+    "frontend cycle optimization",
+    "AI in software engineering",
+    "Claude Code Figma plugin",
+    "React Flow for SaaS"
+  ],
+  "word_count": 1552,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Code",
+    "B2B SaaS Growth"
+  ]
 }

@@ -1,18 +1,30 @@
 {
-    "id":"rec0MpjKIjKCQ1Ivd",
-    "title":"95% AI Adoption, 5% Value Creation: How Dutch SMEs Can Close the Gap in 2026",
-    "slug":"ai-adoption-netherlands-sme-2026",
-    "folder": "2025-12-08-ai-adoption-netherlands-sme-2026",
-    "published_date": "2025-12-08",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-adoption-netherlands-sme-2026",
-    "tags":["AI adoption in Dutch SMEs","value creation through AI","skills gap in AI implementation","workflow redesign for AI","measuring AI success"],
-    "word_count": 30,
-    "read_time_minutes":1,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec0MpjKIjKCQ1Ivd",
+  "title": "95% AI Adoption, 5% Value Creation: How Dutch SMEs Can Close the Gap in 2026",
+  "slug": "ai-adoption-netherlands-sme-2026",
+  "folder": "2025-12-08-ai-adoption-netherlands-sme-2026",
+  "published_date": "2025-12-08",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-adoption-netherlands-sme-2026",
+  "tags": [
+    "AI adoption in Dutch SMEs",
+    "value creation through AI",
+    "skills gap in AI implementation",
+    "workflow redesign for AI",
+    "measuring AI success"
+  ],
+  "word_count": 30,
+  "read_time_minutes": 1,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "Netherlands AI",
+    "AI Strategy",
+    "AI Training"
+  ]
 }

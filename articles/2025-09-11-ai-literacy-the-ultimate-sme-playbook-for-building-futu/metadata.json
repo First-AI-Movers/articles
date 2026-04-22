@@ -1,18 +1,32 @@
 {
-    "id":"rec1I4T4H1AaoF2u3",
-    "title":"AI Literacy: The Ultimate SME Playbook for Building Future-Ready Teams in 2025",
-    "slug":"ai-literacy-the-ultimate-sme-playbook-for-building-future-ready-teams-in-2025",
-    "folder": "2025-09-11-ai-literacy-the-ultimate-sme-playbook-for-building-futu",
-    "published_date": "2025-09-11",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-literacy-the-ultimate-sme-playbook-for-building-future-ready-teams-in-2025",
-    "tags":["AI literacy for SMEs","building future-ready teams","AI ethics and responsibility","AI training frameworks for businesses","human-centered AI applications","AI adoption challenges in SMEs"],
-    "word_count": 1525,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec1I4T4H1AaoF2u3",
+  "title": "AI Literacy: The Ultimate SME Playbook for Building Future-Ready Teams in 2025",
+  "slug": "ai-literacy-the-ultimate-sme-playbook-for-building-future-ready-teams-in-2025",
+  "folder": "2025-09-11-ai-literacy-the-ultimate-sme-playbook-for-building-futu",
+  "published_date": "2025-09-11",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-literacy-the-ultimate-sme-playbook-for-building-future-ready-teams-in-2025",
+  "tags": [
+    "AI literacy for SMEs",
+    "building future-ready teams",
+    "AI ethics and responsibility",
+    "AI training frameworks for businesses",
+    "human-centered AI applications",
+    "AI adoption challenges in SMEs"
+  ],
+  "word_count": 1525,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Literacy",
+    "AI Ethics",
+    "AI Training",
+    "AI Strategy"
+  ]
 }

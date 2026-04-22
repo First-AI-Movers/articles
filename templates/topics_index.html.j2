@@ -1,0 +1,14 @@
+{% extends "base.html.j2" %}
+{% block title %}All Topics — First AI Movers Archive{% endblock %}
+{% block description %}Browse all {{ topic_entries|length }} canonical topics covered in the First AI Movers article archive — {{ topics_with_page|length }} topic hub pages linking to {{ stats.total }} articles on AI strategy, governance, and agentic systems.{% endblock %}
+
+{% block content %}
+<h1>All Topics</h1>
+<p class="lede">{{ topic_entries|length }} canonical topics across {{ stats.total }} articles. {{ topics_with_page|length }} topics have dedicated hub pages; topics with fewer than {{ min_articles_for_page }} articles are shown inline.</p>
+
+<ul class="topic-list">
+{% for entry in topic_entries %}
+  <li>{% if entry.slug %}<a href="{{ rel_root }}topics/{{ entry.slug }}/">{{ entry.name }}</a>{% else %}<span class="inert">{{ entry.name }}</span>{% endif %}<span class="count">({{ entry.count }})</span></li>
+{% endfor %}
+</ul>
+{% endblock %}

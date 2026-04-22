@@ -1,18 +1,29 @@
 {
-    "id":"recAy2emtJOIsOwSp",
-    "title":"The Air We Breathe — Tech’s Next Frontier",
-    "slug":"the-air-we-breathe-techs-next-frontier-fe7ad7be3875",
-    "folder": "2025-05-27-the-air-we-breathe-techs-next-frontier-fe7ad7be3875",
-    "published_date": "2025-05-27",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/the-air-we-breathe-techs-next-frontier-fe7ad7be3875",
-    "tags":["air quality monitoring solutions","AI-driven environmental health","real-time pollution sensors","smart wearable technology","urban air quality management","data-driven health insights"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recAy2emtJOIsOwSp",
+  "title": "The Air We Breathe — Tech’s Next Frontier",
+  "slug": "the-air-we-breathe-techs-next-frontier-fe7ad7be3875",
+  "folder": "2025-05-27-the-air-we-breathe-techs-next-frontier-fe7ad7be3875",
+  "published_date": "2025-05-27",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/the-air-we-breathe-techs-next-frontier-fe7ad7be3875",
+  "tags": [
+    "air quality monitoring solutions",
+    "AI-driven environmental health",
+    "real-time pollution sensors",
+    "smart wearable technology",
+    "urban air quality management",
+    "data-driven health insights"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Observability",
+    "Healthcare AI"
+  ]
 }

@@ -1,18 +1,36 @@
 {
-    "id":"rec9AexpBBVcKt6S6",
-    "title":"Local Roots, Global Intelligence: How First AI Movers Serves the Netherlands and Beyond",
-    "slug":"ai-consulting-netherlands-global",
-    "folder": "2026-01-08-ai-consulting-netherlands-global",
-    "published_date": "2026-01-08",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-consulting-netherlands-global",
-    "tags":["AI adoption for SMEs","digital transformation in logistics","AI strategy for European startups","remote AI consulting services","business process optimization","AI governance and compliance"],
-    "word_count": 1035,
-    "read_time_minutes":5,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" ai-strategy","automation-design "],
-    "status": "published"
+  "id": "rec9AexpBBVcKt6S6",
+  "title": "Local Roots, Global Intelligence: How First AI Movers Serves the Netherlands and Beyond",
+  "slug": "ai-consulting-netherlands-global",
+  "folder": "2026-01-08-ai-consulting-netherlands-global",
+  "published_date": "2026-01-08",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-consulting-netherlands-global",
+  "tags": [
+    "AI adoption for SMEs",
+    "digital transformation in logistics",
+    "AI strategy for European startups",
+    "remote AI consulting services",
+    "business process optimization",
+    "AI governance and compliance"
+  ],
+  "word_count": 1035,
+  "read_time_minutes": 5,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "ai-strategy",
+    "automation-design"
+  ],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "AI Change Management",
+    "B2B SaaS Growth",
+    "AI Consulting",
+    "Business Process Automation"
+  ]
 }

@@ -1,18 +1,30 @@
 {
-    "id":"rec6YnpK9ErTC5rxj",
-    "title":"React Flow vs Cytoscape: Choose the Right Graph Engine",
-    "slug":"react-flow-vs-cytoscape-graph-engine-choice",
-    "folder": "2026-03-26-react-flow-vs-cytoscape-graph-engine-choice",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/react-flow-vs-cytoscape-graph-engine-choice",
-    "tags":["React Flow for workflow builders","Cytoscape.js for graph analysis","AI-native SaaS authoring tools","graph visualization for SMEs","node-based product interfaces","graph layout optimization","user behavior in graph applications"],
-    "word_count": 1395,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec6YnpK9ErTC5rxj",
+  "title": "React Flow vs Cytoscape: Choose the Right Graph Engine",
+  "slug": "react-flow-vs-cytoscape-graph-engine-choice",
+  "folder": "2026-03-26-react-flow-vs-cytoscape-graph-engine-choice",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/react-flow-vs-cytoscape-graph-engine-choice",
+  "tags": [
+    "React Flow for workflow builders",
+    "Cytoscape.js for graph analysis",
+    "AI-native SaaS authoring tools",
+    "graph visualization for SMEs",
+    "node-based product interfaces",
+    "graph layout optimization",
+    "user behavior in graph applications"
+  ],
+  "word_count": 1395,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "B2B SaaS Growth",
+    "European SME AI"
+  ]
 }

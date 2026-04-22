@@ -1,22 +1,33 @@
 {
-    "id":"recOc2KFMfkbmPkZC",
-    "title":"
-The Dutch Startup Ecosystem: Challenges and Opportunities in a Global Context
-",
-    "slug":"dutch-startup-ecosystem-challenges-opportunities-global-costa-ckwwe",
-    "folder": "2026-01-21-dutch-startup-ecosystem-challenges-opportunities-global",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/dutch-startup-ecosystem-challenges-opportunities-global-costa-ckwwe
-",
-    "tags":["Dutch startup ecosystem challenges","European venture capital trends","deep tech investment opportunities","international talent recruitment","startup regulatory climate","late-stage financing solutions"],
-    "word_count": 354,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recOc2KFMfkbmPkZC",
+  "title": "\nThe Dutch Startup Ecosystem: Challenges and Opportunities in a Global Context\n",
+  "slug": "dutch-startup-ecosystem-challenges-opportunities-global-costa-ckwwe",
+  "folder": "2026-01-21-dutch-startup-ecosystem-challenges-opportunities-global",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/dutch-startup-ecosystem-challenges-opportunities-global-costa-ckwwe\n",
+  "tags": [
+    "Dutch startup ecosystem challenges",
+    "European venture capital trends",
+    "deep tech investment opportunities",
+    "international talent recruitment",
+    "startup regulatory climate",
+    "late-stage financing solutions"
+  ],
+  "word_count": 354,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Netherlands AI",
+    "European SME AI",
+    "B2B SaaS Growth",
+    "AI Investment",
+    "AI Team Hiring",
+    "AI Regulation"
+  ]
 }

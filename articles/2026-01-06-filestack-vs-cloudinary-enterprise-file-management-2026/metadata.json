@@ -1,18 +1,30 @@
 {
-    "id":"recb0Xzg5J9baeF1M",
-    "title":"Filestack vs. Cloudinary: The 2026 Enterprise File Management Playbook",
-    "slug":"filestack-vs-cloudinary-enterprise-file-management-2026",
-    "folder": "2026-01-06-filestack-vs-cloudinary-enterprise-file-management-2026",
-    "published_date": "2026-01-06",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/filestack-vs-cloudinary-enterprise-file-management-2026",
-    "tags":["file management strategies","digital asset management for SMEs","AI-driven media transformations","cloud storage solutions","enterprise file ingestion","cost-effective file delivery","automation in file handling"],
-    "word_count": 1037,
-    "read_time_minutes":5,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recb0Xzg5J9baeF1M",
+  "title": "Filestack vs. Cloudinary: The 2026 Enterprise File Management Playbook",
+  "slug": "filestack-vs-cloudinary-enterprise-file-management-2026",
+  "folder": "2026-01-06-filestack-vs-cloudinary-enterprise-file-management-2026",
+  "published_date": "2026-01-06",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/filestack-vs-cloudinary-enterprise-file-management-2026",
+  "tags": [
+    "file management strategies",
+    "digital asset management for SMEs",
+    "AI-driven media transformations",
+    "cloud storage solutions",
+    "enterprise file ingestion",
+    "cost-effective file delivery",
+    "automation in file handling"
+  ],
+  "word_count": 1037,
+  "read_time_minutes": 5,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Cost Optimization"
+  ]
 }

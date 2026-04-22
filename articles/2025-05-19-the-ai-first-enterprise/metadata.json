@@ -1,18 +1,31 @@
 {
-    "id":"recqIHDJdAqGg6FrY",
-    "title":"The AI-First Enterprise",
-    "slug":"the-ai-first-enterprise",
-    "folder": "2025-05-19-the-ai-first-enterprise",
-    "published_date": "2025-05-19",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/the-ai-first-enterprise",
-    "tags":["AI-driven HR transformation","employee engagement analytics","automated recruitment solutions","AI ethics in HR","future of work strategies","data-driven talent management"],
-    "word_count": 1024,
-    "read_time_minutes":5,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recqIHDJdAqGg6FrY",
+  "title": "The AI-First Enterprise",
+  "slug": "the-ai-first-enterprise",
+  "folder": "2025-05-19-the-ai-first-enterprise",
+  "published_date": "2025-05-19",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/the-ai-first-enterprise",
+  "tags": [
+    "AI-driven HR transformation",
+    "employee engagement analytics",
+    "automated recruitment solutions",
+    "AI ethics in HR",
+    "future of work strategies",
+    "data-driven talent management"
+  ],
+  "word_count": 1024,
+  "read_time_minutes": 5,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI for HR",
+    "AI Ethics",
+    "Future of Work",
+    "AI Team Hiring"
+  ]
 }

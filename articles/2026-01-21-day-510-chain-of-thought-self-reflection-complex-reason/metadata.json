@@ -1,22 +1,31 @@
 {
-    "id":"recbpPFnOK4bFxXyS",
-    "title":"
-(Day 5/10) Chain-of-Thought & Self-Reflection for Complex Reasoning
-",
-    "slug":"day-510-chain-of-thought-self-reflection-complex-reasoning-costa-3kaie",
-    "folder": "2026-01-21-day-510-chain-of-thought-self-reflection-complex-reason",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/day-510-chain-of-thought-self-reflection-complex-reasoning-costa-3kaie
-",
-    "tags":["Chain-of-Thought reasoning techniques","Self-reflection in AI","Healthcare AI applications","AI models for complex reasoning","AI literacy for SMEs","AI strategy for healthcare"],
-    "word_count": 335,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recbpPFnOK4bFxXyS",
+  "title": "\n(Day 5/10) Chain-of-Thought & Self-Reflection for Complex Reasoning\n",
+  "slug": "day-510-chain-of-thought-self-reflection-complex-reasoning-costa-3kaie",
+  "folder": "2026-01-21-day-510-chain-of-thought-self-reflection-complex-reason",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/day-510-chain-of-thought-self-reflection-complex-reasoning-costa-3kaie\n",
+  "tags": [
+    "Chain-of-Thought reasoning techniques",
+    "Self-reflection in AI",
+    "Healthcare AI applications",
+    "AI models for complex reasoning",
+    "AI literacy for SMEs",
+    "AI strategy for healthcare"
+  ],
+  "word_count": 335,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Healthcare AI",
+    "European SME AI",
+    "AI Literacy",
+    "AI Strategy"
+  ]
 }

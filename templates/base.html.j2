@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site_title }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ site_description }}{% endblock %}">
+{% block robots %}<meta name="robots" content="index, follow">{% endblock %}
+{% block canonical %}<link rel="canonical" href="{{ site_url }}{{ page_path }}">{% endblock %}
+
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
+<meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+<meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
+<meta property="og:url" content="{{ site_url }}{{ page_path }}">
+<meta property="og:site_name" content="First AI Movers — Article Archive">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{% block tw_title %}{{ self.title() }}{% endblock %}">
+<meta name="twitter:description" content="{% block tw_description %}{{ self.description() }}{% endblock %}">
+
+<link rel="alternate" type="application/atom+xml" title="Atom feed" href="{{ site_url }}/feed.xml">
+<link rel="stylesheet" href="{{ rel_root }}style.css">
+{% block head_extra %}{% endblock %}
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="{{ rel_root }}">First AI Movers — Archive</a>
+  <nav>
+    <a href="{{ rel_root }}">Home</a>
+    <a href="{{ rel_root }}topics/">Topics</a>
+    <a href="{{ rel_root }}about/">About</a>
+    <a href="{{ site_url }}/feed.xml">Feed</a>
+  </nav>
+</header>
+
+<main{% block main_class %}{% endblock %}>
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site">
+  <div class="row">
+    <span>Archive of <a href="https://firstaimovers.com">First AI Movers</a> by <a href="https://drhernanicosta.com">Dr. Hernani Costa</a>, PhD</span>
+  </div>
+  <div class="row">
+    <span>{{ stats.total }} articles · {{ topics_with_page|length }} topic pages · {{ stats.date_min }} to {{ stats.date_max }}</span>
+    <span>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+  </div>
+  <div class="row">
+    <span>Raw data: <a href="{{ site_url }}/index.json">index.json</a> · <a href="{{ site_url }}/llms.txt">llms.txt</a> · <a href="{{ site_url }}/llms-full.txt">llms-full.txt</a> · <a href="{{ site_url }}/feed.xml">feed.xml</a> · <a href="{{ site_url }}/sitemap.xml">sitemap.xml</a></span>
+  </div>
+  <div class="row">
+    <span><a href="https://github.com/First-AI-Movers/articles">View source on GitHub</a></span>
+  </div>
+</footer>
+</body>
+</html>

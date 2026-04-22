@@ -1,18 +1,38 @@
 {
-    "id":"rectpyTMgEsYsynXk",
-    "title":"How SMEs Can Pilot Agentic AI Workflows on $500/Month Budget: Zero-Regrets Implementation Guide",
-    "slug":"agentic-ai-workflows-sme-pilot-framework-2025-95c20f88738d",
-    "folder": "2025-08-19-agentic-ai-workflows-sme-pilot-framework-2025-95c20f887",
-    "published_date": "2025-08-19",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/agentic-ai-workflows-sme-pilot-framework-2025-95c20f88738d",
-    "tags":["AI adoption strategies for SMEs","agentic AI workflows","cost-effective AI implementation","AI productivity gains","ethical AI practices","AI tools for small businesses","fractional AI leadership"],
-    "word_count": 1394,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" fractional-caio","ai-strategy","automation-design "],
-    "status": "published"
+  "id": "rectpyTMgEsYsynXk",
+  "title": "How SMEs Can Pilot Agentic AI Workflows on $500/Month Budget: Zero-Regrets Implementation Guide",
+  "slug": "agentic-ai-workflows-sme-pilot-framework-2025-95c20f88738d",
+  "folder": "2025-08-19-agentic-ai-workflows-sme-pilot-framework-2025-95c20f887",
+  "published_date": "2025-08-19",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/agentic-ai-workflows-sme-pilot-framework-2025-95c20f88738d",
+  "tags": [
+    "AI adoption strategies for SMEs",
+    "agentic AI workflows",
+    "cost-effective AI implementation",
+    "AI productivity gains",
+    "ethical AI practices",
+    "AI tools for small businesses",
+    "fractional AI leadership"
+  ],
+  "word_count": 1394,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "fractional-caio",
+    "ai-strategy",
+    "automation-design"
+  ],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "Agentic Workflows",
+    "AI Workflow Automation",
+    "AI Cost Optimization",
+    "AI Productivity Tools"
+  ]
 }

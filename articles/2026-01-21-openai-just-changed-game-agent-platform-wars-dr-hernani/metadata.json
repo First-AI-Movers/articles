@@ -1,22 +1,33 @@
 {
-    "id":"rec6yh1B1iyDXF2LI",
-    "title":"
-OpenAI Just Changed the Game in the Agent Platform Wars
-",
-    "slug":"openai-just-changed-game-agent-platform-wars-dr-hernani-costa-bneme",
-    "folder": "2026-01-21-openai-just-changed-game-agent-platform-wars-dr-hernani",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/openai-just-changed-game-agent-platform-wars-dr-hernani-costa-bneme
-",
-    "tags":["AI agent deployment","OpenAI platform strategy","European SME AI adoption","AI development toolkit","Anthropic model comparison","AI integration challenges"],
-    "word_count": 564,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec6yh1B1iyDXF2LI",
+  "title": "\nOpenAI Just Changed the Game in the Agent Platform Wars\n",
+  "slug": "openai-just-changed-game-agent-platform-wars-dr-hernani-costa-bneme",
+  "folder": "2026-01-21-openai-just-changed-game-agent-platform-wars-dr-hernani",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/openai-just-changed-game-agent-platform-wars-dr-hernani-costa-bneme\n",
+  "tags": [
+    "AI agent deployment",
+    "OpenAI platform strategy",
+    "European SME AI adoption",
+    "AI development toolkit",
+    "Anthropic model comparison",
+    "AI integration challenges"
+  ],
+  "word_count": 564,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "European SME AI",
+    "AI Strategy",
+    "Claude Models",
+    "Model Selection",
+    "France and Benelux AI"
+  ]
 }

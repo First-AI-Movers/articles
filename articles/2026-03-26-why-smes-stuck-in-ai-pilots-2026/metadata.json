@@ -1,18 +1,31 @@
 {
-    "id":"recHfRcUiQIqE0UDj",
-    "title":"Why Most EU SMEs Stay Stuck in AI Pilots",
-    "slug":"why-smes-stuck-in-ai-pilots-2026",
-    "folder": "2026-03-26-why-smes-stuck-in-ai-pilots-2026",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/why-smes-stuck-in-ai-pilots-2026",
-    "tags":["AI adoption challenges for SMEs","workflow redesign for AI","AI governance in Europe","AI literacy for small businesses","operating model for AI implementation","AI pilot project pitfalls"],
-    "word_count": 1865,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recHfRcUiQIqE0UDj",
+  "title": "Why Most EU SMEs Stay Stuck in AI Pilots",
+  "slug": "why-smes-stuck-in-ai-pilots-2026",
+  "folder": "2026-03-26-why-smes-stuck-in-ai-pilots-2026",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/why-smes-stuck-in-ai-pilots-2026",
+  "tags": [
+    "AI adoption challenges for SMEs",
+    "workflow redesign for AI",
+    "AI governance in Europe",
+    "AI literacy for small businesses",
+    "operating model for AI implementation",
+    "AI pilot project pitfalls"
+  ],
+  "word_count": 1865,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "AI Governance",
+    "AI Literacy"
+  ]
 }

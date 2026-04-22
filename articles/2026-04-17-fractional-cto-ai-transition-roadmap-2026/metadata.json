@@ -1,18 +1,37 @@
 {
-    "id":"reczVUJ7824snlpgJ",
-    "title":"The 6-Month Fractional CTO AI Transition Roadmap for European SMEs",
-    "slug":"fractional-cto-ai-transition-roadmap-2026",
-    "folder": "2026-04-17-fractional-cto-ai-transition-roadmap-2026",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/fractional-cto-ai-transition-roadmap-2026",
-    "tags":["AI transition roadmap for SMEs","fractional CTO services","AI pilot execution","AI governance for European SMEs","GDPR compliance in AI","AI strategy for logistics firms"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" fractional-caio","ai-strategy","compliance-audit "],
-    "status": "published"
+  "id": "reczVUJ7824snlpgJ",
+  "title": "The 6-Month Fractional CTO AI Transition Roadmap for European SMEs",
+  "slug": "fractional-cto-ai-transition-roadmap-2026",
+  "folder": "2026-04-17-fractional-cto-ai-transition-roadmap-2026",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/fractional-cto-ai-transition-roadmap-2026",
+  "tags": [
+    "AI transition roadmap for SMEs",
+    "fractional CTO services",
+    "AI pilot execution",
+    "AI governance for European SMEs",
+    "GDPR compliance in AI",
+    "AI strategy for logistics firms"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "fractional-caio",
+    "ai-strategy",
+    "compliance-audit"
+  ],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Roadmap",
+    "Fractional CTO",
+    "AI Governance",
+    "GDPR & Data Privacy",
+    "AI Strategy"
+  ]
 }

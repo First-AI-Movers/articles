@@ -1,18 +1,27 @@
 {
-    "id":"rec3UOJDXjRHZLKjn",
-    "title":"Your Genetic Sleep Code: A Guide to Chronotypes, Rest, and Peak Performance",
-    "slug":"sleep-chronotypes-health-guide-2026",
-    "folder": "2026-02-13-sleep-chronotypes-health-guide-2026",
-    "published_date": "2026-02-13",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/sleep-chronotypes-health-guide-2026",
-    "tags":["understanding chronotypes","optimizing sleep for performance","sleep disorders in SMEs","caffeine and productivity"],
-    "word_count": 1345,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec3UOJDXjRHZLKjn",
+  "title": "Your Genetic Sleep Code: A Guide to Chronotypes, Rest, and Peak Performance",
+  "slug": "sleep-chronotypes-health-guide-2026",
+  "folder": "2026-02-13-sleep-chronotypes-health-guide-2026",
+  "published_date": "2026-02-13",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/sleep-chronotypes-health-guide-2026",
+  "tags": [
+    "understanding chronotypes",
+    "optimizing sleep for performance",
+    "sleep disorders in SMEs",
+    "caffeine and productivity"
+  ],
+  "word_count": 1345,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Productivity Tools"
+  ]
 }

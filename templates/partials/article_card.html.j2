@@ -1,0 +1,11 @@
+<article class="card">
+  <h3><a href="{{ article.canonical_url }}" rel="noopener">{{ article.title }}</a></h3>
+  <div class="card-meta">{{ article.published_date }} · Published on {{ article.canonical_host_label }}</div>
+  {% if article.summary %}<p class="summary">{{ article.summary }}</p>{% endif %}
+  {% if article.topics %}
+  <div class="topics">
+    {% for t in article.topics %}{% if t in topics_with_page %}<a href="{{ rel_root }}topics/{{ topic_slug(t) }}/">{{ t }}</a>{% else %}<span style="color: var(--muted); margin-right: 0.75rem;">{{ t }}</span>{% endif %}{% endfor %}
+    <a class="cta" href="{{ article.canonical_url }}" rel="noopener">Read at {{ article.canonical_host_label }} →</a>
+  </div>
+  {% endif %}
+</article>

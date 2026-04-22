@@ -1,18 +1,36 @@
 {
-    "id":"recEj5N1QfDxYrGm6",
-    "title":"Fractional CTO as AI Governance Lead: What You Actually Get",
-    "slug":"fractional-cto-ai-governance-lead-european-smes-2026",
-    "folder": "2026-04-16-fractional-cto-ai-governance-lead-european-smes-2026",
-    "published_date": "2026-04-16",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/fractional-cto-ai-governance-lead-european-smes-2026",
-    "tags":["AI governance for European SMEs","EU AI Act compliance","fractional CTO services","AI tool risk classification","vendor assessment for AI tools","incident response procedures","AI policy development"],
-    "word_count": 1396,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" fractional-caio","compliance-audit "],
-    "status": "published"
+  "id": "recEj5N1QfDxYrGm6",
+  "title": "Fractional CTO as AI Governance Lead: What You Actually Get",
+  "slug": "fractional-cto-ai-governance-lead-european-smes-2026",
+  "folder": "2026-04-16-fractional-cto-ai-governance-lead-european-smes-2026",
+  "published_date": "2026-04-16",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/fractional-cto-ai-governance-lead-european-smes-2026",
+  "tags": [
+    "AI governance for European SMEs",
+    "EU AI Act compliance",
+    "fractional CTO services",
+    "AI tool risk classification",
+    "vendor assessment for AI tools",
+    "incident response procedures",
+    "AI policy development"
+  ],
+  "word_count": 1396,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "fractional-caio",
+    "compliance-audit"
+  ],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "EU AI Act",
+    "Fractional CTO",
+    "AI Policy"
+  ]
 }

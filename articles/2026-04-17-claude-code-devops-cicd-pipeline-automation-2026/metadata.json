@@ -1,18 +1,31 @@
 {
-    "id":"recfLlP3Esz2QZFku",
-    "title":"Claude Code for DevOps: CI/CD Automation in 2026",
-    "slug":"claude-code-devops-cicd-pipeline-automation-2026",
-    "folder": "2026-04-17-claude-code-devops-cicd-pipeline-automation-2026",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-code-devops-cicd-pipeline-automation-2026",
-    "tags":["CI/CD automation for European SMEs","DevOps efficiency with AI tools","Infrastructure as Code best practices","Claude Code for pipeline management","AI-driven DevOps solutions","GitHub Actions optimization"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recfLlP3Esz2QZFku",
+  "title": "Claude Code for DevOps: CI/CD Automation in 2026",
+  "slug": "claude-code-devops-cicd-pipeline-automation-2026",
+  "folder": "2026-04-17-claude-code-devops-cicd-pipeline-automation-2026",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-code-devops-cicd-pipeline-automation-2026",
+  "tags": [
+    "CI/CD automation for European SMEs",
+    "DevOps efficiency with AI tools",
+    "Infrastructure as Code best practices",
+    "Claude Code for pipeline management",
+    "AI-driven DevOps solutions",
+    "GitHub Actions optimization"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI CI/CD",
+    "European SME AI",
+    "AI DevOps",
+    "Claude Code"
+  ]
 }

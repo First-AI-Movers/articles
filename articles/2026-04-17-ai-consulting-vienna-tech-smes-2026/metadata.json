@@ -1,18 +1,37 @@
 {
-    "id":"recuPmjGwEoibRFqM",
-    "title":"AI Consulting for Vienna Tech SMEs: What to Expect in 2026",
-    "slug":"ai-consulting-vienna-tech-smes-2026",
-    "folder": "2026-04-17-ai-consulting-vienna-tech-smes-2026",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-consulting-vienna-tech-smes-2026",
-    "tags":["AI consulting for SMEs","Austrian Mittelstand AI","EU AI Act risk assessment","DSG compliance for AI","AI adoption in Vienna","German-language AI tools","AI strategy for manufacturing"],
-    "word_count": 1365,
-    "read_time_minutes":6,
-    "funnel_stage": "bottom",
-    "first_ai_movers_services": [" compliance-audit","ai-strategy "],
-    "status": "published"
+  "id": "recuPmjGwEoibRFqM",
+  "title": "AI Consulting for Vienna Tech SMEs: What to Expect in 2026",
+  "slug": "ai-consulting-vienna-tech-smes-2026",
+  "folder": "2026-04-17-ai-consulting-vienna-tech-smes-2026",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-consulting-vienna-tech-smes-2026",
+  "tags": [
+    "AI consulting for SMEs",
+    "Austrian Mittelstand AI",
+    "EU AI Act risk assessment",
+    "DSG compliance for AI",
+    "AI adoption in Vienna",
+    "German-language AI tools",
+    "AI strategy for manufacturing"
+  ],
+  "word_count": 1365,
+  "read_time_minutes": 6,
+  "funnel_stage": "bottom",
+  "first_ai_movers_services": [
+    "compliance-audit",
+    "ai-strategy"
+  ],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Consulting",
+    "DACH AI",
+    "EU AI Act",
+    "AI Governance",
+    "AI Strategy"
+  ]
 }

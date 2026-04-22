@@ -1,22 +1,32 @@
 {
-    "id":"recQYkNACzSgfJf6a",
-    "title":"
-OpenAI's Latest Move: The o3 and o4-mini Revolution in AI Reasoning
-",
-    "slug":"openais-latest-move-03-o4-mini-revolution-ai-reasoning-costa-vhflc",
-    "folder": "2026-01-21-openais-latest-move-03-o4-mini-revolution-ai-reasoning-",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/openais-latest-move-03-o4-mini-revolution-ai-reasoning-costa-vhflc
-",
-    "tags":["AI reasoning advancements","EU AI regulatory landscape","AI-driven decision making","multimodal AI applications","AI model evaluation frameworks","human-AI collaboration strategies"],
-    "word_count": 305,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recQYkNACzSgfJf6a",
+  "title": "\nOpenAI's Latest Move: The o3 and o4-mini Revolution in AI Reasoning\n",
+  "slug": "openais-latest-move-03-o4-mini-revolution-ai-reasoning-costa-vhflc",
+  "folder": "2026-01-21-openais-latest-move-03-o4-mini-revolution-ai-reasoning-",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/openais-latest-move-03-o4-mini-revolution-ai-reasoning-costa-vhflc\n",
+  "tags": [
+    "AI reasoning advancements",
+    "EU AI regulatory landscape",
+    "AI-driven decision making",
+    "multimodal AI applications",
+    "AI model evaluation frameworks",
+    "human-AI collaboration strategies"
+  ],
+  "word_count": 305,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Frontier Models",
+    "AI Regulation",
+    "AI Strategy",
+    "Model Evaluation",
+    "Human-in-the-Loop"
+  ]
 }

@@ -1,18 +1,31 @@
 {
-    "id":"recupzEAqRMkjVZRA",
-    "title":"AI Meeting Assistants for Fintech: The Ultimate Compliance Showdown",
-    "slug":"ai-meeting-assistants-fintech-compliance-2025",
-    "folder": "2025-07-24-ai-meeting-assistants-fintech-compliance-2025",
-    "published_date": "2025-07-24",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-meeting-assistants-fintech-compliance-2025",
-    "tags":["AI meeting assistants for fintech","compliance in financial services","AI-driven compliance solutions","risk management in fintech","AI tools for regulatory compliance","financial technology innovations"],
-    "word_count": 1035,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recupzEAqRMkjVZRA",
+  "title": "AI Meeting Assistants for Fintech: The Ultimate Compliance Showdown",
+  "slug": "ai-meeting-assistants-fintech-compliance-2025",
+  "folder": "2025-07-24-ai-meeting-assistants-fintech-compliance-2025",
+  "published_date": "2025-07-24",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-meeting-assistants-fintech-compliance-2025",
+  "tags": [
+    "AI meeting assistants for fintech",
+    "compliance in financial services",
+    "AI-driven compliance solutions",
+    "risk management in fintech",
+    "AI tools for regulatory compliance",
+    "financial technology innovations"
+  ],
+  "word_count": 1035,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Fintech AI",
+    "AI Governance",
+    "AI Risk Management",
+    "AI Regulation"
+  ]
 }

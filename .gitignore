@@ -21,3 +21,10 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Generated static site — built by tools/rebuild_local.py and deployed via
+# the pages workflow. Not committed to keep diffs readable.
+site/
+
+# pytest
+.pytest_cache/

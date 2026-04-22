@@ -1,18 +1,32 @@
 {
-    "id":"recaoqJeiBKGldZGY",
-    "title":"AI Makes Work Cheap. Judgment Becomes the Bottleneck.",
-    "slug":"ai-makes-work-cheap-judgment-is-the-bottleneck",
-    "folder": "2026-01-27-ai-makes-work-cheap-judgment-is-the-bottleneck",
-    "published_date": "2026-01-27",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-makes-work-cheap-judgment-is-the-bottleneck",
-    "tags":["AI decision-making frameworks","automating business processes","European SMEs AI strategy","scientific approach to AI","AI waste reduction","operational efficiency with AI","stop-doing lists for productivity"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recaoqJeiBKGldZGY",
+  "title": "AI Makes Work Cheap. Judgment Becomes the Bottleneck.",
+  "slug": "ai-makes-work-cheap-judgment-is-the-bottleneck",
+  "folder": "2026-01-27-ai-makes-work-cheap-judgment-is-the-bottleneck",
+  "published_date": "2026-01-27",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-makes-work-cheap-judgment-is-the-bottleneck",
+  "tags": [
+    "AI decision-making frameworks",
+    "automating business processes",
+    "European SMEs AI strategy",
+    "scientific approach to AI",
+    "AI waste reduction",
+    "operational efficiency with AI",
+    "stop-doing lists for productivity"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Business Process Automation",
+    "European SME AI",
+    "AI Strategy",
+    "AI Productivity Tools"
+  ]
 }

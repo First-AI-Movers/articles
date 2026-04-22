@@ -1,22 +1,29 @@
 {
-    "id":"recSBpb3taFlpCwSS",
-    "title":"
-AI Types Explained: Narrow to General AI
-",
-    "slug":"ai-types-explained-narrow-general-dr-hernani-costa-xxize",
-    "folder": "2026-01-21-ai-types-explained-narrow-general-dr-hernani-costa-xxiz",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/ai-types-explained-narrow-general-dr-hernani-costa-xxize
-",
-    "tags":["Narrow AI applications","General AI concepts","Machine Learning insights","AI capabilities for SMEs","AI tools for business","AI literacy for executives"],
-    "word_count": 569,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recSBpb3taFlpCwSS",
+  "title": "\nAI Types Explained: Narrow to General AI\n",
+  "slug": "ai-types-explained-narrow-general-dr-hernani-costa-xxize",
+  "folder": "2026-01-21-ai-types-explained-narrow-general-dr-hernani-costa-xxiz",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/ai-types-explained-narrow-general-dr-hernani-costa-xxize\n",
+  "tags": [
+    "Narrow AI applications",
+    "General AI concepts",
+    "Machine Learning insights",
+    "AI capabilities for SMEs",
+    "AI tools for business",
+    "AI literacy for executives"
+  ],
+  "word_count": 569,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Literacy"
+  ]
 }

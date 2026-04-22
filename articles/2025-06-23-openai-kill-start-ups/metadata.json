@@ -1,18 +1,29 @@
 {
-    "id":"recYdmeKGBE7jy5eo",
-    "title":"Will OpenAI Really “Kill” Start-Ups? A Deeper Look",
-    "slug":"openai-kill-start-ups",
-    "folder": "2025-06-23-openai-kill-start-ups",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/openai-kill-start-ups",
-    "tags":["OpenAI impact on start-ups","AI-driven enterprise solutions","AI integration in business","start-up survival strategies","AI market competition","AI technology trends 2025"],
-    "word_count": 1095,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recYdmeKGBE7jy5eo",
+  "title": "Will OpenAI Really “Kill” Start-Ups? A Deeper Look",
+  "slug": "openai-kill-start-ups",
+  "folder": "2025-06-23-openai-kill-start-ups",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/openai-kill-start-ups",
+  "tags": [
+    "OpenAI impact on start-ups",
+    "AI-driven enterprise solutions",
+    "AI integration in business",
+    "start-up survival strategies",
+    "AI market competition",
+    "AI technology trends 2025"
+  ],
+  "word_count": 1095,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "AI Industry News"
+  ]
 }

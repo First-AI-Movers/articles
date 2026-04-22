@@ -1,22 +1,31 @@
 {
-    "id":"recLu67hWVwUEAIdX",
-    "title":"
-What 2025's Software Development Challenges Reveal About Our AI-Driven Future
-",
-    "slug":"what-2025s-software-development-challenges-reveal-our-costa-pcdse",
-    "folder": "2026-01-21-what-2025s-software-development-challenges-reveal-our-c",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/what-2025s-software-development-challenges-reveal-our-costa-pcdse
-",
-    "tags":["software development challenges","AI-driven future","technology selection patterns","framework fatigue","architecture complexity","quality-speed dilemma","security imperatives"],
-    "word_count": 525,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recLu67hWVwUEAIdX",
+  "title": "\nWhat 2025's Software Development Challenges Reveal About Our AI-Driven Future\n",
+  "slug": "what-2025s-software-development-challenges-reveal-our-costa-pcdse",
+  "folder": "2026-01-21-what-2025s-software-development-challenges-reveal-our-c",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/what-2025s-software-development-challenges-reveal-our-costa-pcdse\n",
+  "tags": [
+    "software development challenges",
+    "AI-driven future",
+    "technology selection patterns",
+    "framework fatigue",
+    "architecture complexity",
+    "quality-speed dilemma",
+    "security imperatives"
+  ],
+  "word_count": 525,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Build vs Buy",
+    "AI Coding Tools",
+    "AI Risk Management"
+  ]
 }

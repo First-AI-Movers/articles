@@ -1,18 +1,30 @@
 {
-    "id":"recRxk1klRETHHV1A",
-    "title":"Lifelong Learning 2026: Why AI Can't Replace Your Growth",
-    "slug":"lifelong-learning-2026-ai-growth-mindset",
-    "folder": "2025-10-03-lifelong-learning-2026-ai-growth-mindset",
-    "published_date": "2025-10-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/lifelong-learning-2026-ai-growth-mindset",
-    "tags":["lifelong learning strategies","AI as a learning tool","commitment to personal growth","overcoming instant gratification","sustainable learning practices","AI integration in business","mastery through continuous education"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recRxk1klRETHHV1A",
+  "title": "Lifelong Learning 2026: Why AI Can't Replace Your Growth",
+  "slug": "lifelong-learning-2026-ai-growth-mindset",
+  "folder": "2025-10-03-lifelong-learning-2026-ai-growth-mindset",
+  "published_date": "2025-10-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/lifelong-learning-2026-ai-growth-mindset",
+  "tags": [
+    "lifelong learning strategies",
+    "AI as a learning tool",
+    "commitment to personal growth",
+    "overcoming instant gratification",
+    "sustainable learning practices",
+    "AI integration in business",
+    "mastery through continuous education"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "Education AI"
+  ]
 }

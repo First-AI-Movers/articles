@@ -1,18 +1,31 @@
 {
-    "id":"recybf2iO3XSX0SGQ",
-    "title":"Claude AI Models 2025: Opus, Sonnet, or Haiku—Which Should You Choose?",
-    "slug":"claude-ai-models-opus-sonnet-haiku-2025",
-    "folder": "2025-12-14-claude-ai-models-opus-sonnet-haiku-2025",
-    "published_date": "2025-12-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/claude-ai-models-opus-sonnet-haiku-2025",
-    "tags":["Claude AI model comparison","Opus vs Sonnet vs Haiku","AI model selection for SMEs","AI performance optimization","Anthropic AI capabilities","AI subscription benefits for businesses"],
-    "word_count": 683,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recybf2iO3XSX0SGQ",
+  "title": "Claude AI Models 2025: Opus, Sonnet, or Haiku—Which Should You Choose?",
+  "slug": "claude-ai-models-opus-sonnet-haiku-2025",
+  "folder": "2025-12-14-claude-ai-models-opus-sonnet-haiku-2025",
+  "published_date": "2025-12-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/claude-ai-models-opus-sonnet-haiku-2025",
+  "tags": [
+    "Claude AI model comparison",
+    "Opus vs Sonnet vs Haiku",
+    "AI model selection for SMEs",
+    "AI performance optimization",
+    "Anthropic AI capabilities",
+    "AI subscription benefits for businesses"
+  ],
+  "word_count": 683,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Models",
+    "Model Selection",
+    "France and Benelux AI",
+    "European SME AI"
+  ]
 }

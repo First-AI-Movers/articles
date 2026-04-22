@@ -1,18 +1,32 @@
 {
-    "id":"recGvE6HOFaE7NTMi",
-    "title":"LLM Limits Solved: Complete Guide to AI Workarounds 2025",
-    "slug":"llm-limits-solved-ai-workarounds-guide-2025",
-    "folder": "2025-09-28-llm-limits-solved-ai-workarounds-guide-2025",
-    "published_date": "2025-09-28",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/llm-limits-solved-ai-workarounds-guide-2025",
-    "tags":["LLM limitations in enterprise","AI integration strategies","Retrieval-Augmented Generation","context window challenges","AI hallucinations solutions","live data API connections","long-term memory for LLMs"],
-    "word_count": 482,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recGvE6HOFaE7NTMi",
+  "title": "LLM Limits Solved: Complete Guide to AI Workarounds 2025",
+  "slug": "llm-limits-solved-ai-workarounds-guide-2025",
+  "folder": "2025-09-28-llm-limits-solved-ai-workarounds-guide-2025",
+  "published_date": "2025-09-28",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/llm-limits-solved-ai-workarounds-guide-2025",
+  "tags": [
+    "LLM limitations in enterprise",
+    "AI integration strategies",
+    "Retrieval-Augmented Generation",
+    "context window challenges",
+    "AI hallucinations solutions",
+    "live data API connections",
+    "long-term memory for LLMs"
+  ],
+  "word_count": 482,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "RAG Architecture",
+    "Context Engineering",
+    "AI Safety"
+  ]
 }

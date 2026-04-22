@@ -1,25 +1,30 @@
 {
-    "id": "rec8qnj7lqxbexalR",
-    "title": "The \"Company Assistant\" Playbook for Holland",
-    "slug": "the-company-assistant-playbook-for-holland",
-    "folder": "2026-01-19-the-company-assistant-playbook-for-holland",
-    "published_date": "2026-01-19",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/the-company-assistant-playbook-for-holland",
-    "tags": [
-        "AI implementation for SMEs",
-        "document-grounded AI assistants",
-        "prompt training for businesses",
-        "operational efficiency through AI",
-        "AI tools for onboarding",
-        "business process optimization"
-    ],
-    "word_count": 1745,
-    "read_time_minutes": 8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec8qnj7lqxbexalR",
+  "title": "The \"Company Assistant\" Playbook for Holland",
+  "slug": "the-company-assistant-playbook-for-holland",
+  "folder": "2026-01-19-the-company-assistant-playbook-for-holland",
+  "published_date": "2026-01-19",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/the-company-assistant-playbook-for-holland",
+  "tags": [
+    "AI implementation for SMEs",
+    "document-grounded AI assistants",
+    "prompt training for businesses",
+    "operational efficiency through AI",
+    "AI tools for onboarding",
+    "business process optimization"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "Business Process Automation"
+  ]
 }

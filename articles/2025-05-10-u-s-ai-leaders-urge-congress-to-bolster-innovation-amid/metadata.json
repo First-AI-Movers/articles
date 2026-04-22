@@ -1,18 +1,30 @@
 {
-    "id":"rec4xbz3iQnCC5qqT",
-    "title":"🇺🇸 U.S. AI Leaders Urge Congress to Bolster Innovation Amid China's Rise",
-    "slug":"u-s-ai-leaders-urge-congress-to-bolster-innovation-amid-china-s-rise",
-    "folder": "2025-05-10-u-s-ai-leaders-urge-congress-to-bolster-innovation-amid",
-    "published_date": "2025-05-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/u-s-ai-leaders-urge-congress-to-bolster-innovation-amid-china-s-rise",
-    "tags":["U.S. AI policy reforms","AI innovation strategies","China AI competition","tech industry collaboration","AI leadership in America"],
-    "word_count": 682,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec4xbz3iQnCC5qqT",
+  "title": "🇺🇸 U.S. AI Leaders Urge Congress to Bolster Innovation Amid China's Rise",
+  "slug": "u-s-ai-leaders-urge-congress-to-bolster-innovation-amid-china-s-rise",
+  "folder": "2025-05-10-u-s-ai-leaders-urge-congress-to-bolster-innovation-amid",
+  "published_date": "2025-05-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/u-s-ai-leaders-urge-congress-to-bolster-innovation-amid-china-s-rise",
+  "tags": [
+    "U.S. AI policy reforms",
+    "AI innovation strategies",
+    "China AI competition",
+    "tech industry collaboration",
+    "AI leadership in America"
+  ],
+  "word_count": 682,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Policy",
+    "Chinese LLMs",
+    "AI Geopolitics",
+    "Executive AI Literacy"
+  ]
 }

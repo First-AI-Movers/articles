@@ -1,18 +1,31 @@
 {
-    "id":"recFXAAZ6FiAIsL1a",
-    "title":"Claude's Browser Agent Changes How You Do SEO",
-    "slug":"claude-browser-agent-seo-workflows-2026",
-    "folder": "2026-02-09-claude-browser-agent-seo-workflows-2026",
-    "published_date": "2026-02-09",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-browser-agent-seo-workflows-2026",
-    "tags":["SEO automation tools","AI-driven content analysis","Claude browser agent","workflow optimization for SMEs","AI citation research","competitor analysis automation"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recFXAAZ6FiAIsL1a",
+  "title": "Claude's Browser Agent Changes How You Do SEO",
+  "slug": "claude-browser-agent-seo-workflows-2026",
+  "folder": "2026-02-09-claude-browser-agent-seo-workflows-2026",
+  "published_date": "2026-02-09",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-browser-agent-seo-workflows-2026",
+  "tags": [
+    "SEO automation tools",
+    "AI-driven content analysis",
+    "Claude browser agent",
+    "workflow optimization for SMEs",
+    "AI citation research",
+    "competitor analysis automation"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI SEO and GEO",
+    "Browser Agents",
+    "AI Workflow Automation",
+    "European SME AI"
+  ]
 }

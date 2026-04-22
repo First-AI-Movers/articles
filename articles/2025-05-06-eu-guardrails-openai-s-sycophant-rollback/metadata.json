@@ -1,18 +1,32 @@
 {
-    "id":"recCzQbcYNT2f0tyI",
-    "title":"EU Guardrails & OpenAI’s Sycophant Rollback",
-    "slug":"eu-guardrails-openai-s-sycophant-rollback",
-    "folder": "2025-05-06-eu-guardrails-openai-s-sycophant-rollback",
-    "published_date": "2025-05-06",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/eu-guardrails-openai-s-sycophant-rollback",
-    "tags":["EU AI Act compliance","OpenAI model updates","AI governance for European SMEs","AI tools for productivity","AI gigafactories in Europe","AI risk management strategies"],
-    "word_count": 726,
-    "read_time_minutes":4,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recCzQbcYNT2f0tyI",
+  "title": "EU Guardrails & OpenAI’s Sycophant Rollback",
+  "slug": "eu-guardrails-openai-s-sycophant-rollback",
+  "folder": "2025-05-06-eu-guardrails-openai-s-sycophant-rollback",
+  "published_date": "2025-05-06",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/eu-guardrails-openai-s-sycophant-rollback",
+  "tags": [
+    "EU AI Act compliance",
+    "OpenAI model updates",
+    "AI governance for European SMEs",
+    "AI tools for productivity",
+    "AI gigafactories in Europe",
+    "AI risk management strategies"
+  ],
+  "word_count": 726,
+  "read_time_minutes": 4,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI",
+    "AI Productivity Tools",
+    "AI Risk Management"
+  ]
 }

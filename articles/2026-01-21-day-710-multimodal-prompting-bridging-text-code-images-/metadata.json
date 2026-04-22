@@ -1,22 +1,28 @@
 {
-    "id":"recM9SiTIe2AxRuhL",
-    "title":"
-(Day 7/10) Multimodal Prompting - Bridging Text, Code, and Images
-",
-    "slug":"day-710-multimodal-prompting-bridging-text-code-images-costa-nez0e",
-    "folder": "2026-01-21-day-710-multimodal-prompting-bridging-text-code-images-",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/day-710-multimodal-prompting-bridging-text-code-images-costa-nez0e
-",
-    "tags":["multimodal health applications","AI in wellness assessment","integrating text and images","smart nutrition systems","movement analysis technology"],
-    "word_count": 305,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recM9SiTIe2AxRuhL",
+  "title": "\n(Day 7/10) Multimodal Prompting - Bridging Text, Code, and Images\n",
+  "slug": "day-710-multimodal-prompting-bridging-text-code-images-costa-nez0e",
+  "folder": "2026-01-21-day-710-multimodal-prompting-bridging-text-code-images-",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/day-710-multimodal-prompting-bridging-text-code-images-costa-nez0e\n",
+  "tags": [
+    "multimodal health applications",
+    "AI in wellness assessment",
+    "integrating text and images",
+    "smart nutrition systems",
+    "movement analysis technology"
+  ],
+  "word_count": 305,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Frontier Models",
+    "Healthcare AI"
+  ]
 }

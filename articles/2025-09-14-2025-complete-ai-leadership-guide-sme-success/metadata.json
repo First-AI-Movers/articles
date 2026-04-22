@@ -1,18 +1,31 @@
 {
-    "id":"recui4cqwYHoxdwi9",
-    "title":"2025 Complete AI Leadership Guide for SME Success",
-    "slug":"2025-complete-ai-leadership-guide-sme-success",
-    "folder": "2025-09-14-2025-complete-ai-leadership-guide-sme-success",
-    "published_date": "2025-09-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/2025-complete-ai-leadership-guide-sme-success",
-    "tags":["AI frameworks for SMEs","KPI strategies for AI","AI risk management tools","AI transformation insights","AI compliance and governance","AI-driven operational efficiency"],
-    "word_count": 726,
-    "read_time_minutes":4,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recui4cqwYHoxdwi9",
+  "title": "2025 Complete AI Leadership Guide for SME Success",
+  "slug": "2025-complete-ai-leadership-guide-sme-success",
+  "folder": "2025-09-14-2025-complete-ai-leadership-guide-sme-success",
+  "published_date": "2025-09-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/2025-complete-ai-leadership-guide-sme-success",
+  "tags": [
+    "AI frameworks for SMEs",
+    "KPI strategies for AI",
+    "AI risk management tools",
+    "AI transformation insights",
+    "AI compliance and governance",
+    "AI-driven operational efficiency"
+  ],
+  "word_count": 726,
+  "read_time_minutes": 4,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Risk Management",
+    "AI Change Management",
+    "AI Governance"
+  ]
 }

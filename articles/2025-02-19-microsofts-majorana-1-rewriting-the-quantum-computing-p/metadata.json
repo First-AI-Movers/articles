@@ -1,18 +1,29 @@
 {
-    "id":"recMMDADE3c3AaBc5",
-    "title":"Microsoft’s Majorana 1: Rewriting the Quantum Computing Playbook for the Enterprise Era",
-    "slug":"microsofts-majorana-1-rewriting-the-quantum-computing-playbook-for-the-enterprise-era-fa2d8d89a011",
-    "folder": "2025-02-19-microsofts-majorana-1-rewriting-the-quantum-computing-p",
-    "published_date": "2025-02-19",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/microsofts-majorana-1-rewriting-the-quantum-computing-playbook-for-the-enterprise-era-fa2d8d89a011",
-    "tags":["quantum computing advancements","Microsoft Majorana 1","enterprise AI integration","topological qubits","Azure Quantum applications","quantum technology for SMEs"],
-    "word_count": 1165,
-    "read_time_minutes":6,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recMMDADE3c3AaBc5",
+  "title": "Microsoft’s Majorana 1: Rewriting the Quantum Computing Playbook for the Enterprise Era",
+  "slug": "microsofts-majorana-1-rewriting-the-quantum-computing-playbook-for-the-enterprise-era-fa2d8d89a011",
+  "folder": "2025-02-19-microsofts-majorana-1-rewriting-the-quantum-computing-p",
+  "published_date": "2025-02-19",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/microsofts-majorana-1-rewriting-the-quantum-computing-playbook-for-the-enterprise-era-fa2d8d89a011",
+  "tags": [
+    "quantum computing advancements",
+    "Microsoft Majorana 1",
+    "enterprise AI integration",
+    "topological qubits",
+    "Azure Quantum applications",
+    "quantum technology for SMEs"
+  ],
+  "word_count": 1165,
+  "read_time_minutes": 6,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "European SME AI"
+  ]
 }

@@ -1,18 +1,29 @@
 {
-    "id":"recfC3iHtbxSuoHcC",
-    "title":"DeepMind’s AlphaGenome: Illuminating DNA’s 98 Percent",
-    "slug":"deepmind-alphagenome-ai-dna-genomics-healthcare-breakthrough-2025",
-    "folder": "2025-07-17-deepmind-alphagenome-ai-dna-genomics-healthcare-breakth",
-    "published_date": "2025-07-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/deepmind-alphagenome-ai-dna-genomics-healthcare-breakthrough-2025",
-    "tags":["AI in genomics","personalized medicine advancements","genetic data analysis","healthcare AI integration","AI-driven diagnostics","next-gen healthcare technologies"],
-    "word_count": 748,
-    "read_time_minutes":4,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recfC3iHtbxSuoHcC",
+  "title": "DeepMind’s AlphaGenome: Illuminating DNA’s 98 Percent",
+  "slug": "deepmind-alphagenome-ai-dna-genomics-healthcare-breakthrough-2025",
+  "folder": "2025-07-17-deepmind-alphagenome-ai-dna-genomics-healthcare-breakth",
+  "published_date": "2025-07-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/deepmind-alphagenome-ai-dna-genomics-healthcare-breakthrough-2025",
+  "tags": [
+    "AI in genomics",
+    "personalized medicine advancements",
+    "genetic data analysis",
+    "healthcare AI integration",
+    "AI-driven diagnostics",
+    "next-gen healthcare technologies"
+  ],
+  "word_count": 748,
+  "read_time_minutes": 4,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Healthcare AI",
+    "AI Strategy"
+  ]
 }

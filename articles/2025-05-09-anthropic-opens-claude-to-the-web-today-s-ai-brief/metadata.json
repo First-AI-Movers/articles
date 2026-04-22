@@ -1,18 +1,30 @@
 {
-    "id":"recLv6ZBsMNjoRzpB",
-    "title":"Anthropic Opens Claude to the Web – Today’s AI Brief",
-    "slug":"anthropic-opens-claude-to-the-web-today-s-ai-brief",
-    "folder": "2025-05-09-anthropic-opens-claude-to-the-web-today-s-ai-brief",
-    "published_date": "2025-05-09",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/anthropic-opens-claude-to-the-web-today-s-ai-brief",
-    "tags":["AI governance for European SMEs","real-time web search capabilities","AI safety research collaboration","AI integration in education"],
-    "word_count": 366,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recLv6ZBsMNjoRzpB",
+  "title": "Anthropic Opens Claude to the Web – Today’s AI Brief",
+  "slug": "anthropic-opens-claude-to-the-web-today-s-ai-brief",
+  "folder": "2025-05-09-anthropic-opens-claude-to-the-web-today-s-ai-brief",
+  "published_date": "2025-05-09",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/anthropic-opens-claude-to-the-web-today-s-ai-brief",
+  "tags": [
+    "AI governance for European SMEs",
+    "real-time web search capabilities",
+    "AI safety research collaboration",
+    "AI integration in education"
+  ],
+  "word_count": 366,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "AI Safety",
+    "Education AI",
+    "AI Strategy"
+  ]
 }
