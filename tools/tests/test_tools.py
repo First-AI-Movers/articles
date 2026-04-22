@@ -891,7 +891,9 @@ class TestBuildSite:
         # Copy real templates + static so we don't re-fixture them
         import shutil
         from pathlib import Path as P
-        real_root = P("/home/user/articles")
+        # Resolve repo root from this file's location, not a hardcoded path
+        # (this test file lives at <repo>/tools/tests/test_tools.py).
+        real_root = P(__file__).resolve().parents[2]
         shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
         shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
         # Real hernanicosta.json is needed for about page
