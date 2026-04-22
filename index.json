@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-04-22",
-  "total_articles": 760,
+  "total_articles": 770,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -540,6 +540,21 @@
       "canonical_url": "https://radar.firstaimovers.com/claude-code-security-data-privacy-european-teams-2026"
     },
     {
+      "folder": "2026-04-17-claude-opus-4-european-teams-guide-2026",
+      "title": "Claude Opus 4 for European Teams: Is the Upgrade Worth It?",
+      "published_date": "2026-04-17",
+      "tags": [
+        "Claude Opus 4 evaluation",
+        "AI model cost comparison",
+        "European SME AI strategy",
+        "document analysis automation",
+        "AI for compliance reviews",
+        "coding assistance tools"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-opus-4-european-teams-guide-2026"
+    },
+    {
       "folder": "2026-04-17-eu-ai-act-august-2026-deadline-action-plan-smes",
       "title": "EU AI Act August 2026 Deadline: What European SMEs Must Do Now",
       "published_date": "2026-04-17",
@@ -631,6 +646,37 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-build-vs-buy-tool-decision-european-smes-2026"
     },
     {
+      "folder": "2026-04-16-ai-consulting-antwerp-industrial-port-smes-2026",
+      "title": "AI Consulting for Antwerp's Industrial and Port SMEs: Practical AI Adoption in 2026",
+      "published_date": "2026-04-16",
+      "tags": [
+        "AI adoption for Antwerp SMEs",
+        "EU AI Act compliance",
+        "industrial AI use cases",
+        "logistics and supply chain AI",
+        "AI consulting for manufacturing",
+        "data governance in AI",
+        "predictive maintenance in industry"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-antwerp-industrial-port-smes-2026"
+    },
+    {
+      "folder": "2026-04-16-ai-consulting-ghent-tech-creative-smes-2026",
+      "title": "AI Consulting for Ghent's Tech and Creative SMEs in 2026",
+      "published_date": "2026-04-16",
+      "tags": [
+        "AI adoption strategies for SMEs",
+        "EU AI Act compliance",
+        "AI integration in creative agencies",
+        "B2B software AI features",
+        "AI consulting for tech startups",
+        "AI governance for professional services"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-ghent-tech-creative-smes-2026"
+    },
+    {
       "folder": "2026-04-16-ai-consulting-guimaraes-textile-manufacturing-smes-2026",
       "title": "AI Consulting for Guimaraes: Textile and Manufacturing SMEs",
       "published_date": "2026-04-16",
@@ -692,6 +738,36 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-governance-norway-eea-smes-2026"
     },
     {
+      "folder": "2026-04-16-ai-governance-veterinary-animal-health-smes-eu-2026",
+      "title": "AI Governance for Veterinary and Animal Health SMEs: EU Compliance in 2026",
+      "published_date": "2026-04-16",
+      "tags": [
+        "AI governance for veterinary practices",
+        "EU AI Act compliance",
+        "MDR and veterinary diagnostic tools",
+        "GDPR in veterinary practices",
+        "AI use cases for animal health SMEs",
+        "compliance framework for veterinary clinics"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-governance-veterinary-animal-health-smes-eu-2026"
+    },
+    {
+      "folder": "2026-04-16-ai-skills-assessment-hiring-framework-european-smes-202",
+      "title": "AI Skills Assessment When Hiring: A Practical Scoring Framework for SME Managers",
+      "published_date": "2026-04-16",
+      "tags": [
+        "AI skills assessment framework",
+        "hiring AI talent in SMEs",
+        "AI tool proficiency evaluation",
+        "European SME recruitment strategies",
+        "AI integration in operations",
+        "AI literacy for managers"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-skills-assessment-hiring-framework-european-smes-2026"
+    },
+    {
       "folder": "2026-04-16-ai-strategy-roadmap-european-smes-2026",
       "title": "AI Strategy Roadmap for European SMEs: A Practical 2026 Guide",
       "published_date": "2026-04-16",
@@ -722,6 +798,21 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-translation-tools-multilingual-european-smes-2026"
     },
     {
+      "folder": "2026-04-16-ai-vendor-lock-in-assessment-framework-european-smes-20",
+      "title": "AI Vendor Lock-in Risk Assessment: A Decision Framework for European SMEs",
+      "published_date": "2026-04-16",
+      "tags": [
+        "AI vendor lock-in risk assessment",
+        "contract negotiation for SMEs",
+        "data portability in AI",
+        "EU AI Act implications",
+        "AI integration strategies",
+        "exit planning for AI vendors"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-vendor-lock-in-assessment-framework-european-smes-2026"
+    },
+    {
       "folder": "2026-04-16-claude-ai-vs-claude-code-api-anthropic-products-2026",
       "title": "Claude.ai vs Claude Code vs Claude API: A Plain Guide for European SMEs",
       "published_date": "2026-04-16",
@@ -735,6 +826,36 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/claude-ai-vs-claude-code-api-anthropic-products-2026"
+    },
+    {
+      "folder": "2026-04-16-claude-max-plan-guide-european-teams-2026",
+      "title": "Claude Max for European Teams: Is the $100/Month Upgrade Worth It?",
+      "published_date": "2026-04-16",
+      "tags": [
+        "Claude Max subscription analysis",
+        "AI tool cost-benefit for SMEs",
+        "European data residency compliance",
+        "AI usage limits for engineering teams",
+        "Claude API vs subscription comparison",
+        "Extended thinking in AI applications"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-max-plan-guide-european-teams-2026"
+    },
+    {
+      "folder": "2026-04-16-copilot-studio-vs-power-automate-decision-guide-smes-20",
+      "title": "Microsoft Copilot Studio vs Power Automate: A Decision Guide for European SMEs in 2026",
+      "published_date": "2026-04-16",
+      "tags": [
+        "Microsoft Copilot Studio vs Power Automate",
+        "workflow automation for SMEs",
+        "AI governance for European businesses",
+        "cost analysis of automation tools",
+        "decision framework for SMEs",
+        "EU AI Act compliance"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/copilot-studio-vs-power-automate-decision-guide-smes-2026"
     },
     {
       "folder": "2026-04-16-first-90-days-ai-adoption-checklist-european-smes-2026",
@@ -752,6 +873,22 @@
       "canonical_url": "https://radar.firstaimovers.com/first-90-days-ai-adoption-checklist-european-smes-2026"
     },
     {
+      "folder": "2026-04-16-fractional-cto-ai-governance-lead-european-smes-2026",
+      "title": "Fractional CTO as AI Governance Lead: What You Actually Get",
+      "published_date": "2026-04-16",
+      "tags": [
+        "AI governance for European SMEs",
+        "EU AI Act compliance",
+        "fractional CTO services",
+        "AI tool risk classification",
+        "vendor assessment for AI tools",
+        "incident response procedures",
+        "AI policy development"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/fractional-cto-ai-governance-lead-european-smes-2026"
+    },
+    {
       "folder": "2026-04-16-google-gemini-european-smes-teams-2026",
       "title": "Google Gemini for European SME Teams: What You Need to Know in 2026",
       "published_date": "2026-04-16",
@@ -766,6 +903,21 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/google-gemini-european-smes-teams-2026"
+    },
+    {
+      "folder": "2026-04-16-microsoft-ai-observability-monitoring-european-smes-202",
+      "title": "How to Monitor Microsoft Copilot: A Practical Guide for SME Operators",
+      "published_date": "2026-04-16",
+      "tags": [
+        "monitoring Microsoft Copilot",
+        "M365 Copilot observability",
+        "Azure OpenAI cost management",
+        "GDPR compliance for SMEs",
+        "AI usage patterns analysis",
+        "Copilot adoption strategies"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/microsoft-ai-observability-monitoring-european-smes-2026"
     },
     {
       "folder": "2026-04-15-agentic-ai-smes-european-operators-guide-2026",
