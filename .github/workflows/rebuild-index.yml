@@ -1,21 +1,29 @@
-name: Rebuild index on article change
+name: Build & deploy
 
 on:
   push:
     branches: [main]
     paths:
       - 'articles/**'
+      - 'tools/**'
+      - 'templates/**'
+      - 'static/**'
+      - 'hernanicosta.json'
+      - 'ABOUT.md'
+      - 'CITATION.cff'
   workflow_dispatch:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
-  group: rebuild-index
+  group: pages
   cancel-in-progress: false
 
 jobs:
-  rebuild:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,21 +35,41 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: pip install -r tools/requirements.txt
+
       - name: Normalize tags to canonical topics
         run: python3 tools/normalize_tags.py
 
-      - name: Rebuild index, sitemap, feed, corpus, README, llms.txt
+      - name: Rebuild index, sitemap, feed, corpus, docs, and static site
         run: python3 tools/rebuild_local.py
 
-      - name: Commit and push if changed
+      - name: Commit regenerated artifacts if changed
         run: |
-          if [ -z "$(git status --porcelain)" ]; then
-            echo "No changes to commit."
-            exit 0
+          # Only watch the derived artifacts we commit. site/ is gitignored.
+          if git status --porcelain articles/*/metadata.json index.json sitemap.xml feed.xml llms-full.txt README.md llms.txt | grep -q .; then
+            git config user.name "Index Bot"
+            git config user.email "info@firstaimovers.com"
+            git add articles/*/metadata.json
+            git add index.json sitemap.xml feed.xml llms-full.txt README.md llms.txt
+            git commit -m "Rebuild derived artifacts"
+            git push
+          else
+            echo "No derived artifacts changed."
           fi
-          git config user.name "Index Bot"
-          git config user.email "info@firstaimovers.com"
-          git add articles/*/metadata.json
-          git add index.json sitemap.xml feed.xml llms-full.txt README.md llms.txt
-          git commit -m "Normalize topics + rebuild derived artifacts after article change"
-          git push
+
+      - uses: actions/configure-pages@v4
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

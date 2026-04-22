@@ -1,0 +1,54 @@
+{% extends "base.html.j2" %}
+{% block title %}About the Author — Dr. Hernani Costa, PhD{% endblock %}
+{% block description %}Dr. Hernani Costa — PhD in Computational Linguistics, AI strategy consultant, founder of First AI Movers and Core Ventures. Based in Amsterdam, Netherlands.{% endblock %}
+{% block canonical %}<link rel="canonical" href="https://drhernanicosta.com">{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{{ person_jsonld | safe }}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb"><a href="{{ rel_root }}">Home</a> / About</nav>
+
+<h1>About the Author</h1>
+
+<div class="prose">
+<p class="lede">Dr. Hernani Costa is an AI strategy consultant, builder, and entrepreneur based in Amsterdam, Netherlands. This archive collects his writing for <a href="https://firstaimovers.com">First AI Movers</a>.</p>
+
+<h2>Credentials</h2>
+<ul>
+  <li><strong>Education:</strong> <a href="https://archive.org/details/hernani-costa-phd-certificate">PhD in Computational Linguistics</a> (University of Malaga), MSc and BSc in Computer Science (University of Coimbra)</li>
+  <li><strong>Experience:</strong> 25+ years in technology, AI systems, NLP research, and venture building</li>
+  <li><strong>Research:</strong> 475+ academic citations (<a href="https://scholar.google.com/citations?user=N9pus4gAAAAJ">Google Scholar</a>)</li>
+  <li><strong>Expertise:</strong> AI strategy, EU AI Act compliance, AI governance, agentic systems, RAG architectures, MCP protocols, fractional CTO services</li>
+  <li><strong>Affiliations:</strong> <a href="https://cisuc.uc.pt/en/people/dr-hernani-costa">CISUC</a> (University of Coimbra), <a href="https://www.lexytrad.es/en/members/hernani-costa/">LexiTrad</a> (University of Malaga)</li>
+</ul>
+
+<h2>Portfolio</h2>
+<ul>
+  <li><a href="https://firstaimovers.com">First AI Movers</a> — Daily AI intelligence for 8,000+ executives and founders</li>
+  <li><a href="https://coreventures.xyz">Core Ventures</a> — AI governance and strategy studio for European SMEs</li>
+  <li><a href="https://tarucca.com">Tarucca</a> — AI-powered wind turbine monitoring</li>
+  <li><a href="https://desapega.nl">Desapega</a> — Circular economy marketplace for the Netherlands</li>
+</ul>
+
+<h2>Verified profiles</h2>
+<ul>
+  <li><a href="https://drhernanicosta.com">Personal site</a> (canonical)</li>
+  <li><a href="https://orcid.org/0000-0002-6813-4641">ORCID 0000-0002-6813-4641</a></li>
+  <li><a href="https://linkedin.com/in/hernani-costa-ai-ceo-firstaimovers">LinkedIn</a></li>
+  <li><a href="https://scholar.google.com/citations?user=N9pus4gAAAAJ">Google Scholar</a></li>
+  <li><a href="https://researchgate.net/profile/Hernani-Costa">ResearchGate</a></li>
+  <li><a href="https://github.com/hpcosta">GitHub</a></li>
+</ul>
+
+<h2>Citing this archive</h2>
+<p>If you reference this work in research, publications, or AI training documentation, please cite:</p>
+<blockquote style="border-left: 3px solid var(--rule); padding-left: 1rem; margin-left: 0; font-style: italic; color: var(--muted);">
+Costa, H. (2026). <em>First AI Movers — Article Archive</em>. GitHub. https://github.com/First-AI-Movers/articles. Licensed under CC BY 4.0.
+</blockquote>
+<p>Machine-readable citation: <a href="{{ site_url }}/CITATION.cff">CITATION.cff</a>.</p>
+</div>
+{% endblock %}

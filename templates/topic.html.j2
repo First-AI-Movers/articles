@@ -1,0 +1,54 @@
+{% extends "base.html.j2" %}
+{% block title %}{{ topic }} — First AI Movers Archive ({{ articles|length }} articles){% endblock %}
+{% block description %}{{ articles|length }} original articles on {{ topic }} by Dr. Hernani Costa, PhD. Practitioner analysis and strategic frameworks for European SMEs, published via First AI Movers.{% endblock %}
+{% block og_type %}article{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ topic }}",
+  "description": "{{ self.description() }}",
+  "url": "{{ site_url }}{{ page_path }}",
+  "isPartOf": {"@type": "WebSite", "name": "First AI Movers — Article Archive", "url": "{{ site_url }}"},
+  "author": {"@type": "Person", "name": "Dr. Hernani Costa", "url": "https://drhernanicosta.com"},
+  "publisher": {"@type": "Organization", "name": "First AI Movers", "url": "https://firstaimovers.com"},
+  "about": {"@type": "Thing", "name": "{{ topic }}"},
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": {{ articles|length }},
+    "itemListElement": [
+      {% for a in articles[:20] %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "url": "{{ a.canonical_url }}",
+        "name": {{ a.title|tojson }}
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb"><a href="{{ rel_root }}">Home</a> / <a href="{{ rel_root }}topics/">Topics</a> / {{ topic }}</nav>
+
+<h1>{{ topic }}</h1>
+<p class="meta">{{ articles|length }} articles · Latest: {{ articles[0].published_date }}</p>
+
+<p class="lede">Every article in the First AI Movers archive tagged <strong>{{ topic }}</strong>. Each article's canonical home is on its publishing property — Radar, the newsletter, Insights, Voices, or a third-party platform — linked from each title below.</p>
+
+{% for article in articles %}
+  {% include "partials/article_card.html.j2" %}
+{% endfor %}
+
+{% if related_topics %}
+<h2>Related topics</h2>
+<p style="font-family: ui-sans-serif, system-ui, sans-serif; font-size: 0.95rem;">
+{% for rt in related_topics %}{% if rt in topics_with_page %}<a href="{{ rel_root }}topics/{{ topic_slug(rt) }}/" style="margin-right: 1rem;">{{ rt }}</a>{% endif %}{% endfor %}
+</p>
+{% endif %}
+{% endblock %}

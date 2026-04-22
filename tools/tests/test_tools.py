@@ -849,3 +849,170 @@ class TestNormalizeTags:
         m = self._mod()
         result = m.normalize_services(["compliance-audit", " ai-strategy", "fractional-caio"])
         assert result == ["compliance-audit", "ai-strategy", "fractional-caio"]
+
+
+# =========================================================================
+# Tests: rebuild_local.py static site builder
+# =========================================================================
+
+class TestBuildSite:
+    """HTML topic-hub site. Requires jinja2; skipped cleanly if not installed."""
+
+    def _mod(self):
+        pytest.importorskip("jinja2")
+        import rebuild_local
+        return rebuild_local
+
+    def _synthetic_index(self, topic_distribution):
+        """Build an index where topic_distribution is {topic_name: article_count}."""
+        articles = []
+        day = 1
+        for topic, count in topic_distribution.items():
+            for _ in range(count):
+                articles.append({
+                    "folder": f"2026-04-{day:02d}-slug{day}",
+                    "title": f"Article {day}",
+                    "published_date": f"2026-04-{day:02d}",
+                    "tags": [],
+                    "topics": [topic],
+                    "funnel_stage": "middle",
+                    "canonical_url": f"https://radar.firstaimovers.com/slug{day}",
+                })
+                day += 1
+        articles.sort(key=lambda a: a["published_date"], reverse=True)
+        return {"articles": articles}
+
+    def _run(self, monkeypatch, tmp_path, index):
+        m = self._mod()
+        # Redirect all IO roots to tmp_path
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        # Copy real templates + static so we don't re-fixture them
+        import shutil
+        from pathlib import Path as P
+        real_root = P("/home/user/articles")
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        # Real hernanicosta.json is needed for about page
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+        # Sample article files so llms-full.txt summary lookups don't 404
+        for a in index["articles"]:
+            (tmp_path / "articles" / a["folder"]).mkdir(exist_ok=True)
+            (tmp_path / "articles" / a["folder"] / "article.md").write_text(
+                f"---\ntitle: {a['title']}\n---\n# {a['title']}\n\nBody paragraph with enough text to serve as a summary for this test article.\n")
+
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        m.build_site(index)
+        return tmp_path / "site"
+
+    def test_slugify_produces_stable_urls(self):
+        m = self._mod()
+        assert m._slugify("AI Governance") == "ai-governance"
+        assert m._slugify("GDPR & Data Privacy") == "gdpr-and-data-privacy"
+        assert m._slugify("European SME AI") == "european-sme-ai"
+        assert m._slugify("AI SEO and GEO") == "ai-seo-and-geo"
+        assert m._slugify("UK and Ireland AI") == "uk-and-ireland-ai"
+
+    def test_home_page_renders(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Governance": 6}))
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert "<title>First AI Movers" in home
+        assert 'rel="canonical" href="https://articles.firstaimovers.com/"' in home
+        assert 'name="robots" content="index, follow"' in home
+
+    def test_topics_index_lists_all_topics(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Governance": 6, "AI Agents": 2}))
+        idx = (site / "topics" / "index.html").read_text(encoding="utf-8")
+        # Both topics appear (under/over threshold), but only over-threshold is a link
+        assert "AI Governance" in idx
+        assert "AI Agents" in idx
+        assert "topics/ai-governance/" in idx
+        assert "topics/ai-agents/" not in idx  # below threshold → not linked
+
+    def test_topic_page_created_only_above_threshold(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Governance": 6, "AI Agents": 2}))
+        assert (site / "topics" / "ai-governance" / "index.html").exists()
+        assert not (site / "topics" / "ai-agents").exists()
+
+    def test_topic_page_lists_articles_newest_first(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        # Day 6 is newest; day 1 is oldest. Position check.
+        assert page.index("Article 6") < page.index("Article 1")
+
+    def test_topic_page_self_canonical(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'rel="canonical" href="https://articles.firstaimovers.com/topics/ai-strategy/"' in page
+        assert 'name="robots" content="index, follow"' in page
+
+    def test_article_cards_link_to_canonical_not_self(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Governance": 6}))
+        page = (site / "topics" / "ai-governance" / "index.html").read_text(encoding="utf-8")
+        assert "https://radar.firstaimovers.com/slug1" in page
+        # No self-links back to /articles/ paths on the site
+        assert 'href="/articles/' not in page
+
+    def test_about_page_canonicals_to_drhernanicosta(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        about = (site / "about" / "index.html").read_text(encoding="utf-8")
+        assert 'rel="canonical" href="https://drhernanicosta.com"' in about
+        assert 'application/ld+json' in about  # Person JSON-LD embedded
+
+    def test_404_page_noindex(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        page = (site / "404.html").read_text(encoding="utf-8")
+        assert 'name="robots" content="noindex"' in page
+
+    def test_stylesheet_copied(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        assert (site / "style.css").exists()
+        # Every page references it via relative path — spot-check topic page
+        topic = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'href="../../style.css"' in topic
+
+    def test_raw_data_mirror_files_copied(self, monkeypatch, tmp_path):
+        # Put some mirror files in the tmp root to simulate a full rebuild
+        (tmp_path / "index.json").write_text('{"articles": []}')
+        (tmp_path / "llms.txt").write_text("llms")
+        (tmp_path / "llms-full.txt").write_text("corpus")
+        (tmp_path / "feed.xml").write_text("<feed/>")
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        assert (site / "index.json").exists()
+        assert (site / "llms.txt").exists()
+        assert (site / "llms-full.txt").exists()
+        assert (site / "feed.xml").exists()
+        # Raw articles tree mirrored
+        assert (site / "articles").exists()
+
+    def test_related_topics_ranked_by_cooccurrence(self):
+        m = self._mod()
+        articles = [
+            {"topics": ["A", "B", "C"]},
+            {"topics": ["A", "B"]},
+            {"topics": ["A", "D"]},
+        ]
+        counts = {"A": 3, "B": 2, "C": 1, "D": 1}
+        related = m._related_topics_for("A", articles, counts, limit=3)
+        assert related == ["B", "C", "D"]  # B co-occurs twice, C/D once each
+
+    def test_canonical_host_label_maps_common_hosts(self):
+        m = self._mod()
+        assert m._canonical_host_label("https://radar.firstaimovers.com/foo") == "Radar"
+        assert m._canonical_host_label("https://www.linkedin.com/pulse/x") == "LinkedIn"
+        assert m._canonical_host_label("https://insights.firstaimovers.com/y") == "Insights"

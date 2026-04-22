@@ -492,9 +492,220 @@ def build_llms_full(index):
 
 
 # ---------------------------------------------------------------------------
+# Static site (HTML topic hubs + home + about)
+# ---------------------------------------------------------------------------
+SITE_URL = "https://articles.firstaimovers.com"
+SITE_DIR = REPO_ROOT / "site"
+TEMPLATE_DIR = REPO_ROOT / "templates"
+STATIC_DIR = REPO_ROOT / "static"
+MIN_ARTICLES_FOR_TOPIC_PAGE = 5
+HOME_LATEST_COUNT = 20
+RELATED_TOPICS_ON_TOPIC_PAGE = 6
+
+# Hosts whose articles are worth "Read at X" CTAs. Label map for display.
+CANONICAL_HOST_LABELS = {
+    "radar.firstaimovers.com": "Radar",
+    "www.firstaimovers.com": "First AI Movers",
+    "firstaimovers.com": "First AI Movers",
+    "insights.firstaimovers.com": "Insights",
+    "voices.firstaimovers.com": "Voices",
+    "www.linkedin.com": "LinkedIn",
+    "linkedin.com": "LinkedIn",
+    "medium.com": "Medium",
+}
+
+
+def _slugify(text):
+    """Stable URL slug for a topic name. No external dep, deterministic."""
+    s = text.lower()
+    s = s.replace("&", "and")
+    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
+    return s
+
+
+def _canonical_host_label(canonical_url):
+    host = urlparse((canonical_url or "").strip().splitlines()[-1].strip()).netloc.lower()
+    return CANONICAL_HOST_LABELS.get(host, host or "source")
+
+
+def _month_year(iso_date):
+    try:
+        return datetime.strptime(iso_date, "%Y-%m-%d").strftime("%B %Y")
+    except (ValueError, TypeError):
+        return iso_date or ""
+
+
+def _article_summary(folder, title, published_date):
+    """Reuse feed's summary extractor for card excerpts."""
+    return _extract_summary(folder, title, published_date)
+
+
+def _enrich_articles(articles):
+    """Decorate each index article with fields the templates need."""
+    enriched = []
+    for a in articles:
+        parsed = _clean_canonical(a.get("canonical_url"))
+        canonical = parsed[0] if parsed else (a.get("canonical_url") or "")
+        enriched.append({
+            **a,
+            "canonical_url": canonical,
+            "canonical_host_label": _canonical_host_label(canonical),
+            "summary": _article_summary(a.get("folder", ""), a.get("title", ""), a.get("published_date", "")),
+        })
+    return enriched
+
+
+def _related_topics_for(topic, articles_in_topic, all_topic_counts, limit):
+    """Topics that co-occur most often with this topic across its articles."""
+    co = {}
+    for a in articles_in_topic:
+        for t in a.get("topics", []):
+            if t == topic:
+                continue
+            co[t] = co.get(t, 0) + 1
+    ranked = sorted(co.items(), key=lambda x: (-x[1], -all_topic_counts.get(x[0], 0), x[0]))
+    return [t for t, _ in ranked[:limit]]
+
+
+def build_site(index):
+    """Render the static HTML site into SITE_DIR. Topic-hub first; no per-article pages."""
+    try:
+        from jinja2 import Environment, FileSystemLoader, select_autoescape
+    except ImportError:
+        print("[site] jinja2 not installed; skipping site build. Run: pip install jinja2", file=sys.stderr)
+        return
+
+    env = Environment(
+        loader=FileSystemLoader(str(TEMPLATE_DIR)),
+        autoescape=select_autoescape(["html", "xml"]),
+        trim_blocks=False,
+        lstrip_blocks=False,
+    )
+
+    articles_raw = index["articles"]
+    articles = _enrich_articles(articles_raw)
+    stats = compute_stats(index)
+    stats["date_min_month"] = _month_year(stats["date_min"])
+    stats["date_max_month"] = _month_year(stats["date_max"])
+
+    # Group articles by topic and compute counts.
+    by_topic = {}
+    for a in articles:
+        for t in a.get("topics") or []:
+            by_topic.setdefault(t, []).append(a)
+
+    topic_counts = {t: len(v) for t, v in by_topic.items()}
+    topics_with_page = {t for t, c in topic_counts.items() if c >= MIN_ARTICLES_FOR_TOPIC_PAGE}
+
+    # Topic entries for the /topics/ index page — all topics sorted by count desc,
+    # then alpha. Topics below the threshold get slug=None so the template renders
+    # them as non-linked.
+    topic_entries = [
+        {
+            "name": t,
+            "count": topic_counts[t],
+            "slug": _slugify(t) if t in topics_with_page else None,
+        }
+        for t in sorted(topic_counts.keys(), key=lambda name: (-topic_counts[name], name.lower()))
+    ]
+
+    # Shared context the templates consume. `topic_slug` is a callable the
+    # partial uses to build topic URLs. `rel_root` lets deeper pages reach the
+    # top without knowing their depth.
+    def topic_slug(name):
+        return _slugify(name)
+
+    shared = {
+        "site_url": SITE_URL,
+        "site_title": "First AI Movers — Article Archive",
+        "site_description": (f"Open-access archive of {stats['total']} articles "
+                             f"by Dr. Hernani Costa on AI strategy and governance."),
+        "stats": stats,
+        "topics_with_page": topics_with_page,
+        "topic_slug": topic_slug,
+        "min_articles_for_page": MIN_ARTICLES_FOR_TOPIC_PAGE,
+    }
+
+    # Clean site dir
+    if SITE_DIR.exists():
+        import shutil
+        shutil.rmtree(SITE_DIR)
+    SITE_DIR.mkdir(parents=True)
+
+    def _render(template_name, output_relpath, **ctx):
+        tmpl = env.get_template(template_name)
+        depth = output_relpath.count("/")
+        rel_root = "../" * depth if depth else ""
+        page_path = "/" + output_relpath.replace("index.html", "") if output_relpath != "index.html" else "/"
+        html = tmpl.render(rel_root=rel_root, page_path=page_path, **shared, **ctx)
+        out = SITE_DIR / output_relpath
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(html, encoding="utf-8")
+
+    # Home
+    latest = articles[:HOME_LATEST_COUNT]
+    _render("home.html.j2", "index.html", latest=latest)
+
+    # Topics index
+    _render("topics_index.html.j2", "topics/index.html", topic_entries=topic_entries)
+
+    # Per-topic pages (only topics with >= threshold)
+    topic_pages = 0
+    for topic in sorted(topics_with_page):
+        topic_articles = by_topic[topic]  # already newest-first (from index sort)
+        related = _related_topics_for(topic, topic_articles, topic_counts, RELATED_TOPICS_ON_TOPIC_PAGE)
+        slug = _slugify(topic)
+        _render("topic.html.j2", f"topics/{slug}/index.html",
+                topic=topic, articles=topic_articles, related_topics=related)
+        topic_pages += 1
+
+    # About — hernanicosta.json is stored wrapped in <script> tags (it's a
+    # JSON-LD file served directly). Strip the wrapper so we can re-embed
+    # the raw JSON inside our template's own <script> tag.
+    hernani_raw = (REPO_ROOT / "hernanicosta.json").read_text(encoding="utf-8")
+    m = re.search(r'<script[^>]*>\s*(\{.*?\})\s*</script>', hernani_raw, re.DOTALL)
+    person_jsonld = m.group(1) if m else hernani_raw
+    _render("about.html.j2", "about/index.html", person_jsonld=person_jsonld)
+
+    # 404
+    _render("404.html.j2", "404.html")
+
+    # Static assets
+    for static_file in STATIC_DIR.iterdir():
+        if static_file.is_file():
+            (SITE_DIR / static_file.name).write_bytes(static_file.read_bytes())
+
+    # LLM / raw-data mirror: copy every public root-level artifact into site/
+    # so existing URLs stay byte-identical after the deploy switches.
+    mirror_files = [
+        "index.json", "llms.txt", "llms-full.txt", "feed.xml", "sitemap.xml",
+        "hernanicosta.json", "CITATION.cff", "ABOUT.md", "README.md",
+        "robots.txt", "CNAME",
+        # Google Search Console verification file — lives at repo root, glob below catches it.
+    ]
+    for name in mirror_files:
+        src = REPO_ROOT / name
+        if src.exists():
+            (SITE_DIR / name).write_bytes(src.read_bytes())
+    # Google verification file (google*.html) — pick up any matches.
+    for f in REPO_ROOT.glob("google*.html"):
+        (SITE_DIR / f.name).write_bytes(f.read_bytes())
+
+    # Copy the full articles/ tree so raw .md and metadata.json keep serving.
+    import shutil
+    shutil.copytree(REPO_ROOT / "articles", SITE_DIR / "articles")
+
+    total_pages = 1 + 1 + topic_pages + 1 + 1  # home + topics_index + topic pages + about + 404
+    print(f"[site] pages={total_pages} topic_pages={topic_pages} "
+          f"topics_with_page={len(topics_with_page)} min_articles={MIN_ARTICLES_FOR_TOPIC_PAGE} "
+          f"out={SITE_DIR}")
+
+
+# ---------------------------------------------------------------------------
 if __name__ == "__main__":
     idx = build_index()
     update_docs(idx)
     build_sitemap(idx)
     build_feed(idx)
     build_llms_full(idx)
+    build_site(idx)
