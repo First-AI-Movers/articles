@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-04-22",
-  "total_articles": 770,
+  "total_articles": 769,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -2288,21 +2288,6 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/b2b-ai-product-architecture-billing-owner-workspace-2026"
-    },
-    {
-      "folder": "2026-03-29-firecrawl-explained-ai-data-agents",
-      "title": "Firecrawl Explained: The Eyes and Hands Your AI Need to Build Real Products",
-      "published_date": "2026-03-29",
-      "tags": [
-        "structured web data for AI",
-        "AI context pipelines",
-        "web scraping for SMEs",
-        "AI agent capabilities",
-        "data extraction for decision making",
-        "business process optimization with AI"
-      ],
-      "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/firecrawl-explained-ai-data-agents"
     },
     {
       "folder": "2026-03-29-firecrawl-web-data-layer-ai-builders-2026",
