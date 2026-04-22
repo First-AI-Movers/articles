@@ -253,6 +253,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-17-claude-opus-4-european-teams-guide-2026/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://articles.firstaimovers.com/articles/2026-04-17-eu-ai-act-august-2026-deadline-action-plan-smes/</loc>
     <lastmod>2026-04-17</lastmod>
     <changefreq>monthly</changefreq>
@@ -289,6 +295,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-ai-consulting-antwerp-industrial-port-smes-2026/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-ai-consulting-ghent-tech-creative-smes-2026/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://articles.firstaimovers.com/articles/2026-04-16-ai-consulting-guimaraes-textile-manufacturing-smes-2026/</loc>
     <lastmod>2026-04-16</lastmod>
     <changefreq>monthly</changefreq>
@@ -313,6 +331,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-ai-governance-veterinary-animal-health-smes-eu-2026/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-ai-skills-assessment-hiring-framework-european-smes-202/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://articles.firstaimovers.com/articles/2026-04-16-ai-strategy-roadmap-european-smes-2026/</loc>
     <lastmod>2026-04-16</lastmod>
     <changefreq>monthly</changefreq>
@@ -325,7 +355,25 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-ai-vendor-lock-in-assessment-framework-european-smes-20/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://articles.firstaimovers.com/articles/2026-04-16-claude-ai-vs-claude-code-api-anthropic-products-2026/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-claude-max-plan-guide-european-teams-2026/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-copilot-studio-vs-power-automate-decision-guide-smes-20/</loc>
     <lastmod>2026-04-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -337,7 +385,19 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-fractional-cto-ai-governance-lead-european-smes-2026/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://articles.firstaimovers.com/articles/2026-04-16-google-gemini-european-smes-teams-2026/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://articles.firstaimovers.com/articles/2026-04-16-microsoft-ai-observability-monitoring-european-smes-202/</loc>
     <lastmod>2026-04-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

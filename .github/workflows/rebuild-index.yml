@@ -1,0 +1,43 @@
+name: Rebuild index on article change
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'articles/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild-index
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Rebuild index, sitemap, README, llms.txt
+        run: python3 tools/rebuild_local.py
+
+      - name: Commit and push if changed
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "Index Bot"
+          git config user.email "info@firstaimovers.com"
+          git add index.json sitemap.xml README.md llms.txt
+          git commit -m "Rebuild index, sitemap, docs after article change"
+          git push
