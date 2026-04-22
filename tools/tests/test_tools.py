@@ -647,3 +647,99 @@ class TestBuildFeed:
         out2 = self._run_build_feed(monkeypatch, tmp_path, idx)
         summary2 = fromstring(out2).find(f"{self.ATOM_NS}entry/{self.ATOM_NS}summary").text
         assert summary2 == "The short summary."
+
+
+# =========================================================================
+# Tests: rebuild_local.py llms-full.txt builder
+# =========================================================================
+
+class TestBuildLlmsFull:
+    """Full-corpus concatenation for LLM ingestion."""
+
+    def _mod(self):
+        import rebuild_local
+        return rebuild_local
+
+    def _run(self, monkeypatch, tmp_path, articles_on_disk=None):
+        """Build llms-full.txt against a synthetic corpus."""
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+
+        index = {"articles": []}
+        for spec in (articles_on_disk or []):
+            folder = spec["folder"]
+            (tmp_path / "articles" / folder).mkdir(exist_ok=True)
+            (tmp_path / "articles" / folder / "article.md").write_text(
+                spec.get("body", f"---\ntitle: {spec['title']}\n---\n# {spec['title']}\n\nBody of {folder}.\n"))
+            index["articles"].append({
+                "folder": folder,
+                "title": spec["title"],
+                "published_date": spec["published_date"],
+                "tags": spec.get("tags", []),
+                "funnel_stage": "middle",
+                "canonical_url": spec.get("canonical_url", f"https://radar.firstaimovers.com/{folder}"),
+            })
+        index["articles"].sort(key=lambda a: a["published_date"], reverse=True)
+        m.build_llms_full(index)
+        return (tmp_path / "llms-full.txt").read_text(encoding="utf-8")
+
+    def test_header_contains_corpus_metadata(self, monkeypatch, tmp_path):
+        out = self._run(monkeypatch, tmp_path, [
+            {"folder": "2026-01-01-first", "title": "First", "published_date": "2026-01-01"},
+        ])
+        assert "First AI Movers — Full Article Archive" in out
+        assert "CC BY 4.0" in out
+        assert "ORCID 0000-0002-6813-4641" in out
+
+    def test_articles_emitted_newest_first(self, monkeypatch, tmp_path):
+        out = self._run(monkeypatch, tmp_path, [
+            {"folder": "2025-06-01-older", "title": "Older Article", "published_date": "2025-06-01"},
+            {"folder": "2026-04-01-newer", "title": "Newer Article", "published_date": "2026-04-01"},
+        ])
+        assert out.index("Newer Article") < out.index("Older Article")
+
+    def test_per_entry_header_has_title_date_url_tags(self, monkeypatch, tmp_path):
+        out = self._run(monkeypatch, tmp_path, [
+            {"folder": "2026-04-01-x", "title": "The Title", "published_date": "2026-04-01",
+             "tags": ["alpha", "beta"],
+             "canonical_url": "https://radar.firstaimovers.com/the-title"},
+        ])
+        assert "# The Title" in out
+        assert "**Published:** 2026-04-01" in out
+        assert "**URL:** https://radar.firstaimovers.com/the-title" in out
+        assert "**Tags:** alpha, beta" in out
+
+    def test_leading_h1_in_body_is_stripped(self, monkeypatch, tmp_path):
+        out = self._run(monkeypatch, tmp_path, [
+            {"folder": "2026-04-01-x", "title": "The Title", "published_date": "2026-04-01",
+             "body": "---\ntitle: x\n---\n# Duplicate Heading\n\nBody text here."},
+        ])
+        # Only the emitted header H1 should be present; body's H1 stripped
+        assert out.count("# Duplicate Heading") == 0
+        assert "Body text here." in out
+
+    def test_missing_article_md_is_skipped_not_fatal(self, monkeypatch, tmp_path):
+        m = self._mod()
+        (tmp_path / "articles").mkdir()
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        # Folder referenced in index but no file on disk
+        index = {"articles": [
+            {"folder": "ghost", "title": "Ghost", "published_date": "2026-01-01",
+             "tags": [], "canonical_url": "https://radar.firstaimovers.com/ghost"},
+        ]}
+        m.build_llms_full(index)  # must not raise
+        out = (tmp_path / "llms-full.txt").read_text(encoding="utf-8")
+        assert "Ghost" not in out  # skipped entirely
+        assert "Articles: 1" in out  # header still computed from index total
+
+    def test_newline_canonical_is_cleaned(self, monkeypatch, tmp_path):
+        """LinkedIn-batch articles have newlines inside the canonical_url value."""
+        out = self._run(monkeypatch, tmp_path, [
+            {"folder": "2026-01-21-x", "title": "LinkedIn One",
+             "published_date": "2026-01-21",
+             "canonical_url": "\nhttps://www.linkedin.com/pulse/linkedin-one\n"},
+        ])
+        assert "**URL:** https://www.linkedin.com/pulse/linkedin-one" in out
