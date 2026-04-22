@@ -173,9 +173,9 @@ articles/
 ├── robots.txt                 ← Crawler directives + sitemap pointer
 ├── llms.txt                   ← LLM discovery file
 ├── tools/
-│   ├── rebuild_index.py       ← Index rebuilder script
-│   ├── update_docs.py         ← Doc stats updater (runs after index rebuild)
-│   ├── generate_sitemap.py    ← Sitemap generator (runs after docs update)
+│   ├── rebuild_local.py       ← Rebuild index, sitemap, feed, corpus, docs (runs in CI)
+│   ├── add_tldr.py            ← Generate missing TL;DR sections (manual)
+│   ├── tests/                 ← pytest suite (runs in CI on every PR)
 │   └── requirements.txt       ← Python dependencies
 └── articles/
     ├── 2026-04-04-best-ai-dev-stack-starts-with-review-design/
