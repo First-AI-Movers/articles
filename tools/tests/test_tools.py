@@ -299,10 +299,12 @@ class TestRebuildLocalSitemap:
     REPO_ROOT rather than returning XML. Tests redirect REPO_ROOT to a
     temp directory and parse the written file.
 
-    Support-files block emits 9 URLs: home(1) + 7 weekly (ABOUT, CITATION,
-    hernanicosta.json, llms.txt, llms-full.txt, index.json, feed.xml) +
-    README.md(1). Article URLs are emitted only when the canonical_url
-    host is in CANONICAL_ALLOWED_HOSTS; third-party hosts are skipped.
+    Support-files block emits 11 URLs: home(1) + /about/(1) + /topics/(1) +
+    7 weekly (ABOUT, CITATION, hernanicosta.json, llms.txt, llms-full.txt,
+    index.json, feed.xml) + README.md(1). Article URLs are emitted only
+    when the canonical_url host is in CANONICAL_ALLOWED_HOSTS. Topic hub
+    URLs are emitted for every topic with >= MIN_ARTICLES_FOR_TOPIC_PAGE
+    articles in the index (SAMPLE_INDEX has no `topics` field, so zero).
     """
 
     SITEMAP_NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
@@ -323,10 +325,11 @@ class TestRebuildLocalSitemap:
         assert root.tag == f"{self.SITEMAP_NS}urlset"
 
     def test_url_count_with_sample_index(self, monkeypatch, tmp_path):
-        """SAMPLE_INDEX has 3 articles, all on allow-listed hosts."""
+        """SAMPLE_INDEX has 3 articles, all on allow-listed hosts, zero topics."""
         xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
-        # home(1) + support(7) + README(1) + articles(3 allow-listed) = 12
-        assert xml.count("<url>") == 12
+        # home(1) + about(1) + topics(1) + 7 weekly + README(1) = 11 support
+        # + 3 allow-listed articles + 0 topic hubs = 14
+        assert xml.count("<url>") == 14
 
     def test_article_entries_use_canonical_urls(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
@@ -348,8 +351,8 @@ class TestRebuildLocalSitemap:
         xml = self._run(monkeypatch, tmp_path, articles)
         assert "linkedin.com" not in xml
         assert "medium.com" not in xml
-        # Only support URLs remain: home(1) + 7 + README(1) = 9
-        assert xml.count("<url>") == 9
+        # Only support URLs remain: home + about + topics + 7 weekly + README = 11
+        assert xml.count("<url>") == 11
 
     def test_uses_correct_base_url(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, [])
@@ -371,8 +374,30 @@ class TestRebuildLocalSitemap:
 
     def test_empty_index_emits_only_support_urls(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, [])
-        # home(1) + 7 support + README(1) = 9
-        assert xml.count("<url>") == 9
+        # home + about + topics + 7 weekly + README = 11
+        assert xml.count("<url>") == 11
+
+    def test_topic_hub_urls_emitted_for_threshold_topics(self, monkeypatch, tmp_path):
+        """Topics with >= MIN_ARTICLES_FOR_TOPIC_PAGE articles get a sitemap URL."""
+        m = self._mod()
+        # Build an index with one topic above threshold, one below
+        articles = []
+        for i in range(m.MIN_ARTICLES_FOR_TOPIC_PAGE):
+            articles.append({
+                "folder": f"2026-04-{i+1:02d}-a", "title": f"Article {i}",
+                "published_date": f"2026-04-{i+1:02d}", "tags": [],
+                "topics": ["AI Strategy"], "funnel_stage": "middle",
+                "canonical_url": f"https://radar.firstaimovers.com/a{i}",
+            })
+        # Below-threshold topic
+        articles.append({
+            "folder": "2026-04-10-b", "title": "B", "published_date": "2026-04-10",
+            "tags": [], "topics": ["AI Testing"], "funnel_stage": "middle",
+            "canonical_url": "https://radar.firstaimovers.com/b",
+        })
+        xml = self._run(monkeypatch, tmp_path, articles)
+        assert f"{m.SITE_BASE}/topics/ai-strategy/" in xml
+        assert f"{m.SITE_BASE}/topics/ai-testing/" not in xml
 
     def test_malformed_canonical_is_skipped(self, monkeypatch, tmp_path):
         articles = [
@@ -382,7 +407,7 @@ class TestRebuildLocalSitemap:
              "tags": [], "funnel_stage": "middle", "canonical_url": ""},
         ]
         xml = self._run(monkeypatch, tmp_path, articles)
-        assert xml.count("<url>") == 9  # only support URLs
+        assert xml.count("<url>") == 11  # only support URLs (11 total)
 
 
 # =========================================================================

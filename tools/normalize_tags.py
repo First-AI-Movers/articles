@@ -103,6 +103,20 @@ def normalize_services(raw_list):
     return out
 
 
+# String fields where stray whitespace (including the raw newlines the
+# 2026-01-21 LinkedIn batch left inside JSON string values) degrades
+# downstream output (feed <title>, HTML <h1>, llms-full header).
+STRING_FIELDS_TO_CLEAN = ("title", "slug", "canonical_url", "folder")
+
+
+def _clean_string_field(value):
+    """Collapse internal whitespace and strip edges. Safe on non-strings."""
+    if not isinstance(value, str):
+        return value
+    # Strip edges first, then collapse internal whitespace runs to single spaces.
+    return " ".join(value.split())
+
+
 def process_metadata_file(meta_path, patterns, overrides):
     """Update one metadata.json in place. Return (changed, topics, coverage_key)."""
     raw = meta_path.read_text(encoding="utf-8")
@@ -110,13 +124,21 @@ def process_metadata_file(meta_path, patterns, overrides):
 
     new_topics = normalize_tags_for_article(meta.get("tags", []), patterns, overrides)
     new_services = normalize_services(meta.get("first_ai_movers_services", []))
+    cleaned_fields = {
+        field: _clean_string_field(meta.get(field))
+        for field in STRING_FIELDS_TO_CLEAN
+        if field in meta
+    }
 
     changed = (
         meta.get("topics") != new_topics
         or meta.get("first_ai_movers_services") != new_services
+        or any(meta.get(f) != v for f, v in cleaned_fields.items())
     )
     meta["topics"] = new_topics
     meta["first_ai_movers_services"] = new_services
+    for field, value in cleaned_fields.items():
+        meta[field] = value
 
     # Preserve pretty formatting matching the existing style: 2-space indent,
     # ensure_ascii=False, trailing newline.
