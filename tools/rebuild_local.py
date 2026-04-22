@@ -262,7 +262,7 @@ def build_sitemap(index):
     _add_url(urlset, f"{SITE_BASE}/about/", today, "monthly", "0.6")
     _add_url(urlset, f"{SITE_BASE}/topics/", today, "weekly", "0.7")
     for path in ("ABOUT.md", "CITATION.cff", "hernanicosta.json", "llms.txt",
-                 "llms-full.txt", "index.json", "feed.xml"):
+                 "llms-full.txt", "llms-recent.txt", "index.json", "feed.xml"):
         _add_url(urlset, f"{SITE_BASE}/{path}", today, "weekly", "0.5")
     _add_url(urlset, f"{SITE_BASE}/README.md", today, "weekly", "0.7")
 
@@ -516,6 +516,88 @@ def build_llms_full(index):
     print(f"[llms-full.txt] articles={included} skipped={skipped} size={size_mb:.2f}MB")
 
 
+LLMS_RECENT_DAYS = 30
+
+
+def build_llms_recent(index):
+    """Recent-articles slice of llms-full.txt for small-context LLM ingestion.
+
+    Same per-entry shape as llms-full, filtered to the last LLMS_RECENT_DAYS
+    days relative to the newest article in the index (not today — the corpus
+    publish cadence may pause without the file becoming stale). Written to
+    llms-recent.txt at repo root.
+    """
+    from datetime import timedelta
+
+    articles = index["articles"]
+    if not articles:
+        (REPO_ROOT / "llms-recent.txt").write_text("", encoding="utf-8")
+        print("[llms-recent.txt] articles=0 skipped=0 size=0.00MB")
+        return
+
+    try:
+        newest = datetime.strptime(articles[0]["published_date"], "%Y-%m-%d").date()
+    except (KeyError, ValueError):
+        newest = date.today()
+    cutoff = newest - timedelta(days=LLMS_RECENT_DAYS)
+
+    recent = []
+    for a in articles:
+        try:
+            d = datetime.strptime(a.get("published_date", ""), "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        if d >= cutoff:
+            recent.append(a)
+
+    today_iso = str(date.today())
+    header = (
+        "# First AI Movers — Recent Articles\n\n"
+        f"Rolling {LLMS_RECENT_DAYS}-day window of First AI Movers articles by "
+        "Dr. Hernani Costa, optimized for LLM ingestion into small context windows.\n\n"
+        "- Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)\n"
+        "- Publication: First AI Movers — https://firstaimovers.com\n"
+        "- License: Creative Commons Attribution 4.0 International (CC BY 4.0)\n"
+        f"- Articles in window: {len(recent)}\n"
+        f"- Window: {cutoff.isoformat()} to {newest.isoformat()}\n"
+        f"- Generated: {today_iso}\n\n"
+        "Full corpus (all articles, ~7 MB): https://articles.firstaimovers.com/llms-full.txt  \n"
+        "Machine-readable catalog: https://articles.firstaimovers.com/index.json\n\n"
+        "Each article below is prefixed with title, date, URL, and topics, separated by `---` lines.\n"
+    )
+
+    parts = [header]
+    included, skipped = 0, 0
+    for a in recent:
+        folder = a.get("folder") or ""
+        md_path = ARTICLES_DIR / folder / "article.md"
+        if not folder or not md_path.exists():
+            skipped += 1
+            continue
+        body = md_path.read_text(encoding="utf-8", errors="replace")
+        body = _strip_leading_h1(_strip_front_matter(body).lstrip())
+
+        canonical_raw = a.get("canonical_url") or ""
+        canonical = canonical_raw.strip().splitlines()[-1].strip() if canonical_raw.strip() else ""
+        topics = ", ".join(a.get("topics", []))
+
+        parts.append(
+            "\n\n---\n\n"
+            f"# {a.get('title', 'Untitled')}\n\n"
+            f"- **Published:** {a.get('published_date', 'unknown')}\n"
+            f"- **URL:** {canonical}\n"
+            f"- **Topics:** {topics}\n\n"
+            f"{body.rstrip()}\n"
+        )
+        included += 1
+
+    full = "".join(parts)
+    (REPO_ROOT / "llms-recent.txt").write_text(full, encoding="utf-8")
+    size_mb = len(full.encode("utf-8")) / (1024 * 1024)
+    print(f"[llms-recent.txt] articles={included} skipped={skipped} "
+          f"window={cutoff.isoformat()}..{newest.isoformat()} size={size_mb:.2f}MB")
+
+
 # ---------------------------------------------------------------------------
 # Static site (HTML topic hubs + home + about)
 # ---------------------------------------------------------------------------
@@ -712,7 +794,8 @@ def build_site(index):
     # LLM / raw-data mirror: copy every public root-level artifact into the
     # staging dir so existing URLs stay byte-identical after the deploy switches.
     mirror_files = [
-        "index.json", "llms.txt", "llms-full.txt", "feed.xml", "sitemap.xml",
+        "index.json", "llms.txt", "llms-full.txt", "llms-recent.txt",
+        "feed.xml", "sitemap.xml",
         "hernanicosta.json", "CITATION.cff", "ABOUT.md", "README.md",
         "robots.txt", "CNAME",
         # Google Search Console verification file — lives at repo root, glob below catches it.
@@ -748,4 +831,5 @@ if __name__ == "__main__":
     build_sitemap(idx)
     build_feed(idx)
     build_llms_full(idx)
+    build_llms_recent(idx)
     build_site(idx)

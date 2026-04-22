@@ -47,11 +47,11 @@ jobs:
       - name: Commit regenerated artifacts if changed
         run: |
           # Only watch the derived artifacts we commit. site/ is gitignored.
-          if git status --porcelain articles/*/metadata.json index.json sitemap.xml feed.xml llms-full.txt README.md llms.txt | grep -q .; then
+          if git status --porcelain articles/*/metadata.json index.json sitemap.xml feed.xml llms-full.txt llms-recent.txt README.md llms.txt | grep -q .; then
             git config user.name "Index Bot"
             git config user.email "info@firstaimovers.com"
             git add articles/*/metadata.json
-            git add index.json sitemap.xml feed.xml llms-full.txt README.md llms.txt
+            git add index.json sitemap.xml feed.xml llms-full.txt llms-recent.txt README.md llms.txt
             git commit -m "Rebuild derived artifacts"
             git push
           else

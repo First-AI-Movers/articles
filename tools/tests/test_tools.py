@@ -300,11 +300,12 @@ class TestRebuildLocalSitemap:
     temp directory and parse the written file.
 
     Support-files block emits 11 URLs: home(1) + /about/(1) + /topics/(1) +
-    7 weekly (ABOUT, CITATION, hernanicosta.json, llms.txt, llms-full.txt,
-    index.json, feed.xml) + README.md(1). Article URLs are emitted only
-    when the canonical_url host is in CANONICAL_ALLOWED_HOSTS. Topic hub
-    URLs are emitted for every topic with >= MIN_ARTICLES_FOR_TOPIC_PAGE
-    articles in the index (SAMPLE_INDEX has no `topics` field, so zero).
+    8 weekly (ABOUT, CITATION, hernanicosta.json, llms.txt, llms-full.txt,
+    llms-recent.txt, index.json, feed.xml) + README.md(1) = 12 support
+    URLs. Article URLs are emitted only when the canonical_url host is in
+    CANONICAL_ALLOWED_HOSTS. Topic hub URLs are emitted for every topic
+    with >= MIN_ARTICLES_FOR_TOPIC_PAGE articles in the index
+    (SAMPLE_INDEX has no `topics` field, so zero).
     """
 
     SITEMAP_NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
@@ -327,9 +328,9 @@ class TestRebuildLocalSitemap:
     def test_url_count_with_sample_index(self, monkeypatch, tmp_path):
         """SAMPLE_INDEX has 3 articles, all on allow-listed hosts, zero topics."""
         xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
-        # home(1) + about(1) + topics(1) + 7 weekly + README(1) = 11 support
-        # + 3 allow-listed articles + 0 topic hubs = 14
-        assert xml.count("<url>") == 14
+        # home(1) + about(1) + topics(1) + 8 weekly + README(1) = 12 support
+        # + 3 allow-listed articles + 0 topic hubs = 15
+        assert xml.count("<url>") == 15
 
     def test_article_entries_use_canonical_urls(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
@@ -351,8 +352,8 @@ class TestRebuildLocalSitemap:
         xml = self._run(monkeypatch, tmp_path, articles)
         assert "linkedin.com" not in xml
         assert "medium.com" not in xml
-        # Only support URLs remain: home + about + topics + 7 weekly + README = 11
-        assert xml.count("<url>") == 11
+        # Only support URLs remain: home + about + topics + 8 weekly + README = 12
+        assert xml.count("<url>") == 12
 
     def test_uses_correct_base_url(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, [])
@@ -374,8 +375,8 @@ class TestRebuildLocalSitemap:
 
     def test_empty_index_emits_only_support_urls(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, [])
-        # home + about + topics + 7 weekly + README = 11
-        assert xml.count("<url>") == 11
+        # home + about + topics + 8 weekly + README = 12
+        assert xml.count("<url>") == 12
 
     def test_topic_hub_urls_emitted_for_threshold_topics(self, monkeypatch, tmp_path):
         """Topics with >= MIN_ARTICLES_FOR_TOPIC_PAGE articles get a sitemap URL."""
@@ -407,7 +408,7 @@ class TestRebuildLocalSitemap:
              "tags": [], "funnel_stage": "middle", "canonical_url": ""},
         ]
         xml = self._run(monkeypatch, tmp_path, articles)
-        assert xml.count("<url>") == 11  # only support URLs (11 total)
+        assert xml.count("<url>") == 12  # only support URLs (12 total)
 
 
 # =========================================================================
@@ -1043,3 +1044,67 @@ class TestBuildSite:
         assert m._canonical_host_label("https://radar.firstaimovers.com/foo") == "Radar"
         assert m._canonical_host_label("https://www.linkedin.com/pulse/x") == "LinkedIn"
         assert m._canonical_host_label("https://insights.firstaimovers.com/y") == "Insights"
+
+
+# =========================================================================
+# Tests: rebuild_local.py llms-recent.txt (30-day slice)
+# =========================================================================
+
+class TestBuildLlmsRecent:
+    """Rolling window sibling of llms-full.txt."""
+
+    def _mod(self):
+        import rebuild_local
+        return rebuild_local
+
+    def _run(self, monkeypatch, tmp_path, articles_on_disk):
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+
+        index = {"articles": []}
+        for spec in articles_on_disk:
+            folder = spec["folder"]
+            (tmp_path / "articles" / folder).mkdir(exist_ok=True)
+            (tmp_path / "articles" / folder / "article.md").write_text(
+                f"---\ntitle: {spec['title']}\n---\n# {spec['title']}\n\nBody of {folder}.\n")
+            index["articles"].append({
+                "folder": folder,
+                "title": spec["title"],
+                "published_date": spec["published_date"],
+                "tags": [], "topics": [],
+                "funnel_stage": "middle",
+                "canonical_url": f"https://radar.firstaimovers.com/{folder}",
+            })
+        index["articles"].sort(key=lambda a: a["published_date"], reverse=True)
+        m.build_llms_recent(index)
+        return (tmp_path / "llms-recent.txt").read_text(encoding="utf-8")
+
+    def test_filters_to_window_relative_to_newest_not_today(self, monkeypatch, tmp_path):
+        # Articles spanning 60 days; window should be 30 days back from newest.
+        articles = [
+            {"folder": "2026-04-20-new", "title": "NewArticle", "published_date": "2026-04-20"},
+            {"folder": "2026-04-05-mid", "title": "MidArticle", "published_date": "2026-04-05"},
+            {"folder": "2026-02-20-old", "title": "OldArticle", "published_date": "2026-02-20"},
+        ]
+        out = self._run(monkeypatch, tmp_path, articles)
+        assert "NewArticle" in out
+        assert "MidArticle" in out  # within 30 days of 2026-04-20
+        assert "OldArticle" not in out  # 2026-02-20 is 59 days before newest
+
+    def test_header_reports_window_count(self, monkeypatch, tmp_path):
+        out = self._run(monkeypatch, tmp_path, [
+            {"folder": "2026-04-20-a", "title": "A", "published_date": "2026-04-20"},
+            {"folder": "2026-04-15-b", "title": "B", "published_date": "2026-04-15"},
+        ])
+        assert "Articles in window: 2" in out
+        assert "Window: 2026-03-21 to 2026-04-20" in out
+
+    def test_empty_index_writes_empty_file(self, monkeypatch, tmp_path):
+        out = self._run(monkeypatch, tmp_path, [])
+        assert out == ""
+
+    def test_window_size_is_30_days(self):
+        m = self._mod()
+        assert m.LLMS_RECENT_DAYS == 30
