@@ -21,12 +21,24 @@ import re
 import sys
 from datetime import date, datetime
 from pathlib import Path
+from urllib.parse import urlparse
 from xml.dom.minidom import parseString
 from xml.etree.ElementTree import Element, SubElement, tostring
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = REPO_ROOT / "articles"
 SITE_BASE = "https://articles.firstaimovers.com"
+
+# Hosts this organization owns. Articles whose canonical_url points elsewhere
+# (LinkedIn, Medium) stay in index.json but are not advertised in the sitemap:
+# we can't declare third-party URLs as ours to search engines.
+CANONICAL_ALLOWED_HOSTS = {
+    "firstaimovers.com",
+    "www.firstaimovers.com",
+    "radar.firstaimovers.com",
+    "insights.firstaimovers.com",
+    "voices.firstaimovers.com",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -187,26 +199,61 @@ def _add_url(parent, loc, lastmod, changefreq, priority):
     SubElement(el, "priority").text = priority
 
 
+def _clean_canonical(raw):
+    """Return a well-formed http(s) URL or None.
+
+    107 metadata files (2026-01-21 LinkedIn batch) have raw newlines inside
+    the canonical_url string; take the last non-empty line and validate.
+    """
+    if not raw:
+        return None
+    candidate = raw.strip().splitlines()[-1].strip() if raw.strip() else ""
+    parsed = urlparse(candidate)
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        return None
+    return candidate, parsed.netloc.lower()
+
+
 def build_sitemap(index):
     today = str(date.today())
     urlset = Element("urlset")
     urlset.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
+
+    # articles.firstaimovers.com stays in the sitemap as the raw-data / LLM
+    # mirror: index.json, llms.txt, ABOUT.md, etc. really do live there.
     _add_url(urlset, f"{SITE_BASE}/", today, "daily", "1.0")
     for path in ("ABOUT.md", "CITATION.cff", "hernanicosta.json", "llms.txt", "index.json"):
         _add_url(urlset, f"{SITE_BASE}/{path}", today, "weekly", "0.5")
     _add_url(urlset, f"{SITE_BASE}/README.md", today, "weekly", "0.7")
+
+    # Article URLs: emit each article's declared canonical, not a fabricated
+    # articles.firstaimovers.com path. The repo has no static-site renderer,
+    # so /articles/<folder>/ paths 404. The canonical fields point to where
+    # the article actually lives (newsletter, radar, insights, voices).
+    skipped_external = 0
+    skipped_malformed = 0
+    emitted = 0
     for article in index["articles"]:
-        folder = article.get("folder", "")
-        if not folder:
+        parsed = _clean_canonical(article.get("canonical_url"))
+        if parsed is None:
+            skipped_malformed += 1
             continue
-        _add_url(urlset, f"{SITE_BASE}/articles/{folder}/",
+        canonical, host = parsed
+        if host not in CANONICAL_ALLOWED_HOSTS:
+            skipped_external += 1
+            continue
+        _add_url(urlset, canonical,
                  article.get("published_date") or today, "monthly", "0.8")
+        emitted += 1
 
     raw = tostring(urlset, encoding="unicode")
     pretty = parseString(raw).toprettyxml(indent="  ", encoding="UTF-8").decode("utf-8")
     cleaned = "\n".join(line for line in pretty.split("\n") if line.strip()) + "\n"
     (REPO_ROOT / "sitemap.xml").write_text(cleaned, encoding="utf-8")
-    print(f"[sitemap.xml] urls={cleaned.count('<url>')}")
+    print(f"[sitemap.xml] urls={cleaned.count('<url>')} "
+          f"article_urls={emitted} "
+          f"skipped_external={skipped_external} "
+          f"skipped_malformed={skipped_malformed}")
 
 
 # ---------------------------------------------------------------------------
