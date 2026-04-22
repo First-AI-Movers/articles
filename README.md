@@ -231,6 +231,8 @@ This archive is structured for machine readability:
 - **`CITATION.cff`** — Standard citation metadata
 - All content is plain Markdown — no JavaScript rendering required
 
+The repo is mirrored at **[articles.firstaimovers.com](https://articles.firstaimovers.com)** as a raw-data surface — `index.json`, `llms.txt`, `hernanicosta.json`, `ABOUT.md`, and every `article.md` are served directly for machine consumption. Human reading of individual articles happens on the canonical properties below (**Radar**, **Insights**, the newsletter, **Voices**), each declared in the article's `metadata.json` `canonical_url`. The `sitemap.xml` advertises those canonicals, not the raw-data mirror paths.
+
 ---
 
 ## Article Index

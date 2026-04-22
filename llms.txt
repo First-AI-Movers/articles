@@ -14,7 +14,7 @@ Dr. Hernani Costa — PhD in Computational Linguistics (University of Malaga), 2
 - [Author Structured Data](https://github.com/First-AI-Movers/articles/blob/main/hernanicosta.json): Schema.org Person entity in JSON-LD format
 - [Citation](https://github.com/First-AI-Movers/articles/blob/main/CITATION.cff): Machine-readable citation metadata (CFF format)
 - [License](https://github.com/First-AI-Movers/articles/blob/main/LICENSE): Creative Commons Attribution 4.0 International
-- [Sitemap](https://articles.firstaimovers.com/sitemap.xml): XML sitemap for search engine discovery
+- [Sitemap](https://articles.firstaimovers.com/sitemap.xml): XML sitemap. Advertises canonical article URLs on radar/insights/newsletter/voices subdomains; `articles.firstaimovers.com` itself serves this repo as a raw-data mirror for LLM and programmatic consumption.
 
 ## Topics
 
