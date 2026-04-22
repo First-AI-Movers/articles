@@ -1,22 +1,31 @@
 {
-    "id":"recCbsgTJGUowpHne",
-    "title":"
-The Happiness Paradox: Why Waiting for Success Is Robbing You of Joy Today
-",
-    "slug":"happiness-paradox-why-waiting-success-robbing-you-joy-costa-5rwfe",
-    "folder": "2026-01-21-happiness-paradox-why-waiting-success-robbing-you-joy-c",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/happiness-paradox-why-waiting-success-robbing-you-joy-costa-5rwfe
-",
-    "tags":["happiness in the workplace","emotional intelligence for leaders","work-life balance strategies","sustainable leadership practices","internal fulfillment in business","mental health and productivity","employee well-being initiatives"],
-    "word_count": 564,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recCbsgTJGUowpHne",
+  "title": "\nThe Happiness Paradox: Why Waiting for Success Is Robbing You of Joy Today\n",
+  "slug": "happiness-paradox-why-waiting-success-robbing-you-joy-costa-5rwfe",
+  "folder": "2026-01-21-happiness-paradox-why-waiting-success-robbing-you-joy-c",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/happiness-paradox-why-waiting-success-robbing-you-joy-costa-5rwfe\n",
+  "tags": [
+    "happiness in the workplace",
+    "emotional intelligence for leaders",
+    "work-life balance strategies",
+    "sustainable leadership practices",
+    "internal fulfillment in business",
+    "mental health and productivity",
+    "employee well-being initiatives"
+  ],
+  "word_count": 564,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Executive AI Literacy",
+    "AI Productivity Tools",
+    "Healthcare AI"
+  ]
 }

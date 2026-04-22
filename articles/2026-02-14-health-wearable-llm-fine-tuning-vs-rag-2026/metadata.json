@@ -1,18 +1,32 @@
 {
-    "id":"reclqEqHEacIjqBSI",
-    "title":"Building a Health Wearable LLM: When Fine‑Tuning Beats RAG",
-    "slug":"health-wearable-llm-fine-tuning-vs-rag-2026",
-    "folder": "2026-02-14-health-wearable-llm-fine-tuning-vs-rag-2026",
-    "published_date": "2026-02-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/health-wearable-llm-fine-tuning-vs-rag-2026",
-    "tags":["health wearable LLM development","fine-tuning vs RAG","AI governance in healthcare","personalized health coaching","data preparation for AI models","healthcare AI deployment strategies"],
-    "word_count": 2176,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reclqEqHEacIjqBSI",
+  "title": "Building a Health Wearable LLM: When Fine‑Tuning Beats RAG",
+  "slug": "health-wearable-llm-fine-tuning-vs-rag-2026",
+  "folder": "2026-02-14-health-wearable-llm-fine-tuning-vs-rag-2026",
+  "published_date": "2026-02-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/health-wearable-llm-fine-tuning-vs-rag-2026",
+  "tags": [
+    "health wearable LLM development",
+    "fine-tuning vs RAG",
+    "AI governance in healthcare",
+    "personalized health coaching",
+    "data preparation for AI models",
+    "healthcare AI deployment strategies"
+  ],
+  "word_count": 2176,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Healthcare AI",
+    "RAG Architecture",
+    "Fine-Tuning",
+    "AI Governance",
+    "AI Strategy"
+  ]
 }

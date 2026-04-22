@@ -1,18 +1,31 @@
 {
-    "id":"recgdBj7pdGiXQ2n5",
-    "title":"AI Governance Committee Charter for European SMEs: A Practical Setup Guide",
-    "slug":"ai-governance-committee-charter-european-smes-2026",
-    "folder": "2026-04-17-ai-governance-committee-charter-european-smes-2026",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-governance-committee-charter-european-smes-2026",
-    "tags":["AI governance for European SMEs","EU AI Act compliance","AI tool approval process","data access management","incident response for AI","vendor contract review","AI committee structure"],
-    "word_count": 1375,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recgdBj7pdGiXQ2n5",
+  "title": "AI Governance Committee Charter for European SMEs: A Practical Setup Guide",
+  "slug": "ai-governance-committee-charter-european-smes-2026",
+  "folder": "2026-04-17-ai-governance-committee-charter-european-smes-2026",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-governance-committee-charter-european-smes-2026",
+  "tags": [
+    "AI governance for European SMEs",
+    "EU AI Act compliance",
+    "AI tool approval process",
+    "data access management",
+    "incident response for AI",
+    "vendor contract review",
+    "AI committee structure"
+  ],
+  "word_count": 1375,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "EU AI Act"
+  ]
 }

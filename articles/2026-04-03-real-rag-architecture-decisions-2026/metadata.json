@@ -1,18 +1,32 @@
 {
-    "id":"recMFOo8OuLY9fu3Y",
-    "title":"Stop Starting With the Vector Database: The Real RAG Architecture Decisions in 2026",
-    "slug":"real-rag-architecture-decisions-2026",
-    "folder": "2026-04-03-real-rag-architecture-decisions-2026",
-    "published_date": "2026-04-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/real-rag-architecture-decisions-2026",
-    "tags":["RAG architecture decisions","vector database selection","hybrid retrieval strategies","metadata design for retrieval","reranking in search systems","freshness in AI retrieval","compliance in AI deployment"],
-    "word_count": 1741,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recMFOo8OuLY9fu3Y",
+  "title": "Stop Starting With the Vector Database: The Real RAG Architecture Decisions in 2026",
+  "slug": "real-rag-architecture-decisions-2026",
+  "folder": "2026-04-03-real-rag-architecture-decisions-2026",
+  "published_date": "2026-04-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/real-rag-architecture-decisions-2026",
+  "tags": [
+    "RAG architecture decisions",
+    "vector database selection",
+    "hybrid retrieval strategies",
+    "metadata design for retrieval",
+    "reranking in search systems",
+    "freshness in AI retrieval",
+    "compliance in AI deployment"
+  ],
+  "word_count": 1741,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "RAG Architecture",
+    "Vector Databases",
+    "AI Governance",
+    "AI Strategy"
+  ]
 }

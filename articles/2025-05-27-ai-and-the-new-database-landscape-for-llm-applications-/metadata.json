@@ -1,18 +1,29 @@
 {
-    "id":"reccywmpTnjdlyl87",
-    "title":"AI and the New Database Landscape for LLM Applications",
-    "slug":"ai-and-the-new-database-landscape-for-llm-applications-77e984273793",
-    "folder": "2025-05-27-ai-and-the-new-database-landscape-for-llm-applications-",
-    "published_date": "2025-05-27",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/ai-and-the-new-database-landscape-for-llm-applications-77e984273793",
-    "tags":["AI and database integration","vector search for SMEs","hybrid search technologies","AI applications in business","LLM architecture for enterprises","semantic search solutions"],
-    "word_count": 3355,
-    "read_time_minutes":15,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reccywmpTnjdlyl87",
+  "title": "AI and the New Database Landscape for LLM Applications",
+  "slug": "ai-and-the-new-database-landscape-for-llm-applications-77e984273793",
+  "folder": "2025-05-27-ai-and-the-new-database-landscape-for-llm-applications-",
+  "published_date": "2025-05-27",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/ai-and-the-new-database-landscape-for-llm-applications-77e984273793",
+  "tags": [
+    "AI and database integration",
+    "vector search for SMEs",
+    "hybrid search technologies",
+    "AI applications in business",
+    "LLM architecture for enterprises",
+    "semantic search solutions"
+  ],
+  "word_count": 3355,
+  "read_time_minutes": 15,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

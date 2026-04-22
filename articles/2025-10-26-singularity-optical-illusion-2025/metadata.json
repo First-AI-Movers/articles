@@ -1,18 +1,29 @@
 {
-    "id":"recDAMnjvTVEB4kpU",
-    "title":"The Singularity Is an Optical Illusion—And We're Already Living Through It",
-    "slug":"singularity-optical-illusion-2025",
-    "folder": "2025-10-26-singularity-optical-illusion-2025",
-    "published_date": "2025-10-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/singularity-optical-illusion-2025",
-    "tags":["AI transformation in business","exponential technology growth","AI adaptation strategies","impact of AI on SMEs","AI-driven innovation","navigating AI breakthroughs"],
-    "word_count": 469,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recDAMnjvTVEB4kpU",
+  "title": "The Singularity Is an Optical Illusion—And We're Already Living Through It",
+  "slug": "singularity-optical-illusion-2025",
+  "folder": "2025-10-26-singularity-optical-illusion-2025",
+  "published_date": "2025-10-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/singularity-optical-illusion-2025",
+  "tags": [
+    "AI transformation in business",
+    "exponential technology growth",
+    "AI adaptation strategies",
+    "impact of AI on SMEs",
+    "AI-driven innovation",
+    "navigating AI breakthroughs"
+  ],
+  "word_count": 469,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Change Management",
+    "European SME AI"
+  ]
 }

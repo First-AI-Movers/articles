@@ -1,18 +1,34 @@
 {
-    "id":"recG0BeaeKENTsQVO",
-    "title":"First AI Movers: Tjerrie Smit, Chief Analytics Officer at NN Group",
-    "slug":"nn-group-ai-strategy-tjerrie-smit",
-    "folder": "2026-02-11-nn-group-ai-strategy-tjerrie-smit",
-    "published_date": "2026-02-11",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/nn-group-ai-strategy-tjerrie-smit",
-    "tags":["AI strategy for financial services","AI literacy programs","Large Language Models in finance","customer experience transformation","AI agent deployment","two-minute company concept"],
-    "word_count": 564,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" ai-literacy-training","ai-strategy "],
-    "status": "published"
+  "id": "recG0BeaeKENTsQVO",
+  "title": "First AI Movers: Tjerrie Smit, Chief Analytics Officer at NN Group",
+  "slug": "nn-group-ai-strategy-tjerrie-smit",
+  "folder": "2026-02-11-nn-group-ai-strategy-tjerrie-smit",
+  "published_date": "2026-02-11",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/nn-group-ai-strategy-tjerrie-smit",
+  "tags": [
+    "AI strategy for financial services",
+    "AI literacy programs",
+    "Large Language Models in finance",
+    "customer experience transformation",
+    "AI agent deployment",
+    "two-minute company concept"
+  ],
+  "word_count": 564,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "ai-literacy-training",
+    "ai-strategy"
+  ],
+  "status": "published",
+  "topics": [
+    "Fintech AI",
+    "AI Strategy",
+    "AI Literacy",
+    "AI Agents"
+  ]
 }

@@ -1,18 +1,30 @@
 {
-    "id":"recMenBKE3mP3SGV3",
-    "title":"Why 2025 Founders Must Reinvent Themselves Every 6 Months (Not 18)",
-    "slug":"2025-founder-scaling-startup-leadership",
-    "folder": "2025-09-07-2025-founder-scaling-startup-leadership",
-    "published_date": "2025-09-07",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/2025-founder-scaling-startup-leadership",
-    "tags":["founder role evolution","startup scaling challenges","AI-driven leadership","entrepreneurial adaptability","founder ossification","strategic hiring practices","organizational growth frameworks"],
-    "word_count": 1550,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recMenBKE3mP3SGV3",
+  "title": "Why 2025 Founders Must Reinvent Themselves Every 6 Months (Not 18)",
+  "slug": "2025-founder-scaling-startup-leadership",
+  "folder": "2025-09-07-2025-founder-scaling-startup-leadership",
+  "published_date": "2025-09-07",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/2025-founder-scaling-startup-leadership",
+  "tags": [
+    "founder role evolution",
+    "startup scaling challenges",
+    "AI-driven leadership",
+    "entrepreneurial adaptability",
+    "founder ossification",
+    "strategic hiring practices",
+    "organizational growth frameworks"
+  ],
+  "word_count": 1550,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "B2B SaaS Growth",
+    "Executive AI Literacy"
+  ]
 }

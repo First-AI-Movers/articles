@@ -1,18 +1,32 @@
 {
-    "id":"recFv869z9ZACOVAd",
-    "title":"Analog Edge Chips Quietly Redraw the AI Map",
-    "slug":"encharge-ai-edge-chips",
-    "folder": "2025-06-03-encharge-ai-edge-chips",
-    "published_date": "2025-06-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/encharge-ai-edge-chips",
-    "tags":["analog edge chips","EU data compliance","on-device AI computing","energy-efficient AI","AI hardware innovation","Nvidia Blackwell-Lite","AI strategy for SMEs"],
-    "word_count": 691,
-    "read_time_minutes":4,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recFv869z9ZACOVAd",
+  "title": "Analog Edge Chips Quietly Redraw the AI Map",
+  "slug": "encharge-ai-edge-chips",
+  "folder": "2025-06-03-encharge-ai-edge-chips",
+  "published_date": "2025-06-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/encharge-ai-edge-chips",
+  "tags": [
+    "analog edge chips",
+    "EU data compliance",
+    "on-device AI computing",
+    "energy-efficient AI",
+    "AI hardware innovation",
+    "Nvidia Blackwell-Lite",
+    "AI strategy for SMEs"
+  ],
+  "word_count": 691,
+  "read_time_minutes": 4,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "Energy AI",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

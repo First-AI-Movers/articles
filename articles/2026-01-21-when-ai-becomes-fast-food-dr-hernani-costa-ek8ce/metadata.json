@@ -1,22 +1,31 @@
 {
-    "id":"recE4yTlctWxXPHCR",
-    "title":"
-When AI Becomes Fast Food
-",
-    "slug":"when-ai-becomes-fast-food-dr-hernani-costa-ek8ce",
-    "folder": "2026-01-21-when-ai-becomes-fast-food-dr-hernani-costa-ek8ce",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/when-ai-becomes-fast-food-dr-hernani-costa-ek8ce
-",
-    "tags":["AI governance for European SMEs","impact of generative AI","critical thinking and AI","AI in human relationships","AI literacy for executives","AI strategy for SMEs"],
-    "word_count": 400,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recE4yTlctWxXPHCR",
+  "title": "\nWhen AI Becomes Fast Food\n",
+  "slug": "when-ai-becomes-fast-food-dr-hernani-costa-ek8ce",
+  "folder": "2026-01-21-when-ai-becomes-fast-food-dr-hernani-costa-ek8ce",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/when-ai-becomes-fast-food-dr-hernani-costa-ek8ce\n",
+  "tags": [
+    "AI governance for European SMEs",
+    "impact of generative AI",
+    "critical thinking and AI",
+    "AI in human relationships",
+    "AI literacy for executives",
+    "AI strategy for SMEs"
+  ],
+  "word_count": 400,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "AI Literacy",
+    "AI Strategy"
+  ]
 }

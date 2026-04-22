@@ -1,18 +1,31 @@
 {
-    "id":"recDLLhXb9sZq50EX",
-    "title":"The Great Lock-In: Your Personal Playbook for Closing 2025 Strong",
-    "slug":"great-lock-in-ai-business-transformation-playbook-2025-2026",
-    "folder": "2025-09-14-great-lock-in-ai-business-transformation-playbook-2025-",
-    "published_date": "2025-09-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/great-lock-in-ai-business-transformation-playbook-2025-2026",
-    "tags":["AI transformation strategies","personalized health improvement","business growth with AI","wearable technology for productivity","accountability in goal setting","AI-first company guidance"],
-    "word_count": 674,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recDLLhXb9sZq50EX",
+  "title": "The Great Lock-In: Your Personal Playbook for Closing 2025 Strong",
+  "slug": "great-lock-in-ai-business-transformation-playbook-2025-2026",
+  "folder": "2025-09-14-great-lock-in-ai-business-transformation-playbook-2025-",
+  "published_date": "2025-09-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/great-lock-in-ai-business-transformation-playbook-2025-2026",
+  "tags": [
+    "AI transformation strategies",
+    "personalized health improvement",
+    "business growth with AI",
+    "wearable technology for productivity",
+    "accountability in goal setting",
+    "AI-first company guidance"
+  ],
+  "word_count": 674,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Change Management",
+    "Healthcare AI",
+    "AI Productivity Tools",
+    "AI Strategy"
+  ]
 }

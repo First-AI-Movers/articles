@@ -1,22 +1,28 @@
 {
-    "id":"rec1NhfNNmHJgTNS9",
-    "title":"
-Musk's Bid, Altman's 'No Thank You': What It Means for the Future of AI Consolidation
-",
-    "slug":"musks-bid-altmans-thank-you-what-means-future-ai-dr-hernani-costa-fczme",
-    "folder": "2026-01-21-musks-bid-altmans-thank-you-what-means-future-ai-dr-her",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/musks-bid-altmans-thank-you-what-means-future-ai-dr-hernani-costa-fczme
-",
-    "tags":["AI industry consolidation trends","OpenAI acquisition implications","European SME AI strategy","Musk Altman AI dynamics","AI competitive landscape analysis"],
-    "word_count": 410,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec1NhfNNmHJgTNS9",
+  "title": "\nMusk's Bid, Altman's 'No Thank You': What It Means for the Future of AI Consolidation\n",
+  "slug": "musks-bid-altmans-thank-you-what-means-future-ai-dr-hernani-costa-fczme",
+  "folder": "2026-01-21-musks-bid-altmans-thank-you-what-means-future-ai-dr-her",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/musks-bid-altmans-thank-you-what-means-future-ai-dr-hernani-costa-fczme\n",
+  "tags": [
+    "AI industry consolidation trends",
+    "OpenAI acquisition implications",
+    "European SME AI strategy",
+    "Musk Altman AI dynamics",
+    "AI competitive landscape analysis"
+  ],
+  "word_count": 410,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

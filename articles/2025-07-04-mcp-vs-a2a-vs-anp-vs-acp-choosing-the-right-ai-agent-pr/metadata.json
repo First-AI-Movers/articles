@@ -1,18 +1,32 @@
 {
-    "id":"recll4uypwpiN9Nxf",
-    "title":"MCP vs A2A vs ANP vs ACP: Choosing the Right AI Agent Protocol",
-    "slug":"mcp-vs-a2a-vs-anp-vs-acp-choosing-the-right-ai-agent-protocol-70da0b6e10a0",
-    "folder": "2025-07-04-mcp-vs-a2a-vs-anp-vs-acp-choosing-the-right-ai-agent-pr",
-    "published_date": "2025-07-04",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/mcp-vs-a2a-vs-anp-vs-acp-choosing-the-right-ai-agent-protocol-70da0b6e10a0",
-    "tags":["AI agent interoperability","MCP vs A2A comparison","AI communication protocols","enterprise AI integration","decentralized AI ecosystems","AI agent collaboration strategies"],
-    "word_count": 3675,
-    "read_time_minutes":16,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recll4uypwpiN9Nxf",
+  "title": "MCP vs A2A vs ANP vs ACP: Choosing the Right AI Agent Protocol",
+  "slug": "mcp-vs-a2a-vs-anp-vs-acp-choosing-the-right-ai-agent-protocol-70da0b6e10a0",
+  "folder": "2025-07-04-mcp-vs-a2a-vs-anp-vs-acp-choosing-the-right-ai-agent-pr",
+  "published_date": "2025-07-04",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/mcp-vs-a2a-vs-anp-vs-acp-choosing-the-right-ai-agent-protocol-70da0b6e10a0",
+  "tags": [
+    "AI agent interoperability",
+    "MCP vs A2A comparison",
+    "AI communication protocols",
+    "enterprise AI integration",
+    "decentralized AI ecosystems",
+    "AI agent collaboration strategies"
+  ],
+  "word_count": 3675,
+  "read_time_minutes": 16,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "Model Context Protocol",
+    "France and Benelux AI",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

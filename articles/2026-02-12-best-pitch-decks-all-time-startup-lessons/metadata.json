@@ -1,18 +1,29 @@
 {
-    "id":"recngcfUKSVIWBfZG",
-    "title":"Best Pitch Decks of All Time",
-    "slug":"best-pitch-decks-all-time-startup-lessons",
-    "folder": "2026-02-12-best-pitch-decks-all-time-startup-lessons",
-    "published_date": "2026-02-12",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/best-pitch-decks-all-time-startup-lessons",
-    "tags":["best pitch decks","startup funding strategies","investor presentation tips","effective pitch deck design","European SME growth","narrative storytelling in pitches"],
-    "word_count": 1165,
-    "read_time_minutes":6,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recngcfUKSVIWBfZG",
+  "title": "Best Pitch Decks of All Time",
+  "slug": "best-pitch-decks-all-time-startup-lessons",
+  "folder": "2026-02-12-best-pitch-decks-all-time-startup-lessons",
+  "published_date": "2026-02-12",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/best-pitch-decks-all-time-startup-lessons",
+  "tags": [
+    "best pitch decks",
+    "startup funding strategies",
+    "investor presentation tips",
+    "effective pitch deck design",
+    "European SME growth",
+    "narrative storytelling in pitches"
+  ],
+  "word_count": 1165,
+  "read_time_minutes": 6,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "B2B SaaS Growth",
+    "European SME AI"
+  ]
 }

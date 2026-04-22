@@ -1,22 +1,32 @@
 {
-    "id":"recviDLjIOnvsFnzt",
-    "title":"
-The Death of Apps? How OpenAI's Operator Will Reshape Industries Forever
-",
-    "slug":"death-apps-how-openais-operator-reshape-industries-forever-costa-fvwfe",
-    "folder": "2026-01-21-death-apps-how-openais-operator-reshape-industries-fore",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/death-apps-how-openais-operator-reshape-industries-forever-costa-fvwfe
-",
-    "tags":["AI agent deployment","impact of AI on productivity","disruption of traditional applications","future of work with AI","AI in customer support","AI-driven e-commerce solutions"],
-    "word_count": 319,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recviDLjIOnvsFnzt",
+  "title": "\nThe Death of Apps? How OpenAI's Operator Will Reshape Industries Forever\n",
+  "slug": "death-apps-how-openais-operator-reshape-industries-forever-costa-fvwfe",
+  "folder": "2026-01-21-death-apps-how-openais-operator-reshape-industries-fore",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/death-apps-how-openais-operator-reshape-industries-forever-costa-fvwfe\n",
+  "tags": [
+    "AI agent deployment",
+    "impact of AI on productivity",
+    "disruption of traditional applications",
+    "future of work with AI",
+    "AI in customer support",
+    "AI-driven e-commerce solutions"
+  ],
+  "word_count": 319,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "AI Productivity Tools",
+    "Future of Work",
+    "AI for Operations",
+    "Retail AI"
+  ]
 }

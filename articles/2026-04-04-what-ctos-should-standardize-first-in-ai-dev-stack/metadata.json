@@ -1,18 +1,29 @@
 {
-    "id":"recizEcKaEXgLNjTn",
-    "title":"What CTOs Should Standardize First in an AI Dev Stack",
-    "slug":"what-ctos-should-standardize-first-in-ai-dev-stack",
-    "folder": "2026-04-04-what-ctos-should-standardize-first-in-ai-dev-stack",
-    "published_date": "2026-04-04",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/what-ctos-should-standardize-first-in-ai-dev-stack",
-    "tags":["AI development strategy","operating model standardization","AI tool selection framework","workflow classification for AI","review and approval processes","AI instruction layer","permissions and context management"],
-    "word_count": 1362,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recizEcKaEXgLNjTn",
+  "title": "What CTOs Should Standardize First in an AI Dev Stack",
+  "slug": "what-ctos-should-standardize-first-in-ai-dev-stack",
+  "folder": "2026-04-04-what-ctos-should-standardize-first-in-ai-dev-stack",
+  "published_date": "2026-04-04",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/what-ctos-should-standardize-first-in-ai-dev-stack",
+  "tags": [
+    "AI development strategy",
+    "operating model standardization",
+    "AI tool selection framework",
+    "workflow classification for AI",
+    "review and approval processes",
+    "AI instruction layer",
+    "permissions and context management"
+  ],
+  "word_count": 1362,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Context Engineering"
+  ]
 }

@@ -23,11 +23,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI automation agency selection"/>
-    <category term="Utrecht business process improvement"/>
-    <category term="AI implementation best practices"/>
-    <category term="GDPR compliance for automation"/>
-    <category term="AI strategy for SMEs"/>
+    <category term="Business Process Automation"/>
+    <category term="Netherlands AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Strategy"/>
+    <category term="GDPR &amp; Data Privacy"/>
     <summary type="text">Utrecht businesses face a noisy AI automation market. Here is how to identify credible process partners before committing.</summary>
   </entry>
   <entry>
@@ -40,11 +40,9 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI governance for European SMEs"/>
-    <category term="lightweight AI programme management"/>
-    <category term="AI pilot visibility and ownership"/>
-    <category term="AI tool inventory management"/>
-    <category term="measurable AI business outcomes"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="AI Vendor Evaluation"/>
     <summary type="text">How growing companies build a lightweight AI programme function: pilot visibility, clear ownership, and measurable business results.</summary>
   </entry>
   <entry>
@@ -57,11 +55,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="Claude Code rollout strategy"/>
-    <category term="AI governance for Dutch SMEs"/>
-    <category term="EU AI Act considerations"/>
-    <category term="AI tool pilot programs"/>
-    <category term="Engineering team productivity"/>
+    <category term="Claude Code"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="Netherlands AI"/>
+    <category term="EU AI Act"/>
     <summary type="text">Rolling out Claude Code to a dev team is a governance decision as much as a tooling one. Pilot project-locally first and confirm data residency before connecting any external codebase.</summary>
   </entry>
   <entry>
@@ -74,11 +72,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI coding tools evolution"/>
-    <category term="Claude Desktop redesign"/>
-    <category term="Codex update implications"/>
-    <category term="engineering team workflows"/>
-    <category term="autonomous agents in development"/>
+    <category term="AI Coding Tools"/>
+    <category term="Claude Models"/>
+    <category term="OpenAI Codex"/>
+    <category term="AI for Engineering Teams"/>
+    <category term="AI Governance"/>
     <summary type="text">What shipped in the April 2026 Claude Desktop redesign and Codex update, Routines, computer use, parallel agents, and what it means for your team.</summary>
   </entry>
   <entry>
@@ -91,11 +89,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="Claude Routines for engineering teams"/>
-    <category term="AI automation strategies"/>
-    <category term="GitHub integration for SMEs"/>
-    <category term="AI governance considerations"/>
-    <category term="Automating software development tasks"/>
+    <category term="Claude Models"/>
+    <category term="AI for Engineering Teams"/>
+    <category term="European SME AI"/>
+    <category term="AI Governance"/>
+    <category term="AI Agents"/>
     <summary type="text">A practical guide to Claude Routines, what to automate, what to avoid, how triggers work, usage limits, and how they compare to GitHub Actions.</summary>
   </entry>
   <entry>
@@ -108,11 +106,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI governance for European SMEs"/>
-    <category term="Claude Routines vs Codex Automations"/>
-    <category term="AI agent deployment"/>
-    <category term="engineering team automation"/>
-    <category term="AI security policies"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="Claude Models"/>
+    <category term="OpenAI Codex"/>
+    <category term="AI Agents"/>
     <summary type="text">Claude Routines vs Codex Automations: side-by-side for engineering teams on triggers, pricing, security, and which platform fits your workflow.</summary>
   </entry>
   <entry>
@@ -125,11 +123,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI governance for European SMEs"/>
-    <category term="Codex desktop control"/>
-    <category term="AI agent deployment"/>
-    <category term="security implications of AI"/>
-    <category term="automation in software development"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="OpenAI Codex"/>
+    <category term="AI Agents"/>
+    <category term="GDPR &amp; Data Privacy"/>
     <summary type="text">OpenAI Codex can now control your desktop autonomously. What it does, the security surface it creates, and what CTOs need to decide before deploying.</summary>
   </entry>
   <entry>
@@ -142,11 +140,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consultant selection"/>
-    <category term="AI readiness assessment"/>
-    <category term="Dutch SME AI strategy"/>
-    <category term="AI implementation guidance"/>
-    <category term="AI governance in the Netherlands"/>
+    <category term="AI Readiness"/>
+    <category term="European SME AI"/>
+    <category term="Netherlands AI"/>
+    <category term="AI Strategy"/>
+    <category term="AI Governance"/>
     <summary type="text">Choosing an AI consultant in the Netherlands is about whether the engagement improves your decisions, not credentials. Evaluate on decision quality and scope discipline, not AI claims.</summary>
   </entry>
   <entry>
@@ -159,11 +157,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI agents vs workflow automation"/>
-    <category term="EU compliance considerations"/>
-    <category term="AI deployment for SMEs"/>
-    <category term="workflow automation tools"/>
-    <category term="AI agent capabilities"/>
+    <category term="AI Agents"/>
+    <category term="AI Workflow Automation"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="AI Strategy"/>
     <summary type="text">Decide between AI agents and tools like n8n or Zapier. A practical comparison for European SME operators with real use cases and setup guidance.</summary>
   </entry>
   <entry>
@@ -176,11 +174,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI strategy for Dublin SMEs"/>
-    <category term="GDPR compliance in fintech"/>
-    <category term="AI implementation guidance"/>
-    <category term="Dublin tech market insights"/>
-    <category term="AI advisory models for startups"/>
+    <category term="European SME AI"/>
+    <category term="UK and Ireland AI"/>
+    <category term="AI Strategy"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
     <summary type="text">AI strategy, IDPC compliance, and Central Bank guidance for Dublin fintech and tech SMEs. Get the right advisory model for your Irish business.</summary>
   </entry>
   <entry>
@@ -193,11 +191,10 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="GEO for European SMEs"/>
-    <category term="AI search visibility strategies"/>
-    <category term="generative AI optimization"/>
-    <category term="B2B AI consultant discovery"/>
-    <category term="cross-source presence building"/>
+    <category term="European SME AI"/>
+    <category term="AI SEO and GEO"/>
+    <category term="B2B SaaS Growth"/>
+    <category term="Professional Services AI"/>
     <summary type="text">Learn how European SMEs can appear in AI search results from ChatGPT, Gemini, and Perplexity. Five practical GEO steps for non-technical teams.</summary>
   </entry>
   <entry>
@@ -210,11 +207,10 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI hiring strategies for SMEs"/>
-    <category term="AI Operational Lead role"/>
-    <category term="European AI salary benchmarks"/>
-    <category term="AI adoption frameworks"/>
-    <category term="AI tool integration for small businesses"/>
+    <category term="European SME AI"/>
+    <category term="Model Evaluation"/>
+    <category term="AI Strategy"/>
+    <category term="AI Team Hiring"/>
     <summary type="text">Which AI role to hire first, EU salary benchmarks, and a vetting framework for founders and ops leaders who lack a technical background.</summary>
   </entry>
   <entry>
@@ -227,11 +223,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="MCP server security risks"/>
-    <category term="EU AI Act compliance"/>
-    <category term="AI tool deployment checklist"/>
-    <category term="data privacy for European teams"/>
-    <category term="AI governance for SMEs"/>
+    <category term="Model Context Protocol"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="European SME AI"/>
     <summary type="text">Five MCP security risks European teams must audit before deploying AI tools. Includes a checklist and EU AI Act risk classification guide.</summary>
   </entry>
   <entry>
@@ -244,11 +240,9 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI adoption strategies for SMEs"/>
-    <category term="change management in European firms"/>
-    <category term="overcoming AI resistance"/>
-    <category term="AI tool implementation"/>
-    <category term="workflow mapping for AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Strategy"/>
+    <category term="AI Change Management"/>
     <summary type="text">Getting your team to actually use AI tools requires change management, not just a licence. A practical playbook for European SME leaders.</summary>
   </entry>
   <entry>
@@ -261,11 +255,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for Barcelona companies"/>
-    <category term="EU AI Act compliance"/>
-    <category term="AEPD and AESIA regulations"/>
-    <category term="AI adoption in fintech"/>
-    <category term="Multilingual AI deployment"/>
+    <category term="Iberia AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
     <summary type="text">AI consulting for Barcelona tech and fintech companies: 22@ district context, AEPD compliance, AESIA obligations, and what a local engagement delivers.</summary>
   </entry>
   <entry>
@@ -278,11 +272,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for fintech"/>
-    <category term="BaFin compliance requirements"/>
-    <category term="DORA regulatory framework"/>
-    <category term="AI governance in financial services"/>
-    <category term="Frankfurt fintech landscape"/>
+    <category term="Fintech AI"/>
+    <category term="AI Consulting"/>
+    <category term="AI Governance"/>
+    <category term="AI Regulation"/>
+    <category term="DACH AI"/>
     <summary type="text">AI consulting for Frankfurt fintech firms: BaFin oversight, DORA compliance, BSI guidelines, and what a local AI engagement delivers.</summary>
   </entry>
   <entry>
@@ -295,11 +289,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI adoption for Madrid SMEs"/>
-    <category term="AESIA compliance for tech companies"/>
-    <category term="AI use cases in fintech and HR tech"/>
-    <category term="Spanish language AI capabilities"/>
-    <category term="Selecting AI consulting partners"/>
+    <category term="European SME AI"/>
+    <category term="Iberia AI"/>
+    <category term="AI Strategy"/>
+    <category term="AI Governance"/>
+    <category term="AI for HR"/>
     <summary type="text">AI adoption for tech and innovation SMEs in Madrid: AESIA compliance, sector use cases, and finding the right AI consulting partner.</summary>
   </entry>
   <entry>
@@ -312,11 +306,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for SMEs"/>
-    <category term="Milan fintech landscape"/>
-    <category term="EU AI Act compliance"/>
-    <category term="Italian regulatory environment"/>
-    <category term="AI governance for SMEs"/>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="Fintech AI"/>
+    <category term="Italy AI"/>
+    <category term="EU AI Act"/>
     <summary type="text">Milan's fintech and professional services SMEs face a distinct regulatory stack. Here is what AI consulting looks like in the Italian market in 2026.</summary>
   </entry>
   <entry>
@@ -329,11 +323,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI adoption guidance for SMEs"/>
-    <category term="EU AI Act compliance"/>
-    <category term="Munich manufacturing AI use cases"/>
-    <category term="AI consulting for Mittelstand"/>
-    <category term="Bavarian industrial AI strategies"/>
+    <category term="European SME AI"/>
+    <category term="AI Strategy"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="Manufacturing AI"/>
     <summary type="text">AI adoption guidance for tech and manufacturing SMEs in Munich: EU AI Act compliance, sector use cases, and finding the right consultant.</summary>
   </entry>
   <entry>
@@ -346,11 +340,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for industrial firms"/>
-    <category term="EU AI Act compliance"/>
-    <category term="predictive maintenance in manufacturing"/>
-    <category term="logistics optimization with AI"/>
-    <category term="quality control automation"/>
+    <category term="Manufacturing AI"/>
+    <category term="AI Consulting"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
     <summary type="text">AI consulting for Orebro industrial and engineering companies: use cases, EU compliance, and what a 3-month engagement delivers.</summary>
   </entry>
   <entry>
@@ -363,11 +357,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for SMEs"/>
-    <category term="Austrian Mittelstand AI"/>
-    <category term="EU AI Act risk assessment"/>
-    <category term="DSG compliance for AI"/>
-    <category term="AI adoption in Vienna"/>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="DACH AI"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
     <summary type="text">Vienna SMEs face unique AI challenges: DSG compliance, Mittelstand culture, and EU AI Act risk. Here is what a real consulting engagement delivers.</summary>
   </entry>
   <entry>
@@ -380,11 +374,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for Zurich firms"/>
-    <category term="Swiss nDSG compliance"/>
-    <category term="FINMA AI guidance"/>
-    <category term="EU AI Act exposure"/>
-    <category term="AI use cases in fintech"/>
+    <category term="DACH AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="AI Governance"/>
+    <category term="EU AI Act"/>
     <summary type="text">AI consulting for Zurich fintech and professional services firms: Swiss nDSG, FINMA guidance, and what an advisory engagement covers.</summary>
   </entry>
   <entry>
@@ -397,11 +391,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI data governance framework"/>
-    <category term="GDPR compliance for SMEs"/>
-    <category term="EU AI Act obligations"/>
-    <category term="AI tool inventory management"/>
-    <category term="Data Processing Agreements"/>
+    <category term="AI Governance"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="European SME AI"/>
+    <category term="EU AI Act"/>
+    <category term="AI Risk Management"/>
     <summary type="text">A practical AI data governance framework for European SMEs navigating GDPR and EU AI Act obligations in 2026.</summary>
   </entry>
   <entry>
@@ -414,11 +408,9 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI governance for European SMEs"/>
-    <category term="EU AI Act compliance"/>
-    <category term="AI tool approval process"/>
-    <category term="data access management"/>
-    <category term="incident response for AI"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="EU AI Act"/>
     <summary type="text">A practical blueprint for setting up an AI governance committee in a 20-50 person company, covering structure, decision rights, and EU AI Act compliance.</summary>
   </entry>
   <entry>
@@ -431,11 +423,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI model selection for SMEs"/>
-    <category term="EU data residency compliance"/>
-    <category term="cost-effective AI solutions"/>
-    <category term="frontier vs open-source AI"/>
-    <category term="AI decision-making framework"/>
+    <category term="Model Selection"/>
+    <category term="European SME AI"/>
+    <category term="AI Governance"/>
+    <category term="Data Sovereignty"/>
+    <category term="AI Cost Optimization"/>
     <summary type="text">A vendor-neutral framework for European SME leaders choosing between frontier and open-source AI models, including EU data residency and cost tradeoffs.</summary>
   </entry>
   <entry>
@@ -448,11 +440,9 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI production operations"/>
-    <category term="incident classification for SMEs"/>
-    <category term="cost monitoring in AI"/>
-    <category term="model versioning best practices"/>
-    <category term="operational rhythm for AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Observability"/>
+    <category term="AI Governance"/>
     <summary type="text">Runbook for European SMEs running AI in production: incident classification, cost monitoring, model versioning, and a 30-day rhythm.</summary>
   </entry>
   <entry>
@@ -465,11 +455,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI governance for European SMEs"/>
-    <category term="EU AI Act compliance"/>
-    <category term="AI production readiness"/>
-    <category term="data privacy in AI"/>
-    <category term="cost monitoring for AI tools"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="EU AI Act"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Observability"/>
     <summary type="text">Before AI goes live in your operations, run this 12-point checklist. Covers GDPR, EU AI Act, cost controls, and incident response for European SMEs.</summary>
   </entry>
   <entry>
@@ -482,11 +472,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI ROI framework for SMEs"/>
-    <category term="CFO metrics for AI investment"/>
-    <category term="AI compliance cost calculation"/>
-    <category term="AI productivity measurement"/>
-    <category term="EU AI Act implications"/>
+    <category term="European SME AI"/>
+    <category term="AI ROI"/>
+    <category term="AI for Finance Teams"/>
+    <category term="AI Investment"/>
+    <category term="AI Governance"/>
     <summary type="text">A practical AI ROI framework for CFOs and operations leaders at European SMEs: three return categories, CFO-ready metrics, and a 12-month forecast model.</summary>
   </entry>
   <entry>
@@ -499,11 +489,10 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI security risks for SMEs"/>
-    <category term="GDPR compliance for AI tools"/>
-    <category term="EU AI Act implications"/>
-    <category term="AI data governance strategies"/>
-    <category term="AI prompt injection vulnerabilities"/>
+    <category term="European SME AI"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
+    <category term="EU AI Act"/>
     <summary type="text">European SMEs deploying AI face prompt injection, data leakage, and supply chain risks. Here is a practical risk matrix to act on now.</summary>
   </entry>
   <entry>
@@ -516,11 +505,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI vendor evaluation"/>
-    <category term="GDPR compliance for SMEs"/>
-    <category term="EU AI Act implications"/>
-    <category term="AI procurement strategies"/>
-    <category term="AI integration best practices"/>
+    <category term="AI Vendor Evaluation"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="EU AI Act"/>
     <summary type="text">8-criteria AI vendor scorecard for European SMEs. GDPR, EU AI Act, exit clauses, security: score and compare vendors before you sign.</summary>
   </entry>
   <entry>
@@ -533,11 +522,10 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="hidden costs of AI vendors"/>
-    <category term="total cost of ownership for AI"/>
-    <category term="AI vendor relationship management"/>
-    <category term="AI integration challenges"/>
-    <category term="compliance costs for AI tools"/>
+    <category term="AI Strategy"/>
+    <category term="AI Governance"/>
+    <category term="AI Change Management"/>
+    <category term="AI Training"/>
     <summary type="text">Beyond the licence fee: the 8 hidden cost categories European SMEs miss when calculating AI vendor TCO.</summary>
   </entry>
   <entry>
@@ -550,11 +538,10 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="CI/CD automation for European SMEs"/>
-    <category term="DevOps efficiency with AI tools"/>
-    <category term="Infrastructure as Code best practices"/>
-    <category term="Claude Code for pipeline management"/>
-    <category term="AI-driven DevOps solutions"/>
+    <category term="AI CI/CD"/>
+    <category term="European SME AI"/>
+    <category term="AI DevOps"/>
+    <category term="Claude Code"/>
     <summary type="text">How DevOps engineers and infrastructure leads in European tech companies use Claude Code to automate CI/CD pipelines and IaC.</summary>
   </entry>
   <entry>
@@ -567,11 +554,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI automation for finance teams"/>
-    <category term="Claude Code implementation"/>
-    <category term="GDPR compliance for AI tools"/>
-    <category term="Finance workflow optimization"/>
-    <category term="Non-technical finance automation"/>
+    <category term="AI for Finance Teams"/>
+    <category term="Fintech AI"/>
+    <category term="Claude Code"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
     <summary type="text">Claude Code can automate finance workflows without a developer. Here is what European finance teams need to know before getting started.</summary>
   </entry>
   <entry>
@@ -584,11 +571,8 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="automating developer workflows"/>
-    <category term="Claude Code hooks"/>
-    <category term="AI-assisted coding"/>
-    <category term="software development automation"/>
-    <category term="dev team productivity"/>
+    <category term="Claude Code"/>
+    <category term="AI Productivity Tools"/>
     <summary type="text">Learn how Claude Code hooks work and 5 practical automation patterns for SME dev teams: linting, testing, Slack alerts, audit logs, and more.</summary>
   </entry>
   <entry>
@@ -601,11 +585,9 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="Claude Code security measures"/>
-    <category term="GDPR compliance for software teams"/>
-    <category term="Data Processing Agreement"/>
-    <category term="AI tool usage policies"/>
-    <category term="Audit logging for developers"/>
+    <category term="Claude Code"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
     <summary type="text">What data leaves your environment, how to sign the DPA, set up audit logging, and configure Claude Code safely for EU compliance.</summary>
   </entry>
   <entry>
@@ -618,11 +600,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="Claude Opus 4 evaluation"/>
-    <category term="AI model cost comparison"/>
-    <category term="European SME AI strategy"/>
-    <category term="document analysis automation"/>
-    <category term="AI for compliance reviews"/>
+    <category term="Claude Models"/>
+    <category term="France and Benelux AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Strategy"/>
+    <category term="AI Governance"/>
     <summary type="text">Should your team upgrade from Claude Sonnet to Opus 4? A practical cost-vs-capability guide for European SME tech leads.</summary>
   </entry>
   <entry>
@@ -635,11 +617,10 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="EU AI Act compliance"/>
-    <category term="AI governance for European SMEs"/>
-    <category term="high-risk AI systems"/>
-    <category term="AI compliance action plan"/>
-    <category term="AI tools inventory"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="AI Risk Management"/>
     <summary type="text">The EU AI Act grace period ends August 2026. A practical compliance action plan for European SMEs to avoid penalties before the deadline.</summary>
   </entry>
   <entry>
@@ -652,11 +633,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="fractional CTO AI engagement"/>
-    <category term="AI strategy for European SMEs"/>
-    <category term="AI compliance under EU AI Act"/>
-    <category term="AI governance frameworks"/>
-    <category term="AI implementation roadmaps"/>
+    <category term="Fractional CTO"/>
+    <category term="European SME AI"/>
+    <category term="AI Strategy"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
     <summary type="text">What a fractional CTO AI engagement delivers: scopes, costs from €1,500/month, and 30-day outcomes for European scale-ups.</summary>
   </entry>
   <entry>
@@ -669,11 +650,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI transition roadmap for SMEs"/>
-    <category term="fractional CTO services"/>
-    <category term="AI pilot execution"/>
-    <category term="AI governance for European SMEs"/>
-    <category term="GDPR compliance in AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Roadmap"/>
+    <category term="Fractional CTO"/>
+    <category term="AI Governance"/>
+    <category term="GDPR &amp; Data Privacy"/>
     <summary type="text">Month-by-month AI transition roadmap a fractional CTO executes for European SMEs. Deliverables, decision splits, and governance in 6 months.</summary>
   </entry>
   <entry>
@@ -686,11 +667,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="GPT-4o vs Claude Sonnet 4 comparison"/>
-    <category term="AI tools for European SMEs"/>
-    <category term="GDPR compliance in AI"/>
-    <category term="AI integration for small teams"/>
-    <category term="cost analysis of AI models"/>
+    <category term="Claude Models"/>
+    <category term="GPT Models"/>
+    <category term="France and Benelux AI"/>
+    <category term="European SME AI"/>
+    <category term="GDPR &amp; Data Privacy"/>
     <summary type="text">Compare GPT-4o and Claude Sonnet 4 on cost, GDPR compliance, coding, and integrations for European SME teams of 10-50 employees.</summary>
   </entry>
   <entry>
@@ -703,11 +684,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="Shadow AI governance"/>
-    <category term="GDPR compliance for SMEs"/>
-    <category term="AI tools in workplaces"/>
-    <category term="AI detection frameworks"/>
-    <category term="Data protection in Europe"/>
+    <category term="AI Governance"/>
+    <category term="Shadow AI"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="European SME AI"/>
+    <category term="AI Risk Management"/>
     <summary type="text">Shadow AI is growing in European workplaces. A detection and governance framework for SME operations leaders to prevent compliance risk.</summary>
   </entry>
   <entry>
@@ -720,11 +701,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI Build vs Buy framework"/>
-    <category term="EU AI Act implications"/>
-    <category term="SaaS vendor lock-in"/>
-    <category term="custom AI development"/>
-    <category term="AI strategy for SMEs"/>
+    <category term="AI Build vs Buy"/>
+    <category term="EU AI Act"/>
+    <category term="AI Vendor Evaluation"/>
+    <category term="B2B SaaS Growth"/>
+    <category term="European SME AI"/>
     <summary type="text">Build custom AI or buy SaaS? A practical framework for European SME leaders weighing cost, EU AI Act risk, and vendor lock-in.</summary>
   </entry>
   <entry>
@@ -737,11 +718,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI adoption for Antwerp SMEs"/>
-    <category term="EU AI Act compliance"/>
-    <category term="industrial AI use cases"/>
-    <category term="logistics and supply chain AI"/>
-    <category term="AI consulting for manufacturing"/>
+    <category term="European SME AI"/>
+    <category term="France and Benelux AI"/>
+    <category term="AI Strategy"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
     <summary type="text">AI consulting for Antwerp's industrial and port SMEs. Logistics, supply chain, and manufacturing AI adoption with EU AI Act compliance in Belgium.</summary>
   </entry>
   <entry>
@@ -754,11 +735,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI adoption strategies for SMEs"/>
-    <category term="EU AI Act compliance"/>
-    <category term="AI integration in creative agencies"/>
-    <category term="B2B software AI features"/>
-    <category term="AI consulting for tech startups"/>
+    <category term="European SME AI"/>
+    <category term="AI Strategy"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="Professional Services AI"/>
     <summary type="text">AI consulting for Ghent's tech startups, creative agencies, and design studios. Practical AI adoption and EU compliance for Ghent businesses in 2026.</summary>
   </entry>
   <entry>
@@ -771,11 +752,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for textile SMEs"/>
-    <category term="EU AI Act compliance"/>
-    <category term="COMPETE 2030 funding opportunities"/>
-    <category term="AI use cases in manufacturing"/>
-    <category term="predictive maintenance solutions"/>
+    <category term="Manufacturing AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
     <summary type="text">AI consulting for Guimaraes manufacturers and textile companies. EU AI Act, COMPETE 2030 funding, and practical use cases for Portuguese industrial SMEs.</summary>
   </entry>
   <entry>
@@ -788,11 +769,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for SMEs"/>
-    <category term="Vinnova funding opportunities"/>
-    <category term="EU AI Act implications"/>
-    <category term="AI use cases in manufacturing"/>
-    <category term="Linkoping tech ecosystem"/>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="EU AI Act"/>
+    <category term="Manufacturing AI"/>
+    <category term="Nordics AI"/>
     <summary type="text">AI consulting for Linkoping industrial and tech SMEs. Vinnova funding, EU AI Act, and practical AI use cases for Swedish manufacturers and suppliers.</summary>
   </entry>
   <entry>
@@ -805,11 +786,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI consulting for manufacturing SMEs"/>
-    <category term="EU AI Act compliance"/>
-    <category term="industrial AI applications"/>
-    <category term="predictive maintenance strategies"/>
-    <category term="Setúbal manufacturing context"/>
+    <category term="Manufacturing AI"/>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
     <summary type="text">AI consulting for manufacturing SMEs in Setúbal. Predictive maintenance, EU AI Act compliance, and industrial AI for AutoEuropa suppliers.</summary>
   </entry>
   <entry>
@@ -822,11 +803,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="EU AI Act compliance"/>
-    <category term="AI governance for Norwegian SMEs"/>
-    <category term="AI risk classification"/>
-    <category term="GPAI obligations for SMEs"/>
-    <category term="Datatilsynet enforcement"/>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="AI Risk Management"/>
+    <category term="AI Regulation"/>
     <summary type="text">What Norwegian SMEs need to know about EU AI Act compliance. EEA status, Datatilsynet enforcement, and 2026 action plan.</summary>
   </entry>
   <entry>
@@ -839,11 +820,11 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI governance for veterinary practices"/>
-    <category term="EU AI Act compliance"/>
-    <category term="MDR and veterinary diagnostic tools"/>
-    <category term="GDPR in veterinary practices"/>
-    <category term="AI use cases for animal health SMEs"/>
+    <category term="AI Governance"/>
+    <category term="Healthcare AI"/>
+    <category term="EU AI Act"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="European SME AI"/>
     <summary type="text">AI governance for European veterinary clinics and animal health businesses. EU AI Act, MDR, and GDPR compliance for clinical AI tools in 2026.</summary>
   </entry>
   <entry>
@@ -856,11 +837,10 @@
       <name>Dr. Hernani Costa</name>
       <uri>https://drhernanicosta.com</uri>
     </author>
-    <category term="AI skills assessment framework"/>
-    <category term="hiring AI talent in SMEs"/>
-    <category term="AI tool proficiency evaluation"/>
-    <category term="European SME recruitment strategies"/>
-    <category term="AI integration in operations"/>
+    <category term="AI Team Hiring"/>
+    <category term="European SME AI"/>
+    <category term="AI Strategy"/>
+    <category term="AI Literacy"/>
     <summary type="text">How to assess AI skills in job interviews. Scoring rubric, role-specific questions, and evaluation criteria for European SME managers.</summary>
   </entry>
 </feed>

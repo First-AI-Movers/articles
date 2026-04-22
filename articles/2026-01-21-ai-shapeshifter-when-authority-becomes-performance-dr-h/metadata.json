@@ -1,22 +1,30 @@
 {
-    "id":"recKjORLldJ979bTO",
-    "title":"
-The AI Shapeshifter: When Authority Becomes a Performance
-",
-    "slug":"ai-shapeshifter-when-authority-becomes-performance-dr-hernani-costa-fc71e",
-    "folder": "2026-01-21-ai-shapeshifter-when-authority-becomes-performance-dr-h",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/ai-shapeshifter-when-authority-becomes-performance-dr-hernani-costa-fc71e
-",
-    "tags":["AI-driven expertise simulation","trust in AI systems","misinformation in AI","evaluating AI authority","AI literacy for SMEs","AI governance frameworks"],
-    "word_count": 420,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recKjORLldJ979bTO",
+  "title": "\nThe AI Shapeshifter: When Authority Becomes a Performance\n",
+  "slug": "ai-shapeshifter-when-authority-becomes-performance-dr-hernani-costa-fc71e",
+  "folder": "2026-01-21-ai-shapeshifter-when-authority-becomes-performance-dr-h",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/ai-shapeshifter-when-authority-becomes-performance-dr-hernani-costa-fc71e\n",
+  "tags": [
+    "AI-driven expertise simulation",
+    "trust in AI systems",
+    "misinformation in AI",
+    "evaluating AI authority",
+    "AI literacy for SMEs",
+    "AI governance frameworks"
+  ],
+  "word_count": 420,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Literacy",
+    "AI Governance"
+  ]
 }

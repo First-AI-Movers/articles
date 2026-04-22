@@ -1,18 +1,31 @@
 {
-    "id":"recZNKM8VVe7kJzJt",
-    "title":"Europe’s AI Operating Shift: The Executive Guide to Sovereignty, Token Economics, and Organizational Redesign",
-    "slug":"europes-ai-operating-shift-executive-guide",
-    "folder": "2026-03-26-europes-ai-operating-shift-executive-guide",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/europes-ai-operating-shift-executive-guide",
-    "tags":["Europe AI infrastructure development","AI governance for European SMEs","AI strategy for executives","token economics in AI","organizational redesign for AI","AI adoption in Europe"],
-    "word_count": 1345,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recZNKM8VVe7kJzJt",
+  "title": "Europe’s AI Operating Shift: The Executive Guide to Sovereignty, Token Economics, and Organizational Redesign",
+  "slug": "europes-ai-operating-shift-executive-guide",
+  "folder": "2026-03-26-europes-ai-operating-shift-executive-guide",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/europes-ai-operating-shift-executive-guide",
+  "tags": [
+    "Europe AI infrastructure development",
+    "AI governance for European SMEs",
+    "AI strategy for executives",
+    "token economics in AI",
+    "organizational redesign for AI",
+    "AI adoption in Europe"
+  ],
+  "word_count": 1345,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Sovereign AI Infrastructure",
+    "AI Governance",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

@@ -1,22 +1,29 @@
 {
-    "id":"recV8zCcgZ8s5LuT2",
-    "title":"
-What is Perplexity AI's Deep Research mode?
-",
-    "slug":"what-perplexity-ais-deep-research-mode-dr-hernani-costa-roive",
-    "folder": "2026-01-21-what-perplexity-ais-deep-research-mode-dr-hernani-costa",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/what-perplexity-ais-deep-research-mode-dr-hernani-costa-roive
-",
-    "tags":["AI research methodologies","European SME digital transformation","AI-driven decision making","comprehensive research tools"],
-    "word_count": 305,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recV8zCcgZ8s5LuT2",
+  "title": "\nWhat is Perplexity AI's Deep Research mode?\n",
+  "slug": "what-perplexity-ais-deep-research-mode-dr-hernani-costa-roive",
+  "folder": "2026-01-21-what-perplexity-ais-deep-research-mode-dr-hernani-costa",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/what-perplexity-ais-deep-research-mode-dr-hernani-costa-roive\n",
+  "tags": [
+    "AI research methodologies",
+    "European SME digital transformation",
+    "AI-driven decision making",
+    "comprehensive research tools"
+  ],
+  "word_count": 305,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Research",
+    "European SME AI",
+    "AI Change Management",
+    "AI Strategy"
+  ]
 }

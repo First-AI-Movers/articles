@@ -1,18 +1,31 @@
 {
-    "id":"rec7nOjYSsd3lyhAb",
-    "title":"Energy-Efficient AI 2025: Edge Computing Cuts Network Traffic by 90%",
-    "slug":"energy-efficient-ai-edge-computing-2025-guide",
-    "folder": "2025-11-04-energy-efficient-ai-edge-computing-2025-guide",
-    "published_date": "2025-11-04",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/energy-efficient-ai-edge-computing-2025-guide",
-    "tags":["energy-efficient AI strategies","edge computing benefits","small AI model optimization","battery management systems","AI deployment in healthcare","sustainable AI practices"],
-    "word_count": 487,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec7nOjYSsd3lyhAb",
+  "title": "Energy-Efficient AI 2025: Edge Computing Cuts Network Traffic by 90%",
+  "slug": "energy-efficient-ai-edge-computing-2025-guide",
+  "folder": "2025-11-04-energy-efficient-ai-edge-computing-2025-guide",
+  "published_date": "2025-11-04",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/energy-efficient-ai-edge-computing-2025-guide",
+  "tags": [
+    "energy-efficient AI strategies",
+    "edge computing benefits",
+    "small AI model optimization",
+    "battery management systems",
+    "AI deployment in healthcare",
+    "sustainable AI practices"
+  ],
+  "word_count": 487,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Energy AI",
+    "Model Selection",
+    "Healthcare AI",
+    "AI Strategy"
+  ]
 }

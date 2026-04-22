@@ -1,22 +1,30 @@
 {
-    "id":"recIrA0HsGlOwEP0s",
-    "title":"
-Redefining Expertise in the Age of AI
-",
-    "slug":"redefining-expertise-age-ai-dr-hernani-costa-hvafe",
-    "folder": "2026-01-21-redefining-expertise-age-ai-dr-hernani-costa-hvafe",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/redefining-expertise-age-ai-dr-hernani-costa-hvafe
-",
-    "tags":["AI integration in business","modern expertise development","human-AI collaboration","contextual intelligence in SMEs","metacognitive skills for executives","relationship intelligence in organizations"],
-    "word_count": 410,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recIrA0HsGlOwEP0s",
+  "title": "\nRedefining Expertise in the Age of AI\n",
+  "slug": "redefining-expertise-age-ai-dr-hernani-costa-hvafe",
+  "folder": "2026-01-21-redefining-expertise-age-ai-dr-hernani-costa-hvafe",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/redefining-expertise-age-ai-dr-hernani-costa-hvafe\n",
+  "tags": [
+    "AI integration in business",
+    "modern expertise development",
+    "human-AI collaboration",
+    "contextual intelligence in SMEs",
+    "metacognitive skills for executives",
+    "relationship intelligence in organizations"
+  ],
+  "word_count": 410,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "Human-in-the-Loop",
+    "European SME AI"
+  ]
 }

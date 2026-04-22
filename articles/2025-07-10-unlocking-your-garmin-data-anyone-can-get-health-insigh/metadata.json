@@ -1,18 +1,28 @@
 {
-    "id":"recQ7eMOTXztndPxO",
-    "title":"Unlocking Your Garmin Data: Anyone Can Get Health Insights with Garmin Connect and ChatGPT",
-    "slug":"unlocking-your-garmin-data-anyone-can-get-health-insights-with-garmin-connect-and-chatgpt-34526137c96c",
-    "folder": "2025-07-10-unlocking-your-garmin-data-anyone-can-get-health-insigh",
-    "published_date": "2025-07-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/unlocking-your-garmin-data-anyone-can-get-health-insights-with-garmin-connect-and-chatgpt-34526137c96c",
-    "tags":["Garmin data insights","AI health analysis","personal health coaching","data-driven wellness","health metrics interpretation","AI for fitness tracking"],
-    "word_count": 2768,
-    "read_time_minutes":12,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recQ7eMOTXztndPxO",
+  "title": "Unlocking Your Garmin Data: Anyone Can Get Health Insights with Garmin Connect and ChatGPT",
+  "slug": "unlocking-your-garmin-data-anyone-can-get-health-insights-with-garmin-connect-and-chatgpt-34526137c96c",
+  "folder": "2025-07-10-unlocking-your-garmin-data-anyone-can-get-health-insigh",
+  "published_date": "2025-07-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/unlocking-your-garmin-data-anyone-can-get-health-insights-with-garmin-connect-and-chatgpt-34526137c96c",
+  "tags": [
+    "Garmin data insights",
+    "AI health analysis",
+    "personal health coaching",
+    "data-driven wellness",
+    "health metrics interpretation",
+    "AI for fitness tracking"
+  ],
+  "word_count": 2768,
+  "read_time_minutes": 12,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Healthcare AI"
+  ]
 }

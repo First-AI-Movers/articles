@@ -1,18 +1,28 @@
 {
-    "id":"recmA4qmqG7TkqdIT",
-    "title":"Big Data, Big Edge—2025’s Under-the-Radar Power Moves",
-    "slug":"big-data-big-edge-2025",
-    "folder": "2025-06-23-big-data-big-edge-2025",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/big-data-big-edge-2025",
-    "tags":["Big Data trends 2025","Data Mesh implementation","Real-time data processing","Edge computing for SMEs","Sustainability in AI","Synthetic data solutions"],
-    "word_count": 1165,
-    "read_time_minutes":6,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recmA4qmqG7TkqdIT",
+  "title": "Big Data, Big Edge—2025’s Under-the-Radar Power Moves",
+  "slug": "big-data-big-edge-2025",
+  "folder": "2025-06-23-big-data-big-edge-2025",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/big-data-big-edge-2025",
+  "tags": [
+    "Big Data trends 2025",
+    "Data Mesh implementation",
+    "Real-time data processing",
+    "Edge computing for SMEs",
+    "Sustainability in AI",
+    "Synthetic data solutions"
+  ],
+  "word_count": 1165,
+  "read_time_minutes": 6,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI"
+  ]
 }

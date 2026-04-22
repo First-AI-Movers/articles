@@ -1,18 +1,29 @@
 {
-    "id":"recvTnhvc7X273hAZ",
-    "title":"The Right SME Automation Stack Starts with Architecture, Not Platforms",
-    "slug":"automation-stack-starts-with-ai-architecture",
-    "folder": "2026-02-10-automation-stack-starts-with-ai-architecture",
-    "published_date": "2026-02-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/automation-stack-starts-with-ai-architecture",
-    "tags":["SME automation architecture","business process orchestration","AI-enabled workflow design","intelligent automation for SMEs","platform sprawl solutions","automation opportunity assessment"],
-    "word_count": 1365,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recvTnhvc7X273hAZ",
+  "title": "The Right SME Automation Stack Starts with Architecture, Not Platforms",
+  "slug": "automation-stack-starts-with-ai-architecture",
+  "folder": "2026-02-10-automation-stack-starts-with-ai-architecture",
+  "published_date": "2026-02-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/automation-stack-starts-with-ai-architecture",
+  "tags": [
+    "SME automation architecture",
+    "business process orchestration",
+    "AI-enabled workflow design",
+    "intelligent automation for SMEs",
+    "platform sprawl solutions",
+    "automation opportunity assessment"
+  ],
+  "word_count": 1365,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "Business Process Automation"
+  ]
 }

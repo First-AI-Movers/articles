@@ -1,18 +1,35 @@
 {
-    "id":"recoaLx3oWt0RcH71",
-    "title":"Building Your SME AI Literacy Program: Complete Step-by-Step Framework for 2025",
-    "slug":"building-your-sme-ai-literacy-program-complete-step-by-step-framework-for-2025",
-    "folder": "2025-09-10-building-your-sme-ai-literacy-program-complete-step-by-",
-    "published_date": "2025-09-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/building-your-sme-ai-literacy-program-complete-step-by-step-framework-for-2025",
-    "tags":["AI literacy for SMEs","AI skills gap solutions","workforce AI training","AI implementation frameworks","productivity gains through AI","role-specific AI education"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" ai-literacy-training "],
-    "status": "published"
+  "id": "recoaLx3oWt0RcH71",
+  "title": "Building Your SME AI Literacy Program: Complete Step-by-Step Framework for 2025",
+  "slug": "building-your-sme-ai-literacy-program-complete-step-by-step-framework-for-2025",
+  "folder": "2025-09-10-building-your-sme-ai-literacy-program-complete-step-by-",
+  "published_date": "2025-09-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/building-your-sme-ai-literacy-program-complete-step-by-step-framework-for-2025",
+  "tags": [
+    "AI literacy for SMEs",
+    "AI skills gap solutions",
+    "workforce AI training",
+    "AI implementation frameworks",
+    "productivity gains through AI",
+    "role-specific AI education"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "ai-literacy-training"
+  ],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Literacy",
+    "AI Training",
+    "AI Strategy",
+    "AI Productivity Tools",
+    "Education AI"
+  ]
 }

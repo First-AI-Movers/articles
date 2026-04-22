@@ -1,18 +1,32 @@
 {
-    "id":"reciL7kluc6r3v2gZ",
-    "title":"OpenAI Eyes IPO with Microsoft's Backing",
-    "slug":"openai-eyes-ipo-with-microsoft-s-backing",
-    "folder": "2025-05-13-openai-eyes-ipo-with-microsoft-s-backing",
-    "published_date": "2025-05-13",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/openai-eyes-ipo-with-microsoft-s-backing",
-    "tags":["OpenAI IPO news","Microsoft AI partnership","AI industry trends","AI liability insurance","human support in AI","Generative AI Roadmap","AI in gaming"],
-    "word_count": 367,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reciL7kluc6r3v2gZ",
+  "title": "OpenAI Eyes IPO with Microsoft's Backing",
+  "slug": "openai-eyes-ipo-with-microsoft-s-backing",
+  "folder": "2025-05-13-openai-eyes-ipo-with-microsoft-s-backing",
+  "published_date": "2025-05-13",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/openai-eyes-ipo-with-microsoft-s-backing",
+  "tags": [
+    "OpenAI IPO news",
+    "Microsoft AI partnership",
+    "AI industry trends",
+    "AI liability insurance",
+    "human support in AI",
+    "Generative AI Roadmap",
+    "AI in gaming"
+  ],
+  "word_count": 367,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Investment",
+    "AI Industry News",
+    "Fintech AI",
+    "AI Roadmap"
+  ]
 }

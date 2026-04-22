@@ -1,18 +1,32 @@
 {
-    "id":"reccMY5JEnd5c3FXh",
-    "title":"AI Readiness for Engineering Teams: 15 Questions Before You Scale",
-    "slug":"ai-readiness-engineering-teams-15-questions",
-    "folder": "2026-04-04-ai-readiness-engineering-teams-15-questions",
-    "published_date": "2026-04-04",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-readiness-engineering-teams-15-questions",
-    "tags":["AI readiness for engineering teams","scaling AI in SMEs","AI governance frameworks","engineering team automation","AI tool implementation strategies","multi-agent AI systems"],
-    "word_count": 1950,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reccMY5JEnd5c3FXh",
+  "title": "AI Readiness for Engineering Teams: 15 Questions Before You Scale",
+  "slug": "ai-readiness-engineering-teams-15-questions",
+  "folder": "2026-04-04-ai-readiness-engineering-teams-15-questions",
+  "published_date": "2026-04-04",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-readiness-engineering-teams-15-questions",
+  "tags": [
+    "AI readiness for engineering teams",
+    "scaling AI in SMEs",
+    "AI governance frameworks",
+    "engineering team automation",
+    "AI tool implementation strategies",
+    "multi-agent AI systems"
+  ],
+  "word_count": 1950,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI for Engineering Teams",
+    "AI Readiness",
+    "European SME AI",
+    "AI Governance",
+    "Multi-Agent Systems"
+  ]
 }

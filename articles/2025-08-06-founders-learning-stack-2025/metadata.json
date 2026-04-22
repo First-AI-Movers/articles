@@ -1,18 +1,30 @@
 {
-    "id":"rec5f1gmxsfh1SnSu",
-    "title":"Founders: Steal My Real-World Learning Stack for 2025",
-    "slug":"founders-learning-stack-2025",
-    "folder": "2025-08-06-founders-learning-stack-2025",
-    "published_date": "2025-08-06",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/founders-learning-stack-2025",
-    "tags":["AI learning strategies for founders","real-world learning stack","executive education in AI","daily reading for entrepreneurs","actionable insights for startups","AI content curation techniques"],
-    "word_count": 683,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec5f1gmxsfh1SnSu",
+  "title": "Founders: Steal My Real-World Learning Stack for 2025",
+  "slug": "founders-learning-stack-2025",
+  "folder": "2025-08-06-founders-learning-stack-2025",
+  "published_date": "2025-08-06",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/founders-learning-stack-2025",
+  "tags": [
+    "AI learning strategies for founders",
+    "real-world learning stack",
+    "executive education in AI",
+    "daily reading for entrepreneurs",
+    "actionable insights for startups",
+    "AI content curation techniques"
+  ],
+  "word_count": 683,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "B2B SaaS Growth",
+    "Executive AI Literacy",
+    "Education AI"
+  ]
 }

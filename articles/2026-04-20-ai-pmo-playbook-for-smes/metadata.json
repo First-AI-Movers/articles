@@ -1,18 +1,29 @@
 {
-    "id":"recb9ZUgTF9FaCEw9",
-    "title":"AI PMO for SMEs: The Lightweight Operator Playbook",
-    "slug":"ai-pmo-playbook-for-smes",
-    "folder": "2026-04-20-ai-pmo-playbook-for-smes",
-    "published_date": "2026-04-20",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-pmo-playbook-for-smes",
-    "tags":["AI governance for European SMEs","lightweight AI programme management","AI pilot visibility and ownership","AI tool inventory management","measurable AI business outcomes"],
-    "word_count": 1365,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recb9ZUgTF9FaCEw9",
+  "title": "AI PMO for SMEs: The Lightweight Operator Playbook",
+  "slug": "ai-pmo-playbook-for-smes",
+  "folder": "2026-04-20-ai-pmo-playbook-for-smes",
+  "published_date": "2026-04-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-pmo-playbook-for-smes",
+  "tags": [
+    "AI governance for European SMEs",
+    "lightweight AI programme management",
+    "AI pilot visibility and ownership",
+    "AI tool inventory management",
+    "measurable AI business outcomes"
+  ],
+  "word_count": 1365,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "AI Vendor Evaluation"
+  ]
 }

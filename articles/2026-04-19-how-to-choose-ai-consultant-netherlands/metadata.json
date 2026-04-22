@@ -1,18 +1,32 @@
 {
-    "id":"rectmFu7qICwEx8T5",
-    "title":"How to Choose an AI Consultant in the Netherlands",
-    "slug":"how-to-choose-ai-consultant-netherlands",
-    "folder": "2026-04-19-how-to-choose-ai-consultant-netherlands",
-    "published_date": "2026-04-19",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/how-to-choose-ai-consultant-netherlands",
-    "tags":["AI consultant selection","AI readiness assessment","Dutch SME AI strategy","AI implementation guidance","AI governance in the Netherlands","AI decision-making framework"],
-    "word_count": 1550,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rectmFu7qICwEx8T5",
+  "title": "How to Choose an AI Consultant in the Netherlands",
+  "slug": "how-to-choose-ai-consultant-netherlands",
+  "folder": "2026-04-19-how-to-choose-ai-consultant-netherlands",
+  "published_date": "2026-04-19",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/how-to-choose-ai-consultant-netherlands",
+  "tags": [
+    "AI consultant selection",
+    "AI readiness assessment",
+    "Dutch SME AI strategy",
+    "AI implementation guidance",
+    "AI governance in the Netherlands",
+    "AI decision-making framework"
+  ],
+  "word_count": 1550,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Readiness",
+    "European SME AI",
+    "Netherlands AI",
+    "AI Strategy",
+    "AI Governance"
+  ]
 }

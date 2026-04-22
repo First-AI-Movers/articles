@@ -1,18 +1,28 @@
 {
-    "id":"rec05VE9AO6AnIsya",
-    "title":"Firecrawl Is the Web Data Layer. That Makes It a Bigger Deal Than Most Builders Realize",
-    "slug":"firecrawl-web-data-layer-ai-builders-2026",
-    "folder": "2026-03-29-firecrawl-web-data-layer-ai-builders-2026",
-    "published_date": "2026-03-29",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/firecrawl-web-data-layer-ai-builders-2026",
-    "tags":["web data layer for AI products","scraping and crawling solutions","AI product development strategies","infrastructure abstraction for web data","packaged workflows for niche markets","AI agent harness integration"],
-    "word_count": 1746,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec05VE9AO6AnIsya",
+  "title": "Firecrawl Is the Web Data Layer. That Makes It a Bigger Deal Than Most Builders Realize",
+  "slug": "firecrawl-web-data-layer-ai-builders-2026",
+  "folder": "2026-03-29-firecrawl-web-data-layer-ai-builders-2026",
+  "published_date": "2026-03-29",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/firecrawl-web-data-layer-ai-builders-2026",
+  "tags": [
+    "web data layer for AI products",
+    "scraping and crawling solutions",
+    "AI product development strategies",
+    "infrastructure abstraction for web data",
+    "packaged workflows for niche markets",
+    "AI agent harness integration"
+  ],
+  "word_count": 1746,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents"
+  ]
 }

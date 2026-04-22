@@ -1,18 +1,31 @@
 {
-    "id":"recYh4IaQfy4SySGH",
-    "title":"Perplexity Comet: A Week with the AI Browser That’s Actually Useful (and a Little Scary)",
-    "slug":"perplexity-comet-a-week-with-the-ai-browser-thats-actually-useful-and-a-little-scary-cbee6d29d9c3",
-    "folder": "2025-07-17-perplexity-comet-a-week-with-the-ai-browser-thats-actua",
-    "published_date": "2025-07-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/perplexity-comet-a-week-with-the-ai-browser-thats-actually-useful-and-a-little-scary-cbee6d29d9c3",
-    "tags":["AI browser innovation","cognitive load reduction","agentic AI applications","productivity tools for SMEs","AI-driven research synthesis","digital task automation"],
-    "word_count": 2895,
-    "read_time_minutes":13,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recYh4IaQfy4SySGH",
+  "title": "Perplexity Comet: A Week with the AI Browser That’s Actually Useful (and a Little Scary)",
+  "slug": "perplexity-comet-a-week-with-the-ai-browser-thats-actually-useful-and-a-little-scary-cbee6d29d9c3",
+  "folder": "2025-07-17-perplexity-comet-a-week-with-the-ai-browser-thats-actua",
+  "published_date": "2025-07-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/perplexity-comet-a-week-with-the-ai-browser-thats-actually-useful-and-a-little-scary-cbee6d29d9c3",
+  "tags": [
+    "AI browser innovation",
+    "cognitive load reduction",
+    "agentic AI applications",
+    "productivity tools for SMEs",
+    "AI-driven research synthesis",
+    "digital task automation"
+  ],
+  "word_count": 2895,
+  "read_time_minutes": 13,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Browser Agents",
+    "Agentic Workflows",
+    "AI Productivity Tools",
+    "European SME AI"
+  ]
 }

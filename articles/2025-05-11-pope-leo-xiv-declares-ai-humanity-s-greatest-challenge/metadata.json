@@ -1,18 +1,32 @@
 {
-    "id":"recRg8tel4tNiYbjb",
-    "title":"Pope Leo XIV Declares AI Humanity’s Greatest Challenge",
-    "slug":"pope-leo-xiv-declares-ai-humanity-s-greatest-challenge",
-    "folder": "2025-05-11-pope-leo-xiv-declares-ai-humanity-s-greatest-challenge",
-    "published_date": "2025-05-11",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/pope-leo-xiv-declares-ai-humanity-s-greatest-challenge",
-    "tags":["AI ethics in the Church","Pope Leo XIV on AI","impact of AI on society","AI governance for European SMEs","ethical implications of AI","AI and human dignity","AI in education"],
-    "word_count": 482,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recRg8tel4tNiYbjb",
+  "title": "Pope Leo XIV Declares AI Humanity’s Greatest Challenge",
+  "slug": "pope-leo-xiv-declares-ai-humanity-s-greatest-challenge",
+  "folder": "2025-05-11-pope-leo-xiv-declares-ai-humanity-s-greatest-challenge",
+  "published_date": "2025-05-11",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/pope-leo-xiv-declares-ai-humanity-s-greatest-challenge",
+  "tags": [
+    "AI ethics in the Church",
+    "Pope Leo XIV on AI",
+    "impact of AI on society",
+    "AI governance for European SMEs",
+    "ethical implications of AI",
+    "AI and human dignity",
+    "AI in education"
+  ],
+  "word_count": 482,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Ethics",
+    "AI Governance",
+    "European SME AI",
+    "Education AI"
+  ]
 }

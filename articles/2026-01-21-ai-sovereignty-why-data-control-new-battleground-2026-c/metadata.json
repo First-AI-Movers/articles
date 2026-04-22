@@ -1,22 +1,33 @@
 {
-    "id":"recn0Cjovjpi0x1FB",
-    "title":"
-AI Sovereignty: Why Data Control Is the New Battleground for 2026
-",
-    "slug":"ai-sovereignty-why-data-control-new-battleground-2026-costa-pkdre",
-    "folder": "2026-01-21-ai-sovereignty-why-data-control-new-battleground-2026-c",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/ai-sovereignty-why-data-control-new-battleground-2026-costa-pkdre
-",
-    "tags":["AI sovereignty in Europe","data control for SMEs","AI deployment strategies","EU data residency requirements","AI governance frameworks","digital independence in AI","AI-driven economic growth"],
-    "word_count": 469,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recn0Cjovjpi0x1FB",
+  "title": "\nAI Sovereignty: Why Data Control Is the New Battleground for 2026\n",
+  "slug": "ai-sovereignty-why-data-control-new-battleground-2026-costa-pkdre",
+  "folder": "2026-01-21-ai-sovereignty-why-data-control-new-battleground-2026-c",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/ai-sovereignty-why-data-control-new-battleground-2026-costa-pkdre\n",
+  "tags": [
+    "AI sovereignty in Europe",
+    "data control for SMEs",
+    "AI deployment strategies",
+    "EU data residency requirements",
+    "AI governance frameworks",
+    "digital independence in AI",
+    "AI-driven economic growth"
+  ],
+  "word_count": 469,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Data Sovereignty",
+    "Sovereign AI Infrastructure",
+    "European SME AI",
+    "AI Strategy",
+    "AI Governance"
+  ]
 }

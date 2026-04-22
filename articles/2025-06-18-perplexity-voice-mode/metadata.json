@@ -1,18 +1,28 @@
 {
-    "id":"rec6wFH6rLaYAM0MN",
-    "title":"Engaging with Perplexity’s Voice Mode",
-    "slug":"perplexity-voice-mode",
-    "folder": "2025-06-18-perplexity-voice-mode",
-    "published_date": "2025-06-18",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/perplexity-voice-mode",
-    "tags":["hands-free Q&A experience","real-time dialogue with AI","voice assistant for SMEs","AI-powered search solutions","multitasking with AI","natural language processing in apps"],
-    "word_count": 482,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec6wFH6rLaYAM0MN",
+  "title": "Engaging with Perplexity’s Voice Mode",
+  "slug": "perplexity-voice-mode",
+  "folder": "2025-06-18-perplexity-voice-mode",
+  "published_date": "2025-06-18",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/perplexity-voice-mode",
+  "tags": [
+    "hands-free Q&A experience",
+    "real-time dialogue with AI",
+    "voice assistant for SMEs",
+    "AI-powered search solutions",
+    "multitasking with AI",
+    "natural language processing in apps"
+  ],
+  "word_count": 482,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI"
+  ]
 }

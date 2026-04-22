@@ -1,18 +1,31 @@
 {
-    "id":"rec6uXMMlD3wQO4nZ",
-    "title":"Stabilize “GPT‐5” Performance: Pin Variants, Cut Costs, Ship ROI",
-    "slug":"stabilize-gpt5-executive-roi-2025",
-    "folder": "2025-08-13-stabilize-gpt5-executive-roi-2025",
-    "published_date": "2025-08-13",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/stabilize-gpt5-executive-roi-2025",
-    "tags":["AI model performance stabilization","cost reduction in AI deployment","AI governance for SMEs","AI evaluation frameworks","reasoning optimization in AI","AI variant management"],
-    "word_count": 569,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec6uXMMlD3wQO4nZ",
+  "title": "Stabilize “GPT‐5” Performance: Pin Variants, Cut Costs, Ship ROI",
+  "slug": "stabilize-gpt5-executive-roi-2025",
+  "folder": "2025-08-13-stabilize-gpt5-executive-roi-2025",
+  "published_date": "2025-08-13",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/stabilize-gpt5-executive-roi-2025",
+  "tags": [
+    "AI model performance stabilization",
+    "cost reduction in AI deployment",
+    "AI governance for SMEs",
+    "AI evaluation frameworks",
+    "reasoning optimization in AI",
+    "AI variant management"
+  ],
+  "word_count": 569,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Cost Optimization",
+    "AI Strategy",
+    "AI Governance",
+    "European SME AI"
+  ]
 }

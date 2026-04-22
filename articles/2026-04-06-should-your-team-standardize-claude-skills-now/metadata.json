@@ -1,18 +1,32 @@
 {
-    "id":"recTlnRez7zZ41s9E",
-    "title":"Should Your Team Standardize Claude Skills Now?",
-    "slug":"should-your-team-standardize-claude-skills-now",
-    "folder": "2026-04-06-should-your-team-standardize-claude-skills-now",
-    "published_date": "2026-04-06",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/should-your-team-standardize-claude-skills-now",
-    "tags":["Claude Skills implementation","AI workflow standardization","cross-department AI governance","small team AI adoption","AI process design for SMEs","Anthropic Skills overview"],
-    "word_count": 1552,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recTlnRez7zZ41s9E",
+  "title": "Should Your Team Standardize Claude Skills Now?",
+  "slug": "should-your-team-standardize-claude-skills-now",
+  "folder": "2026-04-06-should-your-team-standardize-claude-skills-now",
+  "published_date": "2026-04-06",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/should-your-team-standardize-claude-skills-now",
+  "tags": [
+    "Claude Skills implementation",
+    "AI workflow standardization",
+    "cross-department AI governance",
+    "small team AI adoption",
+    "AI process design for SMEs",
+    "Anthropic Skills overview"
+  ],
+  "word_count": 1552,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Workflow Automation",
+    "AI Governance",
+    "AI Strategy",
+    "European SME AI",
+    "Claude Models"
+  ]
 }

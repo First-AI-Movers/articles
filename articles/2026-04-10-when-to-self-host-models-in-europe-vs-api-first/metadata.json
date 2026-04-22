@@ -1,18 +1,31 @@
 {
-    "id":"recfrfP6GgDc1dv15",
-    "title":"When to Self-Host Models in Europe and When API-First Is the Better Architecture",
-    "slug":"when-to-self-host-models-in-europe-vs-api-first",
-    "folder": "2026-04-10-when-to-self-host-models-in-europe-vs-api-first",
-    "published_date": "2026-04-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/when-to-self-host-models-in-europe-vs-api-first",
-    "tags":["self-hosting AI models","API-first architecture","European AI sovereignty","AI infrastructure decisions","regulatory compliance in AI","AI product development strategies"],
-    "word_count": 1245,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recfrfP6GgDc1dv15",
+  "title": "When to Self-Host Models in Europe and When API-First Is the Better Architecture",
+  "slug": "when-to-self-host-models-in-europe-vs-api-first",
+  "folder": "2026-04-10-when-to-self-host-models-in-europe-vs-api-first",
+  "published_date": "2026-04-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/when-to-self-host-models-in-europe-vs-api-first",
+  "tags": [
+    "self-hosting AI models",
+    "API-first architecture",
+    "European AI sovereignty",
+    "AI infrastructure decisions",
+    "regulatory compliance in AI",
+    "AI product development strategies"
+  ],
+  "word_count": 1245,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Data Sovereignty",
+    "Sovereign AI Infrastructure",
+    "AI Regulation",
+    "AI Governance"
+  ]
 }

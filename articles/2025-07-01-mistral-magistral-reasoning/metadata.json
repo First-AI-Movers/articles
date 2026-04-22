@@ -1,18 +1,32 @@
 {
-    "id":"recmfKewMupRUHKCR",
-    "title":"Mistral Thinks It Through—Magistral Brings Lightning-Fast, Transparent Reasoning",
-    "slug":"mistral-magistral-reasoning",
-    "folder": "2025-07-01-mistral-magistral-reasoning",
-    "published_date": "2025-07-01",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/mistral-magistral-reasoning",
-    "tags":["transparent reasoning in AI","AI compliance for SMEs","Mistral AI innovations","enterprise AI solutions","multi-step problem solving","AI performance benchmarks"],
-    "word_count": 564,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recmfKewMupRUHKCR",
+  "title": "Mistral Thinks It Through—Magistral Brings Lightning-Fast, Transparent Reasoning",
+  "slug": "mistral-magistral-reasoning",
+  "folder": "2025-07-01-mistral-magistral-reasoning",
+  "published_date": "2025-07-01",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/mistral-magistral-reasoning",
+  "tags": [
+    "transparent reasoning in AI",
+    "AI compliance for SMEs",
+    "Mistral AI innovations",
+    "enterprise AI solutions",
+    "multi-step problem solving",
+    "AI performance benchmarks"
+  ],
+  "word_count": 564,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "Open-Source LLMs",
+    "AI Strategy",
+    "Model Evaluation"
+  ]
 }

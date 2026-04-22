@@ -27,6 +27,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Normalize tags to canonical topics
+        run: python3 tools/normalize_tags.py
+
       - name: Rebuild index, sitemap, feed, corpus, README, llms.txt
         run: python3 tools/rebuild_local.py
 
@@ -38,6 +41,7 @@ jobs:
           fi
           git config user.name "Index Bot"
           git config user.email "info@firstaimovers.com"
+          git add articles/*/metadata.json
           git add index.json sitemap.xml feed.xml llms-full.txt README.md llms.txt
-          git commit -m "Rebuild index, sitemap, feed, corpus, docs after article change"
+          git commit -m "Normalize topics + rebuild derived artifacts after article change"
           git push

@@ -1,18 +1,29 @@
 {
-    "id":"recgXKCwlfF3PAmC0",
-    "title":"Die Empty Framework 2025: Complete Leadership Guide",
-    "slug":"die-empty-leadership-framework-2025",
-    "folder": "2025-09-20-die-empty-leadership-framework-2025",
-    "published_date": "2025-09-20",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/die-empty-leadership-framework-2025",
-    "tags":["strategic leadership frameworks","continuous learning in AI","executive AI transformation","AI-first organizational strategies","Todd Henry leadership principles"],
-    "word_count": 564,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recgXKCwlfF3PAmC0",
+  "title": "Die Empty Framework 2025: Complete Leadership Guide",
+  "slug": "die-empty-leadership-framework-2025",
+  "folder": "2025-09-20-die-empty-leadership-framework-2025",
+  "published_date": "2025-09-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/die-empty-leadership-framework-2025",
+  "tags": [
+    "strategic leadership frameworks",
+    "continuous learning in AI",
+    "executive AI transformation",
+    "AI-first organizational strategies",
+    "Todd Henry leadership principles"
+  ],
+  "word_count": 564,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Executive AI Literacy",
+    "AI Change Management",
+    "AI Strategy"
+  ]
 }

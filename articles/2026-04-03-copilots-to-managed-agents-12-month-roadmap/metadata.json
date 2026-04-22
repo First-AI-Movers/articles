@@ -1,18 +1,30 @@
 {
-    "id":"recGWUJYq6q1v8tXQ",
-    "title":"From Copilots to Managed Agents: The 12-Month Roadmap for Lean Technical Teams",
-    "slug":"copilots-to-managed-agents-12-month-roadmap",
-    "folder": "2026-04-03-copilots-to-managed-agents-12-month-roadmap",
-    "published_date": "2026-04-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/copilots-to-managed-agents-12-month-roadmap",
-    "tags":["AI governance for European SMEs","managed agent workflows","AI operational models","lean technical teams","AI tool integration","AI development roadmap"],
-    "word_count": 1975,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recGWUJYq6q1v8tXQ",
+  "title": "From Copilots to Managed Agents: The 12-Month Roadmap for Lean Technical Teams",
+  "slug": "copilots-to-managed-agents-12-month-roadmap",
+  "folder": "2026-04-03-copilots-to-managed-agents-12-month-roadmap",
+  "published_date": "2026-04-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/copilots-to-managed-agents-12-month-roadmap",
+  "tags": [
+    "AI governance for European SMEs",
+    "managed agent workflows",
+    "AI operational models",
+    "lean technical teams",
+    "AI tool integration",
+    "AI development roadmap"
+  ],
+  "word_count": 1975,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "AI Roadmap"
+  ]
 }

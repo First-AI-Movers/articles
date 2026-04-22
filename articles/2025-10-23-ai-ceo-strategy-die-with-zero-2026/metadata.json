@@ -1,26 +1,32 @@
 {
-    "id": "recUUiOU32Tx3pjQc",
-    "title": "The Zero-Regret CEO: How \"Die With Zero\" Principles Transform AI Leadership",
-    "slug": "ai-ceo-strategy-die-with-zero-2026",
-    "folder": "2025-10-23-ai-ceo-strategy-die-with-zero-2026",
-    "published_date": "2025-10-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-ceo-strategy-die-with-zero-2026",
-    "tags": [
-        "strategic AI deployment",
-        "Die With Zero principles",
-        "innovation acceleration",
-        "ROI improvement for SMEs",
-        "AI leadership transformation"
-    ],
-    "word_count": 25,
-    "read_time_minutes": 1,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [
-        " ai-strategy "
-    ],
-    "status": "published"
+  "id": "recUUiOU32Tx3pjQc",
+  "title": "The Zero-Regret CEO: How \"Die With Zero\" Principles Transform AI Leadership",
+  "slug": "ai-ceo-strategy-die-with-zero-2026",
+  "folder": "2025-10-23-ai-ceo-strategy-die-with-zero-2026",
+  "published_date": "2025-10-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-ceo-strategy-die-with-zero-2026",
+  "tags": [
+    "strategic AI deployment",
+    "Die With Zero principles",
+    "innovation acceleration",
+    "ROI improvement for SMEs",
+    "AI leadership transformation"
+  ],
+  "word_count": 25,
+  "read_time_minutes": 1,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "ai-strategy"
+  ],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "European SME AI",
+    "AI ROI",
+    "Executive AI Literacy"
+  ]
 }

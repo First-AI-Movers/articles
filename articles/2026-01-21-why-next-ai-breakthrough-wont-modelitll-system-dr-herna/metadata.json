@@ -1,22 +1,33 @@
 {
-    "id":"recGZFnHmvbaX8HQJ",
-    "title":"
-Why the Next AI Breakthrough Won't Be a Model—It'll Be a System
-",
-    "slug":"why-next-ai-breakthrough-wont-modelitll-system-dr-hernani-costa-nkgje",
-    "folder": "2026-01-21-why-next-ai-breakthrough-wont-modelitll-system-dr-herna",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/why-next-ai-breakthrough-wont-modelitll-system-dr-hernani-costa-nkgje
-",
-    "tags":["EU AI Act compliance","AI governance for European SMEs","Composable AI systems","AI ecosystem development","Multi-modal AI integration","Agentic autonomy in AI","Optimized AI efficiency"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recGZFnHmvbaX8HQJ",
+  "title": "\nWhy the Next AI Breakthrough Won't Be a Model—It'll Be a System\n",
+  "slug": "why-next-ai-breakthrough-wont-modelitll-system-dr-hernani-costa-nkgje",
+  "folder": "2026-01-21-why-next-ai-breakthrough-wont-modelitll-system-dr-herna",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/why-next-ai-breakthrough-wont-modelitll-system-dr-hernani-costa-nkgje\n",
+  "tags": [
+    "EU AI Act compliance",
+    "AI governance for European SMEs",
+    "Composable AI systems",
+    "AI ecosystem development",
+    "Multi-modal AI integration",
+    "Agentic autonomy in AI",
+    "Optimized AI efficiency"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI",
+    "AI Strategy",
+    "Agentic Workflows"
+  ]
 }

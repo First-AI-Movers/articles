@@ -1,18 +1,31 @@
 {
-    "id":"recVspb788PRtgR2Q",
-    "title":"Claude Code in 2026: When Terminal-First Still Beats IDE-First",
-    "slug":"claude-code-2026-terminal-first-vs-ide-first",
-    "folder": "2026-04-03-claude-code-2026-terminal-first-vs-ide-first",
-    "published_date": "2026-04-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-code-2026-terminal-first-vs-ide-first",
-    "tags":["terminal-first coding tools","IDE-first vs terminal-first","AI coding agent strategies","Claude Code advantages","automation in software development","repo-native execution","AI development workflows"],
-    "word_count": 2180,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recVspb788PRtgR2Q",
+  "title": "Claude Code in 2026: When Terminal-First Still Beats IDE-First",
+  "slug": "claude-code-2026-terminal-first-vs-ide-first",
+  "folder": "2026-04-03-claude-code-2026-terminal-first-vs-ide-first",
+  "published_date": "2026-04-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-code-2026-terminal-first-vs-ide-first",
+  "tags": [
+    "terminal-first coding tools",
+    "IDE-first vs terminal-first",
+    "AI coding agent strategies",
+    "Claude Code advantages",
+    "automation in software development",
+    "repo-native execution",
+    "AI development workflows"
+  ],
+  "word_count": 2180,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Coding Tools",
+    "Coding Agent Architecture",
+    "Claude Code"
+  ]
 }

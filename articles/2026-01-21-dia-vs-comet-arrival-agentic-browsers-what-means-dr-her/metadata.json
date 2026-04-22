@@ -1,22 +1,30 @@
 {
-    "id":"recUmGTAzRExD8xdg",
-    "title":"
-Dia vs. Comet: The Arrival of Agentic Browsers and What It Means for Your Workflow
-",
-    "slug":"dia-vs-comet-arrival-agentic-browsers-what-means-dr-hernani-costa-hynoe",
-    "folder": "2026-01-21-dia-vs-comet-arrival-agentic-browsers-what-means-dr-her",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/dia-vs-comet-arrival-agentic-browsers-what-means-dr-hernani-costa-hynoe
-",
-    "tags":["AI-powered agentic browsers","digital workflow transformation","information overload solutions","tab management strategies","personalized AI skills","cross-tab research synthesis","automated task management"],
-    "word_count": 525,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recUmGTAzRExD8xdg",
+  "title": "\nDia vs. Comet: The Arrival of Agentic Browsers and What It Means for Your Workflow\n",
+  "slug": "dia-vs-comet-arrival-agentic-browsers-what-means-dr-hernani-costa-hynoe",
+  "folder": "2026-01-21-dia-vs-comet-arrival-agentic-browsers-what-means-dr-her",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/dia-vs-comet-arrival-agentic-browsers-what-means-dr-hernani-costa-hynoe\n",
+  "tags": [
+    "AI-powered agentic browsers",
+    "digital workflow transformation",
+    "information overload solutions",
+    "tab management strategies",
+    "personalized AI skills",
+    "cross-tab research synthesis",
+    "automated task management"
+  ],
+  "word_count": 525,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Agentic Workflows",
+    "Browser Agents"
+  ]
 }

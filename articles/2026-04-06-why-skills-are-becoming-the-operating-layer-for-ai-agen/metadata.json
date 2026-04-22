@@ -1,18 +1,32 @@
 {
-    "id":"recrHTgxDiDsQ2iKO",
-    "title":"Why Skills Are Becoming the Operating Layer for AI Agents",
-    "slug":"why-skills-are-becoming-the-operating-layer-for-ai-agents",
-    "folder": "2026-04-06-why-skills-are-becoming-the-operating-layer-for-ai-agen",
-    "published_date": "2026-04-06",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/why-skills-are-becoming-the-operating-layer-for-ai-agents",
-    "tags":["AI skills infrastructure","workflow automation for SMEs","AI agent reliability","reusable AI workflows","organizational knowledge management","AI governance frameworks"],
-    "word_count": 2155,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recrHTgxDiDsQ2iKO",
+  "title": "Why Skills Are Becoming the Operating Layer for AI Agents",
+  "slug": "why-skills-are-becoming-the-operating-layer-for-ai-agents",
+  "folder": "2026-04-06-why-skills-are-becoming-the-operating-layer-for-ai-agen",
+  "published_date": "2026-04-06",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/why-skills-are-becoming-the-operating-layer-for-ai-agents",
+  "tags": [
+    "AI skills infrastructure",
+    "workflow automation for SMEs",
+    "AI agent reliability",
+    "reusable AI workflows",
+    "organizational knowledge management",
+    "AI governance frameworks"
+  ],
+  "word_count": 2155,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Workflow Automation",
+    "European SME AI",
+    "AI Agents",
+    "Knowledge Management",
+    "AI Governance"
+  ]
 }

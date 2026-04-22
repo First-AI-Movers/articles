@@ -1,18 +1,32 @@
 {
-    "id":"recfQyzqvp4V7ezVD",
-    "title":"EdenAI vs OpenRouter: Which AI Aggregator Fits Your Stack?",
-    "slug":"edenai-vs-openrouter-ai-api-comparison",
-    "folder": "2025-11-06-edenai-vs-openrouter-ai-api-comparison",
-    "published_date": "2025-11-06",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/edenai-vs-openrouter-ai-api-comparison",
-    "tags":["AI aggregator comparison","EdenAI vs OpenRouter","AI workflow orchestration","LLM routing strategies","AI provider selection for SMEs","cost monitoring in AI","no-code AI solutions"],
-    "word_count": 683,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recfQyzqvp4V7ezVD",
+  "title": "EdenAI vs OpenRouter: Which AI Aggregator Fits Your Stack?",
+  "slug": "edenai-vs-openrouter-ai-api-comparison",
+  "folder": "2025-11-06-edenai-vs-openrouter-ai-api-comparison",
+  "published_date": "2025-11-06",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/edenai-vs-openrouter-ai-api-comparison",
+  "tags": [
+    "AI aggregator comparison",
+    "EdenAI vs OpenRouter",
+    "AI workflow orchestration",
+    "LLM routing strategies",
+    "AI provider selection for SMEs",
+    "cost monitoring in AI",
+    "no-code AI solutions"
+  ],
+  "word_count": 683,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "France and Benelux AI",
+    "European SME AI",
+    "AI Workflow Automation",
+    "AI Observability"
+  ]
 }

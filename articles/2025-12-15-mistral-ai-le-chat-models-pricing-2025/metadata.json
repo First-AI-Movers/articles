@@ -1,18 +1,32 @@
 {
-    "id":"reckFGeJfOxBSQzoT",
-    "title":"Mistral AI Models 2025: Europe's Open-Source Challenge to Big Tech AI",
-    "slug":"mistral-ai-le-chat-models-pricing-2025",
-    "folder": "2025-12-15-mistral-ai-le-chat-models-pricing-2025",
-    "published_date": "2025-12-15",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/mistral-ai-le-chat-models-pricing-2025",
-    "tags":["open-source AI models","Mistral AI competitive advantages","AI cost reduction strategies","multimodal reasoning in AI","European AI landscape","AI deployment for SMEs"],
-    "word_count": 1032,
-    "read_time_minutes":5,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reckFGeJfOxBSQzoT",
+  "title": "Mistral AI Models 2025: Europe's Open-Source Challenge to Big Tech AI",
+  "slug": "mistral-ai-le-chat-models-pricing-2025",
+  "folder": "2025-12-15-mistral-ai-le-chat-models-pricing-2025",
+  "published_date": "2025-12-15",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/mistral-ai-le-chat-models-pricing-2025",
+  "tags": [
+    "open-source AI models",
+    "Mistral AI competitive advantages",
+    "AI cost reduction strategies",
+    "multimodal reasoning in AI",
+    "European AI landscape",
+    "AI deployment for SMEs"
+  ],
+  "word_count": 1032,
+  "read_time_minutes": 5,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Open-Source LLMs",
+    "AI Cost Optimization",
+    "Frontier Models",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

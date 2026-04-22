@@ -1,18 +1,32 @@
 {
-    "id":"rec6P9XrRwIBDsSx5",
-    "title":"Grok AI: What It Is, Where It’s Good, and When to Skip It",
-    "slug":"grok-ai-strengths-weaknesses-use-cases",
-    "folder": "2026-02-09-grok-ai-strengths-weaknesses-use-cases",
-    "published_date": "2026-02-09",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/grok-ai-strengths-weaknesses-use-cases",
-    "tags":["Grok AI overview","real-time AI tools","AI for narrative monitoring","AI governance for SMEs","enterprise AI deployment","AI tool comparison"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec6P9XrRwIBDsSx5",
+  "title": "Grok AI: What It Is, Where It’s Good, and When to Skip It",
+  "slug": "grok-ai-strengths-weaknesses-use-cases",
+  "folder": "2026-02-09-grok-ai-strengths-weaknesses-use-cases",
+  "published_date": "2026-02-09",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/grok-ai-strengths-weaknesses-use-cases",
+  "tags": [
+    "Grok AI overview",
+    "real-time AI tools",
+    "AI for narrative monitoring",
+    "AI governance for SMEs",
+    "enterprise AI deployment",
+    "AI tool comparison"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Observability",
+    "AI Governance",
+    "European SME AI",
+    "AI Strategy",
+    "France and Benelux AI"
+  ]
 }

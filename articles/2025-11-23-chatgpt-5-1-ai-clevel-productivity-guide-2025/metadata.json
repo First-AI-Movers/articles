@@ -1,18 +1,31 @@
 {
-    "id":"recXwY18qGiJpABti",
-    "title":"ChatGPT 5.1: Understanding the Two-Model System (Instant vs. Thinking)",
-    "slug":"chatgpt-5-1-ai-clevel-productivity-guide-2025",
-    "folder": "2025-11-23-chatgpt-5-1-ai-clevel-productivity-guide-2025",
-    "published_date": "2025-11-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/chatgpt-5-1-ai-clevel-productivity-guide-2025",
-    "tags":["dual-model AI architecture","adaptive reasoning in AI","AI for European SMEs","AI model optimization","ChatGPT 5.1 features","AI-driven productivity tools"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recXwY18qGiJpABti",
+  "title": "ChatGPT 5.1: Understanding the Two-Model System (Instant vs. Thinking)",
+  "slug": "chatgpt-5-1-ai-clevel-productivity-guide-2025",
+  "folder": "2025-11-23-chatgpt-5-1-ai-clevel-productivity-guide-2025",
+  "published_date": "2025-11-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/chatgpt-5-1-ai-clevel-productivity-guide-2025",
+  "tags": [
+    "dual-model AI architecture",
+    "adaptive reasoning in AI",
+    "AI for European SMEs",
+    "AI model optimization",
+    "ChatGPT 5.1 features",
+    "AI-driven productivity tools"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "Model Selection",
+    "GPT Models",
+    "AI Productivity Tools"
+  ]
 }

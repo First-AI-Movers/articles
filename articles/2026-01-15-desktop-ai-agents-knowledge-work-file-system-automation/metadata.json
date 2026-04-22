@@ -1,18 +1,37 @@
 {
-    "id":"recWItmQPdFKgIkwP",
-    "title":"Desktop AI Agents Arrive: The End of Chat-Based AI for Knowledge Work",
-    "slug":"desktop-ai-agents-knowledge-work-file-system-automation",
-    "folder": "2026-01-15-desktop-ai-agents-knowledge-work-file-system-automation",
-    "published_date": "2026-01-15",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/desktop-ai-agents-knowledge-work-file-system-automation",
-    "tags":["desktop AI agents","file system AI agents","AI productivity transformation","task queue architecture","AI literacy training for SMEs","automation design for knowledge work","AI strategy for European businesses"],
-    "word_count": 2635,
-    "read_time_minutes":12,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" ai-strategy","automation-design","ai-literacy-training "],
-    "status": "published"
+  "id": "recWItmQPdFKgIkwP",
+  "title": "Desktop AI Agents Arrive: The End of Chat-Based AI for Knowledge Work",
+  "slug": "desktop-ai-agents-knowledge-work-file-system-automation",
+  "folder": "2026-01-15-desktop-ai-agents-knowledge-work-file-system-automation",
+  "published_date": "2026-01-15",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/desktop-ai-agents-knowledge-work-file-system-automation",
+  "tags": [
+    "desktop AI agents",
+    "file system AI agents",
+    "AI productivity transformation",
+    "task queue architecture",
+    "AI literacy training for SMEs",
+    "automation design for knowledge work",
+    "AI strategy for European businesses"
+  ],
+  "word_count": 2635,
+  "read_time_minutes": 12,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "ai-strategy",
+    "automation-design",
+    "ai-literacy-training"
+  ],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "AI Productivity Tools",
+    "European SME AI",
+    "AI Literacy",
+    "AI Strategy"
+  ]
 }

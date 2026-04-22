@@ -1,18 +1,31 @@
 {
-    "id":"recdTCIysr4XjgpQs",
-    "title":"AI's Bold Moves: A $6.5B Week in Review",
-    "slug":"ai-movers-weekly",
-    "folder": "2025-05-25-ai-movers-weekly",
-    "published_date": "2025-05-25",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-movers-weekly",
-    "tags":["AI hardware design trends","Google AI product updates","Saudi Arabia AI investments","AI-driven e-commerce solutions","AI in global markets","AI cultural phenomena","AI partnerships and collaborations"],
-    "word_count": 1865,
-    "read_time_minutes":9,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recdTCIysr4XjgpQs",
+  "title": "AI's Bold Moves: A $6.5B Week in Review",
+  "slug": "ai-movers-weekly",
+  "folder": "2025-05-25-ai-movers-weekly",
+  "published_date": "2025-05-25",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-movers-weekly",
+  "tags": [
+    "AI hardware design trends",
+    "Google AI product updates",
+    "Saudi Arabia AI investments",
+    "AI-driven e-commerce solutions",
+    "AI in global markets",
+    "AI cultural phenomena",
+    "AI partnerships and collaborations"
+  ],
+  "word_count": 1865,
+  "read_time_minutes": 9,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Gemini Models",
+    "AI Investment",
+    "Retail AI"
+  ]
 }

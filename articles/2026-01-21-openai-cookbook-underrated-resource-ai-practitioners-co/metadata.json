@@ -1,22 +1,30 @@
 {
-    "id":"rec5MAtOAw7xadXGo",
-    "title":"
-OpenAI Cookbook: An Underrated Resource for AI Practitioners
-",
-    "slug":"openai-cookbook-underrated-resource-ai-practitioners-costa-9u6he",
-    "folder": "2026-01-21-openai-cookbook-underrated-resource-ai-practitioners-co",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/openai-cookbook-underrated-resource-ai-practitioners-costa-9u6he
-",
-    "tags":["OpenAI Cookbook benefits","AI development resources","AI agent orchestration","LLM safety techniques","RAG pipeline implementation","AI model deployment guide","community-driven AI solutions"],
-    "word_count": 284,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec5MAtOAw7xadXGo",
+  "title": "\nOpenAI Cookbook: An Underrated Resource for AI Practitioners\n",
+  "slug": "openai-cookbook-underrated-resource-ai-practitioners-costa-9u6he",
+  "folder": "2026-01-21-openai-cookbook-underrated-resource-ai-practitioners-co",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/openai-cookbook-underrated-resource-ai-practitioners-costa-9u6he\n",
+  "tags": [
+    "OpenAI Cookbook benefits",
+    "AI development resources",
+    "AI agent orchestration",
+    "LLM safety techniques",
+    "RAG pipeline implementation",
+    "AI model deployment guide",
+    "community-driven AI solutions"
+  ],
+  "word_count": 284,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "RAG Architecture"
+  ]
 }

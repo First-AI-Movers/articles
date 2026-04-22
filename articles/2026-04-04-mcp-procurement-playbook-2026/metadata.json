@@ -1,18 +1,31 @@
 {
-    "id":"recGO9LsuZnOXwPsI",
-    "title":"The MCP Procurement Playbook: How Technical Leaders Should Evaluate Servers in 2026",
-    "slug":"mcp-procurement-playbook-2026",
-    "folder": "2026-04-04-mcp-procurement-playbook-2026",
-    "published_date": "2026-04-04",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/mcp-procurement-playbook-2026",
-    "tags":["MCP procurement strategies","AI infrastructure for SMEs","server evaluation frameworks","trust boundaries in AI","MCP Registry insights","AI governance for European SMEs"],
-    "word_count": 1895,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recGO9LsuZnOXwPsI",
+  "title": "The MCP Procurement Playbook: How Technical Leaders Should Evaluate Servers in 2026",
+  "slug": "mcp-procurement-playbook-2026",
+  "folder": "2026-04-04-mcp-procurement-playbook-2026",
+  "published_date": "2026-04-04",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/mcp-procurement-playbook-2026",
+  "tags": [
+    "MCP procurement strategies",
+    "AI infrastructure for SMEs",
+    "server evaluation frameworks",
+    "trust boundaries in AI",
+    "MCP Registry insights",
+    "AI governance for European SMEs"
+  ],
+  "word_count": 1895,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Model Context Protocol",
+    "Sovereign AI Infrastructure",
+    "European SME AI",
+    "AI Governance"
+  ]
 }

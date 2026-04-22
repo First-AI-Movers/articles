@@ -1,18 +1,31 @@
 {
-    "id":"recUbmGqc6kUaZydh",
-    "title":"The Truth About the UAE’s AI Gambit: Separating Strategic Fact from ChatGPT Hype",
-    "slug":"the-truth-about-the-uaes-ai-gambit-separating-strategic-fact-from-chatgpt-hype-fea32a9fb169",
-    "folder": "2025-06-10-the-truth-about-the-uaes-ai-gambit-separating-strategic",
-    "published_date": "2025-06-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/the-truth-about-the-uaes-ai-gambit-separating-strategic-fact-from-chatgpt-hype-fea32a9fb169",
-    "tags":["UAE AI infrastructure","OpenAI partnership","AI governance for SMEs","AI strategy implementation","national AI initiatives","AI economic impact"],
-    "word_count": 1035,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recUbmGqc6kUaZydh",
+  "title": "The Truth About the UAE’s AI Gambit: Separating Strategic Fact from ChatGPT Hype",
+  "slug": "the-truth-about-the-uaes-ai-gambit-separating-strategic-fact-from-chatgpt-hype-fea32a9fb169",
+  "folder": "2025-06-10-the-truth-about-the-uaes-ai-gambit-separating-strategic",
+  "published_date": "2025-06-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/the-truth-about-the-uaes-ai-gambit-separating-strategic-fact-from-chatgpt-hype-fea32a9fb169",
+  "tags": [
+    "UAE AI infrastructure",
+    "OpenAI partnership",
+    "AI governance for SMEs",
+    "AI strategy implementation",
+    "national AI initiatives",
+    "AI economic impact"
+  ],
+  "word_count": 1035,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Sovereign AI Infrastructure",
+    "AI Governance",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

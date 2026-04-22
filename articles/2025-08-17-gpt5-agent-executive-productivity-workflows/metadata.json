@@ -1,18 +1,28 @@
 {
-    "id":"reckXFdDeVYdVEM9B",
-    "title":"GPT-5 Agent Playbook: 7 Executive Workflows That Drive 40% Productivity Gains",
-    "slug":"gpt5-agent-executive-productivity-workflows",
-    "folder": "2025-08-17-gpt5-agent-executive-productivity-workflows",
-    "published_date": "2025-08-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/gpt5-agent-executive-productivity-workflows",
-    "tags":["GPT-5 agent deployment","executive productivity workflows","AI-driven business optimization","autonomous task management"],
-    "word_count": 1092,
-    "read_time_minutes":5,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reckXFdDeVYdVEM9B",
+  "title": "GPT-5 Agent Playbook: 7 Executive Workflows That Drive 40% Productivity Gains",
+  "slug": "gpt5-agent-executive-productivity-workflows",
+  "folder": "2025-08-17-gpt5-agent-executive-productivity-workflows",
+  "published_date": "2025-08-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/gpt5-agent-executive-productivity-workflows",
+  "tags": [
+    "GPT-5 agent deployment",
+    "executive productivity workflows",
+    "AI-driven business optimization",
+    "autonomous task management"
+  ],
+  "word_count": 1092,
+  "read_time_minutes": 5,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GPT Models",
+    "AI Productivity Tools",
+    "Executive AI Literacy"
+  ]
 }

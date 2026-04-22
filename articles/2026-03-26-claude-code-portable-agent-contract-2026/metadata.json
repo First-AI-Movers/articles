@@ -1,18 +1,31 @@
 {
-    "id":"recvDwlzile4kZaMl",
-    "title":"Claude Code Hit Its Limit. Now What?",
-    "slug":"claude-code-portable-agent-contract-2026",
-    "folder": "2026-03-26-claude-code-portable-agent-contract-2026",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-code-portable-agent-contract-2026",
-    "tags":["AI IDE tool transitions","Claude Code usage limits","portable agent contract","AI development standards","tool portability for SMEs","AI strategy consulting"],
-    "word_count": 2843,
-    "read_time_minutes":13,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recvDwlzile4kZaMl",
+  "title": "Claude Code Hit Its Limit. Now What?",
+  "slug": "claude-code-portable-agent-contract-2026",
+  "folder": "2026-03-26-claude-code-portable-agent-contract-2026",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-code-portable-agent-contract-2026",
+  "tags": [
+    "AI IDE tool transitions",
+    "Claude Code usage limits",
+    "portable agent contract",
+    "AI development standards",
+    "tool portability for SMEs",
+    "AI strategy consulting"
+  ],
+  "word_count": 2843,
+  "read_time_minutes": 13,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Code",
+    "European SME AI",
+    "AI Consulting",
+    "AI Strategy"
+  ]
 }

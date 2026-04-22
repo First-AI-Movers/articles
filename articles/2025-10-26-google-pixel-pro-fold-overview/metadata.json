@@ -1,18 +1,28 @@
 {
-    "id":"reciQWTWHBSwvceHI",
-    "title":"Google Pixel Pro Fold Overview",
-    "slug":"google-pixel-pro-fold-overview",
-    "folder": "2025-10-26-google-pixel-pro-fold-overview",
-    "published_date": "2025-10-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/google-pixel-pro-fold-overview",
-    "tags":["Pixel Fold review","foldable smartphone features","AI in mobile technology","smartphone ergonomics","battery efficiency in devices","camera quality in smartphones"],
-    "word_count": 352,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reciQWTWHBSwvceHI",
+  "title": "Google Pixel Pro Fold Overview",
+  "slug": "google-pixel-pro-fold-overview",
+  "folder": "2025-10-26-google-pixel-pro-fold-overview",
+  "published_date": "2025-10-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/google-pixel-pro-fold-overview",
+  "tags": [
+    "Pixel Fold review",
+    "foldable smartphone features",
+    "AI in mobile technology",
+    "smartphone ergonomics",
+    "battery efficiency in devices",
+    "camera quality in smartphones"
+  ],
+  "word_count": 352,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Industry News"
+  ]
 }

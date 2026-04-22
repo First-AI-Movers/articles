@@ -1,18 +1,32 @@
 {
-    "id":"rec6ayWLAs2o1nPdC",
-    "title":"The AI Procurement Checklist Every European Healthcare Buyer Needs Before Signing",
-    "slug":"ai-procurement-checklist-healthcare-buyers-eu-2026",
-    "folder": "2026-04-15-ai-procurement-checklist-healthcare-buyers-eu-2026",
-    "published_date": "2026-04-15",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-procurement-checklist-healthcare-buyers-eu-2026",
-    "tags":["EU AI Act compliance","AI procurement checklist","healthcare AI systems","GDPR data processing","clinical validation requirements","MDR compliance","incident response obligations"],
-    "word_count": 1865,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec6ayWLAs2o1nPdC",
+  "title": "The AI Procurement Checklist Every European Healthcare Buyer Needs Before Signing",
+  "slug": "ai-procurement-checklist-healthcare-buyers-eu-2026",
+  "folder": "2026-04-15-ai-procurement-checklist-healthcare-buyers-eu-2026",
+  "published_date": "2026-04-15",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-procurement-checklist-healthcare-buyers-eu-2026",
+  "tags": [
+    "EU AI Act compliance",
+    "AI procurement checklist",
+    "healthcare AI systems",
+    "GDPR data processing",
+    "clinical validation requirements",
+    "MDR compliance",
+    "incident response obligations"
+  ],
+  "word_count": 1865,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "Healthcare AI",
+    "GDPR & Data Privacy"
+  ]
 }

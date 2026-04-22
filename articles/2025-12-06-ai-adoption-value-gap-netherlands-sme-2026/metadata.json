@@ -1,18 +1,30 @@
 {
-    "id":"recAgLiTk4rY3D4yE",
-    "title":"The Netherlands Leads Europe in AI Adoption—Yet Only 5% Capture Real Value. Here's Why",
-    "slug":"ai-adoption-value-gap-netherlands-sme-2026",
-    "folder": "2025-12-06-ai-adoption-value-gap-netherlands-sme-2026",
-    "published_date": "2025-12-06",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-adoption-value-gap-netherlands-sme-2026",
-    "tags":["AI adoption in Europe","Dutch organizations AI value","AI skills gap analysis","workflow redesign for AI","measuring AI impact"],
-    "word_count": 30,
-    "read_time_minutes":1,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recAgLiTk4rY3D4yE",
+  "title": "The Netherlands Leads Europe in AI Adoption—Yet Only 5% Capture Real Value. Here's Why",
+  "slug": "ai-adoption-value-gap-netherlands-sme-2026",
+  "folder": "2025-12-06-ai-adoption-value-gap-netherlands-sme-2026",
+  "published_date": "2025-12-06",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-adoption-value-gap-netherlands-sme-2026",
+  "tags": [
+    "AI adoption in Europe",
+    "Dutch organizations AI value",
+    "AI skills gap analysis",
+    "workflow redesign for AI",
+    "measuring AI impact"
+  ],
+  "word_count": 30,
+  "read_time_minutes": 1,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "Netherlands AI",
+    "European SME AI",
+    "AI Training"
+  ]
 }

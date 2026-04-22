@@ -1,22 +1,32 @@
 {
-    "id":"recjykzdgO8DgT9r5",
-    "title":"
-Sam Altman's Mind-Blowing AI Predictions - and How You Can Stay Ahead
-",
-    "slug":"sam-altmans-mind-blowing-ai-predictionsand-how-you-can-costa-58k7e",
-    "folder": "2026-01-21-sam-altmans-mind-blowing-ai-predictionsand-how-you-can-",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/sam-altmans-mind-blowing-ai-predictionsand-how-you-can-costa-58k7e
-",
-    "tags":["AI cost reduction strategies","AI scaling laws for SMEs","AI agent integration","future of work with AI","AI in European markets","AI-driven creativity and education"],
-    "word_count": 370,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recjykzdgO8DgT9r5",
+  "title": "\nSam Altman's Mind-Blowing AI Predictions - and How You Can Stay Ahead\n",
+  "slug": "sam-altmans-mind-blowing-ai-predictionsand-how-you-can-costa-58k7e",
+  "folder": "2026-01-21-sam-altmans-mind-blowing-ai-predictionsand-how-you-can-",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/sam-altmans-mind-blowing-ai-predictionsand-how-you-can-costa-58k7e\n",
+  "tags": [
+    "AI cost reduction strategies",
+    "AI scaling laws for SMEs",
+    "AI agent integration",
+    "future of work with AI",
+    "AI in European markets",
+    "AI-driven creativity and education"
+  ],
+  "word_count": 370,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Cost Optimization",
+    "European SME AI",
+    "AI Agents",
+    "Future of Work",
+    "Education AI"
+  ]
 }

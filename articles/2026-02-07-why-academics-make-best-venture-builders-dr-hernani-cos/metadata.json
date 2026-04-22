@@ -1,18 +1,32 @@
 {
-    "id":"recc5KmgGKsDHi0Hs",
-    "title":"Why Academics Make the Best Venture Builders",
-    "slug":"why-academics-make-best-venture-builders-dr-hernani-costa-4mg3e",
-    "folder": "2026-02-07-why-academics-make-best-venture-builders-dr-hernani-cos",
-    "published_date": "2026-02-07",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.linkedin.com/pulse/why-academics-make-best-venture-builders-dr-hernani-costa-4mg3e",
-    "tags":["EU AI Act compliance","AI governance for European SMEs","AI agent deployment","scientific method in business","venture building strategies","AI ethics and transparency"],
-    "word_count": 319,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recc5KmgGKsDHi0Hs",
+  "title": "Why Academics Make the Best Venture Builders",
+  "slug": "why-academics-make-best-venture-builders-dr-hernani-costa-4mg3e",
+  "folder": "2026-02-07-why-academics-make-best-venture-builders-dr-hernani-cos",
+  "published_date": "2026-02-07",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.linkedin.com/pulse/why-academics-make-best-venture-builders-dr-hernani-costa-4mg3e",
+  "tags": [
+    "EU AI Act compliance",
+    "AI governance for European SMEs",
+    "AI agent deployment",
+    "scientific method in business",
+    "venture building strategies",
+    "AI ethics and transparency"
+  ],
+  "word_count": 319,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI",
+    "AI Agents",
+    "AI Ethics"
+  ]
 }

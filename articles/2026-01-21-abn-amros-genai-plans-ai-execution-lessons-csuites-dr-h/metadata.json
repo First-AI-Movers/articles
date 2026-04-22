@@ -1,22 +1,27 @@
 {
-    "id":"recFU9cMWpoEbvwaw",
-    "title":"
-ABN AMRO's GenAI Plans: AI Execution Lessons for C‐Suites
-",
-    "slug":"abn-amros-genai-plans-ai-execution-lessons-csuites-dr-hernani-costa-uu17e",
-    "folder": "2026-01-21-abn-amros-genai-plans-ai-execution-lessons-csuites-dr-h",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/abn-amros-genai-plans-ai-execution-lessons-csuites-dr-hernani-costa-uu17e
-",
-    "tags":["generative AI use cases","organizational transformation challenges","decision-making ownership","data quality assessment"],
-    "word_count": 367,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recFU9cMWpoEbvwaw",
+  "title": "\nABN AMRO's GenAI Plans: AI Execution Lessons for C‐Suites\n",
+  "slug": "abn-amros-genai-plans-ai-execution-lessons-csuites-dr-hernani-costa-uu17e",
+  "folder": "2026-01-21-abn-amros-genai-plans-ai-execution-lessons-csuites-dr-h",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/abn-amros-genai-plans-ai-execution-lessons-csuites-dr-hernani-costa-uu17e\n",
+  "tags": [
+    "generative AI use cases",
+    "organizational transformation challenges",
+    "decision-making ownership",
+    "data quality assessment"
+  ],
+  "word_count": 367,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "AI Change Management"
+  ]
 }

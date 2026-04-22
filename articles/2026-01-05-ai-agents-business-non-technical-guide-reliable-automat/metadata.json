@@ -1,18 +1,33 @@
 {
-    "id":"reccoTqvaFmUcvZYY",
-    "title":"AI Agents for Business: The Non-Technical Executive's Guide to Reliable Automation",
-    "slug":"ai-agents-business-non-technical-guide-reliable-automation-2026",
-    "folder": "2026-01-05-ai-agents-business-non-technical-guide-reliable-automat",
-    "published_date": "2026-01-05",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-agents-business-non-technical-guide-reliable-automation-2026",
-    "tags":["AI agent deployment","automation design for SMEs","non-technical AI tools","business process automation","AI literacy for executives","reliable AI solutions"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" automation-design "],
-    "status": "published"
+  "id": "reccoTqvaFmUcvZYY",
+  "title": "AI Agents for Business: The Non-Technical Executive's Guide to Reliable Automation",
+  "slug": "ai-agents-business-non-technical-guide-reliable-automation-2026",
+  "folder": "2026-01-05-ai-agents-business-non-technical-guide-reliable-automat",
+  "published_date": "2026-01-05",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-agents-business-non-technical-guide-reliable-automation-2026",
+  "tags": [
+    "AI agent deployment",
+    "automation design for SMEs",
+    "non-technical AI tools",
+    "business process automation",
+    "AI literacy for executives",
+    "reliable AI solutions"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "automation-design"
+  ],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "European SME AI",
+    "Business Process Automation",
+    "AI Literacy"
+  ]
 }

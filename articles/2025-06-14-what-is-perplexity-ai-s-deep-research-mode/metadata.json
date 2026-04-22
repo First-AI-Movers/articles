@@ -1,18 +1,31 @@
 {
-    "id":"recEQqSd3HII9tqiB",
-    "title":"What is Perplexity AI’s Deep Research mode?",
-    "slug":"what-is-perplexity-ai-s-deep-research-mode",
-    "folder": "2025-06-14-what-is-perplexity-ai-s-deep-research-mode",
-    "published_date": "2025-06-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/what-is-perplexity-ai-s-deep-research-mode",
-    "tags":["AI research capabilities","advanced AI features","European SME insights","AI-driven decision making","Perplexity AI applications","AI in finance analysis"],
-    "word_count": 754,
-    "read_time_minutes":4,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recEQqSd3HII9tqiB",
+  "title": "What is Perplexity AI’s Deep Research mode?",
+  "slug": "what-is-perplexity-ai-s-deep-research-mode",
+  "folder": "2025-06-14-what-is-perplexity-ai-s-deep-research-mode",
+  "published_date": "2025-06-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/what-is-perplexity-ai-s-deep-research-mode",
+  "tags": [
+    "AI research capabilities",
+    "advanced AI features",
+    "European SME insights",
+    "AI-driven decision making",
+    "Perplexity AI applications",
+    "AI in finance analysis"
+  ],
+  "word_count": 754,
+  "read_time_minutes": 4,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Research",
+    "European SME AI",
+    "AI Strategy",
+    "AI Industry News"
+  ]
 }

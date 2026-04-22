@@ -1,22 +1,29 @@
 {
-    "id":"rec6dryK3P1Hf0pWP",
-    "title":"
-LLAMA 4: The Business Case for Open-Source Multimodal Intelligence
-",
-    "slug":"llama-4-business-case-open-source-multimodal-dr-hernani-costa-xcywe",
-    "folder": "2026-01-21-llama-4-business-case-open-source-multimodal-dr-hernani",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/llama-4-business-case-open-source-multimodal-dr-hernani-costa-xcywe
-",
-    "tags":["EU AI Act compliance","AI governance for European SMEs","open-source AI solutions","multimodal intelligence for businesses"],
-    "word_count": 525,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec6dryK3P1Hf0pWP",
+  "title": "\nLLAMA 4: The Business Case for Open-Source Multimodal Intelligence\n",
+  "slug": "llama-4-business-case-open-source-multimodal-dr-hernani-costa-xcywe",
+  "folder": "2026-01-21-llama-4-business-case-open-source-multimodal-dr-hernani",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/llama-4-business-case-open-source-multimodal-dr-hernani-costa-xcywe\n",
+  "tags": [
+    "EU AI Act compliance",
+    "AI governance for European SMEs",
+    "open-source AI solutions",
+    "multimodal intelligence for businesses"
+  ],
+  "word_count": 525,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI",
+    "Frontier Models"
+  ]
 }

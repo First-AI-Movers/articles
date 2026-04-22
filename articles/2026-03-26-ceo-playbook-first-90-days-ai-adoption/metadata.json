@@ -1,18 +1,32 @@
 {
-    "id":"recT1GWNwoHPABAod",
-    "title":"The CEO Playbook for the First 90 Days of AI Adoption",
-    "slug":"ceo-playbook-first-90-days-ai-adoption",
-    "folder": "2026-03-26-ceo-playbook-first-90-days-ai-adoption",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ceo-playbook-first-90-days-ai-adoption",
-    "tags":["AI adoption strategy for SMEs","CEO responsibilities in AI","AI readiness assessment","first 90 days of AI implementation","AI governance for European businesses","controlled AI pilot projects"],
-    "word_count": 682,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recT1GWNwoHPABAod",
+  "title": "The CEO Playbook for the First 90 Days of AI Adoption",
+  "slug": "ceo-playbook-first-90-days-ai-adoption",
+  "folder": "2026-03-26-ceo-playbook-first-90-days-ai-adoption",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ceo-playbook-first-90-days-ai-adoption",
+  "tags": [
+    "AI adoption strategy for SMEs",
+    "CEO responsibilities in AI",
+    "AI readiness assessment",
+    "first 90 days of AI implementation",
+    "AI governance for European businesses",
+    "controlled AI pilot projects"
+  ],
+  "word_count": 682,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "Executive AI Literacy",
+    "AI Readiness",
+    "AI Governance"
+  ]
 }

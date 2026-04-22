@@ -1,18 +1,31 @@
 {
-    "id":"recpOliHdwQqkIRCQ",
-    "title":"AI Education 2026: Complete Guide to Personalized Learning",
-    "slug":"ai-education-personalized-learning-guide-2026",
-    "folder": "2025-10-24-ai-education-personalized-learning-guide-2026",
-    "published_date": "2025-10-24",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-education-personalized-learning-guide-2026",
-    "tags":["personalized learning in education","AI-driven training solutions","adaptive learning technologies","lifelong learning strategies","AI integration in SMEs","expert knowledge capture","micro-tutoring implementation"],
-    "word_count": 646,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recpOliHdwQqkIRCQ",
+  "title": "AI Education 2026: Complete Guide to Personalized Learning",
+  "slug": "ai-education-personalized-learning-guide-2026",
+  "folder": "2025-10-24-ai-education-personalized-learning-guide-2026",
+  "published_date": "2025-10-24",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-education-personalized-learning-guide-2026",
+  "tags": [
+    "personalized learning in education",
+    "AI-driven training solutions",
+    "adaptive learning technologies",
+    "lifelong learning strategies",
+    "AI integration in SMEs",
+    "expert knowledge capture",
+    "micro-tutoring implementation"
+  ],
+  "word_count": 646,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Education AI",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

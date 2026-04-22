@@ -1,18 +1,31 @@
 {
-    "id":"recq6wKPJ0MIArbR3",
-    "title":"Microsoft’s Windows 11 Recall: Redefining Personal Memory & AI Productivity",
-    "slug":"microsofts-windows-11-recall-redefining-personal-memory-ai-productivity-389e36dc6450",
-    "folder": "2025-06-18-microsofts-windows-11-recall-redefining-personal-memory",
-    "published_date": "2025-06-18",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/microsofts-windows-11-recall-redefining-personal-memory-ai-productivity-389e36dc6450",
-    "tags":["Microsoft Windows 11 features","AI productivity tools","personal memory augmentation","data privacy in AI","ambient computing trends","context-aware computing","AI for European SMEs"],
-    "word_count": 1365,
-    "read_time_minutes":6,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recq6wKPJ0MIArbR3",
+  "title": "Microsoft’s Windows 11 Recall: Redefining Personal Memory & AI Productivity",
+  "slug": "microsofts-windows-11-recall-redefining-personal-memory-ai-productivity-389e36dc6450",
+  "folder": "2025-06-18-microsofts-windows-11-recall-redefining-personal-memory",
+  "published_date": "2025-06-18",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/microsofts-windows-11-recall-redefining-personal-memory-ai-productivity-389e36dc6450",
+  "tags": [
+    "Microsoft Windows 11 features",
+    "AI productivity tools",
+    "personal memory augmentation",
+    "data privacy in AI",
+    "ambient computing trends",
+    "context-aware computing",
+    "AI for European SMEs"
+  ],
+  "word_count": 1365,
+  "read_time_minutes": 6,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Productivity Tools",
+    "GDPR & Data Privacy",
+    "European SME AI"
+  ]
 }

@@ -1,18 +1,32 @@
 {
-    "id":"recAQxwbG10dwwIrH",
-    "title":"Claude Code Security in 2026: Hooks, Fake Installers, and What You Must Lock Down First",
-    "slug":"claude-code-security-2026-hooks-fake-installers-what-to-lock-down-first",
-    "folder": "2026-04-08-claude-code-security-2026-hooks-fake-installers-what-to",
-    "published_date": "2026-04-08",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-code-security-2026-hooks-fake-installers-what-to-lock-down-first",
-    "tags":["Claude Code security best practices","AI deployment risk management","repository configuration vulnerabilities","hooks governance in AI tools","installation hygiene for AI software","MCP policy management","credential exposure prevention"],
-    "word_count": 2765,
-    "read_time_minutes":13,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recAQxwbG10dwwIrH",
+  "title": "Claude Code Security in 2026: Hooks, Fake Installers, and What You Must Lock Down First",
+  "slug": "claude-code-security-2026-hooks-fake-installers-what-to-lock-down-first",
+  "folder": "2026-04-08-claude-code-security-2026-hooks-fake-installers-what-to",
+  "published_date": "2026-04-08",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-code-security-2026-hooks-fake-installers-what-to-lock-down-first",
+  "tags": [
+    "Claude Code security best practices",
+    "AI deployment risk management",
+    "repository configuration vulnerabilities",
+    "hooks governance in AI tools",
+    "installation hygiene for AI software",
+    "MCP policy management",
+    "credential exposure prevention"
+  ],
+  "word_count": 2765,
+  "read_time_minutes": 13,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Code",
+    "AI Risk Management",
+    "AI Strategy",
+    "Model Context Protocol"
+  ]
 }

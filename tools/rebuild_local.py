@@ -76,6 +76,7 @@ def build_index():
             "title": meta.get("title"),
             "published_date": meta.get("published_date"),
             "tags": meta.get("tags", []),
+            "topics": meta.get("topics", []),
             "funnel_stage": meta.get("funnel_stage"),
             "canonical_url": meta.get("canonical_url"),
         })
@@ -101,9 +102,10 @@ def build_index():
 # ---------------------------------------------------------------------------
 def compute_stats(index):
     articles = index["articles"]
-    tags, funnel, dates = set(), {}, []
+    tags, topics, funnel, dates = set(), set(), {}, []
     for a in articles:
         tags.update(a.get("tags", []))
+        topics.update(a.get("topics", []))
         funnel[a.get("funnel_stage", "unknown")] = funnel.get(a.get("funnel_stage", "unknown"), 0) + 1
         if a.get("published_date"):
             dates.append(a["published_date"])
@@ -111,6 +113,7 @@ def compute_stats(index):
     return {
         "total": len(articles),
         "tags_count": len(tags),
+        "topics_count": len(topics),
         "funnel": funnel,
         "date_min": dates[0] if dates else "unknown",
         "date_max": dates[-1] if dates else "unknown",
@@ -146,7 +149,8 @@ def _month_span(date_min, date_max):
 
 
 def patch_readme(content, stats):
-    total, tags = stats["total"], stats["tags_count"]
+    total = stats["total"]
+    topics = stats["topics_count"]
     today_iso = str(date.today())
     span = _month_span(stats["date_min"], stats["date_max"])
 
@@ -166,8 +170,12 @@ def patch_readme(content, stats):
         content)
     content = re.sub(r'\(\d+ article folders\)', f"({total} article folders)", content)
     content = re.sub(r'\*\*\d+\*\* articles indexed', f"**{total}** articles indexed", content)
+    # "unique topic tags" was the pre-normalization label. Migrate either
+    # shape to the canonical-topics one.
     content = re.sub(r'\*\*[\d,]+\*\* unique topic tags',
-                     f"**{tags:,}** unique topic tags", content)
+                     f"**{topics}** canonical topics", content)
+    content = re.sub(r'\*\*\d+\*\* canonical topics',
+                     f"**{topics}** canonical topics", content)
     content = re.sub(r'\*\*3 funnel stages:\*\* .+',
                      f"**3 funnel stages:** {_funnel_summary(stats['funnel'])}", content)
     content = re.sub(r'\*\*Date range:\*\* .+',
@@ -186,7 +194,8 @@ def patch_llms(content, stats):
 
 def update_docs(index):
     stats = compute_stats(index)
-    print(f"[docs] total={stats['total']} tags={stats['tags_count']} "
+    print(f"[docs] total={stats['total']} "
+          f"tags={stats['tags_count']} topics={stats['topics_count']} "
           f"range={stats['date_min']}..{stats['date_max']} "
           f"funnel={_funnel_summary(stats['funnel'])}")
     for filename, patcher in (("README.md", patch_readme), ("llms.txt", patch_llms)):
@@ -399,8 +408,11 @@ def build_feed(index):
         ent_author = _sub(entry, "author")
         _sub(ent_author, "name", "Dr. Hernani Costa")
         _sub(ent_author, "uri", "https://drhernanicosta.com")
-        for tag in (a.get("tags") or [])[:FEED_CATEGORIES_PER_ENTRY]:
-            _sub(entry, "category", term=tag)
+        # Prefer canonical topics; fall back to raw tags if an article
+        # has no topics yet (shouldn't happen post-normalization).
+        category_source = a.get("topics") or a.get("tags") or []
+        for topic in category_source[:FEED_CATEGORIES_PER_ENTRY]:
+            _sub(entry, "category", term=topic)
         summary = _sub(entry, "summary",
                        _extract_summary(a["folder"], a["title"], a["published_date"]))
         summary.set("type", "text")
@@ -428,7 +440,7 @@ def build_llms_full(index):
 
     Sibling to the llms.txt convention: llms.txt describes the corpus;
     llms-full.txt IS the corpus. Newest-first, with corpus header up top
-    and per-article metadata (title, date, URL, tags) before each body.
+    and per-article metadata (title, date, URL, topics) before each body.
     """
     articles = index["articles"]
     stats = compute_stats(index)
@@ -445,7 +457,7 @@ def build_llms_full(index):
         f"- Generated: {today_iso}\n\n"
         "Machine-readable catalog: https://articles.firstaimovers.com/index.json  \n"
         "Atom feed (recent only): https://articles.firstaimovers.com/feed.xml\n\n"
-        "Each article below is prefixed with title, date, URL, and tags, separated by `---` lines.\n"
+        "Each article below is prefixed with title, date, URL, and topics, separated by `---` lines.\n"
     )
 
     parts = [header]
@@ -461,14 +473,14 @@ def build_llms_full(index):
 
         canonical_raw = a.get("canonical_url") or ""
         canonical = canonical_raw.strip().splitlines()[-1].strip() if canonical_raw.strip() else ""
-        tags = ", ".join(a.get("tags", []))
+        topics = ", ".join(a.get("topics", []))
 
         parts.append(
             "\n\n---\n\n"
             f"# {a.get('title', 'Untitled')}\n\n"
             f"- **Published:** {a.get('published_date', 'unknown')}\n"
             f"- **URL:** {canonical}\n"
-            f"- **Tags:** {tags}\n\n"
+            f"- **Topics:** {topics}\n\n"
             f"{body.rstrip()}\n"
         )
         included += 1

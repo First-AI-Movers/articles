@@ -1,18 +1,32 @@
 {
-    "id":"reci0dGVAz4oXzXpT",
-    "title":"OpenAI’s Direct-to-Hospital Play: Wake-Up Call for Healthtech Founders & Innovators",
-    "slug":"openai-hospital-ai-healthtech-disruption-2025",
-    "folder": "2025-08-04-openai-hospital-ai-healthtech-disruption-2025",
-    "published_date": "2025-08-04",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/openai-hospital-ai-healthtech-disruption-2025",
-    "tags":["AI governance for European SMEs","healthcare AI integration","compliance in healthcare AI","direct-to-hospital AI solutions","AI impact measurement in healthcare","EHR integration strategies"],
-    "word_count": 754,
-    "read_time_minutes":4,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reci0dGVAz4oXzXpT",
+  "title": "OpenAI’s Direct-to-Hospital Play: Wake-Up Call for Healthtech Founders & Innovators",
+  "slug": "openai-hospital-ai-healthtech-disruption-2025",
+  "folder": "2025-08-04-openai-hospital-ai-healthtech-disruption-2025",
+  "published_date": "2025-08-04",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/openai-hospital-ai-healthtech-disruption-2025",
+  "tags": [
+    "AI governance for European SMEs",
+    "healthcare AI integration",
+    "compliance in healthcare AI",
+    "direct-to-hospital AI solutions",
+    "AI impact measurement in healthcare",
+    "EHR integration strategies"
+  ],
+  "word_count": 754,
+  "read_time_minutes": 4,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "Healthcare AI",
+    "AI Strategy",
+    "AI for HR"
+  ]
 }

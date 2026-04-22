@@ -1,18 +1,30 @@
 {
-    "id":"recHPZgORqUwHP3nn",
-    "title":"Your Uncopyable Moat: Why Personal Branding Wins in an AI-Powered World",
-    "slug":"personal-branding-wins-ai-world-uncopyable-moat",
-    "folder": "2026-02-09-personal-branding-wins-ai-world-uncopyable-moat",
-    "published_date": "2026-02-09",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/personal-branding-wins-ai-world-uncopyable-moat",
-    "tags":["personal branding in AI","trust as competitive advantage","content creation strategies","building audience trust","omnichannel content distribution","long-form vs short-form content","compounding effect in branding"],
-    "word_count": 2188,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recHPZgORqUwHP3nn",
+  "title": "Your Uncopyable Moat: Why Personal Branding Wins in an AI-Powered World",
+  "slug": "personal-branding-wins-ai-world-uncopyable-moat",
+  "folder": "2026-02-09-personal-branding-wins-ai-world-uncopyable-moat",
+  "published_date": "2026-02-09",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/personal-branding-wins-ai-world-uncopyable-moat",
+  "tags": [
+    "personal branding in AI",
+    "trust as competitive advantage",
+    "content creation strategies",
+    "building audience trust",
+    "omnichannel content distribution",
+    "long-form vs short-form content",
+    "compounding effect in branding"
+  ],
+  "word_count": 2188,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Thought Leadership",
+    "AI Content Strategy"
+  ]
 }

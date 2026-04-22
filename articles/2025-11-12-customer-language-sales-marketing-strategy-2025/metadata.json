@@ -1,18 +1,31 @@
 {
-    "id":"recc4CcRorwJT5GUN",
-    "title":"When Sales + Marketing Speak Your Customer's Language, You Nail It",
-    "slug":"customer-language-sales-marketing-strategy-2025",
-    "folder": "2025-11-12-customer-language-sales-marketing-strategy-2025",
-    "published_date": "2025-11-12",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/customer-language-sales-marketing-strategy-2025",
-    "tags":["sales and marketing alignment","customer language mastery","B2B sales strategies","effective messaging techniques","customer feedback integration","sales call analysis","marketing content optimization"],
-    "word_count": 685,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recc4CcRorwJT5GUN",
+  "title": "When Sales + Marketing Speak Your Customer's Language, You Nail It",
+  "slug": "customer-language-sales-marketing-strategy-2025",
+  "folder": "2025-11-12-customer-language-sales-marketing-strategy-2025",
+  "published_date": "2025-11-12",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/customer-language-sales-marketing-strategy-2025",
+  "tags": [
+    "sales and marketing alignment",
+    "customer language mastery",
+    "B2B sales strategies",
+    "effective messaging techniques",
+    "customer feedback integration",
+    "sales call analysis",
+    "marketing content optimization"
+  ],
+  "word_count": 685,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "B2B SaaS Growth",
+    "Healthcare AI",
+    "AI Content Strategy"
+  ]
 }

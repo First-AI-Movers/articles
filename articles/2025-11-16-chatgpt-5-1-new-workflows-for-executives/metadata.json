@@ -1,18 +1,31 @@
 {
-    "id":"recfTsM5xJCx8Jxmg",
-    "title":"ChatGPT‐5.1: 6 Upgrades That Change Your Work",
-    "slug":"chatgpt-5-1-new-workflows-for-executives",
-    "folder": "2025-11-16-chatgpt-5-1-new-workflows-for-executives",
-    "published_date": "2025-11-16",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/chatgpt-5-1-new-workflows-for-executives",
-    "tags":["ChatGPT 5.1 upgrades","AI productivity tools","strategic decision making","workflow automation for SMEs","AI writing enhancement","long-term planning with AI"],
-    "word_count": 1365,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recfTsM5xJCx8Jxmg",
+  "title": "ChatGPT‐5.1: 6 Upgrades That Change Your Work",
+  "slug": "chatgpt-5-1-new-workflows-for-executives",
+  "folder": "2025-11-16-chatgpt-5-1-new-workflows-for-executives",
+  "published_date": "2025-11-16",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/chatgpt-5-1-new-workflows-for-executives",
+  "tags": [
+    "ChatGPT 5.1 upgrades",
+    "AI productivity tools",
+    "strategic decision making",
+    "workflow automation for SMEs",
+    "AI writing enhancement",
+    "long-term planning with AI"
+  ],
+  "word_count": 1365,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GPT Models",
+    "AI Productivity Tools",
+    "AI Workflow Automation",
+    "European SME AI"
+  ]
 }

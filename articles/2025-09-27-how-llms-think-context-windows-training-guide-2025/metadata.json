@@ -1,18 +1,30 @@
 {
-    "id":"recnVkhFUfOBB0cdC",
-    "title":"How LLMs Think: Complete Guide to AI Memory & Logic 2025",
-    "slug":"how-llms-think-context-windows-training-guide-2025",
-    "folder": "2025-09-27-how-llms-think-context-windows-training-guide-2025",
-    "published_date": "2025-09-27",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/how-llms-think-context-windows-training-guide-2025",
-    "tags":["AI memory and logic","context windows in LLMs","training data implications","hallucinations in AI","strategic AI deployment","real-time data integration"],
-    "word_count": 366,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recnVkhFUfOBB0cdC",
+  "title": "How LLMs Think: Complete Guide to AI Memory & Logic 2025",
+  "slug": "how-llms-think-context-windows-training-guide-2025",
+  "folder": "2025-09-27-how-llms-think-context-windows-training-guide-2025",
+  "published_date": "2025-09-27",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/how-llms-think-context-windows-training-guide-2025",
+  "tags": [
+    "AI memory and logic",
+    "context windows in LLMs",
+    "training data implications",
+    "hallucinations in AI",
+    "strategic AI deployment",
+    "real-time data integration"
+  ],
+  "word_count": 366,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Context Engineering",
+    "AI Safety",
+    "AI Strategy"
+  ]
 }

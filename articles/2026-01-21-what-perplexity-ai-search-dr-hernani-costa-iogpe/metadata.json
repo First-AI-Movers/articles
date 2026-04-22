@@ -1,22 +1,29 @@
 {
-    "id":"rec8KnL0n2frxzuB0",
-    "title":"
-What is Perplexity AI Search?
-",
-    "slug":"what-perplexity-ai-search-dr-hernani-costa-iogpe",
-    "folder": "2026-01-21-what-perplexity-ai-search-dr-hernani-costa-iogpe",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/what-perplexity-ai-search-dr-hernani-costa-iogpe
-",
-    "tags":["AI search technology for SMEs","real-time information retrieval","conversational AI interfaces","transparent sourcing in AI","AI applications for research","AI tools for knowledge gathering"],
-    "word_count": 276,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec8KnL0n2frxzuB0",
+  "title": "\nWhat is Perplexity AI Search?\n",
+  "slug": "what-perplexity-ai-search-dr-hernani-costa-iogpe",
+  "folder": "2026-01-21-what-perplexity-ai-search-dr-hernani-costa-iogpe",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/what-perplexity-ai-search-dr-hernani-costa-iogpe\n",
+  "tags": [
+    "AI search technology for SMEs",
+    "real-time information retrieval",
+    "conversational AI interfaces",
+    "transparent sourcing in AI",
+    "AI applications for research",
+    "AI tools for knowledge gathering"
+  ],
+  "word_count": 276,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI SEO and GEO"
+  ]
 }

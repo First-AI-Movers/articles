@@ -1,18 +1,31 @@
 {
-    "id":"recMr7u9nj7cwF69d",
-    "title":"Cursor Agents Go Mobile (Developer Tools)",
-    "slug":"cursor-mobile-ai-coding-agents",
-    "folder": "2025-07-16-cursor-mobile-ai-coding-agents",
-    "published_date": "2025-07-16",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/cursor-mobile-ai-coding-agents",
-    "tags":["mobile AI coding agents","developer tools innovation","contextual coding workflows","AI agent mobility","software development trends","MCP protocol benefits"],
-    "word_count": 1032,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recMr7u9nj7cwF69d",
+  "title": "Cursor Agents Go Mobile (Developer Tools)",
+  "slug": "cursor-mobile-ai-coding-agents",
+  "folder": "2025-07-16-cursor-mobile-ai-coding-agents",
+  "published_date": "2025-07-16",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/cursor-mobile-ai-coding-agents",
+  "tags": [
+    "mobile AI coding agents",
+    "developer tools innovation",
+    "contextual coding workflows",
+    "AI agent mobility",
+    "software development trends",
+    "MCP protocol benefits"
+  ],
+  "word_count": 1032,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Coding Tools",
+    "Coding Agent Architecture",
+    "AI Agents",
+    "Model Context Protocol"
+  ]
 }

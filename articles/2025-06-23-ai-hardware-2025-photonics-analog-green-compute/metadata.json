@@ -1,18 +1,31 @@
 {
-    "id":"recIPI3TT4wOkZo0J",
-    "title":"AI Hardware 2025: Photonics, Analog Compute, and the Green Shift",
-    "slug":"ai-hardware-2025-photonics-analog-green-compute",
-    "folder": "2025-06-23-ai-hardware-2025-photonics-analog-green-compute",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-hardware-2025-photonics-analog-green-compute",
-    "tags":["AI hardware trends 2025","photonic interconnects for SMEs","analog compute advantages","green AI infrastructure","AI chip advancements","energy-efficient AI solutions"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recIPI3TT4wOkZo0J",
+  "title": "AI Hardware 2025: Photonics, Analog Compute, and the Green Shift",
+  "slug": "ai-hardware-2025-photonics-analog-green-compute",
+  "folder": "2025-06-23-ai-hardware-2025-photonics-analog-green-compute",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-hardware-2025-photonics-analog-green-compute",
+  "tags": [
+    "AI hardware trends 2025",
+    "photonic interconnects for SMEs",
+    "analog compute advantages",
+    "green AI infrastructure",
+    "AI chip advancements",
+    "energy-efficient AI solutions"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "Sovereign AI Infrastructure",
+    "AI Geopolitics",
+    "Energy AI"
+  ]
 }

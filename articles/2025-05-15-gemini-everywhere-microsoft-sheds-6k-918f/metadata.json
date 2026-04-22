@@ -1,18 +1,30 @@
 {
-    "id":"recX9O0H2oCYgoamT",
-    "title":"Gemini Everywhere—Microsoft Sheds 6K",
-    "slug":"gemini-everywhere-microsoft-sheds-6k-918f",
-    "folder": "2025-05-15-gemini-everywhere-microsoft-sheds-6k-918f",
-    "published_date": "2025-05-15",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/gemini-everywhere-microsoft-sheds-6k-918f",
-    "tags":["Google Gemini deployment","AI integration across devices","Microsoft AI investment strategy","ambient AI in consumer tech","AI-driven freelance platforms","Nvidia AMD chip orders"],
-    "word_count": 485,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recX9O0H2oCYgoamT",
+  "title": "Gemini Everywhere—Microsoft Sheds 6K",
+  "slug": "gemini-everywhere-microsoft-sheds-6k-918f",
+  "folder": "2025-05-15-gemini-everywhere-microsoft-sheds-6k-918f",
+  "published_date": "2025-05-15",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/gemini-everywhere-microsoft-sheds-6k-918f",
+  "tags": [
+    "Google Gemini deployment",
+    "AI integration across devices",
+    "Microsoft AI investment strategy",
+    "ambient AI in consumer tech",
+    "AI-driven freelance platforms",
+    "Nvidia AMD chip orders"
+  ],
+  "word_count": 485,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Gemini Models",
+    "AI Strategy",
+    "AI Investment"
+  ]
 }

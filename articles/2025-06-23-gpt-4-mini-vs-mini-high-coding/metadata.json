@@ -1,18 +1,30 @@
 {
-    "id":"recExAEM0AmFhILoU",
-    "title":"GPT-4 “Mini” vs “Mini-High” – Which Model for Coding and Technical Tasks?",
-    "slug":"gpt-4-mini-vs-mini-high-coding",
-    "folder": "2025-06-23-gpt-4-mini-vs-mini-high-coding",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/gpt-4-mini-vs-mini-high-coding",
-    "tags":["GPT-4 coding assistance","AI models for technical tasks","OpenAI model comparison","programming efficiency tools","AI-driven coding solutions"],
-    "word_count": 564,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recExAEM0AmFhILoU",
+  "title": "GPT-4 “Mini” vs “Mini-High” – Which Model for Coding and Technical Tasks?",
+  "slug": "gpt-4-mini-vs-mini-high-coding",
+  "folder": "2025-06-23-gpt-4-mini-vs-mini-high-coding",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/gpt-4-mini-vs-mini-high-coding",
+  "tags": [
+    "GPT-4 coding assistance",
+    "AI models for technical tasks",
+    "OpenAI model comparison",
+    "programming efficiency tools",
+    "AI-driven coding solutions"
+  ],
+  "word_count": 564,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GPT Models",
+    "Model Selection",
+    "France and Benelux AI",
+    "European SME AI"
+  ]
 }

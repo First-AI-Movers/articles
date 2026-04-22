@@ -1,18 +1,32 @@
 {
-    "id":"recKT1RMFtDKSQHKm",
-    "title":"Why Context Windows Matter – Unlocking AI’s Long-Memory Power",
-    "slug":"why-context-windows-matter-unlocking-ai-s-long-memory-power",
-    "folder": "2025-07-12-why-context-windows-matter-unlocking-ai-s-long-memory-p",
-    "published_date": "2025-07-12",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/why-context-windows-matter-unlocking-ai-s-long-memory-power",
-    "tags":["context window importance","AI model token limits","long-memory AI capabilities","AI project cost management","effective AI workflows for SMEs","AI-driven document processing"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recKT1RMFtDKSQHKm",
+  "title": "Why Context Windows Matter – Unlocking AI’s Long-Memory Power",
+  "slug": "why-context-windows-matter-unlocking-ai-s-long-memory-power",
+  "folder": "2025-07-12-why-context-windows-matter-unlocking-ai-s-long-memory-p",
+  "published_date": "2025-07-12",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/why-context-windows-matter-unlocking-ai-s-long-memory-power",
+  "tags": [
+    "context window importance",
+    "AI model token limits",
+    "long-memory AI capabilities",
+    "AI project cost management",
+    "effective AI workflows for SMEs",
+    "AI-driven document processing"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Context Engineering",
+    "AI Cost Optimization",
+    "AI Workflow Automation",
+    "European SME AI",
+    "Document Automation"
+  ]
 }

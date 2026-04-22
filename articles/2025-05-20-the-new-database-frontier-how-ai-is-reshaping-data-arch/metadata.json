@@ -1,18 +1,31 @@
 {
-    "id":"recXhggtbdOMoNXBM",
-    "title":"The New Database Frontier: How AI is Reshaping Data Architecture",
-    "slug":"the-new-database-frontier-how-ai-is-reshaping-data-architecture-6b1a84315d2e",
-    "folder": "2025-05-20-the-new-database-frontier-how-ai-is-reshaping-data-arch",
-    "published_date": "2025-05-20",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/the-new-database-frontier-how-ai-is-reshaping-data-architecture-6b1a84315d2e",
-    "tags":["AI-powered database solutions","semantic search for SMEs","vector databases for AI","AI data architecture trends","RAG systems in AI applications","hybrid search technologies"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recXhggtbdOMoNXBM",
+  "title": "The New Database Frontier: How AI is Reshaping Data Architecture",
+  "slug": "the-new-database-frontier-how-ai-is-reshaping-data-architecture-6b1a84315d2e",
+  "folder": "2025-05-20-the-new-database-frontier-how-ai-is-reshaping-data-arch",
+  "published_date": "2025-05-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/the-new-database-frontier-how-ai-is-reshaping-data-architecture-6b1a84315d2e",
+  "tags": [
+    "AI-powered database solutions",
+    "semantic search for SMEs",
+    "vector databases for AI",
+    "AI data architecture trends",
+    "RAG systems in AI applications",
+    "hybrid search technologies"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "Vector Databases",
+    "AI Data Architecture",
+    "RAG Architecture"
+  ]
 }

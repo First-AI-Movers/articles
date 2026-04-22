@@ -1,18 +1,32 @@
 {
-    "id":"recIBT8rg4O1qBjC2",
-    "title":"EU AI Act August 2026 Deadline: What European SMEs Must Do Now",
-    "slug":"eu-ai-act-august-2026-deadline-action-plan-smes",
-    "folder": "2026-04-17-eu-ai-act-august-2026-deadline-action-plan-smes",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-august-2026-deadline-action-plan-smes",
-    "tags":["EU AI Act compliance","AI governance for European SMEs","high-risk AI systems","AI compliance action plan","AI tools inventory","AI vendor contracts","AI oversight mechanisms"],
-    "word_count": 1550,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recIBT8rg4O1qBjC2",
+  "title": "EU AI Act August 2026 Deadline: What European SMEs Must Do Now",
+  "slug": "eu-ai-act-august-2026-deadline-action-plan-smes",
+  "folder": "2026-04-17-eu-ai-act-august-2026-deadline-action-plan-smes",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-august-2026-deadline-action-plan-smes",
+  "tags": [
+    "EU AI Act compliance",
+    "AI governance for European SMEs",
+    "high-risk AI systems",
+    "AI compliance action plan",
+    "AI tools inventory",
+    "AI vendor contracts",
+    "AI oversight mechanisms"
+  ],
+  "word_count": 1550,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI",
+    "AI Risk Management"
+  ]
 }

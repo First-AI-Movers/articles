@@ -1,18 +1,31 @@
 {
-    "id":"recGaq4WWmsRMAcmF",
-    "title":"Why 70% of AI Projects Fail: AI Readiness Playbook for Leaders (2025)",
-    "slug":"ai-project-failure-readiness-leadership-2025",
-    "folder": "2025-08-31-ai-project-failure-readiness-leadership-2025",
-    "published_date": "2025-08-31",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-project-failure-readiness-leadership-2025",
-    "tags":["AI project success factors","organizational readiness for AI","C-level AI leadership","cross-functional AI teams","data quality for AI","AI change management strategies"],
-    "word_count": 1165,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recGaq4WWmsRMAcmF",
+  "title": "Why 70% of AI Projects Fail: AI Readiness Playbook for Leaders (2025)",
+  "slug": "ai-project-failure-readiness-leadership-2025",
+  "folder": "2025-08-31-ai-project-failure-readiness-leadership-2025",
+  "published_date": "2025-08-31",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-project-failure-readiness-leadership-2025",
+  "tags": [
+    "AI project success factors",
+    "organizational readiness for AI",
+    "C-level AI leadership",
+    "cross-functional AI teams",
+    "data quality for AI",
+    "AI change management strategies"
+  ],
+  "word_count": 1165,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI PMO",
+    "Executive AI Literacy",
+    "AI Team Building",
+    "AI Change Management"
+  ]
 }

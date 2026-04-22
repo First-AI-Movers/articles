@@ -1,18 +1,30 @@
 {
-    "id":"recvTTAFjo4vgajqs",
-    "title":"The Generalist Advantage: Why Diverse Expertise Outperforms Specialization in AI-Native Organizations",
-    "slug":"generalist-advantage-ai-leadership-smes",
-    "folder": "2026-02-11-generalist-advantage-ai-leadership-smes",
-    "published_date": "2026-02-11",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/generalist-advantage-ai-leadership-smes",
-    "tags":["generalist advantage in AI","AI strategy for SMEs","self-directed learning in organizations","cross-domain exploration","organizational culture for AI","adapting to AI transformation"],
-    "word_count": 1868,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recvTTAFjo4vgajqs",
+  "title": "The Generalist Advantage: Why Diverse Expertise Outperforms Specialization in AI-Native Organizations",
+  "slug": "generalist-advantage-ai-leadership-smes",
+  "folder": "2026-02-11-generalist-advantage-ai-leadership-smes",
+  "published_date": "2026-02-11",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/generalist-advantage-ai-leadership-smes",
+  "tags": [
+    "generalist advantage in AI",
+    "AI strategy for SMEs",
+    "self-directed learning in organizations",
+    "cross-domain exploration",
+    "organizational culture for AI",
+    "adapting to AI transformation"
+  ],
+  "word_count": 1868,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "AI Change Management"
+  ]
 }

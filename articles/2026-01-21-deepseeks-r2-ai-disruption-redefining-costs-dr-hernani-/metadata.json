@@ -1,22 +1,29 @@
 {
-    "id":"recUZSkO3oKl6ek6R",
-    "title":"
-DeepSeek's R2: The AI Disruption Redefining Costs and Competition
-",
-    "slug":"deepseeks-r2-ai-disruption-redefining-costs-dr-hernani-costa-dyrre",
-    "folder": "2026-01-21-deepseeks-r2-ai-disruption-redefining-costs-dr-hernani-",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/deepseeks-r2-ai-disruption-redefining-costs-dr-hernani-costa-dyrre
-",
-    "tags":["AI cost efficiency strategies","competitive AI landscape","AI democratization for SMEs","multilingual AI capabilities","AI innovation cycles","cost-effective AI solutions"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recUZSkO3oKl6ek6R",
+  "title": "\nDeepSeek's R2: The AI Disruption Redefining Costs and Competition\n",
+  "slug": "deepseeks-r2-ai-disruption-redefining-costs-dr-hernani-costa-dyrre",
+  "folder": "2026-01-21-deepseeks-r2-ai-disruption-redefining-costs-dr-hernani-",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/deepseeks-r2-ai-disruption-redefining-costs-dr-hernani-costa-dyrre\n",
+  "tags": [
+    "AI cost efficiency strategies",
+    "competitive AI landscape",
+    "AI democratization for SMEs",
+    "multilingual AI capabilities",
+    "AI innovation cycles",
+    "cost-effective AI solutions"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Cost Optimization"
+  ]
 }

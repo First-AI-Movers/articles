@@ -1,18 +1,37 @@
 {
-    "id":"rec3Rydx8lg2BahUL",
-    "title":"AI Consulting for Frankfurt Fintech and Professional Services: What the Regulatory Reality Demands",
-    "slug":"ai-consulting-frankfurt-fintech-smes-2026",
-    "folder": "2026-04-17-ai-consulting-frankfurt-fintech-smes-2026",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-consulting-frankfurt-fintech-smes-2026",
-    "tags":["AI consulting for fintech","BaFin compliance requirements","DORA regulatory framework","AI governance in financial services","Frankfurt fintech landscape","German-language AI output quality","AI use cases in professional services"],
-    "word_count": 1585,
-    "read_time_minutes":7,
-    "funnel_stage": "bottom",
-    "first_ai_movers_services": [" compliance-audit","ai-strategy "],
-    "status": "published"
+  "id": "rec3Rydx8lg2BahUL",
+  "title": "AI Consulting for Frankfurt Fintech and Professional Services: What the Regulatory Reality Demands",
+  "slug": "ai-consulting-frankfurt-fintech-smes-2026",
+  "folder": "2026-04-17-ai-consulting-frankfurt-fintech-smes-2026",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-consulting-frankfurt-fintech-smes-2026",
+  "tags": [
+    "AI consulting for fintech",
+    "BaFin compliance requirements",
+    "DORA regulatory framework",
+    "AI governance in financial services",
+    "Frankfurt fintech landscape",
+    "German-language AI output quality",
+    "AI use cases in professional services"
+  ],
+  "word_count": 1585,
+  "read_time_minutes": 7,
+  "funnel_stage": "bottom",
+  "first_ai_movers_services": [
+    "compliance-audit",
+    "ai-strategy"
+  ],
+  "status": "published",
+  "topics": [
+    "Fintech AI",
+    "AI Consulting",
+    "AI Governance",
+    "AI Regulation",
+    "DACH AI",
+    "European SME AI"
+  ]
 }

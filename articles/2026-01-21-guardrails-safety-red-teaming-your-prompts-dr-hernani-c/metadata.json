@@ -1,22 +1,31 @@
 {
-    "id":"recIqZVhnVvtKz7ec",
-    "title":"
-(Day 9/10) Guardrails & Safety: Red-Teaming Your Prompts
-",
-    "slug":"guardrails-safety-red-teaming-your-prompts-dr-hernani-costa-xrvfe",
-    "folder": "2026-01-21-guardrails-safety-red-teaming-your-prompts-dr-hernani-c",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/guardrails-safety-red-teaming-your-prompts-dr-hernani-costa-xrvfe
-",
-    "tags":["AI safety strategies for SMEs","Red-teaming AI systems","Guardrails for AI compliance","Prompt injection vulnerabilities","AI model robustness techniques","Ethical AI practices"],
-    "word_count": 366,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recIqZVhnVvtKz7ec",
+  "title": "\n(Day 9/10) Guardrails & Safety: Red-Teaming Your Prompts\n",
+  "slug": "guardrails-safety-red-teaming-your-prompts-dr-hernani-costa-xrvfe",
+  "folder": "2026-01-21-guardrails-safety-red-teaming-your-prompts-dr-hernani-c",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/guardrails-safety-red-teaming-your-prompts-dr-hernani-costa-xrvfe\n",
+  "tags": [
+    "AI safety strategies for SMEs",
+    "Red-teaming AI systems",
+    "Guardrails for AI compliance",
+    "Prompt injection vulnerabilities",
+    "AI model robustness techniques",
+    "Ethical AI practices"
+  ],
+  "word_count": 366,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Safety",
+    "AI Governance",
+    "AI Ethics"
+  ]
 }

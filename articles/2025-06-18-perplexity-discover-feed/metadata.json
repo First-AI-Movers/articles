@@ -1,18 +1,28 @@
 {
-    "id":"recuZdkkBh8zet8V9",
-    "title":"Exploring Content with Perplexity’s Discover Feed",
-    "slug":"perplexity-discover-feed",
-    "folder": "2025-06-18-perplexity-discover-feed",
-    "published_date": "2025-06-18",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/perplexity-discover-feed",
-    "tags":["AI-powered news feed","personalized content curation","real-time information updates","technology and health insights","AI-driven knowledge hub","customizable news experience"],
-    "word_count": 525,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recuZdkkBh8zet8V9",
+  "title": "Exploring Content with Perplexity’s Discover Feed",
+  "slug": "perplexity-discover-feed",
+  "folder": "2025-06-18-perplexity-discover-feed",
+  "published_date": "2025-06-18",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/perplexity-discover-feed",
+  "tags": [
+    "AI-powered news feed",
+    "personalized content curation",
+    "real-time information updates",
+    "technology and health insights",
+    "AI-driven knowledge hub",
+    "customizable news experience"
+  ],
+  "word_count": 525,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Healthcare AI"
+  ]
 }

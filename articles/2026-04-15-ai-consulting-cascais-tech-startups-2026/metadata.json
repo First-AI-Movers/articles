@@ -1,18 +1,36 @@
 {
-    "id":"recdyDcUwRD17a0If",
-    "title":"AI Consulting for Cascais Tech Startups and Scale-Ups in 2026",
-    "slug":"ai-consulting-cascais-tech-startups-2026",
-    "folder": "2026-04-15-ai-consulting-cascais-tech-startups-2026",
-    "published_date": "2026-04-15",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-consulting-cascais-tech-startups-2026",
-    "tags":["AI strategy for tech startups","AI governance for European SMEs","AI integration in SaaS products","Cascais tech ecosystem","EU AI Act compliance","AI adoption frameworks"],
-    "word_count": 1345,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" ai-strategy","fractional-caio "],
-    "status": "published"
+  "id": "recdyDcUwRD17a0If",
+  "title": "AI Consulting for Cascais Tech Startups and Scale-Ups in 2026",
+  "slug": "ai-consulting-cascais-tech-startups-2026",
+  "folder": "2026-04-15-ai-consulting-cascais-tech-startups-2026",
+  "published_date": "2026-04-15",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-consulting-cascais-tech-startups-2026",
+  "tags": [
+    "AI strategy for tech startups",
+    "AI governance for European SMEs",
+    "AI integration in SaaS products",
+    "Cascais tech ecosystem",
+    "EU AI Act compliance",
+    "AI adoption frameworks"
+  ],
+  "word_count": 1345,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "ai-strategy",
+    "fractional-caio"
+  ],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "B2B SaaS Growth",
+    "AI Governance",
+    "European SME AI",
+    "Iberia AI",
+    "EU AI Act"
+  ]
 }

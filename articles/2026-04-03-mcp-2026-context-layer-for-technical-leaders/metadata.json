@@ -1,18 +1,32 @@
 {
-    "id":"rec4JqbzJdYC02b3l",
-    "title":"MCP in 2026: Design the Context Layer, Not Just Servers",
-    "slug":"mcp-2026-context-layer-for-technical-leaders",
-    "folder": "2026-04-03-mcp-2026-context-layer-for-technical-leaders",
-    "published_date": "2026-04-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/mcp-2026-context-layer-for-technical-leaders",
-    "tags":["MCP architecture design","AI governance for SMEs","context layer strategy","agent workflows management","MCP transport specifications","enterprise readiness in AI","AI integration frameworks"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec4JqbzJdYC02b3l",
+  "title": "MCP in 2026: Design the Context Layer, Not Just Servers",
+  "slug": "mcp-2026-context-layer-for-technical-leaders",
+  "folder": "2026-04-03-mcp-2026-context-layer-for-technical-leaders",
+  "published_date": "2026-04-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/mcp-2026-context-layer-for-technical-leaders",
+  "tags": [
+    "MCP architecture design",
+    "AI governance for SMEs",
+    "context layer strategy",
+    "agent workflows management",
+    "MCP transport specifications",
+    "enterprise readiness in AI",
+    "AI integration frameworks"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Model Context Protocol",
+    "AI Governance",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

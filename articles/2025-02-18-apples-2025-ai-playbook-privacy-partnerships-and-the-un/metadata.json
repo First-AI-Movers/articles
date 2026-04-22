@@ -1,18 +1,29 @@
 {
-    "id":"recz9MG569bn2SID8",
-    "title":"Apple’s 2025 AI Playbook: Privacy, Partnerships, and the Unseen AR Frontier",
-    "slug":"apples-2025-ai-playbook-privacy-partnerships-and-the-unseen-ar-frontier-00113aee1cca",
-    "folder": "2025-02-18-apples-2025-ai-playbook-privacy-partnerships-and-the-un",
-    "published_date": "2025-02-18",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/apples-2025-ai-playbook-privacy-partnerships-and-the-unseen-ar-frontier-00113aee1cca",
-    "tags":["Apple AI strategy 2025","privacy-first AI solutions","enterprise augmented reality","AI partnerships in Europe","on-device AI advancements","Vision Pro enterprise applications"],
-    "word_count": 1025,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recz9MG569bn2SID8",
+  "title": "Apple’s 2025 AI Playbook: Privacy, Partnerships, and the Unseen AR Frontier",
+  "slug": "apples-2025-ai-playbook-privacy-partnerships-and-the-unseen-ar-frontier-00113aee1cca",
+  "folder": "2025-02-18-apples-2025-ai-playbook-privacy-partnerships-and-the-un",
+  "published_date": "2025-02-18",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/apples-2025-ai-playbook-privacy-partnerships-and-the-unseen-ar-frontier-00113aee1cca",
+  "tags": [
+    "Apple AI strategy 2025",
+    "privacy-first AI solutions",
+    "enterprise augmented reality",
+    "AI partnerships in Europe",
+    "on-device AI advancements",
+    "Vision Pro enterprise applications"
+  ],
+  "word_count": 1025,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "GDPR & Data Privacy"
+  ]
 }

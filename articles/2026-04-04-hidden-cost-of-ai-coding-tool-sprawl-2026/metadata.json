@@ -1,18 +1,31 @@
 {
-    "id":"recj16P72JS2K9vX2",
-    "title":"The Hidden Cost of AI Coding Tool Sprawl in 2026",
-    "slug":"hidden-cost-of-ai-coding-tool-sprawl-2026",
-    "folder": "2026-04-04-hidden-cost-of-ai-coding-tool-sprawl-2026",
-    "published_date": "2026-04-04",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/hidden-cost-of-ai-coding-tool-sprawl-2026",
-    "tags":["AI coding tool sprawl","architectural debt in AI","AI governance for SMEs","policy fragmentation in AI tools","review consistency in AI development","context exposure risks in AI","standardization challenges in AI tools"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recj16P72JS2K9vX2",
+  "title": "The Hidden Cost of AI Coding Tool Sprawl in 2026",
+  "slug": "hidden-cost-of-ai-coding-tool-sprawl-2026",
+  "folder": "2026-04-04-hidden-cost-of-ai-coding-tool-sprawl-2026",
+  "published_date": "2026-04-04",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/hidden-cost-of-ai-coding-tool-sprawl-2026",
+  "tags": [
+    "AI coding tool sprawl",
+    "architectural debt in AI",
+    "AI governance for SMEs",
+    "policy fragmentation in AI tools",
+    "review consistency in AI development",
+    "context exposure risks in AI",
+    "standardization challenges in AI tools"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Coding Tools",
+    "AI Governance",
+    "European SME AI"
+  ]
 }

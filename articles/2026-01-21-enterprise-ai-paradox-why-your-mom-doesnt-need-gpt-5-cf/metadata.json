@@ -1,22 +1,30 @@
 {
-    "id":"recg10PzPalY167qn",
-    "title":"
-The Enterprise AI Paradox: Why Your Mom Doesn't Need GPT-5 (But Your CFO Does)
-",
-    "slug":"enterprise-ai-paradox-why-your-mom-doesnt-need-gpt-5-cfo-costa-n6rxe",
-    "folder": "2026-01-21-enterprise-ai-paradox-why-your-mom-doesnt-need-gpt-5-cf",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/enterprise-ai-paradox-why-your-mom-doesnt-need-gpt-5-cfo-costa-n6rxe
-",
-    "tags":["enterprise AI optimization","AI strategy for SMEs","back-office AI applications","AI decision-making processes","cost-effective AI solutions","transforming enterprise operations"],
-    "word_count": 668,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recg10PzPalY167qn",
+  "title": "\nThe Enterprise AI Paradox: Why Your Mom Doesn't Need GPT-5 (But Your CFO Does)\n",
+  "slug": "enterprise-ai-paradox-why-your-mom-doesnt-need-gpt-5-cfo-costa-n6rxe",
+  "folder": "2026-01-21-enterprise-ai-paradox-why-your-mom-doesnt-need-gpt-5-cf",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/enterprise-ai-paradox-why-your-mom-doesnt-need-gpt-5-cfo-costa-n6rxe\n",
+  "tags": [
+    "enterprise AI optimization",
+    "AI strategy for SMEs",
+    "back-office AI applications",
+    "AI decision-making processes",
+    "cost-effective AI solutions",
+    "transforming enterprise operations"
+  ],
+  "word_count": 668,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "European SME AI",
+    "AI Cost Optimization"
+  ]
 }

@@ -1,18 +1,29 @@
 {
-    "id":"recxWZvc7nNEyPswH",
-    "title":"S01E02 Not All AI is Created Equal: Understanding the Different Kinds of Artificial Intelligence",
-    "slug":"s01e02-not-all-ai-is-created-equal-understanding-the-different-kinds-of-artificial-intelligence-4f3c5cd51455",
-    "folder": "2025-06-05-s01e02-not-all-ai-is-created-equal-understanding-the-di",
-    "published_date": "2025-06-05",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/s01e02-not-all-ai-is-created-equal-understanding-the-different-kinds-of-artificial-intelligence-4f3c5cd51455",
-    "tags":["understanding artificial intelligence","narrow vs general AI","machine learning applications","AI capabilities for SMEs","AI literacy for executives","AI decision-making processes"],
-    "word_count": 661,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recxWZvc7nNEyPswH",
+  "title": "S01E02 Not All AI is Created Equal: Understanding the Different Kinds of Artificial Intelligence",
+  "slug": "s01e02-not-all-ai-is-created-equal-understanding-the-different-kinds-of-artificial-intelligence-4f3c5cd51455",
+  "folder": "2025-06-05-s01e02-not-all-ai-is-created-equal-understanding-the-di",
+  "published_date": "2025-06-05",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/s01e02-not-all-ai-is-created-equal-understanding-the-different-kinds-of-artificial-intelligence-4f3c5cd51455",
+  "tags": [
+    "understanding artificial intelligence",
+    "narrow vs general AI",
+    "machine learning applications",
+    "AI capabilities for SMEs",
+    "AI literacy for executives",
+    "AI decision-making processes"
+  ],
+  "word_count": 661,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Literacy"
+  ]
 }

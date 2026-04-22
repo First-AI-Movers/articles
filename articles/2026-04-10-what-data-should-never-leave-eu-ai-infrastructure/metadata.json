@@ -1,18 +1,31 @@
 {
-    "id":"rec3wUXv2aa1Vukhp",
-    "title":"What Data Should Never Leave Your EU Infrastructure in an AI Product",
-    "slug":"what-data-should-never-leave-eu-ai-infrastructure",
-    "folder": "2026-04-10-what-data-should-never-leave-eu-ai-infrastructure",
-    "published_date": "2026-04-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/what-data-should-never-leave-eu-ai-infrastructure",
-    "tags":["EU data sovereignty guidelines","AI product data classification","GDPR compliance for AI","data governance in AI","transforming sensitive data","public vs private data in AI"],
-    "word_count": 2675,
-    "read_time_minutes":12,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec3wUXv2aa1Vukhp",
+  "title": "What Data Should Never Leave Your EU Infrastructure in an AI Product",
+  "slug": "what-data-should-never-leave-eu-ai-infrastructure",
+  "folder": "2026-04-10-what-data-should-never-leave-eu-ai-infrastructure",
+  "published_date": "2026-04-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/what-data-should-never-leave-eu-ai-infrastructure",
+  "tags": [
+    "EU data sovereignty guidelines",
+    "AI product data classification",
+    "GDPR compliance for AI",
+    "data governance in AI",
+    "transforming sensitive data",
+    "public vs private data in AI"
+  ],
+  "word_count": 2675,
+  "read_time_minutes": 12,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Data Sovereignty",
+    "Sovereign AI Infrastructure",
+    "GDPR & Data Privacy",
+    "AI Governance"
+  ]
 }

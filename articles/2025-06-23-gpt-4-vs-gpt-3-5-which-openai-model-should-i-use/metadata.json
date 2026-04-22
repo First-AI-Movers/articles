@@ -1,18 +1,32 @@
 {
-    "id":"recYxM7lBwiSgBOnD",
-    "title":"GPT-4 vs. GPT-3.5 – Which OpenAI Model Should You Use?",
-    "slug":"gpt-4-vs-gpt-3-5-which-openai-model-should-i-use",
-    "folder": "2025-06-23-gpt-4-vs-gpt-3-5-which-openai-model-should-i-use",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/gpt-4-vs-gpt-3-5-which-openai-model-should-i-use",
-    "tags":["GPT-4 vs GPT-3.5 comparison","AI model selection for SMEs","OpenAI model capabilities","AI cost and performance analysis","language model efficiency","AI-driven decision making"],
-    "word_count": 348,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recYxM7lBwiSgBOnD",
+  "title": "GPT-4 vs. GPT-3.5 – Which OpenAI Model Should You Use?",
+  "slug": "gpt-4-vs-gpt-3-5-which-openai-model-should-i-use",
+  "folder": "2025-06-23-gpt-4-vs-gpt-3-5-which-openai-model-should-i-use",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/gpt-4-vs-gpt-3-5-which-openai-model-should-i-use",
+  "tags": [
+    "GPT-4 vs GPT-3.5 comparison",
+    "AI model selection for SMEs",
+    "OpenAI model capabilities",
+    "AI cost and performance analysis",
+    "language model efficiency",
+    "AI-driven decision making"
+  ],
+  "word_count": 348,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GPT Models",
+    "France and Benelux AI",
+    "European SME AI",
+    "Model Selection",
+    "AI Strategy"
+  ]
 }

@@ -1,18 +1,32 @@
 {
-    "id":"recAQKNot5MJjRKLf",
-    "title":"Perplexity Pro Tip—Pick the Right Model, Get Better Answers",
-    "slug":"perplexity-pro-tip-pick-the-right-model",
-    "folder": "2025-07-02-perplexity-pro-tip-pick-the-right-model",
-    "published_date": "2025-07-02",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/perplexity-pro-tip-pick-the-right-model",
-    "tags":["AI model selection strategies","GPT-4 vs Claude comparison","AI tools for SMEs","cost-effective AI solutions","AI-driven research methodologies","AI model performance optimization"],
-    "word_count": 635,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recAQKNot5MJjRKLf",
+  "title": "Perplexity Pro Tip—Pick the Right Model, Get Better Answers",
+  "slug": "perplexity-pro-tip-pick-the-right-model",
+  "folder": "2025-07-02-perplexity-pro-tip-pick-the-right-model",
+  "published_date": "2025-07-02",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/perplexity-pro-tip-pick-the-right-model",
+  "tags": [
+    "AI model selection strategies",
+    "GPT-4 vs Claude comparison",
+    "AI tools for SMEs",
+    "cost-effective AI solutions",
+    "AI-driven research methodologies",
+    "AI model performance optimization"
+  ],
+  "word_count": 635,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Model Selection",
+    "GPT Models",
+    "France and Benelux AI",
+    "European SME AI",
+    "AI Cost Optimization"
+  ]
 }

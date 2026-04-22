@@ -1,18 +1,31 @@
 {
-    "id":"recR6uw3rut8MK9Eu",
-    "title":"AI Consulting in Amsterdam for European SMEs",
-    "slug":"ai-consulting-amsterdam-european-smes-1",
-    "folder": "2026-04-03-ai-consulting-amsterdam-european-smes-1",
-    "published_date": "2026-04-03",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-consulting-amsterdam-european-smes-1",
-    "tags":["AI consulting for European SMEs","AI readiness assessment","AI implementation strategies","AI governance for SMEs","AI adoption challenges in Europe"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recR6uw3rut8MK9Eu",
+  "title": "AI Consulting in Amsterdam for European SMEs",
+  "slug": "ai-consulting-amsterdam-european-smes-1",
+  "folder": "2026-04-03-ai-consulting-amsterdam-european-smes-1",
+  "published_date": "2026-04-03",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-consulting-amsterdam-european-smes-1",
+  "tags": [
+    "AI consulting for European SMEs",
+    "AI readiness assessment",
+    "AI implementation strategies",
+    "AI governance for SMEs",
+    "AI adoption challenges in Europe"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Consulting",
+    "AI Readiness",
+    "AI Strategy",
+    "AI Governance"
+  ]
 }

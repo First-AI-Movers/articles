@@ -1,26 +1,34 @@
 {
-    "id": "rec8CLkfuBQOdJsWB",
-    "title": "Europe's \"AI Continent\" Power Play",
-    "slug": "europe-s-ai-continent-power-play",
-    "folder": "2025-05-19-europe-s-ai-continent-power-play",
-    "published_date": "2025-05-19",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/europe-s-ai-continent-power-play",
-    "tags": [
-        "Europe AI strategy",
-        "AI adoption in SMEs",
-        "trustworthy AI initiatives",
-        "EU digital transformation",
-        "AI infrastructure development",
-        "AI talent retention",
-        "AI investment in Europe"
-    ],
-    "word_count": 1550,
-    "read_time_minutes": 7,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec8CLkfuBQOdJsWB",
+  "title": "Europe's \"AI Continent\" Power Play",
+  "slug": "europe-s-ai-continent-power-play",
+  "folder": "2025-05-19-europe-s-ai-continent-power-play",
+  "published_date": "2025-05-19",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/europe-s-ai-continent-power-play",
+  "tags": [
+    "Europe AI strategy",
+    "AI adoption in SMEs",
+    "trustworthy AI initiatives",
+    "EU digital transformation",
+    "AI infrastructure development",
+    "AI talent retention",
+    "AI investment in Europe"
+  ],
+  "word_count": 1550,
+  "read_time_minutes": 7,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "European SME AI",
+    "AI Change Management",
+    "Sovereign AI Infrastructure",
+    "AI Team Hiring",
+    "AI Investment"
+  ]
 }

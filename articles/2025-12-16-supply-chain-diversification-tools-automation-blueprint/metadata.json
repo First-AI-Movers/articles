@@ -1,18 +1,31 @@
 {
-    "id":"reckxqtGfc2PhfuUB",
-    "title":"Supply Chain Diversification Tools: The Automation Blueprint to De-Risk Your Tech Manufacturing",
-    "slug":"supply-chain-diversification-tools-automation-blueprint-tech-manufacturing",
-    "folder": "2025-12-16-supply-chain-diversification-tools-automation-blueprint",
-    "published_date": "2025-12-16",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/supply-chain-diversification-tools-automation-blueprint-tech-manufacturing",
-    "tags":["supply chain diversification tools","automated supplier monitoring","geopolitical risk management","procurement automation strategies","resilient manufacturing practices","cost-effective automation solutions"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "reckxqtGfc2PhfuUB",
+  "title": "Supply Chain Diversification Tools: The Automation Blueprint to De-Risk Your Tech Manufacturing",
+  "slug": "supply-chain-diversification-tools-automation-blueprint-tech-manufacturing",
+  "folder": "2025-12-16-supply-chain-diversification-tools-automation-blueprint",
+  "published_date": "2025-12-16",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/supply-chain-diversification-tools-automation-blueprint-tech-manufacturing",
+  "tags": [
+    "supply chain diversification tools",
+    "automated supplier monitoring",
+    "geopolitical risk management",
+    "procurement automation strategies",
+    "resilient manufacturing practices",
+    "cost-effective automation solutions"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Observability",
+    "AI Risk Management",
+    "Manufacturing AI",
+    "AI Cost Optimization"
+  ]
 }

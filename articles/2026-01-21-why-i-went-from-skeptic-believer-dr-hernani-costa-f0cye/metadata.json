@@ -1,22 +1,29 @@
 {
-    "id":"rec4BOGd2BQmHXsWj",
-    "title":"
-Why I Went From Skeptic to Believer
-",
-    "slug":"why-i-went-from-skeptic-believer-dr-hernani-costa-f0cye",
-    "folder": "2026-01-21-why-i-went-from-skeptic-believer-dr-hernani-costa-f0cye",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/why-i-went-from-skeptic-believer-dr-hernani-costa-f0cye
-",
-    "tags":["AI tools for productivity","custom automations in AI","AI for repetitive tasks","transforming workplace efficiency","AI skepticism to advocacy","AI applications for SMEs"],
-    "word_count": 290,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec4BOGd2BQmHXsWj",
+  "title": "\nWhy I Went From Skeptic to Believer\n",
+  "slug": "why-i-went-from-skeptic-believer-dr-hernani-costa-f0cye",
+  "folder": "2026-01-21-why-i-went-from-skeptic-believer-dr-hernani-costa-f0cye",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/why-i-went-from-skeptic-believer-dr-hernani-costa-f0cye\n",
+  "tags": [
+    "AI tools for productivity",
+    "custom automations in AI",
+    "AI for repetitive tasks",
+    "transforming workplace efficiency",
+    "AI skepticism to advocacy",
+    "AI applications for SMEs"
+  ],
+  "word_count": 290,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Productivity Tools",
+    "European SME AI"
+  ]
 }

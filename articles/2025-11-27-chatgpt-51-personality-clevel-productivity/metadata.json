@@ -1,18 +1,30 @@
 {
-    "id":"recmyryysASEov0QG",
-    "title":"Stop Fighting AI’s Voice: Engineer Personality for Excellent Outcomes",
-    "slug":"chatgpt-51-personality-clevel-productivity",
-    "folder": "2025-11-27-chatgpt-51-personality-clevel-productivity",
-    "published_date": "2025-11-27",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/chatgpt-51-personality-clevel-productivity",
-    "tags":["AI personality customization","ChatGPT 5.1 features","AI voice engineering","AI agent differentiation","emotional attachment to AI","AI workflow optimization"],
-    "word_count": 675,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recmyryysASEov0QG",
+  "title": "Stop Fighting AI’s Voice: Engineer Personality for Excellent Outcomes",
+  "slug": "chatgpt-51-personality-clevel-productivity",
+  "folder": "2025-11-27-chatgpt-51-personality-clevel-productivity",
+  "published_date": "2025-11-27",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/chatgpt-51-personality-clevel-productivity",
+  "tags": [
+    "AI personality customization",
+    "ChatGPT 5.1 features",
+    "AI voice engineering",
+    "AI agent differentiation",
+    "emotional attachment to AI",
+    "AI workflow optimization"
+  ],
+  "word_count": 675,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GPT Models",
+    "AI Agents",
+    "AI Workflow Automation"
+  ]
 }

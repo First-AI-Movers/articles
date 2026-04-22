@@ -1,18 +1,32 @@
 {
-    "id":"rechtSdMoH2ZG5azN",
-    "title":"Claude Routines for Engineering Teams: Scheduled Agents, GitHub Triggers, and What to Automate First",
-    "slug":"claude-routines-engineering-teams-what-to-automate",
-    "folder": "2026-04-19-claude-routines-engineering-teams-what-to-automate",
-    "published_date": "2026-04-19",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-routines-engineering-teams-what-to-automate",
-    "tags":["Claude Routines for engineering teams","AI automation strategies","GitHub integration for SMEs","AI governance considerations","Automating software development tasks","AI agent capabilities in coding"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rechtSdMoH2ZG5azN",
+  "title": "Claude Routines for Engineering Teams: Scheduled Agents, GitHub Triggers, and What to Automate First",
+  "slug": "claude-routines-engineering-teams-what-to-automate",
+  "folder": "2026-04-19-claude-routines-engineering-teams-what-to-automate",
+  "published_date": "2026-04-19",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-routines-engineering-teams-what-to-automate",
+  "tags": [
+    "Claude Routines for engineering teams",
+    "AI automation strategies",
+    "GitHub integration for SMEs",
+    "AI governance considerations",
+    "Automating software development tasks",
+    "AI agent capabilities in coding"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Models",
+    "AI for Engineering Teams",
+    "European SME AI",
+    "AI Governance",
+    "AI Agents"
+  ]
 }

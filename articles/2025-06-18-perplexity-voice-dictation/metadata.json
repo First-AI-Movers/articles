@@ -1,18 +1,29 @@
 {
-    "id":"recRapDfi7Cq30pj5",
-    "title":"Asking Questions by Voice (Dictation) in Perplexity",
-    "slug":"perplexity-voice-dictation",
-    "folder": "2025-06-18-perplexity-voice-dictation",
-    "published_date": "2025-06-18",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/perplexity-voice-dictation",
-    "tags":["voice dictation technology","hands-free AI interaction","mobile app features","speech recognition for SMEs","AI assistant usability","multitasking with AI","natural language processing in apps"],
-    "word_count": 367,
-    "read_time_minutes":2,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recRapDfi7Cq30pj5",
+  "title": "Asking Questions by Voice (Dictation) in Perplexity",
+  "slug": "perplexity-voice-dictation",
+  "folder": "2025-06-18-perplexity-voice-dictation",
+  "published_date": "2025-06-18",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/perplexity-voice-dictation",
+  "tags": [
+    "voice dictation technology",
+    "hands-free AI interaction",
+    "mobile app features",
+    "speech recognition for SMEs",
+    "AI assistant usability",
+    "multitasking with AI",
+    "natural language processing in apps"
+  ],
+  "word_count": 367,
+  "read_time_minutes": 2,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI"
+  ]
 }

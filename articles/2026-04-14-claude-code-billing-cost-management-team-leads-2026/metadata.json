@@ -1,18 +1,32 @@
 {
-    "id":"recL0sYPMx4A66t3S",
-    "title":"Claude Code Billing: Cost Management for Team Leads",
-    "slug":"claude-code-billing-cost-management-team-leads-2026",
-    "folder": "2026-04-14-claude-code-billing-cost-management-team-leads-2026",
-    "published_date": "2026-04-14",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-code-billing-cost-management-team-leads-2026",
-    "tags":["Claude Code billing management","AI cost control strategies","Token consumption optimization","API usage monitoring for SMEs","Budgeting for AI tools","Cost-effective AI deployment"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recL0sYPMx4A66t3S",
+  "title": "Claude Code Billing: Cost Management for Team Leads",
+  "slug": "claude-code-billing-cost-management-team-leads-2026",
+  "folder": "2026-04-14-claude-code-billing-cost-management-team-leads-2026",
+  "published_date": "2026-04-14",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-code-billing-cost-management-team-leads-2026",
+  "tags": [
+    "Claude Code billing management",
+    "AI cost control strategies",
+    "Token consumption optimization",
+    "API usage monitoring for SMEs",
+    "Budgeting for AI tools",
+    "Cost-effective AI deployment"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Code",
+    "AI Observability",
+    "European SME AI",
+    "AI Cost Optimization",
+    "AI Strategy"
+  ]
 }

@@ -1,18 +1,30 @@
 {
-    "id":"recqEPk6jr95fIisg",
-    "title":"Pope Cautions on AI Impact & xAI Eyes $4.3B Raise",
-    "slug":"pope-cautions-on-ai-impact",
-    "folder": "2025-06-29-pope-cautions-on-ai-impact",
-    "published_date": "2025-06-29",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/pope-cautions-on-ai-impact",
-    "tags":["AI ethics in technology","Pope's warning on AI","xAI funding news","impact of AI on society","AI market growth","industrial AI developments"],
-    "word_count": 661,
-    "read_time_minutes":3,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recqEPk6jr95fIisg",
+  "title": "Pope Cautions on AI Impact & xAI Eyes $4.3B Raise",
+  "slug": "pope-cautions-on-ai-impact",
+  "folder": "2025-06-29-pope-cautions-on-ai-impact",
+  "published_date": "2025-06-29",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/pope-cautions-on-ai-impact",
+  "tags": [
+    "AI ethics in technology",
+    "Pope's warning on AI",
+    "xAI funding news",
+    "impact of AI on society",
+    "AI market growth",
+    "industrial AI developments"
+  ],
+  "word_count": 661,
+  "read_time_minutes": 3,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Ethics",
+    "AI Industry News",
+    "Manufacturing AI"
+  ]
 }

@@ -1,18 +1,31 @@
 {
-    "id":"recDlfRHAA6fwP5eK",
-    "title":"The AI Founder’s Playbook for 2025: Navigating the Shift from Models to Applied AI Dominance",
-    "slug":"the-ai-founders-playbook-for-2025-navigating-the-shift-from-models-to-applied-ai-dominance-7622af891ca9",
-    "folder": "2025-06-10-the-ai-founders-playbook-for-2025-navigating-the-shift-",
-    "published_date": "2025-06-10",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/the-ai-founders-playbook-for-2025-navigating-the-shift-from-models-to-applied-ai-dominance-7622af891ca9",
-    "tags":["AI governance for European SMEs","applied AI strategies","vertical AI solutions","AI agent development","trust in AI systems","AI-native company building","data-driven workflows"],
-    "word_count": 1395,
-    "read_time_minutes":7,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recDlfRHAA6fwP5eK",
+  "title": "The AI Founder’s Playbook for 2025: Navigating the Shift from Models to Applied AI Dominance",
+  "slug": "the-ai-founders-playbook-for-2025-navigating-the-shift-from-models-to-applied-ai-dominance-7622af891ca9",
+  "folder": "2025-06-10-the-ai-founders-playbook-for-2025-navigating-the-shift-",
+  "published_date": "2025-06-10",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/the-ai-founders-playbook-for-2025-navigating-the-shift-from-models-to-applied-ai-dominance-7622af891ca9",
+  "tags": [
+    "AI governance for European SMEs",
+    "applied AI strategies",
+    "vertical AI solutions",
+    "AI agent development",
+    "trust in AI systems",
+    "AI-native company building",
+    "data-driven workflows"
+  ],
+  "word_count": 1395,
+  "read_time_minutes": 7,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "AI Agents"
+  ]
 }

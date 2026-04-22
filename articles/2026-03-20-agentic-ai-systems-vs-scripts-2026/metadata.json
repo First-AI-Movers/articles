@@ -1,18 +1,32 @@
 {
-    "id":"rech4zDzcsEOCwFcg",
-    "title":"Stop Treating Agentic AI Like a Script",
-    "slug":"agentic-ai-systems-vs-scripts-2026",
-    "folder": "2026-03-20-agentic-ai-systems-vs-scripts-2026",
-    "published_date": "2026-03-20",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/agentic-ai-systems-vs-scripts-2026",
-    "tags":["AI governance for European SMEs","agentic AI architecture","AI deployment strategies","production-ready AI systems","AI operationalization","AI workflow management"],
-    "word_count": 1865,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rech4zDzcsEOCwFcg",
+  "title": "Stop Treating Agentic AI Like a Script",
+  "slug": "agentic-ai-systems-vs-scripts-2026",
+  "folder": "2026-03-20-agentic-ai-systems-vs-scripts-2026",
+  "published_date": "2026-03-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/agentic-ai-systems-vs-scripts-2026",
+  "tags": [
+    "AI governance for European SMEs",
+    "agentic AI architecture",
+    "AI deployment strategies",
+    "production-ready AI systems",
+    "AI operationalization",
+    "AI workflow management"
+  ],
+  "word_count": 1865,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "Agentic Workflows",
+    "AI Strategy",
+    "AI Workflow Automation"
+  ]
 }

@@ -1,18 +1,32 @@
 {
-    "id":"recxmPmfb4z2xqyC8",
-    "title":"AI Agents for Business: Redesign Workflows, Not Just Tasks",
-    "slug":"ai-agents-for-business-workflow-redesign",
-    "folder": "2026-03-26-ai-agents-for-business-workflow-redesign",
-    "published_date": "2026-03-26",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-agents-for-business-workflow-redesign",
-    "tags":["AI agents for business","workflow redesign strategies","task-level automation pitfalls","AI governance for SMEs","operating leverage through AI","AI strategy consulting"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recxmPmfb4z2xqyC8",
+  "title": "AI Agents for Business: Redesign Workflows, Not Just Tasks",
+  "slug": "ai-agents-for-business-workflow-redesign",
+  "folder": "2026-03-26-ai-agents-for-business-workflow-redesign",
+  "published_date": "2026-03-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-agents-for-business-workflow-redesign",
+  "tags": [
+    "AI agents for business",
+    "workflow redesign strategies",
+    "task-level automation pitfalls",
+    "AI governance for SMEs",
+    "operating leverage through AI",
+    "AI strategy consulting"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Agents",
+    "AI Governance",
+    "European SME AI",
+    "AI Consulting",
+    "AI Strategy"
+  ]
 }

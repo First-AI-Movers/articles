@@ -1,18 +1,32 @@
 {
-    "id":"recBwSTGU6L7NZ7ds",
-    "title":"Marketing Is Science. Control Your Instruments.",
-    "slug":"marketing-science-content-database-as-constant",
-    "folder": "2026-01-29-marketing-science-content-database-as-constant",
-    "published_date": "2026-01-29",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/marketing-science-content-database-as-constant",
-    "tags":["EU AI Act compliance","AI governance for European SMEs","structured content marketing","marketing as a science","content asset management","AI-driven marketing strategies"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recBwSTGU6L7NZ7ds",
+  "title": "Marketing Is Science. Control Your Instruments.",
+  "slug": "marketing-science-content-database-as-constant",
+  "folder": "2026-01-29-marketing-science-content-database-as-constant",
+  "published_date": "2026-01-29",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/marketing-science-content-database-as-constant",
+  "tags": [
+    "EU AI Act compliance",
+    "AI governance for European SMEs",
+    "structured content marketing",
+    "marketing as a science",
+    "content asset management",
+    "AI-driven marketing strategies"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI",
+    "AI Content Strategy",
+    "AI for Marketing Teams"
+  ]
 }

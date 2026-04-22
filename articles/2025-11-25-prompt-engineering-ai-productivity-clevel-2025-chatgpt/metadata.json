@@ -1,18 +1,31 @@
 {
-    "id":"recruqZ9LhGMIEcJ9",
-    "title":"Stop Wishing, Start Specifying: From Wishful AI to Reliable Results With ChatGPT",
-    "slug":"prompt-engineering-ai-productivity-clevel-2025-chatgpt",
-    "folder": "2025-11-25-prompt-engineering-ai-productivity-clevel-2025-chatgpt",
-    "published_date": "2025-11-25",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/prompt-engineering-ai-productivity-clevel-2025-chatgpt",
-    "tags":["AI prompt engineering","effective AI communication","AI workflow optimization","AI for sales teams","AI output consistency","AI role specification","AI integration strategies"],
-    "word_count": 408,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recruqZ9LhGMIEcJ9",
+  "title": "Stop Wishing, Start Specifying: From Wishful AI to Reliable Results With ChatGPT",
+  "slug": "prompt-engineering-ai-productivity-clevel-2025-chatgpt",
+  "folder": "2025-11-25-prompt-engineering-ai-productivity-clevel-2025-chatgpt",
+  "published_date": "2025-11-25",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/prompt-engineering-ai-productivity-clevel-2025-chatgpt",
+  "tags": [
+    "AI prompt engineering",
+    "effective AI communication",
+    "AI workflow optimization",
+    "AI for sales teams",
+    "AI output consistency",
+    "AI role specification",
+    "AI integration strategies"
+  ],
+  "word_count": 408,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Prompt Engineering",
+    "AI Workflow Automation",
+    "AI Strategy"
+  ]
 }

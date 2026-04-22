@@ -1,18 +1,30 @@
 {
-    "id":"recjWdzv8HrP47R9x",
-    "title":"The AI Browser Revolution: Why Dia and Comet Are Changing Everything We Know About Web Browsing",
-    "slug":"ai-browser-revolution-dia-vs-comet-b8660c3070a6",
-    "folder": "2025-07-30-ai-browser-revolution-dia-vs-comet-b8660c3070a6",
-    "published_date": "2025-07-30",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://voices.firstaimovers.com/ai-browser-revolution-dia-vs-comet-b8660c3070a6",
-    "tags":["AI browser revolution","cognitive offloading in work","AI-native browsing","Dia and Comet comparison","automation in digital work","AI tools for knowledge workers"],
-    "word_count": 2925,
-    "read_time_minutes":13,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recjWdzv8HrP47R9x",
+  "title": "The AI Browser Revolution: Why Dia and Comet Are Changing Everything We Know About Web Browsing",
+  "slug": "ai-browser-revolution-dia-vs-comet-b8660c3070a6",
+  "folder": "2025-07-30-ai-browser-revolution-dia-vs-comet-b8660c3070a6",
+  "published_date": "2025-07-30",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://voices.firstaimovers.com/ai-browser-revolution-dia-vs-comet-b8660c3070a6",
+  "tags": [
+    "AI browser revolution",
+    "cognitive offloading in work",
+    "AI-native browsing",
+    "Dia and Comet comparison",
+    "automation in digital work",
+    "AI tools for knowledge workers"
+  ],
+  "word_count": 2925,
+  "read_time_minutes": 13,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Browser Agents",
+    "France and Benelux AI",
+    "European SME AI"
+  ]
 }

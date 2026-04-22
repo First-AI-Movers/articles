@@ -1,26 +1,32 @@
 {
-    "id": "recyfFjFKWLCbb9pW",
-    "title": "The \"POC Purgatory\" Trap: Why 90% of GenAI Projects Die on the Vine (And How to Be the 10%)",
-    "slug": "genai-projects-die",
-    "folder": "2025-12-02-genai-projects-die",
-    "published_date": "2025-12-02",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/genai-projects-die",
-    "tags": [
-        "POC Purgatory solutions",
-        "AI project success strategies",
-        "Generative AI implementation",
-        "AI governance for SMEs",
-        "AI integration challenges",
-        "Data optimization for AI",
-        "Last Mile AI deployment"
-    ],
-    "word_count": 1035,
-    "read_time_minutes": 5,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recyfFjFKWLCbb9pW",
+  "title": "The \"POC Purgatory\" Trap: Why 90% of GenAI Projects Die on the Vine (And How to Be the 10%)",
+  "slug": "genai-projects-die",
+  "folder": "2025-12-02-genai-projects-die",
+  "published_date": "2025-12-02",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/genai-projects-die",
+  "tags": [
+    "POC Purgatory solutions",
+    "AI project success strategies",
+    "Generative AI implementation",
+    "AI governance for SMEs",
+    "AI integration challenges",
+    "Data optimization for AI",
+    "Last Mile AI deployment"
+  ],
+  "word_count": 1035,
+  "read_time_minutes": 5,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI PMO",
+    "AI Strategy",
+    "AI Governance",
+    "European SME AI"
+  ]
 }

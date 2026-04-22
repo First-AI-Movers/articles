@@ -1,18 +1,30 @@
 {
-    "id":"rec3Ib8DWqbeTSJhH",
-    "title":"From PhD Research to AI Governance: The Evolution of a Computer Scientist",
-    "slug":"from-phd-research-ai-governance-evolution-computer-scientist-costa-5edpe",
-    "folder": "2026-01-20-from-phd-research-ai-governance-evolution-computer-scie",
-    "published_date": "2026-01-20",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.linkedin.com/pulse/from-phd-research-ai-governance-evolution-computer-scientist-costa-5edpe",
-    "tags":["AI governance for European SMEs","AI transformation strategies","NLP in business workflows","bridging AI theory and practice","applied AI for SMEs","AI-driven business innovation"],
-    "word_count": 366,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec3Ib8DWqbeTSJhH",
+  "title": "From PhD Research to AI Governance: The Evolution of a Computer Scientist",
+  "slug": "from-phd-research-ai-governance-evolution-computer-scientist-costa-5edpe",
+  "folder": "2026-01-20-from-phd-research-ai-governance-evolution-computer-scie",
+  "published_date": "2026-01-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.linkedin.com/pulse/from-phd-research-ai-governance-evolution-computer-scientist-costa-5edpe",
+  "tags": [
+    "AI governance for European SMEs",
+    "AI transformation strategies",
+    "NLP in business workflows",
+    "bridging AI theory and practice",
+    "applied AI for SMEs",
+    "AI-driven business innovation"
+  ],
+  "word_count": 366,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "AI Change Management"
+  ]
 }

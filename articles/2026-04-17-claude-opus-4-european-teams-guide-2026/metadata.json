@@ -1,18 +1,32 @@
 {
-    "id":"recV3mr3N534INMsT",
-    "title":"Claude Opus 4 for European Teams: Is the Upgrade Worth It?",
-    "slug":"claude-opus-4-european-teams-guide-2026",
-    "folder": "2026-04-17-claude-opus-4-european-teams-guide-2026",
-    "published_date": "2026-04-17",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-opus-4-european-teams-guide-2026",
-    "tags":["Claude Opus 4 evaluation","AI model cost comparison","European SME AI strategy","document analysis automation","AI for compliance reviews","coding assistance tools"],
-    "word_count": 1550,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recV3mr3N534INMsT",
+  "title": "Claude Opus 4 for European Teams: Is the Upgrade Worth It?",
+  "slug": "claude-opus-4-european-teams-guide-2026",
+  "folder": "2026-04-17-claude-opus-4-european-teams-guide-2026",
+  "published_date": "2026-04-17",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-opus-4-european-teams-guide-2026",
+  "tags": [
+    "Claude Opus 4 evaluation",
+    "AI model cost comparison",
+    "European SME AI strategy",
+    "document analysis automation",
+    "AI for compliance reviews",
+    "coding assistance tools"
+  ],
+  "word_count": 1550,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Models",
+    "France and Benelux AI",
+    "European SME AI",
+    "AI Strategy",
+    "AI Governance"
+  ]
 }

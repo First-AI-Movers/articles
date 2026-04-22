@@ -1,18 +1,31 @@
 {
-    "id":"rec0STFthr3zt2k27",
-    "title":"The Complete Guide to Choosing AI Platforms in 2026: ChatGPT, Claude, Gemini, Perplexity, Copilot, DeepSeek, Grok & Mistral Compared",
-    "slug":"complete-eight-ai-platform-comparison-guide-2025",
-    "folder": "2025-12-22-complete-eight-ai-platform-comparison-guide-2025",
-    "published_date": "2025-12-22",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/complete-eight-ai-platform-comparison-guide-2025",
-    "tags":["AI platform selection for SMEs","AI integration in European businesses","cost-effective AI solutions","AI tools for small businesses","AI-driven decision making","AI literacy for executives"],
-    "word_count": 3054,
-    "read_time_minutes":14,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec0STFthr3zt2k27",
+  "title": "The Complete Guide to Choosing AI Platforms in 2026: ChatGPT, Claude, Gemini, Perplexity, Copilot, DeepSeek, Grok & Mistral Compared",
+  "slug": "complete-eight-ai-platform-comparison-guide-2025",
+  "folder": "2025-12-22-complete-eight-ai-platform-comparison-guide-2025",
+  "published_date": "2025-12-22",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/complete-eight-ai-platform-comparison-guide-2025",
+  "tags": [
+    "AI platform selection for SMEs",
+    "AI integration in European businesses",
+    "cost-effective AI solutions",
+    "AI tools for small businesses",
+    "AI-driven decision making",
+    "AI literacy for executives"
+  ],
+  "word_count": 3054,
+  "read_time_minutes": 14,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "AI Cost Optimization",
+    "AI Literacy"
+  ]
 }

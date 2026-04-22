@@ -1,22 +1,31 @@
 {
-    "id":"recJcsKY6Hx7oGb2T",
-    "title":"
-Data Silos Blocking Your SME's AI Success? 5-Step Governance Guide for 2025
-",
-    "slug":"data-silos-blocking-your-smes-ai-success-5-step-governance-costa-9prje",
-    "folder": "2026-01-21-data-silos-blocking-your-smes-ai-success-5-step-governa",
-    "published_date": "2026-01-21",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "
-https://www.linkedin.com/pulse/data-silos-blocking-your-smes-ai-success-5-step-governance-costa-9prje
-",
-    "tags":["AI governance for European SMEs","data silos in small businesses","ethical AI practices","no-code data integration","AI readiness for SMEs","data management frameworks"],
-    "word_count": 420,
-    "read_time_minutes":2,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recJcsKY6Hx7oGb2T",
+  "title": "\nData Silos Blocking Your SME's AI Success? 5-Step Governance Guide for 2025\n",
+  "slug": "data-silos-blocking-your-smes-ai-success-5-step-governance-costa-9prje",
+  "folder": "2026-01-21-data-silos-blocking-your-smes-ai-success-5-step-governa",
+  "published_date": "2026-01-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "\nhttps://www.linkedin.com/pulse/data-silos-blocking-your-smes-ai-success-5-step-governance-costa-9prje\n",
+  "tags": [
+    "AI governance for European SMEs",
+    "data silos in small businesses",
+    "ethical AI practices",
+    "no-code data integration",
+    "AI readiness for SMEs",
+    "data management frameworks"
+  ],
+  "word_count": 420,
+  "read_time_minutes": 2,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Governance",
+    "European SME AI",
+    "AI Ethics",
+    "AI Readiness"
+  ]
 }

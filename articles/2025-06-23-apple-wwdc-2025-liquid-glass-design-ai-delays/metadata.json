@@ -1,18 +1,30 @@
 {
-    "id":"recAFcwUI5Pb84Li1",
-    "title":"Apple WWDC 2025: Liquid Glass Design & AI Delays",
-    "slug":"apple-wwdc-2025-liquid-glass-design-ai-delays",
-    "folder": "2025-06-23-apple-wwdc-2025-liquid-glass-design-ai-delays",
-    "published_date": "2025-06-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/apple-wwdc-2025-liquid-glass-design-ai-delays",
-    "tags":["Liquid Glass design","Apple WWDC 2025","AI features for SMEs","Siri upgrade delays","on-device AI privacy","Apple Intelligence Foundation","AI in creative tools"],
-    "word_count": 1095,
-    "read_time_minutes":5,
-    "funnel_stage": "top",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recAFcwUI5Pb84Li1",
+  "title": "Apple WWDC 2025: Liquid Glass Design & AI Delays",
+  "slug": "apple-wwdc-2025-liquid-glass-design-ai-delays",
+  "folder": "2025-06-23-apple-wwdc-2025-liquid-glass-design-ai-delays",
+  "published_date": "2025-06-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/apple-wwdc-2025-liquid-glass-design-ai-delays",
+  "tags": [
+    "Liquid Glass design",
+    "Apple WWDC 2025",
+    "AI features for SMEs",
+    "Siri upgrade delays",
+    "on-device AI privacy",
+    "Apple Intelligence Foundation",
+    "AI in creative tools"
+  ],
+  "word_count": 1095,
+  "read_time_minutes": 5,
+  "funnel_stage": "top",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "GDPR & Data Privacy"
+  ]
 }

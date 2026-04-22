@@ -1,18 +1,28 @@
 {
-    "id":"recTBfK1VelwUe9sx",
-    "title":"S01E04 Your ChatGPT Toolbox: Picking the Right Model for the Job",
-    "slug":"s01e04-your-chatgpt-toolbox-picking-the-right-model-for-the-job-fba31bd7a871",
-    "folder": "2025-06-05-s01e04-your-chatgpt-toolbox-picking-the-right-model-for",
-    "published_date": "2025-06-05",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://insights.firstaimovers.com/s01e04-your-chatgpt-toolbox-picking-the-right-model-for-the-job-fba31bd7a871",
-    "tags":["AI model selection for SMEs","Choosing the right AI tools","GPT model capabilities","AI-driven decision making"],
-    "word_count": 685,
-    "read_time_minutes":3,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recTBfK1VelwUe9sx",
+  "title": "S01E04 Your ChatGPT Toolbox: Picking the Right Model for the Job",
+  "slug": "s01e04-your-chatgpt-toolbox-picking-the-right-model-for-the-job-fba31bd7a871",
+  "folder": "2025-06-05-s01e04-your-chatgpt-toolbox-picking-the-right-model-for",
+  "published_date": "2025-06-05",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://insights.firstaimovers.com/s01e04-your-chatgpt-toolbox-picking-the-right-model-for-the-job-fba31bd7a871",
+  "tags": [
+    "AI model selection for SMEs",
+    "Choosing the right AI tools",
+    "GPT model capabilities",
+    "AI-driven decision making"
+  ],
+  "word_count": 685,
+  "read_time_minutes": 3,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Model Selection",
+    "European SME AI",
+    "AI Strategy"
+  ]
 }

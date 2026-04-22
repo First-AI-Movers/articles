@@ -1,18 +1,32 @@
 {
-    "id":"recEmUMaV7pAxIeK1",
-    "title":"The Line Between Chaos and Productivity Is the Method: Why Spec-Driven AI Adoption Wins",
-    "slug":"ai-ops-spec-canvas-2026",
-    "folder": "2025-12-31-ai-ops-spec-canvas-2026",
-    "published_date": "2025-12-31",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://www.firstaimovers.com/p/ai-ops-spec-canvas-2026",
-    "tags":["spec-driven AI adoption","business process automation","AI governance for SMEs","automation design frameworks","AI implementation strategies","workflow optimization with AI"],
-    "word_count": 1556,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recEmUMaV7pAxIeK1",
+  "title": "The Line Between Chaos and Productivity Is the Method: Why Spec-Driven AI Adoption Wins",
+  "slug": "ai-ops-spec-canvas-2026",
+  "folder": "2025-12-31-ai-ops-spec-canvas-2026",
+  "published_date": "2025-12-31",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://www.firstaimovers.com/p/ai-ops-spec-canvas-2026",
+  "tags": [
+    "spec-driven AI adoption",
+    "business process automation",
+    "AI governance for SMEs",
+    "automation design frameworks",
+    "AI implementation strategies",
+    "workflow optimization with AI"
+  ],
+  "word_count": 1556,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "AI Strategy",
+    "Business Process Automation",
+    "AI Governance",
+    "European SME AI",
+    "AI Workflow Automation"
+  ]
 }
