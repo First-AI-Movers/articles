@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Rebuild index.json, sitemap.xml, README.md, and llms.txt from the local
-working tree.
+"""Rebuild index.json, sitemap.xml, feed.xml, README.md, and llms.txt from
+the local working tree.
 
 Designed to run inside CI (GitHub Actions) immediately after the Make.com
 pipeline pushes new article folders. Reads every articles/*/metadata.json
-on disk, regenerates the four derived artifacts in place, and exits 0 even
+on disk, regenerates the five derived artifacts in place, and exits 0 even
 if nothing changed.
 
 Differs from rebuild_index.py / update_docs.py / generate_sitemap.py: those
@@ -23,7 +23,7 @@ from datetime import date, datetime
 from pathlib import Path
 from urllib.parse import urlparse
 from xml.dom.minidom import parseString
-from xml.etree.ElementTree import Element, SubElement, tostring
+from xml.etree.ElementTree import Element, SubElement, register_namespace, tostring
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = REPO_ROOT / "articles"
@@ -39,6 +39,20 @@ CANONICAL_ALLOWED_HOSTS = {
     "insights.firstaimovers.com",
     "voices.firstaimovers.com",
 }
+
+# Atom feed config
+ATOM_NS = "http://www.w3.org/2005/Atom"
+FEED_MAX_ENTRIES = 50
+FEED_CATEGORIES_PER_ENTRY = 5
+SUMMARY_MAX_CHARS = 280
+TLDR_BLOCKQUOTE_RE = re.compile(
+    r"^>\s*\*\*TL;?DR:?\*\*:?\s*(.+?)(?=\n\n|\n#|\Z)",
+    re.MULTILINE | re.DOTALL,
+)
+TLDR_HEADING_RE = re.compile(
+    r"^##+\s*TL;?DR\s*\n+(.+?)(?=\n\n|\n##|\Z)",
+    re.MULTILINE | re.DOTALL | re.IGNORECASE,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -220,9 +234,11 @@ def build_sitemap(index):
     urlset.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
 
     # articles.firstaimovers.com stays in the sitemap as the raw-data / LLM
-    # mirror: index.json, llms.txt, ABOUT.md, etc. really do live there.
+    # mirror: index.json, llms.txt, feed.xml, ABOUT.md, etc. really do live
+    # there.
     _add_url(urlset, f"{SITE_BASE}/", today, "daily", "1.0")
-    for path in ("ABOUT.md", "CITATION.cff", "hernanicosta.json", "llms.txt", "index.json"):
+    for path in ("ABOUT.md", "CITATION.cff", "hernanicosta.json", "llms.txt",
+                 "index.json", "feed.xml"):
         _add_url(urlset, f"{SITE_BASE}/{path}", today, "weekly", "0.5")
     _add_url(urlset, f"{SITE_BASE}/README.md", today, "weekly", "0.7")
 
@@ -257,7 +273,150 @@ def build_sitemap(index):
 
 
 # ---------------------------------------------------------------------------
+# feed.xml (Atom 1.0)
+# ---------------------------------------------------------------------------
+def _truncate(text, max_len):
+    """Truncate on a word boundary with an ellipsis."""
+    if len(text) <= max_len:
+        return text
+    cut = text[:max_len].rsplit(" ", 1)[0]
+    return cut.rstrip(",.;:") + "…"
+
+
+def _strip_front_matter(text):
+    if text.startswith("---"):
+        parts = text.split("---", 2)
+        if len(parts) >= 3:
+            return parts[2]
+    return text
+
+
+def _looks_like_prose(block):
+    """Cheap heuristic: paragraph-shaped, not a title/image/link-list/fence."""
+    s = block.strip()
+    if len(s) < 80:
+        return False
+    if s.startswith(("#", ">", "---", "```", "|", "<!--", "![")):
+        return False
+    # Italicized-only line (subtitle). `_foo_` or `*foo*` with no other content.
+    if re.fullmatch(r"[_*][^_*\n]+[_*]\s*", s):
+        return False
+    # Share-button soup: line begins with one or more markdown-link-in-angle-brackets
+    # and nothing else of substance after collapsing them.
+    stripped = re.sub(r"\[\s*\]\(<[^>]+>\)", "", s).strip()
+    if len(stripped) < 80:
+        return False
+    return True
+
+
+def _extract_summary(folder, title, published_date):
+    """Return a ≤SUMMARY_MAX_CHARS plain-text summary for a feed entry.
+
+    Priority: TL;DR blockquote → TL;DR heading → first prose paragraph →
+    title-based fallback. Missing article.md triggers the fallback.
+    """
+    md = ARTICLES_DIR / folder / "article.md"
+    fallback = f"{title} — by Dr. Hernani Costa, First AI Movers ({published_date})."
+    if not md.exists():
+        return fallback
+    text = _strip_front_matter(md.read_text(encoding="utf-8", errors="replace"))
+
+    m = TLDR_BLOCKQUOTE_RE.search(text)
+    if m:
+        return _truncate(" ".join(m.group(1).split()), SUMMARY_MAX_CHARS)
+
+    m = TLDR_HEADING_RE.search(text)
+    if m:
+        body = re.sub(r"^>\s*", "", m.group(1), flags=re.MULTILINE)
+        return _truncate(" ".join(body.split()), SUMMARY_MAX_CHARS)
+
+    for block in re.split(r"\n\n+", text):
+        if _looks_like_prose(block):
+            cleaned = re.sub(r"\[\s*\]\(<[^>]+>\)", "", block).strip()
+            return _truncate(" ".join(cleaned.split()), SUMMARY_MAX_CHARS)
+
+    return fallback
+
+
+def _feed_link_for(article):
+    """Canonical if first-party; otherwise the raw-data mirror path.
+
+    The feed is inclusive: LinkedIn/Medium-canonicalized articles are still
+    our content and subscribers should see them. For those entries we point
+    at the raw article.md on articles.firstaimovers.com rather than repeat
+    a third-party URL. Diverges from the sitemap's allowlist-only rule on
+    purpose — push-discovery is not an ownership claim to Google.
+    """
+    parsed = _clean_canonical(article.get("canonical_url"))
+    if parsed and parsed[1] in CANONICAL_ALLOWED_HOSTS:
+        return parsed[0]
+    folder = article.get("folder", "")
+    return f"{SITE_BASE}/articles/{folder}/article.md"
+
+
+def build_feed(index):
+    """Emit Atom 1.0 feed with the FEED_MAX_ENTRIES most recent articles."""
+    register_namespace("", ATOM_NS)
+    articles = index["articles"][:FEED_MAX_ENTRIES]
+    feed_updated = (articles[0]["published_date"] if articles else str(date.today())) + "T00:00:00Z"
+
+    feed = Element(f"{{{ATOM_NS}}}feed")
+
+    def _sub(parent, tag, text=None, **attrs):
+        el = SubElement(parent, f"{{{ATOM_NS}}}{tag}")
+        if text is not None:
+            el.text = text
+        for k, v in attrs.items():
+            el.set(k, v)
+        return el
+
+    _sub(feed, "id", "tag:articles.firstaimovers.com,2025-02-17:feed")
+    _sub(feed, "title", "First AI Movers — Article Archive")
+    _sub(feed, "subtitle",
+         "Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act "
+         "compliance, governance, and agentic systems for European SMEs.")
+    _sub(feed, "updated", feed_updated)
+    _sub(feed, "link", rel="self", type="application/atom+xml",
+         href=f"{SITE_BASE}/feed.xml")
+    _sub(feed, "link", rel="alternate", type="text/html",
+         href="https://firstaimovers.com")
+    author = _sub(feed, "author")
+    _sub(author, "name", "Dr. Hernani Costa")
+    _sub(author, "uri", "https://drhernanicosta.com")
+    _sub(author, "email", "info@firstaimovers.com")
+    _sub(feed, "rights", "Creative Commons Attribution 4.0 International (CC BY 4.0)")
+    gen = _sub(feed, "generator", "rebuild_local.py")
+    gen.set("uri", "https://github.com/First-AI-Movers/articles")
+    gen.set("version", "1.0")
+
+    for a in articles:
+        entry = _sub(feed, "entry")
+        _sub(entry, "id",
+             f"tag:articles.firstaimovers.com,{a['published_date']}:{a['folder']}")
+        _sub(entry, "title", a["title"])
+        _sub(entry, "link", rel="alternate", href=_feed_link_for(a))
+        ts = f"{a['published_date']}T00:00:00Z"
+        _sub(entry, "published", ts)
+        _sub(entry, "updated", ts)
+        ent_author = _sub(entry, "author")
+        _sub(ent_author, "name", "Dr. Hernani Costa")
+        _sub(ent_author, "uri", "https://drhernanicosta.com")
+        for tag in (a.get("tags") or [])[:FEED_CATEGORIES_PER_ENTRY]:
+            _sub(entry, "category", term=tag)
+        summary = _sub(entry, "summary",
+                       _extract_summary(a["folder"], a["title"], a["published_date"]))
+        summary.set("type", "text")
+
+    raw = tostring(feed, encoding="unicode")
+    pretty = parseString(raw).toprettyxml(indent="  ", encoding="UTF-8").decode("utf-8")
+    cleaned = "\n".join(line for line in pretty.split("\n") if line.strip()) + "\n"
+    (REPO_ROOT / "feed.xml").write_text(cleaned, encoding="utf-8")
+    print(f"[feed.xml] entries={len(articles)} feed_updated={feed_updated}")
+
+
+# ---------------------------------------------------------------------------
 if __name__ == "__main__":
     idx = build_index()
     update_docs(idx)
     build_sitemap(idx)
+    build_feed(idx)

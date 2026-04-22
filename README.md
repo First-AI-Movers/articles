@@ -229,9 +229,10 @@ This archive is structured for machine readability:
 - **`metadata.json`** per article — Structured fields: title, date, tags, canonical URL, funnel stage
 - **`hernanicosta.json`** — Schema.org `Person` entity with full biographical and organizational data
 - **`CITATION.cff`** — Standard citation metadata
+- **`feed.xml`** — Atom 1.0 feed of the 50 most-recent articles for poll-based discovery
 - All content is plain Markdown — no JavaScript rendering required
 
-The repo is mirrored at **[articles.firstaimovers.com](https://articles.firstaimovers.com)** as a raw-data surface — `index.json`, `llms.txt`, `hernanicosta.json`, `ABOUT.md`, and every `article.md` are served directly for machine consumption. Human reading of individual articles happens on the canonical properties below (**Radar**, **Insights**, the newsletter, **Voices**), each declared in the article's `metadata.json` `canonical_url`. The `sitemap.xml` advertises those canonicals, not the raw-data mirror paths.
+The repo is mirrored at **[articles.firstaimovers.com](https://articles.firstaimovers.com)** as a raw-data surface — `index.json`, `llms.txt`, `feed.xml`, `hernanicosta.json`, `ABOUT.md`, and every `article.md` are served directly for machine consumption. Human reading of individual articles happens on the canonical properties below (**Radar**, **Insights**, the newsletter, **Voices**), each declared in the article's `metadata.json` `canonical_url`. The `sitemap.xml` advertises those canonicals, not the raw-data mirror paths.
 
 ---
 
@@ -255,6 +256,7 @@ It contains every article's title, publication date, tags, funnel stage (top/mid
 | Format | Link |
 |---|---|
 | **This repo** (full text + metadata) | [github.com/First-AI-Movers/articles](https://github.com/First-AI-Movers/articles) |
+| **Atom feed** (50 most recent) | [articles.firstaimovers.com/feed.xml](https://articles.firstaimovers.com/feed.xml) |
 | **First AI Movers Radar** (primary) | [radar.firstaimovers.com](https://radar.firstaimovers.com) |
 | **LinkedIn Newsletter** | [First AI Movers on LinkedIn](https://www.linkedin.com/newsletters/first-ai-movers-7285707335191154688/) |
 | **Dev.to** | [dev.to/dr_hernani_costa](https://dev.to/dr_hernani_costa) |
