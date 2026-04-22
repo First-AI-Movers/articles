@@ -1,9 +1,11 @@
 {% extends "base.html.j2" %}
 {% block title %}{{ topic }} — First AI Movers Archive ({{ articles|length }} articles){% endblock %}
 {% block description %}{{ articles|length }} original articles on {{ topic }} by Dr. Hernani Costa, PhD. Practitioner analysis and strategic frameworks for European SMEs, published via First AI Movers.{% endblock %}
-{% block og_type %}article{% endblock %}
-
+{% block og_type %}website{% endblock %}
 {% block head_extra %}
+<meta name="article:author" content="https://drhernanicosta.com">
+<meta name="article:published_time" content="{{ articles[-1].published_date }}T00:00:00Z">
+<meta name="article:modified_time" content="{{ articles[0].published_date }}T00:00:00Z">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -11,9 +13,13 @@
   "name": "{{ topic }}",
   "description": "{{ self.description() }}",
   "url": "{{ site_url }}{{ page_path }}",
+  "inLanguage": "en",
+  "datePublished": "{{ articles[-1].published_date }}",
+  "dateModified": "{{ articles[0].published_date }}",
   "isPartOf": {"@type": "WebSite", "name": "First AI Movers — Article Archive", "url": "{{ site_url }}"},
-  "author": {"@type": "Person", "name": "Dr. Hernani Costa", "url": "https://drhernanicosta.com"},
+  "author": {"@type": "Person", "name": "Dr. Hernani Costa", "url": "https://drhernanicosta.com", "sameAs": ["https://orcid.org/0000-0002-6813-4641"]},
   "publisher": {"@type": "Organization", "name": "First AI Movers", "url": "https://firstaimovers.com"},
+  "license": "https://creativecommons.org/licenses/by/4.0/",
   "about": {"@type": "Thing", "name": "{{ topic }}"},
   "mainEntity": {
     "@type": "ItemList",
@@ -29,6 +35,17 @@
       {% endfor %}
     ]
   }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site_url }}/"},
+    {"@type": "ListItem", "position": 2, "name": "Topics", "item": "{{ site_url }}/topics/"},
+    {"@type": "ListItem", "position": 3, "name": {{ topic|tojson }}, "item": "{{ site_url }}{{ page_path }}"}
+  ]
 }
 </script>
 {% endblock %}

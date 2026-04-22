@@ -2,6 +2,19 @@
 {% block title %}All Topics — First AI Movers Archive{% endblock %}
 {% block description %}Browse all {{ topic_entries|length }} canonical topics covered in the First AI Movers article archive — {{ topics_with_page|length }} topic hub pages linking to {{ stats.total }} articles on AI strategy, governance, and agentic systems.{% endblock %}
 
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site_url }}/"},
+    {"@type": "ListItem", "position": 2, "name": "Topics", "item": "{{ site_url }}/topics/"}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <h1>All Topics</h1>
 <p class="lede">{{ topic_entries|length }} canonical topics across {{ stats.total }} articles. {{ topics_with_page|length }} topics have dedicated hub pages; topics with fewer than {{ min_articles_for_page }} articles are shown inline.</p>

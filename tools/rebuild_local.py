@@ -235,23 +235,48 @@ def _clean_canonical(raw):
     return candidate, parsed.netloc.lower()
 
 
+def _topics_with_page(index):
+    """Return (topic_counts: dict, pageable_topics: set).
+
+    A topic is 'pageable' if it has >= MIN_ARTICLES_FOR_TOPIC_PAGE articles.
+    Shared between build_site and build_sitemap so the set of URLs advertised
+    to Google matches the set of URLs actually rendered.
+    """
+    counts = {}
+    for a in index.get("articles", []):
+        for t in a.get("topics") or []:
+            counts[t] = counts.get(t, 0) + 1
+    pageable = {t for t, c in counts.items() if c >= MIN_ARTICLES_FOR_TOPIC_PAGE}
+    return counts, pageable
+
+
 def build_sitemap(index):
     today = str(date.today())
     urlset = Element("urlset")
     urlset.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
 
     # articles.firstaimovers.com stays in the sitemap as the raw-data / LLM
-    # mirror: index.json, llms.txt, feed.xml, ABOUT.md, etc. really do live
-    # there.
-    _add_url(urlset, f"{SITE_BASE}/", today, "daily", "1.0")
+    # mirror AND now as the host of topic hub pages. Weekly changefreq for the
+    # root (not daily — root is mostly stable).
+    _add_url(urlset, f"{SITE_BASE}/", today, "weekly", "1.0")
+    _add_url(urlset, f"{SITE_BASE}/about/", today, "monthly", "0.6")
+    _add_url(urlset, f"{SITE_BASE}/topics/", today, "weekly", "0.7")
     for path in ("ABOUT.md", "CITATION.cff", "hernanicosta.json", "llms.txt",
                  "llms-full.txt", "index.json", "feed.xml"):
         _add_url(urlset, f"{SITE_BASE}/{path}", today, "weekly", "0.5")
     _add_url(urlset, f"{SITE_BASE}/README.md", today, "weekly", "0.7")
 
+    # Topic hub pages — unique curated content we own. These are the strongest
+    # self-canonical pages on this domain and should be advertised explicitly.
+    _, pageable_topics = _topics_with_page(index)
+    topic_urls = 0
+    for topic in sorted(pageable_topics):
+        _add_url(urlset, f"{SITE_BASE}/topics/{_slugify(topic)}/",
+                 today, "weekly", "0.7")
+        topic_urls += 1
+
     # Article URLs: emit each article's declared canonical, not a fabricated
-    # articles.firstaimovers.com path. The repo has no static-site renderer,
-    # so /articles/<folder>/ paths 404. The canonical fields point to where
+    # articles.firstaimovers.com path. The canonical fields point to where
     # the article actually lives (newsletter, radar, insights, voices).
     skipped_external = 0
     skipped_malformed = 0
@@ -274,7 +299,7 @@ def build_sitemap(index):
     cleaned = "\n".join(line for line in pretty.split("\n") if line.strip()) + "\n"
     (REPO_ROOT / "sitemap.xml").write_text(cleaned, encoding="utf-8")
     print(f"[sitemap.xml] urls={cleaned.count('<url>')} "
-          f"article_urls={emitted} "
+          f"article_urls={emitted} topic_urls={topic_urls} "
           f"skipped_external={skipped_external} "
           f"skipped_malformed={skipped_malformed}")
 
@@ -626,11 +651,14 @@ def build_site(index):
         "min_articles_for_page": MIN_ARTICLES_FOR_TOPIC_PAGE,
     }
 
-    # Clean site dir
-    if SITE_DIR.exists():
-        import shutil
-        shutil.rmtree(SITE_DIR)
-    SITE_DIR.mkdir(parents=True)
+    # Atomic build: render to a staging dir next to SITE_DIR, swap into place
+    # only after all renders succeed. Any exception mid-build leaves the
+    # existing site/ intact instead of wiping it.
+    import shutil
+    staging = SITE_DIR.with_name(SITE_DIR.name + ".new")
+    if staging.exists():
+        shutil.rmtree(staging)
+    staging.mkdir(parents=True)
 
     def _render(template_name, output_relpath, **ctx):
         tmpl = env.get_template(template_name)
@@ -638,7 +666,7 @@ def build_site(index):
         rel_root = "../" * depth if depth else ""
         page_path = "/" + output_relpath.replace("index.html", "") if output_relpath != "index.html" else "/"
         html = tmpl.render(rel_root=rel_root, page_path=page_path, **shared, **ctx)
-        out = SITE_DIR / output_relpath
+        out = staging / output_relpath
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html, encoding="utf-8")
 
@@ -659,12 +687,18 @@ def build_site(index):
                 topic=topic, articles=topic_articles, related_topics=related)
         topic_pages += 1
 
-    # About — hernanicosta.json is stored wrapped in <script> tags (it's a
-    # JSON-LD file served directly). Strip the wrapper so we can re-embed
-    # the raw JSON inside our template's own <script> tag.
-    hernani_raw = (REPO_ROOT / "hernanicosta.json").read_text(encoding="utf-8")
-    m = re.search(r'<script[^>]*>\s*(\{.*?\})\s*</script>', hernani_raw, re.DOTALL)
-    person_jsonld = m.group(1) if m else hernani_raw
+    # About — hernanicosta.json is stored wrapped in <script> tags. Strip the
+    # wrapper so we can re-embed the raw JSON inside our template's own <script>.
+    # Missing or malformed file should degrade gracefully (skip rich markup,
+    # keep the About page rendering) rather than taking the whole site build down.
+    hernani_path = REPO_ROOT / "hernanicosta.json"
+    if hernani_path.exists():
+        hernani_raw = hernani_path.read_text(encoding="utf-8")
+        m = re.search(r'<script[^>]*>\s*(\{.*?\})\s*</script>', hernani_raw, re.DOTALL)
+        person_jsonld = m.group(1) if m else hernani_raw
+    else:
+        print("[site] warning: hernanicosta.json missing; About page will render without Person JSON-LD", file=sys.stderr)
+        person_jsonld = "{}"
     _render("about.html.j2", "about/index.html", person_jsonld=person_jsonld)
 
     # 404
@@ -673,10 +707,10 @@ def build_site(index):
     # Static assets
     for static_file in STATIC_DIR.iterdir():
         if static_file.is_file():
-            (SITE_DIR / static_file.name).write_bytes(static_file.read_bytes())
+            (staging / static_file.name).write_bytes(static_file.read_bytes())
 
-    # LLM / raw-data mirror: copy every public root-level artifact into site/
-    # so existing URLs stay byte-identical after the deploy switches.
+    # LLM / raw-data mirror: copy every public root-level artifact into the
+    # staging dir so existing URLs stay byte-identical after the deploy switches.
     mirror_files = [
         "index.json", "llms.txt", "llms-full.txt", "feed.xml", "sitemap.xml",
         "hernanicosta.json", "CITATION.cff", "ABOUT.md", "README.md",
@@ -686,14 +720,20 @@ def build_site(index):
     for name in mirror_files:
         src = REPO_ROOT / name
         if src.exists():
-            (SITE_DIR / name).write_bytes(src.read_bytes())
+            (staging / name).write_bytes(src.read_bytes())
     # Google verification file (google*.html) — pick up any matches.
     for f in REPO_ROOT.glob("google*.html"):
-        (SITE_DIR / f.name).write_bytes(f.read_bytes())
+        (staging / f.name).write_bytes(f.read_bytes())
 
     # Copy the full articles/ tree so raw .md and metadata.json keep serving.
-    import shutil
-    shutil.copytree(REPO_ROOT / "articles", SITE_DIR / "articles")
+    shutil.copytree(REPO_ROOT / "articles", staging / "articles")
+
+    # Atomic swap: only now do we replace the real site/ dir with the freshly
+    # built staging/. If anything above raised, staging is removed at the next
+    # run and the prior site/ survives untouched.
+    if SITE_DIR.exists():
+        shutil.rmtree(SITE_DIR)
+    staging.rename(SITE_DIR)
 
     total_pages = 1 + 1 + topic_pages + 1 + 1  # home + topics_index + topic pages + about + 404
     print(f"[site] pages={total_pages} topic_pages={topic_pages} "

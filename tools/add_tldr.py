@@ -322,7 +322,10 @@ def main():
                 time.sleep(0.5)
 
         except Exception as e:
-            print(f"  ERR  {folder} ({e})")
+            # Log only the exception class name — the exception string can
+            # include response bodies, partial payloads, or headers that may
+            # leak authentication context into CI logs.
+            print(f"  ERR  {folder} ({type(e).__name__})")
             errors += 1
 
     print(f"\n--- Summary ---")
