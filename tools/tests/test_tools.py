@@ -490,3 +490,160 @@ class TestIndexStructure:
         for article in SAMPLE_INDEX["articles"]:
             assert article["funnel_stage"] in valid, \
                 f"Invalid funnel_stage: {article['funnel_stage']} in {article['folder']}"
+
+
+# =========================================================================
+# Tests: rebuild_local.py feed generator
+# =========================================================================
+
+class TestBuildFeed:
+    """Atom feed builder. rebuild_local imports cleanly (no env guards)."""
+
+    ATOM_NS = "{http://www.w3.org/2005/Atom}"
+
+    def _mod(self):
+        import rebuild_local
+        return rebuild_local
+
+    # --- Pure helpers ------------------------------------------------------
+
+    def test_truncate_below_limit_returns_unchanged(self):
+        m = self._mod()
+        assert m._truncate("short sentence", 100) == "short sentence"
+
+    def test_truncate_cuts_on_word_boundary_with_ellipsis(self):
+        m = self._mod()
+        result = m._truncate("one two three four five six seven eight", 20)
+        assert result.endswith("…")
+        assert " " not in result[-3:-1]  # didn't cut mid-word
+
+    def test_clean_canonical_rejects_non_http(self):
+        m = self._mod()
+        assert m._clean_canonical("ftp://example.com") is None
+        assert m._clean_canonical("not a url") is None
+        assert m._clean_canonical("") is None
+        assert m._clean_canonical(None) is None
+
+    def test_clean_canonical_handles_newline_in_value(self):
+        """The 2026-01-21 LinkedIn batch has newlines inside canonical_url."""
+        m = self._mod()
+        result = m._clean_canonical("\nhttps://www.linkedin.com/pulse/foo\n")
+        assert result is not None
+        url, host = result
+        assert url == "https://www.linkedin.com/pulse/foo"
+        assert host == "www.linkedin.com"
+
+    def test_feed_link_uses_canonical_when_first_party(self):
+        m = self._mod()
+        link = m._feed_link_for({
+            "canonical_url": "https://radar.firstaimovers.com/foo",
+            "folder": "2026-04-20-foo",
+        })
+        assert link == "https://radar.firstaimovers.com/foo"
+
+    def test_feed_link_falls_back_to_mirror_for_third_party(self):
+        m = self._mod()
+        link = m._feed_link_for({
+            "canonical_url": "https://www.linkedin.com/pulse/foo",
+            "folder": "2026-04-20-foo",
+        })
+        assert link == "https://articles.firstaimovers.com/articles/2026-04-20-foo/article.md"
+
+    def test_looks_like_prose_rejects_short_blocks(self):
+        m = self._mod()
+        assert m._looks_like_prose("# Heading") is False
+        assert m._looks_like_prose("Short") is False
+        assert m._looks_like_prose("_Italicized subtitle_") is False
+
+    def test_looks_like_prose_accepts_real_paragraph(self):
+        m = self._mod()
+        block = ("This is a genuine paragraph of prose with enough length to "
+                 "pass the 80-character filter and look like real article content.")
+        assert m._looks_like_prose(block) is True
+
+    def test_tldr_blockquote_regex_matches_standard_format(self):
+        m = self._mod()
+        text = "# Title\n\n> **TL;DR:** Summary of the article here.\n\nBody content."
+        match = m.TLDR_BLOCKQUOTE_RE.search(text)
+        assert match is not None
+        assert "Summary of the article here" in match.group(1)
+
+    # --- End-to-end build_feed --------------------------------------------
+
+    def _synthetic_index(self, n=3):
+        return {
+            "articles": [
+                {
+                    "folder": f"2026-04-{20-i:02d}-entry-{i}",
+                    "title": f"Entry {i}",
+                    "published_date": f"2026-04-{20-i:02d}",
+                    "tags": [f"tag{j}" for j in range(7)],
+                    "funnel_stage": "middle",
+                    "canonical_url": f"https://radar.firstaimovers.com/entry-{i}",
+                }
+                for i in range(n)
+            ],
+        }
+
+    def _run_build_feed(self, monkeypatch, tmp_path, index, **overrides):
+        """Run build_feed with ARTICLES_DIR and REPO_ROOT redirected to tmp_path."""
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        for k, v in overrides.items():
+            monkeypatch.setattr(m, k, v)
+        m.build_feed(index)
+        return (tmp_path / "feed.xml").read_text(encoding="utf-8")
+
+    def test_feed_parses_as_atom(self, monkeypatch, tmp_path):
+        out = self._run_build_feed(monkeypatch, tmp_path, self._synthetic_index(3))
+        root = fromstring(out)
+        assert root.tag == f"{self.ATOM_NS}feed"
+
+    def test_feed_respects_max_entries_cap(self, monkeypatch, tmp_path):
+        out = self._run_build_feed(
+            monkeypatch, tmp_path, self._synthetic_index(10), FEED_MAX_ENTRIES=4)
+        root = fromstring(out)
+        assert len(root.findall(f"{self.ATOM_NS}entry")) == 4
+
+    def test_feed_updated_matches_most_recent_entry_not_today(self, monkeypatch, tmp_path):
+        out = self._run_build_feed(monkeypatch, tmp_path, self._synthetic_index(3))
+        root = fromstring(out)
+        assert root.find(f"{self.ATOM_NS}updated").text == "2026-04-20T00:00:00Z"
+
+    def test_feed_entry_ids_are_stable_tag_uris(self, monkeypatch, tmp_path):
+        out = self._run_build_feed(monkeypatch, tmp_path, self._synthetic_index(2))
+        root = fromstring(out)
+        for entry in root.findall(f"{self.ATOM_NS}entry"):
+            entry_id = entry.find(f"{self.ATOM_NS}id").text
+            assert entry_id.startswith("tag:articles.firstaimovers.com,2026-04-")
+
+    def test_feed_categories_capped_per_entry(self, monkeypatch, tmp_path):
+        out = self._run_build_feed(monkeypatch, tmp_path, self._synthetic_index(2))
+        root = fromstring(out)
+        for entry in root.findall(f"{self.ATOM_NS}entry"):
+            cats = entry.findall(f"{self.ATOM_NS}category")
+            assert len(cats) <= 5
+
+    def test_feed_is_byte_stable_across_runs(self, monkeypatch, tmp_path):
+        a = self._run_build_feed(monkeypatch, tmp_path, self._synthetic_index(3))
+        b = self._run_build_feed(monkeypatch, tmp_path, self._synthetic_index(3))
+        assert a == b
+
+    def test_feed_summary_uses_tldr_blockquote_when_present(self, monkeypatch, tmp_path):
+        idx = self._synthetic_index(1)
+        out = self._run_build_feed(monkeypatch, tmp_path, idx)
+        # No article.md exists → fallback should be title-based
+        root = fromstring(out)
+        summary = root.find(f"{self.ATOM_NS}entry/{self.ATOM_NS}summary").text
+        assert "Entry 0" in summary and "Dr. Hernani Costa" in summary
+
+        # Now add an article.md with a TL;DR and rebuild
+        art_dir = tmp_path / "articles" / idx["articles"][0]["folder"]
+        art_dir.mkdir()
+        (art_dir / "article.md").write_text(
+            "---\ntitle: x\n---\n# Hello\n\n> **TL;DR:** The short summary.\n\nBody.")
+        out2 = self._run_build_feed(monkeypatch, tmp_path, idx)
+        summary2 = fromstring(out2).find(f"{self.ATOM_NS}entry/{self.ATOM_NS}summary").text
+        assert summary2 == "The short summary."

@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Rebuild index, sitemap, README, llms.txt
+      - name: Rebuild index, sitemap, feed, README, llms.txt
         run: python3 tools/rebuild_local.py
 
       - name: Commit and push if changed
@@ -38,6 +38,6 @@ jobs:
           fi
           git config user.name "Index Bot"
           git config user.email "info@firstaimovers.com"
-          git add index.json sitemap.xml README.md llms.txt
-          git commit -m "Rebuild index, sitemap, docs after article change"
+          git add index.json sitemap.xml feed.xml README.md llms.txt
+          git commit -m "Rebuild index, sitemap, feed, docs after article change"
           git push
