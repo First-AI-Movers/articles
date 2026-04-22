@@ -238,7 +238,7 @@ def build_sitemap(index):
     # there.
     _add_url(urlset, f"{SITE_BASE}/", today, "daily", "1.0")
     for path in ("ABOUT.md", "CITATION.cff", "hernanicosta.json", "llms.txt",
-                 "index.json", "feed.xml"):
+                 "llms-full.txt", "index.json", "feed.xml"):
         _add_url(urlset, f"{SITE_BASE}/{path}", today, "weekly", "0.5")
     _add_url(urlset, f"{SITE_BASE}/README.md", today, "weekly", "0.7")
 
@@ -415,8 +415,76 @@ def build_feed(index):
 
 
 # ---------------------------------------------------------------------------
+# llms-full.txt (full-text corpus for LLM ingestion)
+# ---------------------------------------------------------------------------
+LEADING_H1_RE = re.compile(r"^\s*#\s+[^\n]+\n+")
+
+
+def _strip_leading_h1(text):
+    m = LEADING_H1_RE.match(text)
+    return text[m.end():] if m else text
+
+
+def build_llms_full(index):
+    """Concatenate every article.md into a single LLM-ingestion file.
+
+    Sibling to the llms.txt convention: llms.txt describes the corpus;
+    llms-full.txt IS the corpus. Newest-first, with corpus header up top
+    and per-article metadata (title, date, URL, tags) before each body.
+    """
+    articles = index["articles"]
+    stats = compute_stats(index)
+    today_iso = str(date.today())
+
+    header = (
+        "# First AI Movers — Full Article Archive\n\n"
+        "Canonical, open-access corpus of all First AI Movers articles by Dr. Hernani Costa.\n\n"
+        "- Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)\n"
+        "- Publication: First AI Movers — https://firstaimovers.com\n"
+        "- License: Creative Commons Attribution 4.0 International (CC BY 4.0)\n"
+        f"- Articles: {stats['total']}\n"
+        f"- Date range: {stats['date_min']} to {stats['date_max']}\n"
+        f"- Generated: {today_iso}\n\n"
+        "Machine-readable catalog: https://articles.firstaimovers.com/index.json  \n"
+        "Atom feed (recent only): https://articles.firstaimovers.com/feed.xml\n\n"
+        "Each article below is prefixed with title, date, URL, and tags, separated by `---` lines.\n"
+    )
+
+    parts = [header]
+    included, skipped = 0, 0
+    for a in articles:
+        folder = a.get("folder") or ""
+        md_path = ARTICLES_DIR / folder / "article.md"
+        if not folder or not md_path.exists():
+            skipped += 1
+            continue
+        body = md_path.read_text(encoding="utf-8", errors="replace")
+        body = _strip_leading_h1(_strip_front_matter(body).lstrip())
+
+        canonical_raw = a.get("canonical_url") or ""
+        canonical = canonical_raw.strip().splitlines()[-1].strip() if canonical_raw.strip() else ""
+        tags = ", ".join(a.get("tags", []))
+
+        parts.append(
+            "\n\n---\n\n"
+            f"# {a.get('title', 'Untitled')}\n\n"
+            f"- **Published:** {a.get('published_date', 'unknown')}\n"
+            f"- **URL:** {canonical}\n"
+            f"- **Tags:** {tags}\n\n"
+            f"{body.rstrip()}\n"
+        )
+        included += 1
+
+    full = "".join(parts)
+    (REPO_ROOT / "llms-full.txt").write_text(full, encoding="utf-8")
+    size_mb = len(full.encode("utf-8")) / (1024 * 1024)
+    print(f"[llms-full.txt] articles={included} skipped={skipped} size={size_mb:.2f}MB")
+
+
+# ---------------------------------------------------------------------------
 if __name__ == "__main__":
     idx = build_index()
     update_docs(idx)
     build_sitemap(idx)
     build_feed(idx)
+    build_llms_full(idx)

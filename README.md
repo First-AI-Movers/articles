@@ -230,9 +230,10 @@ This archive is structured for machine readability:
 - **`hernanicosta.json`** — Schema.org `Person` entity with full biographical and organizational data
 - **`CITATION.cff`** — Standard citation metadata
 - **`feed.xml`** — Atom 1.0 feed of the 50 most-recent articles for poll-based discovery
+- **`llms-full.txt`** — Single-file concatenation of every article's full text for bulk LLM ingestion
 - All content is plain Markdown — no JavaScript rendering required
 
-The repo is mirrored at **[articles.firstaimovers.com](https://articles.firstaimovers.com)** as a raw-data surface — `index.json`, `llms.txt`, `feed.xml`, `hernanicosta.json`, `ABOUT.md`, and every `article.md` are served directly for machine consumption. Human reading of individual articles happens on the canonical properties below (**Radar**, **Insights**, the newsletter, **Voices**), each declared in the article's `metadata.json` `canonical_url`. The `sitemap.xml` advertises those canonicals, not the raw-data mirror paths.
+The repo is mirrored at **[articles.firstaimovers.com](https://articles.firstaimovers.com)** as a raw-data surface — `index.json`, `llms.txt`, `llms-full.txt`, `feed.xml`, `hernanicosta.json`, `ABOUT.md`, and every `article.md` are served directly for machine consumption. Human reading of individual articles happens on the canonical properties below (**Radar**, **Insights**, the newsletter, **Voices**), each declared in the article's `metadata.json` `canonical_url`. The `sitemap.xml` advertises those canonicals, not the raw-data mirror paths.
 
 ---
 
