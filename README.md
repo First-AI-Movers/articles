@@ -3,7 +3,7 @@
   "@context": "https://schema.org",
   "@type": "CreativeWorkSeries",
   "name": "First AI Movers — Article Archive",
-  "description": "The canonical, open-access article archive of First AI Movers: 680 original articles on AI strategy, EU AI Act compliance, AI governance, agentic systems, and responsible AI adoption for European SMEs. Written by Dr. Hernani Costa, PhD.",
+  "description": "The canonical, open-access article archive of First AI Movers: 760 original articles on AI strategy, EU AI Act compliance, AI governance, agentic systems, and responsible AI adoption for European SMEs. Written by Dr. Hernani Costa, PhD.",
   "url": "https://github.com/First-AI-Movers/articles",
   "author": {
     "@type": "Person",
@@ -43,18 +43,18 @@
   ],
   "isAccessibleForFree": true,
   "dateCreated": "2025-02-17",
-  "dateModified": "2026-04-12"
+  "dateModified": "2026-04-22"
 }
 -->
 
 # First AI Movers — Article Archive
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-blue.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Articles](https://img.shields.io/badge/Articles-680-orange.svg)](#what-is-in-this-archive)
+[![Articles](https://img.shields.io/badge/Articles-760-orange.svg)](#what-is-in-this-archive)
 [![Author](https://img.shields.io/badge/Author-Dr._Hernani_Costa-green.svg)](https://drhernanicosta.com)
 [![ORCID](https://img.shields.io/badge/ORCID-0000--0002--6813--4641-A6CE39.svg)](https://orcid.org/0000-0002-6813-4641)
 
-> The canonical, open-access text archive of every article published by [First AI Movers](https://firstaimovers.com) — 680 original articles on AI strategy, EU AI Act compliance, AI governance, and responsible AI adoption for European businesses.
+> The canonical, open-access text archive of every article published by [First AI Movers](https://firstaimovers.com) — 760 original articles on AI strategy, EU AI Act compliance, AI governance, and responsible AI adoption for European businesses.
 
 All articles are written by **[Dr. Hernani Costa](https://drhernanicosta.com)**, PhD in Computational Linguistics, AI strategy consultant with 25+ years in technology, and founder of [First AI Movers](https://firstaimovers.com) and [Core Ventures](https://coreventures.xyz). Published under **[CC BY 4.0](LICENSE)** — free to read, cite, adapt, and redistribute with attribution.
 
@@ -78,7 +78,7 @@ All articles are written by **[Dr. Hernani Costa](https://drhernanicosta.com)**,
 
 ## What Is in This Archive?
 
-This repository contains the full-text, machine-readable versions of 680 original articles spanning February 2025–April 2026. Each article includes:
+This repository contains the full-text, machine-readable versions of 760 original articles spanning February 2025–April 2026. Each article includes:
 
 | File | Contents |
 |---|---|
@@ -184,7 +184,7 @@ articles/
     ├── 2026-04-03-coding-agent-stack-changed-2026/
     │   ├── article.md
     │   └── metadata.json
-    └── ... (680 article folders)
+    └── ... (760 article folders)
 ```
 
 Each article folder is named `YYYY-MM-DD-slug` and contains `article.md` (full text) and `metadata.json` (structured metadata with title, date, tags, canonical URL, and funnel stage).
@@ -240,10 +240,10 @@ The full, machine-readable article index is available at [`index.json`](index.js
 It contains every article's title, publication date, tags, funnel stage (top/middle/bottom), and canonical URL — sorted by most recent first. The index is rebuilt automatically after each batch of new articles.
 
 **Quick stats:**
-- **680** articles indexed
-- **3,289** unique topic tags
-- **3 funnel stages:** top (221 articles), middle (455), bottom (4)
-- **Date range:** February 17, 2025 – April 10, 2026
+- **760** articles indexed
+- **3,644** unique topic tags
+- **3 funnel stages:** top (221 articles), middle (532), bottom (7)
+- **Date range:** February 17, 2025 – April 20, 2026
 - **Cadence:** Multiple articles per week
 
 ---
