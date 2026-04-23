@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-04-22",
-  "total_articles": 769,
+  "last_updated": "2026-04-23",
+  "total_articles": 779,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -1209,6 +1209,30 @@
       "canonical_url": "https://radar.firstaimovers.com/claude-ai-vs-claude-code-api-anthropic-products-2026"
     },
     {
+      "folder": "2026-04-16-claude-managed-agents-automation-guide-european-teams-2",
+      "title": "Claude Managed Agents for Business Automation: What European Teams Need to Know",
+      "published_date": "2026-04-16",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "AI agent deployment",
+        "business automation with AI",
+        "responsible AI use",
+        "workflow automation for SMEs",
+        "Claude Managed Agents overview"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "AI Agents",
+        "Responsible AI",
+        "AI Workflow Automation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-managed-agents-automation-guide-european-teams-2026"
+    },
+    {
       "folder": "2026-04-16-claude-max-plan-guide-european-teams-2026",
       "title": "Claude Max for European Teams: Is the $100/Month Upgrade Worth It?",
       "published_date": "2026-04-16",
@@ -1347,6 +1371,26 @@
       "canonical_url": "https://radar.firstaimovers.com/microsoft-ai-observability-monitoring-european-smes-2026"
     },
     {
+      "folder": "2026-04-16-rtk-query-claude-code-setup-guide-dev-teams-2026",
+      "title": "RTK Query with Claude Code: A Practical Setup Guide for Dev Teams in 2026",
+      "published_date": "2026-04-16",
+      "tags": [
+        "RTK Query setup for European teams",
+        "Claude Code integration with Redux",
+        "GDPR compliance in caching",
+        "Optimizing API calls in React",
+        "Cache invalidation strategies",
+        "AI-assisted development workflows"
+      ],
+      "topics": [
+        "Claude Code",
+        "GDPR & Data Privacy",
+        "AI Governance"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/rtk-query-claude-code-setup-guide-dev-teams-2026"
+    },
+    {
       "folder": "2026-04-15-agentic-ai-smes-european-operators-guide-2026",
       "title": "Agentic AI for European SME Operators: What Actually Changes in Your Workflows",
       "published_date": "2026-04-15",
@@ -1368,6 +1412,25 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/agentic-ai-smes-european-operators-guide-2026"
+    },
+    {
+      "folder": "2026-04-15-ai-coding-tools-product-managers-operations-leaders-202",
+      "title": "AI Coding Tools for Product Managers and Operations Leaders",
+      "published_date": "2026-04-15",
+      "tags": [
+        "AI coding tools for non-developers",
+        "collaboration between PMs and engineers",
+        "automation in software development",
+        "improving engineering productivity",
+        "AI-assisted documentation",
+        "sprint velocity enhancement"
+      ],
+      "topics": [
+        "AI Coding Tools",
+        "AI Productivity Tools"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-coding-tools-product-managers-operations-leaders-2026"
     },
     {
       "folder": "2026-04-15-ai-consulting-belgium-professional-services-2026",
@@ -1464,6 +1527,75 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-coimbra-tech-startups-2026"
     },
     {
+      "folder": "2026-04-15-ai-consulting-malmo-logistics-smes-2026",
+      "title": "AI Consulting for Malmö Logistics SMEs: Practical AI for Swedish Supply Chains",
+      "published_date": "2026-04-15",
+      "tags": [
+        "AI consulting for logistics SMEs",
+        "document processing automation",
+        "route optimisation tools",
+        "customer communication automation",
+        "Swedish supply chain AI",
+        "Malmö logistics AI",
+        "EU regulatory compliance for AI"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Consulting",
+        "Document Automation",
+        "AI Regulation",
+        "AI Governance"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-malmo-logistics-smes-2026"
+    },
+    {
+      "folder": "2026-04-15-ai-governance-legal-smes-eu-ai-act-2026",
+      "title": "AI Governance for Legal SMEs: EU AI Act Compliance for Law Firms",
+      "published_date": "2026-04-15",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "legal AI tools",
+        "GDPR obligations for law firms",
+        "professional privilege in AI",
+        "AI deployment framework"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "GDPR & Data Privacy",
+        "Legal Tech",
+        "AI Strategy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-governance-legal-smes-eu-ai-act-2026"
+    },
+    {
+      "folder": "2026-04-15-ai-incident-response-playbook-healthcare-eu-2026",
+      "title": "AI Incident Response for Healthcare Providers: A Practical Playbook Under EU AI Act and MDR",
+      "published_date": "2026-04-15",
+      "tags": [
+        "AI incident response playbook",
+        "EU AI Act compliance",
+        "healthcare AI governance",
+        "MDR reporting obligations",
+        "clinical governance integration",
+        "data protection in healthcare",
+        "AI risk management"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "Healthcare AI",
+        "GDPR & Data Privacy",
+        "AI Risk Management"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-incident-response-playbook-healthcare-eu-2026"
+    },
+    {
       "folder": "2026-04-15-ai-procurement-checklist-healthcare-buyers-eu-2026",
       "title": "The AI Procurement Checklist Every European Healthcare Buyer Needs Before Signing",
       "published_date": "2026-04-15",
@@ -1484,6 +1616,86 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/ai-procurement-checklist-healthcare-buyers-eu-2026"
+    },
+    {
+      "folder": "2026-04-15-claude-code-data-science-analytics-teams-2026",
+      "title": "Claude Code for Data Science Teams: Python, pandas, and Analytics Workflows in 2026",
+      "published_date": "2026-04-15",
+      "tags": [
+        "Claude Code for data science",
+        "Python analytics workflows",
+        "pandas data transformation",
+        "Jupyter notebook optimization",
+        "SQL query generation",
+        "EU data regulations compliance",
+        "AI tools for analytics teams"
+      ],
+      "topics": [
+        "Claude Code",
+        "AI Governance"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-data-science-analytics-teams-2026"
+    },
+    {
+      "folder": "2026-04-15-claude-code-multi-file-refactoring-guide-2026",
+      "title": "Multi-File Refactoring With Claude Code: A Practical Guide for Growing Codebases",
+      "published_date": "2026-04-15",
+      "tags": [
+        "multi-file refactoring best practices",
+        "AI-assisted codebase management",
+        "Claude Code for software teams",
+        "cross-file code refactoring strategies",
+        "engineering team governance checkpoints",
+        "module extraction techniques"
+      ],
+      "topics": [
+        "Claude Code",
+        "AI for Engineering Teams"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-multi-file-refactoring-guide-2026"
+    },
+    {
+      "folder": "2026-04-15-claude-code-one-person-dev-shop-guide-2026",
+      "title": "Claude Code for Solo Developers and One-Person Dev Shops",
+      "published_date": "2026-04-15",
+      "tags": [
+        "Claude Code for solo developers",
+        "AI tools for independent developers",
+        "Freelance software development productivity",
+        "One-person dev shop efficiency",
+        "AI-assisted coding practices",
+        "Billing ethics for freelancers"
+      ],
+      "topics": [
+        "Claude Code",
+        "AI Productivity Tools"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-one-person-dev-shop-guide-2026"
+    },
+    {
+      "folder": "2026-04-15-claude-routines-sme-guide-2026",
+      "title": "Claude Routines Explained: What SME Operators and Technical Teams Need to Know",
+      "published_date": "2026-04-15",
+      "tags": [
+        "Claude Routines implementation",
+        "AI workflows for SMEs",
+        "EU AI Act compliance",
+        "AI governance for small businesses",
+        "Standardizing AI outputs",
+        "AI-driven procurement processes"
+      ],
+      "topics": [
+        "Claude Models",
+        "AI Workflow Automation",
+        "European SME AI",
+        "EU AI Act",
+        "AI Governance"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-routines-sme-guide-2026"
     },
     {
       "folder": "2026-04-15-copilot-studio-human-in-loop-governance-smes-2026",

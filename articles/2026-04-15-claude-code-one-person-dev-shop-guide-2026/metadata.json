@@ -1,18 +1,29 @@
 {
-    "id":"recD2K3eaabfgXERk",
-    "title":"Claude Code for Solo Developers and One-Person Dev Shops",
-    "slug":"claude-code-one-person-dev-shop-guide-2026",
-    "folder": "2026-04-15-claude-code-one-person-dev-shop-guide-2026",
-    "published_date": "2026-04-15",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-code-one-person-dev-shop-guide-2026",
-    "tags":["Claude Code for solo developers","AI tools for independent developers","Freelance software development productivity","One-person dev shop efficiency","AI-assisted coding practices","Billing ethics for freelancers"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recD2K3eaabfgXERk",
+  "title": "Claude Code for Solo Developers and One-Person Dev Shops",
+  "slug": "claude-code-one-person-dev-shop-guide-2026",
+  "folder": "2026-04-15-claude-code-one-person-dev-shop-guide-2026",
+  "published_date": "2026-04-15",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-code-one-person-dev-shop-guide-2026",
+  "tags": [
+    "Claude Code for solo developers",
+    "AI tools for independent developers",
+    "Freelance software development productivity",
+    "One-person dev shop efficiency",
+    "AI-assisted coding practices",
+    "Billing ethics for freelancers"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Code",
+    "AI Productivity Tools"
+  ]
 }

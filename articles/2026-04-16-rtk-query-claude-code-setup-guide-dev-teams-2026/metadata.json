@@ -1,18 +1,30 @@
 {
-    "id":"rec4LJ9KTJHrFvnpR",
-    "title":"RTK Query with Claude Code: A Practical Setup Guide for Dev Teams in 2026",
-    "slug":"rtk-query-claude-code-setup-guide-dev-teams-2026",
-    "folder": "2026-04-16-rtk-query-claude-code-setup-guide-dev-teams-2026",
-    "published_date": "2026-04-16",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/rtk-query-claude-code-setup-guide-dev-teams-2026",
-    "tags":["RTK Query setup for European teams","Claude Code integration with Redux","GDPR compliance in caching","Optimizing API calls in React","Cache invalidation strategies","AI-assisted development workflows"],
-    "word_count": 1395,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec4LJ9KTJHrFvnpR",
+  "title": "RTK Query with Claude Code: A Practical Setup Guide for Dev Teams in 2026",
+  "slug": "rtk-query-claude-code-setup-guide-dev-teams-2026",
+  "folder": "2026-04-16-rtk-query-claude-code-setup-guide-dev-teams-2026",
+  "published_date": "2026-04-16",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/rtk-query-claude-code-setup-guide-dev-teams-2026",
+  "tags": [
+    "RTK Query setup for European teams",
+    "Claude Code integration with Redux",
+    "GDPR compliance in caching",
+    "Optimizing API calls in React",
+    "Cache invalidation strategies",
+    "AI-assisted development workflows"
+  ],
+  "word_count": 1395,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Claude Code",
+    "GDPR & Data Privacy",
+    "AI Governance"
+  ]
 }
