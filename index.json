@@ -1,11 +1,234 @@
 {
-  "last_updated": "2026-04-23",
-  "total_articles": 779,
+  "last_updated": "2026-04-24",
+  "total_articles": 789,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-04-23-ai-consulting-berlin-tech-startup-smes-2026",
+      "title": "AI Consulting for Berlin Tech Startups and SMEs: What to Expect in 2026",
+      "published_date": "2026-04-23",
+      "tags": [
+        "AI consulting for Berlin SMEs",
+        "EU AI Act compliance",
+        "AI governance frameworks",
+        "Berlin tech startup ecosystem",
+        "data protection regulations",
+        "BSI IT-Grundschutz compliance",
+        "AI pilot to production"
+      ],
+      "topics": [
+        "European SME AI",
+        "DACH AI",
+        "AI Consulting",
+        "EU AI Act",
+        "AI Governance",
+        "B2B SaaS Growth"
+      ],
+      "funnel_stage": "bottom",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-berlin-tech-startup-smes-2026"
+    },
+    {
+      "folder": "2026-04-23-ai-consulting-lisbon-tech-fintech-smes-2026",
+      "title": "AI Consulting for Lisbon Tech and Fintech SMEs in 2026",
+      "published_date": "2026-04-23",
+      "tags": [
+        "AI consulting for Lisbon SMEs",
+        "EU AI Act compliance",
+        "Banco de Portugal regulations",
+        "GDPR and AI governance",
+        "Fintech innovation in Portugal",
+        "AI strategy for small businesses"
+      ],
+      "topics": [
+        "European SME AI",
+        "Iberia AI",
+        "AI Consulting",
+        "EU AI Act",
+        "AI Governance",
+        "GDPR & Data Privacy"
+      ],
+      "funnel_stage": "bottom",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-lisbon-tech-fintech-smes-2026"
+    },
+    {
+      "folder": "2026-04-23-ai-consulting-paris-tech-digital-smes-2026",
+      "title": "AI Consulting for Paris Tech and Digital SMEs: What to Expect in 2026",
+      "published_date": "2026-04-23",
+      "tags": [
+        "AI consulting for SMEs",
+        "CNIL compliance in France",
+        "EU AI Act obligations",
+        "ANSSI security guidelines",
+        "AI governance frameworks",
+        "R&D tax credits for AI"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Consulting",
+        "AI Governance",
+        "France and Benelux AI",
+        "EU AI Act"
+      ],
+      "funnel_stage": "bottom",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-paris-tech-digital-smes-2026"
+    },
+    {
+      "folder": "2026-04-23-ai-consulting-prague-tech-smes-2026",
+      "title": "Prague Tech Companies Face a Specific AI Consulting Challenge in 2026",
+      "published_date": "2026-04-23",
+      "tags": [
+        "EU AI Act compliance",
+        "Czech data protection regulations",
+        "AI consulting for SMEs",
+        "Prague tech industry challenges",
+        "GDPR and AI systems",
+        "NIS2 compliance for AI",
+        "AI governance frameworks"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "GDPR & Data Privacy",
+        "European SME AI",
+        "AI Consulting"
+      ],
+      "funnel_stage": "bottom",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-prague-tech-smes-2026"
+    },
+    {
+      "folder": "2026-04-23-ai-spend-audit-checklist-european-smes-2026",
+      "title": "AI Spend Audit Checklist for European SMEs in 2026",
+      "published_date": "2026-04-23",
+      "tags": [
+        "AI spend management for SMEs",
+        "cost reduction strategies",
+        "AI tool consolidation",
+        "GDPR compliance for AI tools",
+        "quarterly audit processes",
+        "AI productivity tools review"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Cost Optimization",
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "AI Productivity Tools"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-spend-audit-checklist-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-23-ai-vendor-contract-negotiation-european-smes-2026",
+      "title": "AI Vendor Contract Negotiation: 7 Clauses Every European SME Must Negotiate",
+      "published_date": "2026-04-23",
+      "tags": [
+        "AI vendor contract negotiation",
+        "EU AI Act compliance",
+        "data processing agreements",
+        "liability limitations for SMEs",
+        "AI governance for European SMEs",
+        "exit rights in AI contracts"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-vendor-contract-negotiation-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-23-claude-code-backend-api-development-european-teams-2026",
+      "title": "Claude Code for Backend and API Development: A European Team Playbook",
+      "published_date": "2026-04-23",
+      "tags": [
+        "Claude Code for backend development",
+        "API development in Europe",
+        "GDPR compliance for AI tools",
+        "Python and Node.js best practices",
+        "AI coding assistants for SMEs",
+        "Backend workflow optimization"
+      ],
+      "topics": [
+        "Claude Code",
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "AI Coding Tools",
+        "European SME AI",
+        "AI Workflow Automation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-backend-api-development-european-teams-2026"
+    },
+    {
+      "folder": "2026-04-23-eu-ai-act-gp-systems-august-2026-compliance-checklist",
+      "title": "EU AI Act August 2026: What European SMEs Must Do Before the GP Systems Deadline",
+      "published_date": "2026-04-23",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "GPAI deployment obligations",
+        "AI transparency requirements",
+        "SME compliance checklist",
+        "AI regulatory landscape"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "AI Strategy",
+        "AI Regulation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-gp-systems-august-2026-compliance-checklist"
+    },
+    {
+      "folder": "2026-04-23-how-to-run-ai-pilot-to-production-european-smes-2026",
+      "title": "How to Run an AI Pilot to Production: A 90-Day Framework for European SMEs",
+      "published_date": "2026-04-23",
+      "tags": [
+        "AI pilot framework for SMEs",
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "AI implementation strategies",
+        "AI project management",
+        "AI production readiness"
+      ],
+      "topics": [
+        "European SME AI",
+        "EU AI Act",
+        "AI Governance",
+        "AI Strategy",
+        "AI PMO"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/how-to-run-ai-pilot-to-production-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-23-should-you-build-internal-ai-knowledge-base-2026",
+      "title": "Should You Build an Internal AI Knowledge Base in 2026?",
+      "published_date": "2026-04-23",
+      "tags": [
+        "internal AI knowledge base",
+        "RAG implementation for SMEs",
+        "GDPR compliance in AI",
+        "AI tools for European businesses",
+        "document retrieval systems",
+        "AI strategy for small teams"
+      ],
+      "topics": [
+        "RAG Architecture",
+        "European SME AI",
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "AI Strategy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/should-you-build-internal-ai-knowledge-base-2026"
+    },
     {
       "folder": "2026-04-20-ai-automation-agency-utrecht",
       "title": "Utrecht AI Automation Agency: What to Check Before You Hire",

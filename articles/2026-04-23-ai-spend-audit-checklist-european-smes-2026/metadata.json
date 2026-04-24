@@ -1,18 +1,32 @@
 {
-    "id":"recxxENY7ZeALtjNO",
-    "title":"AI Spend Audit Checklist for European SMEs in 2026",
-    "slug":"ai-spend-audit-checklist-european-smes-2026",
-    "folder": "2026-04-23-ai-spend-audit-checklist-european-smes-2026",
-    "published_date": "2026-04-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-spend-audit-checklist-european-smes-2026",
-    "tags":["AI spend management for SMEs","cost reduction strategies","AI tool consolidation","GDPR compliance for AI tools","quarterly audit processes","AI productivity tools review"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recxxENY7ZeALtjNO",
+  "title": "AI Spend Audit Checklist for European SMEs in 2026",
+  "slug": "ai-spend-audit-checklist-european-smes-2026",
+  "folder": "2026-04-23-ai-spend-audit-checklist-european-smes-2026",
+  "published_date": "2026-04-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-spend-audit-checklist-european-smes-2026",
+  "tags": [
+    "AI spend management for SMEs",
+    "cost reduction strategies",
+    "AI tool consolidation",
+    "GDPR compliance for AI tools",
+    "quarterly audit processes",
+    "AI productivity tools review"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Cost Optimization",
+    "GDPR & Data Privacy",
+    "AI Governance",
+    "AI Productivity Tools"
+  ]
 }

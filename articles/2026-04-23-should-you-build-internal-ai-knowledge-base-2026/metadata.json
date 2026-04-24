@@ -1,18 +1,32 @@
 {
-    "id":"recatboaFo4iEDvft",
-    "title":"Should You Build an Internal AI Knowledge Base in 2026?",
-    "slug":"should-you-build-internal-ai-knowledge-base-2026",
-    "folder": "2026-04-23-should-you-build-internal-ai-knowledge-base-2026",
-    "published_date": "2026-04-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/should-you-build-internal-ai-knowledge-base-2026",
-    "tags":["internal AI knowledge base","RAG implementation for SMEs","GDPR compliance in AI","AI tools for European businesses","document retrieval systems","AI strategy for small teams"],
-    "word_count": 1865,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recatboaFo4iEDvft",
+  "title": "Should You Build an Internal AI Knowledge Base in 2026?",
+  "slug": "should-you-build-internal-ai-knowledge-base-2026",
+  "folder": "2026-04-23-should-you-build-internal-ai-knowledge-base-2026",
+  "published_date": "2026-04-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/should-you-build-internal-ai-knowledge-base-2026",
+  "tags": [
+    "internal AI knowledge base",
+    "RAG implementation for SMEs",
+    "GDPR compliance in AI",
+    "AI tools for European businesses",
+    "document retrieval systems",
+    "AI strategy for small teams"
+  ],
+  "word_count": 1865,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "RAG Architecture",
+    "European SME AI",
+    "GDPR & Data Privacy",
+    "AI Governance",
+    "AI Strategy"
+  ]
 }

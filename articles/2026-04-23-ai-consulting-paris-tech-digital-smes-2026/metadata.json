@@ -1,18 +1,35 @@
 {
-    "id":"recF0U2ZjGAummfhz",
-    "title":"AI Consulting for Paris Tech and Digital SMEs: What to Expect in 2026",
-    "slug":"ai-consulting-paris-tech-digital-smes-2026",
-    "folder": "2026-04-23-ai-consulting-paris-tech-digital-smes-2026",
-    "published_date": "2026-04-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-consulting-paris-tech-digital-smes-2026",
-    "tags":["AI consulting for SMEs","CNIL compliance in France","EU AI Act obligations","ANSSI security guidelines","AI governance frameworks","R&D tax credits for AI"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "bottom",
-    "first_ai_movers_services": [" compliance-audit","ai-strategy "],
-    "status": "published"
+  "id": "recF0U2ZjGAummfhz",
+  "title": "AI Consulting for Paris Tech and Digital SMEs: What to Expect in 2026",
+  "slug": "ai-consulting-paris-tech-digital-smes-2026",
+  "folder": "2026-04-23-ai-consulting-paris-tech-digital-smes-2026",
+  "published_date": "2026-04-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-consulting-paris-tech-digital-smes-2026",
+  "tags": [
+    "AI consulting for SMEs",
+    "CNIL compliance in France",
+    "EU AI Act obligations",
+    "ANSSI security guidelines",
+    "AI governance frameworks",
+    "R&D tax credits for AI"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "bottom",
+  "first_ai_movers_services": [
+    "compliance-audit",
+    "ai-strategy"
+  ],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Consulting",
+    "AI Governance",
+    "France and Benelux AI",
+    "EU AI Act"
+  ]
 }

@@ -1,6 +1,6 @@
 # First AI Movers — Article Archive
 
-> The canonical, open-access text archive of all First AI Movers articles by Dr. Hernani Costa. 779 original articles on AI strategy, EU AI Act compliance, AI governance, agentic systems, and responsible AI adoption for European SMEs. Published February 2025–April 2026. Licensed under CC BY 4.0.
+> The canonical, open-access text archive of all First AI Movers articles by Dr. Hernani Costa. 789 original articles on AI strategy, EU AI Act compliance, AI governance, agentic systems, and responsible AI adoption for European SMEs. Published February 2025–April 2026. Licensed under CC BY 4.0.
 
 ## Author
 

@@ -1,18 +1,30 @@
 {
-    "id":"recpLIGgTn1TAJEbI",
-    "title":"AI Vendor Contract Negotiation: 7 Clauses Every European SME Must Negotiate",
-    "slug":"ai-vendor-contract-negotiation-european-smes-2026",
-    "folder": "2026-04-23-ai-vendor-contract-negotiation-european-smes-2026",
-    "published_date": "2026-04-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-vendor-contract-negotiation-european-smes-2026",
-    "tags":["AI vendor contract negotiation","EU AI Act compliance","data processing agreements","liability limitations for SMEs","AI governance for European SMEs","exit rights in AI contracts"],
-    "word_count": 1345,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recpLIGgTn1TAJEbI",
+  "title": "AI Vendor Contract Negotiation: 7 Clauses Every European SME Must Negotiate",
+  "slug": "ai-vendor-contract-negotiation-european-smes-2026",
+  "folder": "2026-04-23-ai-vendor-contract-negotiation-european-smes-2026",
+  "published_date": "2026-04-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-vendor-contract-negotiation-european-smes-2026",
+  "tags": [
+    "AI vendor contract negotiation",
+    "EU AI Act compliance",
+    "data processing agreements",
+    "liability limitations for SMEs",
+    "AI governance for European SMEs",
+    "exit rights in AI contracts"
+  ],
+  "word_count": 1345,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI"
+  ]
 }

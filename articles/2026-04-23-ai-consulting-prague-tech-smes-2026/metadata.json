@@ -1,18 +1,36 @@
 {
-    "id":"recLSzDpr8b0xDzAr",
-    "title":"Prague Tech Companies Face a Specific AI Consulting Challenge in 2026",
-    "slug":"ai-consulting-prague-tech-smes-2026",
-    "folder": "2026-04-23-ai-consulting-prague-tech-smes-2026",
-    "published_date": "2026-04-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-consulting-prague-tech-smes-2026",
-    "tags":["EU AI Act compliance","Czech data protection regulations","AI consulting for SMEs","Prague tech industry challenges","GDPR and AI systems","NIS2 compliance for AI","AI governance frameworks"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "bottom",
-    "first_ai_movers_services": [" compliance-audit","ai-strategy "],
-    "status": "published"
+  "id": "recLSzDpr8b0xDzAr",
+  "title": "Prague Tech Companies Face a Specific AI Consulting Challenge in 2026",
+  "slug": "ai-consulting-prague-tech-smes-2026",
+  "folder": "2026-04-23-ai-consulting-prague-tech-smes-2026",
+  "published_date": "2026-04-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-consulting-prague-tech-smes-2026",
+  "tags": [
+    "EU AI Act compliance",
+    "Czech data protection regulations",
+    "AI consulting for SMEs",
+    "Prague tech industry challenges",
+    "GDPR and AI systems",
+    "NIS2 compliance for AI",
+    "AI governance frameworks"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "bottom",
+  "first_ai_movers_services": [
+    "compliance-audit",
+    "ai-strategy"
+  ],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "GDPR & Data Privacy",
+    "European SME AI",
+    "AI Consulting"
+  ]
 }
