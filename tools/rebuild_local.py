@@ -605,6 +605,7 @@ SITE_URL = "https://articles.firstaimovers.com"
 SITE_DIR = REPO_ROOT / "site"
 TEMPLATE_DIR = REPO_ROOT / "templates"
 STATIC_DIR = REPO_ROOT / "static"
+TOPIC_INTROS_PATH = REPO_ROOT / "tools" / "topic_intros.json"
 MIN_ARTICLES_FOR_TOPIC_PAGE = 5
 HOME_LATEST_COUNT = 20
 RELATED_TOPICS_ON_TOPIC_PAGE = 6
@@ -628,6 +629,37 @@ def _slugify(text):
     s = s.replace("&", "and")
     s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
     return s
+
+
+def _load_topic_intros():
+    """Load curated per-topic intros (lede + key themes + why-it-matters).
+
+    Returns the `intros` dict keyed by canonical topic name. Missing or
+    malformed file degrades gracefully — topic pages fall back to the
+    generic lede in the template, the site build does not break.
+    """
+    if not TOPIC_INTROS_PATH.exists():
+        return {}
+    try:
+        data = json.loads(TOPIC_INTROS_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"[site] warning: {TOPIC_INTROS_PATH.name} malformed ({e}); "
+              "topic pages will use generic lede", file=sys.stderr)
+        return {}
+    intros = data.get("intros") or {}
+    valid = {}
+    for topic, obj in intros.items():
+        if not isinstance(obj, dict):
+            continue
+        themes = obj.get("key_themes") or []
+        if not isinstance(themes, list):
+            themes = []
+        valid[topic] = {
+            "lede": obj.get("lede") or "",
+            "key_themes": [str(t) for t in themes if t],
+            "why_it_matters": obj.get("why_it_matters") or "",
+        }
+    return valid
 
 
 def _canonical_host_label(canonical_url):
@@ -703,6 +735,7 @@ def build_site(index):
 
     topic_counts = {t: len(v) for t, v in by_topic.items()}
     topics_with_page = {t for t, c in topic_counts.items() if c >= MIN_ARTICLES_FOR_TOPIC_PAGE}
+    topic_intros = _load_topic_intros()
 
     # Topic entries for the /topics/ index page — all topics sorted by count desc,
     # then alpha. Topics below the threshold get slug=None so the template renders
@@ -761,13 +794,18 @@ def build_site(index):
 
     # Per-topic pages (only topics with >= threshold)
     topic_pages = 0
+    topic_pages_with_intro = 0
     for topic in sorted(topics_with_page):
         topic_articles = by_topic[topic]  # already newest-first (from index sort)
         related = _related_topics_for(topic, topic_articles, topic_counts, RELATED_TOPICS_ON_TOPIC_PAGE)
         slug = _slugify(topic)
+        intro = topic_intros.get(topic)
         _render("topic.html.j2", f"topics/{slug}/index.html",
-                topic=topic, articles=topic_articles, related_topics=related)
+                topic=topic, articles=topic_articles, related_topics=related,
+                topic_intro=intro)
         topic_pages += 1
+        if intro:
+            topic_pages_with_intro += 1
 
     # About — hernanicosta.json is stored wrapped in <script> tags. Strip the
     # wrapper so we can re-embed the raw JSON inside our template's own <script>.
@@ -821,7 +859,7 @@ def build_site(index):
     total_pages = 1 + 1 + topic_pages + 1 + 1  # home + topics_index + topic pages + about + 404
     print(f"[site] pages={total_pages} topic_pages={topic_pages} "
           f"topics_with_page={len(topics_with_page)} min_articles={MIN_ARTICLES_FOR_TOPIC_PAGE} "
-          f"out={SITE_DIR}")
+          f"topic_intros={topic_pages_with_intro}/{len(topic_intros)} out={SITE_DIR}")
 
 
 # ---------------------------------------------------------------------------

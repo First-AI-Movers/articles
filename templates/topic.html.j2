@@ -1,6 +1,6 @@
 {% extends "base.html.j2" %}
 {% block title %}{{ topic }} — First AI Movers Archive ({{ articles|length }} articles){% endblock %}
-{% block description %}{{ articles|length }} original articles on {{ topic }} by Dr. Hernani Costa, PhD. Practitioner analysis and strategic frameworks for European SMEs, published via First AI Movers.{% endblock %}
+{% block description %}{% if topic_intro and topic_intro.lede %}{{ topic_intro.lede }}{% else %}{{ articles|length }} original articles on {{ topic }} by Dr. Hernani Costa, PhD. Practitioner analysis and strategic frameworks for European SMEs, published via First AI Movers.{% endif %}{% endblock %}
 {% block og_type %}website{% endblock %}
 {% block head_extra %}
 <meta name="article:author" content="https://drhernanicosta.com">
@@ -56,8 +56,28 @@
 <h1>{{ topic }}</h1>
 <p class="meta">{{ articles|length }} articles · Latest: {{ articles[0].published_date }}</p>
 
+{% if topic_intro and topic_intro.lede %}
+<p class="lede">{{ topic_intro.lede }}</p>
+{% else %}
 <p class="lede">Every article in the First AI Movers archive tagged <strong>{{ topic }}</strong>. Each article's canonical home is on its publishing property — Radar, the newsletter, Insights, Voices, or a third-party platform — linked from each title below.</p>
+{% endif %}
 
+{% if topic_intro and (topic_intro.key_themes or topic_intro.why_it_matters) %}
+<section class="topic-intro" aria-label="About this topic">
+  {% if topic_intro.key_themes %}
+  <h2>Key themes</h2>
+  <ul class="key-themes">
+    {% for theme in topic_intro.key_themes %}<li>{{ theme }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  {% if topic_intro.why_it_matters %}
+  <h2>Why it matters</h2>
+  <p>{{ topic_intro.why_it_matters }}</p>
+  {% endif %}
+</section>
+{% endif %}
+
+<h2 class="articles-heading">Articles ({{ articles|length }})</h2>
 {% for article in articles %}
   {% include "partials/article_card.html.j2" %}
 {% endfor %}
