@@ -126,6 +126,42 @@ a:hover { color: var(--link-hover); }
 .stats b { display: block; font-size: 1.35rem; color: var(--text); }
 .stats span { color: var(--muted); font-size: 0.85rem; }
 
+/* Curated intro block on topic hub pages */
+.topic-intro {
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0 2rem;
+}
+.topic-intro h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+.topic-intro h2:not(:first-child) { margin-top: 1.25rem; }
+.topic-intro p { margin: 0; }
+.topic-intro ul.key-themes {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0;
+}
+.topic-intro ul.key-themes li {
+  margin: 0.35rem 0;
+  font-size: 0.97rem;
+  line-height: 1.55;
+}
+h2.articles-heading {
+  font-size: 1.15rem;
+  margin-top: 2rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+
 /* Article card */
 .card {
   border-bottom: 1px solid var(--rule);

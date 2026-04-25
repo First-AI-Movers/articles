@@ -1,0 +1,116 @@
+{
+  "_comment": "Curated lede + key themes + why-it-matters per canonical topic. Rendered at the top of each /topics/<slug>/ page. Topics absent from this file fall back to the generic lede in topic.html.j2. Topic keys must match canonical_topics.json exactly. Schema: {lede: str, key_themes: [str, ...], why_it_matters: str}.",
+  "version": 1,
+  "intros": {
+    "European SME AI": {
+      "lede": "European small and mid-sized enterprises adopt AI under different constraints than US tech: tighter cash, stricter regulation, fewer ML hires, and customers who notice when a chatbot answers in the wrong language. The articles in this topic are written for that operating reality.",
+      "key_themes": [
+        "Practical adoption playbooks for 10-500-person companies — not Fortune-500 transformation theatre",
+        "Working with EU AI Act, GDPR, and national regulators as a budget item, not a blocker",
+        "Multilingual product, sovereign data hosting, and EU-based vendor selection",
+        "Fractional leadership models (CAIO, AI advisor) that match SME headcount and budget",
+        "Sector cuts: manufacturing, biotech, professional services, B2B SaaS, healthcare across DE / FR / NL / Nordics / Iberia / CEE"
+      ],
+      "why_it_matters": "Most AI strategy content presumes a US enterprise context that European SMEs cannot replicate. This corpus translates the underlying ideas into decisions a European founder, COO, or department head can actually make this quarter — given the team, vendors, and regulators they actually have."
+    },
+    "AI Strategy": {
+      "lede": "AI strategy is the question of where AI shows up on the income statement, who owns it, and what gets cut to make room. The articles below treat it as an operating-model problem first and a model-selection problem a distant second.",
+      "key_themes": [
+        "From pilot to P&L: moving past prototype demos into recurring cost or revenue",
+        "Build-vs-buy and the new make-or-rent calculus for foundation-model APIs",
+        "Roadmaps that survive a frontier-model jump every 4–6 months",
+        "Org design: who owns the AI budget, the model choices, and the failure modes",
+        "Measuring ROI when the productivity gains land outside the team that paid for them"
+      ],
+      "why_it_matters": "Strategy decisions made before model selection — what to automate, what to keep human, who reviews outputs, what the failure cost is — determine whether AI adoption pays back. Picking the wrong workflow with the best model still loses money. These articles foreground the strategic choices that hold up across model generations."
+    },
+    "AI Governance": {
+      "lede": "AI governance is the boring scaffolding that keeps a deployed model from becoming a regulatory event, a data leak, or a brand crisis. It is also a competitive moat: the firms that govern well ship faster because they can defend what they shipped.",
+      "key_themes": [
+        "Model inventory, risk classification, and human-in-the-loop placement",
+        "Audit trails, evals, and red-teaming as recurring practice rather than launch-week theatre",
+        "Vendor due diligence: what to demand from foundation-model providers and AI vendors",
+        "Shadow AI: detecting and channeling employee tool use without killing the productivity gain",
+        "Board-level reporting cadences and the right metrics to surface upward"
+      ],
+      "why_it_matters": "The companies that treat governance as cost-center compliance lose twice — they slow down their builders and still fail audits. The companies that treat it as product practice gain audit-ready velocity and clearer ownership when something goes wrong. These articles document the second pattern."
+    },
+    "AI Productivity Tools": {
+      "lede": "AI productivity tooling has shifted from novelty chatbots to deeply integrated copilots inside IDEs, browsers, sales stacks, and meeting workflows. The win is no longer raw model quality; it is which surface area you let the model touch.",
+      "key_themes": [
+        "Coding copilots and agentic dev environments (Claude Code, Cursor, agent harnesses)",
+        "Knowledge work: research, drafting, summarization, meeting capture",
+        "Personal workflows vs team workflows — where org-wide rollouts actually pay back",
+        "Hidden costs: review burden, context switching, output verification",
+        "Picking three tools well rather than ten tools poorly"
+      ],
+      "why_it_matters": "Productivity tooling is where most companies meet AI for the first time, and where the biggest gap opens between teams that adopt with intent and teams that paper-license everyone. These articles separate the surface metrics (seats, usage) from the underlying ones (cycle time, defect rate, hours reclaimed)."
+    },
+    "EU AI Act": {
+      "lede": "The EU AI Act is the first horizontal AI law to bind a major economic bloc, with phased obligations through 2026 and 2027. Most companies are still treating it as a 2027 problem; the ones treating it as a 2025 design constraint are pulling ahead.",
+      "key_themes": [
+        "The risk pyramid (prohibited / high-risk / limited-risk / minimal) and where typical SME use cases land",
+        "GPAI obligations and what they mean for downstream deployers",
+        "Article 4 AI literacy duties — staff training as a compliance line, not an HR perk",
+        "Harmonised standards, conformity assessment, and the role of notified bodies",
+        "Practical interplay with GDPR, the Data Act, NIS2, and the Cyber Resilience Act"
+      ],
+      "why_it_matters": "Compliance teams that read the Act late will discover that some choices — vendor selection, training-data documentation, transparency disclosures — are nearly impossible to retrofit. Reading it early turns it into a procurement specification. These articles aim to make that early reading possible."
+    },
+    "AI Workflow Automation": {
+      "lede": "Workflow automation is where AI stops being a feature and starts being labour. The interesting question is not which tasks an LLM can do — it is which sequences of tasks survive being chained without a human in the middle.",
+      "key_themes": [
+        "Task decomposition: breaking a job into LLM-shaped versus deterministic steps",
+        "Orchestration tooling — n8n, Make, Zapier with AI, plus code-first agent harnesses",
+        "Reliability engineering: retries, validation, dead-letter queues for LLM outputs",
+        "Knowing when to insert review checkpoints versus letting an agent run end-to-end",
+        "Cost modelling per workflow at scale, not per token in isolation"
+      ],
+      "why_it_matters": "The first 70% of an automated workflow is fast to build and deceptively impressive in a demo. The last 30% — error handling, edge cases, observability — is where the real engineering happens, and where most pilots quietly stall. These articles foreground the hard 30%."
+    },
+    "GDPR & Data Privacy": {
+      "lede": "GDPR predates LLMs but governs them. Every prompt that contains personal data, every embedding stored in a vector index, and every model fine-tuned on customer records sits inside the same legal framework that has shaped European data practice since 2018.",
+      "key_themes": [
+        "Lawful basis for AI processing: legitimate interests, consent, and contract performance",
+        "Data minimisation versus the LLM temptation to dump everything into context",
+        "Cross-border transfers, US cloud risk, and the case for EU-based inference",
+        "DPIAs for AI deployments and how supervisory authorities are reading them",
+        "Subject rights — access, deletion, portability — when training data is involved"
+      ],
+      "why_it_matters": "AI projects that ignore GDPR until launch get rebuilt at launch. Projects that bring data-protection reasoning into the design phase ship once. The articles in this topic are written for builders who want to be in the second category, and for DPOs who want builders in their organization to land there."
+    },
+    "AI Agents": {
+      "lede": "AI agents are the move from \"call a model\" to \"hand a model a goal and a set of tools.\" The agent year so far has been a practical reckoning with how much autonomy works in production — and where humans still need to be in the loop.",
+      "key_themes": [
+        "Agent loops: planner / executor / critic patterns and where each fails",
+        "Tool use, function calling, and the engineering of well-typed tool surfaces",
+        "Multi-agent systems: when delegation actually outperforms one strong model",
+        "Browser agents and computer use — the first agents that touch the open web at scale",
+        "Eval harnesses, replay debugging, and observability for non-deterministic systems"
+      ],
+      "why_it_matters": "The hype-cycle distance between \"agents will replace knowledge workers\" and \"agents that complete a 30-step task without supervision\" is enormous. These articles track the actual deployable capability, the failure modes that matter, and the org changes that make agentic systems pay back."
+    },
+    "Healthcare AI": {
+      "lede": "Healthcare is the highest-stakes proving ground for AI: regulated, multilingual, life-affecting, and full of unstructured data. The articles in this topic cover deployments that have to meet clinical, regulatory, and patient-trust bars simultaneously.",
+      "key_themes": [
+        "MDR / IVDR overlay with the EU AI Act for clinical AI tools",
+        "Clinical decision support, triage, and documentation copilots in EU health systems",
+        "Diagnostic imaging, pathology, and the eval discipline they have built up",
+        "Patient-facing applications: privacy, language, and trust calibration",
+        "AI in pharma R&D, biotech operations, and contract research"
+      ],
+      "why_it_matters": "Healthcare AI does not get to ship the way consumer AI ships. The standards for evidence, transparency, and post-market monitoring are higher, and rightly so. These articles document what works inside those constraints — and why those constraints are quietly producing some of the most reliable AI deployments in the European market."
+    },
+    "B2B SaaS Growth": {
+      "lede": "AI is reshaping B2B SaaS on both sides of the contract: the product is becoming AI-native, and the go-to-market motion that sells it is becoming AI-augmented. The companies that figure out both sides at once are the ones repricing the category.",
+      "key_themes": [
+        "AI-native product wedges versus AI-feature retrofits in mature SaaS",
+        "Pricing: per-seat, per-action, per-outcome — and which holds up under usage growth",
+        "Pipeline generation, ABM, and lifecycle ops with AI in the loop",
+        "Customer success and retention when product value depends on usage depth",
+        "Positioning against AI-native incumbents from a pre-AI codebase"
+      ],
+      "why_it_matters": "Most SaaS roadmaps still budget AI as a feature line. The companies winning are budgeting it as a pricing-model and GTM-motion change. These articles surface the operating decisions — pricing, packaging, sales-engineering investment — that distinguish the two postures."
+    }
+  }
+}
