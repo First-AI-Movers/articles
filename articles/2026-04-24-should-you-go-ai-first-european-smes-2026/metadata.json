@@ -1,18 +1,31 @@
 {
-    "id":"recY7eG5SsxChSbbZ",
-    "title":"Should You Redesign Your Business Processes to Be AI-First?",
-    "slug":"should-you-go-ai-first-european-smes-2026",
-    "folder": "2026-04-24-should-you-go-ai-first-european-smes-2026",
-    "published_date": "2026-04-24",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/should-you-go-ai-first-european-smes-2026",
-    "tags":["AI-first business processes","AI-assisted workflows","European SME transformation","AI implementation framework","AI process redesign","AI governance for SMEs"],
-    "word_count": 1395,
-    "read_time_minutes":7,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recY7eG5SsxChSbbZ",
+  "title": "Should You Redesign Your Business Processes to Be AI-First?",
+  "slug": "should-you-go-ai-first-european-smes-2026",
+  "folder": "2026-04-24-should-you-go-ai-first-european-smes-2026",
+  "published_date": "2026-04-24",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/should-you-go-ai-first-european-smes-2026",
+  "tags": [
+    "AI-first business processes",
+    "AI-assisted workflows",
+    "European SME transformation",
+    "AI implementation framework",
+    "AI process redesign",
+    "AI governance for SMEs"
+  ],
+  "word_count": 1395,
+  "read_time_minutes": 7,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "Business Process Automation",
+    "AI Strategy",
+    "European SME AI",
+    "AI Governance"
+  ]
 }

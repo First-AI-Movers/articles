@@ -1,11 +1,216 @@
 {
-  "last_updated": "2026-04-24",
-  "total_articles": 789,
+  "last_updated": "2026-04-25",
+  "total_articles": 799,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-04-24-ai-agent-swarms-european-smes-2026",
+      "title": "AI Agent Swarms: What European SMEs Need to Know in 2026",
+      "published_date": "2026-04-24",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "AI agent deployment",
+        "multi-agent AI systems",
+        "SME workflow automation",
+        "AI risk management"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "AI Agents",
+        "Multi-Agent Systems",
+        "AI Workflow Automation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-agent-swarms-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-ai-consulting-budapest-tech-smes-2026",
+      "title": "AI Consulting for Budapest Tech and SaaS SMEs in 2026",
+      "published_date": "2026-04-24",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for Hungarian SMEs",
+        "AI consulting for SaaS companies",
+        "data protection in AI",
+        "AI feature development compliance",
+        "Budapest tech sector challenges",
+        "AI productivity tools for software teams"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "B2B SaaS Growth",
+        "AI Consulting",
+        "GDPR & Data Privacy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-budapest-tech-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-ai-consulting-geneva-life-sciences-smes-2026",
+      "title": "AI Consulting for Geneva Life Sciences and Pharma SMEs in 2026",
+      "published_date": "2026-04-24",
+      "tags": [
+        "AI consulting for life sciences",
+        "nDSG compliance for SMEs",
+        "AI adoption in pharma",
+        "Swissmedic regulations",
+        "EU AI Act implications",
+        "biotech AI use cases"
+      ],
+      "topics": [
+        "AI Consulting",
+        "AI Governance",
+        "European SME AI",
+        "AI Strategy",
+        "EU AI Act",
+        "Healthcare AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-geneva-life-sciences-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-ai-consulting-krakow-it-services-smes-2026",
+      "title": "AI Consulting for Krakow IT Services SMEs: A Dual-Market Guide",
+      "published_date": "2026-04-24",
+      "tags": [
+        "AI compliance for Krakow SMEs",
+        "UODO and GDPR obligations",
+        "German client procurement standards",
+        "Polish funding for AI development",
+        "DORA readiness for IT services",
+        "AI strategy for software houses"
+      ],
+      "topics": [
+        "AI Governance",
+        "European SME AI",
+        "GDPR & Data Privacy",
+        "DACH AI",
+        "AI Strategy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-krakow-it-services-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-ai-consulting-lyon-tech-biotech-smes-2026",
+      "title": "AI Consulting for Lyon Tech and Biotech SMEs: A Practical Engagement Guide",
+      "published_date": "2026-04-24",
+      "tags": [
+        "AI adoption strategies for SMEs",
+        "French regulatory compliance for AI",
+        "CIR tax credit for AI projects",
+        "AI consulting for biotech firms",
+        "AI implementation roadmap",
+        "EU AI Act implications for SMEs"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Strategy",
+        "AI Regulation",
+        "AI Governance",
+        "France and Benelux AI",
+        "Healthcare AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-lyon-tech-biotech-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-ai-data-residency-guide-european-smes-2026",
+      "title": "Where Does Your AI Vendor's Data Go? A Practical EU Residency Guide for SMEs",
+      "published_date": "2026-04-24",
+      "tags": [
+        "EU data residency guidelines",
+        "GDPR compliance for SMEs",
+        "AI vendor data management",
+        "AI tool usage policy",
+        "AI governance for European businesses",
+        "AI risk assessment frameworks"
+      ],
+      "topics": [
+        "Data Sovereignty",
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "European SME AI",
+        "AI Risk Management"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-data-residency-guide-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-ai-tools-finance-accounting-european-smes-2026",
+      "title": "AI Tools for Finance and Accounting Teams in European SMEs",
+      "published_date": "2026-04-24",
+      "tags": [
+        "AI tools for finance teams",
+        "GDPR compliance for SMEs",
+        "VAT automation solutions",
+        "AI vendor evaluation criteria",
+        "financial report generation",
+        "accounts payable automation",
+        "EU AI Act implications"
+      ],
+      "topics": [
+        "AI for Finance Teams",
+        "Fintech AI",
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "European SME AI",
+        "AI Vendor Evaluation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-tools-finance-accounting-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-chatgpt-5-features-european-business-teams-2026",
+      "title": "ChatGPT 5 for European Business Teams: What Changed and What to Do Next",
+      "published_date": "2026-04-24",
+      "tags": [
+        "ChatGPT 5 features",
+        "EU data compliance checklist",
+        "AI integration for SMEs",
+        "business process automation",
+        "AI policy updates",
+        "multimodal AI capabilities"
+      ],
+      "topics": [
+        "GPT Models",
+        "AI Governance",
+        "European SME AI",
+        "AI Strategy",
+        "Business Process Automation",
+        "AI Policy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/chatgpt-5-features-european-business-teams-2026"
+    },
+    {
+      "folder": "2026-04-24-should-you-go-ai-first-european-smes-2026",
+      "title": "Should You Redesign Your Business Processes to Be AI-First?",
+      "published_date": "2026-04-24",
+      "tags": [
+        "AI-first business processes",
+        "AI-assisted workflows",
+        "European SME transformation",
+        "AI implementation framework",
+        "AI process redesign",
+        "AI governance for SMEs"
+      ],
+      "topics": [
+        "Business Process Automation",
+        "AI Strategy",
+        "European SME AI",
+        "AI Governance"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/should-you-go-ai-first-european-smes-2026"
+    },
     {
       "folder": "2026-04-23-ai-consulting-berlin-tech-startup-smes-2026",
       "title": "AI Consulting for Berlin Tech Startups and SMEs: What to Expect in 2026",
@@ -5998,6 +6203,28 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://www.firstaimovers.com/p/linkedin-360brew-semantic-ai-visibility-strategy-2026"
+    },
+    {
+      "folder": "2026-01-23-the-human-element-in-ai-what-every-european-sme-must-pr",
+      "title": "The Human Element in AI: What Every European SME Must Preserve as AI Scales",
+      "published_date": "2026-01-23",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "human oversight in AI",
+        "AI integration frameworks",
+        "responsible AI use",
+        "SME AI strategy"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "AI Strategy",
+        "Responsible AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/the-human-element-in-ai-what-every-european-sme-must-preserve-as-ai-scales"
     },
     {
       "folder": "2026-01-22-information-products-ending-ai-strategic-learning-eu-sm",
