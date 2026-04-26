@@ -1,18 +1,32 @@
 {
-    "id":"recpRbEgujkBNGl91",
-    "title":"AI Data Quality Framework for European SMEs: What to Fix Before You Deploy",
-    "slug":"ai-data-quality-framework-european-smes-2026",
-    "folder": "2026-04-25-ai-data-quality-framework-european-smes-2026",
-    "published_date": "2026-04-25",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-data-quality-framework-european-smes-2026",
-    "tags":["AI data quality framework","GDPR compliance for SMEs","data quality assessment","AI deployment checklist","data cleaning pipelines","AI project success factors"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recpRbEgujkBNGl91",
+  "title": "AI Data Quality Framework for European SMEs: What to Fix Before You Deploy",
+  "slug": "ai-data-quality-framework-european-smes-2026",
+  "folder": "2026-04-25-ai-data-quality-framework-european-smes-2026",
+  "published_date": "2026-04-25",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-data-quality-framework-european-smes-2026",
+  "tags": [
+    "AI data quality framework",
+    "GDPR compliance for SMEs",
+    "data quality assessment",
+    "AI deployment checklist",
+    "data cleaning pipelines",
+    "AI project success factors"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GDPR & Data Privacy",
+    "AI Governance",
+    "European SME AI",
+    "AI Strategy",
+    "AI PMO"
+  ]
 }

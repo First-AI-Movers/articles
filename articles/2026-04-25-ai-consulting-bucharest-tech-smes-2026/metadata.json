@@ -1,18 +1,36 @@
 {
-    "id":"recIW9Fji8mLhirCY",
-    "title":"AI Consulting for Bucharest Tech SMEs in 2026",
-    "slug":"ai-consulting-bucharest-tech-smes-2026",
-    "folder": "2026-04-25-ai-consulting-bucharest-tech-smes-2026",
-    "published_date": "2026-04-25",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-consulting-bucharest-tech-smes-2026",
-    "tags":["AI consulting for Bucharest SMEs","EU AI Act compliance","Romanian tech sector regulations","AI strategy for fintech","digital transformation in Romania","cybersecurity compliance for SMEs"],
-    "word_count": 2185,
-    "read_time_minutes":10,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [" ai-strategy","compliance-audit "],
-    "status": "published"
+  "id": "recIW9Fji8mLhirCY",
+  "title": "AI Consulting for Bucharest Tech SMEs in 2026",
+  "slug": "ai-consulting-bucharest-tech-smes-2026",
+  "folder": "2026-04-25-ai-consulting-bucharest-tech-smes-2026",
+  "published_date": "2026-04-25",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-consulting-bucharest-tech-smes-2026",
+  "tags": [
+    "AI consulting for Bucharest SMEs",
+    "EU AI Act compliance",
+    "Romanian tech sector regulations",
+    "AI strategy for fintech",
+    "digital transformation in Romania",
+    "cybersecurity compliance for SMEs"
+  ],
+  "word_count": 2185,
+  "read_time_minutes": 10,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [
+    "ai-strategy",
+    "compliance-audit"
+  ],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Consulting",
+    "EU AI Act",
+    "AI Governance",
+    "Fintech AI",
+    "AI Strategy"
+  ]
 }

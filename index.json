@@ -1,11 +1,237 @@
 {
-  "last_updated": "2026-04-25",
-  "total_articles": 799,
+  "last_updated": "2026-04-26",
+  "total_articles": 809,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-04-25-ai-consulting-bratislava-tech-smes-2026",
+      "title": "AI Consulting for Bratislava Tech SMEs in 2026",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI consulting for Bratislava SMEs",
+        "EU AI Act compliance",
+        "NIS2 cybersecurity requirements",
+        "Slovakia digital transformation funding",
+        "cross-border compliance for tech companies",
+        "AI use cases in automotive and fintech",
+        "AI strategy for European SMEs"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Consulting",
+        "EU AI Act",
+        "AI Governance",
+        "AI Change Management",
+        "Fintech AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-bratislava-tech-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-ai-consulting-bucharest-tech-smes-2026",
+      "title": "AI Consulting for Bucharest Tech SMEs in 2026",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI consulting for Bucharest SMEs",
+        "EU AI Act compliance",
+        "Romanian tech sector regulations",
+        "AI strategy for fintech",
+        "digital transformation in Romania",
+        "cybersecurity compliance for SMEs"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Consulting",
+        "EU AI Act",
+        "AI Governance",
+        "Fintech AI",
+        "AI Strategy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-bucharest-tech-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-ai-consulting-sofia-tech-fintech-smes-2026",
+      "title": "AI Consulting for Sofia Tech and Fintech SMEs: What You Need to Know in 2026",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI adoption for Bulgarian SMEs",
+        "Sofia fintech compliance",
+        "EU AI Act implications",
+        "CPDP regulations in Bulgaria",
+        "AI consulting engagement models",
+        "AI use case prioritization",
+        "DORA requirements for fintech"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Strategy",
+        "AI Governance",
+        "Fintech AI",
+        "EU AI Act",
+        "AI Consulting"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-sofia-tech-fintech-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-ai-consulting-tallinn-digital-tech-smes-2026",
+      "title": "AI Consulting for Tallinn Digital and Tech SMEs: What You Need to Know in 2026",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI adoption for Estonian SMEs",
+        "EU AI Act compliance",
+        "Tallinn tech ecosystem",
+        "AI consulting engagement",
+        "e-Estonia infrastructure",
+        "NIS2 compliance for tech companies",
+        "AI features in SaaS products"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Strategy",
+        "EU AI Act",
+        "AI Governance",
+        "AI Consulting",
+        "B2B SaaS Growth"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-tallinn-digital-tech-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-ai-data-quality-framework-european-smes-2026",
+      "title": "AI Data Quality Framework for European SMEs: What to Fix Before You Deploy",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI data quality framework",
+        "GDPR compliance for SMEs",
+        "data quality assessment",
+        "AI deployment checklist",
+        "data cleaning pipelines",
+        "AI project success factors"
+      ],
+      "topics": [
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "European SME AI",
+        "AI Strategy",
+        "AI PMO"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-data-quality-framework-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-ai-for-operations-managers-european-smes-2026",
+      "title": "AI Adoption for Operations Managers: A Practical Playbook for EU SMEs",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI adoption strategies for SMEs",
+        "process automation in European SMEs",
+        "AI tool selection for operations",
+        "EU AI Act compliance for SMEs",
+        "AI pilot execution best practices",
+        "scaling AI in small businesses"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Strategy",
+        "EU AI Act",
+        "AI Governance"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-for-operations-managers-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-ai-tools-customer-service-helpdesk-european-smes-2026",
+      "title": "AI Tools for Customer Service: What European SMEs Need to Know in 2026",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI tools for customer service",
+        "GDPR compliance for SMEs",
+        "AI-powered helpdesk solutions",
+        "conversational AI for European businesses",
+        "AI-assisted customer support",
+        "AI deployment strategies for SMEs"
+      ],
+      "topics": [
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "European SME AI",
+        "AI for Operations",
+        "AI Strategy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-tools-customer-service-helpdesk-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-ai-tools-for-legal-operations-european-smes-2026",
+      "title": "AI Tools for Legal Operations: An EU SME Guide for 2026",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI tools for legal operations",
+        "EU AI Act compliance",
+        "contract review automation",
+        "GDPR compliance tracking",
+        "employment documentation AI",
+        "regulatory monitoring solutions"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "GDPR & Data Privacy",
+        "AI Regulation",
+        "AI Observability"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-tools-for-legal-operations-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-ai-vendor-management-playbook-european-smes-2026",
+      "title": "AI Vendor Management Playbook for EU SMEs",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI vendor management for SMEs",
+        "EU AI Act compliance",
+        "SLA monitoring for AI vendors",
+        "Quarterly vendor reviews",
+        "AI contract renewal strategies",
+        "Compliance reassessment for AI tools"
+      ],
+      "topics": [
+        "European SME AI",
+        "EU AI Act",
+        "AI Governance",
+        "AI Observability"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-vendor-management-playbook-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-eu-ai-act-professional-services-accounting-compliance-2",
+      "title": "EU AI Act for Accounting and Professional Services Firms: A 2026 Guide",
+      "published_date": "2026-04-25",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "AI tool risk classification",
+        "professional services AI obligations",
+        "AI compliance checklist",
+        "accounting firm AI deployment"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "Professional Services AI",
+        "AI for Finance Teams",
+        "AI Strategy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-professional-services-accounting-compliance-2026"
+    },
     {
       "folder": "2026-04-24-ai-agent-swarms-european-smes-2026",
       "title": "AI Agent Swarms: What European SMEs Need to Know in 2026",

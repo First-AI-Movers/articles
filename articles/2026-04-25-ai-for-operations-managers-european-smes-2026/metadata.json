@@ -1,18 +1,31 @@
 {
-    "id":"rec1Z7xtBsRj6FuHi",
-    "title":"AI Adoption for Operations Managers: A Practical Playbook for EU SMEs",
-    "slug":"ai-for-operations-managers-european-smes-2026",
-    "folder": "2026-04-25-ai-for-operations-managers-european-smes-2026",
-    "published_date": "2026-04-25",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-for-operations-managers-european-smes-2026",
-    "tags":["AI adoption strategies for SMEs","process automation in European SMEs","AI tool selection for operations","EU AI Act compliance for SMEs","AI pilot execution best practices","scaling AI in small businesses"],
-    "word_count": 1745,
-    "read_time_minutes":8,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec1Z7xtBsRj6FuHi",
+  "title": "AI Adoption for Operations Managers: A Practical Playbook for EU SMEs",
+  "slug": "ai-for-operations-managers-european-smes-2026",
+  "folder": "2026-04-25-ai-for-operations-managers-european-smes-2026",
+  "published_date": "2026-04-25",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-for-operations-managers-european-smes-2026",
+  "tags": [
+    "AI adoption strategies for SMEs",
+    "process automation in European SMEs",
+    "AI tool selection for operations",
+    "EU AI Act compliance for SMEs",
+    "AI pilot execution best practices",
+    "scaling AI in small businesses"
+  ],
+  "word_count": 1745,
+  "read_time_minutes": 8,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Strategy",
+    "EU AI Act",
+    "AI Governance"
+  ]
 }
