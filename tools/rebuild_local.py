@@ -806,6 +806,100 @@ def _render_markdown(md_text):
     return _sanitize_html(raw_html)
 
 
+# ---------------------------------------------------------------------------
+# Article-page helpers (E7)
+# ---------------------------------------------------------------------------
+_READING_WPM = 200
+_HEADING_RE = re.compile(r"<(h[23])([^>]*)>(.*?)</\1>", re.IGNORECASE | re.DOTALL)
+
+
+def _reading_time(md_text):
+    """Estimate reading time in minutes from markdown text.
+
+    Strips front matter, counts whitespace-separated words, and rounds
+    to the nearest minute with a minimum of 1.
+    """
+    body = _strip_front_matter(md_text).lstrip()
+    words = len(body.split())
+    return max(1, round(words / _READING_WPM))
+
+
+def _inject_heading_ids(body_html):
+    """Add id attributes to h2/h3 tags and return (modified_html, headings_list).
+
+    headings_list contains dicts: {level: int, text: str, id: str}.
+    Preserves existing ids. Deduplicates generated ids deterministically.
+    """
+    headings = []
+    seen_ids = set()
+
+    def _slugify_id(text):
+        base = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+        if not base:
+            base = "heading"
+        uid = base
+        suffix = 1
+        while uid in seen_ids:
+            uid = f"{base}-{suffix}"
+            suffix += 1
+        seen_ids.add(uid)
+        return uid
+
+    def _replace(m):
+        tag = m.group(1).lower()
+        attrs = m.group(2)
+        content = m.group(3)
+        plain = re.sub(r"<[^>]+>", "", content)
+        existing_id = re.search(r'\sid="([^"]*)"', attrs)
+        if existing_id:
+            hid = existing_id.group(1)
+            seen_ids.add(hid)
+        else:
+            hid = _slugify_id(plain)
+            attrs = f' id="{hid}"{attrs}'
+        headings.append({"level": int(tag[1]), "text": plain, "id": hid})
+        return f'<{tag}{attrs}>{content}</{tag}>'
+
+    new_html = _HEADING_RE.sub(_replace, body_html)
+    return new_html, headings
+
+
+def _related_articles_for_article(target, all_articles, limit=3):
+    """Return up to `limit` related articles ranked by topic overlap.
+
+    Ranking:
+      1. Higher topic overlap first
+      2. Newer published_date second
+      3. Title alphabetical as tie-breaker
+    """
+    target_topics = set(target.get("topics") or [])
+    target_slug = target.get("slug") or target.get("folder", "")
+    scored = []
+
+    def _neg_date(iso):
+        try:
+            y, m, d = iso.split("-")
+            return (-int(y), -int(m), -int(d))
+        except (ValueError, AttributeError):
+            return (0, 0, 0)
+
+    for a in all_articles:
+        a_slug = a.get("slug") or a.get("folder", "")
+        if a_slug == target_slug:
+            continue
+        overlap = len(target_topics & set(a.get("topics") or []))
+        if overlap > 0:
+            scored.append({
+                "overlap": overlap,
+                "date_key": _neg_date(a.get("published_date", "")),
+                "title": a.get("title", ""),
+                "article": a,
+            })
+
+    scored.sort(key=lambda x: (-x["overlap"], x["date_key"], x["title"]))
+    return [s["article"] for s in scored[:limit]]
+
+
 def _enrich_articles(articles):
     """Decorate each index article with fields the templates need."""
     enriched = []
@@ -962,7 +1056,11 @@ def build_site(index):
         if not md_path.exists():
             print(f"[site] warning: missing article.md for {a.get('folder')}; skipping local page", file=sys.stderr)
             continue
-        body_html = _render_markdown(md_path.read_text(encoding="utf-8", errors="replace"))
+        md_text = md_path.read_text(encoding="utf-8", errors="replace")
+        body_html = _render_markdown(md_text)
+        body_html, toc_headings = _inject_heading_ids(body_html)
+        reading_time = _reading_time(md_text)
+        related = _related_articles_for_article(a, articles, limit=3)
         local_path = a.get("local_path", _article_local_path(a))
         # Remove leading slash for output_relpath
         output_relpath = local_path.lstrip("/") + "index.html"
@@ -976,7 +1074,10 @@ def build_site(index):
                 summary=a.get("summary", ""),
                 body_html=body_html,
                 license=a.get("license", "CC BY 4.0"),
-                folder=a.get("folder", ""))
+                folder=a.get("folder", ""),
+                reading_time=reading_time,
+                toc_headings=toc_headings,
+                related_articles=related)
         article_pages += 1
 
     # 404
