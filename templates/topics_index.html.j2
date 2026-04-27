@@ -19,9 +19,19 @@
 <h1>All Topics</h1>
 <p class="lede">{{ topic_entries|length }} canonical topics across {{ stats.total }} articles. {{ topics_with_page|length }} topics have dedicated hub pages; topics with fewer than {{ min_articles_for_page }} articles are shown inline.</p>
 
+<div class="search-box">
+  <label for="archive-search" class="visually-hidden">Search articles</label>
+  <input type="search" id="archive-search" placeholder="Search articles by title, topic, or tag…" aria-label="Search articles">
+  <div id="search-results" class="search-results" aria-live="polite"></div>
+</div>
+
 <ul class="topic-list">
 {% for entry in topic_entries %}
   <li>{% if entry.slug %}<a href="{{ rel_root }}topics/{{ entry.slug }}/">{{ entry.name }}</a>{% else %}<span class="inert">{{ entry.name }}</span>{% endif %}<span class="count">({{ entry.count }})</span></li>
 {% endfor %}
 </ul>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ rel_root }}search.js"></script>
 {% endblock %}
