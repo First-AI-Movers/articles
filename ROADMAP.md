@@ -54,6 +54,20 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 | **E12** | GSC cross-domain verification + sitemap re-submission | Verify 5 hosts (articles / radar / www / insights / voices) under one Search Console property; add `Sitemap:` line to robots.txt on each canonical site you control; resubmit `/sitemap.xml`. | 💻 | S |
 | **E13** | Live-site QA + Lighthouse + spot-check | Open articles.firstaimovers.com on phone & laptop; Lighthouse / PageSpeed run; review 5 topic hubs for content quality; check social-share previews after E5 ships. | 💻 | S |
 
+## Phase 7 — Professionalization (portfolio-grade hardening)
+
+The first six phases delivered the archive. This phase makes the repository read as a professional, defensible, contributor-ready project: secret-scanning gates, a non-monolithic test suite + browser-level E2E, a documentation pipeline that stays current automatically, a deliberate visual layer, and explicit governance for a public-but-protected repo with a documented external content-push path.
+
+| # | Epic | What ships | Tag | Effort |
+|---|---|---|:---:|:---:|
+| **E14** | Security tooling & supply-chain hygiene | `gitleaks` action on PR + push with `.gitleaks.toml` allowlist for documented placeholders; `dependabot.yml` (weekly, pip + Actions); GitHub native secret-scanning + push-protection enabled; one-shot content scrub `tools/scrub_presigned_urls.py` (idempotent, replaces beehiiv `<audio>` blocks containing third-party presigned URLs); appended "Supported security tooling" section in `SECURITY.md`; gitleaks dry-run test against a known-bad fixture. **No history rewrite** — repository scan was clean for real secrets. | 📱 | S |
+| **E15a** | Unit-test refactor | Split `tools/tests/test_tools.py` (3,029 lines) into per-module test files (`test_index_build.py`, `test_sitemap.py`, `test_feed.py`, `test_llms_corpus.py`, `test_site_build.py`, `test_topic_intros.py`, `test_quick_reads.py`, `test_per_article_pages.py`, `test_atomic_io.py`, `test_normalize_tags.py`, `test_check_duplicate_titles.py`, `test_search_index.py`); shared fixtures in `conftest.py`; `tools/tests/README.md` documenting layout; CI flips from `pytest -v` to `pytest -W error -ra --tb=short`; redundancy triage. | 📱 | M |
+| **E15b** | Playwright E2E suite | `tests-e2e/` with Playwright Test using `getByRole`/`getByLabel`; ~12-15 specs covering golden paths (home → topics → topic-page intro/fallback, per-article TOC + reading-time + breadcrumb, 404 noindex, theme toggle persistence, search box, feed/sitemap parse, About JSON-LD, skip-link reachability); `axe-playwright` accessibility checks; runs against built `site/` via local static server in CI; new `.github/workflows/e2e.yml` (PR + nightly); trace + HTML report artifacts on failure. | 📱 | M |
+| **E16** | Documentation pipeline + dynamic docs | New `docs/` folder with `ARCHITECTURE.md` (Mermaid dataflow), `OPERATIONS.md` (runbooks), `CHANGELOG.md` (auto-built from squash-merge titles via `tools/build_changelog.py`); centralizes README/ROADMAP/ABOUT stat-patches into `tools/update_docs.py` with `<!-- BEGIN/END auto -->` markers; idempotency tested; wired into `build-and-deploy.yml` before commit. | 📱 | M |
+| **E17** | Design overhaul (Pico.css + self-hosted fonts) | Vendor Pico.css under `static/vendor/` (no CDN — reproducible builds); thin custom layer keeps existing `.topic-intro` / `.quick-reads` / `.card` overrides; self-host Inter + JetBrains Mono (OFL) under `static/fonts/` (no Google Fonts call); typography rhythm fixes; `lighthouse-ci` step in CI uploading report as PR artifact (non-blocking initially); 4 Playwright `expect(page).toHaveScreenshot()` baselines (home, topic-with-intro, per-article, about) — added in E15b; `docs/DESIGN.md` documenting tokens, scale, breakpoints. | 📱 | M |
+| **E18** | Governance + dual content-push paths | **(1) Repo policy:** add `LICENSE-CODE` (Apache-2.0) for `tools/`, `templates/`, `static/`, `.github/`; keep `LICENSE` (CC BY 4.0) for `articles/`; `README.md` + `CONTRIBUTING.md` updated to clarify the split (Kubernetes-style). `.github/CODEOWNERS` requiring owner approval on `/articles/`, `/tools/`, `/templates/`, `/static/`, `/.github/`. Issue templates (`bug.yml`, `content-correction.yml`, `security.yml`). Documented branch-protection rules (PR required, CI green, linear history, no force-push). **(2) External content-push (Flow B):** `.github/workflows/ingest-article.yml` listening on `repository_dispatch` event `new-article`; `tools/ingest_article.py` validates payload against new `tools/article_schema.json`, writes `articles/<slug>/{article.md,metadata.json}`, opens a PR via `peter-evans/create-pull-request@v6` (preserves "only owners merge" rule); fine-grained PAT in sender repo, `contents:write` + `actions:read` scoped to this repo only; `docs/EXTERNAL_PUBLISHING.md` with copy-pasteable payload + sender setup; round-trip test (payload fixture → ingester writes valid files → `rebuild_local.py` succeeds). **(3) Showcase polish:** README badges (article count, tests passing, license, last build, Lighthouse score), 3-line elevator pitch, screenshot, "How this works" diagram. Tag `v1.0` release with auto-generated notes from `CHANGELOG.md`. | 📱 | M |
+| **E19** | Resolve duplicate-title soft gate | Editorial pass on the 6 historical duplicate title pairs (see Known hardening follow-up below) — append date or property qualifier ("… (April 2026)" / "… — Radar") per the existing recommendation. Remove `continue-on-error: true` from `Check for duplicate article titles` step in `.github/workflows/tests.yml`. Test confirming the gate is now blocking. | 📱 | XS |
+
 ## Suggested execution order
 
 1. ~~E1 → E2 → E3 → E4~~ — ✅ **Phase 1 complete.** All 77 topic hub pages have curated intros; 67 have Quick reads.
@@ -63,8 +77,15 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 5. ~~E8~~ — test coverage + duplicate-title gate + atomic writes. ✅ Done.
 6. ~~E9~~ — docs + workflow polish. ✅ Done.
 7. ~~E10~~ — client-side internal search. ✅ Done.
-8. **E11** — accessibility audit + fixes. ✅ Done.
-9. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
+8. ~~E11~~ — accessibility audit + fixes. ✅ Done.
+9. **E14** — security tooling + supply-chain hygiene (cheap; gates the contributor surface E18 will widen).
+10. **E19** — clear the duplicate-title soft gate so `pytest -W error` from E15a can land cleanly.
+11. **E15a** — split the 3,029-line test monolith. Precondition for E15b.
+12. **E15b** — Playwright E2E suite locking in everything that's shipped.
+13. **E18** — governance + external content-push (Flow B via `repository_dispatch` → PR; never direct main push).
+14. **E16** — dynamic docs pipeline so the new docs from E18 stay current automatically.
+15. **E17** — design overhaul, ship last so E15b screenshot baselines stick.
+16. **E12 / E13** — your turn on the MacBook anytime after Phase 7 ships.
 
 ## Status snapshot — completed
 
