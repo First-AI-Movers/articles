@@ -1,8 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+(function() {
+  var stored = localStorage.getItem('theme');
+  if (stored === 'light' || stored === 'dark') {
+    document.documentElement.setAttribute('data-theme', stored);
+  }
+})();
+</script>
 <title>{% block title %}{{ site_title }}{% endblock %}</title>
 <meta name="description" content="{% block description %}{{ site_description }}{% endblock %}">
 {% block robots %}<meta name="robots" content="index, follow">{% endblock %}
@@ -33,6 +41,7 @@
     <a href="{{ rel_root }}topics/">Topics</a>
     <a href="{{ rel_root }}about/">About</a>
     <a href="{{ site_url }}/feed.xml">Feed</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light mode" type="button">Light mode</button>
   </nav>
 </header>
 
@@ -60,5 +69,24 @@
     <span><a href="https://github.com/First-AI-Movers/articles">View source on GitHub</a></span>
   </div>
 </footer>
+<script>
+(function() {
+  var toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+  function updateLabel() {
+    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+    toggle.textContent = current === 'dark' ? 'Light mode' : 'Dark mode';
+    toggle.setAttribute('aria-label', current === 'dark' ? 'Toggle light mode' : 'Toggle dark mode');
+  }
+  updateLabel();
+  toggle.addEventListener('click', function() {
+    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateLabel();
+  });
+})();
+</script>
 </body>
 </html>
