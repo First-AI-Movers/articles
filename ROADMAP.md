@@ -36,7 +36,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| **E8** | Test coverage + duplicate-title CI gate + atomic writes | Adds: feed byte-stability test, XSS resistance test, llms-full byte-stability test, duplicate-title CI gate (fails PR if duplicates). Refactors 769-file metadata.json writes to temp-dir + atomic rename pattern. | 📱 | M |
+| ~~E8~~ | ~~Test coverage + duplicate-title CI gate + atomic writes~~ | ✅ **Done.** Feed + JSON Feed byte-stability tests, llms-full + llms-recent byte-stability tests, XSS resistance tests (title, summary, topic intro, JSON-LD), atomic metadata writes via `tools/_atomic_io.py`, Jinja2 autoescape fix for `.j2` templates. Duplicate-title gate is implemented (`tools/check_duplicate_titles.py`) but currently **soft** (`continue-on-error: true` in CI) because 6 historical duplicate title pairs exist — see Known hardening follow-up below. | 📱 | M |
 | **E9** | Docs + workflow polish | `CONTRIBUTING.md`, PR template, `SECURITY.md`, rename `rebuild-index.yml` → `build-and-deploy.yml`. | 📱 | S |
 
 ## Phase 5 — Optional value-add
@@ -60,9 +60,10 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 2. ~~E5~~ — JSON Feed + social footer + OG image plumbing. ✅ Done.
 3. ~~E6~~ — per-article HTML pages renderer. ✅ Done.
 4. ~~E7~~ — per-article enhancements (related articles, TOC, reading time, breadcrumbs). ✅ Done.
-5. **E8 + E9** — hardening and workflow polish. Next recommended epic pair.
-6. **E10 / E11** — optional polish.
-7. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
+5. ~~E8~~ — test coverage + duplicate-title gate + atomic writes. ✅ Done.
+6. **E9** — docs + workflow polish. Next recommended epic.
+7. **E10 / E11** — optional polish.
+8. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
 
 ## Status snapshot — completed
 
@@ -86,5 +87,21 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #19** ROADMAP cleanup + raw-HTML sanitizer follow-up
 - **PR #20** Dark mode default + light toggle
 - **PR #21** Per-article enhancements: TOC, reading time, breadcrumbs, related articles — E7
+- **PR #23** E8 archive hardening: duplicate-title gate, atomic writes, feed/LLMS byte-stability tests, XSS coverage, Jinja2 autoescape fix — E8
 
-Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **819 local article pages**, **166 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **819 local article pages**, **186 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+
+## Known hardening follow-up
+
+The duplicate-title CI gate (`tools/check_duplicate_titles.py`) currently runs with `continue-on-error: true` because 6 historical duplicate title pairs exist. All 6 are **different articles with the same title** (not genuine duplicate content), so the fix requires an editorial decision to disambiguate titles.
+
+| # | Duplicate title | Folders | Dates | Canonical hosts | Classification |
+|---|---|---|---|---|---|
+| 1 | AI Consulting in Amsterdam for European SMEs | `2026-04-03-ai-consulting-amsterdam-european-smes-1`<br>`2026-03-26-ai-consulting-amsterdam-european-smes` | 2026-04-03<br>2026-03-26 | Radar<br>Radar | **b** — same title, different article (revised version; `-1` suffix suggests republish) |
+| 2 | AI Readiness vs. AI Consulting | `2026-04-03-ai-readiness-vs-ai-consulting`<br>`2026-03-26-ai-readiness-vs-ai-consulting-smes` | 2026-04-03<br>2026-03-26 | Radar<br>Radar | **b** — same title, different article (different slugs and topics) |
+| 3 | The CEO Playbook for the First 90 Days of AI Adoption | `2026-04-03-ceo-playbook-first-90-days-ai-adoption-1`<br>`2026-03-26-ceo-playbook-first-90-days-ai-adoption` | 2026-04-03<br>2026-03-26 | Radar<br>Radar | **b** — same title, different article (revised version; `-1` suffix suggests republish) |
+| 4 | What GitHub's Coding Agent Changes for Product Teams | `2026-04-03-github-coding-agent-product-teams-1`<br>`2026-03-26-github-coding-agent-product-teams` | 2026-04-03<br>2026-03-26 | Radar<br>Radar | **b** — same title, different article (revised version; `-1` suffix suggests republish) |
+| 5 | Why Your Company Needs a Sovereign Media Engine | `2026-03-26-sovereign-media-engine-owned-audience-2026`<br>`2026-01-28-sovereign-media-engine-for-your-company` | 2026-03-26<br>2026-01-28 | Radar<br>First AI Movers | **b** — same title, different article (cross-property republication) |
+| 6 | Your Website Is Answering the Wrong Questions | `2026-02-09-content-strategy-funnel-architecture-guide`<br>`2026-01-30-your-website-is-answering-the-wrong-questions` | 2026-02-09<br>2026-01-28 | Radar<br>First AI Movers | **b** — same title, different article (cross-property republication) |
+
+**Recommended resolution:** Append a date or property qualifier to disambiguate (e.g., "… (April 2026)" or "… — Radar"). Once all 6 are resolved, remove `continue-on-error: true` from the `Check for duplicate article titles` step in `.github/workflows/tests.yml` to make the gate blocking.
