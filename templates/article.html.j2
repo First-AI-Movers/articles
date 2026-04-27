@@ -78,6 +78,9 @@
       <p class="related-meta">{{ ra.published_date }} · {{ ra.canonical_host_label }}</p>
     </article>
     {% endfor %}
+    {% if topics and topics[0] in topics_with_page %}
+    <p class="explore-topic"><a href="{{ rel_root }}topics/{{ topic_slug(topics[0]) }}/">Explore all {{ topics[0] }} articles →</a></p>
+    {% endif %}
   </section>
   {% endif %}
 
