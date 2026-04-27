@@ -302,13 +302,10 @@ class TestRebuildLocalSitemap:
     REPO_ROOT rather than returning XML. Tests redirect REPO_ROOT to a
     temp directory and parse the written file.
 
-    Support-files block emits 11 URLs: home(1) + /about/(1) + /topics/(1) +
-    8 weekly (ABOUT, CITATION, hernanicosta.json, llms.txt, llms-full.txt,
-    llms-recent.txt, index.json, feed.xml) + README.md(1) = 12 support
-    URLs. Article URLs are emitted only when the canonical_url host is in
-    CANONICAL_ALLOWED_HOSTS. Topic hub URLs are emitted for every topic
-    with >= MIN_ARTICLES_FOR_TOPIC_PAGE articles in the index
-    (SAMPLE_INDEX has no `topics` field, so zero).
+    Sitemap contains only indexable HTML pages on articles.firstaimovers.com:
+    home(1) + /about/(1) + /topics/(1) + topic hubs for topics with
+    >= MIN_ARTICLES_FOR_TOPIC_PAGE articles. Raw data files, feeds, and
+    cross-host canonical article URLs are intentionally excluded.
     """
 
     SITEMAP_NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
@@ -331,16 +328,16 @@ class TestRebuildLocalSitemap:
     def test_url_count_with_sample_index(self, monkeypatch, tmp_path):
         """SAMPLE_INDEX has 3 articles, all on allow-listed hosts, zero topics."""
         xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
-        # home(1) + about(1) + topics(1) + 9 weekly + README(1) = 13 support
-        # + 3 allow-listed articles + 0 topic hubs = 16
-        assert xml.count("<url>") == 16
+        # home(1) + about(1) + topics(1) + 0 topic hubs = 3
+        assert xml.count("<url>") == 3
 
-    def test_article_entries_use_canonical_urls(self, monkeypatch, tmp_path):
+    def test_sitemap_excludes_cross_host_canonicals(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
-        assert "https://radar.firstaimovers.com/test-one" in xml
-        assert "https://radar.firstaimovers.com/test-two" in xml
-        assert "https://insights.firstaimovers.com/test-three" in xml
-        # No fabricated /articles/<folder>/ paths
+        # Canonical article URLs on external hosts are excluded from sitemap
+        assert "https://radar.firstaimovers.com/test-one" not in xml
+        assert "https://radar.firstaimovers.com/test-two" not in xml
+        assert "https://insights.firstaimovers.com/test-three" not in xml
+        # No fabricated /articles/<folder>/ paths either
         assert "/articles/2026-04-04-test-article-one/" not in xml
 
     def test_third_party_canonicals_are_skipped(self, monkeypatch, tmp_path):
@@ -355,8 +352,8 @@ class TestRebuildLocalSitemap:
         xml = self._run(monkeypatch, tmp_path, articles)
         assert "linkedin.com" not in xml
         assert "medium.com" not in xml
-        # Only support URLs remain: home + about + topics + 9 weekly + README = 13
-        assert xml.count("<url>") == 13
+        # Only support URLs remain: home + about + topics = 3
+        assert xml.count("<url>") == 3
 
     def test_uses_correct_base_url(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, [])
@@ -372,14 +369,22 @@ class TestRebuildLocalSitemap:
                 assert url.find("s:priority", ns).text == "1.0"
                 break
 
-    def test_article_lastmod_uses_published_date(self, monkeypatch, tmp_path):
+    def test_sitemap_excludes_data_files(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
-        assert "<lastmod>2026-04-04</lastmod>" in xml
+        assert ".md" not in xml
+        assert ".json" not in xml
+        assert ".txt" not in xml
+        assert ".cff" not in xml
+        assert "feed.xml" not in xml
+        assert "feed.json" not in xml
+        assert "llms.txt" not in xml
+        assert "index.json" not in xml
+        assert "hernanicosta.json" not in xml
 
     def test_empty_index_emits_only_support_urls(self, monkeypatch, tmp_path):
         xml = self._run(monkeypatch, tmp_path, [])
-        # home + about + topics + 9 weekly + README = 13
-        assert xml.count("<url>") == 13
+        # home + about + topics = 3
+        assert xml.count("<url>") == 3
 
     def test_topic_hub_urls_emitted_for_threshold_topics(self, monkeypatch, tmp_path):
         """Topics with >= MIN_ARTICLES_FOR_TOPIC_PAGE articles get a sitemap URL."""
@@ -411,7 +416,7 @@ class TestRebuildLocalSitemap:
              "tags": [], "funnel_stage": "middle", "canonical_url": ""},
         ]
         xml = self._run(monkeypatch, tmp_path, articles)
-        assert xml.count("<url>") == 13  # only support URLs (13 total)
+        assert xml.count("<url>") == 3  # only support URLs (3 total)
 
 
 # =========================================================================
@@ -1527,17 +1532,14 @@ class TestJsonFeed:
         m.build_site(index)
         assert (tmp_path / "site" / "feed.json").exists()
 
-    def test_feed_json_in_sitemap(self):
+    def test_feed_urls_not_in_sitemap(self, monkeypatch, tmp_path):
         m = self._mod()
-        # feed.xml is in the mirror_files list; feed.json should also be in sitemap
-        # Spot-check by looking at what build_sitemap emits for a minimal index
-        import io
-        from xml.etree.ElementTree import fromstring
-        # We can't easily run build_sitemap without full fixture, but we can verify
-        # the URL patterns are consistent by inspecting the function source.
-        import inspect
-        src = inspect.getsource(m.build_sitemap)
-        assert "feed.json" in src or "feed.xml" in src
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        m.build_sitemap({"articles": []})
+        xml = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
+        # Feed URLs are excluded from sitemap — they belong on their own host
+        assert "feed.xml" not in xml
+        assert "feed.json" not in xml
 
 
 class TestDarkMode:

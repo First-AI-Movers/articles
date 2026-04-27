@@ -275,17 +275,13 @@ def build_sitemap(index):
     urlset = Element("urlset")
     urlset.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
 
-    # articles.firstaimovers.com stays in the sitemap as the raw-data / LLM
-    # mirror AND now as the host of topic hub pages. Weekly changefreq for the
-    # root (not daily — root is mostly stable).
+    # articles.firstaimovers.com indexable pages only:
+    # homepage, about, topics index, and topic hub pages.
+    # Raw data files, feeds, and cross-host canonical article URLs are
+    # intentionally excluded — they belong on their own host's sitemap.
     _add_url(urlset, f"{SITE_BASE}/", today, "weekly", "1.0")
     _add_url(urlset, f"{SITE_BASE}/about/", today, "monthly", "0.6")
     _add_url(urlset, f"{SITE_BASE}/topics/", today, "weekly", "0.7")
-    for path in ("ABOUT.md", "CITATION.cff", "hernanicosta.json", "llms.txt",
-                 "llms-full.txt", "llms-recent.txt", "index.json", "feed.xml",
-                 "feed.json"):
-        _add_url(urlset, f"{SITE_BASE}/{path}", today, "weekly", "0.5")
-    _add_url(urlset, f"{SITE_BASE}/README.md", today, "weekly", "0.7")
 
     # Topic hub pages — unique curated content we own. These are the strongest
     # self-canonical pages on this domain and should be advertised explicitly.
@@ -296,34 +292,12 @@ def build_sitemap(index):
                  today, "weekly", "0.7")
         topic_urls += 1
 
-    # Article URLs: emit each article's declared canonical, not a fabricated
-    # articles.firstaimovers.com path. The canonical fields point to where
-    # the article actually lives (newsletter, radar, insights, voices).
-    skipped_external = 0
-    skipped_malformed = 0
-    emitted = 0
-    for article in index["articles"]:
-        parsed = _clean_canonical(article.get("canonical_url"))
-        if parsed is None:
-            skipped_malformed += 1
-            continue
-        canonical, host = parsed
-        if host not in CANONICAL_ALLOWED_HOSTS:
-            skipped_external += 1
-            continue
-        _add_url(urlset, canonical,
-                 article.get("published_date") or today, "monthly", "0.8")
-        emitted += 1
-
     raw = tostring(urlset, encoding="unicode")
     pretty = parseString(raw).toprettyxml(indent="  ", encoding="UTF-8").decode("utf-8")
     cleaned = "\n".join(line for line in pretty.split("\n") if line.strip()) + "\n"
     from _atomic_io import atomic_write_text
     atomic_write_text(REPO_ROOT / "sitemap.xml", cleaned)
-    print(f"[sitemap.xml] urls={cleaned.count('<url>')} "
-          f"article_urls={emitted} topic_urls={topic_urls} "
-          f"skipped_external={skipped_external} "
-          f"skipped_malformed={skipped_malformed}")
+    print(f"[sitemap.xml] urls={cleaned.count('<url>')} topic_urls={topic_urls}")
 
 
 # ---------------------------------------------------------------------------
