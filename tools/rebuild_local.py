@@ -262,7 +262,8 @@ def build_sitemap(index):
     _add_url(urlset, f"{SITE_BASE}/about/", today, "monthly", "0.6")
     _add_url(urlset, f"{SITE_BASE}/topics/", today, "weekly", "0.7")
     for path in ("ABOUT.md", "CITATION.cff", "hernanicosta.json", "llms.txt",
-                 "llms-full.txt", "llms-recent.txt", "index.json", "feed.xml"):
+                 "llms-full.txt", "llms-recent.txt", "index.json", "feed.xml",
+                 "feed.json"):
         _add_url(urlset, f"{SITE_BASE}/{path}", today, "weekly", "0.5")
     _add_url(urlset, f"{SITE_BASE}/README.md", today, "weekly", "0.7")
 
@@ -384,6 +385,50 @@ def _feed_link_for(article):
         return parsed[0]
     folder = article.get("folder", "")
     return f"{SITE_BASE}/articles/{folder}/article.md"
+
+
+def build_json_feed(index):
+    """Emit JSON Feed 1.1 with the FEED_MAX_ENTRIES most recent articles.
+
+    Sibling to feed.xml — same content, different format. Written to
+    feed.json at repo root and mirrored into site/ during build.
+    """
+    articles = index["articles"][:FEED_MAX_ENTRIES]
+    feed_updated = (articles[0]["published_date"] if articles else str(date.today())) + "T00:00:00Z"
+
+    items = []
+    for a in articles:
+        parsed = _clean_canonical(a.get("canonical_url"))
+        canonical = parsed[0] if parsed else (a.get("canonical_url") or "")
+        category_source = a.get("topics") or a.get("tags") or []
+        summary = _extract_summary(a["folder"], a["title"], a["published_date"])
+
+        item = {
+            "id": f"tag:articles.firstaimovers.com,{a['published_date']}:{a['folder']}",
+            "url": canonical,
+            "title": a["title"],
+            "date_published": f"{a['published_date']}T00:00:00Z",
+            "tags": category_source[:FEED_CATEGORIES_PER_ENTRY],
+        }
+        if summary:
+            item["content_text"] = summary
+        items.append(item)
+
+    feed = {
+        "version": "https://jsonfeed.org/version/1.1",
+        "title": "First AI Movers — Article Archive",
+        "home_page_url": "https://firstaimovers.com",
+        "feed_url": f"{SITE_BASE}/feed.json",
+        "description": "Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act "
+                       "compliance, governance, and agentic systems for European SMEs.",
+        "authors": [{"name": "Dr. Hernani Costa", "url": "https://drhernanicosta.com"}],
+        "language": "en",
+        "items": items,
+    }
+
+    (REPO_ROOT / "feed.json").write_text(
+        json.dumps(feed, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"[feed.json] entries={len(items)} feed_updated={feed_updated}")
 
 
 def build_feed(index):
@@ -882,6 +927,10 @@ def build_site(index):
         src = REPO_ROOT / name
         if src.exists():
             (staging / name).write_bytes(src.read_bytes())
+    # JSON Feed sibling to Atom feed
+    json_feed = REPO_ROOT / "feed.json"
+    if json_feed.exists():
+        (staging / "feed.json").write_bytes(json_feed.read_bytes())
     # Google verification file (google*.html) — pick up any matches.
     for f in REPO_ROOT.glob("google*.html"):
         (staging / f.name).write_bytes(f.read_bytes())
@@ -910,4 +959,5 @@ if __name__ == "__main__":
     build_feed(idx)
     build_llms_full(idx)
     build_llms_recent(idx)
+    build_json_feed(idx)
     build_site(idx)
