@@ -23,7 +23,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| **E5** | JSON Feed + social footer + social metadata plumbing | `/feed.json` in JSON Feed 1.1 format, visible author social-links footer (LinkedIn / podcast / YouTube), conditional `og:image` template plumbing — no generated images. | 📱 | M |
+| ~~E5~~ | ~~JSON Feed + social footer + social metadata plumbing~~ | ✅ **Done.** `/feed.json` in JSON Feed 1.1 format, visible author social-links footer (LinkedIn / podcast / YouTube), conditional `og:image` template plumbing — no generated images. | 📱 | M |
 
 ## Phase 3 — V2 site features (per-article pages)
 
@@ -57,8 +57,8 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 ## Suggested execution order
 
 1. ~~E1 → E2 → E3 → E4~~ — ✅ **Phase 1 complete.** All 77 topic hub pages have curated intros; 67 have Quick reads.
-2. **E5** — social-share / OG image visibility. Next recommended epic.
-3. **E6 + E7** — per-article rendering (the biggest remaining v1 → v2 step).
+2. ~~E5~~ — JSON Feed + social footer + OG image plumbing. ✅ Done.
+3. **E6 + E7** — per-article rendering (the biggest remaining v1 → v2 step). Next recommended epic.
 4. **E8 + E9** — hardening, can interleave with content phases.
 5. **E10 / E11** — optional polish.
 6. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
@@ -80,5 +80,6 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #12** Topic narratives E3 — final 42 topics
 - **PR #13** Topic narratives E3 — final 42 topic intros (continuation)
 - **PR #14** Topic-page Quick reads E4 — TL;DR digest blocks
+- **PR #16** JSON Feed (`/feed.json`) + social footer + `og:image` template plumbing — E5
 
-Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, 102 tests on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, 112 tests on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
