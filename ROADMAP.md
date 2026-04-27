@@ -30,7 +30,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
 | ~~E6~~ | ~~Per-article HTML pages — renderer~~ | ✅ **Done.** `/articles/<slug>/` for every article. `<meta name=robots content="noindex,follow">` + `<link rel=canonical>` to external canonical. Schema.org `Article` JSON-LD per page. Raw-HTML safety audit passed. | 📱 | L |
-| **E7** | Per-article enhancements | Related-articles strip (topic overlap), table of contents, reading-time chip, breadcrumb. | 📱 | M |
+| ~~E7~~ | ~~Per-article enhancements~~ | ✅ **Done.** Related-articles strip (topic overlap), table of contents, reading-time chip, breadcrumb. | 📱 | M |
 
 ## Phase 4 — Hardening & ops
 
@@ -59,14 +59,14 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 1. ~~E1 → E2 → E3 → E4~~ — ✅ **Phase 1 complete.** All 77 topic hub pages have curated intros; 67 have Quick reads.
 2. ~~E5~~ — JSON Feed + social footer + OG image plumbing. ✅ Done.
 3. ~~E6~~ — per-article HTML pages renderer. ✅ Done.
-4. **E7** — per-article enhancements (related articles, TOC, reading time, breadcrumbs). Next recommended epic.
-5. **E8 + E9** — hardening, can interleave with content phases.
+4. ~~E7~~ — per-article enhancements (related articles, TOC, reading time, breadcrumbs). ✅ Done.
+5. **E8 + E9** — hardening and workflow polish. Next recommended epic pair.
 6. **E10 / E11** — optional polish.
 7. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
 
 ## Status snapshot — completed
 
-The roadmap below is what's *remaining*. For context, here's what already shipped (10 PRs, all merged):
+The roadmap below is what's *remaining*. For context, here's what already shipped (13 PRs, all merged):
 
 - **PR #2** Auto-rebuild CI workflow
 - **PR #3** Sitemap canonical fix (per-article canonical, allowlist)
@@ -83,5 +83,8 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #14** Topic-page Quick reads E4 — TL;DR digest blocks
 - **PR #16** JSON Feed (`/feed.json`) + social footer + `og:image` template plumbing — E5
 - **PR #18** Per-article HTML pages renderer + raw-HTML safety audit — E6
+- **PR #19** ROADMAP cleanup + raw-HTML sanitizer follow-up
+- **PR #20** Dark mode default + light toggle
+- **PR #21** Per-article enhancements: TOC, reading time, breadcrumbs, related articles — E7
 
-Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **819 local article pages**, **137 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **819 local article pages**, **166 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
