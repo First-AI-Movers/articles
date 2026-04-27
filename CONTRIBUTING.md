@@ -82,6 +82,10 @@ The archive supports [IndexNow](https://www.indexnow.org/) for notifying Bing, Y
 - The script reads `sitemap.xml`, filters to `articles.firstaimovers.com` indexable pages only, and validates the URL set before submission.
 - The CI workflow runs `--dry-run` after every deploy (non-blocking).
 
+## Search visibility monitoring
+
+See [`docs/search-visibility-monitoring.md`](docs/search-visibility-monitoring.md) for the weekly GSC/Bing/IndexNow checklist, metrics template, escalation rules, and bot-access validation commands.
+
 ## PR workflow
 
 1. **Branch from `main`.**
