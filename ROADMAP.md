@@ -43,7 +43,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| **E10** | Client-side internal search | JS-only fuzzy search over `index.json`. Search box on home + topics index. No backend. | Hybrid | M |
+| ~~E10~~ | ~~Client-side internal search~~ | ✅ **Done.** JS-only fuzzy search over `index.json`. Search box on home + topics index. No backend. | 📱 | M |
 | ~~E11~~ | ~~Accessibility audit + fixes~~ | ✅ **Done.** Skip link on all pages, `<main id="main-content">` landmark, visible `:focus-visible` states for links/buttons, theme toggle `aria-pressed`, breadcrumb `aria-label`, primary nav label, dark-mode muted contrast fix, `prefers-reduced-motion` support. | 📱 | S |
 | *(deferred)* | Harvest canonical publisher OG images | Where canonical article pages already have OG images, harvest and reference them in archive topic pages. Requires MacBook + publisher API access. | 💻 | M |
 
@@ -62,13 +62,13 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 4. ~~E7~~ — per-article enhancements (related articles, TOC, reading time, breadcrumbs). ✅ Done.
 5. ~~E8~~ — test coverage + duplicate-title gate + atomic writes. ✅ Done.
 6. ~~E9~~ — docs + workflow polish. ✅ Done.
-7. **E10** — client-side internal search. Next available repo-side task.
+7. ~~E10~~ — client-side internal search. ✅ Done.
 8. **E11** — accessibility audit + fixes. ✅ Done.
 9. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
 
 ## Status snapshot — completed
 
-The roadmap below is what's *remaining*. For context, here's what already shipped (13 PRs, all merged):
+The roadmap below is what's *remaining*. For context, here's what already shipped (22 PRs, all merged):
 
 - **PR #2** Auto-rebuild CI workflow
 - **PR #3** Sitemap canonical fix (per-article canonical, allowlist)
@@ -91,8 +91,9 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #23** E8 archive hardening: duplicate-title gate, atomic writes, feed/LLMS byte-stability tests, XSS coverage, Jinja2 autoescape fix — E8
 - **PR #25** E9 workflow polish: `CONTRIBUTING.md`, `SECURITY.md`, PR template, workflow rename — E9
 - **PR #27** E11 accessibility polish: skip link, focus states, theme toggle semantics, breadcrumb labels — E11
+- **PR #29** E10 client-side search: vanilla-JS search over `index.json`, search box on home + topics index, 16 tests — E10
 
-Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **819 local article pages**, **206 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **819 local article pages**, **222 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
 
 ## Known hardening follow-up
 
