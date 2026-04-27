@@ -73,6 +73,7 @@ def build_index():
             continue
         articles.append({
             "folder": meta.get("folder"),
+            "slug": meta.get("slug"),
             "title": meta.get("title"),
             "published_date": meta.get("published_date"),
             "tags": meta.get("tags", []),
@@ -758,6 +759,31 @@ def _extract_tldr(folder):
     return None
 
 
+def _article_local_path(article):
+    """Return the local archive URL path for an article.
+
+    Prefers the metadata `slug` (present and unique for all 819 articles).
+    Falls back to `folder` if slug is missing for forward-compatibility.
+    """
+    slug = article.get("slug")
+    if slug:
+        return f"/articles/{slug}/"
+    folder = article.get("folder", "")
+    return f"/articles/{folder}/"
+
+
+def _render_markdown(md_text):
+    """Convert markdown text to safe HTML, stripping front matter first."""
+    try:
+        import markdown
+    except ImportError:
+        return "<p><em>Markdown renderer not available.</em></p>"
+    body = _strip_front_matter(md_text).lstrip()
+    if not body:
+        return ""
+    return markdown.markdown(body, extensions=["extra"])
+
+
 def _enrich_articles(articles):
     """Decorate each index article with fields the templates need."""
     enriched = []
@@ -770,6 +796,7 @@ def _enrich_articles(articles):
             "canonical_host_label": _canonical_host_label(canonical),
             "summary": _article_summary(a.get("folder", ""), a.get("title", ""), a.get("published_date", "")),
             "tldr": _extract_tldr(a.get("folder", "")),
+            "local_path": _article_local_path(a),
         })
     return enriched
 
@@ -906,6 +933,30 @@ def build_site(index):
         person_jsonld = "{}"
     _render("about.html.j2", "about/index.html", person_jsonld=person_jsonld)
 
+    # Per-article pages
+    article_pages = 0
+    for a in articles:
+        md_path = ARTICLES_DIR / a.get("folder", "") / "article.md"
+        if not md_path.exists():
+            print(f"[site] warning: missing article.md for {a.get('folder')}; skipping local page", file=sys.stderr)
+            continue
+        body_html = _render_markdown(md_path.read_text(encoding="utf-8", errors="replace"))
+        local_path = a.get("local_path", _article_local_path(a))
+        # Remove leading slash for output_relpath
+        output_relpath = local_path.lstrip("/") + "index.html"
+        _render("article.html.j2", output_relpath,
+                title=a["title"],
+                published_date=a["published_date"],
+                author=a.get("author", "Dr. Hernani Costa"),
+                canonical_url=a["canonical_url"],
+                canonical_host_label=a["canonical_host_label"],
+                topics=a.get("topics", []),
+                summary=a.get("summary", ""),
+                body_html=body_html,
+                license=a.get("license", "CC BY 4.0"),
+                folder=a.get("folder", ""))
+        article_pages += 1
+
     # 404
     _render("404.html.j2", "404.html")
 
@@ -936,7 +987,7 @@ def build_site(index):
         (staging / f.name).write_bytes(f.read_bytes())
 
     # Copy the full articles/ tree so raw .md and metadata.json keep serving.
-    shutil.copytree(REPO_ROOT / "articles", staging / "articles")
+    shutil.copytree(REPO_ROOT / "articles", staging / "articles", dirs_exist_ok=True)
 
     # Atomic swap: only now do we replace the real site/ dir with the freshly
     # built staging/. If anything above raised, staging is removed at the next
@@ -945,8 +996,8 @@ def build_site(index):
         shutil.rmtree(SITE_DIR)
     staging.rename(SITE_DIR)
 
-    total_pages = 1 + 1 + topic_pages + 1 + 1  # home + topics_index + topic pages + about + 404
-    print(f"[site] pages={total_pages} topic_pages={topic_pages} "
+    total_pages = 1 + 1 + topic_pages + 1 + 1 + article_pages  # home + topics_index + topic pages + about + 404 + articles
+    print(f"[site] pages={total_pages} topic_pages={topic_pages} article_pages={article_pages} "
           f"topics_with_page={len(topics_with_page)} min_articles={MIN_ARTICLES_FOR_TOPIC_PAGE} "
           f"topic_intros={topic_pages_with_intro}/{len(topic_intros)} out={SITE_DIR}")
 

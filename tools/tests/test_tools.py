@@ -88,6 +88,7 @@ SAMPLE_INDEX = {
     "articles": [
         {
             "folder": "2026-04-04-test-article-one",
+            "slug": "test-article-one",
             "title": "Test Article One",
             "published_date": "2026-04-04",
             "tags": ["AI strategy", "EU AI Act"],
@@ -96,6 +97,7 @@ SAMPLE_INDEX = {
         },
         {
             "folder": "2026-03-15-test-article-two",
+            "slug": "test-article-two",
             "title": "Test Article Two",
             "published_date": "2026-03-15",
             "tags": ["AI governance", "MCP"],
@@ -104,6 +106,7 @@ SAMPLE_INDEX = {
         },
         {
             "folder": "2025-06-01-test-article-three",
+            "slug": "test-article-three",
             "title": "Test Article Three",
             "published_date": "2025-06-01",
             "tags": ["AI strategy"],
@@ -328,8 +331,8 @@ class TestRebuildLocalSitemap:
     def test_url_count_with_sample_index(self, monkeypatch, tmp_path):
         """SAMPLE_INDEX has 3 articles, all on allow-listed hosts, zero topics."""
         xml = self._run(monkeypatch, tmp_path, SAMPLE_INDEX["articles"])
-        # home(1) + about(1) + topics(1) + 8 weekly + README(1) = 12 support
-        # + 3 allow-listed articles + 0 topic hubs = 15
+        # home(1) + about(1) + topics(1) + 9 weekly + README(1) = 13 support
+        # + 3 allow-listed articles + 0 topic hubs = 16
         assert xml.count("<url>") == 16
 
     def test_article_entries_use_canonical_urls(self, monkeypatch, tmp_path):
@@ -897,6 +900,7 @@ class TestBuildSite:
             for _ in range(count):
                 articles.append({
                     "folder": f"2026-04-{day:02d}-slug{day}",
+                    "slug": f"slug-{day}",
                     "title": f"Article {day}",
                     "published_date": f"2026-04-{day:02d}",
                     "tags": [],
@@ -984,13 +988,14 @@ class TestBuildSite:
         assert 'rel="canonical" href="https://articles.firstaimovers.com/topics/ai-strategy/"' in page
         assert 'name="robots" content="index, follow"' in page
 
-    def test_article_cards_link_to_canonical_not_self(self, monkeypatch, tmp_path):
+    def test_article_cards_link_to_local_page(self, monkeypatch, tmp_path):
         site = self._run(monkeypatch, tmp_path,
                          self._synthetic_index({"AI Governance": 6}))
         page = (site / "topics" / "ai-governance" / "index.html").read_text(encoding="utf-8")
+        # Title links to local archive page
+        assert 'href="../../articles/slug-1/"' in page
+        # CTA still links to external canonical
         assert "https://radar.firstaimovers.com/slug1" in page
-        # No self-links back to /articles/ paths on the site
-        assert 'href="/articles/' not in page
 
     def test_about_page_canonicals_to_drhernanicosta(self, monkeypatch, tmp_path):
         site = self._run(monkeypatch, tmp_path,
@@ -1310,6 +1315,7 @@ class TestQuickReads:
             for _ in range(count):
                 articles.append({
                     "folder": f"2026-04-{day:02d}-article-{day}",
+                    "slug": f"article-{day}",
                     "title": f"Article {day}",
                     "published_date": f"2026-04-{day:02d}",
                     "tags": [],
@@ -1581,3 +1587,216 @@ class TestSocialFooter:
         # No og:image should be emitted when no image asset exists
         assert "property=\"og:image\"" not in home
         assert "name=\"twitter:image\"" not in home
+
+
+# =========================================================================
+# Tests: rebuild_local.py per-article HTML pages (E6)
+# =========================================================================
+
+class TestArticlePages:
+    """Per-article HTML pages renderer. Requires jinja2 and markdown."""
+
+    def _mod(self):
+        pytest.importorskip("jinja2")
+        pytest.importorskip("markdown")
+        import rebuild_local
+        return rebuild_local
+
+    def _synthetic_index(self, n=3):
+        articles = []
+        for i in range(n):
+            day = 20 - i
+            articles.append({
+                "folder": f"2026-04-{day:02d}-article-{i}",
+                "slug": f"article-{i}",
+                "title": f"Test Article {i}",
+                "published_date": f"2026-04-{day:02d}",
+                "tags": ["AI Strategy"],
+                "topics": ["AI Strategy", "European SME AI"],
+                "funnel_stage": "middle",
+                "canonical_url": f"https://radar.firstaimovers.com/article-{i}",
+            })
+        return {"articles": articles}
+
+    def _run(self, monkeypatch, tmp_path, index):
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        import shutil
+        from pathlib import Path as P
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+
+        for a in index["articles"]:
+            folder = a["folder"]
+            (tmp_path / "articles" / folder).mkdir(exist_ok=True)
+            (tmp_path / "articles" / folder / "article.md").write_text(
+                f'---\ntitle: "{a["title"]}"\nauthor: "Dr. Hernani Costa"\n'
+                f'canonical_url: "{a["canonical_url"]}"\npublished_date: "{a["published_date"]}"\n'
+                f'license: "CC BY 4.0"\n---\n'
+                f'# {a["title"]}\n\n## Introduction\n\nThis is the introduction paragraph.\n\n'
+                f'## Key Point\n\n- Bullet one\n- Bullet two\n\n'
+                f'[A link](https://example.com)\n\n'
+                f'> A blockquote\n\n'
+                f'```python\nprint("hello")\n```\n',
+                encoding="utf-8")
+
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        m.build_site(index)
+        return tmp_path / "site"
+
+    # --- Route generation --------------------------------------------------
+
+    def test_article_local_path_uses_slug(self):
+        m = self._mod()
+        assert m._article_local_path({"slug": "my-article"}) == "/articles/my-article/"
+
+    def test_article_local_path_falls_back_to_folder(self):
+        m = self._mod()
+        assert m._article_local_path({"folder": "2026-04-01-my-article"}) == "/articles/2026-04-01-my-article/"
+
+    def test_article_local_path_prefers_slug_over_folder(self):
+        m = self._mod()
+        assert m._article_local_path({"slug": "slug", "folder": "folder"}) == "/articles/slug/"
+
+    # --- Page generation ---------------------------------------------------
+
+    def test_article_page_generated_for_each_article(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(3))
+        for i in range(3):
+            assert (site / "articles" / f"article-{i}" / "index.html").exists()
+
+    def test_article_page_contains_title(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert "Test Article 0" in page
+
+    def test_article_page_body_html_rendered(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert "<h2>Introduction</h2>" in page
+        assert "<li>Bullet one</li>" in page
+        assert "<li>Bullet two</li>" in page
+        assert '<a href="https://example.com">A link</a>' in page
+        assert "<blockquote>" in page
+        assert "<pre>" in page
+        assert "<code" in page
+
+    def test_article_page_front_matter_stripped(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert "---" not in page  # No raw front matter delimiters
+        assert "canonical_url:" not in page  # No front matter keys
+
+    def test_article_page_has_archive_notice(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert "Archive copy" in page
+        assert "read original" in page.lower() or "original at" in page.lower()
+
+    # --- Canonical protection ----------------------------------------------
+
+    def test_article_page_has_noindex_follow(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert 'name="robots" content="noindex, follow"' in page
+
+    def test_article_page_has_canonical_link(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert 'rel="canonical" href="https://radar.firstaimovers.com/article-0"' in page
+
+    def test_article_page_canonical_is_external_not_local(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert 'rel="canonical" href="https://articles.firstaimovers.com/articles/' not in page
+
+    # --- Schema.org JSON-LD ------------------------------------------------
+
+    def test_article_page_has_jsonld_article(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert 'application/ld+json' in page
+        assert '"@type": "Article"' in page or '"@type":"Article"' in page
+
+    def test_article_page_jsonld_has_required_fields(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        script_match = re.search(r'<script type="application/ld\+json">(.*?)</script>', page, re.DOTALL)
+        assert script_match is not None
+        data = json.loads(script_match.group(1))
+        assert data["@type"] == "Article"
+        assert data["headline"] == "Test Article 0"
+        assert data["datePublished"] == "2026-04-20"
+        assert data["author"]["name"] == "Dr. Hernani Costa"
+        assert data["publisher"]["name"] == "First AI Movers"
+        assert "creativecommons.org/licenses/by/4.0" in data["license"]
+
+    # --- Sitemap behavior --------------------------------------------------
+
+    def test_sitemap_does_not_include_local_article_pages(self, monkeypatch, tmp_path):
+        m = self._mod()
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        m.build_sitemap(self._synthetic_index(3))
+        xml = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
+        assert "/articles/article-0/" not in xml
+        assert "/articles/article-1/" not in xml
+        assert "/articles/article-2/" not in xml
+
+    # --- Article card linking ----------------------------------------------
+
+    def test_article_card_title_links_to_local_page(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        topic_page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        # Title should link to local article page
+        assert 'href="../../articles/article-0/"' in topic_page or 'href="../../articles/article-1/"' in topic_page
+
+    def test_article_card_cta_stays_external(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        topic_page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert "https://radar.firstaimovers.com/article-0" in topic_page
+        assert "Read at Radar" in topic_page or "Read at" in topic_page
+
+    # --- Feed stability ----------------------------------------------------
+
+    def test_feed_urls_unchanged(self, monkeypatch, tmp_path):
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        for a in self._synthetic_index(3)["articles"]:
+            d = tmp_path / "articles" / a["folder"]
+            d.mkdir(exist_ok=True)
+            (d / "article.md").write_text(f"---\ntitle: {a['title']}\n---\n# {a['title']}\n\nBody.\n")
+        m.build_feed(self._synthetic_index(3))
+        xml = (tmp_path / "feed.xml").read_text(encoding="utf-8")
+        assert "https://radar.firstaimovers.com/article-0" in xml
+        assert "/articles/article-0/" not in xml
+
+    # --- Build artifacts ---------------------------------------------------
+
+    def test_build_increases_page_count_by_article_count(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(5))
+        # home(1) + topics_index(1) + topic_pages(1) + about(1) + 404(1) + article_pages(5) = 10
+        article_pages = list((site / "articles").glob("*/index.html"))
+        assert len(article_pages) == 5
+
+    def test_no_article_md_files_mutated(self, monkeypatch, tmp_path):
+        index = self._synthetic_index(1)
+        site = self._run(monkeypatch, tmp_path, index)
+        # Verify article.md is unchanged
+        original = (tmp_path / "articles" / index["articles"][0]["folder"] / "article.md").read_text(encoding="utf-8")
+        assert "---" in original  # Still has front matter
+        assert "# Test Article 0" in original
+
+    def test_no_metadata_files_mutated(self, monkeypatch, tmp_path):
+        index = self._synthetic_index(1)
+        self._run(monkeypatch, tmp_path, index)
+        assert not (tmp_path / "articles" / index["articles"][0]["folder"] / "metadata.json").exists()
