@@ -1,6 +1,6 @@
 {
   "_comment": "Curated lede + key themes + why-it-matters per canonical topic. Rendered at the top of each /topics/<slug>/ page. Topics absent from this file fall back to the generic lede in topic.html.j2. Topic keys must match canonical_topics.json exactly. Schema: {lede: str, key_themes: [str, ...], why_it_matters: str}.",
-  "version": 1,
+  "version": 2,
   "intros": {
     "European SME AI": {
       "lede": "European small and mid-sized enterprises adopt AI under different constraints than US tech: tighter cash, stricter regulation, fewer ML hires, and customers who notice when a chatbot answers in the wrong language. The articles in this topic are written for that operating reality.",
@@ -111,6 +111,281 @@
         "Positioning against AI-native incumbents from a pre-AI codebase"
       ],
       "why_it_matters": "Most SaaS roadmaps still budget AI as a feature line. The companies winning are budgeting it as a pricing-model and GTM-motion change. These articles surface the operating decisions — pricing, packaging, sales-engineering investment — that distinguish the two postures."
+    },
+    "AI Cost Optimization": {
+      "lede": "AI cost optimization is not about cutting the AI budget; it is about knowing which queries deserve GPT-4, which run fine on a local 7B model, and which should never have been automated. The articles here treat inference spend as a procurement and architecture problem, not a finance afterthought.",
+      "key_themes": [
+        "Token budgeting and per-query cost allocation across model tiers",
+        "Build-vs-buy frameworks for the €120K AI investment decision",
+        "Fine-tuning versus RAG: when custom training pays back its compute bill",
+        "Intelligent query routing to cut inference costs without quality loss",
+        "Dev tool spend audits: finding leaks in Copilot, Claude, and agent subscriptions"
+      ],
+      "why_it_matters": "For a European SME running on tighter margins than its US competitors, an unmanaged AI tab can swallow the return on an entire automation project within two quarters. The articles below show how to audit current spend, negotiate vendor tiers with usage data in hand, and architect workflows that route cheap tasks to small models while reserving frontier APIs for decisions that actually move revenue."
+    },
+    "France and Benelux AI": {
+      "lede": "France and the Benelux are not small versions of the US AI market: they have distinct subsidy regimes, language requirements, data residency expectations, and industrial bases that shape what gets adopted and why. The articles below map tool choices and consulting approaches to the operating realities of Parisian tech SMEs, Antwerp port operators, and Belgian professional services firms.",
+      "key_themes": [
+        "Regional AI consulting models for Lyon biotech and Antwerp industrial SMEs",
+        "Language and data residency requirements in French and Benelux deployments",
+        "Claude, GPT-4o, and open-source model selection for mixed-language teams",
+        "Vector database and agent framework choices (Pinecone vs Weaviate, LangGraph vs CrewAI)",
+        "AI search visibility and algorithmic ranking in European markets"
+      ],
+      "why_it_matters": "A founder in Amsterdam or Lyon who copies the tooling stack of a San Francisco startup often ends up with GDPR headaches, French-language model failures, and missed regional innovation subsidies. The articles here help decision-makers pick architectures that satisfy local regulators, serve multilingual customers, and leverage the industrial and logistics strengths specific to the region."
+    },
+    "Claude Code": {
+      "lede": "Claude Code is not another autocomplete plugin; it is an agent that edits multiple files, runs tests, and can push to production if you let it. The articles below treat it as a team-wide tool that requires a rollout plan, a permissions model, and a billing ceiling before the first prompt.",
+      "key_themes": [
+        "Enterprise rollout playbooks for DACH and Dutch engineering teams",
+        "GDPR-compliant configuration and team permissions security",
+        "Cost management and billing controls for organization-wide adoption",
+        "Backend, API, and DevOps workflow automation beyond simple code generation",
+        "MCP integration and hooks for automating multi-step development pipelines"
+      ],
+      "why_it_matters": "European engineering leads who deploy Claude Code without a security model or spend cap often discover both problems in the same week, usually when a junior developer's agent loop generates a surprise invoice or touches production data. The articles here provide the configuration checklists, rollout timelines, and risk-aware operating models needed to adopt the tool across a team without creating a governance incident."
+    },
+    "Executive AI Literacy": {
+      "lede": "Executive AI literacy is the ability to ask whether an AI project deserves a budget line, not the ability to write a Python script. The articles below are written for founders and C-suite leaders who need to spot the real bottleneck in adoption, choose between an internal lead and an external partner, and govern tools their teams are already using.",
+      "key_themes": [
+        "The first 90 days: what a CEO should fund, measure, and halt",
+        "Internal AI lead versus external partner: the six-month decision that determines speed",
+        "Boardroom governance of ChatGPT Memory and other shadow AI tools",
+        "Prompt engineering and personal AI workflows as executive productivity infrastructure",
+        "Scaling AI from pilot to operating model without losing executive control"
+      ],
+      "why_it_matters": "Most European SME executives are two years behind their teams on AI tooling, which means governance decisions are made by employees who will not face the regulator or the customer. The articles here close that gap by giving leaders the specific frameworks, red flags, and vendor-agnostic literacy they need to fund the right projects, spot adoption theater, and maintain oversight of systems that are already running inside their companies."
+    },
+    "AI Coding Tools": {
+      "lede": "Choosing an AI coding tool in 2026 is less about which model scores higher on a benchmark and more about which workflow your team can standardize without creating a support burden. The articles below compare Claude Code, Cursor, Codex, and Copilot through the lens of European engineering teams that need security review, cost control, and onboarding consistency.",
+      "key_themes": [
+        "Single-agent standardization versus two-lane stacks for different task types",
+        "Claude Code, Cursor, Codex, and GitHub Copilot: security and cost trade-offs",
+        "CLAUDE.md and team configuration standards that survive developer turnover",
+        "Agentic coding architecture with MCP and hook-based proxies",
+        "Hidden costs of tool sprawl when every developer picks their own agent"
+      ],
+      "why_it_matters": "A European software team that lets every developer choose their own coding agent soon faces incompatible configs, duplicated subscription costs, and code reviews that take longer because reviewers cannot follow how the agent rewrote the logic. The articles here give CTOs and technical leads the decision frameworks, configuration templates, and rollout playbooks needed to standardize on one or two tools without slowing the team down or adding unacceptable security risk."
+    },
+    "AI Literacy": {
+      "lede": "Most EU SMEs do not fail at AI because the models are too complex. They fail because the people who own the budget cannot read a prompt engineering log and the people who can do not know what a conformity assessment costs.",
+      "key_themes": [
+        "Workforce AI skills assessment and hiring scoring for teams with no dedicated ML function",
+        "EU AI Act literacy for technical leaders before scaling agentic or autonomous workflows",
+        "Prompt engineering as an operational competency, not a developer novelty",
+        "Moving from pilot paralysis to productive AI-native engineering and automation",
+        "The leadership gap between AI authority and actual implementation readiness"
+      ],
+      "why_it_matters": "AI literacy is not a training-budget line item; it is a liability filter. When a procurement manager cannot spot a vendor's data-residency claim, or a CTO cannot explain chain-of-thought reasoning to a regulator, the mistake shows up in an audit, not a standup. For European SMEs operating under the EU AI Act, literacy determines whether AI is a tool you control or a vendor relationship that controls you. The articles below treat it as a management competency first and a technical one second."
+    },
+    "Model Selection": {
+      "lede": "Choosing an AI model in 2026 is less about benchmark leaderboards and more about who owns your query logs, how fast your invoice hits, and whether your team can actually route work to the right endpoint.",
+      "key_themes": [
+        "Vendor comparison across ChatGPT, Claude, Gemini, and Perplexity for constrained SME budgets",
+        "Local LLM deployment on standard hardware versus cloud API dependency and data residency",
+        "Intelligent query routing and the cost architecture of multi-model stacks",
+        "Subscription-tier mapping to real team workflows rather than marketing performance tiers",
+        "The Entropy Framework and other practical decision tools for leaders without ML backgrounds"
+      ],
+      "why_it_matters": "European SMEs cannot afford to carry three enterprise AI subscriptions because a viral thread told them to. Model selection directly impacts data residency compliance, monthly burn, and whether your customer support pipeline fails when one provider changes its API terms. The articles here help you match model capability to business function, distinguish desktop-native from experimental tooling, and avoid the trap of paying for frontier performance on tasks a small local model handles cheaper and faster."
+    },
+    "AI Risk Management": {
+      "lede": "AI risk in a European SME is not theoretical. It is a vendor storing patient data outside the EEA, a shadow AI tool signed up with a corporate email, and a conformity assessment that arrives three months after the deployment deadline.",
+      "key_themes": [
+        "EU AI Act conformity assessment pathways and the August 2026 deadline for deployers",
+        "Vendor data residency and the practical limits of cross-border AI data processing",
+        "Shadow AI detection and governance in workplaces without dedicated security teams",
+        "AI incident response under overlapping EU AI Act and sector regulations such as MDR",
+        "Test, staging, and production environment design for lean AI teams"
+      ],
+      "why_it_matters": "For European SMEs, AI risk management is the difference between shipping a feature and receiving a regulatory notice. EU AI Act enforcement is already active, and the deployer carries the liability surface, not the vendor. A manufacturing firm in Guimaraes or a healthcare provider in Vienna needs to know where its model's training data sits, who can trigger an incident response, and what documentation survives an audit. The articles here treat risk management as operational hygiene, not a compliance checkbox."
+    },
+    "AI Consulting": {
+      "lede": "AI consulting in Europe is not a single market. A fintech in Tallinn faces different talent pools, regulator expectations, and vendor availability than a textile manufacturer in Guimaraes or a life sciences firm in Geneva.",
+      "key_themes": [
+        "Local AI consulting market realities from Bratislava to Zurich",
+        "Sector-specific challenges for fintech, manufacturing, life sciences, and logistics",
+        "The gap between generic AI transformation advice and EEA regulatory context",
+        "What city-based SME engagements actually cost and what deliverables to expect",
+        "How local industrial clusters shape viable AI use cases, hiring, and implementation speed"
+      ],
+      "why_it_matters": "European SMEs often waste budget on consulting frameworks designed for US tech scale or generic digital transformation. The local reality includes EEA rules, language-specific data handling, industrial supply chains that predate cloud adoption, and founder networks that operate differently in Budapest than in Barcelona. The articles here help a COO or founder understand what AI consulting should cost in their market, what regulatory overlay applies, and which sector specializations actually matter."
+    },
+    "AI Industry News": {
+      "lede": "Platform shifts in AI move fast enough to invalidate a quarterly plan and slow enough that the wrong bet still costs eighteen months.",
+      "key_themes": [
+        "Platform wars and competitive shifts among OpenAI, Anthropic, Google, and Meta",
+        "Product launches with practical implications for SME tool stacks and workflows",
+        "Perplexity, Claude Code, and emerging interfaces beyond chat-based interaction",
+        "What Big Tech AI announcements mean for European founder speed and tooling decisions",
+        "Automation agents and workflow integration rather than standalone model releases"
+      ],
+      "why_it_matters": "European SME leaders need to separate signal from noise in an industry that generates both at scale. Apple's AI strategy or Google's I/O keynote matters only if it changes what your team can deploy next month or what your compliance exposure looks like. The articles here filter industry news through the lens of operator decisions: which platform to standardize on, when to ignore a release, and how competitive shifts in the US create pricing or availability windows in European markets."
+    },
+    "AI Content Strategy": {
+      "lede": "AI content strategy is not an editorial calendar with generated drafts; it is the operating system that determines whether your website answers the questions your customers actually ask. The articles below treat content as infrastructure: sovereign media engines, topical authority systems, and search visibility when algorithms think rather than index.",
+      "key_themes": [
+        "Sovereign CMS and self-hosted content stacks versus platform-dependent publishing",
+        "AI search optimization: Perplexity, Google AI Overviews, and the end of keyword-centric SEO",
+        "Content operations tooling: editorial workflows that integrate AI drafting with human review",
+        "Topical authority systems: structured content architectures versus one-off blog posts",
+        "Measurement frameworks: engagement metrics that survive algorithmic distribution changes"
+      ],
+      "why_it_matters": "European SMEs compete against global brands with ten times the ad spend and content volume. A content strategy built on AI-generated mass reach fails in markets where customers notice language nuance, local context, and whether the author has actually solved the problem. The articles here show how focused SMEs build living content systems that compound authority while larger competitors burn budget on generic output."
+    },
+    "AI Training": {
+      "lede": "AI training is the gap between buying licenses and capturing value from them. The articles below treat it as an organizational deployment problem: most European SMEs do not need more courses, they need clearer decisions about who is allowed to use which tool for what output.",
+      "key_themes": [
+        "Total cost of vendor relationships including hidden training spend",
+        "Role rescoping without losing core specialists",
+        "Self-directed learning paths versus expensive bootcamps",
+        "EU AI Act Article 4 compliance through structured staff education",
+        "90-day AI literacy roadmaps for non-technical departments"
+      ],
+      "why_it_matters": "Dutch and European SMEs report 95% AI adoption but only 5% value creation, and the difference is rarely the model. It is whether the person using the tool understands the regulatory boundary they just crossed, the customer data they just uploaded, and the decision they are still responsible for. Training done right is a risk control and a speed advantage, not an HR checkbox."
+    },
+    "Sovereign AI Infrastructure": {
+      "lede": "Sovereign AI infrastructure is the architecture decision of what runs where, who can access it, and what happens when a vendor changes terms or a regulator asks questions. The articles below treat it as procurement engineering: evaluating self-hosted models, local automation stacks, and the data that should never leave EU jurisdiction.",
+      "key_themes": [
+        "Self-hosted versus API-first architecture for regulated workloads",
+        "Build versus buy decisions at the 30B parameter threshold",
+        "Local automation platforms like n8n and sovereign media engines",
+        "EU data residency requirements and cross-border transfer mechanisms",
+        "MCP servers and hook-based proxies for GDPR-compliant AI integration"
+      ],
+      "why_it_matters": "Every European SME using a US-hosted API is making a bet on data jurisdiction, availability, and pricing power it does not control. Sovereign infrastructure is not about building silicon foundries; it is about knowing exactly where your customer data, model weights, and inference logs reside when compliance, a contract clause, or a service outage forces you to prove it."
+    },
+    "AI Ethics": {
+      "lede": "AI ethics is the set of operational controls that keeps a customer-facing agent from producing liability, a recruiting tool from producing bias claims, and a productivity rollout from creating shadow AI. The articles below treat red-teaming, human-in-the-loop design, and governance frameworks as delivery infrastructure, not corporate values exercises.",
+      "key_themes": [
+        "Red-teaming and prompt safety in production pipelines",
+        "Human-centric integration versus unsupervised full automation",
+        "Shadow AI prevention in SME tool rollouts",
+        "Bias testing documentation and explainability evidence required by EU procurement rules",
+        "Ethical guardrails for customer-facing agents and HR systems"
+      ],
+      "why_it_matters": "European regulators and enterprise buyers increasingly require evidence of bias testing, human oversight, and explainability before contract signature. An ethics framework that is actually operationalized shortens sales cycles, reduces recall risk, and prevents the kind of public failure that destroys a regional brand faster than any competitor could. The articles here build that framework for teams without dedicated AI ethics officers."
+    },
+    "AI Regulation": {
+      "lede": "AI regulation is the August 2026 deadline and the risk-classification spreadsheet that determines which products a European SME can ship, which vendors it can keep, and which documentation it must produce on demand. The articles below translate the EU AI Act into procurement checklists, governance workflows, and city-specific implementation guides for firms without in-house compliance teams.",
+      "key_themes": [
+        "Automation and HR software risk classification and documentation",
+        "Self-hosting implications for audit trails and conformity assessment",
+        "City and sector-specific implementation playbooks for maritime, fintech, and professional services",
+        "The August 2026 GPAI deadline and what deployers must have in place",
+        "Interplay between EU AI Act, GDPR, NIS2, and Cyber Resilience Act obligations"
+      ],
+      "why_it_matters": "A mid-sized European company building or buying AI in 2026 is already subject to the Act's scope, whether it has completed a conformity assessment or not. The penalty framework scales with revenue, and the documentation burden falls on the deployer, not just the developer. Understanding regulation as a product constraint early prevents the expensive rebuild that happens when a launch is blocked by a risk category the team did not know existed."
+    },
+    "AI Investment": {
+      "lede": "AI investment decisions in European SMEs land on a spreadsheet, not a whitepaper. The question is not whether to spend on AI, but how to structure the business case so the board can compare it against hiring, infrastructure, or doing nothing.",
+      "key_themes": [
+        "Board-ready ROI frameworks that separate pilot cost from recurring operational cost",
+        "Sovereign AI and EU-based infrastructure as a procurement constraint, not a research topic",
+        "EU funding vehicles — AI Gigafactories, EU-INC — and where they fit in a capitalization plan",
+        "Build-versus-buy versus partner: the reference architectures that make each choice defensible",
+        "Scenario planning across frontier-model jumps and the vendor-consolidation cycles that follow"
+      ],
+      "why_it_matters": "Most AI investment proposals fail because they mix prototype optimism with operational ambiguity. A board that cannot see the monthly burn, the downside case, and the exit criteria will default to no. These articles treat AI investment as a capital-allocation discipline — one that accounts for European constraints on cash, compliance, and talent scarcity from the first slide."
+    },
+    "AI PMO": {
+      "lede": "AI projects die in the gap between a successful pilot and a production operating model. The AI PMO function exists to close that gap: data quality, team alignment, delivery cadence, and the hard decision to kill what will not scale.",
+      "key_themes": [
+        "The 90-day pilot-to-production framework and the gates that matter at day 30, 60, and 90",
+        "Data quality as a project-risk item: what to fix before deployment, not after",
+        "POC purgatory: why most GenAI projects stall and how to design an exit path upfront",
+        "Hiring and structuring the AI transformation lead, architect, and delivery team",
+        "PMO tooling — from Notion to ChatGPT Projects — that actually tracks AI deliverables rather than generic tasks"
+      ],
+      "why_it_matters": "European SMEs do not have the headcount to absorb a 77% project-failure rate. Every stalled AI pilot burns trust with the board, the team, and the budget owner. These articles treat AI delivery as a programme-management discipline: clear scope, known failure modes, and the operational rituals that keep projects moving from demo to deployed."
+    },
+    "Agentic Workflows": {
+      "lede": "Agentic workflows shift AI from assisted drafting to autonomous execution across multi-step tasks. The engineering problem is not building the demo — it is deciding where a human must still review, how errors propagate across steps, and which workflows actually justify the infrastructure cost.",
+      "key_themes": [
+        "3-layer architecture for agentic coding: Claude Code, MCP, and hook-based proxies",
+        "Framework selection — LangGraph, AutoGen, CrewAI — mapped to team size and workflow complexity",
+        "Scaling considerations: throughput, reliability engineering, and cost per completed workflow",
+        "EU AI Act obligations for technical leaders before agentic systems touch customer data",
+        "Budget-conscious piloting: what a $500-per-month agentic workflow proves and what it does not"
+      ],
+      "why_it_matters": "The gap between a slick agent demo and a workflow that runs overnight without supervision is where most agentic projects quietly fail. European SMEs need to know which use cases justify the orchestration layer, where the failure modes cluster, and how to stay inside regulatory guardrails while moving fast. These articles document the architecture and operating decisions that separate working systems from conference slides."
+    },
+    "Business Process Automation": {
+      "lede": "Business process automation is the decision to replace recurring manual work with deterministic or AI-augmented flows. The strategic question is not which tasks to automate, but which processes need redesigning before automation locks in the wrong sequence.",
+      "key_themes": [
+        "AI-first process redesign versus automating legacy workflows that should not exist",
+        "Architecture-first stack selection for SMEs: integration, sovereignty, and maintainability before platform features",
+        "Custom-built automation versus off-the-shelf tools: the 3x value claim and when it holds",
+        "Judgment as the new bottleneck: where humans stay in the loop when AI makes work cheap",
+        "Staff shortage response: automation as a structural answer, not a temporary patch"
+      ],
+      "why_it_matters": "Automation projects that skip process design end up encoding inefficiency at machine speed. European SMEs facing talent scarcity and margin pressure need automation that reduces decision load, not just headcount. These articles treat automation as an operating-model change: the right stack, the right handoff points, and the governance that keeps automated processes aligned with business rules."
+    },
+    "Model Context Protocol": {
+      "lede": "Model Context Protocol is the plumbing layer that determines what an AI model sees, remembers, and can act on. For teams running Claude Code or agentic systems, MCP is the difference between a demo that works in isolation and a tool that integrates with real data.",
+      "key_themes": [
+        "MCP server security: audit checklist for European teams handling company or customer data",
+        "MCP versus custom API integrations: the trade-off between standardization and control",
+        "Procurement framework for evaluating MCP servers in 2026 — what to demand from vendors",
+        "Designing the context layer: state management, tool surfaces, and agent-to-agent interoperability",
+        "Integration patterns for Claude Code rollouts: hooks, skills, and team-wide deployment"
+      ],
+      "why_it_matters": "MCP looks like a developer convenience until a misconfigured server exposes a vector database or leaks context across sessions. European SMEs adopting Claude Code or agentic tools need to treat MCP as an infrastructure decision with security, compliance, and vendor-lock implications. These articles cover the architecture, procurement, and hardening required to deploy MCP safely inside a regulated environment."
+    },
+    "Education AI": {
+      "lede": "Education AI is the decision of how SMEs build internal capability when they cannot outbid US tech giants for ML talent. The articles below treat learning as an operating decision: which free resources replace expensive bootcamps, how founders build a personal learning stack, and what capability-building programs actually change output inside a European SME.",
+      "key_themes": [
+        "Capability mapping: which roles need prompt engineering versus vendor-evaluation skills",
+        "Free university curricula and open-source resources that match paid bootcamp outcomes",
+        "Internal AI academy design for teams with no dedicated L&D function",
+        "Self-directed learning paths: YouTube channels, MOOCs, and documentation that outperform outsourced courses",
+        "Hiring and retention trade-offs: growing AI competence internally versus buying it on the market"
+      ],
+      "why_it_matters": "European SMEs cannot compete for the same ML talent pool as US tech giants, so they must grow it internally or buy it differently. The articles here show how to build AI capability without a six-figure training contract: free university curricula that match paid programs, YouTube channels that outperform bootcamps, and internal literacy frameworks that turn existing staff into competent AI operators. For a founder or COO, the decision is not whether to train people, but which self-service resources produce measurable output faster than outsourced courses."
+    },
+    "Claude Models": {
+      "lede": "Anthropic ships Claude in enough variants and price tiers that choosing becomes an infrastructure decision. The articles below map each flavor — Opus, Sonnet, Haiku, Max, Desktop, Code, API — to the actual workflow it fits, with a bias for European teams running tight budgets and stricter data rules.",
+      "key_themes": [
+        "Model selection across the Claude family: Opus 4, Sonnet 4, Haiku, and when each justifies its cost",
+        "Deployment modes: Desktop app, CLI, API, and OpenRouter routing for European data residency",
+        "Claude Routines and scheduled agents for engineering team automation",
+        "MCP server integration and extending Claude into job-shaped workflows beyond chat",
+        "Pricing decisions: Claude Max at $100/month versus adding Cursor or Codex as a second lane"
+      ],
+      "why_it_matters": "European teams need to decide not just whether to use Claude, but which interface, which model tier, and which integration path. The wrong choice means overspending on tokens your team does not need, or routing sensitive data through jurisdictions you cannot defend. These articles treat Claude as a procurement and architecture problem: when to stay native, when to route through OpenRouter, and how to structure Routines so automation actually reduces engineering hours rather than adding another dashboard to check."
+    },
+    "Frontier Models": {
+      "lede": "The frontier model landscape shifts faster than most procurement cycles, which means the decision is not which model is best, but which model is stable enough to build on today. The articles here track DeepSeek, LLAMA 4, OpenAI o3-pro, Mistral, and Gemini as practical alternatives with distinct cost, latency, and compliance profiles.",
+      "key_themes": [
+        "Open-source challengers: DeepSeek R1, LLAMA 4, and Mistral as alternatives to closed GPT models",
+        "Reasoning models: OpenAI o3, o3-pro, and o4-mini for complex problem-solving workloads",
+        "Multimodal capabilities: GPT-4o, Gemini Pro/Flash, and moving beyond text-only pipelines",
+        "Model selection frameworks for European SMEs balancing capability, cost, and data sovereignty",
+        "Perplexity and emerging search-native AI platforms reshaping information retrieval"
+      ],
+      "why_it_matters": "A European SME betting on a single model provider is taking vendor concentration risk at a time when model capabilities cross over every quarter. The articles here help you build a multi-model strategy: when to route to open-source for cost control, when to pay for reasoning depth, and how to read the release cycle so you are not rebuilding your stack every time a new benchmark drops. The goal is a decision framework, not a leaderboard."
+    },
+    "Fintech AI": {
+      "lede": "European fintech operates under a compliance and capital regime that makes Silicon Valley's move-fast playbook unreadable. The articles in this topic start from that reality: local regulatory demands in Frankfurt, Dublin, and Zurich; AI tools that finance teams can actually adopt; and the build-versus-buy decision at 30 billion parameters.",
+      "key_themes": [
+        "City-specific AI consulting realities for fintech hubs including Frankfurt, Dublin, Zurich, and Barcelona",
+        "AI tools for finance and accounting teams with built-in audit trails and EU compliance",
+        "Compliance-first AI meeting assistants and documentation tools for regulated environments",
+        "Claude Code and vertical AI solutions designed specifically for CFO workflows",
+        "Build versus buy decisions for fintech AI models under capital and regulatory constraints"
+      ],
+      "why_it_matters": "A fintech SME in Europe does not have the luxury of deploying first and asking regulatory questions later. The articles here address what that means in practice: how Klarna's AI rollout actually performed, which meeting note tools survive a compliance audit, and why a 30-billion-parameter open model might beat a closed API on both cost and data residency. For founders and CFOs, the topic is about adopting AI without creating a regulatory event or an unmonitored shadow tool inside the finance team."
+    },
+    "AI Observability": {
+      "lede": "An AI system that works in a notebook and fails in production is not a model problem; it is a monitoring problem. The articles here cover the operational layer most SMEs skip: cost tracking, prompt versioning, compliance checks, and knowing when you genuinely need Kubernetes versus when a spreadsheet still suffices.",
+      "key_themes": [
+        "Production readiness checklists and runbooks for AI systems in European SME environments",
+        "Cost management and billing monitoring for Claude, Copilot, and API-based AI tools",
+        "AI vendor management and data governance frameworks aligned with EU AI Act requirements",
+        "PromptOps: monitoring, A/B testing, and continuous optimization of prompt performance",
+        "Practical infrastructure decisions: when to avoid over-engineering with Kubernetes or Redis"
+      ],
+      "why_it_matters": "Most European SMEs deploy AI tools without knowing who is using them, what they cost, or whether the output meets compliance standards until something breaks. The articles here provide the operational scaffolding to prevent that: a 12-point production readiness checklist, a practical guide to monitoring Copilot usage, and a vendor management playbook that maps directly to EU AI Act obligations. For a COO, this is the difference between AI as an experiment and AI as a controllable, auditable production system."
     }
   }
 }
