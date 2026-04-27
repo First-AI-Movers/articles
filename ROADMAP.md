@@ -17,7 +17,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 | ~~E1~~ | ~~Topic narratives — top 10 topics~~ | ✅ **Done.** Intro + key themes + why-it-matters for the 10 highest-volume topics. | 📱 | M |
 | ~~E2~~ | ~~Topic narratives — mid 25 topics~~ | ✅ **Done.** Same pattern for the next 25 topics (15-50 articles each). | 📱 | M |
 | ~~E3~~ | ~~Topic narratives — final 42 topics~~ | ✅ **Done.** All 77 topic hubs with ≥5 articles now have curated intros. Remaining 34 canonical topics have <5 articles and do not render hub pages. | 📱 | M |
-| **E4** | Topic-page TL;DR digest blocks | "Quick reads" section per topic page = first-N article TL;DRs concatenated. Scannable, citable. | 📱 | S |
+| ~~E4~~ | ~~Topic-page TL;DR digest blocks~~ | ✅ **Done.** "Quick reads" section on 67 of 77 topic hub pages using existing article TL;DRs only. Hidden when no TL;DRs available. | 📱 | S |
 
 ## Phase 2 — Visual & social presence
 
@@ -55,14 +55,12 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 ## Suggested execution order
 
-1. **E1 first** — biggest single SEO win (top 10 topics × 552/329/267/105/84/81/64/62/59/56 articles each, all need real content). Also unblocks the testing pattern for E2/E3.
-2. **E4** — small bundle, high readability gain on topic pages.
-3. **E5** — social-share / OG image visibility.
-4. **E2 + E3** — finish narrative coverage to all 75 topics.
-5. **E6 + E7** — per-article rendering (the biggest remaining v1 → v2 step).
-6. **E8 + E9** — hardening, can interleave with content phases.
-7. **E10 / E11** — optional polish.
-8. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
+1. ~~E1 → E2 → E3 → E4~~ — ✅ **Phase 1 complete.** All 77 topic hub pages have curated intros; 67 have Quick reads.
+2. **E5** — social-share / OG image visibility. Next recommended epic.
+3. **E6 + E7** — per-article rendering (the biggest remaining v1 → v2 step).
+4. **E8 + E9** — hardening, can interleave with content phases.
+5. **E10 / E11** — optional polish.
+6. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
 
 ## Status snapshot — completed
 
@@ -77,5 +75,9 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #8** Tag normalization (3,686 raw tags → 102 canonical topics) + static site v1 (75 topic hubs)
 - **PR #9** SEO + GEO + security audit follow-up (14 fixes including jinja2 CVE pin, robots.txt LLM opt-in, BreadcrumbList, 107 metadata whitespace cleanups)
 - **PR #10** `llms-recent.txt` (30-day rolling slice)
+- **PR #11** Topic narratives E2 — mid 25 topics
+- **PR #12** Topic narratives E3 — final 42 topics
+- **PR #13** Topic narratives E3 — final 42 topic intros (continuation)
+- **PR #14** Topic-page Quick reads E4 — TL;DR digest blocks
 
 Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, 102 tests on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
