@@ -1,6 +1,6 @@
 {
   "_comment": "Curated lede + key themes + why-it-matters per canonical topic. Rendered at the top of each /topics/<slug>/ page. Topics absent from this file fall back to the generic lede in topic.html.j2. Topic keys must match canonical_topics.json exactly. Schema: {lede: str, key_themes: [str, ...], why_it_matters: str}.",
-  "version": 2,
+  "version": 3,
   "intros": {
     "European SME AI": {
       "lede": "European small and mid-sized enterprises adopt AI under different constraints than US tech: tighter cash, stricter regulation, fewer ML hires, and customers who notice when a chatbot answers in the wrong language. The articles in this topic are written for that operating reality.",
@@ -386,6 +386,468 @@
         "Practical infrastructure decisions: when to avoid over-engineering with Kubernetes or Redis"
       ],
       "why_it_matters": "Most European SMEs deploy AI tools without knowing who is using them, what they cost, or whether the output meets compliance standards until something breaks. The articles here provide the operational scaffolding to prevent that: a 12-point production readiness checklist, a practical guide to monitoring Copilot usage, and a vendor management playbook that maps directly to EU AI Act obligations. For a COO, this is the difference between AI as an experiment and AI as a controllable, auditable production system."
+    },
+    "GPT Models": {
+      "lede": "GPT models are not a strategy; they are a procurement decision that determines what your team can automate, how reliably, and at what unit cost. The articles in this topic track specific model releases—GPT-5.1, GPT-4o, o3—and what each capability shift means for a European SME's workflow, API spend, and governance posture.",
+      "key_themes": [
+        "Model selection with the Entropy Framework",
+        "GPT-4o image generation for European SME teams",
+        "ChatGPT memory governance for leaders",
+        "Two-model system and subscription tier decisions",
+        "GPT versus Claude Sonnet versus DeepSeek competitive comparison"
+      ],
+      "why_it_matters": "European SMEs do not have the budget to run every model or the compliance margin to let employees pipe customer data into the wrong tier. The articles here map each OpenAI release to a concrete operating decision: whether to migrate workflows, which subscription tier covers your use case, how memory features interact with GDPR, and when a Chinese open-source alternative changes your vendor negotiation. A founder who understands the two-model system and tool-use standard can cut AI spend by half while increasing output reliability."
+    },
+    "AI Change Management": {
+      "lede": "AI rollouts fail when the technology works but the operating model does not. The articles in this topic treat change management as the set of decisions around who owns the transformation, which vendors get renewed, and what work gets redesigned before any model is deployed.",
+      "key_themes": [
+        "First 90-day transformation roadmaps for mid-market teams",
+        "Eight hidden vendor relationship cost categories",
+        "Vibe working as an operating system change",
+        "Fractional AI CTO versus internal lead versus agency",
+        "Generalist advantage in AI-native organizations"
+      ],
+      "why_it_matters": "A European SME that buys licenses without redesigning workflows will see adoption stall at thirty percent and blame the tool. The articles here cover the full change lifecycle: assessing whether you need an internal lead or external partner, building the first ninety-day roadmap, restructuring knowledge work around AI-native habits, and managing boardroom expectations when results take quarters not weeks. The firms that get this right treat change management as a line item, not a side effect."
+    },
+    "Netherlands AI": {
+      "lede": "The Netherlands leads Europe in AI adoption rates and still captures value in only a fraction of deployments. The articles in this topic are written for Dutch SME leaders who need to move from proof-of-concept energy to governed, repeatable outcomes.",
+      "key_themes": [
+        "AI vendor due diligence with 12 questions for Dutch procurement",
+        "Internal AI lead versus external partner selection",
+        "AIC4NL national strategy and subsidy access for SMEs",
+        "Closing the 95 percent adoption to 5 percent value gap",
+        "Dutch pragmatism in cross-border tech ecosystem building"
+      ],
+      "why_it_matters": "Dutch companies operate with high English fluency and strong digital infrastructure, which creates a trap: it is easy to adopt AI tools and hard to justify why nothing changed on the P&L. The articles here cover Amsterdam and Utrecht consulting markets, the twelve-question vendor checklist that prevents procurement waste, and how national initiatives like AIC4NL translate into actual subsidy or partnership access for a fifty-person firm. If you run a Dutch SME, the competitive gap is not access to models; it is knowing which local partner can turn adoption into margin."
+    },
+    "AI Readiness": {
+      "lede": "AI readiness is the audit you run before you sign an invoice. The articles in this topic cover data silos, team capability, governance gaps, and the exact sequence of investments that separate a pilot from a permanent cost center.",
+      "key_themes": [
+        "First 90 days checklist for European SME leaders",
+        "Engineering team readiness with 15 questions before scaling",
+        "Readiness assessment scope versus consulting engagement scope",
+        "Five-step data silo governance guide",
+        "CEO playbook for avoiding adoption failure"
+      ],
+      "why_it_matters": "European SMEs often discover they are not ready for AI six months after paying for it, when integrations break and nobody owns the cleanup. The articles here provide the diagnostic frameworks: a five-step governance guide for data silos, the fifteen questions engineering teams should answer before scaling, and the distinction between paying for an assessment and paying for implementation. Founders who run a readiness audit first typically spend less and deploy faster because they know which constraint is actually binding."
+    },
+    "Prompt Engineering": {
+      "lede": "Prompt engineering is not clever phrasing; it is the interface layer between your business logic and a model that will interpret instructions literally. The articles in this topic teach structured techniques that make model output reproducible, brand-safe, and useful for non-technical operators.",
+      "key_themes": [
+        "Role and persona prompting for brand-aligned voice",
+        "Few-shot, zero-shot, and one-shot technique selection",
+        "AI image prompt engineering for creative teams",
+        "Specification discipline and instruction following",
+        "Five-word prompt hack and advanced technique evolution"
+      ],
+      "why_it_matters": "A European SME cannot afford a machine-learning engineer to babysit every model interaction, so the quality of your prompts determines the quality of your automation. The articles here cover specific techniques: using few-shot examples to stabilize formatting, building persona prompts that keep tone consistent across languages, and mastering specification discipline so the model stops hallucinating requirements. Teams that treat prompting as a skill rather than a hack get more value from the same subscription tier."
+    },
+    "Browser Agents": {
+      "lede": "Browser agents are the shift from AI that answers questions to AI that performs tasks across websites, forms, and workflows. The articles in this topic track the emerging category of agentic browsers—Atlas, Comet, Dia—and what happens when your team's primary interface to software becomes an autonomous agent.",
+      "key_themes": [
+        "Perplexity Comet and agentic browser workflow design",
+        "ChatGPT Atlas versus Edge Copilot enterprise comparison",
+        "HARPA AI and browser extension security for business professionals",
+        "MCP and Mariner for API-era agent deployment",
+        "SEO impact when browsers replace search with agentic execution"
+      ],
+      "why_it_matters": "For European SMEs, browser agents change the cost structure of research, customer support, and procurement by replacing tab switching with autonomous execution. The articles here evaluate which browsers can handle business logins safely, how agentic browsing changes your website's discoverability, and what security policies you need when employees delegate credential access to an AI extension. The firms that test these tools early are rebuilding their operating procedures around agentic execution; the ones that wait will be forced to adopt someone else's workflow."
+    },
+    "AI SEO and GEO": {
+      "lede": "Search is no longer a list of links. When a customer asks ChatGPT or Perplexity for a vendor recommendation, your website may never appear unless you have engineered for generative discovery. The articles below treat AI search visibility as an infrastructure problem, not a content volume game.",
+      "key_themes": [
+        "GEO versus traditional SEO ranking logic",
+        "Perplexity, ChatGPT and Gemini visibility mechanics",
+        "Sovereign media engine architecture",
+        "Entity verification and video-based trust signals",
+        "Topical authority without blog-post inflation"
+      ],
+      "why_it_matters": "European SMEs have spent years optimizing for Google's algorithm. Now the traffic is fragmenting across generative engines that cite sources differently, weigh trust signals unlike PageRank, and often prefer local-language authority over backlink volume. The firms that rebuild their discoverability stack now will own the citations that AI assistants hand to buyers. The ones that wait will become invisible by default."
+    },
+    "AI Team Hiring": {
+      "lede": "European SMEs do not have the cash to win a bidding war for PhD-level researchers, and they do not need to. What they need are operators who can ship AI products inside existing teams without breaking the workflow. The articles below cover how to find them, assess them, and keep them from being poached.",
+      "key_themes": [
+        "Practical AI skills assessment scoring",
+        "Operators versus researchers in SME contexts",
+        "Dutch and European talent shortage realities",
+        "Role design without title inflation",
+        "AI-powered recruiting pipeline automation"
+      ],
+      "why_it_matters": "Hiring for AI in Europe means competing against well-funded US labs, local startups, and your own inability to explain what the role actually does. The wrong hire burns six months and a budget line; the right hire ships a working product in twelve weeks. These articles treat AI hiring as a sourcing and assessment problem with specific tools and rubrics, not as a hope-and-pray exercise in talent arbitrage."
+    },
+    "Gemini Models": {
+      "lede": "Google's Gemini family is not one model; it is a platform decision that affects search, workspace, cloud billing, and whether your AI features run on-device or in Dublin. The articles below map the roadmap and show where each variant actually fits a European SME stack.",
+      "key_themes": [
+        "Pro versus Flash versus Nano model selection",
+        "Google AI Studio for rapid prototyping",
+        "Gemini 2.0 Flash retrieval and RAG capabilities",
+        "On-device versus cloud inference trade-offs",
+        "Google Workspace and search integration roadmap"
+      ],
+      "why_it_matters": "European SMEs already pay for Google Workspace and run on Android. Gemini is being embedded into both, which means the cost of ignoring it is rising faster than the cost of adoption. The question is not whether to use Google's models, but which tier to route to which workflow, and whether to build on top of their API or wait for the next native integration. These articles treat that routing decision as a procurement and architecture choice."
+    },
+    "Data Sovereignty": {
+      "lede": "Data sovereignty is the decision about which jurisdiction owns your model's training data, your customer's prompts, and the inference logs that prove compliance. For European SMEs, that decision is inseparable from the EU AI Act, customer contract terms, and whether your US vendor can subpoena your logs.",
+      "key_themes": [
+        "EU data residency and GDPR-AI Act overlap",
+        "Self-hosted models versus API-first trade-offs",
+        "Sovereign media engine architecture",
+        "Sensitive data classification for AI workloads",
+        "Self-hosted n8n and local automation stacks that eliminate cloud data dependency"
+      ],
+      "why_it_matters": "A European SME that cannot prove where its customer data flows will lose procurement rounds to competitors who can. Sovereignty is not a nationalist slogan; it is a contract requirement, a liability shield, and a way to keep inference costs predictable. The articles below show how to build sovereign AI products without over-engineering the infrastructure, and how to know when 'good enough' residency is better than perfect isolation."
+    },
+    "Manufacturing AI": {
+      "lede": "Manufacturing AI in Europe runs into CE marking, machinery safety directives, and shop-floor unions before it ever reaches an accuracy benchmark. The articles below are written for plant managers and SME owners who need use cases that survive an audit and pay back inside a fiscal year.",
+      "key_themes": [
+        "EU machinery regulation and CE marking for AI",
+        "Supply chain diversification and de-risking automation",
+        "Predictive maintenance on legacy equipment",
+        "Regional industrial ecosystem consulting",
+        "Textile, port and maritime-specific AI applications"
+      ],
+      "why_it_matters": "European manufacturing SMEs operate on tight margins with long asset cycles and regulators who treat an AI-assisted lathe differently than a chatbot. The wrong pilot shuts down a production line; the right one extends machine life by thirty percent. These articles focus on use cases that fit existing workflows, comply with safety frameworks, and deliver measurable uptime or quality improvements without requiring a full Industry 4.0 overhaul."
+    },
+    "RAG Architecture": {
+      "lede": "Retrieval-Augmented Generation is the architecture that lets a European SME build an AI knowledge base without training a model or sending proprietary data to a third-party finetuning shop. It is also where most projects fail, usually because someone bought a vector database before defining what success looks like.",
+      "key_themes": [
+        "Vector database selection beyond marketing claims",
+        "Private and on-device RAG deployment",
+        "CPU-first ingestion for cost-constrained environments",
+        "Fine-tuning versus retrieval trade-off decisions",
+        "Context window and chunking strategy optimization"
+      ],
+      "why_it_matters": "RAG promises that your internal documents become an AI product overnight. The reality is that chunk size, embedding model choice, and whether you host on a Raspberry Pi or a managed cloud determine whether the system answers correctly or hallucinates your pricing. For European SMEs with confidential data, the architecture decision is also a compliance decision. These articles treat RAG as an engineering problem with specific hardware, latency, and privacy constraints, not as a configuration panel in a SaaS dashboard."
+    },
+    "AI for Engineering Teams": {
+      "lede": "Engineering teams do not adopt AI coding tools by installing a plugin; they adopt them by rewriting their code review, permissions, and deployment rituals around an agent that can edit multiple files and push to production. The articles below treat Claude Code, Codex, and the emerging agent stack as team infrastructure decisions, not individual productivity hacks.",
+      "key_themes": [
+        "Claude Code rollout playbooks and 90-day adoption timelines for technical leads",
+        "CLAUDE.md configuration as a team standard that survives developer turnover",
+        "Permissions security models and the boundary between agent-assisted and agent-authorized changes",
+        "Multi-file refactoring and codebase maintenance at scale without expanding headcount",
+        "Evaluating Claude Code against Codex and IDE-first tools using a six-criteria scorecard"
+      ],
+      "why_it_matters": "European engineering teams run leaner than US counterparts, which means a coding agent that saves two hours per developer per week can equal a full hire at scale — or a governance incident if permissions are wrong. These articles cover the rollout decisions, configuration standards, and security boundaries that let an SME engineering team adopt agentic coding without adding support overhead or compliance risk."
+    },
+    "Coding Agent Architecture": {
+      "lede": "The architecture of a coding agent stack determines whether your team ships faster or spends its time reconciling incompatible configs between Claude Code, Cursor, and Copilot. The articles below map the decision of one agent versus two, terminal-first versus IDE-first, and CLAUDE.md as infrastructure.",
+      "key_themes": [
+        "Single-agent standardization versus two-lane stacks for different task types",
+        "Terminal-first workflows with Claude Code against IDE-first tools like Cursor",
+        "CLAUDE.md as team configuration and the standardization decisions CTOs must make first",
+        "Evaluation frameworks for choosing an AI coding agent without slowing the team down",
+        "Agent mode in JetBrains, Xcode, and the emerging IDE-native agent surface"
+      ],
+      "why_it_matters": "European technical leads who pick tools by benchmark rather than workflow fit often end up with three subscriptions, divergent configs, and code reviews that take longer because reviewers cannot trace what the agent changed. These articles provide the architectural decision frameworks — one lane or two, terminal or IDE, standardized or freestyle — that let a team adopt agentic coding with consistency rather than chaos."
+    },
+    "AI for Marketing Teams": {
+      "lede": "Marketing teams adopt AI at the intersection of creative output and channel operations: image generation, content scheduling, newsletter automation, and the emerging agent experience layer that determines how customers interact with brand touchpoints. The articles below separate the tools that produce vanity metrics from the systems that build recurring revenue.",
+      "key_themes": [
+        "GPT-4o image generation and creative AI tools for European brand consistency",
+        "Sovereign CMS and content infrastructure choices that reduce platform dependency and improve generative discoverability",
+        "No-code automation with n8n, Make, and agentic marketing stacks inside existing repos",
+        "LinkedIn scheduling, newsletter operations, and channel-specific tooling decisions",
+        "Agent experience design and the shift from user experience to AI-mediated brand interaction"
+      ],
+      "why_it_matters": "European marketing teams face the same pressure to produce more content with fewer people as global competitors, but with the added constraints of multilingual markets, GDPR-sensitive customer data, and customers who can spot generic AI output. These articles map the practical tools — from GPT-4o to LinkedIn schedulers to Claude-powered content systems — that let an SME marketing function automate operations without losing the local nuance that converts."
+    },
+    "AI Team Building": {
+      "lede": "Building an AI-capable team is less about hiring machine learning PhDs and more about deciding which three tools to standardize on, when to stop buying infrastructure you do not need, and how to align non-technical founders with technical leads. The articles below treat team building as an operating-model problem.",
+      "key_themes": [
+        "Lean infrastructure decisions: when Kubernetes, Redis, and monitoring clusters are premature",
+        "CLAUDE.md and ChatGPT Projects as shared team infrastructure for alignment",
+        "Test, staging, and production environment design for teams without dedicated DevOps",
+        "AI readiness assessment and the 15 questions that determine whether a team should scale",
+        "Team alignment strategies that close the gap between founder vision and engineering execution"
+      ],
+      "why_it_matters": "European SMEs waste budget on over-engineered AI infrastructure and under-defined team roles, which is why most AI projects fail before the model is ever deployed. These articles focus on the decisions that actually determine success: which shared configuration files to mandate, when to spin up permanent versus on-demand environments, and how to align a lean team around concrete outcomes rather than aspirational roadmaps."
+    },
+    "AI for Operations": {
+      "lede": "Operations is where AI moves from internal productivity to customer-facing automation: customer service agents, RAG-powered knowledge bases, and the no-code orchestration tools that replace manual handoffs between systems. The articles below map which operational workflows justify an agent layer and which still need a human answering the phone.",
+      "key_themes": [
+        "Customer service AI tools and the EU compliance requirements for automated support",
+        "RAG implementation for knowledge bases and internal operations search",
+        "MCP-powered agents and the orchestration layer beyond Zapier, Make, and n8n",
+        "Lindy AI, OpenAI Operator, and browser agents for end-to-end operational automation",
+        "Google Gemini and multimodal AI for operational teams with mixed technical depth"
+      ],
+      "why_it_matters": "European operations leaders are under pressure to automate customer service, reduce ticket resolution times, and connect disjointed systems without adding headcount or creating a GDPR incident. These articles cover the practical architecture — RAG, MCP, and no-code agents — that lets an SME operations team automate the repetitive 80% while keeping the complex 20% under human review and regulatory control."
+    },
+    "Human-in-the-Loop": {
+      "lede": "Human-in-the-loop is not a safety feature you add after building an autonomous system; it is the governance layer that determines which decisions an agent can make alone, which need review, and who owns the outcome when something goes wrong. The articles below treat it as a design constraint, not an afterthought.",
+      "key_themes": [
+        "Copilot Studio governance and the approval gates required before agents take action",
+        "Intelligent triage systems that route AI output to the right human reviewer",
+        "Prompt engineering as an oversight mechanism and the 2025 competency every team needs",
+        "Brand voice AI and the human review layer that maintains authenticity at scale",
+        "Reasoning model limits and the expertise boundaries that humans still must own"
+      ],
+      "why_it_matters": "European SMEs deploying AI under the EU AI Act face explicit requirements for human oversight on high-risk and limited-risk systems, which means the human-in-the-loop design is a compliance necessity and a quality control. These articles map where humans add value versus where they add delay, how to structure triage so the right person reviews the right output, and why governance built into the loop from day one ships faster than governance bolted on after a failure."
+    },
+    "Future of Work": {
+      "lede": "The future of work arrives first as a tooling change, then as an organizational redesign, and finally as a P&L shift. The articles below track that progression — from AI browsers that replace app stacks to physical robotics that change field operations — with a bias for European teams that cannot rehire entire departments.",
+      "key_themes": [
+        "Physical AI and robotics in SME field operations and supply-chain workflows",
+        "Agentic browsers and AI-native interfaces replacing traditional software stacks",
+        "AI literacy as workforce currency and structural planning, not a training line item",
+        "What workers actually need from AI partnership based on 2025 enterprise research",
+        "Operating-model redesign: when to retrain, when to restructure, and when to wait"
+      ],
+      "why_it_matters": "European SMEs competing with better-funded rivals cannot afford to restructure twice. The articles here separate the demos that impress boards from the structural changes that actually move output — showing where AI replaces a workflow, where it augments a worker, and where premature automation locks in inefficiency that costs more to undo than to build."
+    },
+    "AI for HR": {
+      "lede": "HR is where AI deployment meets the highest-risk category of the EU AI Act and the highest-stakes audience inside any company: current employees. The articles below treat HR AI as a compliance-forward discipline where safe deployment and workforce planning happen together.",
+      "key_themes": [
+        "EU AI Act high-risk classification for recruitment, evaluation, and monitoring tools",
+        "Safe HR AI deployment frameworks for European SMEs in 2026",
+        "AI-driven training automation and interactive SOP scaling across distributed teams",
+        "Talent retention analytics and the workforce signals that predict silent exits",
+        "Workforce readiness assessment and AI literacy requirements under Article 4"
+      ],
+      "why_it_matters": "A bad HR AI deployment does not just fail an audit; it destroys trust inside the organization and exposes the company to liability under employment and equality law. These articles give SME decision-makers the compliance guardrails, deployment checklists, and workforce planning frameworks needed to adopt HR AI without creating a regulatory event or a culture crisis."
+    },
+    "Energy AI": {
+      "lede": "Energy AI cuts both ways: reducing the compute cost of running models and applying intelligence to energy-sector operations. European firms face both problems under stricter carbon reporting and higher electricity costs than their US competitors.",
+      "key_themes": [
+        "Edge computing, quantization, and pruning to cut AI inference energy and cost by 90%",
+        "EU AI Gigafactories and sovereign compute infrastructure for regulated workloads",
+        "Photonics and analog chips as alternatives to power-hungry GPU inference stacks",
+        "Model efficiency as a procurement criterion, not an afterthought for SME budgets",
+        "Sustainable AI deployment in healthcare, energy, and industrial applications"
+      ],
+      "why_it_matters": "For a European SME, every inference query carries an electricity bill and a carbon footprint that US competitors often ignore. The articles here treat energy efficiency as an architecture decision — when to quantize, when to move to edge, and when analog compute justifies the switch — so that AI adoption does not become an operating cost that erases its own productivity gains."
+    },
+    "Context Engineering": {
+      "lede": "Context engineering is the discipline of getting the right information into a model at the right time. It is where chunking decisions determine accuracy, where token budgets become architecture constraints, and where most production LLM failures actually start.",
+      "key_themes": [
+        "Chunking strategies and retrieval architecture for document-heavy SME workflows",
+        "Context window optimization and token economics as CTO-level budget decisions",
+        "MCP as the integration layer that feeds team data into agentic tools securely",
+        "RTK versus native tool optimization before adding complexity to dev stacks",
+        "Standardizing the AI dev stack around context pipelines rather than model selection"
+      ],
+      "why_it_matters": "A European engineering team running a frontier model with poorly chunked context will hallucinate just as confidently as one running a cheap local model. The articles here treat context engineering as a first-class architecture concern — covering the chunking, retrieval, and integration decisions that determine whether an LLM deployment actually answers the question or generates expensive fiction."
+    },
+    "YouTube Strategy": {
+      "lede": "YouTube is the de facto AI university for European SME teams that cannot outbid US giants for training budgets or consulting days. The articles below treat it as both a learning infrastructure and a content distribution channel that AI is reshaping.",
+      "key_themes": [
+        "Curated YouTube channels and learning paths that outperform paid bootcamps",
+        "AI search visibility and algorithmic ranking for European SME content strategies",
+        "NotebookLM and AI video overview tools for enterprise knowledge distribution",
+        "Rebuilding and growing channels with AI-assisted production and rebranding",
+        "Perplexity and AI-native search as discovery engines for educational content"
+      ],
+      "why_it_matters": "A European SME that outsources AI training to expensive bootcamps often gets generic content its team could have learned for free in better-curated formats. These articles map the channels, tools, and distribution strategies that turn YouTube from entertainment into actual workforce capability — and show how focused SMEs can outcompete mass-reach brands on algorithmic platforms by being specific rather than loud."
+    },
+    "Multi-Agent Systems": {
+      "lede": "Multi-agent systems move AI from single-task assistance to coordinated execution across workflows. The engineering problem is not adding more agents; it is deciding who owns the output when two agents disagree and how to govern autonomy before it touches customer data.",
+      "key_themes": [
+        "Agent orchestration and governance for European SME deployments under the EU AI Act",
+        "Swarm architectures versus single-agent workflows: when coordination beats scale",
+        "Standardizing across Claude Code, Codex, Cursor, and Copilot without tool sprawl",
+        "DevOps and management implications when agent stacks become team infrastructure",
+        "Eval and observability for multi-agent systems where failures compound across steps"
+      ],
+      "why_it_matters": "Every additional agent in a workflow multiplies the failure modes faster than it multiplies output. European SMEs need to know where multi-agent coordination justifies the complexity, how to stay inside regulatory guardrails when agents touch personal data, and which orchestration patterns actually reduce engineering hours rather than adding dashboards to monitor. These articles cover the architecture and governance decisions that separate working systems from conference demos."
+    },
+    "AI Roadmap": {
+      "lede": "An AI roadmap is not a Gantt chart with neural-network stickers. It is a capital-allocation plan that sequences which quarter pays for which tool and who must be hired before the next phase starts. The articles here treat roadmapping as an operating-model problem, not a technology wish list.",
+      "key_themes": [
+        "Fractional CTO engagements and transition timelines",
+        "The first 90-day sprint planning framework for initial AI deployments",
+        "Readiness assessment before tool procurement",
+        "Sequencing copilots before managed agents",
+        "Twelve-month capital and hiring plans scoped to lean team realities"
+      ],
+      "why_it_matters": "European SMEs cannot afford to bet a full year on AI projects that never ship. A practical roadmap forces the founder or COO to decide whether to build, buy, or rent expertise before the first invoice is paid. It also exposes the hidden costs: data preparation, integration debt, and the three-month lag between vendor demo and live usage. The articles below are written for leaders who need to defend their AI budget to a board that remembers the last digital transformation that went nowhere."
+    },
+    "GitHub Copilot": {
+      "lede": "The Microsoft Copilot stack is the default AI interface for most European SMEs already paying for Office 365. The question is no longer whether to turn it on, but which layer to deploy and what to lock down before users start prompting company data.",
+      "key_themes": [
+        "Microsoft 365 Copilot governance and data residency controls",
+        "Copilot Studio agent permissions and action boundaries",
+        "Monitoring and audit trails for generated output",
+        "Claude Code versus GitHub Copilot for development teams",
+        "Workflow checkpoints where humans must stay in the loop"
+      ],
+      "why_it_matters": "Copilot rolls out faster than governance teams can catch up. For an SME, the risk is not that employees use AI; it is that they use it on client data without an audit trail, or that the organization pays for three overlapping copilot licenses because no one mapped use cases to products. The articles here help operators deploy the tool, monitor its output, and prove to auditors and clients that a human reviewed what the machine suggested."
+    },
+    "Document Automation": {
+      "lede": "Most European SMEs sit on years of unstructured documents—contracts, invoices, manuals in five languages—that no one has time to read. Document automation is the process of turning that backlog into structured answers without hiring a document-processing team.",
+      "key_themes": [
+        "RAG pipeline architecture and retrieval accuracy",
+        "Multilingual OCR and open-source alternatives like dots-ocr",
+        "Chunking strategies for long and mixed-format documents",
+        "Context window limits and trade-offs for large files",
+        "NotebookLM and ChatGPT file analysis for knowledge extraction"
+      ],
+      "why_it_matters": "The EU AI Act adds retention and transparency requirements to any automated document decision. SMEs that build document automation with audit trails and human-review checkpoints now will pass compliance reviews later without rebuilding their stack. The articles here cover the technical choices—chunking, context windows, OCR accuracy—that determine whether a document pipeline saves hours or creates embarrassing errors in front of a regulator."
+    },
+    "AI Research": {
+      "lede": "Deep research tools have collapsed the time it takes to synthesize a market report, a vendor landscape, or a regulatory brief from days to minutes. For SMEs, the shift matters because research was already the first thing cut when budgets tighten.",
+      "key_themes": [
+        "Perplexity AI and deep research modes",
+        "OpenAI deep research capabilities and source handling",
+        "Browser-integrated research agents and workflow integration",
+        "Model selection for research versus reasoning tasks",
+        "Focus modes and source verification to reduce hallucination risk"
+      ],
+      "why_it_matters": "A European SME evaluating a German supplier or interpreting a new EU AI Act guidance note cannot afford McKinsey retainers. Research agents let a three-person strategy function produce board-ready briefs, provided someone validates the sources and checks for hallucinated citations. The articles here map which tools do real synthesis and which ones repackage search results, so leaders know what they can trust before it reaches a client pitch."
+    },
+    "AI Vendor Evaluation": {
+      "lede": "Every AI vendor claims to be enterprise-ready. Few define what enterprise means for a 50-person company with no dedicated procurement function. The articles here treat vendor selection as a risk-management exercise, not a feature comparison.",
+      "key_themes": [
+        "Build versus buy decision frameworks for limited engineering capacity",
+        "Vendor lock-in and exit cost analysis",
+        "Tokens-per-outcome pricing and unit economics",
+        "Due diligence checklists aligned with EU data residency rules",
+        "Lightweight PMO structures for ongoing vendor oversight"
+      ],
+      "why_it_matters": "Signing a three-year AI contract with automatic renewals and data-residency loopholes can cost more than a bad hire. European SMEs need evaluation criteria that test for GDPR alignment, API portability, and what happens when the vendor's pricing doubles in year two. The articles below provide scorecards and checklists that a founder or COO can run in an afternoon, not a procurement department."
+    },
+    "AI DevOps": {
+      "lede": "Agentic coding tools have moved from autocomplete to autonomous commit, which means your deployment pipeline now depends on AI-generated code you did not write. The DevOps question is no longer about infrastructure; it is about how you review, stage, and trust code that ships while you sleep.",
+      "key_themes": [
+        "CI/CD pipeline design with Claude Code and agentic tools",
+        "Test and staging environment strategy for lean teams",
+        "Review gate design before model or tool selection",
+        "Two-lane tool stacks versus single-vendor standardization",
+        "First 90 days of agentic development operations onboarding"
+      ],
+      "why_it_matters": "European engineering teams running lean cannot absorb production incidents caused by AI agents pushing untested changes. The teams that survive the shift are the ones that redesign their review gates and environment strategy before they grant agents write access to the main branch. The articles here treat DevOps as a management discipline: who reviews the agent, what runs permanently, and what gets spun up only when needed."
+    },
+    "Model Evaluation": {
+      "lede": "Model evaluation is not a leaderboard exercise. It is the discipline of matching a model's failure modes to your team's ability to detect and fix them before a customer does.",
+      "key_themes": [
+        "Reasoning model evaluation beyond benchmark scores",
+        "Eval harnesses, regression test suites, and CI gates that catch model failure modes before they reach customers",
+        "Hiring evaluators before hiring prompt engineers",
+        "Mistral, OpenAI o3, and Grok 3 capability gaps for SME workloads",
+        "Evaluation frameworks that survive contact with production data"
+      ],
+      "why_it_matters": "European SMEs do not have the budget to swap models monthly or the staff to babysit outputs. A bad model choice shows up as refunds, regulatory complaints, or hours spent manually correcting AI-generated work. The articles here treat evaluation as a procurement and risk-management function: pick the model you can govern, not the one that wins on a leaderboard."
+    },
+    "Automation Platforms": {
+      "lede": "Automation platform decisions outlast the workflows they run. The wrong choice locks you into pricing that scales faster than your revenue or governance gaps that the EU AI Act will eventually expose.",
+      "key_themes": [
+        "Self-hosted n8n versus cloud deployments for data residency requirements",
+        "Copilot Studio agent governance before deployment",
+        "Make, Zapier, and Lindy total cost of ownership comparisons",
+        "Power Automate enterprise licensing traps for SMEs",
+        "Dify for low-latency AI apps with European hosting"
+      ],
+      "why_it_matters": "Most European SMEs will run three to five automation tools within two years. The articles here help you choose platforms that fit your technical team size, your GDPR posture, and your actual workflow complexity rather than the demos you saw on YouTube. Getting this right means automating without creating shadow IT that your auditor discovers later."
+    },
+    "Retail AI": {
+      "lede": "Retail AI is moving from recommendation engines to agents that complete purchases, and European niche retailers have a narrow window to build defensible customer experiences before operators become commodities.",
+      "key_themes": [
+        "OpenAI Operator and Shopify integration for independent stores",
+        "Niche e-commerce built with AI-native product discovery",
+        "Agent-driven shopping and the death of app-based retail",
+        "Cultural product stores as a testbed for localized AI",
+        "Five-minute agent builders and the commoditization risk"
+      ],
+      "why_it_matters": "European retail SMEs compete against platforms with unlimited engineering budgets. The articles here focus on where AI gives smaller retailers an edge: curated niche inventory, multilingual customer interaction, and faster adaptation to local taste. The goal is not to out-automate Amazon but to out-curate it in markets where language and culture still matter."
+    },
+    "AI Safety": {
+      "lede": "AI safety for SMEs is not alignment research. It is the set of checks that keep your chatbot from leaking customer data, hallucinating pricing, or generating content that triggers an EU AI Act high-risk system classification.",
+      "key_themes": [
+        "Red-teaming prompts before production deployment",
+        "Guardrails and output validation for customer-facing systems",
+        "RAG architecture as a safety mechanism against hallucination",
+        "Understanding LLM memory limits and failure boundaries",
+        "Model-specific safety profiles for Claude, Gemini, and open weights"
+      ],
+      "why_it_matters": "A single unsafe output can become a regulatory incident or a viral screenshot that damages trust. The articles here treat safety as an operational layer, not an ethics debate: concrete techniques like prompt red-teaming, RAG grounding, and output filtering that a small team can implement without a dedicated safety research division."
+    },
+    "Professional Services AI": {
+      "lede": "Professional services firms sell judgment and liability. Adding AI changes what clients pay for, what regulators inspect, and what the firm is still responsible for when the model gets it wrong.",
+      "key_themes": [
+        "EU AI Act compliance for accounting and advisory firms",
+        "GEO strategy for being found in ChatGPT and Perplexity",
+        "Client transparency rules when AI assists deliverables",
+        "AI consulting market positioning for regional SME firms",
+        "Technical verification of AI use in architecture and design"
+      ],
+      "why_it_matters": "Lawyers, accountants, architects, and consultants face client relationships built on personal accountability. The articles here address how to adopt AI without eroding the trust that justifies your fees: disclosure practices, regulatory filings for high-risk use cases, and marketing strategies that work when clients start their searches inside AI chatbots rather than Google."
+    },
+    "DACH AI": {
+      "lede": "The DACH region has its own AI adoption rhythm: stronger data privacy reflexes, deeper manufacturing integration, fintech licensing requirements that vary by city, and a consulting market that still runs on German-language relationships.",
+      "key_themes": [
+        "Berlin startup ecosystem vs Frankfurt regulatory density",
+        "Manufacturing AI adoption in Munich and southern Germany",
+        "Swiss fintech AI governance under FINMA expectations",
+        "Vienna tech SME market entry and Austrian digital infrastructure",
+        "Cross-border consulting for Zurich–Munich dual-market operations and regulatory overlays"
+      ],
+      "why_it_matters": "DACH is not a single market. A fintech in Frankfurt faces BaFin scrutiny that a Berlin SaaS startup does not; a Zurich advisor needs Swiss data residency that a Vienna firm handles differently. The articles here are written for firms operating in or selling into the German-speaking bloc, with local regulatory and competitive intelligence that generic AI strategy misses."
+    },
+    "Iberia AI": {
+      "lede": "Iberian SMEs — in Lisbon fintech, Barcelona tech, Braga manufacturing, and the research corridors of Coimbra — face the same AI adoption gap as the rest of Europe, but with tighter local talent pools and subsidy regimes that vary by country and region. The articles here treat AI consulting as a city-specific exercise, not a generic playbook flown in from London or Berlin.",
+      "key_themes": [
+        "Local AI consulting engagements for tech, fintech, and manufacturing SMEs in Lisbon, Barcelona, Madrid, Braga, Cascais, and Coimbra",
+        "Practical AI deployment for industrial operations in Portuguese manufacturing clusters",
+        "Navigating Spanish and Portuguese regulatory overlay on top of EU AI Act obligations",
+        "From research origin to commercial scale: bridging university talent and SME implementation speed",
+        "City-based cost structures and what a local AI engagement actually delivers in 2026"
+      ],
+      "why_it_matters": "A tech founder in Cascais or a manufacturer in Braga cannot replicate the hiring and vendor assumptions of a Dutch or German SME. Local network effects, language-specific model performance, and regional innovation funding all change the calculus. These articles map AI adoption to the Iberian operating reality: which use cases fit the local industrial base, what a consulting engagement should cost in Lisbon versus Barcelona, and how to move from pilot to production without importing talent you cannot retain."
+    },
+    "OpenAI Codex": {
+      "lede": "OpenAI Codex is a coding agent that edits files, runs tests, and can control a desktop — which means the decision is no longer whether to adopt it, but where to place the guardrails before it touches production. The articles below compare Codex against Claude and Cursor through the lens of engineering teams that need cost ceilings, security review, and a second-lane strategy.",
+      "key_themes": [
+        "Codex desktop control and what autonomous computer use means for developer security models",
+        "Codex versus Claude Code versus Cursor: platform fit for different engineering team sizes and workflows",
+        "Agent automations and scheduled routines as a replacement for manual engineering handoffs",
+        "Best-in-class AI coding stack selection for 2026: when to standardize and when to run two lanes",
+        "CTO-level concerns: billing controls, permissions architecture, and production-line governance"
+      ],
+      "why_it_matters": "European engineering leads adopting Codex without a rollout plan often discover the cost and security problems in the same sprint. The tool is capable enough to generate real code and real invoices, which means the rollout decision belongs to the CTO, not individual developers. These articles provide the comparison frameworks, configuration checklists, and governance models needed to deploy Codex across a team without turning it into a shadow IT liability or an uncontrolled API spend."
+    },
+    "AI ROI": {
+      "lede": "AI ROI is the board question that kills projects with beautiful demos and no business case. The articles below treat it as a capital allocation discipline: how to build a proposal that separates pilot cost from recurring burn, how to measure value when productivity gains land outside the paying department, and how to spot when AI hype is covering for missing product strategy.",
+      "key_themes": [
+        "Board-ready AI ROI frameworks with clear cost lines, upside assumptions, and kill criteria",
+        "Separating consultant fees, tool subscriptions, and opportunity cost in the business case",
+        "When AI productivity gains fail to show up on the P&L and how to trace them",
+        "Applying zero-regret decision frameworks to AI leadership and capital commitment",
+        "Turning AI hype into product success: the CPO perspective on measurable outcome delivery"
+      ],
+      "why_it_matters": "European SME boards approve AI budgets slowly and kill them fast when the return is fuzzy. A business case that conflates pilot excitement with operating cost, or that promises productivity without specifying whose hours are freed, will not survive the second quarterly review. These articles give founders and COOs the specific frameworks, metrics, and narrative structures needed to secure approval, defend the spend, and know when to stop."
+    },
+    "Fractional CTO": {
+      "lede": "A fractional CTO is the operating model European SMEs use when they need senior technical judgment on a part-time basis — for AI strategy, governance oversight, or a platform transformation — but cannot justify a full-time C-suite hire. The articles below treat it as a scoped engagement with defined deliverables, not a permanent understudy.",
+      "key_themes": [
+        "What a fractional CTO engagement actually costs and what deliverables to expect in 90-day and 6-month scopes",
+        "Fractional CTO as AI governance lead: model inventory, risk classification, and vendor review",
+        "Transition roadmaps: handing off from fractional leadership to an internal technical team",
+        "City-specific fractional CTO markets and how local industrial clusters shape the engagement",
+        "Claude Code and platform transformation: what fractional leaders get asked and how they answer"
+      ],
+      "why_it_matters": "European SMEs often stall on AI adoption because no one in the building can evaluate a vendor proposal, assess a model risk, or design a 90-day rollout. A fractional CTO closes that gap without the full-time cost, but only if the scope is written clearly and the handoff is planned from day one. These articles explain what to buy, what it should cost, and how to structure the engagement so the company is stronger when the fractional leader leaves than when they arrived."
+    },
+    "Knowledge Management": {
+      "lede": "Knowledge management is the shift from static document repositories to living, queryable systems that your team actually uses. The articles below cover NotebookLM, Perplexity Spaces, and emergent RAG architectures through the lens of European SMEs that need enterprise-grade knowledge access without enterprise-grade engineering headcount.",
+      "key_themes": [
+        "NotebookLM and Gems as personal and team RAG systems without custom engineering",
+        "Perplexity Spaces for collaborative team research and shared knowledge hubs",
+        "MCP skills and tool-surface design for agent knowledge retrieval and action",
+        "Video overviews and multimodal knowledge consumption for training and onboarding at scale",
+        "Selecting knowledge tools under GDPR: where your embeddings, queries, and source documents reside"
+      ],
+      "why_it_matters": "Most European SMEs have two decades of process documentation that no one reads and a new generation of AI tools that could make it interactive — if the architecture is chosen correctly. The wrong choice means fragmented tools, duplicated subscriptions, and sensitive company knowledge routed through vendors with unclear data policies. These articles help decision-makers build knowledge systems that are actually used, properly governed, and sized to teams that do not have a dedicated ML engineer."
+    },
+    "Chinese LLMs": {
+      "lede": "Chinese LLMs — led by DeepSeek and Kimi — have shifted the global model landscape from a US-dominated API market to a multipolar competition where open-source weights, aggressive pricing, and sovereign training runs matter as much as benchmark scores. The articles below track what that shift means for European SMEs choosing vendors, pricing inference, and planning for supplier diversification.",
+      "key_themes": [
+        "DeepSeek's open-source challenge to GPT-5 and what it means for model pricing power in Europe",
+        "Kimi K2 Thinking and the end of the single-frontier-model assumption for enterprise strategy",
+        "Geopolitical supply risk: why a one-vendor AI stack is increasingly hard to defend",
+        "Open-source model viability on European hardware versus cloud API dependency",
+        "Reading the US-China AI race as a procurement signal, not a spectator sport"
+      ],
+      "why_it_matters": "European SMEs that standardized on a single US API provider in 2024 are now facing a market where open-source alternatives match capability at a fraction of the cost, and where geopolitical friction could reshape vendor availability faster than a procurement cycle. Understanding Chinese LLMs is not about geopolitics; it is about negotiating power, fallback options, and the timeline for when a self-hosted DeepSeek variant becomes the cheaper, more sovereign choice. These articles give decision-makers the context to diversify before they are forced to."
     }
   }
 }
