@@ -56,7 +56,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 ## Phase 7 — Professionalization (portfolio-grade hardening)
 
-The first six phases delivered the archive. This phase makes the repository read as a professional, defensible, contributor-ready project: secret-scanning gates, a non-monolithic test suite + browser-level E2E, a documentation pipeline that stays current automatically, a deliberate visual layer, and explicit governance for a public-but-protected repo with a documented external content-push path.
+The first six phases delivered the archive. This phase makes the repository read as a professional, defensible, contributor-ready project: secret-scanning gates, a non-monolithic test suite + browser-level E2E, a documentation pipeline that stays current automatically, a deliberate visual layer, explicit governance for a public-but-protected repo with a documented external content-push path, and a self-hosted ingestion pipeline that retires the Make.com dependency.
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
@@ -67,6 +67,8 @@ The first six phases delivered the archive. This phase makes the repository read
 | **E17** | Design overhaul (Pico.css + self-hosted fonts) | Vendor Pico.css under `static/vendor/` (no CDN — reproducible builds); thin custom layer keeps existing `.topic-intro` / `.quick-reads` / `.card` overrides; self-host Inter + JetBrains Mono (OFL) under `static/fonts/` (no Google Fonts call); typography rhythm fixes; `lighthouse-ci` step in CI uploading report as PR artifact (non-blocking initially); 4 Playwright `expect(page).toHaveScreenshot()` baselines (home, topic-with-intro, per-article, about) — added in E15b; `docs/DESIGN.md` documenting tokens, scale, breakpoints. | 📱 | M |
 | **E18** | Governance + dual content-push paths | **(1) Repo policy:** add `LICENSE-CODE` (Apache-2.0) for `tools/`, `templates/`, `static/`, `.github/`; keep `LICENSE` (CC BY 4.0) for `articles/`; `README.md` + `CONTRIBUTING.md` updated to clarify the split (Kubernetes-style). `.github/CODEOWNERS` requiring owner approval on `/articles/`, `/tools/`, `/templates/`, `/static/`, `/.github/`. Issue templates (`bug.yml`, `content-correction.yml`, `security.yml`). Documented branch-protection rules (PR required, CI green, linear history, no force-push). **(2) External content-push (Flow B):** `.github/workflows/ingest-article.yml` listening on `repository_dispatch` event `new-article`; `tools/ingest_article.py` validates payload against new `tools/article_schema.json`, writes `articles/<slug>/{article.md,metadata.json}`, opens a PR via `peter-evans/create-pull-request@v6` (preserves "only owners merge" rule); fine-grained PAT in sender repo, `contents:write` + `actions:read` scoped to this repo only; `docs/EXTERNAL_PUBLISHING.md` with copy-pasteable payload + sender setup; round-trip test (payload fixture → ingester writes valid files → `rebuild_local.py` succeeds). **(3) Showcase polish:** README badges (article count, tests passing, license, last build, Lighthouse score), 3-line elevator pitch, screenshot, "How this works" diagram. Tag `v1.0` release with auto-generated notes from `CHANGELOG.md`. | 📱 | M |
 | **E19** | Resolve duplicate-title soft gate | Editorial pass on the 6 historical duplicate title pairs (see Known hardening follow-up below) — append date or property qualifier ("… (April 2026)" / "… — Radar") per the existing recommendation. Remove `continue-on-error: true` from `Check for duplicate article titles` step in `.github/workflows/tests.yml`. Test confirming the gate is now blocking. | 📱 | XS |
+| **E20a** | Self-hosted Airtable ingestion (cron, replaces Make.com) | New `tools/ingest_airtable.py` reads `AIRTABLE_PAT` / `AIRTABLE_BASE_ID` / `AIRTABLE_TABLE_NAME` from GitHub Encrypted Secrets (no Doppler — 3 secrets in 1 repo isn't worth the extra integration); uses `pyairtable` to fetch records modified in the last **72 h** via `filterByFormula=IS_AFTER(LAST_MODIFIED_TIME(), DATEADD(NOW(), -72, 'hours'))`; validates each record against `tools/article_schema.json` (schema authored in a follow-up Claude Code session with Airtable read access — schema is stable, no field churn expected); deduplicates against existing `articles/<slug>/` folders; writes new article folders only. New `.github/workflows/ingest-airtable.yml` runs `on: schedule: - cron: "17 6 * * *"` (off-peak UTC to dodge top-of-hour delays) + `on: workflow_dispatch:` for manual runs; opens a PR via `peter-evans/create-pull-request@v6`. **Auto-merge enabled** when CI is green AND the PR's diff touches only `articles/` paths (any tools/templates/.github/ mutation requires a human). On-failure step opens a GitHub Issue (label `ingest-failure`) with the workflow run URL — silent failures impossible. **Cost: $0** — public repos get unlimited free GitHub-hosted minutes. **Migration plan:** ship behind `INGEST_DRY_RUN=1` env var, run side-by-side with Make.com for 1 week, cut over, observe 14 days, delete the Make.com scenario. **Tests:** mocked-`pyairtable` unit tests, idempotency (same record twice → zero diff), schema validation (malformed record reported, not crashed on), round-trip (payload fixture survives `rebuild_local.py`). | 📱 | M |
+| **E20b** | Push-based Airtable trigger (sub-second latency, optional follow-up) | Airtable automation fires on row create/edit and POSTs to `/repos/{owner}/{repo}/dispatches` with `event_type: "new-article"` and the record ID in `client_payload`. New `.github/workflows/ingest-airtable-dispatch.yml` listens on `repository_dispatch`; calls `ingest_airtable.py --record-id <id>` to fetch just that one record. Coexists with E20a: push is the fast path (seconds), cron is the safety net for missed pushes. Reuses E20a's ingester, validator, and PR-creation step — pure trigger addition. | 📱 | S |
 
 ## Suggested execution order
 
@@ -78,14 +80,16 @@ The first six phases delivered the archive. This phase makes the repository read
 6. ~~E9~~ — docs + workflow polish. ✅ Done.
 7. ~~E10~~ — client-side internal search. ✅ Done.
 8. ~~E11~~ — accessibility audit + fixes. ✅ Done.
-9. **E14** — security tooling + supply-chain hygiene (cheap; gates the contributor surface E18 will widen).
+9. **E14** — security tooling + supply-chain hygiene (cheap; gates the contributor surface E18 + the production Airtable PAT introduced in E20a).
 10. **E19** — clear the duplicate-title soft gate so `pytest -W error` from E15a can land cleanly.
-11. **E15a** — split the 3,029-line test monolith. Precondition for E15b.
-12. **E15b** — Playwright E2E suite locking in everything that's shipped.
-13. **E18** — governance + external content-push (Flow B via `repository_dispatch` → PR; never direct main push).
-14. **E16** — dynamic docs pipeline so the new docs from E18 stay current automatically.
-15. **E17** — design overhaul, ship last so E15b screenshot baselines stick.
-16. **E12 / E13** — your turn on the MacBook anytime after Phase 7 ships.
+11. **E20a** — self-hosted Airtable cron ingestion; retires Make.com. Addresses operational pain (manual runs today).
+12. **E15a** — split the 3,029-line test monolith. Precondition for E15b.
+13. **E15b** — Playwright E2E suite locking in everything that's shipped.
+14. **E18** — governance + external content-push (Flow B via `repository_dispatch` → PR; never direct main push). Generalizes E20b's dispatch wiring.
+15. **E16** — dynamic docs pipeline so the new docs from E18 stay current automatically.
+16. **E20b** — optional push-based Airtable trigger for sub-second ingestion latency (reuses E18's `repository_dispatch` plumbing).
+17. **E17** — design overhaul, ship last so E15b screenshot baselines stick.
+18. **E12 / E13** — your turn on the MacBook anytime after Phase 7 ships.
 
 ## Status snapshot — completed
 
