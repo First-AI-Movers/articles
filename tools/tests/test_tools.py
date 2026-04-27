@@ -3220,3 +3220,170 @@ class TestIndexNow:
         xml = sitemap.read_text(encoding="utf-8")
         count = xml.count("<url>")
         assert count == 80, f"Sitemap must contain exactly 80 URLs, got {count}"
+
+
+# =========================================================================
+# Tests: PR C — Topic hub SEO/GEO enhancement
+# =========================================================================
+
+class TestTopicHubSeo:
+    """Topic hub metadata, structured data, sitemap freshness, and internal linking."""
+
+    def _mod(self):
+        pytest.importorskip("jinja2")
+        pytest.importorskip("markdown")
+        import rebuild_local
+        return rebuild_local
+
+    def _synthetic_index(self, n=3):
+        articles = []
+        for i in range(n):
+            day = 20 - i
+            articles.append({
+                "folder": f"2026-04-{day:02d}-article-{i}",
+                "slug": f"article-{i}",
+                "title": f"Test Article {i}",
+                "published_date": f"2026-04-{day:02d}",
+                "tags": ["AI Strategy"],
+                "topics": ["AI Strategy", "European SME AI"],
+                "funnel_stage": "middle",
+                "canonical_url": f"https://radar.firstaimovers.com/article-{i}",
+            })
+        return {"articles": articles}
+
+    def _run(self, monkeypatch, tmp_path, index):
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        import shutil
+        from pathlib import Path as P
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+
+        for a in index["articles"]:
+            folder = a["folder"]
+            (tmp_path / "articles" / folder).mkdir(exist_ok=True)
+            (tmp_path / "articles" / folder / "article.md").write_text(
+                f'---\ntitle: "{a["title"]}"\nauthor: "Dr. Hernani Costa"\n'
+                f'canonical_url: "{a["canonical_url"]}"\npublished_date: "{a["published_date"]}"\n'
+                f'license: "CC BY 4.0"\n---\n'
+                f'# {a["title"]}\n\n## Introduction\n\nBody.\n',
+                encoding="utf-8")
+
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        m.build_site(index)
+        return tmp_path / "site"
+
+    # --- Title / meta ------------------------------------------------------
+
+    def test_topic_page_title_includes_topic_name_and_archive_context(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert "<title>AI Strategy Articles — First AI Movers Archive</title>" in page
+
+    def test_topic_page_meta_description_includes_topic_name_and_count(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        desc = '<meta name="description" content="'
+        assert desc in page
+        # Description should mention the topic name
+        assert "AI Strategy" in page or "ai-strategy" in page
+
+    # --- Structured data ---------------------------------------------------
+
+    def test_topic_page_has_valid_json_ld(self, monkeypatch, tmp_path):
+        import json
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        # Extract first JSON-LD block
+        start = page.find('<script type="application/ld+json">')
+        end = page.find('</script>', start)
+        block = page[start + len('<script type="application/ld+json">'):end]
+        data = json.loads(block)
+        assert "@context" in data
+        assert "https://schema.org" in data["@context"]
+
+    def test_topic_json_ld_has_collection_page_type(self, monkeypatch, tmp_path):
+        import json
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        start = page.find('<script type="application/ld+json">')
+        end = page.find('</script>', start)
+        data = json.loads(page[start + len('<script type="application/ld+json">'):end])
+        assert data["@type"] == "CollectionPage"
+        assert "mainEntity" in data
+        assert data["mainEntity"]["@type"] == "ItemList"
+
+    def test_topic_json_ld_no_invented_images(self, monkeypatch, tmp_path):
+        import json
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        start = page.find('<script type="application/ld+json">')
+        end = page.find('</script>', start)
+        data = json.loads(page[start + len('<script type="application/ld+json">'):end])
+        assert "image" not in data
+
+    def test_topic_page_has_breadcrumb_json_ld(self, monkeypatch, tmp_path):
+        import json
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        # Find second JSON-LD block (BreadcrumbList)
+        first = page.find('<script type="application/ld+json">')
+        second = page.find('<script type="application/ld+json">', first + 1)
+        end = page.find('</script>', second)
+        data = json.loads(page[second + len('<script type="application/ld+json">'):end])
+        assert data["@type"] == "BreadcrumbList"
+        assert len(data["itemListElement"]) == 3
+
+    # --- Sitemap lastmod ---------------------------------------------------
+
+    def test_sitemap_topic_lastmod_is_newest_article_date(self, monkeypatch, tmp_path):
+        m = self._mod()
+        # Need >= MIN_ARTICLES_FOR_TOPIC_PAGE (5) articles for topic hub to exist
+        articles = []
+        for i in range(5):
+            day = 10 - i
+            articles.append({
+                "folder": f"2026-04-{day:02d}-a{i}", "title": f"A{i}",
+                "published_date": f"2026-04-{day:02d}",
+                "tags": [], "topics": ["AI Strategy"], "funnel_stage": "middle",
+                "canonical_url": f"https://radar.firstaimovers.com/a{i}",
+            })
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        m.build_sitemap({"articles": articles})
+        xml = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
+        # Topic hub lastmod should be newest article date: 2026-04-10
+        assert "<loc>https://articles.firstaimovers.com/topics/ai-strategy/</loc>" in xml
+        from xml.etree.ElementTree import fromstring
+        ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+        root = fromstring(xml)
+        for url in root.findall("s:url", ns):
+            loc = url.find("s:loc", ns).text
+            if "topics/ai-strategy" in loc:
+                lastmod = url.find("s:lastmod", ns).text
+                assert lastmod == "2026-04-10", f"Expected 2026-04-10, got {lastmod}"
+                break
+        else:
+            raise AssertionError("Topic hub URL not found in sitemap")
+
+    # --- Internal linking --------------------------------------------------
+
+    def test_article_page_links_to_topic_hub(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        # Pick any article page
+        article_page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        # Should link to its primary topic hub somewhere on the page
+        assert 'href="../../topics/ai-strategy/"' in article_page
+
+    def test_article_page_preserves_noindex_external_canonical(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(3))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert 'name="robots" content="noindex, follow"' in page
+        assert 'rel="canonical" href="https://radar.firstaimovers.com/article-0"' in page

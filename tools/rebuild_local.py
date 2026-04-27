@@ -256,18 +256,24 @@ def _clean_canonical(raw):
 
 
 def _topics_with_page(index):
-    """Return (topic_counts: dict, pageable_topics: set).
+    """Return (topic_counts: dict, pageable_topics: set, topic_max_dates: dict).
 
     A topic is 'pageable' if it has >= MIN_ARTICLES_FOR_TOPIC_PAGE articles.
+    topic_max_dates maps each topic to the newest published_date among its
+    articles, for sitemap <lastmod> freshness signals.
     Shared between build_site and build_sitemap so the set of URLs advertised
     to Google matches the set of URLs actually rendered.
     """
     counts = {}
+    max_dates = {}
     for a in index.get("articles", []):
+        date = a.get("published_date", "")
         for t in a.get("topics") or []:
             counts[t] = counts.get(t, 0) + 1
+            if t not in max_dates or date > max_dates[t]:
+                max_dates[t] = date
     pageable = {t for t, c in counts.items() if c >= MIN_ARTICLES_FOR_TOPIC_PAGE}
-    return counts, pageable
+    return counts, pageable, max_dates
 
 
 def build_sitemap(index):
@@ -285,11 +291,12 @@ def build_sitemap(index):
 
     # Topic hub pages — unique curated content we own. These are the strongest
     # self-canonical pages on this domain and should be advertised explicitly.
-    _, pageable_topics = _topics_with_page(index)
+    _, pageable_topics, topic_max_dates = _topics_with_page(index)
     topic_urls = 0
     for topic in sorted(pageable_topics):
+        lastmod = topic_max_dates.get(topic) or today
         _add_url(urlset, f"{SITE_BASE}/topics/{_slugify(topic)}/",
-                 today, "weekly", "0.7")
+                 lastmod, "weekly", "0.7")
         topic_urls += 1
 
     raw = tostring(urlset, encoding="unicode")
