@@ -23,7 +23,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| **E5** | OG images + Twitter cards + author footer + JSON Feed | Per-page SVG OG image generator (home + 75 topics + about), `summary_large_image` upgrade, visible author social-links footer (LinkedIn / podcast / YouTube), `/feed.json` sibling to `feed.xml`. | 📱 | M |
+| **E5** | JSON Feed + social footer + social metadata plumbing | `/feed.json` in JSON Feed 1.1 format, visible author social-links footer (LinkedIn / podcast / YouTube), conditional `og:image` template plumbing — no generated images. | 📱 | M |
 
 ## Phase 3 — V2 site features (per-article pages)
 
@@ -45,6 +45,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 |---|---|---|:---:|:---:|
 | **E10** | Client-side internal search | JS-only fuzzy search over `index.json`. Search box on home + topics index. No backend. | Hybrid | M |
 | **E11** | Accessibility audit + fixes | ARIA labels, skip-link, semantic HTML, contrast review. | 📱 | S |
+| *(deferred)* | Harvest canonical publisher OG images | Where canonical article pages already have OG images, harvest and reference them in archive topic pages. Requires MacBook + publisher API access. | 💻 | M |
 
 ## Phase 6 — User-side (you, on MacBook)
 

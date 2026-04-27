@@ -14,11 +14,14 @@
 <meta property="og:url" content="{{ site_url }}{{ page_path }}">
 <meta property="og:site_name" content="First AI Movers — Article Archive">
 
+{% block og_image %}{% endblock %}
+
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="{% block tw_title %}{{ self.title() }}{% endblock %}">
 <meta name="twitter:description" content="{% block tw_description %}{{ self.description() }}{% endblock %}">
 
 <link rel="alternate" type="application/atom+xml" title="Atom feed" href="{{ site_url }}/feed.xml">
+<link rel="alternate" type="application/json" title="JSON Feed" href="{{ site_url }}/feed.json">
 <link rel="stylesheet" href="{{ rel_root }}style.css">
 {% block head_extra %}{% endblock %}
 </head>
@@ -41,12 +44,17 @@
   <div class="row">
     <span>Archive of <a href="https://firstaimovers.com">First AI Movers</a> by <a href="https://drhernanicosta.com">Dr. Hernani Costa</a>, PhD</span>
   </div>
+  <div class="row social-links">
+    <a href="https://linkedin.com/in/hernani-costa-ai-ceo-firstaimovers">LinkedIn</a>
+    <a href="https://open.spotify.com/show/5HX1cZF7Ojikm2VWcAzTnt">Podcast</a>
+    <a href="https://youtube.com/@DrHernaniCosta">YouTube</a>
+  </div>
   <div class="row">
     <span>{{ stats.total }} articles · {{ topics_with_page|length }} topic pages · {{ stats.date_min }} to {{ stats.date_max }}</span>
     <span>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
   </div>
   <div class="row">
-    <span>Raw data: <a href="{{ site_url }}/index.json">index.json</a> · <a href="{{ site_url }}/llms.txt">llms.txt</a> · <a href="{{ site_url }}/llms-full.txt">llms-full.txt</a> · <a href="{{ site_url }}/feed.xml">feed.xml</a> · <a href="{{ site_url }}/sitemap.xml">sitemap.xml</a></span>
+    <span>Raw data: <a href="{{ site_url }}/index.json">index.json</a> · <a href="{{ site_url }}/llms.txt">llms.txt</a> · <a href="{{ site_url }}/llms-full.txt">llms-full.txt</a> · <a href="{{ site_url }}/feed.xml">feed.xml</a> · <a href="{{ site_url }}/feed.json">feed.json</a> · <a href="{{ site_url }}/sitemap.xml">sitemap.xml</a></span>
   </div>
   <div class="row">
     <span><a href="https://github.com/First-AI-Movers/articles">View source on GitHub</a></span>

@@ -79,6 +79,17 @@ footer.site {
 
 footer.site a { color: var(--muted); }
 footer.site .row { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+footer.site .social-links a {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.88rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--rule);
+}
+footer.site .social-links a:hover {
+  color: var(--link);
+  border-bottom-color: var(--link);
+}
 
 h1, h2, h3, h4 {
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
