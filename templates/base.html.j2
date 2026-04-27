@@ -34,18 +34,19 @@
 {% block head_extra %}{% endblock %}
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to content</a>
 <header class="site">
   <a class="brand" href="{{ rel_root }}">First AI Movers — Archive</a>
-  <nav>
+  <nav aria-label="Primary">
     <a href="{{ rel_root }}">Home</a>
     <a href="{{ rel_root }}topics/">Topics</a>
     <a href="{{ rel_root }}about/">About</a>
     <a href="{{ site_url }}/feed.xml">Feed</a>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light mode" type="button">Light mode</button>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light mode" aria-pressed="false" type="button">Light mode</button>
   </nav>
 </header>
 
-<main{% block main_class %}{% endblock %}>
+<main id="main-content"{% block main_class %}{% endblock %}>
 {% block content %}{% endblock %}
 </main>
 
@@ -73,18 +74,20 @@
 (function() {
   var toggle = document.getElementById('theme-toggle');
   if (!toggle) return;
-  function updateLabel() {
+  function updateState() {
     var current = document.documentElement.getAttribute('data-theme') || 'dark';
-    toggle.textContent = current === 'dark' ? 'Light mode' : 'Dark mode';
-    toggle.setAttribute('aria-label', current === 'dark' ? 'Toggle light mode' : 'Toggle dark mode');
+    var isDark = current === 'dark';
+    toggle.textContent = isDark ? 'Light mode' : 'Dark mode';
+    toggle.setAttribute('aria-label', isDark ? 'Toggle light mode' : 'Toggle dark mode');
+    toggle.setAttribute('aria-pressed', String(isDark));
   }
-  updateLabel();
+  updateState();
   toggle.addEventListener('click', function() {
     var current = document.documentElement.getAttribute('data-theme') || 'dark';
     var next = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-    updateLabel();
+    updateState();
   });
 })();
 </script>
