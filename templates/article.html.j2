@@ -33,11 +33,20 @@
 {% endblock %}
 
 {% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ rel_root }}">Home</a>
+  {% if topics %}
+  / <a href="{{ rel_root }}topics/">Topics</a>
+  / <a href="{{ rel_root }}topics/{{ topic_slug(topics[0]) }}/">{{ topics[0] }}</a>
+  {% endif %}
+  / {{ title }}
+</nav>
+
 <article class="article-page">
   <header class="article-header">
     <p class="archive-notice">Archive copy — <a href="{{ canonical_url }}" rel="noopener">read original at {{ canonical_host_label }}</a></p>
     <h1>{{ title }}</h1>
-    <p class="meta">{{ published_date }} · {{ author }} · Published on {{ canonical_host_label }}</p>
+    <p class="meta">{{ published_date }} · {{ author }} · Published on {{ canonical_host_label }} · {{ reading_time }} min read</p>
     {% if topics %}
     <div class="topics">
       {% for t in topics %}{% if t in topics_with_page %}<a href="{{ rel_root }}topics/{{ topic_slug(t) }}/">{{ t }}</a>{% else %}<span>{{ t }}</span>{% endif %}{% endfor %}
@@ -45,9 +54,32 @@
     {% endif %}
   </header>
 
+  {% if toc_headings|length >= 2 %}
+  <nav class="toc" aria-label="Table of contents">
+    <h2>Table of contents</h2>
+    <ul>
+      {% for h in toc_headings %}
+      <li class="toc-level-{{ h.level }}"><a href="#{{ h.id }}">{{ h.text }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+
   <div class="article-body">
     {{ body_html|safe }}
   </div>
+
+  {% if related_articles %}
+  <section class="related-articles" aria-label="Related articles">
+    <h2>Related articles</h2>
+    {% for ra in related_articles %}
+    <article class="related-article">
+      <h3><a href="{{ rel_root }}articles/{{ ra.slug }}/">{{ ra.title }}</a></h3>
+      <p class="related-meta">{{ ra.published_date }} · {{ ra.canonical_host_label }}</p>
+    </article>
+    {% endfor %}
+  </section>
+  {% endif %}
 
   <footer class="article-footer">
     <p>Originally published on <a href="{{ canonical_url }}" rel="noopener">{{ canonical_host_label }}</a> · {{ published_date }}</p>
