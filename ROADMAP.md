@@ -37,7 +37,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
 | ~~E8~~ | ~~Test coverage + duplicate-title CI gate + atomic writes~~ | ✅ **Done.** Feed + JSON Feed byte-stability tests, llms-full + llms-recent byte-stability tests, XSS resistance tests (title, summary, topic intro, JSON-LD), atomic metadata writes via `tools/_atomic_io.py`, Jinja2 autoescape fix for `.j2` templates. Duplicate-title gate is implemented (`tools/check_duplicate_titles.py`) but currently **soft** (`continue-on-error: true` in CI) because 6 historical duplicate title pairs exist — see Known hardening follow-up below. | 📱 | M |
-| **E9** | Docs + workflow polish | `CONTRIBUTING.md`, PR template, `SECURITY.md`, rename `rebuild-index.yml` → `build-and-deploy.yml`. | 📱 | S |
+| ~~E9~~ | ~~Docs + workflow polish~~ | ✅ **Done.** `CONTRIBUTING.md`, `.github/pull_request_template.md`, `SECURITY.md`, workflow renamed to `build-and-deploy.yml`. | 📱 | S |
 
 ## Phase 5 — Optional value-add
 
@@ -61,8 +61,8 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 3. ~~E6~~ — per-article HTML pages renderer. ✅ Done.
 4. ~~E7~~ — per-article enhancements (related articles, TOC, reading time, breadcrumbs). ✅ Done.
 5. ~~E8~~ — test coverage + duplicate-title gate + atomic writes. ✅ Done.
-6. **E9** — docs + workflow polish. Next recommended epic.
-7. **E10 / E11** — optional polish.
+6. ~~E9~~ — docs + workflow polish. ✅ Done.
+7. **E10 / E11** — optional polish. Next available repo-side tasks.
 8. **E12 / E13** — your turn on the MacBook anytime after we ship visible changes.
 
 ## Status snapshot — completed
@@ -88,6 +88,7 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #20** Dark mode default + light toggle
 - **PR #21** Per-article enhancements: TOC, reading time, breadcrumbs, related articles — E7
 - **PR #23** E8 archive hardening: duplicate-title gate, atomic writes, feed/LLMS byte-stability tests, XSS coverage, Jinja2 autoescape fix — E8
+- **PR #25** E9 workflow polish: `CONTRIBUTING.md`, `SECURITY.md`, PR template, workflow rename — E9
 
 Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **819 local article pages**, **186 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
 
