@@ -54,6 +54,24 @@ TLDR_HEADING_RE = re.compile(
 
 
 # ---------------------------------------------------------------------------
+# Duplicate-title gate
+# ---------------------------------------------------------------------------
+def check_duplicate_titles(index):
+    """Return a list of (title_lower, [(folder, published_date), ...]) for duplicates.
+
+    Comparison is case-insensitive.  Empty or missing titles are ignored.
+    """
+    from collections import defaultdict
+    by_title = defaultdict(list)
+    for a in index.get("articles", []):
+        title = a.get("title")
+        if not title:
+            continue
+        by_title[title.lower()].append((a.get("folder", ""), a.get("published_date", "")))
+    return [(t, folders) for t, folders in by_title.items() if len(folders) > 1]
+
+
+# ---------------------------------------------------------------------------
 # index.json
 # ---------------------------------------------------------------------------
 def build_index():
@@ -92,8 +110,8 @@ def build_index():
         "license": "CC BY 4.0",
         "articles": articles,
     }
-    (REPO_ROOT / "index.json").write_text(
-        json.dumps(index, indent=2, ensure_ascii=False), encoding="utf-8")
+    from _atomic_io import atomic_write_json
+    atomic_write_json(REPO_ROOT / "index.json", index)
     print(f"[index.json] indexed={len(articles)} skipped={skipped}")
     return index
 
@@ -199,12 +217,13 @@ def update_docs(index):
           f"tags={stats['tags_count']} topics={stats['topics_count']} "
           f"range={stats['date_min']}..{stats['date_max']} "
           f"funnel={_funnel_summary(stats['funnel'])}")
+    from _atomic_io import atomic_write_text
     for filename, patcher in (("README.md", patch_readme), ("llms.txt", patch_llms)):
         path = REPO_ROOT / filename
         old = path.read_text(encoding="utf-8")
         new = patcher(old, stats)
         if new != old:
-            path.write_text(new, encoding="utf-8")
+            atomic_write_text(path, new)
             print(f"[docs] {filename} updated")
         else:
             print(f"[docs] {filename} unchanged")
@@ -299,7 +318,8 @@ def build_sitemap(index):
     raw = tostring(urlset, encoding="unicode")
     pretty = parseString(raw).toprettyxml(indent="  ", encoding="UTF-8").decode("utf-8")
     cleaned = "\n".join(line for line in pretty.split("\n") if line.strip()) + "\n"
-    (REPO_ROOT / "sitemap.xml").write_text(cleaned, encoding="utf-8")
+    from _atomic_io import atomic_write_text
+    atomic_write_text(REPO_ROOT / "sitemap.xml", cleaned)
     print(f"[sitemap.xml] urls={cleaned.count('<url>')} "
           f"article_urls={emitted} topic_urls={topic_urls} "
           f"skipped_external={skipped_external} "
@@ -427,8 +447,8 @@ def build_json_feed(index):
         "items": items,
     }
 
-    (REPO_ROOT / "feed.json").write_text(
-        json.dumps(feed, indent=2, ensure_ascii=False), encoding="utf-8")
+    from _atomic_io import atomic_write_json
+    atomic_write_json(REPO_ROOT / "feed.json", feed)
     print(f"[feed.json] entries={len(items)} feed_updated={feed_updated}")
 
 
@@ -491,7 +511,8 @@ def build_feed(index):
     raw = tostring(feed, encoding="unicode")
     pretty = parseString(raw).toprettyxml(indent="  ", encoding="UTF-8").decode("utf-8")
     cleaned = "\n".join(line for line in pretty.split("\n") if line.strip()) + "\n"
-    (REPO_ROOT / "feed.xml").write_text(cleaned, encoding="utf-8")
+    from _atomic_io import atomic_write_text
+    atomic_write_text(REPO_ROOT / "feed.xml", cleaned)
     print(f"[feed.xml] entries={len(articles)} feed_updated={feed_updated}")
 
 
@@ -557,7 +578,8 @@ def build_llms_full(index):
         included += 1
 
     full = "".join(parts)
-    (REPO_ROOT / "llms-full.txt").write_text(full, encoding="utf-8")
+    from _atomic_io import atomic_write_text
+    atomic_write_text(REPO_ROOT / "llms-full.txt", full)
     size_mb = len(full.encode("utf-8")) / (1024 * 1024)
     print(f"[llms-full.txt] articles={included} skipped={skipped} size={size_mb:.2f}MB")
 
@@ -638,7 +660,8 @@ def build_llms_recent(index):
         included += 1
 
     full = "".join(parts)
-    (REPO_ROOT / "llms-recent.txt").write_text(full, encoding="utf-8")
+    from _atomic_io import atomic_write_text
+    atomic_write_text(REPO_ROOT / "llms-recent.txt", full)
     size_mb = len(full.encode("utf-8")) / (1024 * 1024)
     print(f"[llms-recent.txt] articles={included} skipped={skipped} "
           f"window={cutoff.isoformat()}..{newest.isoformat()} size={size_mb:.2f}MB")
@@ -939,7 +962,7 @@ def build_site(index):
 
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATE_DIR)),
-        autoescape=select_autoescape(["html", "xml"]),
+        autoescape=select_autoescape(["html", "htm", "xml", "xhtml", "j2"]),
         trim_blocks=False,
         lstrip_blocks=False,
     )
