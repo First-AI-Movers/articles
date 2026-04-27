@@ -162,6 +162,50 @@ h2.articles-heading {
   border-bottom: 1px solid var(--rule);
 }
 
+/* Quick reads section on topic hub pages */
+.quick-reads {
+  margin: 2rem 0;
+}
+.quick-reads h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.quick-read {
+  margin: 1rem 0 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.quick-read:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.quick-read h3 {
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+.quick-read h3 a {
+  color: var(--text);
+  text-decoration: none;
+}
+.quick-read h3 a:hover {
+  color: var(--link);
+  text-decoration: underline;
+}
+.quick-read-meta {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0 0 0.35rem;
+}
+.quick-read-tldr {
+  font-size: 0.97rem;
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0;
+}
+
 /* Article card */
 .card {
   border-bottom: 1px solid var(--rule);

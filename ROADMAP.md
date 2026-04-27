@@ -14,9 +14,9 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| **E1** | Topic narratives — top 10 topics | Intro + key themes + why-it-matters per topic, written and committed as `tools/topic_intros.json`. Wires the rendering plumbing for the rest. Pages affected: European SME AI, AI Strategy, AI Governance, AI Productivity Tools, EU AI Act, AI Workflow Automation, AI Agents, Healthcare AI, B2B SaaS Growth, GDPR & Data Privacy. | 📱 | M |
-| **E2** | Topic narratives — mid 25 topics | Same pattern, next-tier topics (15-50 articles each). | 📱 | M |
-| **E3** | Topic narratives — final 40 topics | Long tail (5-15 articles each). After this, all 75 topic hubs have unique content. | 📱 | M |
+| ~~E1~~ | ~~Topic narratives — top 10 topics~~ | ✅ **Done.** Intro + key themes + why-it-matters for the 10 highest-volume topics. | 📱 | M |
+| ~~E2~~ | ~~Topic narratives — mid 25 topics~~ | ✅ **Done.** Same pattern for the next 25 topics (15-50 articles each). | 📱 | M |
+| ~~E3~~ | ~~Topic narratives — final 42 topics~~ | ✅ **Done.** All 77 topic hubs with ≥5 articles now have curated intros. Remaining 34 canonical topics have <5 articles and do not render hub pages. | 📱 | M |
 | **E4** | Topic-page TL;DR digest blocks | "Quick reads" section per topic page = first-N article TL;DRs concatenated. Scannable, citable. | 📱 | S |
 
 ## Phase 2 — Visual & social presence
@@ -78,4 +78,4 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #9** SEO + GEO + security audit follow-up (14 fixes including jinja2 CVE pin, robots.txt LLM opt-in, BreadcrumbList, 107 metadata whitespace cleanups)
 - **PR #10** `llms-recent.txt` (30-day rolling slice)
 
-Operational state today: 799 articles, 102 canonical topics, 75 topic hub pages auto-deployed to GitHub Pages, 93 tests on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, 102 tests on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
