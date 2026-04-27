@@ -82,6 +82,19 @@
   {% include "partials/article_card.html.j2" %}
 {% endfor %}
 
+{% if quick_reads %}
+<section class="quick-reads" aria-label="Quick reads">
+  <h2>Quick reads</h2>
+  {% for qr in quick_reads %}
+  <article class="quick-read">
+    <h3><a href="{{ qr.canonical_url }}" rel="noopener">{{ qr.title }}</a></h3>
+    <p class="quick-read-meta">{{ qr.published_date }}</p>
+    <p class="quick-read-tldr">{{ qr.tldr }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
 {% if related_topics %}
 <h2>Related topics</h2>
 <p style="font-family: ui-sans-serif, system-ui, sans-serif; font-size: 0.95rem;">

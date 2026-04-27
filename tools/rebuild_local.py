@@ -609,6 +609,7 @@ TOPIC_INTROS_PATH = REPO_ROOT / "tools" / "topic_intros.json"
 MIN_ARTICLES_FOR_TOPIC_PAGE = 5
 HOME_LATEST_COUNT = 20
 RELATED_TOPICS_ON_TOPIC_PAGE = 6
+QUICK_READS_MAX = 5
 
 # Hosts whose articles are worth "Read at X" CTAs. Label map for display.
 CANONICAL_HOST_LABELS = {
@@ -679,6 +680,39 @@ def _article_summary(folder, title, published_date):
     return _extract_summary(folder, title, published_date)
 
 
+def _extract_tldr(folder):
+    """Return the TL;DR plain-text string for an article, or None.
+
+    Uses the same patterns as _extract_summary but returns only the TL;DR
+    text — no truncation, no fallback.  If the article has no TL;DR block
+    or heading, returns None so the caller can decide whether to show a
+    Quick reads entry.
+    """
+    md = ARTICLES_DIR / folder / "article.md"
+    if not md.exists():
+        return None
+    text = _strip_front_matter(md.read_text(encoding="utf-8", errors="replace"))
+
+    m = TLDR_BLOCKQUOTE_RE.search(text)
+    if m:
+        body = m.group(1)
+        # Strip blockquote markers from multi-line TL;DRs
+        body = re.sub(r"^>\s?", "", body, flags=re.MULTILINE)
+        # Collapse markdown links to link text only: [text](url) → text
+        body = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", body)
+        cleaned = " ".join(body.split())
+        return cleaned if cleaned else None
+
+    m = TLDR_HEADING_RE.search(text)
+    if m:
+        body = re.sub(r"^>\s?", "", m.group(1), flags=re.MULTILINE)
+        body = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", body)
+        cleaned = " ".join(body.split())
+        return cleaned if cleaned else None
+
+    return None
+
+
 def _enrich_articles(articles):
     """Decorate each index article with fields the templates need."""
     enriched = []
@@ -690,6 +724,7 @@ def _enrich_articles(articles):
             "canonical_url": canonical,
             "canonical_host_label": _canonical_host_label(canonical),
             "summary": _article_summary(a.get("folder", ""), a.get("title", ""), a.get("published_date", "")),
+            "tldr": _extract_tldr(a.get("folder", "")),
         })
     return enriched
 
@@ -800,9 +835,14 @@ def build_site(index):
         related = _related_topics_for(topic, topic_articles, topic_counts, RELATED_TOPICS_ON_TOPIC_PAGE)
         slug = _slugify(topic)
         intro = topic_intros.get(topic)
+        quick_reads = [
+            {"title": a["title"], "published_date": a["published_date"],
+             "canonical_url": a["canonical_url"], "tldr": a["tldr"]}
+            for a in topic_articles if a.get("tldr")
+        ][:QUICK_READS_MAX]
         _render("topic.html.j2", f"topics/{slug}/index.html",
                 topic=topic, articles=topic_articles, related_topics=related,
-                topic_intro=intro)
+                topic_intro=intro, quick_reads=quick_reads)
         topic_pages += 1
         if intro:
             topic_pages_with_intro += 1
