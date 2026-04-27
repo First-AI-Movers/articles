@@ -24,6 +24,8 @@ import json
 from collections import Counter
 from pathlib import Path
 
+from _atomic_io import atomic_write_json
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = REPO_ROOT / "articles"
 TOPICS_FILE = Path(__file__).resolve().parent / "canonical_topics.json"
@@ -140,11 +142,8 @@ def process_metadata_file(meta_path, patterns, overrides):
     for field, value in cleaned_fields.items():
         meta[field] = value
 
-    # Preserve pretty formatting matching the existing style: 2-space indent,
-    # ensure_ascii=False, trailing newline.
-    serialized = json.dumps(meta, indent=2, ensure_ascii=False) + "\n"
     if changed:
-        meta_path.write_text(serialized, encoding="utf-8")
+        atomic_write_json(meta_path, meta)
     return changed, new_topics
 
 
