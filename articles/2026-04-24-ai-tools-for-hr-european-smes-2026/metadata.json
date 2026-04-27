@@ -1,18 +1,32 @@
 {
-    "id":"recCzeu0ba5sCjAKT",
-    "title":"AI Tools for HR at European SMEs: What Is Safe to Deploy in 2026",
-    "slug":"ai-tools-for-hr-european-smes-2026",
-    "folder": "2026-04-24-ai-tools-for-hr-european-smes-2026",
-    "published_date": "2026-04-24",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/ai-tools-for-hr-european-smes-2026",
-    "tags":["EU AI Act compliance","AI governance for European SMEs","HR AI tool categorization","automated hiring decisions","GDPR Article 22 implications","AI vendor compliance readiness"],
-    "word_count": 1365,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recCzeu0ba5sCjAKT",
+  "title": "AI Tools for HR at European SMEs: What Is Safe to Deploy in 2026",
+  "slug": "ai-tools-for-hr-european-smes-2026",
+  "folder": "2026-04-24-ai-tools-for-hr-european-smes-2026",
+  "published_date": "2026-04-24",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/ai-tools-for-hr-european-smes-2026",
+  "tags": [
+    "EU AI Act compliance",
+    "AI governance for European SMEs",
+    "HR AI tool categorization",
+    "automated hiring decisions",
+    "GDPR Article 22 implications",
+    "AI vendor compliance readiness"
+  ],
+  "word_count": 1365,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "EU AI Act",
+    "AI Governance",
+    "European SME AI",
+    "AI for HR",
+    "GDPR & Data Privacy"
+  ]
 }

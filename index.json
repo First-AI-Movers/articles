@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-04-26",
-  "total_articles": 809,
+  "last_updated": "2026-04-27",
+  "total_articles": 819,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -189,6 +189,30 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-tools-for-legal-operations-european-smes-2026"
     },
     {
+      "folder": "2026-04-25-ai-tools-for-marketing-european-smes-2026",
+      "title": "AI Marketing Tools for European SMEs in 2026",
+      "published_date": "2026-04-25",
+      "tags": [
+        "AI marketing tools for SMEs",
+        "GDPR compliance for AI",
+        "content creation with AI",
+        "SEO strategies for European businesses",
+        "email marketing automation",
+        "social media scheduling tools",
+        "AI-driven marketing solutions"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Industry News",
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "AI Content Strategy",
+        "AI SEO and GEO"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-tools-for-marketing-european-smes-2026"
+    },
+    {
       "folder": "2026-04-25-ai-vendor-management-playbook-european-smes-2026",
       "title": "AI Vendor Management Playbook for EU SMEs",
       "published_date": "2026-04-25",
@@ -231,6 +255,73 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-professional-services-accounting-compliance-2026"
+    },
+    {
+      "folder": "2026-04-25-nis2-cybersecurity-compliance-guide-european-smes-2026",
+      "title": "NIS2 Compliance Guide for European SMEs in 2026",
+      "published_date": "2026-04-25",
+      "tags": [
+        "NIS2 compliance for SMEs",
+        "cybersecurity obligations in Europe",
+        "incident reporting under NIS2",
+        "mandatory cybersecurity measures",
+        "EU cybersecurity regulations",
+        "important entities under NIS2"
+      ],
+      "topics": [
+        "AI Governance",
+        "European SME AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/nis2-cybersecurity-compliance-guide-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-25-should-you-adopt-ai-in-regulated-manufacturing-2026",
+      "title": "Should You Adopt AI in EU Regulated Manufacturing in 2026?",
+      "published_date": "2026-04-25",
+      "tags": [
+        "EU AI Act compliance",
+        "NIS2 cybersecurity requirements",
+        "AI adoption in manufacturing",
+        "high-risk AI systems",
+        "compliance decision framework",
+        "operational value of AI",
+        "manufacturing SMEs strategy"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "Manufacturing AI",
+        "AI Strategy",
+        "AI Risk Management",
+        "European SME AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/should-you-adopt-ai-in-regulated-manufacturing-2026"
+    },
+    {
+      "folder": "2026-04-24-ai-agent-orchestration-guide-european-smes-2026",
+      "title": "AI Agent Orchestration for European SMEs: A Decision and Governance Guide",
+      "published_date": "2026-04-24",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "AI agent deployment",
+        "multi-agent AI frameworks",
+        "SME operational overhead",
+        "AI risk management",
+        "automation in legal tech"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "AI Agents",
+        "Multi-Agent Systems",
+        "AI Risk Management"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-agent-orchestration-guide-european-smes-2026"
     },
     {
       "folder": "2026-04-24-ai-agent-swarms-european-smes-2026",
@@ -303,6 +394,30 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-geneva-life-sciences-smes-2026"
     },
     {
+      "folder": "2026-04-24-ai-consulting-hamburg-tech-logistics-smes-2026",
+      "title": "AI Consulting for Hamburg Tech and Logistics SMEs",
+      "published_date": "2026-04-24",
+      "tags": [
+        "AI consulting for SMEs",
+        "Hamburg logistics AI",
+        "EU AI Act readiness",
+        "GDPR compliance for AI",
+        "maritime technology AI",
+        "B2B software AI applications",
+        "AI implementation support"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Consulting",
+        "EU AI Act",
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "Maritime AI"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-hamburg-tech-logistics-smes-2026"
+    },
+    {
       "folder": "2026-04-24-ai-consulting-krakow-it-services-smes-2026",
       "title": "AI Consulting for Krakow IT Services SMEs: A Dual-Market Guide",
       "published_date": "2026-04-24",
@@ -346,6 +461,29 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-lyon-tech-biotech-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-ai-consulting-rome-professional-services-smes-2026",
+      "title": "AI Consulting for Rome Professional Services SMEs",
+      "published_date": "2026-04-24",
+      "tags": [
+        "AI consulting for SMEs",
+        "Garante compliance guidance",
+        "AI implementation for legal services",
+        "Public procurement AI requirements",
+        "AI adoption in professional services",
+        "Regulatory landscape for AI in Italy"
+      ],
+      "topics": [
+        "European SME AI",
+        "AI Consulting",
+        "AI Governance",
+        "AI Strategy",
+        "Professional Services AI",
+        "AI Regulation"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-rome-professional-services-smes-2026"
     },
     {
       "folder": "2026-04-24-ai-data-residency-guide-european-smes-2026",
@@ -394,6 +532,28 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-tools-finance-accounting-european-smes-2026"
     },
     {
+      "folder": "2026-04-24-ai-tools-for-hr-european-smes-2026",
+      "title": "AI Tools for HR at European SMEs: What Is Safe to Deploy in 2026",
+      "published_date": "2026-04-24",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "HR AI tool categorization",
+        "automated hiring decisions",
+        "GDPR Article 22 implications",
+        "AI vendor compliance readiness"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "AI for HR",
+        "GDPR & Data Privacy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/ai-tools-for-hr-european-smes-2026"
+    },
+    {
       "folder": "2026-04-24-chatgpt-5-features-european-business-teams-2026",
       "title": "ChatGPT 5 for European Business Teams: What Changed and What to Do Next",
       "published_date": "2026-04-24",
@@ -415,6 +575,75 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/chatgpt-5-features-european-business-teams-2026"
+    },
+    {
+      "folder": "2026-04-24-claude-code-devops-advanced-ci-patterns-2026",
+      "title": "Advanced CI/CD Automation with Claude Code for European Engineering Teams",
+      "published_date": "2026-04-24",
+      "tags": [
+        "CI/CD automation for European SMEs",
+        "GDPR compliance in DevOps",
+        "AI-driven pre-commit hooks",
+        "Automated PR review processes",
+        "Deployment gate verification",
+        "Secrets management for EU teams",
+        "AI tools for software engineering"
+      ],
+      "topics": [
+        "AI CI/CD",
+        "European SME AI",
+        "GDPR & Data Privacy",
+        "AI Governance",
+        "AI DevOps"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-devops-advanced-ci-patterns-2026"
+    },
+    {
+      "folder": "2026-04-24-eu-ai-act-conformity-assessment-guide-european-smes-202",
+      "title": "EU AI Act Conformity Assessment: A Practical Guide for European SMEs",
+      "published_date": "2026-04-24",
+      "tags": [
+        "EU AI Act compliance",
+        "AI governance for European SMEs",
+        "high-risk AI systems",
+        "AI deployment obligations",
+        "compliance assessment for SMEs",
+        "AI technical documentation",
+        "AI oversight requirements"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "European SME AI",
+        "AI Risk Management",
+        "AI Strategy"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-conformity-assessment-guide-european-smes-2026"
+    },
+    {
+      "folder": "2026-04-24-gpt-4o-image-generation-guide-european-smes-2026",
+      "title": "GPT-4o Image Generation: A Practical Guide for European SMEs",
+      "published_date": "2026-04-24",
+      "tags": [
+        "EU AI Act compliance",
+        "GPT-4o image generation",
+        "AI-generated content ownership",
+        "GDPR compliance for SMEs",
+        "AI tools for marketing teams",
+        "image generation best practices"
+      ],
+      "topics": [
+        "EU AI Act",
+        "AI Governance",
+        "GPT Models",
+        "GDPR & Data Privacy",
+        "European SME AI",
+        "AI for Marketing Teams"
+      ],
+      "funnel_stage": "middle",
+      "canonical_url": "https://radar.firstaimovers.com/gpt-4o-image-generation-guide-european-smes-2026"
     },
     {
       "folder": "2026-04-24-should-you-go-ai-first-european-smes-2026",

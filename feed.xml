@@ -149,6 +149,23 @@
     <summary type="text">AI tools for in-house legal teams at EU SMEs: contract review, compliance tracking, and EU AI Act obligations under Annex III for legal software.</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-tools-for-marketing-european-smes-2026</id>
+    <title>AI Marketing Tools for European SMEs in 2026</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-tools-for-marketing-european-smes-2026"/>
+    <published>2026-04-25T00:00:00Z</published>
+    <updated>2026-04-25T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="European SME AI"/>
+    <category term="AI Industry News"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
+    <category term="AI Content Strategy"/>
+    <summary type="text">A practical guide to AI marketing tools for EU SMEs: content creation, SEO, social media, email, and GDPR compliance for 20-50 person teams.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-vendor-management-playbook-european-smes-2026</id>
     <title>AI Vendor Management Playbook for EU SMEs</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/ai-vendor-management-playbook-european-smes-2026"/>
@@ -180,6 +197,54 @@
     <category term="Professional Services AI"/>
     <category term="AI for Finance Teams"/>
     <summary type="text">Accounting firms face EU AI Act obligations for AI tools in 2026. Covers risk classification, deployer duties, and a 6-step compliance checklist.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-nis2-cybersecurity-compliance-guide-european-smes-2026</id>
+    <title>NIS2 Compliance Guide for European SMEs in 2026</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/nis2-cybersecurity-compliance-guide-european-smes-2026"/>
+    <published>2026-04-25T00:00:00Z</published>
+    <updated>2026-04-25T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <summary type="text">NIS2 is live and EU SMEs in covered sectors face new mandatory cybersecurity obligations. Learn who is in scope and what the five starting steps are.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-should-you-adopt-ai-in-regulated-manufacturing-2026</id>
+    <title>Should You Adopt AI in EU Regulated Manufacturing in 2026?</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/should-you-adopt-ai-in-regulated-manufacturing-2026"/>
+    <published>2026-04-25T00:00:00Z</published>
+    <updated>2026-04-25T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="Manufacturing AI"/>
+    <category term="AI Strategy"/>
+    <category term="AI Risk Management"/>
+    <summary type="text">A decision framework for EU manufacturing SMEs: when AI adoption makes sense under NIS2, EU AI Act Annex IV, and process compliance requirements.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-agent-orchestration-guide-european-smes-2026</id>
+    <title>AI Agent Orchestration for European SMEs: A Decision and Governance Guide</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-agent-orchestration-guide-european-smes-2026"/>
+    <published>2026-04-24T00:00:00Z</published>
+    <updated>2026-04-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="AI Agents"/>
+    <category term="Multi-Agent Systems"/>
+    <summary type="text">When EU SMEs should use multi-agent AI frameworks: decision guide, governance rules, and EU AI Act classification.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-agent-swarms-european-smes-2026</id>
@@ -233,6 +298,23 @@
     <summary type="text">Geneva life sciences SMEs face nDSG, FINMA, and Swissmedic compliance. How AI consulting delivers compliant AI adoption for pharma and biotech firms.</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-hamburg-tech-logistics-smes-2026</id>
+    <title>AI Consulting for Hamburg Tech and Logistics SMEs</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-hamburg-tech-logistics-smes-2026"/>
+    <published>2026-04-24T00:00:00Z</published>
+    <updated>2026-04-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="EU AI Act"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
+    <summary type="text">AI consulting for Hamburg tech, logistics, and maritime SMEs. HmbDSB-aware GDPR compliance, EU AI Act readiness, and AI rollout support.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-krakow-it-services-smes-2026</id>
     <title>AI Consulting for Krakow IT Services SMEs: A Dual-Market Guide</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-krakow-it-services-smes-2026"/>
@@ -265,6 +347,23 @@
     <category term="AI Governance"/>
     <category term="France and Benelux AI"/>
     <summary type="text">How Lyon SMEs in tech, biotech, and logistics can structure an AI adoption engagement: French regulation, CIR tax credit, and three-phase roadmap.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-rome-professional-services-smes-2026</id>
+    <title>AI Consulting for Rome Professional Services SMEs</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-rome-professional-services-smes-2026"/>
+    <published>2026-04-24T00:00:00Z</published>
+    <updated>2026-04-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="European SME AI"/>
+    <category term="AI Consulting"/>
+    <category term="AI Governance"/>
+    <category term="AI Strategy"/>
+    <category term="Professional Services AI"/>
+    <summary type="text">AI consulting for Rome professional services, legal, and public sector SMEs. Garante compliance, EU AI Act readiness, and implementation support.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-data-residency-guide-european-smes-2026</id>
@@ -301,6 +400,23 @@
     <summary type="text">Which AI tools work for finance and accounting in EU SMEs: VAT automation, GDPR compliance, audit trail requirements, and how to evaluate vendors.</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-tools-for-hr-european-smes-2026</id>
+    <title>AI Tools for HR at European SMEs: What Is Safe to Deploy in 2026</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-tools-for-hr-european-smes-2026"/>
+    <published>2026-04-24T00:00:00Z</published>
+    <updated>2026-04-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="AI for HR"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <summary type="text">How HR leads at EU SMEs can deploy AI for hiring, onboarding, and reviews without triggering EU AI Act Annex III obligations.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-chatgpt-5-features-european-business-teams-2026</id>
     <title>ChatGPT 5 for European Business Teams: What Changed and What to Do Next</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/chatgpt-5-features-european-business-teams-2026"/>
@@ -316,6 +432,57 @@
     <category term="AI Strategy"/>
     <category term="Business Process Automation"/>
     <summary type="text">ChatGPT 5 brings new capabilities for business teams. Key changes, EU data compliance checklist, and a decision guide for European SMEs.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-claude-code-devops-advanced-ci-patterns-2026</id>
+    <title>Advanced CI/CD Automation with Claude Code for European Engineering Teams</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/claude-code-devops-advanced-ci-patterns-2026"/>
+    <published>2026-04-24T00:00:00Z</published>
+    <updated>2026-04-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI CI/CD"/>
+    <category term="European SME AI"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
+    <category term="AI DevOps"/>
+    <summary type="text">Advanced CI/CD automation with Claude Code: pre-commit hooks, PR review, deployment gates, and GDPR audit logging for EU software teams.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-eu-ai-act-conformity-assessment-guide-european-smes-202</id>
+    <title>EU AI Act Conformity Assessment: A Practical Guide for European SMEs</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/eu-ai-act-conformity-assessment-guide-european-smes-2026"/>
+    <published>2026-04-24T00:00:00Z</published>
+    <updated>2026-04-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="European SME AI"/>
+    <category term="AI Risk Management"/>
+    <category term="AI Strategy"/>
+    <summary type="text">Step-by-step conformity assessment for EU SMEs deploying Annex III high-risk AI. Covers deployer vs provider split, documentation, and oversight.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-gpt-4o-image-generation-guide-european-smes-2026</id>
+    <title>GPT-4o Image Generation: A Practical Guide for European SMEs</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/gpt-4o-image-generation-guide-european-smes-2026"/>
+    <published>2026-04-24T00:00:00Z</published>
+    <updated>2026-04-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="EU AI Act"/>
+    <category term="AI Governance"/>
+    <category term="GPT Models"/>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="European SME AI"/>
+    <summary type="text">How EU small businesses can use GPT-4o image generation, covering copyright, GDPR compliance, and practical prompting for marketing teams.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-should-you-go-ai-first-european-smes-2026</id>
@@ -684,172 +851,5 @@
     <category term="B2B SaaS Growth"/>
     <category term="Professional Services AI"/>
     <summary type="text">Learn how European SMEs can appear in AI search results from ChatGPT, Gemini, and Perplexity. Five practical GEO steps for non-technical teams.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-18:2026-04-18-ai-team-hiring-playbook-european-smes-2026</id>
-    <title>Your First AI Hire: A Hiring Playbook for European SMEs (10-50 Employees)</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-team-hiring-playbook-european-smes-2026"/>
-    <published>2026-04-18T00:00:00Z</published>
-    <updated>2026-04-18T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="Model Evaluation"/>
-    <category term="AI Strategy"/>
-    <category term="AI Team Hiring"/>
-    <summary type="text">Which AI role to hire first, EU salary benchmarks, and a vetting framework for founders and ops leaders who lack a technical background.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-18:2026-04-18-mcp-server-security-european-teams-2026</id>
-    <title>MCP Server Security: 5 Risks and an Audit Checklist for European Teams</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/mcp-server-security-european-teams-2026"/>
-    <published>2026-04-18T00:00:00Z</published>
-    <updated>2026-04-18T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="Model Context Protocol"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="European SME AI"/>
-    <summary type="text">Five MCP security risks European teams must audit before deploying AI tools. Includes a checklist and EU AI Act risk classification guide.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-17:2026-04-17-ai-change-management-european-sme-teams-2026</id>
-    <title>Why AI Rollouts Fail: A Change Management Playbook for European SME Teams</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-change-management-european-sme-teams-2026"/>
-    <published>2026-04-17T00:00:00Z</published>
-    <updated>2026-04-17T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="AI Change Management"/>
-    <summary type="text">Getting your team to actually use AI tools requires change management, not just a licence. A practical playbook for European SME leaders.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-17:2026-04-17-ai-consulting-barcelona-tech-smes-2026</id>
-    <title>AI Consulting for Barcelona Tech and Fintech Companies: What a Local Engagement Looks Like</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-barcelona-tech-smes-2026"/>
-    <published>2026-04-17T00:00:00Z</published>
-    <updated>2026-04-17T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="Iberia AI"/>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <summary type="text">AI consulting for Barcelona tech and fintech companies: 22@ district context, AEPD compliance, AESIA obligations, and what a local engagement delivers.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-17:2026-04-17-ai-consulting-frankfurt-fintech-smes-2026</id>
-    <title>AI Consulting for Frankfurt Fintech and Professional Services: What the Regulatory Reality Demands</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-frankfurt-fintech-smes-2026"/>
-    <published>2026-04-17T00:00:00Z</published>
-    <updated>2026-04-17T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="Fintech AI"/>
-    <category term="AI Consulting"/>
-    <category term="AI Governance"/>
-    <category term="AI Regulation"/>
-    <category term="DACH AI"/>
-    <summary type="text">AI consulting for Frankfurt fintech firms: BaFin oversight, DORA compliance, BSI guidelines, and what a local AI engagement delivers.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-17:2026-04-17-ai-consulting-madrid-tech-innovation-smes-2026</id>
-    <title>AI Consulting for Madrid Tech and Innovation SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-madrid-tech-innovation-smes-2026"/>
-    <published>2026-04-17T00:00:00Z</published>
-    <updated>2026-04-17T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="Iberia AI"/>
-    <category term="AI Strategy"/>
-    <category term="AI Governance"/>
-    <category term="AI for HR"/>
-    <summary type="text">AI adoption for tech and innovation SMEs in Madrid: AESIA compliance, sector use cases, and finding the right AI consulting partner.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-17:2026-04-17-ai-consulting-milan-fintech-smes-2026</id>
-    <title>AI Consulting for Milan's Fintech and Professional Services SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-milan-fintech-smes-2026"/>
-    <published>2026-04-17T00:00:00Z</published>
-    <updated>2026-04-17T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="Fintech AI"/>
-    <category term="Italy AI"/>
-    <category term="EU AI Act"/>
-    <summary type="text">Milan's fintech and professional services SMEs face a distinct regulatory stack. Here is what AI consulting looks like in the Italian market in 2026.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-17:2026-04-17-ai-consulting-munich-tech-manufacturing-smes-2026</id>
-    <title>AI Consulting for Munich Tech and Manufacturing SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-munich-tech-manufacturing-smes-2026"/>
-    <published>2026-04-17T00:00:00Z</published>
-    <updated>2026-04-17T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="Manufacturing AI"/>
-    <summary type="text">AI adoption guidance for tech and manufacturing SMEs in Munich: EU AI Act compliance, sector use cases, and finding the right consultant.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-17:2026-04-17-ai-consulting-orebro-industrial-smes-2026</id>
-    <title>AI Consulting for Orebro: What Industrial and Engineering Companies Need to Know</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-orebro-industrial-smes-2026"/>
-    <published>2026-04-17T00:00:00Z</published>
-    <updated>2026-04-17T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="Manufacturing AI"/>
-    <category term="AI Consulting"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <summary type="text">AI consulting for Orebro industrial and engineering companies: use cases, EU compliance, and what a 3-month engagement delivers.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-17:2026-04-17-ai-consulting-vienna-tech-smes-2026</id>
-    <title>AI Consulting for Vienna Tech SMEs: What to Expect in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-vienna-tech-smes-2026"/>
-    <published>2026-04-17T00:00:00Z</published>
-    <updated>2026-04-17T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="DACH AI"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <summary type="text">Vienna SMEs face unique AI challenges: DSG compliance, Mittelstand culture, and EU AI Act risk. Here is what a real consulting engagement delivers.</summary>
   </entry>
 </feed>
