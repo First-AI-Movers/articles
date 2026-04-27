@@ -1,5 +1,5 @@
 <article class="card">
-  <h3><a href="{{ article.canonical_url }}" rel="noopener">{{ article.title }}</a></h3>
+  <h3><a href="{{ rel_root }}articles/{{ article.slug }}/">{{ article.title }}</a></h3>
   <div class="card-meta">{{ article.published_date }} · Published on {{ article.canonical_host_label }}</div>
   {% if article.summary %}<p class="summary">{{ article.summary }}</p>{% endif %}
   {% if article.topics %}
