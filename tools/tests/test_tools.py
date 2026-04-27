@@ -1800,3 +1800,89 @@ class TestArticlePages:
         index = self._synthetic_index(1)
         self._run(monkeypatch, tmp_path, index)
         assert not (tmp_path / "articles" / index["articles"][0]["folder"] / "metadata.json").exists()
+
+    # --- XSS / raw HTML safety ---------------------------------------------
+
+    def _write_unsafe_article(self, tmp_path, folder, body):
+        d = tmp_path / "articles" / folder
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "article.md").write_text(
+            f"---\ntitle: Unsafe\n---\n# Unsafe\n\n{body}\n", encoding="utf-8")
+
+    def _run_with_custom_body(self, monkeypatch, tmp_path, folder, body):
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        import shutil
+        from pathlib import Path as P
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+
+        self._write_unsafe_article(tmp_path, folder, body)
+        index = {
+            "articles": [{
+                "folder": folder,
+                "slug": "unsafe",
+                "title": "Unsafe",
+                "published_date": "2026-04-20",
+                "tags": [],
+                "topics": [],
+                "funnel_stage": "middle",
+                "canonical_url": "https://radar.firstaimovers.com/unsafe",
+            }]
+        }
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        m.build_site(index)
+        return (tmp_path / "site" / "articles" / "unsafe" / "index.html").read_text(encoding="utf-8")
+
+    def test_script_tag_removed(self, monkeypatch, tmp_path):
+        page = self._run_with_custom_body(
+            monkeypatch, tmp_path, "2026-04-20-unsafe",
+            '<script>alert("xss")</script>')
+        assert "<script>" not in page
+        assert "alert(" not in page
+
+    def test_iframe_tag_removed(self, monkeypatch, tmp_path):
+        page = self._run_with_custom_body(
+            monkeypatch, tmp_path, "2026-04-20-unsafe",
+            '<iframe src="https://evil.com"></iframe>')
+        assert "<iframe" not in page
+        assert "evil.com" not in page
+
+    def test_event_handler_attribute_removed(self, monkeypatch, tmp_path):
+        page = self._run_with_custom_body(
+            monkeypatch, tmp_path, "2026-04-20-unsafe",
+            '<img src=x onerror=alert(1)>')
+        assert "onerror" not in page
+        assert "alert(1)" not in page
+
+    def test_javascript_url_removed(self, monkeypatch, tmp_path):
+        page = self._run_with_custom_body(
+            monkeypatch, tmp_path, "2026-04-20-unsafe",
+            '<a href="javascript:alert(1)">click</a>')
+        assert "javascript:" not in page
+        # The href attribute should have been removed entirely
+        assert 'href="alert(1)"' not in page
+        # Link text should still be present (sanitizer removes attribute, not tag)
+        assert "click" in page
+
+    def test_normal_markdown_preserved_after_sanitization(self, monkeypatch, tmp_path):
+        page = self._run_with_custom_body(
+            monkeypatch, tmp_path, "2026-04-20-safe",
+            '## Heading\n\n- Item one\n- Item two\n\n'
+            '> A blockquote\n\n'
+            '[a link](https://example.com)\n\n'
+            '```python\nprint("hi")\n```')
+        assert "<h2>Heading</h2>" in page
+        assert "<li>Item one</li>" in page
+        assert "<blockquote>" in page
+        assert '<a href="https://example.com">a link</a>' in page
+        assert "<pre>" in page
+        assert "<code" in page

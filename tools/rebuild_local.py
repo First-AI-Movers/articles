@@ -772,6 +772,27 @@ def _article_local_path(article):
     return f"/articles/{folder}/"
 
 
+# Lightweight HTML sanitizer — no external dependency.
+# Strips script/iframe tags, event handlers, and javascript: URLs.
+_UNSAFE_SCRIPT_RE = re.compile(r"<script[^>]*>.*?</script>", re.IGNORECASE | re.DOTALL)
+_UNSAFE_IFRAME_RE = re.compile(r"<iframe[^>]*>.*?</iframe>", re.IGNORECASE | re.DOTALL)
+_UNSAFE_EVENT_HANDLER_RE = re.compile(
+    r"\s+on\w+\s*=\s*(?:\"[^\"]*\"|'[^']*'|[^\s>]+)", re.IGNORECASE)
+# Remove entire href/src/action attribute when value starts with javascript:
+_UNSAFE_JS_ATTR_RE = re.compile(
+    r"\s+(?:href|src|action)\s*=\s*(?:\"javascript:[^\"]*\"|'javascript:[^']*'|javascript:[^\s>]*)",
+    re.IGNORECASE)
+
+
+def _sanitize_html(html_text):
+    """Remove obviously unsafe HTML patterns. Preserves normal markdown output."""
+    html_text = _UNSAFE_SCRIPT_RE.sub("", html_text)
+    html_text = _UNSAFE_IFRAME_RE.sub("", html_text)
+    html_text = _UNSAFE_EVENT_HANDLER_RE.sub("", html_text)
+    html_text = _UNSAFE_JS_ATTR_RE.sub("", html_text)
+    return html_text
+
+
 def _render_markdown(md_text):
     """Convert markdown text to safe HTML, stripping front matter first."""
     try:
@@ -781,7 +802,8 @@ def _render_markdown(md_text):
     body = _strip_front_matter(md_text).lstrip()
     if not body:
         return ""
-    return markdown.markdown(body, extensions=["extra"])
+    raw_html = markdown.markdown(body, extensions=["extra"])
+    return _sanitize_html(raw_html)
 
 
 def _enrich_articles(articles):
