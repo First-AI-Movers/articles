@@ -1540,6 +1540,93 @@ class TestJsonFeed:
         assert "feed.json" in src or "feed.xml" in src
 
 
+class TestDarkMode:
+    """Default dark mode with light toggle — theme system."""
+
+    def _mod(self):
+        pytest.importorskip("jinja2")
+        import rebuild_local
+        return rebuild_local
+
+    def _run(self, monkeypatch, tmp_path):
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        import shutil
+        from pathlib import Path as P
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+
+        index = {"articles": []}
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        m.build_site(index)
+        return tmp_path / "site"
+
+    def test_home_page_has_dark_theme_default(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path)
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert '<html lang="en" data-theme="dark">' in home
+
+    def test_toggle_button_exists(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path)
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert 'id="theme-toggle"' in home
+        assert 'Light mode' in home
+        assert 'aria-label="Toggle light mode"' in home
+
+    def test_inline_script_no_external_js(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path)
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert '<script>' in home
+        assert '.js"' not in home  # no external JS file references
+        assert 'localStorage' in home
+
+    def test_light_theme_css_exists(self):
+        from pathlib import Path as P
+        css = (P(__file__).resolve().parents[2] / "static" / "style.css").read_text(encoding="utf-8")
+        assert 'html[data-theme="dark"]' in css
+        assert 'html[data-theme="light"]' in css or '--bg: #fafafa' in css
+
+    def test_topic_page_renders_with_dark_theme(self, monkeypatch, tmp_path):
+        m = self._mod()
+        # Build with articles above topic threshold so a topic page is generated
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        import shutil
+        from pathlib import Path as P
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+        for i in range(6):
+            folder = f"2026-04-{20-i:02d}-a{i}"
+            (tmp_path / "articles" / folder).mkdir(exist_ok=True)
+            (tmp_path / "articles" / folder / "article.md").write_text(
+                f"---\ntitle: A{i}\n---\n# A{i}\n\nBody.\n")
+        index = {"articles": [
+            {"folder": f"2026-04-{20-i:02d}-a{i}", "slug": f"a{i}", "title": f"A{i}",
+             "published_date": f"2026-04-{20-i:02d}", "tags": [], "topics": ["AI Strategy"],
+             "funnel_stage": "middle", "canonical_url": f"https://radar.firstaimovers.com/a{i}"}
+            for i in range(6)
+        ]}
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        m.build_site(index)
+        page = (tmp_path / "site" / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert '<html lang="en" data-theme="dark">' in page
+
+
 class TestSocialFooter:
     """Visible author social links in footer — E5."""
 
@@ -1842,36 +1929,46 @@ class TestArticlePages:
         m.build_site(index)
         return (tmp_path / "site" / "articles" / "unsafe" / "index.html").read_text(encoding="utf-8")
 
+    def _article_body_from_page(self, page_html):
+        """Extract just the article-body div HTML for XSS assertions."""
+        start = page_html.find('<div class="article-body">')
+        end = page_html.find('</div>', start) + len('</div>')
+        return page_html[start:end] if start != -1 else page_html
+
     def test_script_tag_removed(self, monkeypatch, tmp_path):
         page = self._run_with_custom_body(
             monkeypatch, tmp_path, "2026-04-20-unsafe",
             '<script>alert("xss")</script>')
-        assert "<script>" not in page
-        assert "alert(" not in page
+        body = self._article_body_from_page(page)
+        assert "<script>" not in body
+        assert "alert(" not in body
 
     def test_iframe_tag_removed(self, monkeypatch, tmp_path):
         page = self._run_with_custom_body(
             monkeypatch, tmp_path, "2026-04-20-unsafe",
             '<iframe src="https://evil.com"></iframe>')
-        assert "<iframe" not in page
-        assert "evil.com" not in page
+        body = self._article_body_from_page(page)
+        assert "<iframe" not in body
+        assert "evil.com" not in body
 
     def test_event_handler_attribute_removed(self, monkeypatch, tmp_path):
         page = self._run_with_custom_body(
             monkeypatch, tmp_path, "2026-04-20-unsafe",
             '<img src=x onerror=alert(1)>')
-        assert "onerror" not in page
-        assert "alert(1)" not in page
+        body = self._article_body_from_page(page)
+        assert "onerror" not in body
+        assert "alert(1)" not in body
 
     def test_javascript_url_removed(self, monkeypatch, tmp_path):
         page = self._run_with_custom_body(
             monkeypatch, tmp_path, "2026-04-20-unsafe",
             '<a href="javascript:alert(1)">click</a>')
-        assert "javascript:" not in page
+        body = self._article_body_from_page(page)
+        assert "javascript:" not in body
         # The href attribute should have been removed entirely
-        assert 'href="alert(1)"' not in page
+        assert 'href="alert(1)"' not in body
         # Link text should still be present (sanitizer removes attribute, not tag)
-        assert "click" in page
+        assert "click" in body
 
     def test_normal_markdown_preserved_after_sanitization(self, monkeypatch, tmp_path):
         page = self._run_with_custom_body(
@@ -1880,9 +1977,10 @@ class TestArticlePages:
             '> A blockquote\n\n'
             '[a link](https://example.com)\n\n'
             '```python\nprint("hi")\n```')
-        assert "<h2>Heading</h2>" in page
-        assert "<li>Item one</li>" in page
-        assert "<blockquote>" in page
-        assert '<a href="https://example.com">a link</a>' in page
-        assert "<pre>" in page
-        assert "<code" in page
+        body = self._article_body_from_page(page)
+        assert "<h2>Heading</h2>" in body
+        assert "<li>Item one</li>" in body
+        assert "<blockquote>" in body
+        assert '<a href="https://example.com">a link</a>' in body
+        assert "<pre>" in body
+        assert "<code" in body
