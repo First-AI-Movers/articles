@@ -71,6 +71,17 @@ python3 tools/check_duplicate_titles.py
 git status --short
 ```
 
+## IndexNow (Bing/Yandex discovery)
+
+The archive supports [IndexNow](https://www.indexnow.org/) for notifying Bing, Yandex, and participating search engines when pages change.
+
+- **Key file:** `.indexnow-key` at repo root (public proof-of-host ownership, not a secret).
+- **Live key URL:** `https://articles.firstaimovers.com/<key>.txt` — generated during `rebuild_local.py`.
+- **Dry-run:** `python3 tools/submit_indexnow.py --dry-run` — shows payload without submitting.
+- **Live submission:** `python3 tools/submit_indexnow.py` — submits the 80 archive URLs to `api.indexnow.org`.
+- The script reads `sitemap.xml`, filters to `articles.firstaimovers.com` indexable pages only, and validates the URL set before submission.
+- The CI workflow runs `--dry-run` after every deploy (non-blocking).
+
 ## PR workflow
 
 1. **Branch from `main`.**
