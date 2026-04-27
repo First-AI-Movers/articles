@@ -2692,3 +2692,188 @@ class TestAtomicWrites:
         text = path.read_text(encoding="utf-8")
         assert "🚀" in text
         assert "€" in text
+
+
+# =========================================================================
+# Tests: E11 accessibility — skip link, landmarks, focus, theme toggle
+# =========================================================================
+
+class TestAccessibility:
+    """Accessibility fixes: skip link, landmarks, focus states, theme toggle semantics."""
+
+    def _mod(self):
+        pytest.importorskip("jinja2")
+        pytest.importorskip("markdown")
+        import rebuild_local
+        return rebuild_local
+
+    def _run(self, monkeypatch, tmp_path, index):
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        import shutil
+        from pathlib import Path as P
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+
+        for a in index.get("articles", []):
+            folder = a.get("folder", "")
+            if folder:
+                (tmp_path / "articles" / folder).mkdir(exist_ok=True)
+                (tmp_path / "articles" / folder / "article.md").write_text(
+                    f"---\ntitle: {a.get('title', 'T')}\n---\n# {a.get('title', 'T')}\n\nBody.\n")
+
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        m.build_site(index)
+        return tmp_path / "site"
+
+    def _synthetic_index(self, n=3):
+        articles = []
+        for i in range(n):
+            day = 20 - i
+            articles.append({
+                "folder": f"2026-04-{day:02d}-article-{i}",
+                "slug": f"article-{i}",
+                "title": f"Test Article {i}",
+                "published_date": f"2026-04-{day:02d}",
+                "tags": [],
+                "topics": ["AI Strategy"],
+                "funnel_stage": "middle",
+                "canonical_url": f"https://radar.firstaimovers.com/article-{i}",
+            })
+        return {"articles": articles}
+
+    # --- Skip link ---------------------------------------------------------
+
+    def test_home_page_has_skip_link(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert '<a href="#main-content" class="skip-link">Skip to content</a>' in home
+
+    def test_topic_page_has_skip_link(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'class="skip-link"' in page
+
+    def test_article_page_has_skip_link(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert 'class="skip-link"' in page
+
+    def test_about_page_has_skip_link(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        page = (site / "about" / "index.html").read_text(encoding="utf-8")
+        assert 'class="skip-link"' in page
+
+    def test_404_page_has_skip_link(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        page = (site / "404.html").read_text(encoding="utf-8")
+        assert 'class="skip-link"' in page
+
+    # --- Main landmark -----------------------------------------------------
+
+    def test_main_has_id_main_content(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert '<main id="main-content"' in home
+
+    # --- Theme toggle accessibility ----------------------------------------
+
+    def test_theme_toggle_is_button(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert 'id="theme-toggle"' in home
+        assert '<button' in home
+
+    def test_theme_toggle_has_aria_pressed(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert 'aria-pressed="false"' in home or 'aria-pressed="true"' in home
+
+    def test_theme_toggle_aria_label_updates_with_theme(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        home = (site / "index.html").read_text(encoding="utf-8")
+        # The inline script should set the label based on the stored/default theme
+        assert "Toggle light mode" in home or "Toggle dark mode" in home
+
+    # --- Navigation landmarks ----------------------------------------------
+
+    def test_primary_nav_has_aria_label(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert 'aria-label="Primary"' in home
+
+    # --- Breadcrumbs -------------------------------------------------------
+
+    def test_article_breadcrumb_has_aria_label(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        assert 'aria-label="Breadcrumb"' in page
+
+    def test_topic_breadcrumb_has_aria_label(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'aria-label="Breadcrumb"' in page
+
+    def test_about_breadcrumb_has_aria_label(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        page = (site / "about" / "index.html").read_text(encoding="utf-8")
+        assert 'aria-label="Breadcrumb"' in page
+
+    # --- Focus CSS ---------------------------------------------------------
+
+    def test_focus_visible_css_exists(self):
+        from pathlib import Path as P
+        css = (P(__file__).resolve().parents[2] / "static" / "style.css").read_text(encoding="utf-8")
+        assert ":focus-visible" in css
+
+    def test_button_focus_visible_css_exists(self):
+        from pathlib import Path as P
+        css = (P(__file__).resolve().parents[2] / "static" / "style.css").read_text(encoding="utf-8")
+        assert "button:focus-visible" in css or ".theme-toggle:focus-visible" in css
+
+    def test_skip_link_css_exists(self):
+        from pathlib import Path as P
+        css = (P(__file__).resolve().parents[2] / "static" / "style.css").read_text(encoding="utf-8")
+        assert ".skip-link" in css
+
+    # --- Reduced motion ----------------------------------------------------
+
+    def test_prefers_reduced_motion_exists(self):
+        from pathlib import Path as P
+        css = (P(__file__).resolve().parents[2] / "static" / "style.css").read_text(encoding="utf-8")
+        assert "prefers-reduced-motion" in css
+
+    # --- No heading-order violations (template level) ----------------------
+
+    def test_home_page_heading_order(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        home = (site / "index.html").read_text(encoding="utf-8")
+        # Home should have h1 before h2
+        h1_pos = home.find("<h1>")
+        h2_pos = home.find("<h2>")
+        assert h1_pos != -1
+        assert h2_pos == -1 or h1_pos < h2_pos
+
+    def test_topic_page_heading_order(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(6))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        h1_pos = page.find("<h1>")
+        h2_pos = page.find("<h2>")
+        assert h1_pos != -1
+        assert h2_pos == -1 or h1_pos < h2_pos
+
+    def test_article_page_heading_order(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, self._synthetic_index(1))
+        page = (site / "articles" / "article-0" / "index.html").read_text(encoding="utf-8")
+        h1_pos = page.find("<h1>")
+        h2_pos = page.find("<h2>")
+        assert h1_pos != -1
+        assert h2_pos == -1 or h1_pos < h2_pos

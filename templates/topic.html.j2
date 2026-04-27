@@ -51,7 +51,7 @@
 {% endblock %}
 
 {% block content %}
-<nav class="breadcrumb"><a href="{{ rel_root }}">Home</a> / <a href="{{ rel_root }}topics/">Topics</a> / {{ topic }}</nav>
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{{ rel_root }}">Home</a> / <a href="{{ rel_root }}topics/">Topics</a> / {{ topic }}</nav>
 
 <h1>{{ topic }}</h1>
 <p class="meta">{{ articles|length }} articles · Latest: {{ articles[0].published_date }}</p>
