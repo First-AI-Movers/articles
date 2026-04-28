@@ -119,6 +119,10 @@ See [`docs/search-visibility-monitoring.md`](docs/search-visibility-monitoring.m
 
 Changes to analytics scripts, tracking endpoints, or privacy-related configuration require explicit privacy review. See [`docs/ANALYTICS.md`](docs/ANALYTICS.md) for the current setup and rollback procedure.
 
+### Comments moderation
+
+Comments are powered by Giscus and stored in GitHub Discussions. Moderation (hiding, locking, or deleting comments) is handled through the GitHub Discussions UI, not through article markdown or repository changes. See [`docs/COMMENTS.md`](docs/COMMENTS.md) for setup and rollback.
+
 ### Owner review
 
 `.github/CODEOWNERS` requires owner (`@hpcosta`) approval for changes to:
