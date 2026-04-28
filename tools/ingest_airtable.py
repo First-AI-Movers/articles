@@ -309,6 +309,8 @@ def _fetch_records(pat, base_id, table_name, view_name=None, since_hours=None, r
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Ingest articles from Airtable")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Run in dry-run mode (default)")
     parser.add_argument("--write", action="store_true",
                         help="Write new article folders (default is dry-run)")
     parser.add_argument("--since-hours", type=int, default=72,
@@ -320,6 +322,9 @@ def main(argv=None):
     parser.add_argument("--allow-no-status-gate", action="store_true",
                         help="Allow ingestion when no Status field is present")
     args = parser.parse_args(argv)
+
+    if args.dry_run and args.write:
+        parser.error("--dry-run and --write are mutually exclusive")
 
     dry_run = not args.write
     schema = _load_schema()
