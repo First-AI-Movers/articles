@@ -3932,6 +3932,59 @@ class TestAirtableIngestion:
             check_duplicate_titles.main()
         assert exc_info.value.code == 0
 
+    # --- CLI argument tests -----------------------------------------------
+
+    def test_dry_run_flag_is_accepted(self, monkeypatch):
+        import ingest_airtable
+        monkeypatch.setenv("AIRTABLE_PAT", "pat_test")
+        monkeypatch.setenv("AIRTABLE_BASE_ID", "app_test")
+        monkeypatch.setenv("AIRTABLE_TABLE_NAME", "Articles")
+        monkeypatch.setattr(ingest_airtable, "_fetch_records", lambda *a, **k: iter([]))
+        code = ingest_airtable.main(["--dry-run"])
+        assert code == 0
+
+    def test_default_mode_is_dry_run(self, monkeypatch):
+        import ingest_airtable
+        monkeypatch.setenv("AIRTABLE_PAT", "pat_test")
+        monkeypatch.setenv("AIRTABLE_BASE_ID", "app_test")
+        monkeypatch.setenv("AIRTABLE_TABLE_NAME", "Articles")
+        monkeypatch.setattr(ingest_airtable, "_fetch_records", lambda *a, **k: iter([]))
+        code = ingest_airtable.main([])
+        assert code == 0
+
+    def test_write_flag_enables_write_mode(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setenv("AIRTABLE_PAT", "pat_test")
+        monkeypatch.setenv("AIRTABLE_BASE_ID", "app_test")
+        monkeypatch.setenv("AIRTABLE_TABLE_NAME", "Articles")
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        record = {
+            "id": "recTest",
+            "fields": {
+                "Title": "Write Mode Test",
+                "Slug": "write-mode-test",
+                "Published Date": "2026-04-01",
+                "Canonical URL": "https://example.com/write-mode-test",
+                "Article Markdown": "# Hello",
+                "Status": "published",
+            }
+        }
+        monkeypatch.setattr(ingest_airtable, "_fetch_records", lambda *a, **k: iter([record]))
+        code = ingest_airtable.main(["--write", "--limit", "1"])
+        assert code == 0
+        assert (tmp_path / "articles" / "2026-04-01-write-mode-test" / "article.md").exists()
+
+    def test_dry_run_and_write_are_mutually_exclusive(self, monkeypatch, capsys):
+        import ingest_airtable
+        monkeypatch.setenv("AIRTABLE_PAT", "pat_test")
+        monkeypatch.setenv("AIRTABLE_BASE_ID", "app_test")
+        monkeypatch.setenv("AIRTABLE_TABLE_NAME", "Articles")
+        with pytest.raises(SystemExit) as exc_info:
+            ingest_airtable.main(["--dry-run", "--write"])
+        assert exc_info.value.code == 2
+        captured = capsys.readouterr()
+        assert "mutually exclusive" in captured.err.lower()
+
     # --- Workflow tests ---------------------------------------------------
 
     def test_ingest_workflow_exists(self):
