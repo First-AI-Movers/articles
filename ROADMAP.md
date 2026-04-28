@@ -203,6 +203,7 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #37** Search Visibility Sprint D — monitoring docs: `docs/search-visibility-monitoring.md`
 - **PR #41** IndexNow env migration: moved keys from committed `.indexnow-key` to Doppler/GitHub secret `INDEXNOW_API_KEY_ARTICLES_FAIM`, host-aware tooling, 17 tests
 - **PR #43** E14 security tooling: gitleaks workflow + `.gitleaks.toml`, Dependabot config, content scrubber, SECURITY.md updates, 10 tests
+- **PR #55** E19 duplicate-title remediation: disambiguated 6 historical pairs, removed `continue-on-error: true`, gate is now blocking
 
 Operational state today: **829 articles**, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **829 local article pages**, **258 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
 
