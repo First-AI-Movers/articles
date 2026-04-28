@@ -31,6 +31,7 @@ These rules must never be broken by any contribution:
 | `README.md` (content) | `llms-recent.txt` |
 | `ABOUT.md` | `README.md` (stats patches only) |
 | `CITATION.cff` | `site/` (entire directory) |
+| | `embeddings.parquet` |
 
 **Rule of thumb:** If a file is listed in the `rebuild_local.py` commit step, it is generated and must not be hand-edited.
 

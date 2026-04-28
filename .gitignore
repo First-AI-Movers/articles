@@ -39,3 +39,9 @@ node_modules/
 playwright-report/
 test-results/
 
+# Embedding model caches
+.cache/
+model_cache/
+.huggingface/
+*.faiss.tmp
+

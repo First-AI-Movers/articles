@@ -157,6 +157,10 @@ See [`docs/COMMENTS.md`](docs/COMMENTS.md) for the Giscus comments setup, GitHub
 
 See [`docs/ANALYTICS.md`](docs/ANALYTICS.md) for the GoatCounter setup, privacy posture, path override rationale, and rollback procedure.
 
+## Embedding Index
+
+See [`docs/EMBEDDINGS.md`](docs/EMBEDDINGS.md) for the RAG embedding index: model choice, schema, regeneration commands, sample retrieval, and CI workflow.
+
 ## Test Suite Quick Reference
 
 | Layer | Command | Count |
