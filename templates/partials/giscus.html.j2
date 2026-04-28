@@ -1,0 +1,25 @@
+{% if comments_config and comments_config.enabled and comments_config.repo_id and comments_config.category_id %}
+<section class="comments" aria-label="Comments">
+  <hr>
+  <p class="comments-note">
+    Comments are powered by <a href="https://github.com/discussions" rel="noopener">GitHub Discussions</a>.
+    You need a <a href="https://github.com/signup" rel="noopener">GitHub account</a> to comment.
+    Comments are public and moderated on GitHub.
+  </p>
+  <script src="https://giscus.app/client.js"
+          data-repo="{{ comments_config.repo }}"
+          data-repo-id="{{ comments_config.repo_id }}"
+          data-category="{{ comments_config.category }}"
+          data-category-id="{{ comments_config.category_id }}"
+          data-mapping="{{ comments_config.mapping }}"
+          data-strict="{{ comments_config.strict }}"
+          data-reactions-enabled="{{ comments_config.reactions_enabled }}"
+          data-emit-metadata="{{ comments_config.emit_metadata }}"
+          data-input-position="{{ comments_config.input_position }}"
+          data-theme="{{ comments_config.theme }}"
+          data-lang="{{ comments_config.lang }}"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+{% endif %}
