@@ -149,6 +149,10 @@ npm run test:e2e
 
 All should pass with no unexpected changes.
 
+## Comments
+
+See [`docs/COMMENTS.md`](docs/COMMENTS.md) for the Giscus comments setup, GitHub Discussions requirements, and enable/disable procedure.
+
 ## Analytics
 
 See [`docs/ANALYTICS.md`](docs/ANALYTICS.md) for the GoatCounter setup, privacy posture, path override rationale, and rollback procedure.

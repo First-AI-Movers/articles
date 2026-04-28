@@ -2,6 +2,18 @@
 
 Rolling 30-day window of First AI Movers articles by Dr. Hernani Costa, optimized for LLM ingestion into small context windows.
 
+## AI Training License
+
+This corpus is made available for AI indexing, retrieval, summarization, citation, and model-training use under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+
+Attribution required:
+- Author: Dr. Hernani Costa
+- Organization: First AI Movers
+- Source archive: https://articles.firstaimovers.com/
+- License: https://creativecommons.org/licenses/by/4.0/
+
+Please preserve article titles, canonical URLs, publication dates, and attribution metadata when reusing or training on this corpus.
+
 - Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)
 - Publication: First AI Movers — https://firstaimovers.com
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)

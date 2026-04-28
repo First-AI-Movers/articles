@@ -678,6 +678,7 @@ SITE_DIR = REPO_ROOT / "site"
 TEMPLATE_DIR = REPO_ROOT / "templates"
 STATIC_DIR = REPO_ROOT / "static"
 TOPIC_INTROS_PATH = REPO_ROOT / "tools" / "topic_intros.json"
+COMMENTS_CONFIG_PATH = REPO_ROOT / "tools" / "comments_config.json"
 MIN_ARTICLES_FOR_TOPIC_PAGE = 5
 HOME_LATEST_COUNT = 20
 RELATED_TOPICS_ON_TOPIC_PAGE = 6
@@ -702,6 +703,23 @@ def _slugify(text):
     s = s.replace("&", "and")
     s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
     return s
+
+
+def _load_comments_config():
+    """Load comments integration config.
+
+    Returns the config dict. Missing or malformed file degrades gracefully
+    — comments are disabled and the site build does not break.
+    """
+    if not COMMENTS_CONFIG_PATH.exists():
+        return {"enabled": False}
+    try:
+        data = json.loads(COMMENTS_CONFIG_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"[site] warning: {COMMENTS_CONFIG_PATH.name} malformed ({e}); "
+              "comments disabled", file=sys.stderr)
+        return {"enabled": False}
+    return data
 
 
 def _load_topic_intros():
@@ -985,6 +1003,7 @@ def build_site(index):
     topic_counts = {t: len(v) for t, v in by_topic.items()}
     topics_with_page = {t for t, c in topic_counts.items() if c >= MIN_ARTICLES_FOR_TOPIC_PAGE}
     topic_intros = _load_topic_intros()
+    comments_config = _load_comments_config()
 
     # Topic entries for the /topics/ index page — all topics sorted by count desc,
     # then alpha. Topics below the threshold get slug=None so the template renders
@@ -1013,6 +1032,7 @@ def build_site(index):
         "topics_with_page": topics_with_page,
         "topic_slug": topic_slug,
         "min_articles_for_page": MIN_ARTICLES_FOR_TOPIC_PAGE,
+        "comments_config": comments_config,
     }
 
     # Atomic build: render to a staging dir next to SITE_DIR, swap into place
