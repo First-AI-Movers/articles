@@ -1,18 +1,30 @@
 {
-    "id":"rec3C1uOwKxuO6e4l",
-    "title":"Claude Code for Testing and QA: A European Dev Team Guide",
-    "slug":"claude-code-testing-qa-european-teams-2026",
-    "folder": "2026-04-24-claude-code-testing-qa-european-teams-2026",
-    "published_date": "2026-04-24",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/claude-code-testing-qa-european-teams-2026",
-    "tags":["AI-assisted testing workflows","GDPR compliance in testing","unit test generation with AI","test-driven development for SMEs","coverage analysis for European teams","automated test plan scaffolding"],
-    "word_count": 1892,
-    "read_time_minutes":9,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "rec3C1uOwKxuO6e4l",
+  "title": "Claude Code for Testing and QA: A European Dev Team Guide",
+  "slug": "claude-code-testing-qa-european-teams-2026",
+  "folder": "2026-04-24-claude-code-testing-qa-european-teams-2026",
+  "published_date": "2026-04-24",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/claude-code-testing-qa-european-teams-2026",
+  "tags": [
+    "AI-assisted testing workflows",
+    "GDPR compliance in testing",
+    "unit test generation with AI",
+    "test-driven development for SMEs",
+    "coverage analysis for European teams",
+    "automated test plan scaffolding"
+  ],
+  "word_count": 1892,
+  "read_time_minutes": 9,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GDPR & Data Privacy",
+    "AI Governance",
+    "European SME AI"
+  ]
 }

@@ -1,18 +1,28 @@
 {
-    "id":"recerlpbHlMV8SMff",
-    "title":"A Shared Prompt Library Saves Your Team Weeks of Trial and Error",
-    "slug":"prompt-library-european-sme-teams-2026",
-    "folder": "2026-04-23-prompt-library-european-sme-teams-2026",
-    "published_date": "2026-04-23",
-    "author": "Dr. Hernani Costa",
-    "author_url": "https://drhernanicosta.com",
-    "company": "First AI Movers",
-    "company_url": "https://firstaimovers.com",
-    "canonical_url": "https://radar.firstaimovers.com/prompt-library-european-sme-teams-2026",
-    "tags":["shared AI prompt library","AI prompt templates for SMEs","collaborative AI tools","efficiency in business operations","AI governance for European SMEs"],
-    "word_count": 1245,
-    "read_time_minutes":6,
-    "funnel_stage": "middle",
-    "first_ai_movers_services": [],
-    "status": "published"
+  "id": "recerlpbHlMV8SMff",
+  "title": "A Shared Prompt Library Saves Your Team Weeks of Trial and Error",
+  "slug": "prompt-library-european-sme-teams-2026",
+  "folder": "2026-04-23-prompt-library-european-sme-teams-2026",
+  "published_date": "2026-04-23",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/prompt-library-european-sme-teams-2026",
+  "tags": [
+    "shared AI prompt library",
+    "AI prompt templates for SMEs",
+    "collaborative AI tools",
+    "efficiency in business operations",
+    "AI governance for European SMEs"
+  ],
+  "word_count": 1245,
+  "read_time_minutes": 6,
+  "funnel_stage": "middle",
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "European SME AI",
+    "AI Governance"
+  ]
 }
