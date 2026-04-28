@@ -1,6 +1,6 @@
 # Airtable Ingestion
 
-This document describes the Airtable-to-archive ingestion pipeline (E20a).
+This document describes the Airtable-to-archive ingestion pipeline (E20a and E20b).
 
 ## Purpose
 
@@ -102,6 +102,64 @@ AIRTABLE_PAT=patXXX AIRTABLE_BASE_ID=appXXX AIRTABLE_TABLE_NAME=Articles \
   python3 tools/ingest_airtable.py --write --since-hours 72
 ```
 
+## Push-based trigger (E20b)
+
+E20b adds a **fast-path, sub-second trigger** that complements the E20a cron job. Instead of waiting for the next scheduled run, an Airtable automation fires on row create or update and dispatches a `repository_dispatch` event to this repository.
+
+### E20a vs E20b
+
+| Aspect | E20a (cron) | E20b (push) |
+|---|---|---|
+| **Trigger** | Scheduled cron (`17 6 * * *`) | Airtable automation on row create / update |
+| **Latency** | Up to ~24 h (daily batch) | Seconds (sub-second dispatch) |
+| **Scope** | All records modified in last 72 h | Single record by ID |
+| **Role** | Safety net — catches missed or failed pushes | Fast path — immediate ingestion |
+| **Workflow** | `.github/workflows/ingest-airtable.yml` | `.github/workflows/ingest-airtable-dispatch.yml` |
+
+### How the push works
+
+1. An Airtable automation watches for row creates or updates.
+2. On change, it sends a `repository_dispatch` event to GitHub with:
+   - `event_type`: `airtable-record-updated`
+   - `client_payload.record_id`: the Airtable record ID (e.g. `recXXXXXXXXXXXXXX`)
+3. `.github/workflows/ingest-airtable-dispatch.yml` receives the dispatch and runs:
+   ```bash
+   python3 tools/ingest_airtable.py --record-id <id>
+   ```
+4. The same validation, deduplication, tag normalization, rebuild, and PR steps from E20a run for that single record.
+
+> **The Airtable automation sends only the record ID.** The workflow fetches the full record using the existing `AIRTABLE_PAT` secret. Do **not** put the Airtable PAT inside the Airtable automation.
+
+### Dry-run gate still applies
+
+E20b respects the same `INGEST_DRY_RUN` repository variable as E20a:
+
+- If `INGEST_DRY_RUN` is unset or `1`, the dispatch workflow runs in dry-run mode even when triggered by Airtable.
+- Set `INGEST_DRY_RUN=0` to enable write mode and PR creation.
+
+This means you can safely wire up the Airtable automation while keeping write mode disabled.
+
+### Manual testing via `workflow_dispatch`
+
+Test the E20b workflow manually without touching Airtable:
+
+1. Go to **Actions → Ingest Airtable dispatch (E20b) → Run workflow**.
+2. Enter a record ID (e.g. `recXXXXXXXXXXXXXX`).
+3. The workflow runs with the same dry-run/write logic as the cron job.
+
+Local equivalent:
+
+```bash
+AIRTABLE_PAT=patXXX AIRTABLE_BASE_ID=appXXX AIRTABLE_TABLE_NAME=Articles \
+  python3 tools/ingest_airtable.py --write --record-id recXXXXXXXXXXXXXX
+```
+
+### Rollback / disable E20b
+
+- **Disable the Airtable automation** in Airtable → Automations to stop pushes without changing repository code.
+- **Delete or disable** `.github/workflows/ingest-airtable-dispatch.yml` to stop processing dispatches.
+- **Set `INGEST_DRY_RUN=1`** to revert both E20a and E20b to dry-run instantly.
+
 ## Cutover plan from Make.com
 
 1. **Ship E20a** with `INGEST_DRY_RUN=1`.
@@ -112,15 +170,16 @@ AIRTABLE_PAT=patXXX AIRTABLE_BASE_ID=appXXX AIRTABLE_TABLE_NAME=Articles \
 
 ## Rollback / disable
 
-- Set repository variable `INGEST_DRY_RUN=1` to revert to dry-run.
-- Delete the workflow file `.github/workflows/ingest-airtable.yml` to stop ingestion entirely.
+- Set repository variable `INGEST_DRY_RUN=1` to revert both E20a and E20b to dry-run instantly.
+- Delete `.github/workflows/ingest-airtable.yml` to stop cron ingestion (E20a).
+- Delete `.github/workflows/ingest-airtable-dispatch.yml` to stop push ingestion (E20b).
 - Revoke the Airtable PAT if needed.
 
 ## Failure visibility
 
 When write mode is enabled and ingestion fails:
 - The workflow run will show a red status.
-- Check the Actions tab for the `Ingest articles from Airtable` workflow.
+- Check the Actions tab for the `Ingest articles from Airtable` (E20a) or `Ingest Airtable dispatch` (E20b) workflow.
 - Errors include Airtable API failures, schema validation failures, and duplicate title blocks.
 
 ## Security

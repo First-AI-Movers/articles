@@ -10,10 +10,22 @@ External platforms can push new articles to this repository via GitHub's `reposi
 
 | Path | Trigger | Scope |
 |---|---|---|
-| **E18 Flow B** (this doc) | Generic `repository_dispatch` with `new-article` type | Any external platform that can POST to GitHub API |
-| **E20a** | Airtable cron polling | Scheduled ingestion from Airtable |
-| **E20b** (future) | Airtable row-change push | Sub-second Airtable trigger reusing this dispatch plumbing |
+| **E18 Flow B** (this doc) | Generic `repository_dispatch` with `new-article` type | Any external platform that can POST to GitHub API with a full article payload |
+| **E20a** | Airtable cron polling | Scheduled batch ingestion from Airtable (safety net) |
+| **E20b** | Airtable automation → `repository_dispatch` with `airtable-record-updated` type | Single-record push from Airtable (fast path). Reuses E20a's fetch/validate/PR logic; does **not** accept a full payload here. |
 | **Manual PR** | Human contributor | Direct Git-based contribution |
+
+### E18 vs E20b: when to use which dispatch path
+
+| | E18 (`new-article`) | E20b (`airtable-record-updated`) |
+|---|---|---|
+| **Payload** | Full article JSON (`title`, `slug`, `article_markdown`, etc.) | Single `record_id` string |
+| **Sender** | Any external platform (Radar, Hashnode, custom CMS) | Airtable automation only |
+| **Recipient workflow** | `.github/workflows/ingest-article.yml` | `.github/workflows/ingest-airtable-dispatch.yml` |
+| **Validation** | Schema validation against `tools/article_schema.json` | Fetch from Airtable, then schema validation |
+| **Use case** | Platforms that already have the full article and want to push it | Airtable is the source of truth; trigger ingestion on row change |
+
+Do not send full article payloads to the E20b endpoint, and do not send bare record IDs to the E18 endpoint. They are separate plumbing for separate sources.
 
 ## Payload schema
 

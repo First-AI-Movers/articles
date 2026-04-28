@@ -106,6 +106,15 @@ The archive accepts articles from external platforms via `repository_dispatch`:
 - **Token behavior** — PRs created with the default `GITHUB_TOKEN` do not trigger downstream CI workflows. Configure `ARTICLE_INGESTION_PR_TOKEN` if automatic CI on ingestion PRs is required.
 - **Dry-run by default** — Local testing of `tools/ingest_article.py` defaults to `--dry-run`. Use `--write` only when you intend to create files.
 
+## Airtable push-trigger security (E20b)
+
+E20b uses `repository_dispatch` to trigger ingestion from Airtable automations. Keep these boundaries clean:
+
+- **Sender token (GitHub PAT used by the Airtable automation)** must be a **fine-grained personal access token** scoped to this repository only, with `actions:write` permission. Do not use a classic PAT with broad `repo` scope.
+- **Airtable PAT stays in recipient secrets.** The workflow reads `AIRTABLE_PAT` from GitHub Encrypted Secrets and fetches the record inside the runner. Never place the Airtable PAT inside the Airtable automation configuration or send it in the `client_payload`.
+- **Payload minimization.** The Airtable automation sends only the Airtable `record_id`. The full record content is never transmitted through the dispatch layer.
+- **Dry-run by default.** E20b respects `INGEST_DRY_RUN`. The automation can fire continuously without risk until write mode is explicitly enabled.
+
 ## Security-related workflow
 
 - Security fixes are treated as high-priority PRs.
