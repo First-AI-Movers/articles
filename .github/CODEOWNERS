@@ -1,0 +1,22 @@
+# Global fallback — all changes need owner review
+* @hpcosta
+
+# Archive content — article text and metadata
+/articles/ @hpcosta
+
+# Tooling and generation logic
+/tools/ @hpcosta
+
+# Templates and static assets
+/templates/ @hpcosta
+/static/ @hpcosta
+
+# CI/CD and repository configuration
+/.github/ @hpcosta
+
+# Browser-level E2E tests
+/tests-e2e/ @hpcosta
+
+# Package files
+/package.json @hpcosta
+/package-lock.json @hpcosta

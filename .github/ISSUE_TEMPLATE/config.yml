@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: First AI Movers website
+    url: https://firstaimovers.com
+    about: For general inquiries, visit the main website.
+  - name: Email
+    url: mailto:info@firstaimovers.com
+    about: Contact the team directly.

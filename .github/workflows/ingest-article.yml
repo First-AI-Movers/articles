@@ -1,0 +1,103 @@
+name: Ingest article from external push
+
+on:
+  repository_dispatch:
+    types: [new-article]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  PAYLOAD_FILE: /tmp/external_article_payload.json
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r tools/requirements.txt
+          pip install pytest
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Write payload file (repository_dispatch)
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          python3 -c "import json,sys; json.dump(${{ toJson(github.event.client_payload) }}, open('$PAYLOAD_FILE','w'), ensure_ascii=False)"
+
+
+      - name: Use fixture payload (workflow_dispatch)
+        if: github.event_name == 'workflow_dispatch'
+        run: cp tools/fixtures/external_article_payload.json "$PAYLOAD_FILE"
+
+      - name: Ingest article (dry-run)
+        run: python3 tools/ingest_article.py --payload-file "$PAYLOAD_FILE" --dry-run
+
+      - name: Ingest article (write)
+        run: python3 tools/ingest_article.py --payload-file "$PAYLOAD_FILE" --write
+
+      - name: Normalize tags to canonical topics
+        run: python3 tools/normalize_tags.py
+
+      - name: Check for duplicate article titles
+        run: python3 tools/check_duplicate_titles.py
+
+      - name: Rebuild index, sitemap, feed, corpus, docs, and static site
+        env:
+          INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
+        run: python3 tools/rebuild_local.py
+
+      - name: Run pytest
+        run: python3 -m pytest tools/tests -v
+
+      - name: Extract article info for PR
+        id: info
+        run: |
+          SLUG=$(python3 -c "import json; print(json.load(open('$PAYLOAD_FILE')).get('slug','unknown'))")
+          TITLE=$(python3 -c "import json; print(json.load(open('$PAYLOAD_FILE')).get('title','Unknown'))")
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+
+      - name: Open PR for new article
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: ingest/external-article-${{ steps.info.outputs.slug }}
+          title: "ingest(article): add ${{ steps.info.outputs.title }}"
+          body: |
+            Auto-generated PR from external article ingestion workflow.
+
+            - Source: `repository_dispatch` / `workflow_dispatch`
+            - Slug: `${{ steps.info.outputs.slug }}`
+            - Validation: schema check, tag normalization, duplicate-title gate, pytest, rebuild
+
+            **Do not merge until CI is green and the diff is reviewed.**
+
+            ---
+            _Note: PRs created with the default `GITHUB_TOKEN` do not trigger downstream CI workflows. If no checks appear, close and reopen this PR, or configure `ARTICLE_INGESTION_PR_TOKEN` for automatic CI triggering._
+          commit-message: "ingest(article): add ${{ steps.info.outputs.title }}"
+          add-paths: |
+            articles/*
+            index.json
+            sitemap.xml
+            feed.xml
+            feed.json
+            llms.txt
+            llms-full.txt
+            llms-recent.txt
+            README.md

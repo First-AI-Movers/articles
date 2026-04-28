@@ -1,0 +1,17 @@
+{
+  "title": "Synthetic External Article for Testing Ingestion",
+  "slug": "synthetic-external-article-test",
+  "published_date": "2026-04-28",
+  "canonical_url": "https://firstaimovers.com/synthetic-external-article-test",
+  "article_markdown": "# Synthetic External Article\n\nThis is a test article used to validate the external publishing ingestion pipeline. It should never appear in the live archive.",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "tags": ["AI strategy", "testing", "European SME"],
+  "funnel_stage": "top",
+  "status": "published",
+  "word_count": 42,
+  "read_time_minutes": 1,
+  "license": "CC BY 4.0"
+}

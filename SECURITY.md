@@ -78,6 +78,7 @@ The following tools and configurations protect this repository:
 | **GitHub secret scanning + push protection** | Native GitHub detection of known secret patterns | Repository Settings → Security (user-side toggle) |
 | **Content scrubber** | Idempotent removal of third-party presigned URLs from article content | `tools/scrub_presigned_urls.py` |
 | **Airtable ingestion** | Controlled article ingestion from Airtable via GitHub Actions | `tools/ingest_airtable.py` + `.github/workflows/ingest-airtable.yml` |
+| **External content push** | Controlled article ingestion from external platforms via `repository_dispatch` | `tools/ingest_article.py` + `.github/workflows/ingest-article.yml` + `docs/EXTERNAL_PUBLISHING.md` |
 
 ### gitleaks allowlist rationale
 
@@ -94,6 +95,16 @@ If you are the repository owner, enable these in Settings → Code security and 
 - [ ] **Push protection** — blocks pushes that contain detected secrets.
 
 These are free for public repositories.
+
+## External content-push security
+
+The archive accepts articles from external platforms via `repository_dispatch`:
+
+- **Payload validation** — Every incoming payload is validated against `tools/article_schema.json` before any file is written.
+- **No secrets in payload** — Authentication tokens, API keys, and PATs must live in **GitHub Encrypted Secrets** only. Never pass secrets in `client_payload` text.
+- **PR-only path** — The ingestion workflow never pushes directly to `main`. It always opens a PR via `peter-evans/create-pull-request` for owner review.
+- **Token behavior** — PRs created with the default `GITHUB_TOKEN` do not trigger downstream CI workflows. Configure `ARTICLE_INGESTION_PR_TOKEN` if automatic CI on ingestion PRs is required.
+- **Dry-run by default** — Local testing of `tools/ingest_article.py` defaults to `--dry-run`. Use `--write` only when you intend to create files.
 
 ## Security-related workflow
 
