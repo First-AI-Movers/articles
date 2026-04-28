@@ -7,6 +7,12 @@ User-agent: *
 Allow: /
 
 # -----------------------------------------------------------------------------
+# AI training and retrieval policy:
+# First AI Movers intentionally permits responsible AI indexing, retrieval,
+# summarization, citation, and model-training use of this archive under CC BY 4.0,
+# provided attribution to Dr. Hernani Costa / First AI Movers and canonical URLs is preserved.
+# -----------------------------------------------------------------------------
+
 # AI / LLM training + retrieval agents
 # Explicit Allow signals intent to be included in model training, RAG pipelines,
 # and answer-engine citations. CC BY 4.0 covers usage with attribution.
