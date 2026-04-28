@@ -146,6 +146,31 @@ def _normalize_article_body(value):
     return text.strip()
 
 
+def _slug_from_canonical_url(url):
+    """Extract a slug from the final path segment of a canonical URL.
+
+    Returns a normalized slug (lowercase, a-z/0-9/hyphens only, no leading/trailing
+    hyphens, collapsed duplicates) or None if no valid segment exists.
+    """
+    if not url:
+        return None
+    try:
+        from urllib.parse import urlparse
+        parsed = urlparse(str(url).strip())
+        path = parsed.path.rstrip("/")
+        if not path:
+            return None
+        segment = path.split("/")[-1]
+        if not segment:
+            return None
+        # Normalize: lowercase, keep only a-z 0-9 hyphens, collapse duplicates
+        slug = re.sub(r"[^a-z0-9-]", "", segment.lower())
+        slug = re.sub(r"-+", "-", slug).strip("-")
+        return slug if slug else None
+    except Exception:
+        return None
+
+
 def _build_folder_name(published_date, slug):
     """Generate repo folder name: YYYY-MM-DD-<slug>."""
     safe_slug = re.sub(r"[^a-z0-9-]", "", slug.lower())
@@ -193,6 +218,12 @@ def _record_to_payload(record):
             payload[key] = _normalize_article_body(raw)
         else:
             payload[key] = _to_str(raw)
+
+    # Derive missing slug from canonical URL (GUID) when Airtable slug is absent
+    if not payload.get("slug") and payload.get("canonical_url"):
+        derived = _slug_from_canonical_url(payload["canonical_url"])
+        if derived:
+            payload["slug"] = derived
 
     # Drop None values so defaults are handled later
     payload = {k: v for k, v in payload.items() if v is not None}

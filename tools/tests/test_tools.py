@@ -4087,6 +4087,76 @@ class TestAirtableIngestion:
         assert len(write_lines) == 1
         assert "--allow-no-status-gate" not in write_lines[0]
 
+    # --- Slug derivation tests --------------------------------------------
+
+    def test_slug_from_guid_canonical_url(self):
+        import ingest_airtable
+        slug = ingest_airtable._slug_from_canonical_url("https://radar.firstaimovers.com/ai-consulting-tallinn-digital-tech-smes-2026")
+        assert slug == "ai-consulting-tallinn-digital-tech-smes-2026"
+
+    def test_slug_from_guid_trailing_slash(self):
+        import ingest_airtable
+        slug = ingest_airtable._slug_from_canonical_url("https://example.com/my-article/")
+        assert slug == "my-article"
+
+    def test_slug_from_guid_query_string(self):
+        import ingest_airtable
+        slug = ingest_airtable._slug_from_canonical_url("https://example.com/my-article?utm_source=email")
+        assert slug == "my-article"
+
+    def test_slug_from_guid_invalid_url_returns_none(self):
+        import ingest_airtable
+        assert ingest_airtable._slug_from_canonical_url("") is None
+        assert ingest_airtable._slug_from_canonical_url(None) is None
+        assert ingest_airtable._slug_from_canonical_url("https://example.com/") is None
+
+    def test_record_to_payload_derives_missing_slug_from_guid(self):
+        import ingest_airtable
+        record = {
+            "id": "rec1",
+            "fields": {
+                "Title": "T",
+                "Pub Date": "2026-01-01",
+                "GUID": "https://example.com/derived-slug",
+                "Content HTML": "body",
+            }
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert payload["slug"] == "derived-slug"
+
+    def test_record_to_payload_prefers_airtable_slug_over_guid(self):
+        import ingest_airtable
+        record = {
+            "id": "rec1",
+            "fields": {
+                "Title": "T",
+                "slug": "explicit-slug",
+                "Pub Date": "2026-01-01",
+                "GUID": "https://example.com/derived-slug",
+                "Content HTML": "body",
+            }
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert payload["slug"] == "explicit-slug"
+
+    def test_record_missing_slug_and_unusable_guid_remains_invalid(self):
+        import ingest_airtable
+        record = {
+            "id": "rec1",
+            "fields": {
+                "Title": "T",
+                "Pub Date": "2026-01-01",
+                "GUID": "https://example.com/",
+                "Content HTML": "body",
+            }
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        # No slug derived because GUID path is empty
+        assert "slug" not in payload
+        schema = {"required": ["title", "slug", "published_date", "canonical_url", "article_markdown"], "properties": {}}
+        errors, warnings = ingest_airtable._validate_payload(payload, schema)
+        assert any("slug" in e for e in errors)
+
     # --- Workflow tests ---------------------------------------------------
 
     def test_ingest_workflow_exists(self):
