@@ -60,7 +60,7 @@ The first six phases delivered the archive. This phase makes the repository read
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| **E14** | Security tooling & supply-chain hygiene | `gitleaks` action on PR + push with `.gitleaks.toml` allowlist for documented placeholders; `dependabot.yml` (weekly, pip + Actions); GitHub native secret-scanning + push-protection enabled; one-shot content scrub `tools/scrub_presigned_urls.py` (idempotent, replaces beehiiv `<audio>` blocks containing third-party presigned URLs); appended "Supported security tooling" section in `SECURITY.md`; gitleaks dry-run test against a known-bad fixture. **No history rewrite** — repository scan was clean for real secrets. | 📱 | S |
+| ~~E14~~ | ~~Security tooling & supply-chain hygiene~~ | ✅ **Done.** `gitleaks` workflow on PR + push with `.gitleaks.toml` allowlist; `dependabot.yml` (weekly, pip + Actions); content scrubber `tools/scrub_presigned_urls.py` (dry-run, targets Beehiiv `<audio>` blocks with S3 presigned URLs); SECURITY.md updated with "Supported security tooling" section. Scrubber found 1 article with a presigned URL but has not been run live yet — tracked as follow-up. | 📱 | S |
 | **E15a** | Unit-test refactor | Split `tools/tests/test_tools.py` (3,029 lines) into per-module test files (`test_index_build.py`, `test_sitemap.py`, `test_feed.py`, `test_llms_corpus.py`, `test_site_build.py`, `test_topic_intros.py`, `test_quick_reads.py`, `test_per_article_pages.py`, `test_atomic_io.py`, `test_normalize_tags.py`, `test_check_duplicate_titles.py`, `test_search_index.py`); shared fixtures in `conftest.py`; `tools/tests/README.md` documenting layout; CI flips from `pytest -v` to `pytest -W error -ra --tb=short`; redundancy triage. | 📱 | M |
 | **E15b** | Playwright E2E suite | `tests-e2e/` with Playwright Test using `getByRole`/`getByLabel`; ~12-15 specs covering golden paths (home → topics → topic-page intro/fallback, per-article TOC + reading-time + breadcrumb, 404 noindex, theme toggle persistence, search box, feed/sitemap parse, About JSON-LD, skip-link reachability); `axe-playwright` accessibility checks; runs against built `site/` via local static server in CI; new `.github/workflows/e2e.yml` (PR + nightly); trace + HTML report artifacts on failure. | 📱 | M |
 | **E16** | Documentation pipeline + dynamic docs | New `docs/` folder with `ARCHITECTURE.md` (Mermaid dataflow), `OPERATIONS.md` (runbooks), `CHANGELOG.md` (auto-built from squash-merge titles via `tools/build_changelog.py`); centralizes README/ROADMAP/ABOUT stat-patches into `tools/update_docs.py` with `<!-- BEGIN/END auto -->` markers; idempotency tested; wired into `build-and-deploy.yml` before commit. | 📱 | M |
@@ -201,8 +201,9 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #36** Search Visibility Sprint C — topic hub SEO/GEO: CollectionPage JSON-LD, per-topic lastmod, article→hub links, 9 tests
 - **PR #37** Search Visibility Sprint D — monitoring docs: `docs/search-visibility-monitoring.md`
 - **PR #41** IndexNow env migration: moved keys from committed `.indexnow-key` to Doppler/GitHub secret `INDEXNOW_API_KEY_ARTICLES_FAIM`, host-aware tooling, 17 tests
+- **PR #43** E14 security tooling: gitleaks workflow + `.gitleaks.toml`, Dependabot config, content scrubber, SECURITY.md updates, 10 tests
 
-Operational state today: **829 articles**, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **829 local article pages**, **248 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+Operational state today: **829 articles**, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **829 local article pages**, **258 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
 
 ## Known hardening follow-up
 
