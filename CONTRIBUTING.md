@@ -115,6 +115,27 @@ See [`docs/search-visibility-monitoring.md`](docs/search-visibility-monitoring.m
 6. **Fill out the PR template.** Every PR must declare proof levels (code-reviewed, test-proven, CI-proven, etc.).
 7. **Do not merge your own PR** unless explicitly authorized.
 
+### Owner review
+
+`.github/CODEOWNERS` requires owner (`@hpcosta`) approval for changes to:
+- `/articles/` — archive content
+- `/tools/` — generation logic
+- `/templates/` and `/static/` — site assets
+- `/.github/` — CI/CD configuration
+- `/tests-e2e/` — browser tests
+- `/package.json` and `/package-lock.json`
+
+### Branch protection expectations
+
+The repository expects the following branch protection rules on `main`:
+- **Pull request required** — no direct pushes.
+- **Status checks required** — `test` and `e2e` workflows must pass.
+- **No force push** — history must remain linear and recoverable.
+- **Owner approval required** for CODEOWNERS paths.
+- **Linear history preferred** — squash-merge or rebase-merge.
+
+These are documented expectations; verify in repository Settings → Branches.
+
 ## Commit conventions
 
 - Use imperative mood: `feat(hardening): add duplicate-title gate`, not `added gate`.
@@ -136,17 +157,28 @@ See [`docs/search-visibility-monitoring.md`](docs/search-visibility-monitoring.m
 - Third-party hosts (LinkedIn, Medium) are accepted in `metadata.json` but are excluded from `sitemap.xml`.
 - The archive's local article pages (`/articles/<slug>/`) are `noindex,follow` and declare an external `rel=canonical`. They are **not** in the sitemap.
 
-## Duplicate-title soft gate
+## Duplicate-title gate
 
-The repository has a duplicate-title CI gate (`tools/check_duplicate_titles.py`). It currently runs with `continue-on-error: true` because **6 historical duplicate title pairs** exist. All 6 are different articles with the same title (revised versions or cross-property republications), not genuine duplicate content.
+The duplicate-title CI gate (`tools/check_duplicate_titles.py`) is **blocking**. All 6 historical duplicate title pairs were disambiguated in E19. The workflow no longer uses `continue-on-error: true`.
 
-Do **not** remove `continue-on-error: true` until those 6 pairs are disambiguated. See [ROADMAP.md § Known hardening follow-up](ROADMAP.md) for the full list.
+## External publishing
+
+The archive accepts articles from external publishing platforms via a controlled pipeline:
+
+- **Generic push:** `repository_dispatch` event `new-article` triggers `.github/workflows/ingest-article.yml`, which validates the payload, writes files, rebuilds artifacts, and opens a PR. See [`docs/EXTERNAL_PUBLISHING.md`](docs/EXTERNAL_PUBLISHING.md) for the full contract.
+- **Airtable cron:** `.github/workflows/ingest-airtable.yml` polls Airtable on a schedule and opens PRs for new records.
+
+In both cases:
+- **No direct push to `main`.** All ingestion creates a PR for review.
+- **Validation runs before PR creation:** schema check, tag normalization, duplicate-title gate, pytest, rebuild.
+- **Secrets live in GitHub Encrypted Secrets only.** Never pass tokens or keys in payload text.
 
 ## No secrets or private drafts
 
 - Do not commit `.env`, API keys, or tokens.
 - Do not commit unfinished article drafts. Every `articles/*/article.md` is public the moment it is pushed.
 - The CI workflow has `contents: write` permission only to commit regenerated artifacts. It does not push to external APIs.
+- Ingestion workflows use `secrets.GITHUB_TOKEN` by default. PRs created with this token do **not** trigger downstream `push`/`pull_request` workflows (GitHub recursion prevention). An optional `ARTICLE_INGESTION_PR_TOKEN` secret can be configured to enable automatic CI on ingestion PRs.
 
 ## Reporting proof levels
 

@@ -1,0 +1,51 @@
+name: Security report
+description: Report a security vulnerability responsibly
+title: "[Security] "
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a security issue. Please do not disclose sensitive details publicly.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief description of the vulnerability.
+      placeholder: "Stored XSS via unescaped article markdown..."
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What could an attacker achieve?
+      placeholder: "An attacker could execute JavaScript in a reader's browser..."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps to demonstrate the issue.
+      placeholder: |
+        1. Create an article with...
+        2. Visit the rendered page...
+        3. Observe...
+    validations:
+      required: false
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Suggested mitigation
+      description: If you have ideas on how to fix this, share them here.
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Responsible disclosure
+      description: Please confirm you will not disclose this vulnerability publicly until it is resolved.
+      options:
+        - label: I agree to disclose responsibly.
+          required: true

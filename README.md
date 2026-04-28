@@ -50,13 +50,18 @@
 # First AI Movers — Article Archive
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-blue.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Code License: Apache-2.0](https://img.shields.io/badge/Code_License-Apache--2.0-green.svg)](LICENSE-CODE)
 [![Articles](https://img.shields.io/badge/Articles-829-orange.svg)](#what-is-in-this-archive)
 [![Author](https://img.shields.io/badge/Author-Dr._Hernani_Costa-green.svg)](https://drhernanicosta.com)
 [![ORCID](https://img.shields.io/badge/ORCID-0000--0002--6813--4641-A6CE39.svg)](https://orcid.org/0000-0002-6813-4641)
+[![Tests](https://github.com/First-AI-Movers/articles/actions/workflows/tests.yml/badge.svg)](https://github.com/First-AI-Movers/articles/actions/workflows/tests.yml)
+[![E2E](https://github.com/First-AI-Movers/articles/actions/workflows/e2e.yml/badge.svg)](https://github.com/First-AI-Movers/articles/actions/workflows/e2e.yml)
 
 > The canonical, open-access text archive of every article published by [First AI Movers](https://firstaimovers.com) — 829 original articles on AI strategy, EU AI Act compliance, AI governance, and responsible AI adoption for European businesses.
 
 All articles are written by **[Dr. Hernani Costa](https://drhernanicosta.com)**, PhD in Computational Linguistics, AI strategy consultant with 25+ years in technology, and founder of [First AI Movers](https://firstaimovers.com) and [Core Ventures](https://coreventures.xyz). Published under **[CC BY 4.0](LICENSE)** — free to read, cite, adapt, and redistribute with attribution.
+
+> **Code and tooling** in this repository (everything outside `articles/*/`) is licensed under **[Apache-2.0](LICENSE-CODE)** so teams can reuse the archive pipeline, templates, and ingestion workflows in their own projects.
 
 ---
 
@@ -158,6 +163,25 @@ Content strategy architectures, sovereign media engines, vibe marketing for deve
 Health wearable AI interpreters, sleep chronotype guides, healthtech startup ideas, time-series LLMs, digital twins for renewable energy.
 
 ---
+
+## How This Archive Works
+
+```mermaid
+flowchart LR
+    A[External publishing<br/>Airtable / API / Manual] --> B["tools/ingest_article.py<br/>validate + write"]
+    B --> C["articles/YYYY-MM-DD-slug/<br/>article.md + metadata.json"]
+    C --> D["tools/normalize_tags.py<br/>tags → canonical topics"]
+    D --> E["tools/rebuild_local.py<br/>index.json / sitemap.xml / feeds / site/"]
+    E --> F["GitHub Pages<br/>articles.firstaimovers.com"]
+    E --> G["Pull Request<br/>review + merge"]
+```
+
+1. **Ingest** — Articles enter via Airtable cron (`E20a`), external API push (`E18`), or manual PR.
+2. **Validate** — Every payload is checked against `tools/article_schema.json`.
+3. **Normalize** — Tags are mapped to canonical topics automatically.
+4. **Rebuild** — `tools/rebuild_local.py` regenerates all machine-readable artifacts and the static site.
+5. **Review** — Automated PRs are reviewed before merge; no direct pushes to `main`.
+6. **Deploy** — GitHub Pages serves the built `site/` directory.
 
 ## Repository Structure
 
@@ -279,13 +303,15 @@ Machine-readable citation: [`CITATION.cff`](CITATION.cff)
 
 ## License
 
-This work is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+**Article content** (`articles/*/article.md`, `articles/*/metadata.json`, and generated artifacts) is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
 You are free to **share** and **adapt** this material for any purpose, including commercially, under the following terms:
 
 - **Attribution** — Credit Dr. Hernani Costa and First AI Movers, link to the license, and indicate if changes were made.
 
-See [LICENSE](LICENSE) for the full legal text.
+**Code and tooling** (`tools/`, `templates/`, `static/`, `.github/`, `tests-e2e/`, and package files) is licensed under the [Apache License 2.0](LICENSE-CODE). You may reuse the archive pipeline, templates, and workflows in your own projects with appropriate attribution.
+
+See [LICENSE](LICENSE) and [LICENSE-CODE](LICENSE-CODE) for the full legal texts.
 
 ---
 
@@ -303,4 +329,4 @@ See [LICENSE](LICENSE) for the full legal text.
 
 ---
 
-<sub>This repository is the source of truth for all First AI Movers articles. Content is published via an automated pipeline (Make.com to GitHub) and indexed programmatically. The archive grows daily as new articles are processed.</sub>
+<sub>This repository is the source of truth for all First AI Movers articles. Content is published via an automated pipeline and indexed programmatically. The archive grows daily as new articles are processed.</sub>

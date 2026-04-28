@@ -1,0 +1,46 @@
+name: Content correction
+description: Suggest a correction to article text, metadata, or topic intros
+title: "[Content] "
+labels: ["content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Article text is immutable once published — corrections are handled by publishing a new article or, for metadata, by opening a PR. Use this issue to discuss a correction before opening a PR.
+  - type: input
+    id: article-folder
+    attributes:
+      label: Article folder or URL
+      description: The `articles/<folder>/` path or canonical URL.
+      placeholder: "articles/2026-04-03-ai-consulting-amsterdam-european-smes-1/"
+    validations:
+      required: true
+  - type: dropdown
+    id: correction-type
+    attributes:
+      label: Type of correction
+      options:
+        - Typo or grammar
+        - Factual error
+        - Broken canonical URL
+        - Missing or incorrect metadata
+        - Topic intro improvement
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the issue and the proposed correction.
+      placeholder: "The canonical URL points to a 404 page. The correct URL is..."
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Guidelines
+      description: By submitting this issue, you agree to follow our contribution guidelines.
+      options:
+        - label: I understand article text is immutable and corrections require a new article or metadata PR.
+          required: true
