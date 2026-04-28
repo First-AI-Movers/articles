@@ -5,6 +5,7 @@
 
 ## Features
 
+- feat(analytics): add GoatCounter pageview tracking ([85](https://github.com/First-AI-Movers/articles/pull/85))
 - feat(ingestion): add Airtable dispatch trigger (E20b) ([71](https://github.com/First-AI-Movers/articles/pull/71))
 - feat(docs): E16 documentation pipeline + dynamic docs ([69](https://github.com/First-AI-Movers/articles/pull/69))
 - feat(governance): add repo policy and external publishing path ([67](https://github.com/First-AI-Movers/articles/pull/67))
