@@ -192,7 +192,7 @@ curl -A "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
 ### Full validation
 
 ```bash
-python3 -m pytest tools/tests/test_tools.py -v
+python3 -m pytest tools/tests -v
 INDEXNOW_API_KEY_ARTICLES_FAIM=<key> python3 tools/rebuild_local.py
 INDEXNOW_API_KEY_ARTICLES_FAIM=<key> python3 tools/submit_indexnow.py --dry-run
 python3 tools/normalize_tags.py --dry-run

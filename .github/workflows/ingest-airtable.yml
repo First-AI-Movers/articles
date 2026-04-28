@@ -61,7 +61,7 @@ jobs:
 
       - name: Run pytest
         if: env.INGEST_DRY_RUN != '1'
-        run: python3 -m pytest tools/tests/test_tools.py -v
+        run: python3 -m pytest tools/tests -v
 
       - name: Open PR for new articles
         if: env.INGEST_DRY_RUN != '1'
