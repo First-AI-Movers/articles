@@ -5,6 +5,7 @@
 
 ## Features
 
+- feat(rag): add article embedding index (E22) ([91](https://github.com/First-AI-Movers/articles/pull/91))
 - feat(citation): add Zenodo DOI readiness pipeline ([87](https://github.com/First-AI-Movers/articles/pull/87))
 - feat(analytics): add GoatCounter pageview tracking ([85](https://github.com/First-AI-Movers/articles/pull/85))
 - feat(ingestion): add Airtable dispatch trigger (E20b) ([71](https://github.com/First-AI-Movers/articles/pull/71))
