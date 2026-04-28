@@ -1,0 +1,129 @@
+name: Ingest Airtable dispatch (E20b)
+
+on:
+  repository_dispatch:
+    types: [airtable-record-updated]
+  workflow_dispatch:
+    inputs:
+      record_id:
+        description: "Airtable record ID to ingest"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  INGEST_DRY_RUN: ${{ vars.INGEST_DRY_RUN || '1' }}
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r tools/requirements.txt
+          pip install pytest
+
+      - name: Determine record ID
+        id: record
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            RECORD_ID="${{ github.event.client_payload.record_id }}"
+          else
+            RECORD_ID="${{ inputs.record_id }}"
+          fi
+
+          if [ -z "$RECORD_ID" ]; then
+            echo "::error::Missing Airtable record_id in payload or inputs"
+            exit 1
+          fi
+
+          # Validate Airtable record ID shape: rec + 14+ alphanumeric chars
+          if [[ ! "$RECORD_ID" =~ ^rec[a-zA-Z0-9]{14,}$ ]]; then
+            echo "::error::Invalid Airtable record ID: $RECORD_ID"
+            exit 1
+          fi
+
+          echo "record_id=$RECORD_ID" >> "$GITHUB_OUTPUT"
+          echo "record_id=$RECORD_ID"
+
+      - name: Ingest from Airtable (dry-run)
+        if: env.INGEST_DRY_RUN == '1'
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
+          AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+        run: |
+          python3 tools/ingest_airtable.py \
+            --dry-run \
+            --record-id "${{ steps.record.outputs.record_id }}" \
+            --allow-no-status-gate
+
+      - name: Ingest from Airtable (write)
+        if: env.INGEST_DRY_RUN != '1'
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
+          AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+        run: |
+          python3 tools/ingest_airtable.py \
+            --write \
+            --record-id "${{ steps.record.outputs.record_id }}"
+
+      - name: Normalize tags to canonical topics
+        if: env.INGEST_DRY_RUN != '1'
+        run: python3 tools/normalize_tags.py
+
+      - name: Check for duplicate article titles
+        if: env.INGEST_DRY_RUN != '1'
+        run: python3 tools/check_duplicate_titles.py
+
+      - name: Rebuild index, sitemap, feed, corpus, docs, and static site
+        if: env.INGEST_DRY_RUN != '1'
+        env:
+          INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
+        run: python3 tools/rebuild_local.py
+
+      - name: Run pytest
+        if: env.INGEST_DRY_RUN != '1'
+        run: python3 -m pytest tools/tests -v
+
+      - name: Open PR for new article
+        if: env.INGEST_DRY_RUN != '1'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: ingest/airtable-record-${{ steps.record.outputs.record_id }}
+          title: "ingest(article): add Airtable record ${{ steps.record.outputs.record_id }}"
+          body: |
+            Auto-generated PR from Airtable dispatch ingestion workflow (E20b).
+
+            - Source: `${{ github.event_name }}`
+            - Record ID: `${{ steps.record.outputs.record_id }}`
+            - Validation: schema check, tag normalization, duplicate-title gate, pytest, rebuild
+
+            **Do not merge until CI is green and the diff is reviewed.**
+
+            ---
+            _Note: PRs created with the default `GITHUB_TOKEN` do not trigger downstream CI workflows. If no checks appear, close and reopen this PR, or configure `ARTICLE_INGESTION_PR_TOKEN` for automatic CI triggering._
+          commit-message: "ingest(article): add Airtable record ${{ steps.record.outputs.record_id }}"
+          add-paths: |
+            articles/*
+            index.json
+            sitemap.xml
+            feed.xml
+            feed.json
+            llms.txt
+            llms-full.txt
+            llms-recent.txt
+            README.md

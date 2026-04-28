@@ -55,6 +55,16 @@ Use this when an article needs to land outside the normal ingestion flows.
    - Static server port conflict
    - Template change broke a selector
 
+## Troubleshooting a Failed E20b Push
+
+1. Check **Actions → Ingest Airtable dispatch (E20b)** for the dispatched run.
+2. Common causes:
+   - `INGEST_DRY_RUN=1` — the workflow ran in dry-run. This is safe and expected until write mode is enabled.
+   - Invalid `record_id` — the record does not exist or the Airtable PAT lacks read access.
+   - Record failed validation — check the workflow logs for schema validation errors.
+   - Record skipped — status not in `published`/`ready`/`approved`, or the article folder already exists.
+3. If the workflow run is green but no PR was created, the record was either skipped or dry-run prevented the write.
+
 ## Rotating Secrets
 
 ### Airtable ingestion secrets
@@ -79,6 +89,13 @@ Use this when an article needs to land outside the normal ingestion flows.
 2. Sender stores the PAT in their own repository secrets.
 3. No changes needed in this repository.
 
+### E20b Airtable dispatch sender token
+
+1. Generate a new **fine-grained PAT** with `actions:write` scoped to this repository only.
+2. Update the token in the Airtable automation configuration (the automation that calls the GitHub API).
+3. No changes needed in this repository's secrets.
+4. Test by triggering the Airtable automation manually or by running `.github/workflows/ingest-airtable-dispatch.yml` via `workflow_dispatch` with a known record ID.
+
 ## Running Ingestion Dry-Run vs Write Mode
 
 ### Airtable (E20a)
@@ -93,6 +110,13 @@ Use this when an article needs to land outside the normal ingestion flows.
 - Always dry-run by default; `--write` flag required to create files.
 - Local test: `cat fixture.json | python3 tools/ingest_article.py --write`
 - CI test: Run `.github/workflows/ingest-article.yml` via `workflow_dispatch` (uses fixture payload; close the resulting PR without merging).
+
+### Airtable push trigger (E20b)
+
+- **Dry-run (default):** `INGEST_DRY_RUN` is unset or `1`. The dispatch workflow fetches the record but does not write files.
+- **Write mode:** Set repository variable `INGEST_DRY_RUN=0`. The dispatch workflow will create the article folder and open a PR.
+- **Manual test:** Go to **Actions → Ingest Airtable dispatch (E20b) → Run workflow**, and provide a `record_id`.
+- **Local test:** `python3 tools/ingest_airtable.py --write --record-id <id>` (test with one record first)
 
 ## Recovering from a Bad Deployment
 
