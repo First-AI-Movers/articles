@@ -40,5 +40,5 @@ paths = [
     # GitHub workflow files that reference the env var name
     '''\.github\/workflows\/.*''',
     # Article containing the Beehiiv presigned URL
-    '''articles\/articles\/2025-09-28-llm-limits-solved-ai-workarounds-guide-2025\/article\.md$''',
+    '''articles\/2025-09-28-llm-limits-solved-ai-workarounds-guide-2025\/article\.md$''',
 ]
