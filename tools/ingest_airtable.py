@@ -39,15 +39,15 @@ SCHEMA_PATH = Path(__file__).resolve().parent / "article_schema.json"
 # ---------------------------------------------------------------------------
 AIRTABLE_FIELD_MAP = {
     "title": "Title",
-    "slug": "Slug",
-    "published_date": "Published Date",
-    "canonical_url": "Canonical URL",
-    "article_markdown": "Article Markdown",
+    "slug": "slug",
+    "published_date": "Pub Date",
+    "canonical_url": "GUID",
+    "article_markdown": "Content HTML",
     "author": "Author",
     "author_url": "Author URL",
     "company": "Company",
     "company_url": "Company URL",
-    "tags": "Tags",
+    "tags": "tags",
     "funnel_stage": "Funnel Stage",
     "first_ai_movers_services": "First AI Movers Services",
     "status": "Status",
@@ -111,6 +111,41 @@ def _to_str(value):
     return str(value).strip()
 
 
+def _normalize_date(value):
+    """Normalize Airtable date values to YYYY-MM-DD.
+
+    Accepts bare dates (2026-04-25) and ISO timestamps
+    (2026-04-25T00:00:00.000Z or 2026-04-25T00:00:00Z).
+    Returns YYYY-MM-DD string or None if unparseable.
+    """
+    if value is None:
+        return None
+    s = str(value).strip()
+    # Already a bare date
+    if re.match(r"^\d{4}-\d{2}-\d{2}$", s):
+        return s
+    # ISO timestamp with or without milliseconds
+    m = re.match(r"^(\d{4}-\d{2}-\d{2})T", s)
+    if m:
+        return m.group(1)
+    return None
+
+
+def _normalize_article_body(value):
+    """Normalize article body from Airtable.
+
+    Preserves Markdown as-is. Preserves HTML inside Markdown (Markdown allows
+    raw HTML). Normalizes line endings and strips whitespace.
+    # TODO: Add HTML-to-Markdown conversion after dry-run confirms Content HTML format.
+    """
+    if value is None:
+        return ""
+    text = str(value)
+    # Normalize line endings
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return text.strip()
+
+
 def _build_folder_name(published_date, slug):
     """Generate repo folder name: YYYY-MM-DD-<slug>."""
     safe_slug = re.sub(r"[^a-z0-9-]", "", slug.lower())
@@ -152,6 +187,10 @@ def _record_to_payload(record):
             payload[key] = _to_list(raw)
         elif key in ("word_count", "read_time_minutes"):
             payload[key] = _to_int(raw)
+        elif key == "published_date":
+            payload[key] = _normalize_date(raw)
+        elif key == "article_markdown":
+            payload[key] = _normalize_article_body(raw)
         else:
             payload[key] = _to_str(raw)
 
