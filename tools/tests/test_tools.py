@@ -3806,6 +3806,77 @@ class TestAirtableIngestion:
         errors, warnings = ingest_airtable._validate_payload(payload, schema)
         assert len(errors) == 3
 
+    # --- Front-matter serialization safety --------------------------------
+
+    def test_front_matter_preserves_double_quotes(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": 'The "AI Revolution" is Here',
+            "slug": "ai-revolution",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://x.com",
+            "article_markdown": "Body.",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        md = (tmp_path / "articles" / folder / "article.md").read_text(encoding="utf-8")
+        assert 'title: "The \\"AI Revolution\\" is Here"' in md
+
+    def test_front_matter_preserves_apostrophes(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": "It's a New Era for AI",
+            "slug": "new-era",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://x.com",
+            "article_markdown": "Body.",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        md = (tmp_path / "articles" / folder / "article.md").read_text(encoding="utf-8")
+        assert "title: \"It's a New Era for AI\"" in md
+
+    def test_front_matter_handles_colon_text(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": "AI: The Next Frontier",
+            "slug": "next-frontier",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://x.com",
+            "article_markdown": "Body.",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        md = (tmp_path / "articles" / folder / "article.md").read_text(encoding="utf-8")
+        assert 'title: "AI: The Next Frontier"' in md
+
+    def test_front_matter_does_not_create_malformed_yaml(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": 'Line1\nLine2 "quoted" and \\ backslash',
+            "slug": "multiline",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://x.com",
+            "article_markdown": "Body.",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        md = (tmp_path / "articles" / folder / "article.md").read_text(encoding="utf-8")
+        lines = md.splitlines()
+        # Front matter starts and ends with ---
+        assert lines[0] == "---"
+        fm_end = lines.index("---", 1)
+        fm_block = "\n".join(lines[:fm_end + 1])
+        # No literal newlines inside the front matter block beyond the expected line breaks
+        # (json.dumps escapes \n as two chars, so the file contains \\n, not a real newline)
+        title_line = [ln for ln in lines if ln.startswith("title:")][0]
+        # Should contain escaped sequences as literal characters in the file
+        assert "\\n" in title_line, f"Expected escaped newline in: {title_line}"
+        assert '\\\\' in title_line, f"Expected escaped backslash in: {title_line}"
+        # The front matter block should not contain bare unescaped quotes that would break YAML
+        # (json.dumps produces \" for internal quotes, which is valid YAML/JSON)
+        assert '"Line1' in title_line
+
     # --- Round-trip tests -------------------------------------------------
 
     def test_written_fixture_roundtrip(self, monkeypatch, tmp_path):

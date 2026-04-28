@@ -62,6 +62,15 @@ ALLOWED_STATUSES = {"published", "ready", "approved"}
 AIRTABLE_API_URL = "https://api.airtable.com/v0"
 
 
+def _yaml_quote(value):
+    """Serialize a string as a YAML scalar using JSON double-quoted string rules.
+
+    JSON double-quoted strings are valid YAML 1.2 scalars and safely escape
+    quotes, backslashes, newlines, and other control characters.
+    """
+    return json.dumps(str(value), ensure_ascii=False)
+
+
 def _load_schema():
     with SCHEMA_PATH.open(encoding="utf-8") as f:
         return json.load(f)
@@ -226,7 +235,7 @@ def _write_article(payload, record_id, dry_run):
     }
     fm_lines = ["---"]
     for k, v in front_matter.items():
-        fm_lines.append(f'{k}: "{v}"')
+        fm_lines.append(f"{k}: {_yaml_quote(v)}")
     fm_lines.append("---")
     article_body = payload.get("article_markdown", "")
     md_content = "\n".join(fm_lines) + "\n\n" + article_body.lstrip("\n")
