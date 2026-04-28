@@ -149,6 +149,10 @@ npm run test:e2e
 
 All should pass with no unexpected changes.
 
+## Analytics
+
+See [`docs/ANALYTICS.md`](docs/ANALYTICS.md) for the GoatCounter setup, privacy posture, path override rationale, and rollback procedure.
+
 ## Test Suite Quick Reference
 
 | Layer | Command | Count |
