@@ -1,0 +1,92 @@
+name: Ingest articles from Airtable
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  INGEST_DRY_RUN: ${{ vars.INGEST_DRY_RUN || '1' }}
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r tools/requirements.txt
+          pip install pytest
+
+      - name: Ingest from Airtable (dry-run)
+        if: env.INGEST_DRY_RUN == '1'
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
+          AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+        run: python3 tools/ingest_airtable.py --dry-run --since-hours 72
+
+      - name: Ingest from Airtable (write)
+        if: env.INGEST_DRY_RUN != '1'
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
+          AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+        run: python3 tools/ingest_airtable.py --write --since-hours 72
+
+      - name: Normalize tags to canonical topics
+        if: env.INGEST_DRY_RUN != '1'
+        run: python3 tools/normalize_tags.py
+
+      - name: Check for duplicate article titles
+        if: env.INGEST_DRY_RUN != '1'
+        run: python3 tools/check_duplicate_titles.py
+
+      - name: Rebuild index, sitemap, feed, corpus, docs, and static site
+        if: env.INGEST_DRY_RUN != '1'
+        env:
+          INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
+        run: python3 tools/rebuild_local.py
+
+      - name: Run pytest
+        if: env.INGEST_DRY_RUN != '1'
+        run: python3 -m pytest tools/tests/test_tools.py -v
+
+      - name: Open PR for new articles
+        if: env.INGEST_DRY_RUN != '1'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ingest/airtable-articles
+          title: "ingest(articles): add articles from Airtable"
+          body: |
+            Auto-generated PR from Airtable ingestion workflow.
+
+            - New articles ingested from Airtable
+            - Tags normalized to canonical topics
+            - Derived artifacts rebuilt (index.json, sitemap.xml, feeds, LLMS corpus)
+            - Tests passing
+
+            **Do not merge until CI is green and the diff is reviewed.**
+          commit-message: "ingest(articles): add articles from Airtable"
+          add-paths: |
+            articles/*
+            index.json
+            sitemap.xml
+            feed.xml
+            feed.json
+            llms.txt
+            llms-full.txt
+            llms-recent.txt
+            README.md

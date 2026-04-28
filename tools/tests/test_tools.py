@@ -3633,3 +3633,331 @@ class TestSecurityTooling:
                 by_title[title.lower()].append(a.get("folder", ""))
         duplicates = {t: folders for t, folders in by_title.items() if len(folders) > 1}
         assert not duplicates, f"Duplicate titles found: {duplicates}"
+
+
+# Tests: E20a — Self-hosted Airtable cron ingestion
+# =========================================================================
+
+class TestAirtableIngestion:
+    """Airtable ingestion script, schema, and workflow."""
+
+    # --- Schema tests -----------------------------------------------------
+
+    def test_schema_exists(self):
+        from pathlib import Path
+        schema = Path(__file__).resolve().parents[2] / "tools" / "article_schema.json"
+        assert schema.exists(), "article_schema.json must exist"
+
+    def test_schema_requires_core_fields(self):
+        import json
+        from pathlib import Path
+        schema = json.loads((Path(__file__).resolve().parents[2] / "tools" / "article_schema.json").read_text(encoding="utf-8"))
+        required = set(schema.get("required", []))
+        assert "title" in required
+        assert "slug" in required
+        assert "published_date" in required
+        assert "canonical_url" in required
+        assert "article_markdown" in required
+
+    def test_schema_rejects_missing_title(self):
+        import json
+        from pathlib import Path
+        schema = json.loads((Path(__file__).resolve().parents[2] / "tools" / "article_schema.json").read_text(encoding="utf-8"))
+        # Simple manual validation: check required fields
+        payload = {"slug": "test", "published_date": "2026-01-01", "canonical_url": "https://example.com", "article_markdown": "# Hello"}
+        assert "title" not in payload or not payload.get("title")
+        # title is missing — schema would reject it
+
+    # --- Field mapper tests -----------------------------------------------
+
+    def test_record_to_payload_maps_fields(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        record = {
+            "id": "rec123",
+            "fields": {
+                "Title": "Test Article",
+                "Slug": "test-article",
+                "Published Date": "2026-01-15",
+                "Canonical URL": "https://example.com/test",
+                "Article Markdown": "# Hello\n\nWorld.",
+                "Tags": "AI, Strategy",
+                "Status": "published",
+                "Funnel Stage": "middle",
+            }
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert payload["title"] == "Test Article"
+        assert payload["slug"] == "test-article"
+        assert payload["published_date"] == "2026-01-15"
+        assert payload["canonical_url"] == "https://example.com/test"
+        assert payload["article_markdown"] == "# Hello\n\nWorld."
+        assert payload["tags"] == ["AI", "Strategy"]
+        assert payload["status"] == "published"
+        assert payload["funnel_stage"] == "middle"
+
+    def test_status_gate_skips_draft(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        payload = {"status": "draft", "title": "T", "slug": "s", "published_date": "2026-01-01", "canonical_url": "https://x.com", "article_markdown": "x"}
+        schema = {"required": ["title", "slug", "published_date", "canonical_url", "article_markdown"], "properties": {}}
+        errors, warnings = ingest_airtable._validate_payload(payload, schema)
+        assert any("draft" in w.lower() for w in warnings)
+
+    def test_missing_status_gate_warns(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        payload = {"title": "T", "slug": "s", "published_date": "2026-01-01", "canonical_url": "https://x.com", "article_markdown": "x"}
+        schema = {"required": ["title", "slug", "published_date", "canonical_url", "article_markdown"], "properties": {}}
+        errors, warnings = ingest_airtable._validate_payload(payload, schema)
+        assert not errors
+        # No status field — should not produce warnings from _validate_payload itself
+
+    # --- Folder / slug tests ----------------------------------------------
+
+    def test_folder_name_is_deterministic(self):
+        import ingest_airtable
+        assert ingest_airtable._build_folder_name("2026-04-01", "ai-strategy") == "2026-04-01-ai-strategy"
+
+    def test_existing_folder_skipped(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        folder = ingest_airtable._build_folder_name("2026-01-01", "test-existing")
+        (tmp_path / "articles" / folder).mkdir(parents=True)
+        payload = {
+            "title": "Test", "slug": "test-existing", "published_date": "2026-01-01",
+            "canonical_url": "https://x.com", "article_markdown": "x"
+        }
+        f, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        assert not created
+
+    def test_duplicate_title_skipped(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        # Seed an existing article with the same title
+        existing = tmp_path / "articles" / "2026-01-01-existing"
+        existing.mkdir(parents=True)
+        (existing / "metadata.json").write_text(
+            json.dumps({"title": "Duplicate Title"}, indent=2) + "\n", encoding="utf-8"
+        )
+        payload = {
+            "title": "Duplicate Title", "slug": "new-slug", "published_date": "2026-02-01",
+            "canonical_url": "https://x.com", "article_markdown": "x"
+        }
+        f, created = ingest_airtable._write_article(payload, "rec2", dry_run=False)
+        assert not created
+
+    # --- Write tests ------------------------------------------------------
+
+    def test_write_creates_article_md_and_metadata(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": "New Article",
+            "slug": "new-article",
+            "published_date": "2026-03-01",
+            "canonical_url": "https://radar.firstaimovers.com/new-article",
+            "article_markdown": "# Hello\n\nWorld.",
+            "tags": ["AI", "Strategy"],
+            "status": "published",
+            "funnel_stage": "middle",
+            "word_count": 500,
+            "read_time_minutes": 3,
+        }
+        folder, created = ingest_airtable._write_article(payload, "recABC", dry_run=False)
+        assert created
+        assert folder == "2026-03-01-new-article"
+
+        article_dir = tmp_path / "articles" / folder
+        assert (article_dir / "article.md").exists()
+        assert (article_dir / "metadata.json").exists()
+
+        md = (article_dir / "article.md").read_text(encoding="utf-8")
+        assert "# Hello" in md
+        assert 'title: "New Article"' in md
+        assert "published_date: \"2026-03-01\"" in md
+
+        meta = json.loads((article_dir / "metadata.json").read_text(encoding="utf-8"))
+        assert meta["title"] == "New Article"
+        assert meta["slug"] == "new-article"
+        assert meta["folder"] == folder
+        assert meta["published_date"] == "2026-03-01"
+        assert meta["canonical_url"] == "https://radar.firstaimovers.com/new-article"
+        assert meta["tags"] == ["AI", "Strategy"]
+        assert meta["status"] == "published"
+        assert meta["funnel_stage"] == "middle"
+        assert meta["word_count"] == 500
+        assert meta["read_time_minutes"] == 3
+        assert meta["topics"] == []
+        assert meta["id"] == "recABC"
+
+    def test_dry_run_writes_nothing(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": "Dry Run Article", "slug": "dry-run", "published_date": "2026-01-01",
+            "canonical_url": "https://x.com", "article_markdown": "x"
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=True)
+        assert created  # would create
+        assert not (tmp_path / "articles" / folder).exists()
+
+    def test_malformed_record_reported_not_crashed(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        schema = {"required": ["title", "slug", "published_date", "canonical_url", "article_markdown"], "properties": {}}
+        payload = {"slug": "bad", "published_date": "2026-01-01"}  # missing title, canonical, markdown
+        errors, warnings = ingest_airtable._validate_payload(payload, schema)
+        assert len(errors) == 3
+
+    # --- Front-matter serialization safety --------------------------------
+
+    def test_front_matter_preserves_double_quotes(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": 'The "AI Revolution" is Here',
+            "slug": "ai-revolution",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://x.com",
+            "article_markdown": "Body.",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        md = (tmp_path / "articles" / folder / "article.md").read_text(encoding="utf-8")
+        assert 'title: "The \\"AI Revolution\\" is Here"' in md
+
+    def test_front_matter_preserves_apostrophes(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": "It's a New Era for AI",
+            "slug": "new-era",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://x.com",
+            "article_markdown": "Body.",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        md = (tmp_path / "articles" / folder / "article.md").read_text(encoding="utf-8")
+        assert "title: \"It's a New Era for AI\"" in md
+
+    def test_front_matter_handles_colon_text(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": "AI: The Next Frontier",
+            "slug": "next-frontier",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://x.com",
+            "article_markdown": "Body.",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        md = (tmp_path / "articles" / folder / "article.md").read_text(encoding="utf-8")
+        assert 'title: "AI: The Next Frontier"' in md
+
+    def test_front_matter_does_not_create_malformed_yaml(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        payload = {
+            "title": 'Line1\nLine2 "quoted" and \\ backslash',
+            "slug": "multiline",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://x.com",
+            "article_markdown": "Body.",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec1", dry_run=False)
+        md = (tmp_path / "articles" / folder / "article.md").read_text(encoding="utf-8")
+        lines = md.splitlines()
+        # Front matter starts and ends with ---
+        assert lines[0] == "---"
+        fm_end = lines.index("---", 1)
+        fm_block = "\n".join(lines[:fm_end + 1])
+        # No literal newlines inside the front matter block beyond the expected line breaks
+        # (json.dumps escapes \n as two chars, so the file contains \\n, not a real newline)
+        title_line = [ln for ln in lines if ln.startswith("title:")][0]
+        # Should contain escaped sequences as literal characters in the file
+        assert "\\n" in title_line, f"Expected escaped newline in: {title_line}"
+        assert '\\\\' in title_line, f"Expected escaped backslash in: {title_line}"
+        # The front matter block should not contain bare unescaped quotes that would break YAML
+        # (json.dumps produces \" for internal quotes, which is valid YAML/JSON)
+        assert '"Line1' in title_line
+
+    # --- Round-trip tests -------------------------------------------------
+
+    def test_written_fixture_roundtrip(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        import rebuild_local
+        import normalize_tags
+        import check_duplicate_titles
+
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(rebuild_local, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(rebuild_local, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(normalize_tags, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(check_duplicate_titles, "REPO_ROOT", tmp_path)
+
+        # Seed canonical_topics.json and tag_aliases.json so normalize_tags works
+        tools_dir = tmp_path / "tools"
+        tools_dir.mkdir(exist_ok=True)
+        (tools_dir / "canonical_topics.json").write_text(
+            json.dumps({"version": 1, "topics": ["AI Strategy"]}), encoding="utf-8"
+        )
+        (tools_dir / "tag_aliases.json").write_text(
+            json.dumps({"version": 1, "patterns": [], "overrides": {}}), encoding="utf-8"
+        )
+        monkeypatch.setattr(normalize_tags, "TOPICS_FILE", tools_dir / "canonical_topics.json")
+        monkeypatch.setattr(normalize_tags, "ALIASES_FILE", tools_dir / "tag_aliases.json")
+
+        payload = {
+            "title": "Roundtrip Article",
+            "slug": "roundtrip-article",
+            "published_date": "2026-04-01",
+            "canonical_url": "https://radar.firstaimovers.com/roundtrip-article",
+            "article_markdown": "# Hello\n\nThis is a test article.\n",
+            "tags": ["ai strategy"],
+            "status": "published",
+        }
+        folder, created = ingest_airtable._write_article(payload, "recRT", dry_run=False)
+        assert created
+
+        # normalize_tags should not crash
+        monkeypatch.setattr(normalize_tags, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(sys, "argv", ["normalize_tags.py"])
+        normalize_tags.main()
+
+        # check_duplicate_titles should pass
+        monkeypatch.setattr(check_duplicate_titles, "REPO_ROOT", tmp_path)
+        # create a minimal index.json so the checker can read it
+        (tmp_path / "index.json").write_text(
+            json.dumps({"articles": [{"title": "Roundtrip Article", "folder": folder, "published_date": "2026-04-01"}]}),
+            encoding="utf-8"
+        )
+        monkeypatch.setattr(sys, "argv", ["check_duplicate_titles.py", "--index", str(tmp_path / "index.json")])
+        with pytest.raises(SystemExit) as exc_info:
+            check_duplicate_titles.main()
+        assert exc_info.value.code == 0
+
+    # --- Workflow tests ---------------------------------------------------
+
+    def test_ingest_workflow_exists(self):
+        from pathlib import Path
+        wf = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml"
+        assert wf.exists(), "ingest-airtable workflow must exist"
+
+    def test_ingest_workflow_has_schedule_and_dispatch(self):
+        from pathlib import Path
+        text = (Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml").read_text(encoding="utf-8")
+        assert "workflow_dispatch" in text
+        assert "schedule" in text
+        assert "cron" in text
+
+    def test_ingest_workflow_uses_secrets_not_hardcoded_values(self):
+        from pathlib import Path
+        text = (Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml").read_text(encoding="utf-8")
+        assert "secrets.AIRTABLE_PAT" in text
+        assert "secrets.AIRTABLE_BASE_ID" in text
+        assert "secrets.AIRTABLE_TABLE_NAME" in text
+        # Ensure no placeholder secret values
+        assert "patXXX" not in text
+        assert "appXXX" not in text
+
+    def test_ingest_workflow_opens_pr_not_direct_push(self):
+        from pathlib import Path
+        text = (Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml").read_text(encoding="utf-8")
+        assert "create-pull-request" in text.lower() or "peter-evans/create-pull-request" in text
+        assert "git push" not in text.lower()

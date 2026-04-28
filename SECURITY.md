@@ -77,6 +77,7 @@ The following tools and configurations protect this repository:
 | **Dependabot** | Weekly dependency update PRs for Python (pip) and GitHub Actions | `.github/dependabot.yml` |
 | **GitHub secret scanning + push protection** | Native GitHub detection of known secret patterns | Repository Settings → Security (user-side toggle) |
 | **Content scrubber** | Idempotent removal of third-party presigned URLs from article content | `tools/scrub_presigned_urls.py` |
+| **Airtable ingestion** | Controlled article ingestion from Airtable via GitHub Actions | `tools/ingest_airtable.py` + `.github/workflows/ingest-airtable.yml` |
 
 ### gitleaks allowlist rationale
 
