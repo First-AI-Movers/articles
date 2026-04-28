@@ -33,6 +33,11 @@ This repository must never contain:
 - Unpublished drafts or confidential content.
 - Personal data of subscribers or readers.
 
+**IndexNow keys are an exception to the "no keys" rule in principle, but not in practice.**
+IndexNow keys are *public verification tokens* (proof-of-host ownership), not private secrets.
+However, for operational consistency, the repo sources them from Doppler/env variables
+(`INDEXNOW_API_KEY_ARTICLES_FAIM`) rather than committing rotating key values.
+
 All files under `articles/` are public. If you accidentally commit sensitive material, open a PR to remove it immediately and contact info@firstaimovers.com.
 
 ## Dependency and supply-chain security

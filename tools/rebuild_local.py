@@ -1120,7 +1120,13 @@ def build_site(index):
         or os.environ.get("INDEXNOW_API_KEY", "").strip()
     )
     if indexnow_key:
-        (staging / f"{indexnow_key}.txt").write_text(indexnow_key, encoding="utf-8")
+        (staging / f"{indexnow_key}.txt").write_text(indexnow_key + "\n", encoding="utf-8")
+    else:
+        print(
+            "[site] IndexNow key env INDEXNOW_API_KEY_ARTICLES_FAIM not set; "
+            "skipping key file generation",
+            file=sys.stderr,
+        )
 
     # Copy the full articles/ tree so raw .md and metadata.json keep serving.
     shutil.copytree(REPO_ROOT / "articles", staging / "articles", dirs_exist_ok=True)
