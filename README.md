@@ -297,7 +297,11 @@ If you reference this work in research, publications, or AI training documentati
 
 > Costa, H. (2026). *First AI Movers — Article Archive*. GitHub. https://github.com/First-AI-Movers/articles. Licensed under CC BY 4.0.
 
-Machine-readable citation: [`CITATION.cff`](CITATION.cff)
+- **Citation guide:** [`docs/CITATION.md`](docs/CITATION.md) — BibTeX, APA, and CSL JSON examples
+- **Machine-readable metadata:** [`CITATION.cff`](CITATION.cff)
+- **Zenodo DOI:** `pending` — see [`docs/ZENODO_RELEASE.md`](docs/ZENODO_RELEASE.md) for the release pipeline
+
+A Zenodo DOI will be minted after the first GitHub release. Until then, use the GitHub repository URL in citations.
 
 ---
 

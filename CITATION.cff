@@ -1,5 +1,6 @@
 cff-version: 1.2.0
 message: "If you use or cite this work, please use the following metadata."
+type: dataset
 authors:
   - family-names: Costa
     given-names: Hernani
@@ -7,7 +8,15 @@ authors:
     website: "https://drhernanicosta.com"
     affiliation: "First AI Movers / Core Ventures"
 title: "First AI Movers — Article Archive"
+abstract: "Canonical, open-access archive of 829+ original articles on AI strategy, EU AI Act compliance, AI governance, agentic systems, and responsible AI adoption for European SMEs. Written by Dr. Hernani Costa, PhD."
+repository-code: "https://github.com/First-AI-Movers/articles"
 url: "https://github.com/First-AI-Movers/articles"
+# DOI will be issued by Zenodo after the first GitHub release.
+# Uncomment and update the line below once Zenodo mints the DOI:
+# doi: "10.5281/zenodo.XXXXXXX"
+# identifier:
+#   - type: doi
+#     value: "10.5281/zenodo.XXXXXXX"
 license: CC-BY-4.0
 keywords:
   - AI strategy
