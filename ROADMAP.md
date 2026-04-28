@@ -210,7 +210,9 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #65** E15b Playwright E2E suite: 32 browser tests, `tests-e2e/` specs, `playwright.config.ts`, `.github/workflows/e2e.yml`, `package.json`
 - **PR #67** E18 governance + external publishing: `LICENSE-CODE`, `.github/CODEOWNERS`, issue templates, `docs/BRANCH_PROTECTION.md`, `docs/EXTERNAL_PUBLISHING.md`, `tools/ingest_article.py`, `.github/workflows/ingest-article.yml`, 27 new tests
 
-Operational state today: **829 articles**, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **829 local article pages**, **296 tests** on every PR (303 locally; 13 optional `TestAddTldr` failures when `dotenv`/`openai` not installed), zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+<!-- BEGIN auto:operational-state -->
+Operational state today: **829 articles**, **103 canonical topics**, **77 rendered topic hubs**, **829 local noindex article pages**, sitemap limited to **80 first-party indexable URLs**, and the current test suite split across Python unit/integration tests plus Playwright E2E.
+<!-- END auto:operational-state -->
 
 ## E20a operational follow-ups
 

@@ -1,0 +1,51 @@
+# Changelog
+
+> This is a reviewed snapshot generated manually. It is not deployment-generated.
+> Run `python3 tools/build_changelog.py` to refresh.
+
+## Features
+
+- feat(governance): add repo policy and external publishing path ([67](https://github.com/First-AI-Movers/articles/pull/67))
+- feat(seo): strengthen topic hub metadata and structured data ([36](https://github.com/First-AI-Movers/articles/pull/36))
+- feat(indexing): add IndexNow key and submission tooling ([33](https://github.com/First-AI-Movers/articles/pull/33))
+- feat(accessibility): add skip link, focus states, theme toggle semantics, and breadcrumb labels ([27](https://github.com/First-AI-Movers/articles/pull/27))
+- feat(hardening): add duplicate-title gate and atomic metadata writes ([23](https://github.com/First-AI-Movers/articles/pull/23))
+- feat(article-pages): E7 — TOC, reading time, breadcrumbs, related articles ([21](https://github.com/First-AI-Movers/articles/pull/21))
+- feat(theme): default archive site to dark mode with light toggle ([20](https://github.com/First-AI-Movers/articles/pull/20))
+- feat(site): per-article HTML pages renderer — E6 ([18](https://github.com/First-AI-Movers/articles/pull/18))
+- feat(social): E5 — JSON Feed, social footer, og:image plumbing ([16](https://github.com/First-AI-Movers/articles/pull/16))
+- feat(topic-pages): E4 — Quick reads section from existing TL;DRs ([14](https://github.com/First-AI-Movers/articles/pull/14))
+- feat(topic-narratives): E3 — final 42 topic intros ([13](https://github.com/First-AI-Movers/articles/pull/13))
+
+## Bug Fixes
+
+- fix(roadmap,safety): mark E6 done, add PR #18, raw-HTML sanitizer ([19](https://github.com/First-AI-Movers/articles/pull/19))
+
+## Documentation
+
+- docs(roadmap): mark E18 governance complete ([68](https://github.com/First-AI-Movers/articles/pull/68))
+- docs(roadmap): mark E15b e2e suite complete ([66](https://github.com/First-AI-Movers/articles/pull/66))
+- docs(roadmap): move E28 GEO audit earlier; reflect E29 partial absorption ([39](https://github.com/First-AI-Movers/articles/pull/39))
+- docs(roadmap): add Phase 9 — top-notch curatorial layer (E34-E40) ([38](https://github.com/First-AI-Movers/articles/pull/38))
+- docs(seo): add search visibility monitoring checklist ([37](https://github.com/First-AI-Movers/articles/pull/37))
+- docs(roadmap): add Phase 8 — Reach, permanence, and AI-native distribution (E21-E33) ([35](https://github.com/First-AI-Movers/articles/pull/35))
+- docs(roadmap): add E20a/E20b — self-hosted Airtable ingestion ([34](https://github.com/First-AI-Movers/articles/pull/34))
+- docs(roadmap): add Phase 7 — Professionalization (E14-E19) ([31](https://github.com/First-AI-Movers/articles/pull/31))
+- docs(roadmap): mark E11 done, add PR #27, update test count to 206, set E10 next ([28](https://github.com/First-AI-Movers/articles/pull/28))
+- docs(roadmap): mark E9 done, add PR #25, set E10/E11 next ([26](https://github.com/First-AI-Movers/articles/pull/26))
+- docs(repo): add contribution security and PR workflow guidance ([25](https://github.com/First-AI-Movers/articles/pull/25))
+- docs(roadmap): mark E8 done, add PR #23, document soft-gate follow-up ([24](https://github.com/First-AI-Movers/articles/pull/24))
+- docs(roadmap): mark E7 done, add PRs #19–21, E8+E9 next ([22](https://github.com/First-AI-Movers/articles/pull/22))
+- docs(roadmap): mark E5 done, E6+E7 next, add PR #16 ([17](https://github.com/First-AI-Movers/articles/pull/17))
+- docs(roadmap): mark E1–E4 complete, E5 next, add PRs #11–#14 ([15](https://github.com/First-AI-Movers/articles/pull/15))
+
+## Tests
+
+- test(e2e): add Playwright browser coverage ([65](https://github.com/First-AI-Movers/articles/pull/65))
+
+## Other Changes
+
+- PR A: sitemap cleanup — remove cross-host canonicals and data files ([32](https://github.com/First-AI-Movers/articles/pull/32))
+- E10 follow-up: mark E10 done in ROADMAP.md, list PR #29, update test count to 222 ([30](https://github.com/First-AI-Movers/articles/pull/30))
+- E10: client-side search ([29](https://github.com/First-AI-Movers/articles/pull/29))
+- E1: topic narratives — top 10 topics + render plumbing ([12](https://github.com/First-AI-Movers/articles/pull/12))
