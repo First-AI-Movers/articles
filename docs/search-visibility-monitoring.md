@@ -206,14 +206,28 @@ These require your login and cannot be done by repo tooling alone:
 
 | Action | Tool | Status | Notes |
 |---|---|---|---|
-| Resubmit sitemap in GSC | Google Search Console | ⏳ Needed after PR A/C | `https://articles.firstaimovers.com/sitemap.xml` |
-| Verify site in Bing Webmaster | Bing Webmaster Tools | ⏳ Needed | `articles.firstaimovers.com` |
-| Submit sitemap in Bing | Bing Webmaster Tools | ⏳ Needed | Same URL as GSC |
-| Validate IndexNow key in Bing | Bing Webmaster Tools | ⏳ Needed | Key from `INDEXNOW_API_KEY_ARTICLES_FAIM` env var |
-| Allowlist Googlebot/Bingbot on Radar | Vercel dashboard | ⏳ Needed | `radar.firstaimovers.com` |
-| Allowlist Bingbot on www | Cloudflare dashboard | ⏳ Needed | `www.firstaimovers.com` |
+| Resubmit sitemap in GSC | Google Search Console | ✅ Done | Discovers 80 URLs for `https://articles.firstaimovers.com/sitemap.xml` |
+| Verify site in Bing Webmaster | Bing Webmaster Tools | ✅ Done | `articles.firstaimovers.com` |
+| Submit sitemap in Bing | Bing Webmaster Tools | ✅ Done | Same URL as GSC |
+| Validate IndexNow key in Bing | Bing Webmaster Tools | ✅ Done | Key from `INDEXNOW_API_KEY_ARTICLES_FAIM` env var |
+| Allowlist Googlebot/Bingbot on Radar | Vercel dashboard | ⏳ Paused — external platform | `radar.firstaimovers.com` is on Hashnode; platform-level control may be required |
+| Allowlist Bingbot on www | Cloudflare dashboard | ⏳ Paused — external platform | `www.firstaimovers.com` is on Beehiiv; track for WordPress/Hetzner migration |
 | Yandex Webmaster (optional) | Yandex.Webmaster | ⏳ Optional | Only if targeting RU/CIS traffic |
 
 ---
 
-*Last updated: 2026-04-27. Part of the Search Visibility Sprint.*
+## 9. External platform follow-ups — paused
+
+These are not repo blockers. They depend on external platform capabilities.
+
+### Radar / Hashnode
+
+`radar.firstaimovers.com` is hosted on Hashnode. During sprint QA, Radar returned **429** to both Googlebot and Bingbot. Hashnode platform-level bot protection may require support ticket or premium feature. Parked until migration or platform confirmation.
+
+### www / Beehiiv
+
+`www.firstaimovers.com` is currently hosted on Beehiiv. During sprint QA, www returned **403 to Bingbot** (Googlebot returns 200). Beehiiv does not expose low-level WAF rules. This will be addressed during the future WordPress/Hetzner migration where Cloudflare rules and a custom `robots.txt` can be configured.
+
+---
+
+*Last updated: 2026-04-28. Search Visibility Sprint closed for `articles.firstaimovers.com`.*
