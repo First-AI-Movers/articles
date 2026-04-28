@@ -127,8 +127,9 @@ These are **not blockers** for the article archive repo. They depend on external
 7. ~~E10~~ — client-side internal search. ✅ Done.
 8. ~~E11~~ — accessibility audit + fixes. ✅ Done.
 9. ~~E12 → E13~~ — Search visibility setup for `articles.firstaimovers.com`. ✅ Done. External platforms paused.
-10. **E14** — security tooling + supply-chain hygiene (cheap; gates the contributor surface E18 + the production Airtable PAT introduced in E20a).
-10. **E19** — clear the duplicate-title soft gate so `pytest -W error` from E15a can land cleanly.
+10. ~~E14~~ — security tooling + supply-chain hygiene. ✅ Done.
+11. ~~E19~~ — resolve duplicate-title soft gate. ✅ Done.
+12. **E20a** — self-hosted Airtable cron ingestion; retires Make.com. Addresses operational pain (manual runs today).
 11. **E20a** — self-hosted Airtable cron ingestion; retires Make.com. Addresses operational pain (manual runs today).
 12. **E15a** — split the 3,029-line test monolith. Precondition for E15b.
 13. **E15b** — Playwright E2E suite locking in everything that's shipped.
@@ -207,15 +208,13 @@ Operational state today: **829 articles**, 111 canonical topics, 77 topic hub pa
 
 ## Known hardening follow-up
 
-The duplicate-title CI gate (`tools/check_duplicate_titles.py`) currently runs with `continue-on-error: true` because 6 historical duplicate title pairs exist. All 6 are **different articles with the same title** (not genuine duplicate content), so the fix requires an editorial decision to disambiguate titles.
+✅ **Resolved in E19.** The duplicate-title CI gate (`tools/check_duplicate_titles.py`) is now **blocking** — `continue-on-error: true` was removed after all 6 historical pairs were disambiguated with date/property qualifiers:
 
-| # | Duplicate title | Folders | Dates | Canonical hosts | Classification |
-|---|---|---|---|---|---|
-| 1 | AI Consulting in Amsterdam for European SMEs | `2026-04-03-ai-consulting-amsterdam-european-smes-1`<br>`2026-03-26-ai-consulting-amsterdam-european-smes` | 2026-04-03<br>2026-03-26 | Radar<br>Radar | **b** — same title, different article (revised version; `-1` suffix suggests republish) |
-| 2 | AI Readiness vs. AI Consulting | `2026-04-03-ai-readiness-vs-ai-consulting`<br>`2026-03-26-ai-readiness-vs-ai-consulting-smes` | 2026-04-03<br>2026-03-26 | Radar<br>Radar | **b** — same title, different article (different slugs and topics) |
-| 3 | The CEO Playbook for the First 90 Days of AI Adoption | `2026-04-03-ceo-playbook-first-90-days-ai-adoption-1`<br>`2026-03-26-ceo-playbook-first-90-days-ai-adoption` | 2026-04-03<br>2026-03-26 | Radar<br>Radar | **b** — same title, different article (revised version; `-1` suffix suggests republish) |
-| 4 | What GitHub's Coding Agent Changes for Product Teams | `2026-04-03-github-coding-agent-product-teams-1`<br>`2026-03-26-github-coding-agent-product-teams` | 2026-04-03<br>2026-03-26 | Radar<br>Radar | **b** — same title, different article (revised version; `-1` suffix suggests republish) |
-| 5 | Why Your Company Needs a Sovereign Media Engine | `2026-03-26-sovereign-media-engine-owned-audience-2026`<br>`2026-01-28-sovereign-media-engine-for-your-company` | 2026-03-26<br>2026-01-28 | Radar<br>First AI Movers | **b** — same title, different article (cross-property republication) |
-| 6 | Your Website Is Answering the Wrong Questions | `2026-02-09-content-strategy-funnel-architecture-guide`<br>`2026-01-30-your-website-is-answering-the-wrong-questions` | 2026-02-09<br>2026-01-28 | Radar<br>First AI Movers | **b** — same title, different article (cross-property republication) |
-
-**Recommended resolution:** Append a date or property qualifier to disambiguate (e.g., "… (April 2026)" or "… — Radar"). Once all 6 are resolved, remove `continue-on-error: true` from the `Check for duplicate article titles` step in `.github/workflows/tests.yml` to make the gate blocking.
+| # | Original title | Disambiguation | Folders |
+|---|---|---|---|
+| 1 | AI Consulting in Amsterdam for European SMEs | April 2026 version got `(April 2026)` qualifier | `2026-04-03-ai-consulting-amsterdam-european-smes-1` |
+| 2 | AI Readiness vs. AI Consulting | April 2026 version got `(April 2026)` qualifier | `2026-04-03-ai-readiness-vs-ai-consulting` |
+| 3 | The CEO Playbook for the First 90 Days of AI Adoption | April 2026 version got `(April 2026)` qualifier | `2026-04-03-ceo-playbook-first-90-days-ai-adoption-1` |
+| 4 | What GitHub's Coding Agent Changes for Product Teams | April 2026 version got `(April 2026)` qualifier | `2026-04-03-github-coding-agent-product-teams-1` |
+| 5 | Why Your Company Needs a Sovereign Media Engine | Radar republication got `— Radar` qualifier | `2026-03-26-sovereign-media-engine-owned-audience-2026` |
+| 6 | Your Website Is Answering the Wrong Questions | Radar republication got `— Radar` qualifier | `2026-02-09-content-strategy-funnel-architecture-guide` |

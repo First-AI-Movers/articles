@@ -1,5 +1,5 @@
 ---
-title: "Why Your Company Needs a Sovereign Media Engine"
+title: "Why Your Company Needs a Sovereign Media Engine — Radar"
 author: "Dr. Hernani Costa"
 author_url: "https://drhernanicosta.com"
 author_linkedin: "https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/"
