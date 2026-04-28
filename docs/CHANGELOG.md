@@ -50,6 +50,7 @@
 
 ## Other Changes
 
+- E29 — AI-training clarity manifest ([83](https://github.com/First-AI-Movers/articles/pull/83))
 - PR A: sitemap cleanup — remove cross-host canonicals and data files ([32](https://github.com/First-AI-Movers/articles/pull/32))
 - E10 follow-up: mark E10 done in ROADMAP.md, list PR #29, update test count to 222 ([30](https://github.com/First-AI-Movers/articles/pull/30))
 - E10: client-side search ([29](https://github.com/First-AI-Movers/articles/pull/29))
