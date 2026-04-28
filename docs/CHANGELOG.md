@@ -5,6 +5,8 @@
 
 ## Features
 
+- feat(ingestion): add Airtable dispatch trigger (E20b) ([71](https://github.com/First-AI-Movers/articles/pull/71))
+- feat(docs): E16 documentation pipeline + dynamic docs ([69](https://github.com/First-AI-Movers/articles/pull/69))
 - feat(governance): add repo policy and external publishing path ([67](https://github.com/First-AI-Movers/articles/pull/67))
 - feat(seo): strengthen topic hub metadata and structured data ([36](https://github.com/First-AI-Movers/articles/pull/36))
 - feat(indexing): add IndexNow key and submission tooling ([33](https://github.com/First-AI-Movers/articles/pull/33))
@@ -23,6 +25,9 @@
 
 ## Documentation
 
+- docs(roadmap): fix pre-E17 consistency notes ([73](https://github.com/First-AI-Movers/articles/pull/73))
+- docs(roadmap): mark E20b Airtable dispatch trigger complete ([72](https://github.com/First-AI-Movers/articles/pull/72))
+- docs(roadmap): mark E16 documentation pipeline complete ([70](https://github.com/First-AI-Movers/articles/pull/70))
 - docs(roadmap): mark E18 governance complete ([68](https://github.com/First-AI-Movers/articles/pull/68))
 - docs(roadmap): mark E15b e2e suite complete ([66](https://github.com/First-AI-Movers/articles/pull/66))
 - docs(roadmap): move E28 GEO audit earlier; reflect E29 partial absorption ([39](https://github.com/First-AI-Movers/articles/pull/39))

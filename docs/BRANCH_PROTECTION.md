@@ -2,13 +2,25 @@
 
 This document describes the intended branch protection rules for `main`. Repository owners should configure these in **Settings → Branches**.
 
+## Rationale
+
+This repository uses an **automation-friendly owner/operator workflow**:
+
+- AI/operator opens a PR.
+- Required status checks run automatically.
+- If checks are green, the operator can merge without waiting for a manual approval.
+- Manual reviews are encouraged for risky or architectural changes, but they are not a hard blocker for every trusted-owner PR because the same operator often creates and merges the PR.
+
+This model prioritises velocity while keeping `main` safe from direct pushes, force pushes, deletions, and broken CI.
+
 ## Required rules
 
 | Rule | Setting | Rationale |
 |---|---|---|
-| **Require a pull request before merging** | ✅ Enabled | No direct pushes to `main`. All changes must be reviewed. |
+| **Require a pull request before merging** | ✅ Enabled | No direct pushes to `main`. All changes must go through a PR so checks run. |
 | **Require status checks to pass** | `test`, `e2e`, `gitleaks` | Python tests, browser E2E, and secret scanning must all pass. |
-| **Require review from CODEOWNERS** | ✅ Enabled | Owner approval is required for `/articles/`, `/tools/`, `/templates/`, `/static/`, `/.github/`, and package files. |
+| **Require approving review** | ❌ Disabled | Green CI is the merge gate. Manual reviews are encouraged but not required for trusted-owner automation. |
+| **Require review from CODEOWNERS** | ❌ Disabled | CODEOWNERS is a documented ownership signal, not a hard merge blocker. |
 | **Require linear history** | ✅ Enabled | Keeps history clean and bisectable. Use squash-merge or rebase-merge. |
 | **Require signed commits** | Optional | Recommended if contributors use GPG/SSH signing. |
 | **Include administrators** | ✅ Enabled | Rules apply to everyone, including repo admins. |
