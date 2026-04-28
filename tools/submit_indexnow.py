@@ -60,11 +60,12 @@ def _parse_sitemap(sitemap_path: Path) -> list:
     return urls
 
 
-def _filter_urls(urls: list) -> list:
-    """Keep only indexable first-party HTML URLs on articles.firstaimovers.com."""
+def _filter_urls(urls: list, host: str) -> list:
+    """Keep only indexable first-party HTML URLs on the given host."""
+    prefix = f"https://{host}/"
     allowed = []
     for u in urls:
-        if not u.startswith("https://articles.firstaimovers.com/"):
+        if not u.startswith(prefix):
             continue
         # Exclude local archive article pages (noindex,follow)
         if "/articles/" in u:
@@ -76,17 +77,17 @@ def _filter_urls(urls: list) -> list:
     return allowed
 
 
-def _build_payload(urls: list, key: str) -> dict:
+def _build_payload(urls: list, key: str, host: str) -> dict:
     return {
-        "host": "articles.firstaimovers.com",
+        "host": host,
         "key": key,
-        "keyLocation": f"https://articles.firstaimovers.com/{key}.txt",
+        "keyLocation": f"https://{host}/{key}.txt",
         "urlList": urls,
     }
 
 
-def _submit(urls: list, key: str, endpoint: str) -> bool:
-    payload = _build_payload(urls, key)
+def _submit(urls: list, key: str, endpoint: str, host: str) -> bool:
+    payload = _build_payload(urls, key, host)
     data = json.dumps(payload).encode("utf-8")
     req = Request(
         endpoint,
@@ -112,12 +113,21 @@ def _submit(urls: list, key: str, endpoint: str) -> bool:
     return False
 
 
+def _redact_key(key: str) -> str:
+    """Show only first/last 4 chars of a key for tidy logs."""
+    if len(key) <= 12:
+        return key
+    return key[:4] + "..." + key[-4:]
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Submit URLs to IndexNow")
     parser.add_argument("--sitemap", type=Path, default=DEFAULT_SITEMAP,
                         help="Path to sitemap.xml")
+    parser.add_argument("--host", default="articles.firstaimovers.com",
+                        help="Target host (default: articles.firstaimovers.com)")
     parser.add_argument("--key", default=None,
-                        help="IndexNow key (reads env var if omitted)")
+                        help="IndexNow key (reads env var for --host if omitted)")
     parser.add_argument("--key-location", default=None,
                         help="Public key file URL")
     parser.add_argument("--endpoint", default=DEFAULT_ENDPOINT,
@@ -126,31 +136,33 @@ def main(argv=None):
                         help="Print payload without submitting")
     args = parser.parse_args(argv)
 
-    key = args.key or _get_key_for_host("articles.firstaimovers.com")
-    key_location = args.key_location or f"https://articles.firstaimovers.com/{key}.txt"
+    key = args.key or _get_key_for_host(args.host)
+    key_location = args.key_location or f"https://{args.host}/{key}.txt"
 
     if not args.sitemap.exists():
         print(f"Sitemap not found: {args.sitemap}", file=sys.stderr)
         return 1
 
     raw_urls = _parse_sitemap(args.sitemap)
-    urls = _filter_urls(raw_urls)
+    urls = _filter_urls(raw_urls, args.host)
 
     print(f"Sitemap URLs: {len(raw_urls)}")
-    print(f"Filtered to articles.firstaimovers.com indexable: {len(urls)}")
+    print(f"Filtered to {args.host} indexable: {len(urls)}")
 
     if not urls:
         print("No URLs to submit.")
         return 0
 
-    payload = _build_payload(urls, key)
+    payload = _build_payload(urls, key, args.host)
     payload["keyLocation"] = key_location
 
     if args.dry_run:
+        env_var = INDEXNOW_KEY_ENV_BY_HOST.get(args.host, "INDEXNOW_API_KEY")
         print("--- DRY RUN ---")
         print(f"Endpoint: {args.endpoint}")
         print(f"Host: {payload['host']}")
-        print(f"Key: {payload['key']}")
+        print(f"Key source: {env_var}")
+        print(f"Key (redacted): {_redact_key(payload['key'])}")
         print(f"Key location: {payload['keyLocation']}")
         print(f"URL count: {len(payload['urlList'])}")
         print("First 5 URLs:")
@@ -161,7 +173,7 @@ def main(argv=None):
         print("--- END DRY RUN ---")
         return 0
 
-    ok = _submit(urls, key, args.endpoint)
+    ok = _submit(urls, key, args.endpoint, args.host)
     return 0 if ok else 1
 
 

@@ -88,8 +88,8 @@ grep -E '\.md|\.txt|\.json|\.cff|feed\.xml|feed\.json' sitemap.xml || echo "OK"
 # IndexNow dry-run returns 80 URLs
 python3 tools/submit_indexnow.py --dry-run
 
-# Key file is live and returns exact body
-curl -sL https://articles.firstaimovers.com/f9d934376f0a4a55c2fd6608f2868f48.txt
+# Key file is live and returns exact body (replace <key> with current env var value)
+curl -sL https://articles.firstaimovers.com/<key>.txt
 ```
 
 - [ ] All checks pass
@@ -160,6 +160,9 @@ grep -E '\.md|\.txt|\.json|\.cff|feed\.xml|feed\.json' sitemap.xml || echo "OK n
 # Dry-run (safe, no network submission)
 python3 tools/submit_indexnow.py --dry-run
 
+# Or via Doppler
+# doppler run -- python3 tools/submit_indexnow.py --dry-run
+
 # Live submission (run manually after verifying key is live)
 python3 tools/submit_indexnow.py
 ```
@@ -190,7 +193,8 @@ curl -A "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)
 
 ```bash
 python3 -m pytest tools/tests/test_tools.py -v
-python3 tools/submit_indexnow.py --dry-run
+INDEXNOW_API_KEY_ARTICLES_FAIM=<key> python3 tools/rebuild_local.py
+INDEXNOW_API_KEY_ARTICLES_FAIM=<key> python3 tools/submit_indexnow.py --dry-run
 python3 tools/normalize_tags.py --dry-run
 ```
 

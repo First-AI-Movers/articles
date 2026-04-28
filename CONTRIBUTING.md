@@ -81,7 +81,16 @@ The archive supports [IndexNow](https://www.indexnow.org/) for notifying Bing, Y
 - **Live submission:** `python3 tools/submit_indexnow.py` — submits the 80 archive URLs to `api.indexnow.org`.
 - The script reads `sitemap.xml`, filters to `articles.firstaimovers.com` indexable pages only, and validates the URL set before submission.
 - The CI workflow runs `--dry-run` after every deploy (non-blocking).
-- For local testing, set `INDEXNOW_API_KEY_ARTICLES_FAIM` or `INDEXNOW_API_KEY` in your environment.
+- For local testing, set `INDEXNOW_API_KEY_ARTICLES_FAIM` or `INDEXNOW_API_KEY` in your environment, or use Doppler:
+
+  ```bash
+  doppler run -- python3 tools/rebuild_local.py
+  doppler run -- python3 tools/submit_indexnow.py --dry-run
+  ```
+
+- **Reserved env vars for future multi-client support:**
+  - `INDEXNOW_API_KEY_RADAR_FAIM` — `radar.firstaimovers.com`
+  - `INDEXNOW_API_KEY_COREVENTURES` — domain TBD
 
 ## Search visibility monitoring
 
