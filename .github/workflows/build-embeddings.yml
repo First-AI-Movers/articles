@@ -1,0 +1,56 @@
+name: Build embedding index
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 0"   # Weekly on Sunday 03:17 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r tools/requirements.txt
+          pip install pytest
+
+      - name: Cache embedding model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-embeddings-model-${{ hashFiles('tools/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-embeddings-model-
+
+      - name: Build embeddings
+        run: python3 tools/build_embeddings.py --out embeddings.parquet
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: embeddings-parquet
+          path: embeddings.parquet
+          retention-days: 7
+
+      - name: Open PR if changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/refresh-embeddings
+          title: "chore(embeddings): refresh article embedding index"
+          body: |
+            Automated weekly refresh of `embeddings.parquet`.
+            - Model: `BAAI/bge-small-en-v1.5`
+            - Trigger: scheduled workflow
+            - If no semantic changes, this PR may be empty.
+          commit-message: "chore(embeddings): refresh article embedding index"
+          delete-branch: true
