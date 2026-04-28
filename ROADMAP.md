@@ -61,7 +61,7 @@ The first six phases delivered the archive. This phase makes the repository read
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
 | ~~E14~~ | ~~Security tooling & supply-chain hygiene~~ | ✅ **Done.** `gitleaks` workflow on PR + push with `.gitleaks.toml` allowlist; `dependabot.yml` (weekly, pip + Actions); content scrubber `tools/scrub_presigned_urls.py` (dry-run, targets Beehiiv `<audio>` blocks with S3 presigned URLs); SECURITY.md updated with "Supported security tooling" section. Scrubber found 1 article with a presigned URL but has not been run live yet — tracked as follow-up. | 📱 | S |
-| **E15a** | Unit-test refactor | Split `tools/tests/test_tools.py` (3,029 lines) into per-module test files (`test_index_build.py`, `test_sitemap.py`, `test_feed.py`, `test_llms_corpus.py`, `test_site_build.py`, `test_topic_intros.py`, `test_quick_reads.py`, `test_per_article_pages.py`, `test_atomic_io.py`, `test_normalize_tags.py`, `test_check_duplicate_titles.py`, `test_search_index.py`); shared fixtures in `conftest.py`; `tools/tests/README.md` documenting layout; CI flips from `pytest -v` to `pytest -W error -ra --tb=short`; redundancy triage. | 📱 | M |
+| ~~E15a~~ | ~~Unit-test refactor~~ | ✅ **Done.** Split `tools/tests/test_tools.py` (4,188 lines) into 16 focused test files by production module; added `conftest.py` and `_fixtures.py` for shared constants; added `tools/tests/README.md`; updated CI/workflows/docs references to `pytest tools/tests`. No test logic changed, no production code changed. | 📱 | M |
 | **E15b** | Playwright E2E suite | `tests-e2e/` with Playwright Test using `getByRole`/`getByLabel`; ~12-15 specs covering golden paths (home → topics → topic-page intro/fallback, per-article TOC + reading-time + breadcrumb, 404 noindex, theme toggle persistence, search box, feed/sitemap parse, About JSON-LD, skip-link reachability); `axe-playwright` accessibility checks; runs against built `site/` via local static server in CI; new `.github/workflows/e2e.yml` (PR + nightly); trace + HTML report artifacts on failure. | 📱 | M |
 | **E16** | Documentation pipeline + dynamic docs | New `docs/` folder with `ARCHITECTURE.md` (Mermaid dataflow), `OPERATIONS.md` (runbooks), `CHANGELOG.md` (auto-built from squash-merge titles via `tools/build_changelog.py`); centralizes README/ROADMAP/ABOUT stat-patches into `tools/update_docs.py` with `<!-- BEGIN/END auto -->` markers; idempotency tested; wired into `build-and-deploy.yml` before commit. | 📱 | M |
 | **E17** | Design overhaul (Pico.css + self-hosted fonts) | Vendor Pico.css under `static/vendor/` (no CDN — reproducible builds); thin custom layer keeps existing `.topic-intro` / `.quick-reads` / `.card` overrides; self-host Inter + JetBrains Mono (OFL) under `static/fonts/` (no Google Fonts call); typography rhythm fixes; `lighthouse-ci` step in CI uploading report as PR artifact (non-blocking initially); 4 Playwright `expect(page).toHaveScreenshot()` baselines (home, topic-with-intro, per-article, about) — added in E15b; `docs/DESIGN.md` documenting tokens, scale, breakpoints. | 📱 | M |
@@ -130,33 +130,33 @@ These are **not blockers** for the article archive repo. They depend on external
 10. ~~E14~~ — security tooling + supply-chain hygiene. ✅ Done.
 11. ~~E19~~ — resolve duplicate-title soft gate. ✅ Done.
 12. ~~E20a~~ — self-hosted Airtable cron ingestion; retires Make.com. ✅ **Scaffold + dry-run validated.** Write mode disabled pending controlled single-record write test.
-12. **E15a** — split the 3,029-line test monolith. Precondition for E15b.
-13. **E15b** — Playwright E2E suite locking in everything that's shipped.
-14. **E18** — governance + external content-push (Flow B via `repository_dispatch` → PR; never direct main push). Generalizes E20b's dispatch wiring.
-15. **E16** — dynamic docs pipeline so the new docs from E18 stay current automatically.
-16. **E20b** — optional push-based Airtable trigger for sub-second ingestion latency (reuses E18's `repository_dispatch` plumbing).
-17. **E17** — design overhaul, ship last so E15b screenshot baselines stick.
-18. **E28** — GEO audit CI gate (S, compounds with every new article — moved earlier from prior position #23 to maximize lifetime audited inventory).
-19. **E25** — Wayback snapshots (XS, set-and-forget; ship anytime).
-20. **E29** — AI-training manifest (XS, scope reduced — robots.txt half already shipped via Search Visibility Sprint; remaining: meta tag injection + llms-* header).
-21. **E24** — GoatCounter analytics (XS, hosted free tier; gives traffic visibility before deeper Phase 8 work).
-22. **E23** — Zenodo DOI + CITATION.cff release pipeline (S, makes the archive citable).
-23. **E26** — Giscus comments (S, low-effort reader engagement).
-24. **E22** — RAG embedding index (M, prerequisite for E33; standalone value for downstream RAG users).
-25. **E21** — MCP server on Cloudflare Workers (M, the standout AI-native epic; uses E22 for `search_articles`).
-26. **E27** — PWA offline reading (M, after E17 design baselines stick).
-27. **E30** — article quality CI: vale + lychee + readability (S; ship after content tooling settles).
-28. **E31** — article series / learning-path metadata (M; needs editorial decision on which articles form series).
-29. **E33** — "Ask the archive" chatbot POC (M, depends on E21 + E22).
-30. **E32** — *(research only)* track C2PA written-content tooling; revisit Q4 2026.
-31. **E37** — erratum / correction protocol (XS, pure docs/policy; unblocks scholarly posture for later epics).
-32. **E40** — multi-property pattern doc + cookiecutter template (XS, depends on E18 dual-license shipping).
-33. **E36** — citation graph between articles (S, pure compute, no external deps).
-34. **E34** — per-article DOIs (S, extends E23; ship after Zenodo corpus-level integration is live).
-35. **E35** — multi-length structured summaries (M, batched LLM-generated + human review).
-36. **E38** — custom OG image renderer on Cloudflare Workers (M, closes E5 plumbing).
-37. **E39** — multilingual variants for top-20 articles (M, ship after E24 surfaces traffic data).
-38. **E12 / E13** — your turn on the MacBook anytime after Phase 7 ships.
+13. ~~E15a~~ — split the test monolith. ✅ Done.
+14. **E15b** — Playwright E2E suite locking in everything that's shipped.
+15. **E18** — governance + external content-push (Flow B via `repository_dispatch` → PR; never direct main push). Generalizes E20b's dispatch wiring.
+16. **E16** — dynamic docs pipeline so the new docs from E18 stay current automatically.
+17. **E20b** — optional push-based Airtable trigger for sub-second ingestion latency (reuses E18's `repository_dispatch` plumbing).
+18. **E17** — design overhaul, ship last so E15b screenshot baselines stick.
+19. **E28** — GEO audit CI gate (S, compounds with every new article — moved earlier from prior position #23 to maximize lifetime audited inventory).
+20. **E25** — Wayback snapshots (XS, set-and-forget; ship anytime).
+21. **E29** — AI-training manifest (XS, scope reduced — robots.txt half already shipped via Search Visibility Sprint; remaining: meta tag injection + llms-* header).
+22. **E24** — GoatCounter analytics (XS, hosted free tier; gives traffic visibility before deeper Phase 8 work).
+23. **E23** — Zenodo DOI + CITATION.cff release pipeline (S, makes the archive citable).
+24. **E26** — Giscus comments (S, low-effort reader engagement).
+25. **E22** — RAG embedding index (M, prerequisite for E33; standalone value for downstream RAG users).
+26. **E21** — MCP server on Cloudflare Workers (M, the standout AI-native epic; uses E22 for `search_articles`).
+27. **E27** — PWA offline reading (M, after E17 design baselines stick).
+28. **E30** — article quality CI: vale + lychee + readability (S; ship after content tooling settles).
+29. **E31** — article series / learning-path metadata (M; needs editorial decision on which articles form series).
+30. **E33** — "Ask the archive" chatbot POC (M, depends on E21 + E22).
+31. **E32** — *(research only)* track C2PA written-content tooling; revisit Q4 2026.
+32. **E37** — erratum / correction protocol (XS, pure docs/policy; unblocks scholarly posture for later epics).
+33. **E40** — multi-property pattern doc + cookiecutter template (XS, depends on E18 dual-license shipping).
+34. **E36** — citation graph between articles (S, pure compute, no external deps).
+35. **E34** — per-article DOIs (S, extends E23; ship after Zenodo corpus-level integration is live).
+36. **E35** — multi-length structured summaries (M, batched LLM-generated + human review).
+37. **E38** — custom OG image renderer on Cloudflare Workers (M, closes E5 plumbing).
+38. **E39** — multilingual variants for top-20 articles (M, ship after E24 surfaces traffic data).
+39. **E12 / E13** — your turn on the MacBook anytime after Phase 7 ships.
 
 ## Next development candidates
 
@@ -206,6 +206,7 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #58** E20a scaffold: `tools/ingest_airtable.py`, `tools/article_schema.json`, `.github/workflows/ingest-airtable.yml`, `docs/airtable-ingestion.md`, `TestAirtableIngestion` (17 tests)
 - **PR #60** E20a field mapping fix: real Airtable fields (`slug`, `Pub Date`, `GUID`, `Content HTML`, `tags`), date normalization, `--allow-no-status-gate` in dry-run only
 - **PR #61** E20a slug derivation: `_slug_from_canonical_url()` fallback when Airtable `slug` is missing, 7 new tests
+- **PR #63** E15a unit-test refactor: split 4,188-line monolith into 16 focused test files; added `conftest.py`, `_fixtures.py`, `tools/tests/README.md`
 
 Operational state today: **829 articles**, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **829 local article pages**, **296 tests** on every PR (303 locally; 13 optional `TestAddTldr` failures when `dotenv`/`openai` not installed), zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
 
