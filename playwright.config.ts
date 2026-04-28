@@ -14,6 +14,9 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests-e2e/specs',
 
+  /* Cross-platform snapshot names (no OS suffix) */
+  snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}{ext}',
+
   /* Run tests in files in parallel */
   fullyParallel: true,
 
