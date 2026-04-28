@@ -67,6 +67,33 @@ The archive renders article Markdown to HTML using Jinja2 with autoescape enable
 
 If you find a bypass in the sanitizer or template escaping that could lead to stored XSS on `articles.firstaimovers.com`, please report it using the process above.
 
+## Supported security tooling
+
+The following tools and configurations protect this repository:
+
+| Tool | What it does | Config location |
+|---|---|---|
+| **gitleaks** | Scans PRs and pushes for accidental secret commits | `.github/workflows/gitleaks.yml` + `.gitleaks.toml` |
+| **Dependabot** | Weekly dependency update PRs for Python (pip) and GitHub Actions | `.github/dependabot.yml` |
+| **GitHub secret scanning + push protection** | Native GitHub detection of known secret patterns | Repository Settings → Security (user-side toggle) |
+| **Content scrubber** | Idempotent removal of third-party presigned URLs from article content | `tools/scrub_presigned_urls.py` |
+
+### gitleaks allowlist rationale
+
+The `.gitleaks.toml` allowlist documents two narrow exceptions:
+
+1. **IndexNow keys** — public verification tokens, not secrets. Listed explicitly.
+2. **Beehiiv presigned URL** in `articles/2025-09-28-llm-limits-solved-ai-workarounds-guide-2025/article.md` — a third-party audio embed URL that was published by the canonical publisher. The URL is already public and the credential belongs to Beehiiv/S3, not this project. The content scrubber is the long-term remediation.
+
+### Enabling GitHub native secret scanning
+
+If you are the repository owner, enable these in Settings → Code security and analysis:
+
+- [ ] **Secret scanning** — detects known secret patterns in code.
+- [ ] **Push protection** — blocks pushes that contain detected secrets.
+
+These are free for public repositories.
+
 ## Security-related workflow
 
 - Security fixes are treated as high-priority PRs.

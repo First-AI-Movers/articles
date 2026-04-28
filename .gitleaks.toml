@@ -1,0 +1,44 @@
+# Gitleaks configuration for First AI Movers article archive.
+# This repo is public and intentionally contains:
+#   - Public IndexNow verification keys (not secrets)
+#   - Article text with external canonical URLs
+#   - Historical presigned URLs in article content
+#
+# Allowlist entries are narrow and documented. Do not broaden them without
+# recording the justification.
+
+title = "FAM Article Archive Gitleaks Config"
+
+[allowlist]
+description = "Known public tokens and documented placeholders"
+
+# 1. IndexNow keys are public proof-of-host ownership, not secrets.
+#    They may appear in docs, generated site, and test fixtures.
+# 2. AWS credential embedded in a Beehiiv presigned audio URL inside
+#    article content. This is a third-party URL that was published
+#    by the canonical publisher; the credential is not ours and the
+#    URL is already public. The scrubber (tools/scrub_presigned_urls.py)
+#    is the long-term fix; this allowlist prevents CI noise until scrubbed.
+regexes = [
+    # Exact known public IndexNow keys (documented in env vars)
+    '''ee4c7a6ad2464b84a2320e9edf0fe996''',
+    # AWS credential in Beehiiv presigned URL (third-party, already public)
+    '''AKIAQCMHTQSE2JGAGXHJ''',
+]
+
+paths = [
+    # Generated artifacts and docs where public keys are documented
+    '''site\/.*\.txt$''',
+    '''docs\/.*''',
+    '''CONTRIBUTING\.md$''',
+    '''SECURITY\.md$''',
+    '''ROADMAP\.md$''',
+    '''README\.md$''',
+    '''\.gitleaks\.toml$''',
+    # Test fixtures that exercise key handling
+    '''tools\/tests\/.*''',
+    # GitHub workflow files that reference the env var name
+    '''\.github\/workflows\/.*''',
+    # Article containing the Beehiiv presigned URL
+    '''articles\/articles\/2025-09-28-llm-limits-solved-ai-workarounds-guide-2025\/article\.md$''',
+]
