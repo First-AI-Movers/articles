@@ -19,7 +19,7 @@ This process ensures the archive remains discoverable by search engines and AI a
 | **Sitemap** | `sitemap.xml` contains 80 indexable first-party HTML pages on `articles.firstaimovers.com`: homepage, about, topics index, 77 topic hubs |
 | **Local article pages** | `/articles/<slug>/` are `noindex, follow` with external `rel=canonical`. Not in sitemap. |
 | **Raw data / feeds** | `index.json`, `feed.xml`, `feed.json`, `llms.txt`, `llms-full.txt`, `llms-recent.txt` are accessible and linked in footer. Not in sitemap. |
-| **IndexNow** | Key file live at `https://articles.firstaimovers.com/<key>.txt`. `tools/submit_indexnow.py` supports dry-run and live submission. CI runs dry-run after deploy. |
+| **IndexNow** | Key file live at `https://articles.firstaimovers.com/<key>.txt`, generated from env var `INDEXNOW_API_KEY_ARTICLES_FAIM`. `tools/submit_indexnow.py` supports dry-run and live submission. CI runs dry-run after deploy. |
 | **Google** | Discovered via GSC + sitemap. No Google Indexing API (not eligible). |
 | **Bing / Yandex** | Discovered via IndexNow + Bing Webmaster Tools sitemap. |
 | **AI / LLM bots** | `robots.txt` explicitly allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc. |
@@ -132,7 +132,7 @@ Copy this table into a new row each week:
 | Googlebot/Bingbot gets **403/429** on Radar/www | Fix Vercel/Cloudflare bot protection allowlist immediately | You / Vercel / Cloudflare |
 | Sitemap URL count **≠ 80** | Inspect `tools/rebuild_local.py` `build_sitemap()`; check for unintended URL additions | Repo |
 | Local `/articles/<slug>/` appears in sitemap | **Block deployment**. Fix `build_sitemap()` filter. | Repo |
-| IndexNow key file returns **404** | Trigger manual deploy or inspect `.indexnow-key` / build output | Repo |
+| IndexNow key file returns **404** | Trigger manual deploy or inspect `INDEXNOW_API_KEY_ARTICLES_FAIM` env var / build output | Repo |
 | Indexed count **flat for 2–4 weeks** after PR A/C | Inspect topic hub quality, internal links, and GSC URL Inspection samples | You + Repo |
 | GSC flags **duplicate/canonical** issues | Sample URL Inspection before changing repo canonical policy | You |
 | Bing Webmaster shows **IndexNow key invalid** | Re-verify key file URL and content; check Bing dashboard | You |
@@ -167,8 +167,9 @@ python3 tools/submit_indexnow.py
 ### Key file live check
 
 ```bash
-curl -I https://articles.firstaimovers.com/f9d934376f0a4a55c2fd6608f2868f48.txt
-curl -sL https://articles.firstaimovers.com/f9d934376f0a4a55c2fd6608f2868f48.txt
+# Replace <key> with the current key from INDEXNOW_API_KEY_ARTICLES_FAIM
+curl -I https://articles.firstaimovers.com/<key>.txt
+curl -sL https://articles.firstaimovers.com/<key>.txt
 ```
 
 ### Bot access checks
@@ -204,7 +205,7 @@ These require your login and cannot be done by repo tooling alone:
 | Resubmit sitemap in GSC | Google Search Console | ⏳ Needed after PR A/C | `https://articles.firstaimovers.com/sitemap.xml` |
 | Verify site in Bing Webmaster | Bing Webmaster Tools | ⏳ Needed | `articles.firstaimovers.com` |
 | Submit sitemap in Bing | Bing Webmaster Tools | ⏳ Needed | Same URL as GSC |
-| Validate IndexNow key in Bing | Bing Webmaster Tools | ⏳ Needed | Key: `f9d934376f0a4a55c2fd6608f2868f48` |
+| Validate IndexNow key in Bing | Bing Webmaster Tools | ⏳ Needed | Key from `INDEXNOW_API_KEY_ARTICLES_FAIM` env var |
 | Allowlist Googlebot/Bingbot on Radar | Vercel dashboard | ⏳ Needed | `radar.firstaimovers.com` |
 | Allowlist Bingbot on www | Cloudflare dashboard | ⏳ Needed | `www.firstaimovers.com` |
 | Yandex Webmaster (optional) | Yandex.Webmaster | ⏳ Optional | Only if targeting RU/CIS traffic |

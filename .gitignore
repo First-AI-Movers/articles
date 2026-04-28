@@ -1,5 +1,6 @@
 # Secrets
 .env
+.indexnow-key
 
 # Claude Code local config
 .claude/
