@@ -52,6 +52,7 @@
 
 ## Other Changes
 
+- E26: Giscus comments scaffold (disabled by default) ([89](https://github.com/First-AI-Movers/articles/pull/89))
 - E23 closure — mark Zenodo DOI readiness pipeline as done in ROADMAP ([88](https://github.com/First-AI-Movers/articles/pull/88))
 - E24 closure — mark GoatCounter analytics as done in ROADMAP ([86](https://github.com/First-AI-Movers/articles/pull/86))
 - E29 closure — mark AI-training clarity manifest as done in ROADMAP ([84](https://github.com/First-AI-Movers/articles/pull/84))
