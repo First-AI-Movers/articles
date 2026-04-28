@@ -11,6 +11,18 @@ Replace the Make.com-based article ingestion with a native GitHub Actions workfl
 3. Writes new `articles/<folder>/{article.md, metadata.json}`.
 4. Normalizes tags, rebuilds derived artifacts, and opens a PR.
 
+## Validated dry-run state
+
+| Run | Result |
+|---|---|
+| **Run ID** | `25062480810` |
+| **Total seen** | 67 records |
+| **Skipped** | 67 (already exist in archive) |
+| **Invalid** | 0 |
+| **Would create** | 0 |
+
+The dry-run scaffold is validated. Field mapping, date normalization, slug derivation, and deduplication all work correctly. **Write mode remains disabled** pending a controlled single-record write test.
+
 ## Required secrets
 
 Configure these in the repository Settings → Secrets and variables → Actions:
