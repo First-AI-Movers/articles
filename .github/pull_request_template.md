@@ -24,7 +24,7 @@
 ## Validation checklist
 
 - [ ] **Code-reviewed** — logic inspected for correctness and minimalism.
-- [ ] **Test-proven** — `python3 -m pytest tools/tests/test_tools.py -v` passes.
+- [ ] **Test-proven** — `python3 -m pytest tools/tests -v` passes.
 - [ ] **Dry-run proven** — `python3 tools/normalize_tags.py --dry-run` passes.
 - [ ] **Rebuild proven** — `python3 tools/rebuild_local.py` completes without error.
 - [ ] **Git status clean** — `git status --short` shows only expected changes.

@@ -56,7 +56,7 @@ Run these before opening any PR:
 
 ```bash
 # Run the full test suite
-python3 -m pytest tools/tests/test_tools.py -v
+python3 -m pytest tools/tests -v
 
 # Validate tag normalization (dry-run)
 python3 tools/normalize_tags.py --dry-run

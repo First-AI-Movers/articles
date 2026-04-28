@@ -24,7 +24,7 @@ jobs:
           pip install pytest
 
       - name: Run pytest
-        run: python3 -m pytest tools/tests/test_tools.py -v
+        run: python3 -m pytest tools/tests -v
 
       - name: Check for duplicate article titles
         run: python3 tools/check_duplicate_titles.py
