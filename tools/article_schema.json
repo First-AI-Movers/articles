@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "First AI Movers Article Payload",
+  "description": "Schema for article records ingested from Airtable or external pipelines. Fields map to metadata.json and article.md front matter.",
+  "type": "object",
+  "required": ["title", "slug", "published_date", "canonical_url", "article_markdown"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Article headline. Appears in metadata.json, article.md front matter, and rendered HTML."
+    },
+    "slug": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9-]+$",
+      "description": "URL-safe slug. Combined with published_date to form the folder name."
+    },
+    "published_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Publication date in YYYY-MM-DD format."
+    },
+    "canonical_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "External canonical URL where the article originally published."
+    },
+    "article_markdown": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Full article body in Markdown. May include a TL;DR blockquote after the front matter."
+    },
+    "author": {
+      "type": "string",
+      "default": "Dr. Hernani Costa",
+      "description": "Article author name."
+    },
+    "author_url": {
+      "type": "string",
+      "format": "uri",
+      "default": "https://drhernanicosta.com",
+      "description": "Author website or profile URL."
+    },
+    "company": {
+      "type": "string",
+      "default": "First AI Movers",
+      "description": "Publishing company name."
+    },
+    "company_url": {
+      "type": "string",
+      "format": "uri",
+      "default": "https://firstaimovers.com",
+      "description": "Publishing company URL."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Free-form keyword tags. normalize_tags.py maps these to canonical topics."
+    },
+    "funnel_stage": {
+      "type": "string",
+      "enum": ["top", "middle", "bottom"],
+      "description": "Content funnel stage."
+    },
+    "first_ai_movers_services": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Related First AI Movers services."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["published", "draft", "ready", "approved", "archived", "needs review"],
+      "description": "Editorial status. Only published/ready/approved records are ingested by default."
+    },
+    "word_count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Article word count."
+    },
+    "read_time_minutes": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Estimated reading time in minutes."
+    },
+    "license": {
+      "type": "string",
+      "default": "CC BY 4.0",
+      "description": "Content license."
+    }
+  },
+  "additionalProperties": false
+}
