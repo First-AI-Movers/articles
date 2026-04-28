@@ -34,7 +34,7 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
           AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
-        run: python3 tools/ingest_airtable.py --dry-run --since-hours 72
+        run: python3 tools/ingest_airtable.py --dry-run --since-hours 72 --allow-no-status-gate
 
       - name: Ingest from Airtable (write)
         if: env.INGEST_DRY_RUN != '1'

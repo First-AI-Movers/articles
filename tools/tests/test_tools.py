@@ -3676,11 +3676,11 @@ class TestAirtableIngestion:
             "id": "rec123",
             "fields": {
                 "Title": "Test Article",
-                "Slug": "test-article",
-                "Published Date": "2026-01-15",
-                "Canonical URL": "https://example.com/test",
-                "Article Markdown": "# Hello\n\nWorld.",
-                "Tags": "AI, Strategy",
+                "slug": "test-article",
+                "Pub Date": "2026-01-15",
+                "GUID": "https://example.com/test",
+                "Content HTML": "# Hello\n\nWorld.",
+                "tags": "AI, Strategy",
                 "Status": "published",
                 "Funnel Stage": "middle",
             }
@@ -3962,10 +3962,10 @@ class TestAirtableIngestion:
             "id": "recTest",
             "fields": {
                 "Title": "Write Mode Test",
-                "Slug": "write-mode-test",
-                "Published Date": "2026-04-01",
-                "Canonical URL": "https://example.com/write-mode-test",
-                "Article Markdown": "# Hello",
+                "slug": "write-mode-test",
+                "Pub Date": "2026-04-01",
+                "GUID": "https://example.com/write-mode-test",
+                "Content HTML": "# Hello",
                 "Status": "published",
             }
         }
@@ -3984,6 +3984,108 @@ class TestAirtableIngestion:
         assert exc_info.value.code == 2
         captured = capsys.readouterr()
         assert "mutually exclusive" in captured.err.lower()
+
+    # --- Real field mapping tests -----------------------------------------
+
+    def test_real_airtable_field_mapping_required_fields(self):
+        import ingest_airtable
+        mapping = ingest_airtable.AIRTABLE_FIELD_MAP
+        assert mapping["title"] == "Title"
+        assert mapping["slug"] == "slug"
+        assert mapping["published_date"] == "Pub Date"
+        assert mapping["canonical_url"] == "GUID"
+        assert mapping["article_markdown"] == "Content HTML"
+        assert mapping["tags"] == "tags"
+
+    def test_record_to_payload_uses_real_field_names(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        record = {
+            "id": "recReal",
+            "fields": {
+                "Title": "Real Article",
+                "slug": "real-article",
+                "Pub Date": "2026-04-25",
+                "GUID": "https://example.com/real",
+                "Content HTML": "# Real\n\nContent.",
+                "tags": "AI, Strategy",
+                "Status": "published",
+            }
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert payload["title"] == "Real Article"
+        assert payload["slug"] == "real-article"
+        assert payload["published_date"] == "2026-04-25"
+        assert payload["canonical_url"] == "https://example.com/real"
+        assert payload["article_markdown"] == "# Real\n\nContent."
+        assert payload["tags"] == ["AI", "Strategy"]
+        assert payload["status"] == "published"
+
+    def test_pub_date_accepts_bare_date(self):
+        import ingest_airtable
+        assert ingest_airtable._normalize_date("2026-04-25") == "2026-04-25"
+
+    def test_pub_date_accepts_airtable_timestamp_with_ms(self):
+        import ingest_airtable
+        assert ingest_airtable._normalize_date("2026-04-25T00:00:00.000Z") == "2026-04-25"
+
+    def test_pub_date_accepts_airtable_timestamp_without_ms(self):
+        import ingest_airtable
+        assert ingest_airtable._normalize_date("2026-04-25T00:00:00Z") == "2026-04-25"
+
+    def test_pub_date_rejects_unparseable(self):
+        import ingest_airtable
+        assert ingest_airtable._normalize_date("not-a-date") is None
+        assert ingest_airtable._normalize_date(None) is None
+
+    def test_content_html_field_populates_article_markdown(self):
+        import ingest_airtable
+        record = {
+            "id": "rec1",
+            "fields": {
+                "Title": "T",
+                "slug": "s",
+                "Pub Date": "2026-01-01",
+                "GUID": "https://x.com",
+                "Content HTML": "<p>Hello</p>",
+            }
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert payload["article_markdown"] == "<p>Hello</p>"
+
+    def test_content_html_preserved_without_dependency(self):
+        import ingest_airtable
+        html = "<h1>Title</h1>\r\n<p>Paragraph</p>\r\n"
+        result = ingest_airtable._normalize_article_body(html)
+        assert result == "<h1>Title</h1>\n<p>Paragraph</p>"
+
+    def test_lowercase_tags_field_maps_to_tags_list(self):
+        import ingest_airtable
+        record = {
+            "id": "rec1",
+            "fields": {
+                "Title": "T",
+                "slug": "s",
+                "Pub Date": "2026-01-01",
+                "GUID": "https://x.com",
+                "Content HTML": "body",
+                "tags": "AI, Governance",
+            }
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert payload["tags"] == ["AI", "Governance"]
+
+    def test_workflow_dry_run_allows_no_status_gate(self):
+        from pathlib import Path
+        text = (Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml").read_text(encoding="utf-8")
+        dry_run_line = [ln for ln in text.splitlines() if "ingest_airtable.py --dry-run" in ln][0]
+        assert "--allow-no-status-gate" in dry_run_line
+
+    def test_workflow_write_mode_does_not_allow_no_status_gate(self):
+        from pathlib import Path
+        text = (Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml").read_text(encoding="utf-8")
+        write_lines = [ln for ln in text.splitlines() if "ingest_airtable.py --write" in ln]
+        assert len(write_lines) == 1
+        assert "--allow-no-status-gate" not in write_lines[0]
 
     # --- Workflow tests ---------------------------------------------------
 

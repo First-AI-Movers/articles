@@ -29,15 +29,15 @@ The ingestion script maps Airtable fields to article payload fields via `AIRTABL
 | Airtable field (default) | Article payload key | Required |
 |---|---|---|
 | `Title` | `title` | ✅ |
-| `Slug` | `slug` | ✅ |
-| `Published Date` | `published_date` | ✅ |
-| `Canonical URL` | `canonical_url` | ✅ |
-| `Article Markdown` | `article_markdown` | ✅ |
+| `slug` | `slug` | ✅ |
+| `Pub Date` | `published_date` | ✅ |
+| `GUID` | `canonical_url` | ✅ |
+| `Content HTML` | `article_markdown` | ✅ |
 | `Author` | `author` | ❌ (default: Dr. Hernani Costa) |
 | `Author URL` | `author_url` | ❌ |
 | `Company` | `company` | ❌ |
 | `Company URL` | `company_url` | ❌ |
-| `Tags` | `tags` | ❌ |
+| `tags` | `tags` | ❌ |
 | `Funnel Stage` | `funnel_stage` | ❌ |
 | `First AI Movers Services` | `first_ai_movers_services` | ❌ |
 | `Status` | `status` | ❌ (strongly recommended) |
@@ -53,8 +53,8 @@ Only records with status `published`, `ready`, or `approved` are ingested by def
 Records with `draft`, `needs review`, or `archived` are skipped.
 
 If your base does not have a `Status` field:
-- Dry-run will warn.
-- Write mode requires `--allow-no-status-gate`.
+- Dry-run allows missing status for discovery (passes `--allow-no-status-gate`).
+- Write mode requires `--allow-no-status-gate` to be set explicitly.
 
 ## Workflow
 
