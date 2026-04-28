@@ -23,6 +23,10 @@ Thumbs.db
 # Logs
 *.log
 
+# GEO audit generated reports
+geo_audit_report.json
+geo_audit_report.md
+
 # Generated static site — built by tools/rebuild_local.py and deployed via
 # the pages workflow. Not committed to keep diffs readable.
 site/
