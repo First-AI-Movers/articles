@@ -115,6 +115,10 @@ See [`docs/search-visibility-monitoring.md`](docs/search-visibility-monitoring.m
 6. **Fill out the PR template.** Every PR must declare proof levels (code-reviewed, test-proven, CI-proven, etc.).
 7. **Do not merge your own PR** unless explicitly authorized.
 
+### Analytics changes
+
+Changes to analytics scripts, tracking endpoints, or privacy-related configuration require explicit privacy review. See [`docs/ANALYTICS.md`](docs/ANALYTICS.md) for the current setup and rollback procedure.
+
 ### Owner review
 
 `.github/CODEOWNERS` requires owner (`@hpcosta`) approval for changes to:

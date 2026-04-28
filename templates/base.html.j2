@@ -33,6 +33,18 @@
 <link rel="alternate" type="application/json" title="JSON Feed" href="{{ site_url }}/feed.json">
 <link rel="stylesheet" href="{{ rel_root }}style.css">
 {% block head_extra %}{% endblock %}
+<script>
+window.goatcounter = window.goatcounter || {};
+window.goatcounter.path = function () {
+  return location.pathname + location.search;
+};
+</script>
+<script
+  data-goatcounter="https://firstaimovers.goatcounter.com/count"
+  async
+  src="https://gc.zgo.at/count.v5.js"
+  crossorigin="anonymous"
+  integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
