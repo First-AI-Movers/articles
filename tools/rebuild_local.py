@@ -15,6 +15,7 @@ Usage:
 """
 
 import json
+import os
 import re
 import sys
 from datetime import date, datetime
@@ -1113,12 +1114,13 @@ def build_site(index):
     for f in REPO_ROOT.glob("google*.html"):
         (staging / f.name).write_bytes(f.read_bytes())
 
-    # IndexNow key file — public proof-of-host ownership, not a secret.
-    indexnow_key_path = REPO_ROOT / ".indexnow-key"
-    if indexnow_key_path.exists():
-        key = indexnow_key_path.read_text(encoding="utf-8").strip()
-        if key:
-            (staging / f"{key}.txt").write_text(key, encoding="utf-8")
+    # IndexNow key file — public proof-of-host ownership, generated from env.
+    indexnow_key = (
+        os.environ.get("INDEXNOW_API_KEY_ARTICLES_FAIM", "").strip()
+        or os.environ.get("INDEXNOW_API_KEY", "").strip()
+    )
+    if indexnow_key:
+        (staging / f"{indexnow_key}.txt").write_text(indexnow_key, encoding="utf-8")
 
     # Copy the full articles/ tree so raw .md and metadata.json keep serving.
     shutil.copytree(REPO_ROOT / "articles", staging / "articles", dirs_exist_ok=True)

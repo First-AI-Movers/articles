@@ -42,6 +42,8 @@ jobs:
         run: python3 tools/normalize_tags.py
 
       - name: Rebuild index, sitemap, feed, corpus, docs, and static site
+        env:
+          INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/rebuild_local.py
 
       - name: Commit regenerated artifacts if changed
@@ -87,4 +89,6 @@ jobs:
           python-version: '3.11'
 
       - name: IndexNow dry-run
+        env:
+          INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/submit_indexnow.py --dry-run

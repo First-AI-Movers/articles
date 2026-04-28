@@ -3056,17 +3056,18 @@ class TestIndexNow:
 
     # --- Key file tests ----------------------------------------------------
 
-    def test_key_format_is_hex_32_chars(self):
-        from pathlib import Path as P
-        key_path = P(__file__).resolve().parents[2] / ".indexnow-key"
-        assert key_path.exists(), ".indexnow-key must exist at repo root"
-        key = key_path.read_text(encoding="utf-8").strip()
-        assert len(key) == 32, f"Key must be 32 hex chars, got {len(key)}"
-        assert all(c in "0123456789abcdef" for c in key.lower()), "Key must be hex"
+    def test_key_format_is_hex_32_chars(self, monkeypatch):
+        key = "ee4c7a6ad2464b84a2320e9edf0fe996"
+        monkeypatch.setenv("INDEXNOW_API_KEY_ARTICLES_FAIM", key)
+        import submit_indexnow
+        loaded = submit_indexnow._get_key_for_host("articles.firstaimovers.com")
+        assert len(loaded) == 32, f"Key must be 32 hex chars, got {len(loaded)}"
+        assert all(c in "0123456789abcdef" for c in loaded.lower()), "Key must be hex"
 
     def test_key_file_written_to_site_on_rebuild(self, monkeypatch, tmp_path):
         m = self._mod()
-        key = self._key_file(tmp_path)
+        key = "ee4c7a6ad2464b84a2320e9edf0fe996"
+        monkeypatch.setenv("INDEXNOW_API_KEY_ARTICLES_FAIM", key)
         # Minimal build_site context: need articles dir, templates dir, static dir
         (tmp_path / "articles").mkdir(exist_ok=True)
         (tmp_path / "templates").mkdir(exist_ok=True)
@@ -3082,7 +3083,7 @@ class TestIndexNow:
         monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
         monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
         monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
-        # The key file is written by build_site reading .indexnow-key from REPO_ROOT
+        # The key file is written by build_site reading the env var
         m.build_site({"articles": []})
         key_file = tmp_path / "site" / f"{key}.txt"
         assert key_file.exists(), f"Key file {key}.txt must be in site root"

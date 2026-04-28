@@ -14,6 +14,7 @@ The IndexNow key is public proof-of-host ownership, not a secret.
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 from urllib.error import HTTPError
@@ -21,17 +22,33 @@ from urllib.request import Request, urlopen
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SITEMAP = REPO_ROOT / "sitemap.xml"
-DEFAULT_KEY_FILE = REPO_ROOT / ".indexnow-key"
 DEFAULT_ENDPOINT = "https://api.indexnow.org/indexnow"
 
+# Host → environment variable mapping for multi-client support.
+INDEXNOW_KEY_ENV_BY_HOST = {
+    "articles.firstaimovers.com": "INDEXNOW_API_KEY_ARTICLES_FAIM",
+    "radar.firstaimovers.com": "INDEXNOW_API_KEY_RADAR_FAIM",
+}
 
-def _read_key(key_path: Path) -> str:
-    if not key_path.exists():
-        raise FileNotFoundError(f"IndexNow key file not found: {key_path}")
-    key = key_path.read_text(encoding="utf-8").strip()
-    if len(key) < 8 or len(key) > 128:
-        raise ValueError(f"IndexNow key must be 8–128 chars, got {len(key)}")
-    return key
+
+def _get_key_for_host(host: str) -> str:
+    """Read the IndexNow key for *host* from environment variables."""
+    env_var = INDEXNOW_KEY_ENV_BY_HOST.get(host, "INDEXNOW_API_KEY")
+    key = os.environ.get(env_var, "").strip()
+    if key:
+        if len(key) < 8 or len(key) > 128:
+            raise ValueError(f"IndexNow key must be 8–128 chars, got {len(key)}")
+        return key
+    # Fallback to generic env var
+    generic = os.environ.get("INDEXNOW_API_KEY", "").strip()
+    if generic:
+        if len(generic) < 8 or len(generic) > 128:
+            raise ValueError(f"IndexNow key must be 8–128 chars, got {len(generic)}")
+        return generic
+    raise SystemExit(
+        f"error: no IndexNow key found for {host}. "
+        f"Set {env_var} or INDEXNOW_API_KEY, or pass --key."
+    )
 
 
 def _parse_sitemap(sitemap_path: Path) -> list:
@@ -100,7 +117,7 @@ def main(argv=None):
     parser.add_argument("--sitemap", type=Path, default=DEFAULT_SITEMAP,
                         help="Path to sitemap.xml")
     parser.add_argument("--key", default=None,
-                        help="IndexNow key (reads .indexnow-key if omitted)")
+                        help="IndexNow key (reads env var if omitted)")
     parser.add_argument("--key-location", default=None,
                         help="Public key file URL")
     parser.add_argument("--endpoint", default=DEFAULT_ENDPOINT,
@@ -109,7 +126,7 @@ def main(argv=None):
                         help="Print payload without submitting")
     args = parser.parse_args(argv)
 
-    key = args.key or _read_key(DEFAULT_KEY_FILE)
+    key = args.key or _get_key_for_host("articles.firstaimovers.com")
     key_location = args.key_location or f"https://articles.firstaimovers.com/{key}.txt"
 
     if not args.sitemap.exists():

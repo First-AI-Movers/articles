@@ -75,12 +75,13 @@ git status --short
 
 The archive supports [IndexNow](https://www.indexnow.org/) for notifying Bing, Yandex, and participating search engines when pages change.
 
-- **Key file:** `.indexnow-key` at repo root (public proof-of-host ownership, not a secret).
-- **Live key URL:** `https://articles.firstaimovers.com/<key>.txt` — generated during `rebuild_local.py`.
+- **Key source:** Doppler / GitHub secret `INDEXNOW_API_KEY_ARTICLES_FAIM` (public proof-of-host ownership, not a secret).
+- **Live key URL:** `https://articles.firstaimovers.com/<key>.txt` — generated during `rebuild_local.py` from the env var.
 - **Dry-run:** `python3 tools/submit_indexnow.py --dry-run` — shows payload without submitting.
 - **Live submission:** `python3 tools/submit_indexnow.py` — submits the 80 archive URLs to `api.indexnow.org`.
 - The script reads `sitemap.xml`, filters to `articles.firstaimovers.com` indexable pages only, and validates the URL set before submission.
 - The CI workflow runs `--dry-run` after every deploy (non-blocking).
+- For local testing, set `INDEXNOW_API_KEY_ARTICLES_FAIM` or `INDEXNOW_API_KEY` in your environment.
 
 ## Search visibility monitoring
 
