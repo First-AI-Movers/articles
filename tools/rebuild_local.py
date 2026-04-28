@@ -17,6 +17,7 @@ Usage:
 import json
 import os
 import re
+import shutil
 import sys
 from datetime import date, datetime
 from pathlib import Path
@@ -1088,10 +1089,8 @@ def build_site(index):
     # 404
     _render("404.html.j2", "404.html")
 
-    # Static assets
-    for static_file in STATIC_DIR.iterdir():
-        if static_file.is_file():
-            (staging / static_file.name).write_bytes(static_file.read_bytes())
+    # Static assets (recursive, including subdirectories like fonts/)
+    shutil.copytree(STATIC_DIR, staging, dirs_exist_ok=True)
 
     # LLM / raw-data mirror: copy every public root-level artifact into the
     # staging dir so existing URLs stay byte-identical after the deploy switches.
