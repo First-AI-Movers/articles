@@ -36,7 +36,7 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| ~~E8~~ | ~~Test coverage + duplicate-title CI gate + atomic writes~~ | ✅ **Done.** Feed + JSON Feed byte-stability tests, llms-full + llms-recent byte-stability tests, XSS resistance tests (title, summary, topic intro, JSON-LD), atomic metadata writes via `tools/_atomic_io.py`, Jinja2 autoescape fix for `.j2` templates. Duplicate-title gate is implemented (`tools/check_duplicate_titles.py`) but currently **soft** (`continue-on-error: true` in CI) because 6 historical duplicate title pairs exist — see Known hardening follow-up below. | 📱 | M |
+| ~~E8~~ | ~~Test coverage + duplicate-title CI gate + atomic writes~~ | ✅ **Done.** Feed + JSON Feed byte-stability tests, llms-full + llms-recent byte-stability tests, XSS resistance tests (title, summary, topic intro, JSON-LD), atomic metadata writes via `tools/_atomic_io.py`, Jinja2 autoescape fix for `.j2` templates. Duplicate-title gate (`tools/check_duplicate_titles.py`) is now **blocking** after E19 resolved the 6 historical pairs. | 📱 | M |
 | ~~E9~~ | ~~Docs + workflow polish~~ | ✅ **Done.** `CONTRIBUTING.md`, `.github/pull_request_template.md`, `SECURITY.md`, workflow renamed to `build-and-deploy.yml`. | 📱 | S |
 
 ## Phase 5 — Optional value-add
@@ -130,7 +130,6 @@ These are **not blockers** for the article archive repo. They depend on external
 10. ~~E14~~ — security tooling + supply-chain hygiene. ✅ Done.
 11. ~~E19~~ — resolve duplicate-title soft gate. ✅ Done.
 12. **E20a** — self-hosted Airtable cron ingestion; retires Make.com. Addresses operational pain (manual runs today).
-11. **E20a** — self-hosted Airtable cron ingestion; retires Make.com. Addresses operational pain (manual runs today).
 12. **E15a** — split the 3,029-line test monolith. Precondition for E15b.
 13. **E15b** — Playwright E2E suite locking in everything that's shipped.
 14. **E18** — governance + external content-push (Flow B via `repository_dispatch` → PR; never direct main push). Generalizes E20b's dispatch wiring.
@@ -165,7 +164,7 @@ These are not committed epics yet — they are the highest-value next tracks aft
 
 | # | Track | Why now | Size |
 |---|---|---|---|
-| **N1** | Duplicate-title remediation | 6 historical duplicate pairs block the CI gate from being hard. Clearing them lets `continue-on-error: true` be removed. | XS |
+| ~~N1~~ | ~~Duplicate-title remediation~~ | ✅ **Done in E19.** 6 historical pairs disambiguated; gate is now blocking. | XS |
 | **N2** | Live IndexNow workflow switch | After Bing confirms key/submission health (202 accepted), switch CI from `--dry-run` to live submission after deploy. Keep non-blocking. | XS |
 | **N3** | Topic hub CTR optimization | After 2–4 weeks of GSC data, tune titles/meta for hubs with impressions but low CTR. Data-driven, not speculative. | S |
 | **N4** | WordPress/Hetzner migration SEO checklist | Prepare launch checklist for `www.firstaimovers.com` migration: robots.txt, sitemap, Cloudflare bot allowlisting, IndexNow, canonical redirects. | S |
