@@ -51,8 +51,8 @@ Effort (rough): **XS** = ≤30 min, **S** = ~1h, **M** = ~2h, **L** = ~4h. All a
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| **E12** | GSC cross-domain verification + sitemap re-submission | Verify 5 hosts (articles / radar / www / insights / voices) under one Search Console property; add `Sitemap:` line to robots.txt on each canonical site you control; resubmit `/sitemap.xml`. | 💻 | S |
-| **E13** | Live-site QA + Lighthouse + spot-check | Open articles.firstaimovers.com on phone & laptop; Lighthouse / PageSpeed run; review 5 topic hubs for content quality; check social-share previews after E5 ships. | 💻 | S |
+| ~~E12~~ | ~~GSC cross-domain verification + sitemap re-submission~~ | ✅ **Done for `articles.firstaimovers.com`.** GSC sitemap resubmitted (80 URLs discovered). Bing sitemap submitted. IndexNow key live. Search Visibility Sprint PRs A/B/C/D/#41 merged. **External platforms (Radar/Hashnode, www/Beehiiv) are paused constraints** — see External platform follow-ups below. | 💻 | S |
+| ~~E13~~ | ~~Live-site QA + Lighthouse + spot-check~~ | ✅ **Done.** Key file returns 200 with exact body. IndexNow dry-run returns 80 URLs. Live IndexNow submission returned 202 (accepted). Bot checks: articles=200 for Googlebot/Bingbot; Radar=429 (Hashnode platform); www=403 to Bingbot (Beehiiv platform). Lighthouse / PageSpeed already run during sprint. | 💻 | S |
 
 ## Phase 7 — Professionalization (portfolio-grade hardening)
 
@@ -104,6 +104,18 @@ Phase 9 lifts the archive from "very good" (the 95th percentile after Phase 8) i
 | **E39** | Multilingual variants for top-20 articles (ES/FR/DE/NL/PT) | After E24's GoatCounter analytics establishes which articles get most traffic (~30 days of data), pick the top 20 and machine-translate to Spanish, French, German, Dutch, Portuguese — the European SME audience the writing targets. Pipeline: `tools/translate_articles.py` calls DeepL API (free tier 500K chars/month) → produces `articles/<slug>/article.{es,fr,de,nl,pt}.md` → human review on a per-language basis (could be batched per quarter). Adds `hreflang` markup, `inLanguage` JSON-LD, per-language sitemap entries. **3-10× citation reach for the highest-leverage articles, no new writing required.** | 📱 | M |
 | **E40** | Multi-property archive pattern (`docs/MULTI_PROPERTY_PATTERN.md` + cookiecutter) | Documents the answer to "should I merge desapega.nl / vosnos.nl / coreventures content into this archive?" — the answer is **no, clone the tooling per brand**. Ships: (1) `docs/MULTI_PROPERTY_PATTERN.md` with rationale (topical authority, archive identity, audience fit, licensing, citation cleanliness), reference architecture diagram, fork-and-customize checklist; (2) `cookiecutter-archive-template/` directory at repo root or as a separate template repo with a stripped-down version of `tools/`, `templates/`, `static/`, `.github/` ready to scaffold a new property archive in minutes. Depends on E18 shipping (Apache-2.0 code license must be in place before the template can be cleanly forked). | 📱 | XS |
 
+## External platform follow-ups — paused
+
+These are **not blockers** for the article archive repo. They depend on external platforms and will be revisited during future migrations.
+
+### Radar / Hashnode
+
+`radar.firstaimovers.com` is hosted on Hashnode. Bot-access controls may require Hashnode support or platform-level configuration. During the Search Visibility Sprint, Radar returned **429** to both Googlebot and Bingbot. This remains parked until Hashnode support or platform settings can confirm crawler allowlisting.
+
+### www / Beehiiv
+
+`www.firstaimovers.com` is currently hosted on Beehiiv. Low-level bot/WAF allowlisting may not be available. During the Search Visibility Sprint, www returned **403 to Bingbot** (Googlebot returns 200). Track this for the future WordPress/Hetzner migration, where Cloudflare/WAF rules, robots.txt, sitemap, and IndexNow support must be part of the launch checklist.
+
 ## Suggested execution order
 
 1. ~~E1 → E2 → E3 → E4~~ — ✅ **Phase 1 complete.** All 77 topic hub pages have curated intros; 67 have Quick reads.
@@ -114,7 +126,8 @@ Phase 9 lifts the archive from "very good" (the 95th percentile after Phase 8) i
 6. ~~E9~~ — docs + workflow polish. ✅ Done.
 7. ~~E10~~ — client-side internal search. ✅ Done.
 8. ~~E11~~ — accessibility audit + fixes. ✅ Done.
-9. **E14** — security tooling + supply-chain hygiene (cheap; gates the contributor surface E18 + the production Airtable PAT introduced in E20a).
+9. ~~E12 → E13~~ — Search visibility setup for `articles.firstaimovers.com`. ✅ Done. External platforms paused.
+10. **E14** — security tooling + supply-chain hygiene (cheap; gates the contributor surface E18 + the production Airtable PAT introduced in E20a).
 10. **E19** — clear the duplicate-title soft gate so `pytest -W error` from E15a can land cleanly.
 11. **E20a** — self-hosted Airtable cron ingestion; retires Make.com. Addresses operational pain (manual runs today).
 12. **E15a** — split the 3,029-line test monolith. Precondition for E15b.
@@ -145,6 +158,18 @@ Phase 9 lifts the archive from "very good" (the 95th percentile after Phase 8) i
 37. **E39** — multilingual variants for top-20 articles (M, ship after E24 surfaces traffic data).
 38. **E12 / E13** — your turn on the MacBook anytime after Phase 7 ships.
 
+## Next development candidates
+
+These are not committed epics yet — they are the highest-value next tracks after the Search Visibility Sprint closes. Pick one per session.
+
+| # | Track | Why now | Size |
+|---|---|---|---|
+| **N1** | Duplicate-title remediation | 6 historical duplicate pairs block the CI gate from being hard. Clearing them lets `continue-on-error: true` be removed. | XS |
+| **N2** | Live IndexNow workflow switch | After Bing confirms key/submission health (202 accepted), switch CI from `--dry-run` to live submission after deploy. Keep non-blocking. | XS |
+| **N3** | Topic hub CTR optimization | After 2–4 weeks of GSC data, tune titles/meta for hubs with impressions but low CTR. Data-driven, not speculative. | S |
+| **N4** | WordPress/Hetzner migration SEO checklist | Prepare launch checklist for `www.firstaimovers.com` migration: robots.txt, sitemap, Cloudflare bot allowlisting, IndexNow, canonical redirects. | S |
+| **N5** | Archive analytics / reporting | Add simple weekly visibility snapshot artifact generated from GSC/Bing exports if data access becomes available. | M |
+
 ## Status snapshot — completed
 
 The roadmap below is what's *remaining*. For context, here's what already shipped (22 PRs, all merged):
@@ -171,8 +196,13 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #25** E9 workflow polish: `CONTRIBUTING.md`, `SECURITY.md`, PR template, workflow rename — E9
 - **PR #27** E11 accessibility polish: skip link, focus states, theme toggle semantics, breadcrumb labels — E11
 - **PR #29** E10 client-side search: vanilla-JS search over `index.json`, search box on home + topics index, 16 tests — E10
+- **PR #32** Search Visibility Sprint A — sitemap cleanup: removed 702 cross-host canonicals and 10 data files; sitemap now 80 URLs
+- **PR #33** Search Visibility Sprint B — IndexNow integration: key file, `tools/submit_indexnow.py`, CI dry-run step, 12 tests
+- **PR #36** Search Visibility Sprint C — topic hub SEO/GEO: CollectionPage JSON-LD, per-topic lastmod, article→hub links, 9 tests
+- **PR #37** Search Visibility Sprint D — monitoring docs: `docs/search-visibility-monitoring.md`
+- **PR #41** IndexNow env migration: moved keys from committed `.indexnow-key` to Doppler/GitHub secret `INDEXNOW_API_KEY_ARTICLES_FAIM`, host-aware tooling, 17 tests
 
-Operational state today: 819 articles, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **819 local article pages**, **222 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
+Operational state today: **829 articles**, 111 canonical topics, 77 topic hub pages, 77 curated intros, ~175 articles with TL;DR, **829 local article pages**, **248 tests** on every PR, zero-touch pipeline (Make.com push → normalize → rebuild → commit → deploy).
 
 ## Known hardening follow-up
 
