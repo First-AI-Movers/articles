@@ -3612,3 +3612,24 @@ class TestSecurityTooling:
         assert '<audio' in text
         assert 'X-Amz-Signature' in text
         assert 'beehiiv-audio-tts-id' in text
+
+
+    def test_duplicate_title_gate_is_hard(self):
+        from pathlib import Path
+        workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "tests.yml"
+        text = workflow.read_text(encoding="utf-8")
+        assert "check_duplicate_titles.py" in text
+        assert "continue-on-error" not in text, "Duplicate-title gate must not be soft"
+
+    def test_no_duplicate_titles_in_index(self):
+        import json
+        from pathlib import Path
+        from collections import defaultdict
+        index = json.loads((Path(__file__).resolve().parents[2] / "index.json").read_text(encoding="utf-8"))
+        by_title = defaultdict(list)
+        for a in index.get("articles", []):
+            title = a.get("title")
+            if title:
+                by_title[title.lower()].append(a.get("folder", ""))
+        duplicates = {t: folders for t, folders in by_title.items() if len(folders) > 1}
+        assert not duplicates, f"Duplicate titles found: {duplicates}"

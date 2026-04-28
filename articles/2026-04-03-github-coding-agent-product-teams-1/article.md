@@ -1,5 +1,5 @@
 ---
-title: "What GitHub's Coding Agent Changes for Product Teams"
+title: "What GitHub's Coding Agent Changes for Product Teams (April 2026)"
 author: "Dr. Hernani Costa"
 author_url: "https://drhernanicosta.com"
 author_linkedin: "https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/"
