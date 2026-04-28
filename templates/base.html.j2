@@ -46,7 +46,7 @@
   </nav>
 </header>
 
-<main id="main-content"{% block main_class %}{% endblock %}>
+<main id="main-content" tabindex="-1"{% block main_class %}{% endblock %}>
 {% block content %}{% endblock %}
 </main>
 
@@ -79,7 +79,7 @@
     var isDark = current === 'dark';
     toggle.textContent = isDark ? 'Light mode' : 'Dark mode';
     toggle.setAttribute('aria-label', isDark ? 'Toggle light mode' : 'Toggle dark mode');
-    toggle.setAttribute('aria-pressed', String(isDark));
+    toggle.setAttribute('aria-pressed', String(!isDark));
   }
   updateState();
   toggle.addEventListener('click', function() {

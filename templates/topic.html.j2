@@ -98,8 +98,8 @@
 
 {% if related_topics %}
 <h2>Related topics</h2>
-<p style="font-family: ui-sans-serif, system-ui, sans-serif; font-size: 0.95rem;">
-{% for rt in related_topics %}{% if rt in topics_with_page %}<a href="{{ rel_root }}topics/{{ topic_slug(rt) }}/" style="margin-right: 1rem;">{{ rt }}</a>{% endif %}{% endfor %}
+<p class="related-topic-list">
+{% for rt in related_topics %}{% if rt in topics_with_page %}<a href="{{ rel_root }}topics/{{ topic_slug(rt) }}/">{{ rt }}</a>{% if not loop.last %}<span class="sep" aria-hidden="true"> · </span>{% endif %}{% endif %}{% endfor %}
 </p>
 {% endif %}
 {% endblock %}
