@@ -29,9 +29,10 @@ The ingestion script maps Airtable fields to article payload fields via `AIRTABL
 | Airtable field (default) | Article payload key | Required |
 |---|---|---|
 | `Title` | `title` | ✅ |
-| `slug` | `slug` | ✅ |
+| `slug` | `slug` | ✅ (falls back to `GUID` if missing) |
 | `Pub Date` | `published_date` | ✅ |
 | `GUID` | `canonical_url` | ✅ |
+| `Link` | — | ❌ ignored (image/Beehiiv assets) |
 | `Content HTML` | `article_markdown` | ✅ |
 | `Author` | `author` | ❌ (default: Dr. Hernani Costa) |
 | `Author URL` | `author_url` | ❌ |
@@ -55,6 +56,10 @@ Records with `draft`, `needs review`, or `archived` are skipped.
 If your base does not have a `Status` field:
 - Dry-run allows missing status for discovery (passes `--allow-no-status-gate`).
 - Write mode requires `--allow-no-status-gate` to be set explicitly.
+
+If a record is missing `slug` but has `GUID`:
+- The ingestion script derives the slug from the last path segment of `GUID`.
+- If `slug` is present in Airtable, it is used directly and never overridden.
 
 ## Workflow
 
