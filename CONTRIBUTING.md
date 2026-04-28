@@ -67,6 +67,9 @@ python3 tools/rebuild_local.py
 # Check for duplicate titles
 python3 tools/check_duplicate_titles.py
 
+# Run browser-level E2E tests (requires built site/ and Playwright browser install)
+npm run test:e2e
+
 # Verify git status is clean (or only shows expected generated changes)
 git status --short
 ```
