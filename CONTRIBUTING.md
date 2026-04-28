@@ -122,7 +122,7 @@ See [`docs/search-visibility-monitoring.md`](docs/search-visibility-monitoring.m
 - `/tools/` — generation logic
 - `/templates/` and `/static/` — site assets
 - `/.github/` — CI/CD configuration
-- `/tests-e2e/` — browser tests
+- `/tests-e2e/` — browser tests (visual regression baselines live here; update with `--update-snapshots` after intentional design changes)
 - `/package.json` and `/package-lock.json`
 
 ### Branch protection expectations
@@ -131,8 +131,8 @@ The repository expects the following branch protection rules on `main`:
 - **Pull request required** — no direct pushes.
 - **Status checks required** — `test` and `e2e` workflows must pass.
 - **No force push** — history must remain linear and recoverable.
-- **Owner approval required** for CODEOWNERS paths.
 - **Linear history preferred** — squash-merge or rebase-merge.
+- **Green CI is the merge gate** — manual reviews are encouraged for risky changes but not required for every trusted-owner PR.
 
 These are documented expectations; verify in repository Settings → Branches.
 

@@ -80,6 +80,29 @@ traces + HTML reports on failure.
 | Tag normalization rules | Python only |
 | Schema validation | Python only |
 
+## Visual regression
+
+Screenshot baselines live in `tests-e2e/specs/visual.spec.ts` and are stored
+next to the spec file under `tests-e2e/specs/visual.spec.ts-snapshots/`.
+
+Targets:
+- Home page
+- Topic page (`/topics/ai-strategy/`)
+- Article page (`/articles/09a0404f9db0/`)
+- About page
+
+Run visual tests:
+
+```bash
+npx playwright test tests-e2e/specs/visual.spec.ts
+```
+
+Update baselines after intentional design changes:
+
+```bash
+npx playwright test tests-e2e/specs/visual.spec.ts --update-snapshots
+```
+
 ## Axe accessibility testing
 
 Axe-core via `axe-playwright` is documented as a follow-up in ROADMAP.md.

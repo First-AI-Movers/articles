@@ -59,10 +59,35 @@ static/fonts/
 5. Run `npm run test:e2e`.
 6. Commit font assets, CSS, tests, and docs together.
 
+## Visual regression
+
+Four Playwright screenshot baselines guard against unintended visual changes:
+
+| Baseline | Page | Selector |
+|---|---|---|
+| `home.png` | `/` | Viewport (1280×900) |
+| `topic-ai-strategy.png` | `/topics/ai-strategy/` | Viewport |
+| `article.png` | `/articles/09a0404f9db0/` | Viewport |
+| `about.png` | `/about/` | Viewport |
+
+All baselines are captured with:
+- Dark theme forced
+- `prefers-reduced-motion: reduce`
+- Fonts fully loaded (`document.fonts.ready`)
+- `maxDiffPixels: 35000` tolerance for cross-platform font rendering differences
+
+Update after intentional design changes:
+
+```bash
+npx playwright test tests-e2e/specs/visual.spec.ts --update-snapshots
+```
+
+## Performance & audit
+
+Lighthouse CI is **deferred**. The project already has Playwright E2E coverage and deterministic screenshot baselines. Lighthouse can be run manually for release checks and added to CI later once the design layer is fully stable.
+
 ## What E17b does **not** include
 
-- Screenshot baselines (E17c).
-- Lighthouse CI integration (E17c).
 - Full visual redesign beyond font integration.
 - Pico.css or any other third-party CSS framework.
 - Runtime CDN dependencies of any kind.
