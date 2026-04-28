@@ -1,0 +1,4 @@
+# Generated embeddings are optional and large (~2.3 MB).
+# They bloat the Worker bundle when bundled, and semantic search is disabled by default.
+# The Worker falls back to fetching from GitHub raw if needed.
+embeddings.json

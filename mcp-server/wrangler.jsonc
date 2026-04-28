@@ -1,0 +1,17 @@
+{
+  "name": "faim-mcp-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-28",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ARCHIVE_SITE_URL": "https://articles.firstaimovers.com",
+    "GITHUB_RAW_URL": "https://raw.githubusercontent.com/First-AI-Movers/articles/main",
+    "SEMANTIC_SEARCH_ENABLED": "false"
+  },
+  "ai": {
+    "binding": "AI"
+  }
+}
