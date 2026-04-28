@@ -51,6 +51,7 @@
 
 ## Other Changes
 
+- E24 closure — mark GoatCounter analytics as done in ROADMAP ([86](https://github.com/First-AI-Movers/articles/pull/86))
 - E29 closure — mark AI-training clarity manifest as done in ROADMAP ([84](https://github.com/First-AI-Movers/articles/pull/84))
 - E29 — AI-training clarity manifest ([83](https://github.com/First-AI-Movers/articles/pull/83))
 - PR A: sitemap cleanup — remove cross-host canonicals and data files ([32](https://github.com/First-AI-Movers/articles/pull/32))
