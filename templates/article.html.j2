@@ -27,7 +27,13 @@
   "url": "{{ canonical_url }}",
   "isBasedOn": "{{ canonical_url }}",
   "inLanguage": "en",
-  "articleSection": {{ (topics|list)|tojson }}{% if series %},
+  "articleSection": {{ (topics|list)|tojson }}{% if doi %},
+  "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "DOI",
+    "value": "{{ doi }}"
+  },
+  "sameAs": "https://doi.org/{{ doi }}"{% endif %}{% if series %},
   "isPartOf": {
     "@type": "CreativeWorkSeries",
     "name": {{ series.title|tojson }},
@@ -131,6 +137,28 @@
     </div>
     {% endfor %}
   </aside>
+  {% endif %}
+
+  {% if doi %}
+  <section class="cite-block" aria-label="Cite this article">
+    <h2>Cite this article</h2>
+    <p class="doi-line">DOI: <a href="https://doi.org/{{ doi }}" rel="noopener">https://doi.org/{{ doi }}</a></p>
+
+    <details class="cite-format">
+      <summary>APA</summary>
+      <pre>{{ citation_apa }}</pre>
+    </details>
+
+    <details class="cite-format">
+      <summary>BibTeX</summary>
+      <pre>{{ citation_bibtex }}</pre>
+    </details>
+
+    <details class="cite-format">
+      <summary>CSL JSON</summary>
+      <pre>{{ citation_csl_json }}</pre>
+    </details>
+  </section>
   {% endif %}
 
   {% if outgoing_citations %}

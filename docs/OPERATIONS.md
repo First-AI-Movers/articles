@@ -135,6 +135,21 @@ Topic hub pages show curated intros from `tools/topic_intros.json`.
 3. Verify the topic page renders correctly.
 4. Commit and open a PR.
 
+## Minting a per-article DOI
+
+1. Pick article slug.
+2. Dry-run: `python3 tools/mint_dois.py --dry-run --slug <slug>`
+3. Review payload.
+4. Sandbox test: `python3 tools/mint_dois.py --sandbox --write --slug <slug>`
+5. Verify sandbox record.
+6. Production (requires explicit approval): `python3 tools/mint_dois.py --write --yes-i-understand-production-dois-are-permanent --slug <slug>`
+7. Commit the updated `metadata.json` in a dedicated PR.
+
+### Token setup
+
+- `ZENODO_SANDBOX_API_TOKEN` — for sandbox testing.
+- `ZENODO_API_TOKEN` — for production. Set in env only; never commit.
+
 ## Checking Archive Health
 
 Run these locally to verify archive integrity:

@@ -105,6 +105,8 @@ def build_index():
             entry["series"] = meta["series"]
         if meta.get("series_order") is not None:
             entry["series_order"] = meta["series_order"]
+        if meta.get("doi") is not None:
+            entry["doi"] = meta["doi"]
         articles.append(entry)
     articles.sort(key=lambda a: a.get("published_date", ""), reverse=True)
 
@@ -1194,20 +1196,62 @@ def _related_articles_for_article(target, all_articles, limit=3):
     return [s["article"] for s in scored[:limit]]
 
 
+def _build_bibtex(title, slug, published_date, doi):
+    """Return a BibTeX citation string for an article with DOI."""
+    safe_slug = re.sub(r"[^a-zA-Z0-9_]", "_", slug)
+    return (
+        f"@article{{costa_{safe_slug},\n"
+        f"  author  = {{Hernani Costa}},\n"
+        f"  title   = {{{title}}},\n"
+        f"  journal = {{First AI Movers}},\n"
+        f"  year    = {{{published_date[:4]}}},\n"
+        f"  doi     = {{{doi}}},\n"
+        f"  url     = {{https://doi.org/{doi}}},\n"
+        f"  license = {{CC-BY-4.0}}\n"
+        f"}}"
+    )
+
+
+def _build_csl_json(title, published_date, doi):
+    """Return a compact CSL JSON string for an article with DOI."""
+    data = {
+        "type": "article",
+        "author": [{"family": "Costa", "given": "Hernani"}],
+        "title": title,
+        "DOI": doi,
+        "URL": f"https://doi.org/{doi}",
+        "issued": {"date-parts": [[int(published_date[:4])]]},
+        "license": "CC-BY-4.0",
+    }
+    return json.dumps(data, separators=(",", ":"))
+
+
 def _enrich_articles(articles):
     """Decorate each index article with fields the templates need."""
     enriched = []
     for a in articles:
         parsed = _clean_canonical(a.get("canonical_url"))
         canonical = parsed[0] if parsed else (a.get("canonical_url") or "")
-        enriched.append({
+        entry = {
             **a,
             "canonical_url": canonical,
             "canonical_host_label": _canonical_host_label(canonical),
             "summary": _article_summary(a.get("folder", ""), a.get("title", ""), a.get("published_date", "")),
             "tldr": _extract_tldr(a.get("folder", "")),
             "local_path": _article_local_path(a),
-        })
+        }
+        doi = a.get("doi")
+        if doi:
+            title = a.get("title", "")
+            slug = a.get("slug", "")
+            published_date = a.get("published_date", "")
+            entry["citation_apa"] = (
+                f"Costa, H. ({published_date[:4]}). {title}. "
+                f"First AI Movers. https://doi.org/{doi}"
+            )
+            entry["citation_bibtex"] = _build_bibtex(title, slug, published_date, doi)
+            entry["citation_csl_json"] = _build_csl_json(title, published_date, doi)
+        enriched.append(entry)
     return enriched
 
 
@@ -1397,7 +1441,11 @@ def build_site(index):
                 outgoing_citations=citation_ctx.get("outgoing", []),
                 outgoing_citations_truncated=citation_ctx.get("outgoing_truncated", False),
                 incoming_citations=citation_ctx.get("incoming", []),
-                incoming_citations_truncated=citation_ctx.get("incoming_truncated", False))
+                incoming_citations_truncated=citation_ctx.get("incoming_truncated", False),
+                doi=a.get("doi"),
+                citation_apa=a.get("citation_apa", ""),
+                citation_bibtex=a.get("citation_bibtex", ""),
+                citation_csl_json=a.get("citation_csl_json", ""))
         article_pages += 1
 
     # 404

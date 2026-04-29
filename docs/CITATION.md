@@ -71,6 +71,12 @@ Once a Zenodo DOI is minted (see [`docs/ZENODO_RELEASE.md`](ZENODO_RELEASE.md)),
 
 > **DOI status:** `pending Zenodo release` — no DOI has been minted yet.
 
+## Per-article citations (E34)
+
+When an article has a minted DOI, its local archive page renders APA, BibTeX, and CSL JSON citation formats. The DOI appears as a resolvable `https://doi.org/<doi>` link.
+
+No DOI = no citation block. This is infrastructure-only until DOIs are explicitly minted.
+
 ## What this citation covers
 
 - **Corpus-level archive snapshot** — the entire collection of articles, metadata, and generated artifacts at a given point in time.
