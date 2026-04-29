@@ -16,7 +16,6 @@
 - feat(indexing): add IndexNow key and submission tooling ([33](https://github.com/First-AI-Movers/articles/pull/33))
 - feat(accessibility): add skip link, focus states, theme toggle semantics, and breadcrumb labels ([27](https://github.com/First-AI-Movers/articles/pull/27))
 - feat(hardening): add duplicate-title gate and atomic metadata writes ([23](https://github.com/First-AI-Movers/articles/pull/23))
-- feat(article-pages): E7 — TOC, reading time, breadcrumbs, related articles ([21](https://github.com/First-AI-Movers/articles/pull/21))
 
 ## Bug Fixes
 
@@ -24,6 +23,7 @@
 
 ## Documentation
 
+- docs(roadmap): mark E36 citation graph complete ([110](https://github.com/First-AI-Movers/articles/pull/110))
 - docs: E40 multi-property pattern — close epic ([108](https://github.com/First-AI-Movers/articles/pull/108))
 - docs(roadmap): mark E37 errata protocol as done ([106](https://github.com/First-AI-Movers/articles/pull/106))
 - docs(roadmap): mark E33 ask-the-archive POC as shipped ([104](https://github.com/First-AI-Movers/articles/pull/104))
