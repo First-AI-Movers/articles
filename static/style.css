@@ -521,6 +521,48 @@ h2.articles-heading {
 .article-footer p { margin: 0.4rem 0; }
 .article-footer a { color: var(--muted); }
 
+/* Errata */
+.errata {
+  margin: var(--space-xl) 0 var(--space-lg);
+  padding: var(--space-md);
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+.errata h2 {
+  font-size: 1.15rem;
+  margin: 0 0 var(--space-sm);
+  color: var(--accent);
+}
+.erratum {
+  margin: var(--space-md) 0 0;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--rule);
+}
+.erratum:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+.erratum h3 {
+  font-size: 1rem;
+  margin: 0 0 0.35rem;
+}
+.erratum-meta {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+}
+.erratum-type {
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.erratum-body {
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+.erratum-body p { margin: 0.5rem 0; }
+
 /* Table of contents */
 .toc {
   background: var(--card-bg);

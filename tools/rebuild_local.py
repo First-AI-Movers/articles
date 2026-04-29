@@ -745,6 +745,82 @@ def _load_series_registry():
     return data.get("series") or {}
 
 
+def _parse_errata_for_article(folder: str):
+    """Parse articles/<folder>/errata.md and return published entries only.
+
+    Returns a list of dicts with keys: date, title, type, status, editor, body.
+    Returns [] if no errata file exists or no published entries.
+    """
+    errata_path = ARTICLES_DIR / folder / "errata.md"
+    if not errata_path.exists():
+        return []
+
+    import re
+
+    text = errata_path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    if not lines:
+        return []
+
+    # Must start with '# Errata'
+    if not re.match(r"^#\s+Errata\s*$", lines[0], re.IGNORECASE):
+        return []
+
+    entry_heading_re = re.compile(r"^##\s+(\d{4}-\d{2}-\d{2})\s+[-—]\s+(.+)$")
+    field_re = re.compile(r"^([A-Za-z][A-Za-z\s-]*):\s*(.*)$")
+
+    entries = []
+    current = None
+    for line in lines[1:]:
+        m = entry_heading_re.match(line)
+        if m:
+            if current:
+                entries.append(current)
+            current = {
+                "date": m.group(1),
+                "title": m.group(2).strip(),
+                "type": None,
+                "status": None,
+                "editor": None,
+                "body_lines": [],
+            }
+            continue
+        if current is None:
+            continue
+        fm = field_re.match(line)
+        if fm:
+            key = fm.group(1).strip().lower().replace(" ", "-").replace("_", "-")
+            val = fm.group(2).strip()
+            if key == "type":
+                current["type"] = val
+            elif key == "status":
+                current["status"] = val
+            elif key == "editor":
+                current["editor"] = val
+            else:
+                current["body_lines"].append(line)
+        else:
+            current["body_lines"].append(line)
+
+    if current:
+        entries.append(current)
+
+    published = []
+    for e in entries:
+        if e.get("status") != "published":
+            continue
+        body = "\n".join(e["body_lines"]).strip()
+        published.append({
+            "date": e["date"],
+            "title": e["title"],
+            "type": e.get("type", ""),
+            "status": e.get("status", ""),
+            "editor": e.get("editor", ""),
+            "body": body,
+        })
+    return published
+
+
 def _series_context_for_article(article, series_registry, all_articles):
     """Return series navigation context for a single article.
 
@@ -1085,6 +1161,11 @@ def build_site(index):
         lstrip_blocks=False,
     )
 
+    def _markdown_filter(text):
+        return _render_markdown(text)
+
+    env.filters["markdown"] = _markdown_filter
+
     articles_raw = index["articles"]
     articles = _enrich_articles(articles_raw)
     stats = compute_stats(index)
@@ -1217,6 +1298,7 @@ def build_site(index):
         # Remove leading slash for output_relpath
         output_relpath = local_path.lstrip("/") + "index.html"
         series_ctx = _series_context_for_article(a, series_registry, articles)
+        errata_entries = _parse_errata_for_article(a.get("folder", ""))
         _render("article.html.j2", output_relpath,
                 title=a["title"],
                 published_date=a["published_date"],
@@ -1231,7 +1313,8 @@ def build_site(index):
                 reading_time=reading_time,
                 toc_headings=toc_headings,
                 related_articles=related,
-                series=series_ctx)
+                series=series_ctx,
+                errata_entries=errata_entries)
         article_pages += 1
 
     # 404
