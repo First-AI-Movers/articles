@@ -53,6 +53,7 @@
 
 ## Other Changes
 
+- E21: MCP server on Cloudflare Workers ([93](https://github.com/First-AI-Movers/articles/pull/93))
 - E22 closure: mark RAG embedding index as done in ROADMAP ([92](https://github.com/First-AI-Movers/articles/pull/92))
 - E26 closure: mark Giscus comments as done in ROADMAP ([90](https://github.com/First-AI-Movers/articles/pull/90))
 - E26: Giscus comments scaffold (disabled by default) ([89](https://github.com/First-AI-Movers/articles/pull/89))
