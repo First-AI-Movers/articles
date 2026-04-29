@@ -18,7 +18,6 @@
 - feat(article-pages): E7 — TOC, reading time, breadcrumbs, related articles ([21](https://github.com/First-AI-Movers/articles/pull/21))
 - feat(theme): default archive site to dark mode with light toggle ([20](https://github.com/First-AI-Movers/articles/pull/20))
 - feat(site): per-article HTML pages renderer — E6 ([18](https://github.com/First-AI-Movers/articles/pull/18))
-- feat(social): E5 — JSON Feed, social footer, og:image plumbing ([16](https://github.com/First-AI-Movers/articles/pull/16))
 
 ## Bug Fixes
 
@@ -54,6 +53,7 @@
 
 ## Other Changes
 
+- E37: Errata correction protocol ([105](https://github.com/First-AI-Movers/articles/pull/105))
 - E33: Ask the Archive chatbot POC ([103](https://github.com/First-AI-Movers/articles/pull/103))
 - E31: Activate approved article series ([101](https://github.com/First-AI-Movers/articles/pull/101))
 - E21: MCP server on Cloudflare Workers ([93](https://github.com/First-AI-Movers/articles/pull/93))
