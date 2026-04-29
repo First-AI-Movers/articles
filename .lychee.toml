@@ -1,0 +1,54 @@
+# Lychee dead-link checker configuration
+# See https://lychee.cli.rs/#/usage/config
+
+# Check mode: accept 429/403 as warnings where possible
+# Lychee does not have a "warning" concept; we use --no-progress and parse output.
+
+# Files to check
+include = [
+    "articles/**/*.md",
+    "docs/**/*.md",
+    "README.md",
+]
+
+# Exclude paths that contain generated or non-source content
+exclude = [
+    "site/**",
+    "node_modules/**",
+    "__pycache__/**",
+    ".venv/**",
+    "mcp-server/**",
+]
+
+# Exclude known noisy / non-critical domains
+exclude_path = [
+    # LinkedIn blocks automated requests with 999 / 403
+    "linkedin.com",
+    "linked.in",
+    # Twitter/X is often rate-limited
+    "twitter.com",
+    "x.com",
+    # Hashnode/Radar sometimes returns 403 to bots
+    "hashnode.com",
+    "radar.firstaimovers.com",
+]
+
+# Accept these status codes as valid (not failures)
+accept = [200, 201, 204, 301, 302, 303, 307, 308]
+
+# Time out after 30 seconds per request
+timeout = 30
+
+# Retry failed requests once
+retry_wait_time = 2
+max_retries = 1
+
+# Do not check mailto: links
+check_mail = false
+
+# Do not follow redirects — report the redirect itself as valid
+# (avoids following chains that may fail)
+follow_redirects = true
+
+# Output format
+format = "detailed"

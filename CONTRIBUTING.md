@@ -74,6 +74,11 @@ npm run test:e2e
 # Verify PWA assets are present after rebuild
 python3 -m pytest tools/tests/test_pwa.py -v
 
+# Verify article quality metrics (soft gate; diagnostic only)
+python3 tools/readability.py
+vale articles docs README.md || true
+lychee --config .lychee.toml || true
+
 # Verify git status is clean (or only shows expected generated changes)
 git status --short
 ```

@@ -165,6 +165,10 @@ See [`docs/EMBEDDINGS.md`](docs/EMBEDDINGS.md) for the RAG embedding index: mode
 
 See [`docs/PWA.md`](docs/PWA.md) for the Progressive Web App setup: manifest, service worker, offline page, cache strategy, local testing, and rollback procedure.
 
+## Article Quality CI
+
+See [`docs/ARTICLE_QUALITY_CI.md`](docs/ARTICLE_QUALITY_CI.md) for the style, readability, and dead-link audit layer. Runs on every PR as a soft/non-blocking gate.
+
 ## Test Suite Quick Reference
 
 | Layer | Command | Count |

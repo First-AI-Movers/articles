@@ -1,0 +1,20 @@
+extends: substitution
+message: "Consider using '%s' instead of '%s'"
+level: suggestion
+ignorecase: false
+swap:
+  artificial intelligence governance: AI governance
+  A\.I\. governance: AI governance
+  ai governance: AI governance
+  EU Artificial Intelligence Act: EU AI Act
+  eu ai act: EU AI Act
+  Eu AI Act: EU AI Act
+  First AI movers: First AI Movers
+  first ai movers: First AI Movers
+  firstaimovers: First AI Movers
+  Dr\. Hernani costa: Dr. Hernani Costa
+  dr\. hernani costa: Dr. Hernani Costa
+  Hernani Costa: Dr. Hernani Costa
+  SMEs: SMEs
+  smes: SMEs
+  small and medium enterprises: SMEs

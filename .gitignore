@@ -23,9 +23,13 @@ Thumbs.db
 # Logs
 *.log
 
-# GEO audit generated reports
+# Audit generated reports
 geo_audit_report.json
 geo_audit_report.md
+readability_report.json
+readability_report.md
+vale-report/
+lychee-report/
 
 # Generated static site — built by tools/rebuild_local.py and deployed via
 # the pages workflow. Not committed to keep diffs readable.

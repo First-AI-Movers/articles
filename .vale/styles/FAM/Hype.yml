@@ -1,0 +1,32 @@
+extends: existence
+message: "Avoid unsupported hype: '%s'"
+level: warning
+ignorecase: true
+tokens:
+  - revolutionary
+  - game-changing
+  - game changing
+  - cutting-edge
+  - cutting edge
+  - world-class
+  - world class
+  - best-in-class
+  - best in class
+  - market-leading
+  - market leading
+  - industry-leading
+  - industry leading
+  - next-generation
+  - next generation
+  - state-of-the-art
+  - state of the art
+  - groundbreaking
+  - groundbreaking
+  - disruptive
+  - unparalleled
+  - unmatched
+  - unrivalled
+  - unrivaled
+  - legendary
+  - iconic
+  - transformative
