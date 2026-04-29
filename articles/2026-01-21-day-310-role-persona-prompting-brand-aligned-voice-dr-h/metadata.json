@@ -24,5 +24,7 @@
   "topics": [
     "Healthcare AI",
     "Prompt Engineering"
-  ]
+  ],
+  "series": "prompt-engineering-10-day",
+  "series_order": 3
 }

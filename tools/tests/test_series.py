@@ -369,10 +369,12 @@ class TestDocs:
         assert "SERIES.md" in text or "series" in text.lower()
 
 
-class TestNoRealMetadataChanged:
-    def test_no_real_article_has_series_field(self):
+class TestRealMetadataActivation:
+    def test_approved_series_have_metadata(self):
+        """Verify the two editorially approved series are present in real metadata."""
         articles_dir = REPO_ROOT / "articles"
-        found = []
+        prompt_engineering = []
+        model_guide = []
         for folder in articles_dir.iterdir():
             if not folder.is_dir():
                 continue
@@ -380,6 +382,14 @@ class TestNoRealMetadataChanged:
             if not meta_path.exists():
                 continue
             meta = json.loads(meta_path.read_text(encoding="utf-8"))
-            if "series" in meta or "series_order" in meta:
-                found.append(folder.name)
-        assert not found, f"Unexpected series metadata in real articles: {found}"
+            series = meta.get("series")
+            if series == "prompt-engineering-10-day":
+                prompt_engineering.append((folder.name, meta.get("series_order")))
+            elif series == "ai-model-guide-smbs-2026":
+                model_guide.append((folder.name, meta.get("series_order")))
+        assert len(prompt_engineering) == 10, f"Expected 10 prompt-engineering articles, got {len(prompt_engineering)}"
+        assert len(model_guide) == 2, f"Expected 2 model-guide articles, got {len(model_guide)}"
+        pe_orders = sorted(o for _, o in prompt_engineering)
+        assert pe_orders == list(range(1, 11)), f"Unexpected prompt-engineering orders: {pe_orders}"
+        mg_orders = sorted(o for _, o in model_guide)
+        assert mg_orders == [1, 2], f"Unexpected model-guide orders: {mg_orders}"

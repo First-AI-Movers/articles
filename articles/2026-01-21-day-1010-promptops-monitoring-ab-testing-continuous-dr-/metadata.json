@@ -24,5 +24,7 @@
   "status": "published",
   "topics": [
     "AI Observability"
-  ]
+  ],
+  "series": "prompt-engineering-10-day",
+  "series_order": 10
 }

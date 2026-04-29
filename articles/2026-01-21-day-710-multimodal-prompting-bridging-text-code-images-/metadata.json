@@ -24,5 +24,7 @@
   "topics": [
     "Frontier Models",
     "Healthcare AI"
-  ]
+  ],
+  "series": "prompt-engineering-10-day",
+  "series_order": 7
 }

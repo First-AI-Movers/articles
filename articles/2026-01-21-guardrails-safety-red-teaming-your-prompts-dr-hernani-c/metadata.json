@@ -27,5 +27,7 @@
     "AI Safety",
     "AI Governance",
     "AI Ethics"
-  ]
+  ],
+  "series": "prompt-engineering-10-day",
+  "series_order": 9
 }
