@@ -83,6 +83,19 @@
   {% include "partials/article_card.html.j2" %}
 {% endfor %}
 
+{% if series_in_topic %}
+<section class="series-in-topic" aria-label="Series in this topic">
+  <h2>Series in this topic</h2>
+  {% for s in series_in_topic %}
+  <article class="series-card" id="series-{{ s.slug }}">
+    <h3><a href="{{ rel_root }}articles/{{ s.first_article.slug }}/">{{ s.title }}</a></h3>
+    <p class="series-meta">{{ s.article_count }} articles</p>
+    <p class="series-description">{{ s.description }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
 {% if quick_reads %}
 <section class="quick-reads" aria-label="Quick reads">
   <h2>Quick reads</h2>

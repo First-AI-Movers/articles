@@ -722,6 +722,98 @@ def _load_comments_config():
     return data
 
 
+def _load_series_registry():
+    """Load series registry for learning-path metadata.
+
+    Returns the `series` dict keyed by series slug. Missing or malformed
+    file degrades gracefully — articles without series render normally.
+    """
+    path = REPO_ROOT / "tools" / "series_registry.json"
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"[site] warning: {path.name} malformed ({e}); "
+              "series rendering disabled", file=sys.stderr)
+        return {}
+    return data.get("series") or {}
+
+
+def _series_context_for_article(article, series_registry, all_articles):
+    """Return series navigation context for a single article.
+
+    Returns a dict with series info, previous/next articles, or None if
+    the article is not part of a known series.
+    """
+    series_slug = article.get("series")
+    if not series_slug or series_slug not in series_registry:
+        return None
+    order = article.get("series_order")
+    if order is None:
+        return None
+
+    # Build ordered list of articles in this series
+    series_articles = []
+    for a in all_articles:
+        if a.get("series") == series_slug and a.get("series_order") is not None:
+            series_articles.append(a)
+    series_articles.sort(key=lambda a: a["series_order"])
+
+    # Find previous and next
+    prev_article = None
+    next_article = None
+    for i, sa in enumerate(series_articles):
+        if sa.get("folder") == article.get("folder"):
+            if i > 0:
+                prev_article = series_articles[i - 1]
+            if i < len(series_articles) - 1:
+                next_article = series_articles[i + 1]
+            break
+
+    reg = series_registry[series_slug]
+    return {
+        "slug": series_slug,
+        "title": reg.get("title", series_slug),
+        "description": reg.get("description", ""),
+        "order": order,
+        "total": len(series_articles),
+        "prev": prev_article,
+        "next": next_article,
+    }
+
+
+def _series_for_topic(topic, all_articles, series_registry):
+    """Return series that intersect with a given topic.
+
+    Returns a list of series dicts with title, description, article count,
+    and first article link. Empty list if none.
+    """
+    if not series_registry:
+        return []
+    series_ids = set()
+    for a in all_articles:
+        if topic in (a.get("topics") or []) and a.get("series") in series_registry:
+            series_ids.add(a.get("series"))
+    result = []
+    for slug in sorted(series_ids):
+        reg = series_registry[slug]
+        series_articles = [
+            a for a in all_articles
+            if a.get("series") == slug and a.get("series_order") is not None
+        ]
+        series_articles.sort(key=lambda a: a["series_order"])
+        if series_articles:
+            result.append({
+                "slug": slug,
+                "title": reg.get("title", slug),
+                "description": reg.get("description", ""),
+                "article_count": len(series_articles),
+                "first_article": series_articles[0],
+            })
+    return result
+
+
 def _load_topic_intros():
     """Load curated per-topic intros (lede + key themes + why-it-matters).
 
@@ -1004,6 +1096,7 @@ def build_site(index):
     topics_with_page = {t for t, c in topic_counts.items() if c >= MIN_ARTICLES_FOR_TOPIC_PAGE}
     topic_intros = _load_topic_intros()
     comments_config = _load_comments_config()
+    series_registry = _load_series_registry()
 
     # Topic entries for the /topics/ index page — all topics sorted by count desc,
     # then alpha. Topics below the threshold get slug=None so the template renders
@@ -1074,9 +1167,11 @@ def build_site(index):
              "canonical_url": a["canonical_url"], "tldr": a["tldr"]}
             for a in topic_articles if a.get("tldr")
         ][:QUICK_READS_MAX]
+        series_in_topic = _series_for_topic(topic, articles, series_registry)
         _render("topic.html.j2", f"topics/{slug}/index.html",
                 topic=topic, articles=topic_articles, related_topics=related,
-                topic_intro=intro, quick_reads=quick_reads)
+                topic_intro=intro, quick_reads=quick_reads,
+                series_in_topic=series_in_topic)
         topic_pages += 1
         if intro:
             topic_pages_with_intro += 1
@@ -1113,6 +1208,7 @@ def build_site(index):
         local_path = a.get("local_path", _article_local_path(a))
         # Remove leading slash for output_relpath
         output_relpath = local_path.lstrip("/") + "index.html"
+        series_ctx = _series_context_for_article(a, series_registry, articles)
         _render("article.html.j2", output_relpath,
                 title=a["title"],
                 published_date=a["published_date"],
@@ -1126,7 +1222,8 @@ def build_site(index):
                 folder=a.get("folder", ""),
                 reading_time=reading_time,
                 toc_headings=toc_headings,
-                related_articles=related)
+                related_articles=related,
+                series=series_ctx)
         article_pages += 1
 
     # 404
