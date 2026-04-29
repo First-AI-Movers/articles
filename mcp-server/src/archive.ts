@@ -73,7 +73,8 @@ async function loadEmbeddings(
 ): Promise<EmbeddingMap> {
   // Try bundled embeddings first (if they exist in the build)
   try {
-    const bundled = await import("./generated/embeddings.json");
+    const modulePath = "./generated/embeddings.json";
+    const bundled = await import(modulePath);
     if (bundled.default && Object.keys(bundled.default).length > 0) {
       return bundled.default as EmbeddingMap;
     }

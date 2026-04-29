@@ -12,16 +12,6 @@ import json
 import sys
 from pathlib import Path
 
-try:
-    import pyarrow.parquet as pq
-except ModuleNotFoundError:  # pragma: no cover
-    print(
-        "[export-mcp-data] Missing dependency: pyarrow\n"
-        "Install with: pip install pyarrow",
-        file=sys.stderr,
-    )
-    sys.exit(1)
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 INDEX_PATH = REPO_ROOT / "index.json"
 EMBEDDINGS_PATH = REPO_ROOT / "embeddings.parquet"
@@ -29,6 +19,17 @@ DEFAULT_OUT_DIR = REPO_ROOT / "mcp-server" / "src" / "generated"
 
 MAX_EXCERPT_CHARS = 500
 EMBEDDING_PRECISION = 4
+
+
+def _load_pyarrow_parquet():
+    """Lazy-load pyarrow.parquet; raises RuntimeError if missing."""
+    try:
+        import pyarrow.parquet as pq
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "Missing dependency: pyarrow. Install with: pip install pyarrow"
+        ) from exc
+    return pq
 
 
 def _strip_front_matter(text: str) -> str:
@@ -82,7 +83,10 @@ def export_data(out_dir: Path, check_mode: bool) -> int:
     embedding_records = {}
 
     has_embeddings = EMBEDDINGS_PATH.exists()
-    embeddings_table = pq.read_table(EMBEDDINGS_PATH) if has_embeddings else None
+    embeddings_table = None
+    if has_embeddings:
+        pq = _load_pyarrow_parquet()
+        embeddings_table = pq.read_table(EMBEDDINGS_PATH)
     embeddings_by_slug = {}
     if embeddings_table is not None:
         slug_col = embeddings_table.column("slug").to_pylist()
@@ -172,7 +176,11 @@ def main() -> int:
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    return export_data(args.out_dir, args.check)
+    try:
+        return export_data(args.out_dir, args.check)
+    except RuntimeError as exc:
+        print(f"[export-mcp-data] {exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

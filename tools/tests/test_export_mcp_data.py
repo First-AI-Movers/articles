@@ -69,6 +69,69 @@ class TestBuildExcerpt:
         assert emd._build_excerpt(body) == "Line one. Line two."
 
 
+class TestImportSafety:
+    def test_module_imports_without_pyarrow(self):
+        """Importing the module must not crash when pyarrow is missing."""
+        # Simulate pyarrow missing by patching builtins.__import__
+        import builtins
+
+        original_import = builtins.__import__
+
+        def blocking_import(name, *args, **kwargs):
+            if name == "pyarrow" or name.startswith("pyarrow."):
+                raise ModuleNotFoundError(f"No module named '{name}'")
+            return original_import(name, *args, **kwargs)
+
+        # Ensure the module isn't already cached with pyarrow loaded
+        modules_before = set(sys.modules.keys())
+        if "export_mcp_data" in sys.modules:
+            del sys.modules["export_mcp_data"]
+
+        with patch.object(builtins, "__import__", blocking_import):
+            import export_mcp_data as emd_no_pq
+
+        assert hasattr(emd_no_pq, "export_data")
+        assert hasattr(emd_no_pq, "_load_pyarrow_parquet")
+
+    def test_missing_pyarrow_raises_runtime_error(self):
+        """When embeddings.parquet exists but pyarrow is missing, RuntimeError is raised."""
+        with patch.dict("sys.modules", {"pyarrow": None, "pyarrow.parquet": None}):
+            with pytest.raises(RuntimeError, match="Missing dependency: pyarrow"):
+                emd._load_pyarrow_parquet()
+
+    def test_export_without_pyarrow_and_no_embeddings_parquet_succeeds(self, tmp_path: Path):
+        """Export must work without pyarrow when embeddings.parquet does not exist."""
+        index = {
+            "articles": [
+                {
+                    "folder": "2026-04-01-test-article",
+                    "slug": "test-article",
+                    "title": "Test Article",
+                    "published_date": "2026-04-01",
+                    "canonical_url": "https://example.com/test",
+                    "topics": ["AI strategy"],
+                }
+            ]
+        }
+        articles_dir = tmp_path / "articles" / "2026-04-01-test-article"
+        articles_dir.mkdir(parents=True)
+        (articles_dir / "article.md").write_text(
+            "---\ntitle: Test\n---\n# Test Article\n\nBody text here.\n", encoding="utf-8"
+        )
+
+        index_path = tmp_path / "index.json"
+        index_path.write_text(json.dumps(index), encoding="utf-8")
+        out_dir = tmp_path / "generated"
+
+        # EMBEDDINGS_PATH does not exist, so pyarrow should never be needed
+        with patch.object(emd, "REPO_ROOT", tmp_path):
+            with patch.object(emd, "INDEX_PATH", index_path):
+                with patch.object(emd, "EMBEDDINGS_PATH", tmp_path / "embeddings.parquet"):
+                    rc = emd.export_data(out_dir, check_mode=False)
+
+        assert rc == 0
+
+
 class TestExportData:
     def test_export_data_creates_files(self, tmp_path: Path):
         index = {

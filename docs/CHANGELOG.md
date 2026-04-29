@@ -53,6 +53,7 @@
 
 ## Other Changes
 
+- E22 closure: mark RAG embedding index as done in ROADMAP ([92](https://github.com/First-AI-Movers/articles/pull/92))
 - E26 closure: mark Giscus comments as done in ROADMAP ([90](https://github.com/First-AI-Movers/articles/pull/90))
 - E26: Giscus comments scaffold (disabled by default) ([89](https://github.com/First-AI-Movers/articles/pull/89))
 - E23 closure — mark Zenodo DOI readiness pipeline as done in ROADMAP ([88](https://github.com/First-AI-Movers/articles/pull/88))
