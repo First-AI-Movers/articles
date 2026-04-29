@@ -32,6 +32,7 @@ These rules must never be broken by any contribution:
 | `ABOUT.md` | `README.md` (stats patches only) |
 | `CITATION.cff` | `site/` (entire directory) |
 | | `embeddings.parquet` |
+| | `citation_graph.json` |
 
 **Rule of thumb:** If a file is listed in the `rebuild_local.py` commit step, it is generated and must not be hand-edited.
 
@@ -64,6 +65,9 @@ python3 tools/normalize_tags.py --dry-run
 
 # Rebuild all generated artifacts and static site
 python3 tools/rebuild_local.py
+
+# Verify citation graph is current
+python3 tools/build_citation_graph.py --check
 
 # Check for duplicate titles
 python3 tools/check_duplicate_titles.py
@@ -174,6 +178,7 @@ Exceptions require explicit editorial approval from the archive owner.
 - **Tags** (`metadata.json` `tags`) are free-form historical keywords. Leave them untouched.
 - **Topics** (`metadata.json` `topics`) are canonical values derived from tags via `tools/normalize_tags.py` and `tools/tag_aliases.json`. Do not hand-edit topics.
 - **Canonical topics** live in `tools/canonical_topics.json`. Adding a new canonical topic requires updating both `canonical_topics.json` and `tag_aliases.json`.
+- **Internal links** between articles become citation graph edges automatically. Link naturally using markdown to other archive articles and the graph will include them. See [`docs/CITATION_GRAPH.md`](docs/CITATION_GRAPH.md).
 - **Services** (`metadata.json` `first_ai_movers_services`) are normalized to a closed set: `ai-strategy`, `fractional-caio`, `automation-design`, `compliance-audit`, `ai-literacy-training`.
 - **String fields** (`title`, `slug`, `canonical_url`, `folder`) are whitespace-normalized by `normalize_tags.py`.
 

@@ -142,6 +142,7 @@ Run these locally to verify archive integrity:
 ```bash
 python3 tools/check_duplicate_titles.py
 python3 tools/normalize_tags.py --dry-run
+python3 tools/build_citation_graph.py --check
 python3 tools/rebuild_local.py
 python3 -m pytest tools/tests -q
 npm run test:e2e
@@ -172,6 +173,22 @@ See [`docs/ARTICLE_QUALITY_CI.md`](docs/ARTICLE_QUALITY_CI.md) for the style, re
 ## Article Series / Learning Paths
 
 See [`docs/SERIES.md`](docs/SERIES.md) for how to propose, validate, and render article series. Series require editorial approval before metadata changes.
+
+## Citation Graph
+
+See [`docs/CITATION_GRAPH.md`](docs/CITATION_GRAPH.md) for the article-to-article citation graph: how links are detected, the graph schema, build commands, rendering behavior, and limitations.
+
+To regenerate the graph after adding or editing articles:
+
+```bash
+python3 tools/build_citation_graph.py
+```
+
+To verify the committed graph is current:
+
+```bash
+python3 tools/build_citation_graph.py --check
+```
 
 ## Test Suite Quick Reference
 

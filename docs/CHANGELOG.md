@@ -21,10 +21,10 @@
 ## Bug Fixes
 
 - fix(ci): make changelog check compatible with protected main ([95](https://github.com/First-AI-Movers/articles/pull/95))
-- fix(roadmap,safety): mark E6 done, add PR #18, raw-HTML sanitizer ([19](https://github.com/First-AI-Movers/articles/pull/19))
 
 ## Documentation
 
+- docs: E40 multi-property pattern — close epic ([108](https://github.com/First-AI-Movers/articles/pull/108))
 - docs(roadmap): mark E37 errata protocol as done ([106](https://github.com/First-AI-Movers/articles/pull/106))
 - docs(roadmap): mark E33 ask-the-archive POC as shipped ([104](https://github.com/First-AI-Movers/articles/pull/104))
 - docs(roadmap): mark E31 article series as done ([102](https://github.com/First-AI-Movers/articles/pull/102))

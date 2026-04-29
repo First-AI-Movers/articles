@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-28",
+  "last_updated": "2026-04-29",
   "total_articles": 829,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
@@ -8012,7 +8012,9 @@
         "AI Observability"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.linkedin.com/pulse/day-1010-promptops-monitoring-ab-testing-continuous-dr-hernani-costa-6dhve"
+      "canonical_url": "https://www.linkedin.com/pulse/day-1010-promptops-monitoring-ab-testing-continuous-dr-hernani-costa-6dhve",
+      "series": "prompt-engineering-10-day",
+      "series_order": 10
     },
     {
       "folder": "2026-01-21-day-110-prompt-engineering-101-crafting-clear-health-fi",
@@ -8032,7 +8034,9 @@
         "European SME AI"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.linkedin.com/pulse/day-110-prompt-engineering-101-crafting-clear-health-fitness-costa-phzie"
+      "canonical_url": "https://www.linkedin.com/pulse/day-110-prompt-engineering-101-crafting-clear-health-fitness-costa-phzie",
+      "series": "prompt-engineering-10-day",
+      "series_order": 1
     },
     {
       "folder": "2026-01-21-day-210-system-vs-user-prompts-designing-dialogue-preci",
@@ -8050,7 +8054,9 @@
         "European SME AI"
       ],
       "funnel_stage": "top",
-      "canonical_url": "https://www.linkedin.com/pulse/day-210-system-vs-user-prompts-designing-dialogue-precision-costa-mcbre"
+      "canonical_url": "https://www.linkedin.com/pulse/day-210-system-vs-user-prompts-designing-dialogue-precision-costa-mcbre",
+      "series": "prompt-engineering-10-day",
+      "series_order": 2
     },
     {
       "folder": "2026-01-21-day-310-role-persona-prompting-brand-aligned-voice-dr-h",
@@ -8069,7 +8075,9 @@
         "Prompt Engineering"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.linkedin.com/pulse/day-310-role-persona-prompting-brand-aligned-voice-dr-hernani-costa-a36ie"
+      "canonical_url": "https://www.linkedin.com/pulse/day-310-role-persona-prompting-brand-aligned-voice-dr-hernani-costa-a36ie",
+      "series": "prompt-engineering-10-day",
+      "series_order": 3
     },
     {
       "folder": "2026-01-21-day-410-few-shot-zero-shot-one-shot-prompting-when-why-",
@@ -8086,7 +8094,9 @@
         "Prompt Engineering"
       ],
       "funnel_stage": "top",
-      "canonical_url": "https://www.linkedin.com/pulse/day-410-few-shot-zero-shot-one-shot-prompting-when-why-costa-h7fwe"
+      "canonical_url": "https://www.linkedin.com/pulse/day-410-few-shot-zero-shot-one-shot-prompting-when-why-costa-h7fwe",
+      "series": "prompt-engineering-10-day",
+      "series_order": 4
     },
     {
       "folder": "2026-01-21-day-510-chain-of-thought-self-reflection-complex-reason",
@@ -8108,7 +8118,9 @@
         "AI Strategy"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.linkedin.com/pulse/day-510-chain-of-thought-self-reflection-complex-reasoning-costa-3kaie"
+      "canonical_url": "https://www.linkedin.com/pulse/day-510-chain-of-thought-self-reflection-complex-reasoning-costa-3kaie",
+      "series": "prompt-engineering-10-day",
+      "series_order": 5
     },
     {
       "folder": "2026-01-21-day-610-context-windows-retrieval-feeding-models-right-",
@@ -8129,7 +8141,9 @@
         "European SME AI"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.linkedin.com/pulse/day-610-context-windows-retrieval-feeding-models-right-costa-uxobe"
+      "canonical_url": "https://www.linkedin.com/pulse/day-610-context-windows-retrieval-feeding-models-right-costa-uxobe",
+      "series": "prompt-engineering-10-day",
+      "series_order": 6
     },
     {
       "folder": "2026-01-21-day-710-multimodal-prompting-bridging-text-code-images-",
@@ -8148,7 +8162,9 @@
         "Healthcare AI"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.linkedin.com/pulse/day-710-multimodal-prompting-bridging-text-code-images-costa-nez0e"
+      "canonical_url": "https://www.linkedin.com/pulse/day-710-multimodal-prompting-bridging-text-code-images-costa-nez0e",
+      "series": "prompt-engineering-10-day",
+      "series_order": 7
     },
     {
       "folder": "2026-01-21-day-810-prompt-automation-templates-production-pipeline",
@@ -8170,7 +8186,9 @@
         "AI Regulation"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.linkedin.com/pulse/day-810-prompt-automation-templates-production-pipelines-costa-i8gxe"
+      "canonical_url": "https://www.linkedin.com/pulse/day-810-prompt-automation-templates-production-pipelines-costa-i8gxe",
+      "series": "prompt-engineering-10-day",
+      "series_order": 8
     },
     {
       "folder": "2026-01-21-death-apps-how-openais-operator-reshape-industries-fore",
@@ -8622,7 +8640,9 @@
         "AI Ethics"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.linkedin.com/pulse/guardrails-safety-red-teaming-your-prompts-dr-hernani-costa-xrvfe"
+      "canonical_url": "https://www.linkedin.com/pulse/guardrails-safety-red-teaming-your-prompts-dr-hernani-costa-xrvfe",
+      "series": "prompt-engineering-10-day",
+      "series_order": 9
     },
     {
       "folder": "2026-01-21-happiness-paradox-why-waiting-success-robbing-you-joy-c",
@@ -10211,7 +10231,9 @@
         "France and Benelux AI"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.firstaimovers.com/p/ai-model-comparison-guide-smbs-2026-chatgpt-claude-gemini-part-2"
+      "canonical_url": "https://www.firstaimovers.com/p/ai-model-comparison-guide-smbs-2026-chatgpt-claude-gemini-part-2",
+      "series": "ai-model-guide-smbs-2026",
+      "series_order": 2
     },
     {
       "folder": "2025-12-24-ai-model-comparison-guide-smbs-2026-chatgpt-claude-gemi",
@@ -10235,7 +10257,9 @@
         "AI Productivity Tools"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://www.firstaimovers.com/p/ai-model-comparison-guide-smbs-2026-chatgpt-claude-gemini-part-1"
+      "canonical_url": "https://www.firstaimovers.com/p/ai-model-comparison-guide-smbs-2026-chatgpt-claude-gemini-part-1",
+      "series": "ai-model-guide-smbs-2026",
+      "series_order": 1
     },
     {
       "folder": "2025-12-23-make-com-automation-ai-agents-guide-2025",
