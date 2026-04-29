@@ -26,6 +26,7 @@
 
 ## Documentation
 
+- docs(roadmap): mark E37 errata protocol as done ([106](https://github.com/First-AI-Movers/articles/pull/106))
 - docs(roadmap): mark E33 ask-the-archive POC as shipped ([104](https://github.com/First-AI-Movers/articles/pull/104))
 - docs(roadmap): mark E31 article series as done ([102](https://github.com/First-AI-Movers/articles/pull/102))
 - docs: E21 roadmap closure ([94](https://github.com/First-AI-Movers/articles/pull/94))
@@ -45,7 +46,6 @@
 - docs(repo): add contribution security and PR workflow guidance ([25](https://github.com/First-AI-Movers/articles/pull/25))
 - docs(roadmap): mark E8 done, add PR #23, document soft-gate follow-up ([24](https://github.com/First-AI-Movers/articles/pull/24))
 - docs(roadmap): mark E7 done, add PRs #19–21, E8+E9 next ([22](https://github.com/First-AI-Movers/articles/pull/22))
-- docs(roadmap): mark E5 done, E6+E7 next, add PR #16 ([17](https://github.com/First-AI-Movers/articles/pull/17))
 
 ## Tests
 

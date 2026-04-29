@@ -1,0 +1,10 @@
+{
+  "folder": "2026-01-01-sample-article",
+  "slug": "sample-article",
+  "title": "Sample Article",
+  "published_date": "2026-01-01",
+  "canonical_url": "https://{{cookiecutter.domain}}/sample-article",
+  "tags": ["sample topic"],
+  "topics": ["Sample Topic"],
+  "funnel_stage": "top"
+}

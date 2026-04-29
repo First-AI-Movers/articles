@@ -161,6 +161,14 @@ These are documented expectations; verify in repository Settings → Branches.
 - Scope is optional but encouraged: `feat(site)`, `fix(tools)`, `docs(roadmap)`.
 - For generated-artifact rebuilds committed by CI, the bot uses `"Rebuild derived artifacts"`.
 
+## Property scope
+
+This archive is for **First AI Movers content only**. Do not add articles from unrelated brands, properties, or external publications unless they are First AI Movers originals.
+
+If you need an archive for a different brand or audience, use the `cookiecutter-archive-template/` pattern to create a separate repository. See [`docs/MULTI_PROPERTY_PATTERN.md`](docs/MULTI_PROPERTY_PATTERN.md) for the rationale and fork-and-customize checklist.
+
+Exceptions require explicit editorial approval from the archive owner.
+
 ## Metadata, topics, and tags
 
 - **Tags** (`metadata.json` `tags`) are free-form historical keywords. Leave them untouched.

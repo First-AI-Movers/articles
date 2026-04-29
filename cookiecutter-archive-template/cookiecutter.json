@@ -1,0 +1,13 @@
+{
+  "project_name": "Example Article Archive",
+  "repo_slug": "example-article-archive",
+  "domain": "archive.example.com",
+  "site_url": "https://archive.example.com",
+  "author_name": "Example Author",
+  "author_url": "https://example.com/author",
+  "orcid": "0000-0000-0000-0000",
+  "publisher_name": "Example Publisher",
+  "publisher_url": "https://example.com",
+  "content_license": "CC-BY-4.0",
+  "code_license": "Apache-2.0"
+}

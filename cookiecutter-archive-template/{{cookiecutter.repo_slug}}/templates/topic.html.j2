@@ -1,0 +1,15 @@
+{% extends "base.html.j2" %}
+{% block title %}{{ topic_name }} — {{ site_title }}{% endblock %}
+{% block description %}Articles about {{ topic_name }} in the {{ site_title }}.{% endblock %}
+
+{% block content %}
+<h1>{{ topic_name }}</h1>
+<p>{{ article_count }} articles</p>
+
+{% for article in articles %}
+  <article class="article-card">
+    <h3><a href="{{ rel_root }}articles/{{ article.slug }}/">{{ article.title }}</a></h3>
+    <p class="meta">{{ article.published_date }}</p>
+  </article>
+{% endfor %}
+{% endblock %}

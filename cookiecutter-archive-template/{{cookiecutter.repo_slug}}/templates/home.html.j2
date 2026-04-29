@@ -1,0 +1,19 @@
+{% extends "base.html.j2" %}
+{% block title %}{{ site_title }}{% endblock %}
+{% block description %}{{ site_description }}{% endblock %}
+{% block main_class %} class="wide"{% endblock %}
+
+{% block content %}
+<h1>{{ site_title }}</h1>
+<p class="lede">{{ stats.total }} articles by <a href="{{ author_url }}">{{ author_name }}</a>.</p>
+
+<h2>Latest articles</h2>
+{% for article in latest %}
+  <article class="article-card">
+    <h3><a href="{{ rel_root }}articles/{{ article.slug }}/">{{ article.title }}</a></h3>
+    <p class="meta">{{ article.published_date }} · {{ article.topics|join(', ') }}</p>
+  </article>
+{% endfor %}
+
+<p class="browse-all"><a href="{{ rel_root }}topics/">Browse all topics →</a></p>
+{% endblock %}

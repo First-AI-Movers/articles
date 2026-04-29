@@ -215,3 +215,17 @@ python3 tools/check_errata.py --json
 ```
 
 Errata are rendered on article pages only when `articles/<folder>/errata.md` exists and contains `Status: published` entries. Articles without errata files render unchanged.
+
+## Multi-property archive pattern
+
+See [`docs/MULTI_PROPERTY_PATTERN.md`](MULTI_PROPERTY_PATTERN.md) for the full pattern.
+
+**Rule:** Do not merge other brand or property archives into this repository. Each property gets its own archive.
+
+**Starter template:** `cookiecutter-archive-template/` at the repo root provides a minimal scaffold for new property archives.
+
+```bash
+# Generate a new property archive
+pip install cookiecutter
+cookiecutter cookiecutter-archive-template/
+```
