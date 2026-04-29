@@ -5,6 +5,7 @@
 
 ## Features
 
+- feat(summaries): add reviewed summary pilot ([116](https://github.com/First-AI-Movers/articles/pull/116))
 - feat(citation): add article citation graph ([109](https://github.com/First-AI-Movers/articles/pull/109))
 - feat(rag): add article embedding index (E22) ([91](https://github.com/First-AI-Movers/articles/pull/91))
 - feat(citation): add Zenodo DOI readiness pipeline ([87](https://github.com/First-AI-Movers/articles/pull/87))
@@ -15,7 +16,6 @@
 - feat(seo): strengthen topic hub metadata and structured data ([36](https://github.com/First-AI-Movers/articles/pull/36))
 - feat(indexing): add IndexNow key and submission tooling ([33](https://github.com/First-AI-Movers/articles/pull/33))
 - feat(accessibility): add skip link, focus states, theme toggle semantics, and breadcrumb labels ([27](https://github.com/First-AI-Movers/articles/pull/27))
-- feat(hardening): add duplicate-title gate and atomic metadata writes ([23](https://github.com/First-AI-Movers/articles/pull/23))
 
 ## Bug Fixes
 
@@ -43,8 +43,6 @@
 - docs(roadmap): mark E11 done, add PR #27, update test count to 206, set E10 next ([28](https://github.com/First-AI-Movers/articles/pull/28))
 - docs(roadmap): mark E9 done, add PR #25, set E10/E11 next ([26](https://github.com/First-AI-Movers/articles/pull/26))
 - docs(repo): add contribution security and PR workflow guidance ([25](https://github.com/First-AI-Movers/articles/pull/25))
-- docs(roadmap): mark E8 done, add PR #23, document soft-gate follow-up ([24](https://github.com/First-AI-Movers/articles/pull/24))
-- docs(roadmap): mark E7 done, add PRs #19–21, E8+E9 next ([22](https://github.com/First-AI-Movers/articles/pull/22))
 
 ## Tests
 
@@ -52,6 +50,8 @@
 
 ## Other Changes
 
+- E35a roadmap closure: mark multi-length summary infrastructure complete ([115](https://github.com/First-AI-Movers/articles/pull/115))
+- E35a: Multi-length structured summaries infrastructure ([114](https://github.com/First-AI-Movers/articles/pull/114))
 - E40: Multi-property archive pattern ([107](https://github.com/First-AI-Movers/articles/pull/107))
 - E37: Errata correction protocol ([105](https://github.com/First-AI-Movers/articles/pull/105))
 - E33: Ask the Archive chatbot POC ([103](https://github.com/First-AI-Movers/articles/pull/103))
