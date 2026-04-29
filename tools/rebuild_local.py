@@ -684,6 +684,7 @@ TEMPLATE_DIR = REPO_ROOT / "templates"
 STATIC_DIR = REPO_ROOT / "static"
 TOPIC_INTROS_PATH = REPO_ROOT / "tools" / "topic_intros.json"
 COMMENTS_CONFIG_PATH = REPO_ROOT / "tools" / "comments_config.json"
+CITATION_GRAPH_PATH = REPO_ROOT / "citation_graph.json"
 MIN_ARTICLES_FOR_TOPIC_PAGE = 5
 HOME_LATEST_COUNT = 20
 RELATED_TOPICS_ON_TOPIC_PAGE = 6
@@ -743,6 +744,82 @@ def _load_series_registry():
               "series rendering disabled", file=sys.stderr)
         return {}
     return data.get("series") or {}
+
+
+def _load_citation_graph():
+    """Load citation graph for article-to-article references.
+
+    Returns a dict with `outgoing` and `incoming` mappings keyed by
+    article folder. Missing or malformed file degrades gracefully —
+    articles without citations render normally.
+    """
+    if not CITATION_GRAPH_PATH.exists():
+        return {}
+    try:
+        data = json.loads(CITATION_GRAPH_PATH.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"[site] warning: {CITATION_GRAPH_PATH.name} malformed ({e}); "
+              "citation sections disabled", file=sys.stderr)
+        return {}
+    outgoing = {}
+    incoming = {}
+    for edge in data.get("edges", []):
+        src = edge.get("source_folder")
+        tgt = edge.get("target_folder")
+        if not src or not tgt:
+            continue
+        outgoing.setdefault(src, []).append(edge)
+        incoming.setdefault(tgt, []).append(edge)
+    # Deterministic ordering per article
+    for folder in outgoing:
+        outgoing[folder].sort(key=lambda e: (e.get("target_folder", ""), e.get("matched_url", "")))
+    for folder in incoming:
+        incoming[folder].sort(key=lambda e: (e.get("source_folder", ""), e.get("matched_url", "")))
+    return {"outgoing": outgoing, "incoming": incoming, "nodes": data.get("nodes", [])}
+
+
+def _citation_context_for_article(folder, graph):
+    """Return (outgoing_citations, incoming_citations) for an article.
+
+    Enriches raw edges with target/source title, date, and local URL for
+    template rendering. Caps at 10 each with a flag indicating truncation.
+    """
+    if not graph:
+        return [], []
+    node_map = {n["folder"]: n for n in graph.get("nodes", []) if n.get("folder")}
+    MAX_CITATIONS = 10
+
+    def _enrich(edges, key_field):
+        result = []
+        for e in edges:
+            node = node_map.get(e.get(key_field))
+            if not node:
+                continue
+            slug = node.get("slug") or node.get("folder", "")
+            result.append({
+                "title": node.get("title", ""),
+                "published_date": node.get("published_date", ""),
+                "slug": slug,
+                "local_url": f"/articles/{slug}/",
+                "anchor_text": e.get("anchor_text", ""),
+            })
+        return result
+
+    out_edges = graph.get("outgoing", {}).get(folder, [])
+    in_edges = graph.get("incoming", {}).get(folder, [])
+
+    outgoing = _enrich(out_edges, "target_folder")
+    incoming = _enrich(in_edges, "source_folder")
+
+    out_truncated = len(outgoing) > MAX_CITATIONS
+    in_truncated = len(incoming) > MAX_CITATIONS
+
+    return {
+        "outgoing": outgoing[:MAX_CITATIONS],
+        "outgoing_truncated": out_truncated,
+        "incoming": incoming[:MAX_CITATIONS],
+        "incoming_truncated": in_truncated,
+    }
 
 
 def _parse_errata_for_article(folder: str):
@@ -1183,6 +1260,7 @@ def build_site(index):
     topic_intros = _load_topic_intros()
     comments_config = _load_comments_config()
     series_registry = _load_series_registry()
+    citation_graph = _load_citation_graph()
 
     # Topic entries for the /topics/ index page — all topics sorted by count desc,
     # then alpha. Topics below the threshold get slug=None so the template renders
@@ -1299,6 +1377,7 @@ def build_site(index):
         output_relpath = local_path.lstrip("/") + "index.html"
         series_ctx = _series_context_for_article(a, series_registry, articles)
         errata_entries = _parse_errata_for_article(a.get("folder", ""))
+        citation_ctx = _citation_context_for_article(a.get("folder", ""), citation_graph)
         _render("article.html.j2", output_relpath,
                 title=a["title"],
                 published_date=a["published_date"],
@@ -1314,7 +1393,11 @@ def build_site(index):
                 toc_headings=toc_headings,
                 related_articles=related,
                 series=series_ctx,
-                errata_entries=errata_entries)
+                errata_entries=errata_entries,
+                outgoing_citations=citation_ctx.get("outgoing", []),
+                outgoing_citations_truncated=citation_ctx.get("outgoing_truncated", False),
+                incoming_citations=citation_ctx.get("incoming", []),
+                incoming_citations_truncated=citation_ctx.get("incoming_truncated", False))
         article_pages += 1
 
     # 404
@@ -1327,7 +1410,7 @@ def build_site(index):
     # staging dir so existing URLs stay byte-identical after the deploy switches.
     mirror_files = [
         "index.json", "llms.txt", "llms-full.txt", "llms-recent.txt",
-        "feed.xml", "sitemap.xml",
+        "feed.xml", "sitemap.xml", "citation_graph.json",
         "hernanicosta.json", "CITATION.cff", "ABOUT.md", "README.md",
         "robots.txt", "CNAME",
         # Google Search Console verification file — lives at repo root, glob below catches it.

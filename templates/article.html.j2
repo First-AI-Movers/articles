@@ -32,7 +32,16 @@
     "@type": "CreativeWorkSeries",
     "name": {{ series.title|tojson }},
     "url": "{{ site_url }}/topics/{{ topic_slug(topics[0]) if topics else '' }}/#series-{{ series.slug }}"
-  }{% endif %}
+  }{% endif %}{% if outgoing_citations %},
+  "citation": [
+    {% for c in outgoing_citations %}
+    {
+      "@type": "CreativeWork",
+      "name": {{ c.title|tojson }},
+      "url": "{{ site_url }}{{ c.local_url }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]{% endif %}
 }
 </script>
 {% endblock %}
@@ -122,6 +131,40 @@
     </div>
     {% endfor %}
   </aside>
+  {% endif %}
+
+  {% if outgoing_citations %}
+  <section class="citation-section" aria-label="References in this archive">
+    <h2>References in this archive</h2>
+    <ul class="citation-list">
+      {% for c in outgoing_citations %}
+      <li>
+        <a href="{{ rel_root }}articles/{{ c.slug }}/">{{ c.title }}</a>
+        <span class="citation-meta">{{ c.published_date }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if outgoing_citations_truncated %}
+    <p class="citation-truncated">Showing first {{ outgoing_citations|length }}.</p>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if incoming_citations %}
+  <section class="citation-section" aria-label="Referenced by">
+    <h2>Referenced by</h2>
+    <ul class="citation-list">
+      {% for c in incoming_citations %}
+      <li>
+        <a href="{{ rel_root }}articles/{{ c.slug }}/">{{ c.title }}</a>
+        <span class="citation-meta">{{ c.published_date }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if incoming_citations_truncated %}
+    <p class="citation-truncated">Showing first {{ incoming_citations|length }}.</p>
+    {% endif %}
+  </section>
   {% endif %}
 
   <footer class="article-footer">

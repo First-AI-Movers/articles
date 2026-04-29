@@ -563,6 +563,46 @@ h2.articles-heading {
 }
 .erratum-body p { margin: 0.5rem 0; }
 
+/* Citation sections (references / referenced by) */
+.citation-section {
+  margin: var(--space-xl) 0 var(--space-lg);
+  padding: var(--space-md);
+  background: var(--card-bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+.citation-section h2 {
+  font-size: 1.15rem;
+  margin: 0 0 var(--space-sm);
+  color: var(--accent);
+}
+.citation-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.citation-list li {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.citation-list a {
+  font-weight: 500;
+}
+.citation-meta {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-left: 0.4rem;
+}
+.citation-truncated {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: var(--space-sm) 0 0;
+  font-style: italic;
+}
+
 /* Table of contents */
 .toc {
   background: var(--card-bg);
