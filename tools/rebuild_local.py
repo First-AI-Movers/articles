@@ -91,7 +91,7 @@ def build_index():
             print(f"  ERR  {folder}: {e}", file=sys.stderr)
             skipped += 1
             continue
-        articles.append({
+        entry = {
             "folder": meta.get("folder"),
             "slug": meta.get("slug"),
             "title": meta.get("title"),
@@ -100,7 +100,12 @@ def build_index():
             "topics": meta.get("topics", []),
             "funnel_stage": meta.get("funnel_stage"),
             "canonical_url": meta.get("canonical_url"),
-        })
+        }
+        if meta.get("series") is not None:
+            entry["series"] = meta["series"]
+        if meta.get("series_order") is not None:
+            entry["series_order"] = meta["series_order"]
+        articles.append(entry)
     articles.sort(key=lambda a: a.get("published_date", ""), reverse=True)
 
     index = {

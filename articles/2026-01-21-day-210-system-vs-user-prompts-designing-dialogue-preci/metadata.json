@@ -23,5 +23,7 @@
   "topics": [
     "AI Governance",
     "European SME AI"
-  ]
+  ],
+  "series": "prompt-engineering-10-day",
+  "series_order": 2
 }

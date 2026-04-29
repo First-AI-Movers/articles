@@ -27,5 +27,7 @@
     "AI Governance",
     "Healthcare AI",
     "AI Regulation"
-  ]
+  ],
+  "series": "prompt-engineering-10-day",
+  "series_order": 8
 }

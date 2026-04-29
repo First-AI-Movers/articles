@@ -26,5 +26,7 @@
     "Context Engineering",
     "RAG Architecture",
     "European SME AI"
-  ]
+  ],
+  "series": "prompt-engineering-10-day",
+  "series_order": 6
 }

@@ -27,5 +27,7 @@
     "European SME AI",
     "AI Literacy",
     "AI Strategy"
-  ]
+  ],
+  "series": "prompt-engineering-10-day",
+  "series_order": 5
 }
