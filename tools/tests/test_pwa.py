@@ -112,6 +112,9 @@ class TestRegistration:
         assert "pwa.js" in text
 
 
+SITE_BUILT = SITE_DIR.exists()
+
+
 class TestOfflinePage:
     def test_offline_template_exists(self):
         assert (TEMPLATE_DIR / "offline.html.j2").exists()
@@ -124,24 +127,30 @@ class TestOfflinePage:
         text = (TEMPLATE_DIR / "offline.html.j2").read_text(encoding="utf-8")
         assert "noindex" in text
 
+    @pytest.mark.skipif(not SITE_BUILT, reason="site/ not built")
     def test_offline_page_rendered_by_build(self):
         assert (SITE_DIR / "offline" / "index.html").exists()
 
+    @pytest.mark.skipif(not SITE_BUILT, reason="site/ not built")
     def test_offline_page_has_content(self):
         text = (SITE_DIR / "offline" / "index.html").read_text(encoding="utf-8")
         assert "offline" in text.lower()
 
 
 class TestBuildIntegration:
+    @pytest.mark.skipif(not SITE_BUILT, reason="site/ not built")
     def test_manifest_copied_to_site(self):
         assert (SITE_DIR / "manifest.webmanifest").exists()
 
+    @pytest.mark.skipif(not SITE_BUILT, reason="site/ not built")
     def test_sw_copied_to_site(self):
         assert (SITE_DIR / "sw.js").exists()
 
+    @pytest.mark.skipif(not SITE_BUILT, reason="site/ not built")
     def test_pwa_js_copied_to_site(self):
         assert (SITE_DIR / "pwa.js").exists()
 
+    @pytest.mark.skipif(not SITE_BUILT, reason="site/ not built")
     def test_icons_copied_to_site(self):
         assert (SITE_DIR / "icons" / "icon-192.png").exists()
         assert (SITE_DIR / "icons" / "icon-512.png").exists()
