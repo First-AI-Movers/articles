@@ -55,6 +55,7 @@
 
 ## Other Changes
 
+- E31: Activate approved article series ([101](https://github.com/First-AI-Movers/articles/pull/101))
 - E21: MCP server on Cloudflare Workers ([93](https://github.com/First-AI-Movers/articles/pull/93))
 - E22 closure: mark RAG embedding index as done in ROADMAP ([92](https://github.com/First-AI-Movers/articles/pull/92))
 - E26 closure: mark Giscus comments as done in ROADMAP ([90](https://github.com/First-AI-Movers/articles/pull/90))
@@ -66,4 +67,3 @@
 - PR A: sitemap cleanup — remove cross-host canonicals and data files ([32](https://github.com/First-AI-Movers/articles/pull/32))
 - E10 follow-up: mark E10 done in ROADMAP.md, list PR #29, update test count to 222 ([30](https://github.com/First-AI-Movers/articles/pull/30))
 - E10: client-side search ([29](https://github.com/First-AI-Movers/articles/pull/29))
-- E1: topic narratives — top 10 topics + render plumbing ([12](https://github.com/First-AI-Movers/articles/pull/12))
