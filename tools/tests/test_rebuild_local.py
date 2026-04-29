@@ -529,8 +529,10 @@ class TestDarkMode:
         site = self._run(monkeypatch, tmp_path)
         home = (site / "index.html").read_text(encoding="utf-8")
         assert '<script>' in home
-        # Dark mode toggle must be inline; search.js is the only allowed external script
-        assert home.count('<script src="') <= 1
+        # Dark mode toggle must be inline; search.js and pwa.js are the only allowed external scripts
+        src_count = home.count('<script src="')
+        assert src_count <= 2, f"Expected at most 2 external scripts, found {src_count}"
+        assert 'pwa.js' in home
         assert 'localStorage' in home
 
     def test_light_theme_css_exists(self):

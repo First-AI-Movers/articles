@@ -1095,6 +1095,9 @@ def build_site(index):
         person_jsonld = "{}"
     _render("about.html.j2", "about/index.html", person_jsonld=person_jsonld)
 
+    # Offline fallback page
+    _render("offline.html.j2", "offline/index.html")
+
     # Per-article pages
     article_pages = 0
     for a in articles:

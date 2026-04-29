@@ -24,6 +24,7 @@
 
 ## Bug Fixes
 
+- fix(ci): make changelog check compatible with protected main ([95](https://github.com/First-AI-Movers/articles/pull/95))
 - fix(roadmap,safety): mark E6 done, add PR #18, raw-HTML sanitizer ([19](https://github.com/First-AI-Movers/articles/pull/19))
 
 ## Documentation
