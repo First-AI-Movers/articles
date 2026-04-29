@@ -107,6 +107,12 @@ def build_index():
             entry["series_order"] = meta["series_order"]
         if meta.get("doi") is not None:
             entry["doi"] = meta["doi"]
+        if meta.get("summary_short") is not None:
+            entry["summary_short"] = meta["summary_short"]
+        if meta.get("summary_medium") is not None:
+            entry["summary_medium"] = meta["summary_medium"]
+        if meta.get("summary_long") is not None:
+            entry["summary_long"] = meta["summary_long"]
         articles.append(entry)
     articles.sort(key=lambda a: a.get("published_date", ""), reverse=True)
 
@@ -567,12 +573,22 @@ def build_llms_full(index):
         canonical = canonical_raw.strip().splitlines()[-1].strip() if canonical_raw.strip() else ""
         topics = ", ".join(a.get("topics", []))
 
+        meta_lines = [
+            f"- **Published:** {a.get('published_date', 'unknown')}",
+            f"- **URL:** {canonical}",
+            f"- **Topics:** {topics}",
+        ]
+        if a.get("summary_short"):
+            meta_lines.append(f"- **Summary (short):** {a['summary_short']}")
+        if a.get("summary_medium"):
+            meta_lines.append(f"- **Summary (medium):** {a['summary_medium']}")
+        if a.get("summary_long"):
+            meta_lines.append(f"- **Summary (long):** {a['summary_long']}")
+
         parts.append(
             "\n\n---\n\n"
             f"# {a.get('title', 'Untitled')}\n\n"
-            f"- **Published:** {a.get('published_date', 'unknown')}\n"
-            f"- **URL:** {canonical}\n"
-            f"- **Topics:** {topics}\n\n"
+            + "\n".join(meta_lines) + "\n\n"
             f"{body.rstrip()}\n"
         )
         included += 1
@@ -1430,6 +1446,7 @@ def build_site(index):
                 canonical_host_label=a["canonical_host_label"],
                 topics=a.get("topics", []),
                 summary=a.get("summary", ""),
+                summary_short=a.get("summary_short", ""),
                 body_html=body_html,
                 license=a.get("license", "CC BY 4.0"),
                 folder=a.get("folder", ""),

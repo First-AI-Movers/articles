@@ -49,3 +49,8 @@ model_cache/
 .huggingface/
 *.faiss.tmp
 
+# Summary generation temp files (approved review files may be committed)
+summaries/*.draft.md
+summaries/*.tmp.md
+summary_generation_report*.json
+

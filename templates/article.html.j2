@@ -26,7 +26,9 @@
   "license": "https://creativecommons.org/licenses/by/4.0/",
   "url": "{{ canonical_url }}",
   "isBasedOn": "{{ canonical_url }}",
-  "inLanguage": "en",
+  "inLanguage": "en"{% if summary_short %},
+  "description": {{ summary_short|tojson }}{% elif summary %},
+  "description": {{ summary|tojson }}{% endif %},
   "articleSection": {{ (topics|list)|tojson }}{% if doi %},
   "identifier": {
     "@type": "PropertyValue",
