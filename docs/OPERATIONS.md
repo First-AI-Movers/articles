@@ -199,3 +199,19 @@ curl -s -X POST http://localhost:8787/api/ask \
 ```
 
 **Static page:** Generated at `/ask/` during site build. Currently `noindex` until live endpoint is deployed.
+
+## Errata and corrections
+
+See [`docs/ERRATA.md`](ERRATA.md) for the full errata protocol.
+
+**Quick commands:**
+
+```bash
+# Validate all errata files
+python3 tools/check_errata.py
+
+# Check a specific article
+python3 tools/check_errata.py --json
+```
+
+Errata are rendered on article pages only when `articles/<folder>/errata.md` exists and contains `Status: published` entries. Articles without errata files render unchanged.

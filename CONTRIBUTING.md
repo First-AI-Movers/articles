@@ -13,7 +13,7 @@ This repository is the **canonical, open-access archive** of all articles publis
 
 These rules must never be broken by any contribution:
 
-1. **Article text is immutable once published.** Do not edit `article.md` files after publication. Typos, corrections, and updates are handled by publishing a new article.
+1. **Article text is immutable once published.** Do not edit `article.md` files after publication. Typos, corrections, and updates are handled by publishing a new article or by issuing a structured erratum (see Errata and corrections below).
 2. **Canonical URLs are permanent.** The `canonical_url` in `metadata.json` points to the primary publishing property (Radar, Insights, LinkedIn, etc.) and must never change.
 3. **Generated artifacts are never hand-edited.** `index.json`, `sitemap.xml`, `feed.xml`, `feed.json`, `llms-full.txt`, `llms-recent.txt`, and `README.md` stats patches are rebuilt by `tools/rebuild_local.py` only.
 4. **No secrets or private drafts.** Every folder under `articles/` is public. Do not commit API keys, `.env` files, or unpublished drafts.
@@ -211,6 +211,16 @@ Every PR must report which proof levels were validated. Use this checklist in th
 - [ ] **CI-proven** — GitHub Actions passes.
 - [ ] **URL/canonical-proven** — canonical links, sitemap, feed URLs verified.
 - [ ] **Browser/Pages-proven** — live site or browser checked (only when relevant).
+
+## Errata and corrections
+
+The archive supports structured errata for published articles without editing the original `article.md`.
+
+- Add `articles/<folder>/errata.md` with the format documented in [`docs/ERRATA.md`](docs/ERRATA.md).
+- Allowed types: `correction`, `clarification`, `source-update`, `retraction`, `editorial-note`.
+- Only `Status: published` entries render on the article page.
+- Run `python3 tools/check_errata.py` before committing.
+- Errata do not change canonical URLs, sitemap entries, or `index.json`.
 
 ## Questions?
 
