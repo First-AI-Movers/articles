@@ -181,3 +181,21 @@ See [`docs/SERIES.md`](docs/SERIES.md) for how to propose, validate, and render 
 | E2E | `npm run test:e2e` | 32 |
 
 Optional dependencies: `openai`, `python-dotenv` (for `TestAddTldr`). These are deselected in CI if absent.
+
+## Ask the Archive chatbot
+
+See [`docs/ASK_ARCHIVE.md`](ASK_ARCHIVE.md) for the full runbook.
+
+**Status:** POC scaffold shipped. Live deployment is gated behind Cloudflare credentials and rate-limit setup.
+
+**Local testing:**
+
+```bash
+cd mcp-server && npm run dev
+# In another shell:
+curl -s -X POST http://localhost:8787/api/ask \
+  -H "content-type: application/json" \
+  -d '{"question":"How should SMEs approach AI governance?","limit":3}'
+```
+
+**Static page:** Generated at `/ask/` during site build. Currently `noindex` until live endpoint is deployed.

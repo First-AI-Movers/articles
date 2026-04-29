@@ -9,6 +9,7 @@ import {
   getArticlesByTopic,
 } from "./archive.js";
 import { searchArticles } from "./search.js";
+import { handleAsk } from "./ask.js";
 
 function createServer(env: Record<string, unknown>) {
   const server = new McpServer({
@@ -375,6 +376,10 @@ export default {
         "First AI Movers Archive MCP Server. Connect at /mcp\n",
         { headers: { "Content-Type": "text/plain" } }
       );
+    }
+
+    if (url.pathname === "/api/ask") {
+      return handleAsk(request, env);
     }
 
     if (url.pathname === "/mcp") {

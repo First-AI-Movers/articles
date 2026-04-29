@@ -1195,6 +1195,9 @@ def build_site(index):
         person_jsonld = "{}"
     _render("about.html.j2", "about/index.html", person_jsonld=person_jsonld)
 
+    # Ask the Archive page
+    _render("ask.html.j2", "ask/index.html")
+
     # Offline fallback page
     _render("offline.html.j2", "offline/index.html")
 
@@ -1282,7 +1285,7 @@ def build_site(index):
         shutil.rmtree(SITE_DIR)
     staging.rename(SITE_DIR)
 
-    total_pages = 1 + 1 + topic_pages + 1 + 1 + article_pages  # home + topics_index + topic pages + about + 404 + articles
+    total_pages = 1 + 1 + topic_pages + 1 + 1 + 1 + article_pages  # home + topics_index + topic pages + about + ask + 404 + articles
     print(f"[site] pages={total_pages} topic_pages={topic_pages} article_pages={article_pages} "
           f"topics_with_page={len(topics_with_page)} min_articles={MIN_ARTICLES_FOR_TOPIC_PAGE} "
           f"topic_intros={topic_pages_with_intro}/{len(topic_intros)} out={SITE_DIR}")

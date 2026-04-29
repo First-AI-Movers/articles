@@ -1,0 +1,71 @@
+{% extends "base.html.j2" %}
+{% block title %}Ask the Archive — First AI Movers{% endblock %}
+{% block description %}Ask a question and get a cited answer grounded in the First AI Movers article archive.{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site_url }}/"},
+    {"@type": "ListItem", "position": 2, "name": "Ask the Archive", "item": "{{ site_url }}/ask/"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{{ rel_root }}">Home</a> / Ask</nav>
+
+<h1>Ask the Archive</h1>
+
+<p class="lede">Ask a practical question about AI strategy, governance, or adoption for European SMEs. Answers are grounded in the archive and cite source articles.</p>
+
+<div class="ask-box">
+  <form id="ask-form" class="ask-form" action="#" method="post">
+    <label for="ask-question" class="visually-hidden">Your question</label>
+    <textarea
+      id="ask-question"
+      name="question"
+      rows="3"
+      placeholder="How should a European SME start with AI governance?"
+      aria-label="Your question"
+      required
+      minlength="3"
+      maxlength="500"
+    ></textarea>
+    <button type="submit" id="ask-submit" class="btn-primary">Ask</button>
+  </form>
+
+  <div id="ask-loading" class="ask-loading" hidden aria-live="polite">
+    <p>Searching the archive and generating an answer…</p>
+  </div>
+
+  <div id="ask-error" class="ask-error" hidden role="alert"></div>
+
+  <div id="ask-disabled" class="ask-disabled" hidden>
+    <p><strong>Proof of concept — endpoint not yet deployed.</strong></p>
+    <p>The Ask the Archive feature is a work in progress. The page and backend route are built, but the live Workers AI endpoint is gated until Cloudflare credentials and rate limiting are configured.</p>
+    <p>In the meantime, try the <a href="{{ rel_root }}">client-side search</a> or browse <a href="{{ rel_root }}topics/">topic hubs</a>.</p>
+  </div>
+
+  <div id="ask-answer" class="ask-answer" hidden>
+    <h2>Answer</h2>
+    <div id="ask-answer-text"></div>
+  </div>
+
+  <div id="ask-citations" class="ask-citations" hidden>
+    <h2>Sources</h2>
+    <ul id="ask-citations-list"></ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+window.ASK_ARCHIVE_ENDPOINT = {{ (ask_endpoint | default("/api/ask")) | tojson }};
+</script>
+<script src="{{ rel_root }}ask.js"></script>
+{% endblock %}

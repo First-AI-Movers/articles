@@ -982,3 +982,78 @@ class TestTopicHubSeo:
 # =========================================================================
 
 
+
+# Tests: E33 — Ask the Archive page generation
+# =========================================================================
+
+class TestAskPage:
+    def _run(self, monkeypatch, tmp_path, index_data):
+        pytest.importorskip("jinja2")
+        import rebuild_local as rebuild
+        monkeypatch.setenv("INDEXNOW_API_KEY_ARTICLES_FAIM", "")
+        out = tmp_path / "site"
+        out.mkdir()
+        articles = tmp_path / "articles"
+        articles.mkdir()
+        static = tmp_path / "static"
+        static.mkdir()
+        templates = tmp_path / "templates"
+        templates.mkdir()
+        real_root = Path(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", templates, dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", static, dirs_exist_ok=True)
+        idx_path = tmp_path / "index.json"
+        idx_path.write_text(json.dumps(index_data), encoding="utf-8")
+        monkeypatch.setattr(rebuild, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(rebuild, "ARTICLES_DIR", articles)
+        monkeypatch.setattr(rebuild, "SITE_DIR", out)
+        monkeypatch.setattr(rebuild, "STATIC_DIR", static)
+        monkeypatch.setattr(rebuild, "TEMPLATE_DIR", templates)
+        rebuild.build_site(index_data)
+        return out
+
+    def test_ask_page_generated(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        ask = site / "ask" / "index.html"
+        assert ask.exists(), "ask/index.html should be generated"
+
+    def test_ask_page_has_noindex(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        page = (site / "ask" / "index.html").read_text(encoding="utf-8")
+        assert 'name="robots" content="noindex, follow"' in page
+
+    def test_ask_page_has_form(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        page = (site / "ask" / "index.html").read_text(encoding="utf-8")
+        assert '<form id="ask-form"' in page
+        assert 'id="ask-question"' in page
+        assert 'type="submit"' in page
+
+    def test_ask_page_includes_js(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        page = (site / "ask" / "index.html").read_text(encoding="utf-8")
+        assert 'ask.js' in page
+        assert 'ASK_ARCHIVE_ENDPOINT' in page
+
+    def test_ask_page_has_disabled_banner(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        page = (site / "ask" / "index.html").read_text(encoding="utf-8")
+        assert 'ask-disabled' in page
+        assert "endpoint not yet deployed" in page
+
+    def test_ask_page_has_breadcrumb(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        page = (site / "ask" / "index.html").read_text(encoding="utf-8")
+        assert 'aria-label="Breadcrumb"' in page
+        assert 'Ask' in page
+
+    def test_ask_js_copied_to_static(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        js = site / "ask.js"
+        assert js.exists(), "ask.js should be copied to site root"
+
+    def test_nav_includes_ask_link(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        home = (site / "index.html").read_text(encoding="utf-8")
+        assert 'href="ask/"' in home or 'href="./ask/"' in home or 'href="/ask/"' in home
+
