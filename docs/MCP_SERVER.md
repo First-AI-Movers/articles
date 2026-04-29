@@ -19,15 +19,17 @@ Enable AI assistants (Claude, Cursor, etc.) to search, browse, and retrieve arti
 ```
 mcp-server/
 ├── src/
-│   ├── index.ts          # Worker entry point — HTTP routing + MCP handler
+│   ├── index.ts          # Worker entry point — HTTP routing + MCP + Ask handler
 │   ├── archive.ts        # Data loader and lookup helpers
 │   ├── search.ts         # Lexical and semantic search
+│   ├── ask.ts            # Ask the Archive chatbot handler (POST /api/ask)
 │   └── generated/
 │       ├── archive-data.json   # Bundled article metadata + excerpts
 │       └── embeddings.json     # Optional embedding vectors (384-dim)
 ├── test/
 │   ├── archive.test.ts   # Unit tests for archive lookups
-│   └── search.test.ts    # Unit tests for search scoring
+│   ├── search.test.ts    # Unit tests for search scoring
+│   └── ask.test.ts       # Unit tests for Ask endpoint
 ├── package.json
 ├── tsconfig.json
 ├── vitest.config.ts      # Vitest pool-workers config
@@ -156,7 +158,7 @@ npm run deploy
 | Epic | Relationship |
 |---|---|
 | **E22 Embeddings** | Provides the `embeddings.parquet` that feeds `embeddings.json` |
-| **E33 Chatbot** | Will consume this MCP server as its retrieval backend |
+| **E33 Chatbot** | Extends the same Worker with `/api/ask` for the "Ask the Archive" POC |
 | **Site build** | `archive-data.json` is regenerated whenever `index.json` or articles change |
 
 ## Rollback

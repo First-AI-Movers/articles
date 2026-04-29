@@ -20,7 +20,6 @@
 - feat(site): per-article HTML pages renderer — E6 ([18](https://github.com/First-AI-Movers/articles/pull/18))
 - feat(social): E5 — JSON Feed, social footer, og:image plumbing ([16](https://github.com/First-AI-Movers/articles/pull/16))
 - feat(topic-pages): E4 — Quick reads section from existing TL;DRs ([14](https://github.com/First-AI-Movers/articles/pull/14))
-- feat(topic-narratives): E3 — final 42 topic intros ([13](https://github.com/First-AI-Movers/articles/pull/13))
 
 ## Bug Fixes
 
@@ -29,6 +28,7 @@
 
 ## Documentation
 
+- docs(roadmap): mark E31 article series as done ([102](https://github.com/First-AI-Movers/articles/pull/102))
 - docs: E21 roadmap closure ([94](https://github.com/First-AI-Movers/articles/pull/94))
 - docs(roadmap): fix pre-E17 consistency notes ([73](https://github.com/First-AI-Movers/articles/pull/73))
 - docs(roadmap): mark E20b Airtable dispatch trigger complete ([72](https://github.com/First-AI-Movers/articles/pull/72))

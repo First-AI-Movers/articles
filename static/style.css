@@ -688,6 +688,110 @@ html[data-theme="dark"] .search-box input[type="search"] {
   margin: 0.5rem 0;
 }
 
+/* Ask the Archive */
+.ask-box {
+  margin: var(--space-lg) 0 var(--space-xl);
+}
+.ask-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.ask-form textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--card-bg);
+  color: var(--text);
+  resize: vertical;
+}
+.ask-form textarea:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+.ask-form textarea::placeholder {
+  color: var(--muted);
+}
+.ask-form .btn-primary {
+  align-self: flex-start;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  background: var(--link);
+  color: #fff;
+  cursor: pointer;
+}
+.ask-form .btn-primary:hover {
+  background: var(--link-hover);
+}
+.ask-form .btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.ask-loading {
+  margin-top: 1rem;
+  font-family: var(--font-ui);
+  color: var(--muted);
+}
+.ask-error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  background: rgba(220, 38, 38, 0.08);
+  color: #dc2626;
+  font-family: var(--font-ui);
+}
+.ask-disabled {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  font-family: var(--font-ui);
+}
+.ask-answer {
+  margin-top: var(--space-lg);
+}
+.ask-answer h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.ask-answer p {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+.ask-citations {
+  margin-top: var(--space-lg);
+}
+.ask-citations h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.ask-citations ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ask-citations li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+}
+.ask-citations li:last-child {
+  border-bottom: none;
+}
+.ask-citation-score {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 /* Visually hidden (accessible label) */
 .visually-hidden {
   position: absolute;
