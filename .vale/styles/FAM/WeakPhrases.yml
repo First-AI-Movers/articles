@@ -1,0 +1,25 @@
+extends: existence
+message: "Consider a stronger phrase than '%s'"
+level: suggestion
+ignorecase: true
+tokens:
+  - dive into
+  - diving into
+  - deep dive
+  - in conclusion
+  - all things considered
+  - at the end of the day
+  - needless to say
+  - it goes without saying
+  - the fact that
+  - in order to
+  - due to the fact that
+  - for all intents and purposes
+  - as a matter of fact
+  - basically
+  - essentially
+  - literally
+  - very unique
+  - quite unique
+  - extremely unique
+  - really unique

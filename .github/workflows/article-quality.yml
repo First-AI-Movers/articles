@@ -1,0 +1,88 @@
+name: Article quality audit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Weekly full-corpus check: Sundays at 04:17 UTC
+    - cron: "17 4 * * 0"
+
+permissions:
+  contents: read
+
+jobs:
+  readability:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r tools/requirements.txt
+
+      - name: Run readability audit
+        run: python3 tools/readability.py --articles-dir articles --json-out readability_report.json --md-out readability_report.md
+
+      - name: Upload readability reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: readability-reports
+          path: |
+            readability_report.json
+            readability_report.md
+
+  vale:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Vale
+        run: |
+          wget -qO- https://github.com/errata-ai/vale/releases/download/v3.11.2/vale_3.11.2_Linux_64-bit.tar.gz | tar xz -C /tmp
+          sudo mv /tmp/vale /usr/local/bin/vale
+          vale --version
+
+      - name: Run Vale on articles and docs
+        run: |
+          mkdir -p vale-report
+          vale --output=line articles docs README.md > vale-report/vale.log 2>&1 || true
+          vale --output=JSON articles docs README.md > vale-report/vale.json 2>&1 || true
+        continue-on-error: true
+
+      - name: Upload Vale report
+        uses: actions/upload-artifact@v4
+        with:
+          name: vale-report
+          path: vale-report/
+
+  lychee:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config .lychee.toml
+          fail: false
+        continue-on-error: true
+
+      - name: Upload Lychee report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-report
+          path: lychee/out.md
