@@ -233,6 +233,14 @@ python3 tools/check_errata.py --json
 
 Errata are rendered on article pages only when `articles/<folder>/errata.md` exists and contains `Status: published` entries. Articles without errata files render unchanged.
 
+## Content provenance and C2PA
+
+See [`docs/C2PA_RESEARCH.md`](C2PA_RESEARCH.md) for the research note on C2PA Content Credentials, EU AI Act Article 50, and the gap analysis for static text archives.
+
+See [`docs/decisions/adr-001-c2pa-content-credentials.md`](decisions/adr-001-c2pa-content-credentials.md) for the formal decision (status: **Deferred**).
+
+> **Rule:** Do not add C2PA signing, manifests, or cryptographic credentials without a new ADR that supersedes ADR-001.
+
 ## Multi-property archive pattern
 
 See [`docs/MULTI_PROPERTY_PATTERN.md`](MULTI_PROPERTY_PATTERN.md) for the full pattern.

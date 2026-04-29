@@ -235,6 +235,12 @@ The archive supports structured errata for published articles without editing th
 - Run `python3 tools/check_errata.py` before committing.
 - Errata do not change canonical URLs, sitemap entries, or `index.json`.
 
+## Content provenance and future standards
+
+The archive tracks the C2PA Content Credentials standard and EU AI Act Article 50 obligations in [`docs/C2PA_RESEARCH.md`](docs/C2PA_RESEARCH.md). The formal decision is recorded in [`docs/decisions/adr-001-c2pa-content-credentials.md`](docs/decisions/adr-001-c2pa-content-credentials.md) (status: **Deferred**).
+
+Do not add C2PA signing, manifests, or cryptographic credentials without a new ADR that supersedes ADR-001.
+
 ## Questions?
 
 Open an issue or contact **info@firstaimovers.com**.
