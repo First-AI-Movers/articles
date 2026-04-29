@@ -28,5 +28,13 @@ jobs:
       - name: Run pytest
         run: python3 -m pytest tools/tests -v
 
+      - name: Check changelog freshness
+        # Changelog is a manual-reviewed snapshot. It should be current before
+        # merging a PR, but after a squash merge to protected main, the new
+        # merge commit cannot be represented without opening another PR.
+        # This check enforces freshness on PRs only, keeping main-push green.
+        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+        run: python3 tools/build_changelog.py --check
+
       - name: Check for duplicate article titles
         run: python3 tools/check_duplicate_titles.py
