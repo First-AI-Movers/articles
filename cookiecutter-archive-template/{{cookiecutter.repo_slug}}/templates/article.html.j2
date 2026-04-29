@@ -1,0 +1,20 @@
+{% extends "base.html.j2" %}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+{% block canonical %}<link rel="canonical" href="{{ canonical_url }}">{% endblock %}
+{% block title %}{{ title }} — {{ site_title }}{% endblock %}
+{% block description %}{{ summary or site_description }}{% endblock %}
+
+{% block content %}
+<article class="article-page">
+  <header class="article-header">
+    <h1>{{ title }}</h1>
+    <p class="meta">{{ published_date }} · {{ author }}</p>
+  </header>
+  <div class="article-body">
+    {{ body_html|safe }}
+  </div>
+  <footer class="article-footer">
+    <p>Originally published on <a href="{{ canonical_url }}" rel="noopener">{{ canonical_host_label }}</a></p>
+  </footer>
+</article>
+{% endblock %}

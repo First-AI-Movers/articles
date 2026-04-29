@@ -1,0 +1,97 @@
+/* {{cookiecutter.project_name}} — starter stylesheet */
+
+:root {
+  --text: #1f2328;
+  --muted: #57606a;
+  --link: #0969da;
+  --link-hover: #0550ae;
+  --surface: #ffffff;
+  --card-bg: #f6f8fa;
+  --rule: #d0d7de;
+  --accent: #cf4520;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+}
+
+html[data-theme="dark"] {
+  --text: #c9d1d9;
+  --muted: #8b949e;
+  --link: #58a6ff;
+  --link-hover: #79c0ff;
+  --surface: #0d1117;
+  --card-bg: #161b22;
+  --rule: #30363d;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--surface);
+}
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 12px;
+  z-index: 100;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0; }
+
+.site header {
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand { font-weight: 700; text-decoration: none; color: var(--text); }
+nav a { margin-right: var(--space-md); text-decoration: none; }
+
+main { padding: var(--space-lg); max-width: 720px; margin: 0 auto; }
+main.wide { max-width: 960px; }
+
+.article-page { max-width: 720px; margin: 0 auto; }
+.article-header { margin-bottom: var(--space-lg); }
+.article-header h1 { font-size: 1.8rem; margin-bottom: var(--space-sm); }
+.meta { color: var(--muted); font-size: 0.9rem; }
+
+.article-body h2 { font-size: 1.35rem; margin-top: var(--space-xl); }
+.article-body p { margin: 0.75rem 0; }
+
+.article-footer {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--rule);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.article-card {
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--rule);
+}
+.article-card h3 { margin: 0; font-size: 1.1rem; }
+.article-card h3 a { text-decoration: none; color: var(--text); }
+.article-card h3 a:hover { color: var(--link); text-decoration: underline; }
+
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: var(--space-xs) var(--space-sm);
+  cursor: pointer;
+  color: var(--text);
+}

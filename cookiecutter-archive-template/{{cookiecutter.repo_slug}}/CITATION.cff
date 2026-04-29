@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this archive in research, please cite it as below."
+type: dataset
+title: "{{cookiecutter.project_name}}"
+authors:
+  - family-names: "{{cookiecutter.author_name.split(' ')[-1]}}"
+    given-names: "{{ ' '.join(cookiecutter.author_name.split(' ')[:-1]) }}"
+    orcid: "https://orcid.org/{{cookiecutter.orcid}}"
+repository-code: "https://github.com/{{cookiecutter.publisher_name.lower().replace(' ', '-')}}/{{cookiecutter.repo_slug}}"
+url: "{{cookiecutter.site_url}}"
+license:
+  - {{cookiecutter.content_license}}
+  - {{cookiecutter.code_license}}
+date-released: "2026-01-01"
