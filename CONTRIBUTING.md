@@ -18,6 +18,7 @@ These rules must never be broken by any contribution:
 3. **Generated artifacts are never hand-edited.** `index.json`, `sitemap.xml`, `feed.xml`, `feed.json`, `llms-full.txt`, `llms-recent.txt`, and `README.md` stats patches are rebuilt by `tools/rebuild_local.py` only.
 4. **No secrets or private drafts.** Every folder under `articles/` is public. Do not commit API keys, `.env` files, or unpublished drafts.
 5. **No generated images.** The archive does not produce per-article OG images. Image plumbing exists in templates but remains empty unless canonical publishers already provide images.
+6. **DOI fields are write-once.** After `doi` is minted in `metadata.json`, do not edit it manually. If a correction is needed, issue an erratum.
 
 ## Source files vs generated artifacts
 

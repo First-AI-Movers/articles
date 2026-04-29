@@ -98,6 +98,11 @@
       "type": "integer",
       "minimum": 1,
       "description": "Position within the series. Must be present when series is set. Optional."
+    },
+    "doi": {
+      "type": "string",
+      "pattern": "^10\\.[0-9]{4,9}/.+$",
+      "description": "Optional Zenodo DOI. Write-once after minting."
     }
   },
   "additionalProperties": false

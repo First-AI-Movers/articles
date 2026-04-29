@@ -80,6 +80,24 @@ Zenodo will automatically:
 - **Zenodo archives the full repository.** Private files, `.env` files, or secrets should never be in the repo (this is already an archive invariant).
 - **Metadata updates on Zenodo** require a new release; editing the existing record does not change the archived snapshot.
 
+## Per-article DOIs (E34 infrastructure)
+
+> **Status:** Infrastructure shipped. No per-article DOIs minted yet.
+
+### Workflow
+
+1. **Sandbox first:** Always test with `--sandbox` before production.
+2. **One at a time:** Start with `--slug <slug>` before any batch.
+3. **Dry-run preview:** `python3 tools/mint_dois.py --dry-run --slug <slug>`
+4. **Reserve only:** Use `--no-publish` to reserve a DOI without making it final.
+5. **Production requires explicit approval.** The tool warns loudly before production writes.
+
+### Safety rules
+
+- DOI field is **write-once**. Do not edit `doi` in `metadata.json` after minting.
+- No bulk runs without a reviewed plan.
+- Corpus-level DOI (E23) and per-article DOIs are separate systems.
+
 ## Troubleshooting
 
 | Issue | Fix |
