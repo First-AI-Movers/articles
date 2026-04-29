@@ -1,0 +1,46 @@
+# Summary Review — Why Your Company Needs a Sovereign Media Engine — Radar
+
+Article folder: 2026-03-26-sovereign-media-engine-owned-audience-2026
+Canonical URL: https://radar.firstaimovers.com/sovereign-media-engine-owned-audience-2026
+Generated at: 2026-04-29
+Model: Kimi 2.6 editorial draft from source article text
+
+## 50-word summary
+
+This article argues that companies need a sovereign media engine to own their audience and control their reach as AI search replaces traditional discovery. It defines the engine as a system that captures expertise in owned assets, distributes across discovery surfaces, and converts attention into direct audience without platform permission.
+
+## 200-word summary
+
+This article argues that the old visibility model is weakening because search is becoming answer-oriented, social reach is rented, and AI systems are becoming discovery layers. The real problem is rented reach: depending on Google rankings, LinkedIn distribution, and platform feeds means your growth engine is partly owned by someone else.
+
+A sovereign media engine is defined as a system that captures expertise in owned assets, distributes across discovery surfaces, and converts attention into direct audience without platform permission. It is not just a newsletter, SEO, or content calendar. It is control, not isolation.
+
+The article proposes four layers: the site as knowledge base and authority layer; the direct audience layer as newsletter or subscriber list; the conversational discovery layer for AI search and answer engines; and the professional identity layer for LinkedIn, author profiles, and reputation surfaces.
+
+The framework for building one includes defining one commercial narrative, turning expertise into durable source material, building for answer engines not just click engines, converting borrowed attention into direct audience, and measuring citation recall and audience control rather than just traffic.
+
+## 500-word summary
+
+This article argues that companies need a sovereign media engine to own their audience and control their reach as AI search replaces the traditional visibility model. The old model is weakening because search is becoming conversational and answer-oriented, social reach remains rented, and AI systems from Google and OpenAI are becoming independent discovery layers.
+
+The real problem is rented reach. If a company depends too heavily on Google rankings, LinkedIn distribution, platform feeds, or third-party algorithms, its growth engine is partly owned by someone else whose rules are changing fast. Google reports that AI Overviews are used by more than a billion people across over two hundred countries and forty languages. OpenAI's ChatGPT Search provides inline citations and source links. Discovery is spreading across multiple answer interfaces.
+
+A sovereign media engine is defined as a business system that captures expertise in owned assets, distributes across discovery surfaces, and converts attention into direct audience without platform permission. The term sovereign means control, not isolation. Publishers are already prioritising their own platforms and direct-to-consumer strategies as search referrals weaken.
+
+The article proposes four layers. The site is the knowledge base and structured authority layer. The direct audience layer is the newsletter or subscriber list providing attention independent of platform feeds. The conversational discovery layer is where content becomes useful to AI search and answer engines that cite web sources. The professional identity layer is where LinkedIn, author profiles, and executive bios matter as reputation surfaces.
+
+The practical framework has five components. First, define one commercial narrative connecting buyer problem, point of view, proof, and outcome. Second, turn expertise into durable source material including pillar articles, service pages, FAQs, and explainer pieces. Third, build for answer engines by answering exact questions in plain language with evidence and scannable sections. Fourth, convert borrowed attention into direct audience through subscribers, booked calls, event signups, and branded search demand. Fifth, measure citation, recall, and audience control through branded search growth, newsletter growth, direct traffic, repeat visits, and conversion from thought leadership to business inquiry.
+
+The article warns against five mistakes: building strategy on one platform, confusing a LinkedIn post with a media system, publishing generic AI content, letting best thinking live only in social threads, and assuming websites are dead in the answer-engine era. The conclusion is that most companies do not need more content. They need a media system they actually own. The article concludes that the next phase of search and discovery will not necessarily reward the loudest brand, but the company that publishes durable thinking, structures it clearly, distributes it intelligently, turns attention into a direct audience it owns, and keeps compounding trust as discovery surfaces change.
+
+## Review status
+
+Status: approved
+Reviewer: Dr. Hernani Costa
+Reviewed at: 2026-04-29
+
+## Notes
+
+- Summaries preserve the "rented reach" thesis, the four-layer model, and the five-component framework without adding external market data.
+- References to Google and OpenAI product behaviours are attributed as they appear in the article.
+- The opinion-driven nature of the article is reflected in the summaries rather than neutralised.
