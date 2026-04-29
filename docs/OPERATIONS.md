@@ -161,6 +161,10 @@ See [`docs/ANALYTICS.md`](docs/ANALYTICS.md) for the GoatCounter setup, privacy 
 
 See [`docs/EMBEDDINGS.md`](docs/EMBEDDINGS.md) for the RAG embedding index: model choice, schema, regeneration commands, sample retrieval, and CI workflow.
 
+## PWA / Offline Reading
+
+See [`docs/PWA.md`](docs/PWA.md) for the Progressive Web App setup: manifest, service worker, offline page, cache strategy, local testing, and rollback procedure.
+
 ## Test Suite Quick Reference
 
 | Layer | Command | Count |

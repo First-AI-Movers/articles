@@ -31,6 +31,8 @@
 
 <link rel="alternate" type="application/atom+xml" title="Atom feed" href="{{ site_url }}/feed.xml">
 <link rel="alternate" type="application/json" title="JSON Feed" href="{{ site_url }}/feed.json">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#111827">
 <link rel="stylesheet" href="{{ rel_root }}style.css">
 {% block head_extra %}{% endblock %}
 <script>
@@ -104,6 +106,7 @@ window.goatcounter.path = function () {
   });
 })();
 </script>
+<script src="/pwa.js"></script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -1,0 +1,23 @@
+{
+  "name": "First AI Movers Article Archive",
+  "short_name": "FAIM Archive",
+  "description": "A searchable archive of Dr. Hernani Costa's First AI Movers articles on AI strategy, governance, and adoption for European SMEs.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

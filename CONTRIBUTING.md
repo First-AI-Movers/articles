@@ -71,6 +71,9 @@ python3 tools/check_duplicate_titles.py
 # Run browser-level E2E tests (requires built site/ and Playwright browser install)
 npm run test:e2e
 
+# Verify PWA assets are present after rebuild
+python3 -m pytest tools/tests/test_pwa.py -v
+
 # Verify git status is clean (or only shows expected generated changes)
 git status --short
 ```
