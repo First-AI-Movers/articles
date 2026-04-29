@@ -28,6 +28,7 @@
 
 ## Documentation
 
+- docs: E21 roadmap closure ([94](https://github.com/First-AI-Movers/articles/pull/94))
 - docs(roadmap): fix pre-E17 consistency notes ([73](https://github.com/First-AI-Movers/articles/pull/73))
 - docs(roadmap): mark E20b Airtable dispatch trigger complete ([72](https://github.com/First-AI-Movers/articles/pull/72))
 - docs(roadmap): mark E16 documentation pipeline complete ([70](https://github.com/First-AI-Movers/articles/pull/70))

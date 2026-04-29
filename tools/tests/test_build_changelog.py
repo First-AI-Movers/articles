@@ -70,15 +70,23 @@ class TestBuildChangelogInternal:
 
 
 class TestBuildChangelogCLI:
-    def test_check_mode_exits_zero_when_unchanged(self):
-        result = subprocess.run(
-            [sys.executable, str(BUILD_CHANGELOG), "--check"],
-            capture_output=True,
-            text=True,
-            cwd=REPO_ROOT,
-        )
-        assert result.returncode == 0
-        assert "up to date" in result.stdout
+    def test_check_mode_exits_zero_when_unchanged(self, tmp_path, monkeypatch):
+        """Verify --check passes when changelog matches generated output.
+
+        Uses a temporary file so the test is deterministic and does not fail
+        just because the real repo has a newer commit than docs/CHANGELOG.md.
+        """
+        import build_changelog
+
+        changelog_path = tmp_path / "CHANGELOG.md"
+        monkeypatch.setattr(build_changelog, "CHANGELOG_PATH", changelog_path)
+
+        # Generate the file using the same code path as --check
+        assert build_changelog.main(["--max-entries", "5"]) == 0
+        assert changelog_path.exists()
+
+        # Now --check should pass because the file matches current output
+        assert build_changelog.main(["--check", "--max-entries", "5"]) == 0
 
     def test_default_writes_file(self):
         # File already exists from generation; verify script completes
