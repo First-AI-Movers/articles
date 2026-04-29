@@ -169,6 +169,10 @@ See [`docs/PWA.md`](docs/PWA.md) for the Progressive Web App setup: manifest, se
 
 See [`docs/ARTICLE_QUALITY_CI.md`](docs/ARTICLE_QUALITY_CI.md) for the style, readability, and dead-link audit layer. Runs on every PR as a soft/non-blocking gate.
 
+## Article Series / Learning Paths
+
+See [`docs/SERIES.md`](docs/SERIES.md) for how to propose, validate, and render article series. Series require editorial approval before metadata changes.
+
 ## Test Suite Quick Reference
 
 | Layer | Command | Count |

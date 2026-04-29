@@ -27,7 +27,12 @@
   "url": "{{ canonical_url }}",
   "isBasedOn": "{{ canonical_url }}",
   "inLanguage": "en",
-  "articleSection": {{ (topics|list)|tojson }}
+  "articleSection": {{ (topics|list)|tojson }}{% if series %},
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": {{ series.title|tojson }},
+    "url": "{{ site_url }}/topics/{{ topic_slug(topics[0]) if topics else '' }}/#series-{{ series.slug }}"
+  }{% endif %}
 }
 </script>
 {% endblock %}
@@ -47,6 +52,11 @@
     <p class="archive-notice">Archive copy — <a href="{{ canonical_url }}" rel="noopener">read original at {{ canonical_host_label }}</a></p>
     <h1>{{ title }}</h1>
     <p class="meta">{{ published_date }} · {{ author }} · Published on {{ canonical_host_label }} · {{ reading_time }} min read</p>
+    {% if series %}
+    <p class="series-chip" aria-label="Series">
+      Part {{ series.order }} of {{ series.total }} in <strong>{{ series.title }}</strong>
+    </p>
+    {% endif %}
     {% if topics %}
     <div class="topics">
       {% for t in topics %}{% if t in topics_with_page %}<a href="{{ rel_root }}topics/{{ topic_slug(t) }}/">{{ t }}</a>{% else %}<span>{{ t }}</span>{% endif %}{% endfor %}
@@ -82,6 +92,17 @@
     <p class="explore-topic"><a href="{{ rel_root }}topics/{{ topic_slug(topics[0]) }}/">Explore all {{ topics[0] }} articles →</a></p>
     {% endif %}
   </section>
+  {% endif %}
+
+  {% if series %}
+  <nav class="series-nav" aria-label="Series navigation">
+    {% if series.prev %}
+    <a class="series-prev" href="{{ rel_root }}articles/{{ series.prev.slug }}/">← Previous in series: {{ series.prev.title }}</a>
+    {% endif %}
+    {% if series.next %}
+    <a class="series-next" href="{{ rel_root }}articles/{{ series.next.slug }}/">Continue reading → {{ series.next.title }}</a>
+    {% endif %}
+  </nav>
   {% endif %}
 
   <footer class="article-footer">

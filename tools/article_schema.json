@@ -87,6 +87,17 @@
       "type": "string",
       "default": "CC BY 4.0",
       "description": "Content license."
+    },
+    "series": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Series slug (kebab-case). References tools/series_registry.json. Optional."
+    },
+    "series_order": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Position within the series. Must be present when series is set. Optional."
     }
   },
   "additionalProperties": false

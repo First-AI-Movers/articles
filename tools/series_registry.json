@@ -1,0 +1,24 @@
+{
+  "series": {
+    "prompt-engineering-10-day": {
+      "title": "Prompt Engineering 10-Day Course",
+      "description": "A hands-on prompt-engineering curriculum for health & fitness AI practitioners, covering fundamentals through production guardrails.",
+      "topics": [
+        "Healthcare AI",
+        "Prompt Engineering",
+        "AI Literacy",
+        "AI Safety"
+      ]
+    },
+    "ai-model-guide-smbs-2026": {
+      "title": "The Ultimate AI Model Guide for SMBs 2026",
+      "description": "A two-part buyer's guide comparing ChatGPT, Claude, Gemini, Perplexity and beyond for small and medium businesses.",
+      "topics": [
+        "European SME AI",
+        "AI Cost Optimization",
+        "Model Selection",
+        "AI Strategy"
+      ]
+    }
+  }
+}

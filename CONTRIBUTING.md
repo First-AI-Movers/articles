@@ -141,6 +141,7 @@ Comments are powered by Giscus and stored in GitHub Discussions. Moderation (hid
 - `/.github/` — CI/CD configuration
 - `/tests-e2e/` — browser tests (visual regression baselines live here; update with `--update-snapshots` after intentional design changes)
 - `/tools/geo_audit.py` — GEO audit for AI-citation friendliness (diagnostic; does not edit articles)
+- `/tools/check_series.py` — series metadata validator (diagnostic; does not edit articles)
 - `/package.json` and `/package-lock.json`
 
 ### Branch protection expectations
