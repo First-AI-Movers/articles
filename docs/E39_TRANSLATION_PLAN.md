@@ -375,29 +375,29 @@ This preserves the corpus as a multilingual resource for LLM training.
 
 ## 11. Rollout phases
 
-### E39a — Readiness + architecture (this PR)
+### E39a — Readiness + architecture (PR #120/#121)
 
-- [ ] `docs/E39_TRANSLATION_PLAN.md` (this document)
-- [ ] `tools/translations_schema.json` — JSON schema for `translations.json`
-- [ ] `tools/check_translations.py` — sidecar validator (mirrors `check_errata.py`)
-- [ ] `tools/tests/test_translations.py` — validator tests
-- [ ] `tools/translation_glossary.json` — initial glossary
-- [ ] Update `ROADMAP.md` with E39a/E39b/E39c breakdown
-- [ ] No translated files, no template changes, no build changes yet
+- [x] `docs/E39_TRANSLATION_PLAN.md` (this document)
+- [x] `tools/translations_schema.json` — JSON schema for `translations.json`
+- [x] `tools/check_translations.py` — sidecar validator (mirrors `check_errata.py`)
+- [x] `tools/tests/test_translate_articles.py` + `test_multilingual_pages.py` — 39 tests total
+- [x] `tools/translation_glossary.json` — initial glossary
+- [x] Update `ROADMAP.md` with E39a/E39b/E39c breakdown
+- [x] Build changes shipped in E39b (E39a + E39b merged into one delivery stream)
 
-### E39b — Pilot (1 article × 5 languages)
+### E39b — Pilot (1 article × 5 languages) ✅ Done in PR #123
 
-- [ ] Pick 1 pilot article from top-5 candidate list
-- [ ] Implement `tools/translate_articles.py` scaffold
-- [ ] Generate review files with mock provider
-- [ ] Human review in all 5 languages
-- [ ] `--apply-approved` to create `article.{es,fr,de,nl,pt}.md`
-- [ ] Build integration: render translated pages, hreflang, `inLanguage`
-- [ ] Tests: `test_translate_articles.py`, `test_multilingual_pages.py`
-- [ ] Validate with full test suite + e2e
-- [ ] PR review and merge
+- [x] Pick 1 pilot article from top-5 candidate list
+- [x] Implement `tools/translate_articles.py` scaffold
+- [x] Generate review files with mock provider
+- [x] Human review in all 5 languages
+- [x] `--apply-approved` to create `article.{es,fr,de,nl,pt}.md`
+- [x] Build integration: render translated pages, hreflang, `inLanguage`
+- [x] Tests: `test_translate_articles.py` (27), `test_multilingual_pages.py` (12)
+- [x] Validate with full test suite + e2e
+- [x] PR review and merge
 
-### E39c — Top-20 rollout
+### E39c — Top-20 rollout (pending)
 
 - [ ] Wait for GoatCounter 30-day data OR proceed with citation-graph fallback
 - [ ] Batch translations per month to stay inside DeepL Free 500K chars
