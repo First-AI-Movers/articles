@@ -4,6 +4,8 @@
 {% block title %}{{ title }} — First AI Movers Archive{% endblock %}
 {% block description %}{{ summary or site_description }}{% endblock %}
 {% block og_type %}article{% endblock %}
+{% block og_image %}{% if og_config and og_config.enabled %}{% set og_params = {"title": title, "topic": topics[0] if topics else None, "date": published_date, "author": author} %}<meta property="og:image" content="{{ og_config.base_url }}/article/{{ folder }}.png?v={{ og_config.version }}&{{ og_params|urlencode }}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">{% endif %}{% endblock %}
+{% block twitter_card %}{% if og_config and og_config.enabled %}summary_large_image{% else %}summary{% endif %}{% endblock %}
 {% block head_extra %}
 <script type="application/ld+json">
 {

@@ -25,7 +25,7 @@
 
 {% block og_image %}{% endblock %}
 
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="{% block twitter_card %}summary{% endblock %}">
 <meta name="twitter:title" content="{% block tw_title %}{{ self.title() }}{% endblock %}">
 <meta name="twitter:description" content="{% block tw_description %}{{ self.description() }}{% endblock %}">
 
