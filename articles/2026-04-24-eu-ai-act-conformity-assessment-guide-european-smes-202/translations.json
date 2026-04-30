@@ -1,0 +1,42 @@
+{
+  "es": {
+    "status": "published",
+    "title": "Evaluación de conformidad con el Reglamento de Inteligencia Artificial de la UE: Guía práctica para las PYME europeas",
+    "reviewed_at": "2026-04-30",
+    "reviewer": "Dr. Hernani Costa",
+    "model": "deepl",
+    "source_chars": 13434
+  },
+  "fr": {
+    "status": "published",
+    "title": "Évaluation de conformité au Règlement européen sur l'intelligence artificielle : Guide pratique pour les PME européennes",
+    "reviewed_at": "2026-04-30",
+    "reviewer": "Dr. Hernani Costa",
+    "model": "deepl",
+    "source_chars": 13434
+  },
+  "de": {
+    "status": "published",
+    "title": "Konformitätsbewertung nach der EU-KI-Verordnung: Ein praktischer Leitfaden für europäische KMU",
+    "reviewed_at": "2026-04-30",
+    "reviewer": "Dr. Hernani Costa",
+    "model": "deepl",
+    "source_chars": 13434
+  },
+  "nl": {
+    "status": "published",
+    "title": "Conformiteitsbeoordeling onder de EU AI-verordening: Een praktische gids voor Europese kmo's",
+    "reviewed_at": "2026-04-30",
+    "reviewer": "Dr. Hernani Costa",
+    "model": "deepl",
+    "source_chars": 13434
+  },
+  "pt": {
+    "status": "published",
+    "title": "Avaliação de conformidade com o Regulamento Europeu da Inteligência Artificial: Um guia prático para as PME europeias",
+    "reviewed_at": "2026-04-30",
+    "reviewer": "Dr. Hernani Costa",
+    "model": "deepl",
+    "source_chars": 13434
+  }
+}

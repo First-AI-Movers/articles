@@ -113,6 +113,21 @@ def build_index():
             entry["summary_medium"] = meta["summary_medium"]
         if meta.get("summary_long") is not None:
             entry["summary_long"] = meta["summary_long"]
+        # Translation sidecar: only published translations are included
+        translations_path = ARTICLES_DIR / folder / "translations.json"
+        if translations_path.exists():
+            try:
+                tdata = json.loads(translations_path.read_text(encoding="utf-8"), strict=False)
+                published = {}
+                for lang_code, tentry in tdata.items():
+                    if isinstance(tentry, dict) and tentry.get("status") == "published":
+                        published[lang_code] = {
+                            "title": tentry.get("title", ""),
+                        }
+                if published:
+                    entry["translations"] = published
+            except (json.JSONDecodeError, OSError):
+                pass
         articles.append(entry)
     articles.sort(key=lambda a: a.get("published_date", ""), reverse=True)
 
@@ -821,7 +836,7 @@ def _citation_context_for_article(folder, graph):
     template rendering. Caps at 10 each with a flag indicating truncation.
     """
     if not graph:
-        return [], []
+        return {"outgoing": [], "outgoing_truncated": False, "incoming": [], "incoming_truncated": False}
     node_map = {n["folder"]: n for n in graph.get("nodes", []) if n.get("folder")}
     MAX_CITATIONS = 10
 
@@ -1461,8 +1476,10 @@ def build_site(index):
         series_ctx = _series_context_for_article(a, series_registry, articles)
         errata_entries = _parse_errata_for_article(a.get("folder", ""))
         citation_ctx = _citation_context_for_article(a.get("folder", ""), citation_graph)
+        slug = a.get("slug", a.get("folder", ""))
         _render("article.html.j2", output_relpath,
                 title=a["title"],
+                slug=slug,
                 published_date=a["published_date"],
                 author=a.get("author", "Dr. Hernani Costa"),
                 canonical_url=a["canonical_url"],
@@ -1485,8 +1502,50 @@ def build_site(index):
                 doi=a.get("doi"),
                 citation_apa=a.get("citation_apa", ""),
                 citation_bibtex=a.get("citation_bibtex", ""),
-                citation_csl_json=a.get("citation_csl_json", ""))
+                citation_csl_json=a.get("citation_csl_json", ""),
+                translations=a.get("translations"))
         article_pages += 1
+
+        # Render published translations
+        for lang_code, tinfo in (a.get("translations") or {}).items():
+            tmd_path = ARTICLES_DIR / a.get("folder", "") / f"article.{lang_code}.md"
+            if not tmd_path.exists():
+                print(f"[site] warning: missing {tmd_path.name} for {a.get('folder')}; skipping {lang_code} page", file=sys.stderr)
+                continue
+            tmd_text = tmd_path.read_text(encoding="utf-8", errors="replace")
+            tbody_html = _render_markdown(tmd_text)
+            tbody_html, ttoc_headings = _inject_heading_ids(tbody_html)
+            treading_time = _reading_time(tmd_text)
+            toutput_relpath = f"{lang_code}/articles/{slug}/index.html"
+            _render("article.html.j2", toutput_relpath,
+                    title=tinfo.get("title", a["title"]),
+                    slug=slug,
+                    lang=lang_code,
+                    published_date=a["published_date"],
+                    author=a.get("author", "Dr. Hernani Costa"),
+                    canonical_url=a["canonical_url"],
+                    canonical_host_label=a["canonical_host_label"],
+                    topics=a.get("topics", []),
+                    summary=a.get("summary", ""),
+                    summary_short=a.get("summary_short", ""),
+                    body_html=tbody_html,
+                    license=a.get("license", "CC BY 4.0"),
+                    folder=a.get("folder", ""),
+                    reading_time=treading_time,
+                    toc_headings=ttoc_headings,
+                    related_articles=related,
+                    series=series_ctx,
+                    errata_entries=errata_entries,
+                    outgoing_citations=citation_ctx.get("outgoing", []),
+                    outgoing_citations_truncated=citation_ctx.get("outgoing_truncated", False),
+                    incoming_citations=citation_ctx.get("incoming", []),
+                    incoming_citations_truncated=citation_ctx.get("incoming_truncated", False),
+                    doi=a.get("doi"),
+                    citation_apa=a.get("citation_apa", ""),
+                    citation_bibtex=a.get("citation_bibtex", ""),
+                    citation_csl_json=a.get("citation_csl_json", ""),
+                    translations=a.get("translations"))
+            article_pages += 1
 
     # 404
     _render("404.html.j2", "404.html")

@@ -23,6 +23,29 @@ After Gate 1 approval, run DeepL to generate real draft review files. Abort if q
 
 After human review and `--apply-approved`, verify translated pages render correctly before opening PR.
 
+**Status:** Completed for pilot article `eu-ai-act-conformity-assessment-guide-european-smes-2026` in 5 languages (es, fr, de, nl, pt).
+
+### Pilot generated files
+
+```
+articles/2026-04-24-eu-ai-act-conformity-assessment-guide-european-smes-202/
+  article.md              # original English (immutable)
+  article.es.md           # Spanish translation
+  article.fr.md           # French translation
+  article.de.md           # German translation
+  article.nl.md           # Dutch translation
+  article.pt.md           # Portuguese translation
+  translations.json       # sidecar with published status
+```
+
+### Translated page routes
+
+- `/es/articles/eu-ai-act-conformity-assessment-guide-european-smes-2026/`
+- `/fr/articles/eu-ai-act-conformity-assessment-guide-european-smes-2026/`
+- `/de/articles/eu-ai-act-conformity-assessment-guide-european-smes-2026/`
+- `/nl/articles/eu-ai-act-conformity-assessment-guide-european-smes-2026/`
+- `/pt/articles/eu-ai-act-conformity-assessment-guide-european-smes-2026/`
+
 ## Supported languages
 
 - `es` — Spanish
@@ -134,7 +157,22 @@ Run these before any translation PR:
 python3 tools/check_translations.py
 python3 -m pytest tools/tests/test_translate_articles.py -v
 python3 -m pytest tools/tests/test_check_translations.py -v
+python3 -m pytest tools/tests/test_multilingual_pages.py -v
 ```
+
+## Rollback
+
+To remove a published translation from the build without deleting review files:
+
+1. Edit `articles/<folder>/translations.json` and change the language `status` from `"published"` to `"draft"`.
+2. Run `python3 tools/rebuild_local.py` to regenerate the site.
+3. The translated HTML pages will no longer be rendered, but `article.<lang>.md` and review files remain for future re-approval.
+
+To fully remove a translation:
+
+1. Delete `article.<lang>.md`.
+2. Remove the language entry from `translations.json`.
+3. Rebuild the site.
 
 ## Troubleshooting
 
