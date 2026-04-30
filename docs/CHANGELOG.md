@@ -5,6 +5,7 @@
 
 ## Features
 
+- feat(translations): add review-gated translation tooling ([121](https://github.com/First-AI-Movers/articles/pull/121))
 - feat(og): add custom OG image renderer ([118](https://github.com/First-AI-Movers/articles/pull/118))
 - feat(summaries): add reviewed summary pilot ([116](https://github.com/First-AI-Movers/articles/pull/116))
 - feat(citation): add article citation graph ([109](https://github.com/First-AI-Movers/articles/pull/109))
@@ -23,6 +24,7 @@
 
 ## Documentation
 
+- docs(translations): plan multilingual article variants ([120](https://github.com/First-AI-Movers/articles/pull/120))
 - docs(roadmap): mark E38 OG renderer complete ([119](https://github.com/First-AI-Movers/articles/pull/119))
 - docs(roadmap): mark E35b summary pilot complete ([117](https://github.com/First-AI-Movers/articles/pull/117))
 - docs(roadmap): mark E36 citation graph complete ([110](https://github.com/First-AI-Movers/articles/pull/110))
@@ -42,7 +44,6 @@
 - docs(roadmap): add Phase 8 — Reach, permanence, and AI-native distribution (E21-E33) ([35](https://github.com/First-AI-Movers/articles/pull/35))
 - docs(roadmap): add E20a/E20b — self-hosted Airtable ingestion ([34](https://github.com/First-AI-Movers/articles/pull/34))
 - docs(roadmap): add Phase 7 — Professionalization (E14-E19) ([31](https://github.com/First-AI-Movers/articles/pull/31))
-- docs(roadmap): mark E11 done, add PR #27, update test count to 206, set E10 next ([28](https://github.com/First-AI-Movers/articles/pull/28))
 
 ## Tests
 
@@ -66,4 +67,3 @@
 - E29 — AI-training clarity manifest ([83](https://github.com/First-AI-Movers/articles/pull/83))
 - PR A: sitemap cleanup — remove cross-host canonicals and data files ([32](https://github.com/First-AI-Movers/articles/pull/32))
 - E10 follow-up: mark E10 done in ROADMAP.md, list PR #29, update test count to 222 ([30](https://github.com/First-AI-Movers/articles/pull/30))
-- E10: client-side search ([29](https://github.com/First-AI-Movers/articles/pull/29))
