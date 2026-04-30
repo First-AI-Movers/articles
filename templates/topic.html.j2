@@ -2,6 +2,8 @@
 {% block title %}{{ topic }} Articles — First AI Movers Archive{% endblock %}
 {% block description %}{% if topic_intro and topic_intro.lede %}{{ topic_intro.lede }}{% else %}{{ articles|length }} original articles on {{ topic }} by Dr. Hernani Costa, PhD. Practitioner analysis and strategic frameworks for European SMEs, published via First AI Movers.{% endif %}{% endblock %}
 {% block og_type %}website{% endblock %}
+{% block og_image %}{% if og_config and og_config.enabled %}{% set topic_slug_val = topic_slug(topic) %}{% set og_params = {"title": topic} %}<meta property="og:image" content="{{ og_config.base_url }}/topic/{{ topic_slug_val }}.png?v={{ og_config.version }}&{{ og_params|urlencode }}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">{% endif %}{% endblock %}
+{% block twitter_card %}{% if og_config and og_config.enabled %}summary_large_image{% else %}summary{% endif %}{% endblock %}
 {% block head_extra %}
 <meta name="article:author" content="https://drhernanicosta.com">
 <meta name="article:published_time" content="{{ articles[-1].published_date }}T00:00:00Z">

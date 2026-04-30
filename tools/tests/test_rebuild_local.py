@@ -506,10 +506,12 @@ class TestDarkMode:
 
         index = {"articles": []}
         monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "OG_CONFIG_PATH", tmp_path / "tools" / "og_config.json")
         monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
         monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
         monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
         monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        monkeypatch.setattr(m, "MIN_ARTICLES_FOR_TOPIC_PAGE", 1)
         m.build_site(index)
         return tmp_path / "site"
 
@@ -1057,3 +1059,154 @@ class TestAskPage:
         home = (site / "index.html").read_text(encoding="utf-8")
         assert 'href="ask/"' in home or 'href="./ask/"' in home or 'href="/ask/"' in home
 
+
+
+# =========================================================================
+# Tests: OG image integration (E38)
+# =========================================================================
+
+
+class TestOgImages:
+    """OG image generation integration: disabled by default, URL construction, twitter:card toggle."""
+
+    def _mod(self):
+        pytest.importorskip("jinja2")
+        pytest.importorskip("markdown")
+        import rebuild_local
+        return rebuild_local
+
+    def _run(self, monkeypatch, tmp_path, index, og_config=None):
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        (tmp_path / "tools").mkdir(exist_ok=True)
+        import shutil
+        from pathlib import Path as P
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+
+        # Write OG config if provided
+        if og_config is not None:
+            (tmp_path / "tools" / "og_config.json").write_text(
+                json.dumps(og_config), encoding="utf-8")
+
+        for a in index.get("articles", []):
+            folder = a.get("folder", "")
+            if folder:
+                (tmp_path / "articles" / folder).mkdir(exist_ok=True)
+                (tmp_path / "articles" / folder / "article.md").write_text(
+                    f"---\ntitle: {a.get('title', 'T')}\n---\n# {a.get('title', 'T')}\n\nBody.\n")
+
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "OG_CONFIG_PATH", tmp_path / "tools" / "og_config.json")
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        monkeypatch.setattr(m, "MIN_ARTICLES_FOR_TOPIC_PAGE", 1)
+        m.build_site(index)
+        return tmp_path / "site"
+
+    def _synthetic_index(self):
+        return {
+            "articles": [{
+                "folder": "2026-04-20-test-article",
+                "slug": "test-article",
+                "title": "Test Article Title",
+                "published_date": "2026-04-20",
+                "tags": [],
+                "topics": ["AI Strategy"],
+                "funnel_stage": "middle",
+                "canonical_url": "https://example.com/test",
+                "canonical_host": "example.com",
+                "canonical_host_label": "Example",
+                "author": "Dr. Hernani Costa",
+                "summary": "A test summary.",
+            }],
+            "topics": ["AI Strategy"],
+        }
+
+    def test_no_og_image_when_disabled(self, monkeypatch, tmp_path):
+        index = self._synthetic_index()
+        site = self._run(monkeypatch, tmp_path, index)
+        article_html = (site / "articles" / "test-article" / "index.html").read_text(encoding="utf-8")
+        assert 'property="og:image"' not in article_html
+        assert 'name="twitter:image"' not in article_html
+        assert 'content="summary"' in article_html
+        assert 'content="summary_large_image"' not in article_html
+
+    def test_og_image_present_when_enabled(self, monkeypatch, tmp_path):
+        index = self._synthetic_index()
+        og_config = {"enabled": True, "base_url": "https://og.example.com", "version": "v1"}
+        site = self._run(monkeypatch, tmp_path, index, og_config)
+        article_html = (site / "articles" / "test-article" / "index.html").read_text(encoding="utf-8")
+        assert 'property="og:image"' in article_html
+        assert 'og.example.com/article/2026-04-20-test-article.png?v=v1' in article_html
+        assert 'property="og:image:width"' in article_html
+        assert 'property="og:image:height"' in article_html
+
+    def test_twitter_card_large_when_enabled(self, monkeypatch, tmp_path):
+        index = self._synthetic_index()
+        og_config = {"enabled": True, "base_url": "https://og.example.com", "version": "v1"}
+        site = self._run(monkeypatch, tmp_path, index, og_config)
+        article_html = (site / "articles" / "test-article" / "index.html").read_text(encoding="utf-8")
+        assert 'content="summary_large_image"' in article_html
+        assert 'content="summary"' not in article_html
+
+    def test_og_image_url_includes_params(self, monkeypatch, tmp_path):
+        index = self._synthetic_index()
+        og_config = {"enabled": True, "base_url": "https://og.example.com", "version": "v1"}
+        site = self._run(monkeypatch, tmp_path, index, og_config)
+        article_html = (site / "articles" / "test-article" / "index.html").read_text(encoding="utf-8")
+        assert 'title=Test+Article+Title' in article_html
+        assert 'topic=AI+Strategy' in article_html
+        assert 'date=2026-04-20' in article_html
+        assert 'author=Dr.+Hernani+Costa' in article_html
+
+    def test_topic_og_image_when_enabled(self, monkeypatch, tmp_path):
+        index = self._synthetic_index()
+        og_config = {"enabled": True, "base_url": "https://og.example.com", "version": "v1"}
+        site = self._run(monkeypatch, tmp_path, index, og_config)
+        topic_html = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'property="og:image"' in topic_html
+        assert 'og.example.com/topic/ai-strategy.png?v=v1' in topic_html
+        assert 'title=AI+Strategy' in topic_html
+
+    def test_no_og_image_topic_when_disabled(self, monkeypatch, tmp_path):
+        index = self._synthetic_index()
+        site = self._run(monkeypatch, tmp_path, index)
+        topic_html = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'property="og:image"' not in topic_html
+        assert 'content="summary"' in topic_html
+
+    def test_malformed_og_config_degrades_gracefully(self, monkeypatch, tmp_path):
+        index = self._synthetic_index()
+        m = self._mod()
+        (tmp_path / "articles").mkdir(exist_ok=True)
+        (tmp_path / "templates").mkdir(exist_ok=True)
+        (tmp_path / "static").mkdir(exist_ok=True)
+        (tmp_path / "tools").mkdir(exist_ok=True)
+        (tmp_path / "tools" / "og_config.json").write_text("not json", encoding="utf-8")
+        (tmp_path / "articles" / "2026-04-20-test-article").mkdir(exist_ok=True)
+        (tmp_path / "articles" / "2026-04-20-test-article" / "article.md").write_text(
+            "---\ntitle: Test Article Title\n---\n# Test Article Title\n\nBody.\n")
+        import shutil
+        from pathlib import Path as P
+        real_root = P(__file__).resolve().parents[2]
+        shutil.copytree(real_root / "templates", tmp_path / "templates", dirs_exist_ok=True)
+        shutil.copytree(real_root / "static", tmp_path / "static", dirs_exist_ok=True)
+        shutil.copy(real_root / "hernanicosta.json", tmp_path / "hernanicosta.json")
+        monkeypatch.setattr(m, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(m, "OG_CONFIG_PATH", tmp_path / "tools" / "og_config.json")
+        monkeypatch.setattr(m, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(m, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(m, "TEMPLATE_DIR", tmp_path / "templates")
+        monkeypatch.setattr(m, "STATIC_DIR", tmp_path / "static")
+        # Should not raise
+        m.build_site(index)
+        site = tmp_path / "site"
+        article_html = (site / "articles" / "test-article" / "index.html").read_text(encoding="utf-8")
+        assert 'property="og:image"' not in article_html

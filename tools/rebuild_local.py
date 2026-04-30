@@ -702,6 +702,7 @@ TEMPLATE_DIR = REPO_ROOT / "templates"
 STATIC_DIR = REPO_ROOT / "static"
 TOPIC_INTROS_PATH = REPO_ROOT / "tools" / "topic_intros.json"
 COMMENTS_CONFIG_PATH = REPO_ROOT / "tools" / "comments_config.json"
+OG_CONFIG_PATH = REPO_ROOT / "tools" / "og_config.json"
 CITATION_GRAPH_PATH = REPO_ROOT / "citation_graph.json"
 MIN_ARTICLES_FOR_TOPIC_PAGE = 5
 HOME_LATEST_COUNT = 20
@@ -742,6 +743,23 @@ def _load_comments_config():
     except json.JSONDecodeError as e:
         print(f"[site] warning: {COMMENTS_CONFIG_PATH.name} malformed ({e}); "
               "comments disabled", file=sys.stderr)
+        return {"enabled": False}
+    return data
+
+
+def _load_og_config():
+    """Load OG image integration config.
+
+    Returns the config dict. Missing or malformed file degrades gracefully
+    — OG images are disabled and the site build does not break.
+    """
+    if not OG_CONFIG_PATH.exists():
+        return {"enabled": False}
+    try:
+        data = json.loads(OG_CONFIG_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"[site] warning: {OG_CONFIG_PATH.name} malformed ({e}); "
+              "OG images disabled", file=sys.stderr)
         return {"enabled": False}
     return data
 
@@ -1303,6 +1321,9 @@ def build_site(index):
 
     env.filters["markdown"] = _markdown_filter
 
+    from urllib.parse import urlencode
+    env.filters["urlencode"] = lambda d: urlencode({k: v for k, v in d.items() if v is not None and v != ""})
+
     articles_raw = index["articles"]
     articles = _enrich_articles(articles_raw)
     stats = compute_stats(index)
@@ -1319,6 +1340,7 @@ def build_site(index):
     topics_with_page = {t for t, c in topic_counts.items() if c >= MIN_ARTICLES_FOR_TOPIC_PAGE}
     topic_intros = _load_topic_intros()
     comments_config = _load_comments_config()
+    og_config = _load_og_config()
     series_registry = _load_series_registry()
     citation_graph = _load_citation_graph()
 
@@ -1350,6 +1372,7 @@ def build_site(index):
         "topic_slug": topic_slug,
         "min_articles_for_page": MIN_ARTICLES_FOR_TOPIC_PAGE,
         "comments_config": comments_config,
+        "og_config": og_config,
     }
 
     # Atomic build: render to a staging dir next to SITE_DIR, swap into place
