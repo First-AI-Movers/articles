@@ -5,6 +5,7 @@
 
 ## Features
 
+- feat(og): add custom OG image renderer ([118](https://github.com/First-AI-Movers/articles/pull/118))
 - feat(summaries): add reviewed summary pilot ([116](https://github.com/First-AI-Movers/articles/pull/116))
 - feat(citation): add article citation graph ([109](https://github.com/First-AI-Movers/articles/pull/109))
 - feat(rag): add article embedding index (E22) ([91](https://github.com/First-AI-Movers/articles/pull/91))
@@ -23,6 +24,7 @@
 
 ## Documentation
 
+- docs(roadmap): mark E35b summary pilot complete ([117](https://github.com/First-AI-Movers/articles/pull/117))
 - docs(roadmap): mark E36 citation graph complete ([110](https://github.com/First-AI-Movers/articles/pull/110))
 - docs: E40 multi-property pattern — close epic ([108](https://github.com/First-AI-Movers/articles/pull/108))
 - docs(roadmap): mark E37 errata protocol as done ([106](https://github.com/First-AI-Movers/articles/pull/106))
@@ -41,8 +43,6 @@
 - docs(roadmap): add E20a/E20b — self-hosted Airtable ingestion ([34](https://github.com/First-AI-Movers/articles/pull/34))
 - docs(roadmap): add Phase 7 — Professionalization (E14-E19) ([31](https://github.com/First-AI-Movers/articles/pull/31))
 - docs(roadmap): mark E11 done, add PR #27, update test count to 206, set E10 next ([28](https://github.com/First-AI-Movers/articles/pull/28))
-- docs(roadmap): mark E9 done, add PR #25, set E10/E11 next ([26](https://github.com/First-AI-Movers/articles/pull/26))
-- docs(repo): add contribution security and PR workflow guidance ([25](https://github.com/First-AI-Movers/articles/pull/25))
 
 ## Tests
 
