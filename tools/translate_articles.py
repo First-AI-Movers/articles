@@ -17,7 +17,10 @@ import os
 import re
 import sys
 from datetime import date
+import time
 from pathlib import Path
+
+import requests
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = REPO_ROOT / "articles"
@@ -60,6 +63,10 @@ def _build_argparser():
                         help="Output directory for review files.")
     parser.add_argument("--glossary", type=str, default=str(GLOSSARY_PATH),
                         help="Path to glossary JSON.")
+    parser.add_argument("--quota-safety-margin", type=int, default=5000,
+                        help="Safety margin in chars before refusing translation (default: 5000).")
+    parser.add_argument("--ignore-quota-safety-margin", action="store_true",
+                        help="Ignore the safety margin (hard quota limit still enforced).")
     return parser
 
 
@@ -154,13 +161,275 @@ def _provider_manual(article_text, lang, model=None):
     sys.exit(1)
 
 
+# ---------------------------------------------------------------------------
+# DeepL quota and usage helpers
+# ---------------------------------------------------------------------------
+def fetch_deepl_usage(api_key: str, api_base: str) -> dict:
+    """Call DeepL /v2/usage and return {character_count, character_limit}."""
+    url = f"{api_base}/usage"
+    headers = {"Authorization": f"DeepL-Auth-Key {api_key}"}
+    try:
+        resp = requests.get(url, headers=headers, timeout=30)
+    except requests.RequestException as e:
+        print(f"[translate] ERROR: Failed to fetch DeepL usage: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    if resp.status_code != 200:
+        print(f"[translate] ERROR: DeepL usage API returned {resp.status_code}", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        data = resp.json()
+    except json.JSONDecodeError as e:
+        print(f"[translate] ERROR: DeepL usage response is not valid JSON: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    return {
+        "character_count": data.get("character_count", 0),
+        "character_limit": data.get("character_limit", 0),
+    }
+
+
+def _check_deepl_quota(api_key: str, projected_chars: int, safety_margin: int, ignore_margin: bool) -> dict:
+    """Fetch usage and abort if remaining quota is insufficient.
+
+    Returns usage dict if sufficient. Exits with message if not.
+    """
+    usage = fetch_deepl_usage(api_key, DEEPL_API_BASE)
+    limit = usage["character_limit"]
+    used = usage["character_count"]
+    remaining = limit - used
+    effective_margin = 0 if ignore_margin else safety_margin
+    required = projected_chars + effective_margin
+
+    if remaining < required:
+        print(
+            f"[translate] ERROR: Insufficient DeepL quota: "
+            f"projected {projected_chars:,} chars + margin {effective_margin:,} = {required:,} chars required, "
+            f"remaining {remaining:,} chars.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    return usage
+
+
+def _chunk_text_for_deepl(text: str, max_bytes: int = None) -> list:
+    if max_bytes is None:
+        max_bytes = DEEPL_CHUNK_TARGET_BYTES
+    """Split text into chunks that stay under max_bytes when UTF-8 encoded.
+
+    Splits on paragraph boundaries (blank lines) to preserve Markdown structure.
+    Falls back to sentence boundaries if a single paragraph is too large.
+    Never splits inside code fences.
+    """
+    chunks = []
+    current_lines = []
+    current_bytes = 0
+    in_fence = False
+    fence_type = None
+
+    def _flush():
+        nonlocal current_lines, current_bytes
+        if current_lines:
+            chunks.append("\n".join(current_lines))
+            current_lines = []
+            current_bytes = 0
+
+    lines = text.splitlines()
+    for line in lines:
+        # Track code fences
+        fence_match = re.match(r"^(```+|~~~+)", line)
+        if fence_match:
+            if not in_fence:
+                in_fence = True
+                fence_type = fence_match.group(1)
+            elif line.startswith(fence_type):
+                in_fence = False
+                fence_type = None
+
+        line_bytes = len(line.encode("utf-8"))
+        newline_bytes = 1  # for the newline we add when joining
+
+        # If adding this line would exceed the limit, flush first
+        if not in_fence and current_bytes + line_bytes + newline_bytes > max_bytes and current_lines:
+            _flush()
+
+        current_lines.append(line)
+        current_bytes += line_bytes + newline_bytes
+
+        # If we're at a paragraph boundary and have content, consider flushing
+        if not in_fence and line.strip() == "" and current_bytes > max_bytes * 0.5:
+            _flush()
+
+    _flush()
+
+    # Safety: if any single chunk is still too large, split by sentences
+    safe_chunks = []
+    for chunk in chunks:
+        chunk_bytes = len(chunk.encode("utf-8"))
+        if chunk_bytes > max_bytes:
+            sentences = re.split(r'(?<=[.!?])\s+', chunk)
+            sub_chunk = ""
+            sub_bytes = 0
+            for sentence in sentences:
+                s_bytes = len(sentence.encode("utf-8")) + 1
+                if sub_bytes + s_bytes > max_bytes and sub_chunk:
+                    safe_chunks.append(sub_chunk.strip())
+                    sub_chunk = sentence
+                    sub_bytes = s_bytes
+                else:
+                    sub_chunk += " " + sentence if sub_chunk else sentence
+                    sub_bytes += s_bytes
+            if sub_chunk:
+                safe_chunks.append(sub_chunk.strip())
+            # If sentence splitting didn't help (no sentence delimiters), split by words
+            if len(safe_chunks) == 1 and len(safe_chunks[0].encode("utf-8")) > max_bytes:
+                words = chunk.split()
+                word_chunk = ""
+                word_bytes = 0
+                safe_chunks = []
+                for word in words:
+                    w_bytes = len(word.encode("utf-8")) + 1
+                    if word_bytes + w_bytes > max_bytes and word_chunk:
+                        safe_chunks.append(word_chunk.strip())
+                        word_chunk = word
+                        word_bytes = w_bytes
+                    else:
+                        word_chunk += " " + word if word_chunk else word
+                        word_bytes += w_bytes
+                if word_chunk:
+                    safe_chunks.append(word_chunk.strip())
+        else:
+            safe_chunks.append(chunk)
+
+    # Final safety: verify no chunk exceeds max_bytes
+    for i, chunk in enumerate(safe_chunks):
+        if len(chunk.encode("utf-8")) > DEEPL_MAX_BYTES:
+            print(
+                f"[translate] ERROR: Chunk {i} exceeds {DEEPL_MAX_BYTES} bytes even after splitting. "
+                "Text cannot be safely chunked for DeepL.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
+    return safe_chunks
+
+
+DEEPL_API_BASE = "https://api-free.deepl.com/v2"
+DEEPL_MAX_BYTES = 131_072  # 128 KiB DeepL Free request limit
+
+DEEPL_LANG_MAP = {
+    "es": "ES",
+    "fr": "FR",
+    "de": "DE",
+    "nl": "NL",
+    "pt": "PT-PT",
+}
+
+DEEPL_MAX_RETRIES = 3
+DEEPL_RETRY_BACKOFF_BASE = 1.0  # seconds
+DEEPL_CHUNK_TARGET_BYTES = 110_000  # Leave margin under 128 KiB for form encoding overhead
+
+
 def _provider_deepl(article_text, lang, model=None):
+    """Call DeepL API Free to translate article text. Uses requests.
+
+    Handles chunking, retries, and graceful error handling.
+    """
     api_key = os.environ.get("DEEPL_API_KEY", "").strip()
     if not api_key:
         print("[translate] ERROR: DEEPL_API_KEY required for deepl provider.", file=sys.stderr)
         sys.exit(1)
-    print("[translate] deepl provider is a stub. Install the deepl SDK and implement _provider_deepl.", file=sys.stderr)
-    sys.exit(1)
+
+    target_lang = DEEPL_LANG_MAP.get(lang)
+    if not target_lang:
+        print(f"[translate] ERROR: Unsupported language '{lang}' for DeepL.", file=sys.stderr)
+        sys.exit(1)
+
+    # Chunk text if needed
+    text_bytes = article_text.encode("utf-8")
+    if len(text_bytes) > DEEPL_MAX_BYTES:
+        chunks = _chunk_text_for_deepl(article_text)
+    else:
+        chunks = [article_text]
+
+    url = f"{DEEPL_API_BASE}/translate"
+    headers = {"Authorization": f"DeepL-Auth-Key {api_key}"}
+    translated_parts = []
+
+    for chunk in chunks:
+        data = {
+            "text": chunk,
+            "target_lang": target_lang,
+            "source_lang": "EN",
+            "tag_handling": "xml",
+        }
+
+        last_error = None
+        for attempt in range(DEEPL_MAX_RETRIES + 1):
+            try:
+                resp = requests.post(url, headers=headers, data=data, timeout=120)
+            except requests.RequestException as e:
+                last_error = f"DeepL network failure: {e}"
+                if attempt < DEEPL_MAX_RETRIES:
+                    backoff = DEEPL_RETRY_BACKOFF_BASE * (2 ** attempt)
+                    print(f"[translate] WARN: {last_error}. Retrying in {backoff}s...", file=sys.stderr)
+                    time.sleep(backoff)
+                    continue
+                print(f"[translate] ERROR: {last_error}", file=sys.stderr)
+                sys.exit(1)
+
+            if resp.status_code == 200:
+                pass  # success, handled below
+            elif resp.status_code in (401, 403):
+                print(f"[translate] ERROR: DeepL authentication failed ({resp.status_code}). Check DEEPL_API_KEY.", file=sys.stderr)
+                sys.exit(1)
+            elif resp.status_code == 456:
+                print(f"[translate] ERROR: DeepL quota exceeded ({resp.status_code}). No more characters available.", file=sys.stderr)
+                sys.exit(1)
+            elif resp.status_code == 429:
+                last_error = f"DeepL rate limit ({resp.status_code})"
+                if attempt < DEEPL_MAX_RETRIES:
+                    backoff = DEEPL_RETRY_BACKOFF_BASE * (2 ** attempt)
+                    print(f"[translate] WARN: {last_error}. Retrying in {backoff}s...", file=sys.stderr)
+                    time.sleep(backoff)
+                    continue
+                print(f"[translate] ERROR: {last_error}. Max retries exceeded.", file=sys.stderr)
+                sys.exit(1)
+            elif 500 <= resp.status_code < 600:
+                last_error = f"DeepL server error ({resp.status_code})"
+                if attempt < DEEPL_MAX_RETRIES:
+                    backoff = DEEPL_RETRY_BACKOFF_BASE * (2 ** attempt)
+                    print(f"[translate] WARN: {last_error}. Retrying in {backoff}s...", file=sys.stderr)
+                    time.sleep(backoff)
+                    continue
+                print(f"[translate] ERROR: {last_error}. Max retries exceeded.", file=sys.stderr)
+                sys.exit(1)
+            else:
+                print(f"[translate] ERROR: DeepL returned {resp.status_code}: {resp.text[:500]}", file=sys.stderr)
+                sys.exit(1)
+
+            try:
+                payload = resp.json()
+            except json.JSONDecodeError as e:
+                print(f"[translate] ERROR: DeepL response is not valid JSON: {e}", file=sys.stderr)
+                sys.exit(1)
+
+            translations = payload.get("translations", [])
+            if not translations:
+                print("[translate] ERROR: DeepL response contains no translations.", file=sys.stderr)
+                sys.exit(1)
+
+            translated_text = translations[0].get("text", "")
+            if not translated_text:
+                print("[translate] ERROR: DeepL returned empty translation.", file=sys.stderr)
+                sys.exit(1)
+
+            translated_parts.append(translated_text)
+            break  # success, move to next chunk
+
+    return "\n\n".join(translated_parts)
 
 
 PROVIDERS = {
@@ -200,7 +469,13 @@ def _write_review_file(review_path, article, body, provider, model, lang, glossa
     canonical_url = f"{SITE_BASE}/{lang}/articles/{slug}/" if slug else ""
     source_url = article.get("canonical_url", "")
     title = article.get("title", "")
-    translated_title = _extract_title_from_body(body) or f"[MOCK {lang.upper()}] {title}"
+    extracted = _extract_title_from_body(body)
+    if extracted:
+        translated_title = extracted
+    elif provider == "mock":
+        translated_title = f"[MOCK {lang.upper()}] {title}"
+    else:
+        translated_title = f"[DeepL draft — review needed] {title}"
     glossary_table = _build_glossary_table(glossary, lang)
 
     lines = [
@@ -366,14 +641,15 @@ def _cmd_generate(args, articles):
 
     # Network safety check
     if args.provider not in ("mock", "manual"):
-        if args.dry_run:
-            print(f"[translate] Dry-run with {args.provider} provider: no network calls made.")
-        elif not args.allow_network:
-            print(
-                f"[translate] ERROR: Provider '{args.provider}' requires --allow-network for live calls.",
-                file=sys.stderr,
-            )
-            sys.exit(1)
+        if not args.allow_network:
+            if args.dry_run:
+                print(f"[translate] Dry-run with {args.provider} provider: no network calls made.")
+            else:
+                print(
+                    f"[translate] ERROR: Provider '{args.provider}' requires --allow-network for live calls.",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
 
     langs = [l.strip() for l in args.lang.split(",") if l.strip()]
     for l in langs:
@@ -381,9 +657,63 @@ def _cmd_generate(args, articles):
             print(f"[translate] ERROR: Invalid language code: '{l}'", file=sys.stderr)
             sys.exit(1)
 
+    # Compute projected character budget
     total_source_chars = 0
-    processed = 0
+    for article in articles:
+        folder = article.get("folder", "")
+        body = _read_article_body(folder)
+        if body:
+            total_source_chars += _char_count(body) * len(langs)
 
+    # DeepL quota check
+    if args.provider == "deepl" and not args.dry_run:
+        api_key = os.environ.get("DEEPL_API_KEY", "").strip()
+        if not api_key:
+            print("[translate] ERROR: DEEPL_API_KEY required for deepl provider.", file=sys.stderr)
+            sys.exit(1)
+
+        if args.allow_network:
+            try:
+                usage = _check_deepl_quota(
+                    api_key,
+                    total_source_chars,
+                    args.quota_safety_margin,
+                    args.ignore_quota_safety_margin,
+                )
+                print(f"[translate] DeepL usage: {usage['character_count']:,} / {usage['character_limit']:,} chars used")
+                print(f"[translate] DeepL remaining: {usage['character_limit'] - usage['character_count']:,} chars")
+                print(f"[translate] Projected chars: {total_source_chars:,}")
+                print(f"[translate] Safety margin: {0 if args.ignore_quota_safety_margin else args.quota_safety_margin:,} chars")
+            except SystemExit:
+                raise
+    elif args.provider == "deepl" and args.dry_run:
+        print(f"[translate] Projected chars: {total_source_chars:,}")
+        print(f"[translate] Safety margin: {0 if args.ignore_quota_safety_margin else args.quota_safety_margin:,} chars")
+        if args.allow_network:
+            api_key = os.environ.get("DEEPL_API_KEY", "").strip()
+            if api_key:
+                try:
+                    usage = _check_deepl_quota(
+                        api_key,
+                        total_source_chars,
+                        args.quota_safety_margin,
+                        args.ignore_quota_safety_margin,
+                    )
+                    print(f"[translate] DeepL usage: {usage['character_count']:,} / {usage['character_limit']:,} chars used")
+                    print(f"[translate] DeepL remaining: {usage['character_limit'] - usage['character_count']:,} chars")
+                    print("[translate] Quota check: PASSED (dry-run)")
+                except SystemExit:
+                    raise
+            else:
+                print("[translate] DeepL usage check skipped (DEEPL_API_KEY not set)")
+        else:
+            print("[translate] DeepL usage check skipped (no --allow-network)")
+
+    if args.dry_run:
+        _print_budget_report(len(articles) * len(langs), total_source_chars)
+        return
+
+    processed = 0
     for article in articles:
         slug = article.get("slug", article.get("folder", ""))
         folder = article.get("folder", "")
@@ -393,24 +723,14 @@ def _cmd_generate(args, articles):
             continue
 
         source_chars = _char_count(body)
-        total_source_chars += source_chars * len(langs)
 
         for lang in langs:
-            prompt = _build_prompt(body, lang, glossary)
-
-            if args.dry_run:
-                print(f"[translate] DRY-RUN {slug} -> {lang} ({source_chars} chars)")
-                continue
-
             translated = provider_fn(body, lang=lang)
             review_path = _build_review_path(translations_dir, slug, lang)
             _write_review_file(review_path, article, translated, args.provider, None, lang, glossary, source_chars)
             processed += 1
 
-    if args.dry_run:
-        _print_budget_report(len(articles) * len(langs), total_source_chars)
-    else:
-        _print_budget_report(processed, total_source_chars)
+    _print_budget_report(processed, total_source_chars)
 
 
 def _cmd_apply(args, articles):
