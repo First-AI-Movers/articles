@@ -232,6 +232,28 @@ curl -s -X POST http://localhost:8787/api/ask \
 
 **Static page:** Generated at `/ask/` during site build. Currently `noindex` until live endpoint is deployed.
 
+## Translations
+
+See [`docs/TRANSLATIONS.md`](TRANSLATIONS.md) for the full translation workflow.
+
+**Quick commands:**
+
+```bash
+# Validate all translations.json sidecars
+python3 tools/check_translations.py
+
+# Dry-run translation preview
+python3 tools/translate_articles.py --dry-run --slug <slug> --lang es --provider mock
+
+# Generate mock review files
+python3 tools/translate_articles.py --write-review-files --slug <slug> --lang es --provider mock
+
+# Apply approved translations
+python3 tools/translate_articles.py --apply-approved --slug <slug> --lang es
+```
+
+Translations are human-reviewed and gated by `status: published` in `translations.json`. The build renders translated pages only when the sidecar declares `published`. No automated CI translation.
+
 ## Errata and corrections
 
 See [`docs/ERRATA.md`](ERRATA.md) for the full errata protocol.

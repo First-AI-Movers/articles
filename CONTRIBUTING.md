@@ -226,6 +226,17 @@ Every PR must report which proof levels were validated. Use this checklist in th
 - [ ] **URL/canonical-proven** — canonical links, sitemap, feed URLs verified.
 - [ ] **Browser/Pages-proven** — live site or browser checked (only when relevant).
 
+## Translations
+
+The archive supports human-reviewed translations via a sidecar pattern.
+
+- See [`docs/TRANSLATIONS.md`](docs/TRANSLATIONS.md) for the full workflow.
+- Translations live in `articles/<folder>/article.<lang>.md` with a `translations.json` sidecar.
+- Only `status: published` entries in `translations.json` are rendered by the build.
+- No automated CI translation. DeepL calls are human-gated only.
+- The original `article.md` and `metadata.json` are never modified by translation tooling.
+- Mock review files (`translations/reviews/<slug>.<lang>.review.md`) are workflow test fixtures, not editorial content.
+
 ## Errata and corrections
 
 The archive supports structured errata for published articles without editing the original `article.md`.
