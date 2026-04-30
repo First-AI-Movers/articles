@@ -16,7 +16,6 @@
 - feat(governance): add repo policy and external publishing path ([67](https://github.com/First-AI-Movers/articles/pull/67))
 - feat(seo): strengthen topic hub metadata and structured data ([36](https://github.com/First-AI-Movers/articles/pull/36))
 - feat(indexing): add IndexNow key and submission tooling ([33](https://github.com/First-AI-Movers/articles/pull/33))
-- feat(accessibility): add skip link, focus states, theme toggle semantics, and breadcrumb labels ([27](https://github.com/First-AI-Movers/articles/pull/27))
 
 ## Bug Fixes
 
@@ -24,6 +23,7 @@
 
 ## Documentation
 
+- docs(roadmap): mark E38 OG renderer complete ([119](https://github.com/First-AI-Movers/articles/pull/119))
 - docs(roadmap): mark E35b summary pilot complete ([117](https://github.com/First-AI-Movers/articles/pull/117))
 - docs(roadmap): mark E36 citation graph complete ([110](https://github.com/First-AI-Movers/articles/pull/110))
 - docs: E40 multi-property pattern — close epic ([108](https://github.com/First-AI-Movers/articles/pull/108))
