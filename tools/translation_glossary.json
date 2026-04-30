@@ -1,0 +1,58 @@
+{
+  "EU AI Act": {
+    "es": "Ley de IA de la UE",
+    "fr": "Loi sur l'IA de l'UE",
+    "de": "EU-KI-Verordnung",
+    "nl": "EU AI-verordening",
+    "pt": "Lei da IA da UE"
+  },
+  "GDPR": {
+    "es": "RGPD",
+    "fr": "RGPD",
+    "de": "DSGVO",
+    "nl": "AVG",
+    "pt": "RGPD"
+  },
+  "SME": {
+    "es": "PYME",
+    "fr": "PME",
+    "de": "KMU",
+    "nl": "MKB",
+    "pt": "PME"
+  },
+  "conformity assessment": {
+    "es": "evaluación de conformidad",
+    "fr": "évaluation de conformité",
+    "de": "Konformitätsbewertung",
+    "nl": "conformiteitsbeoordeling",
+    "pt": "avaliação de conformidade"
+  },
+  "high-risk AI system": {
+    "es": "sistema de IA de alto riesgo",
+    "fr": "système d'IA à haut risque",
+    "de": "Hochrisiko-KI-System",
+    "nl": "hoogrisico-AI-systeem",
+    "pt": "sistema de IA de alto risco"
+  },
+  "AI governance": {
+    "es": "gobernanza de IA",
+    "fr": "gouvernance de l'IA",
+    "de": "KI-Governance",
+    "nl": "AI-governance",
+    "pt": "governança de IA"
+  },
+  "risk management": {
+    "es": "gestión de riesgos",
+    "fr": "gestion des risques",
+    "de": "Risikomanagement",
+    "nl": "risicobeheer",
+    "pt": "gestão de riscos"
+  },
+  "data sovereignty": {
+    "es": "soberanía de datos",
+    "fr": "souveraineté des données",
+    "de": "Datensouveränität",
+    "nl": "datasoevereiniteit",
+    "pt": "soberania de dados"
+  }
+}
