@@ -523,6 +523,7 @@ def _parse_review_file(review_path):
     reviewer_re = re.compile(r"^Reviewer:\s*(.*)$", re.MULTILINE)
     reviewed_at_re = re.compile(r"^Reviewed at:\s*(.*)$", re.MULTILINE)
     title_re = re.compile(r"^-\s*\*\*Translated title:\*\*\s*(.*)$", re.MULTILINE)
+    model_re = re.compile(r"^-\s*\*\*Model:\*\*\s*(.*)$", re.MULTILINE)
 
     status = "draft"
     for line in text.splitlines():
@@ -545,6 +546,11 @@ def _parse_review_file(review_path):
     if m:
         translated_title = m.group(1).strip()
 
+    model = ""
+    m = model_re.search(text)
+    if m:
+        model = m.group(1).strip()
+
     # Extract body between "## Translated body" and "## Review status"
     body = ""
     in_body = False
@@ -564,6 +570,7 @@ def _parse_review_file(review_path):
         "reviewer": reviewer,
         "reviewed_at": reviewed_at,
         "translated_title": translated_title,
+        "model": model,
     }
 
 
@@ -765,7 +772,8 @@ def _cmd_apply(args, articles):
                 continue
 
             try:
-                _apply_review_to_article(folder, lang, review_data, "mock", source_chars)
+                provider_name = review_data.get("model", "mock") or "mock"
+                _apply_review_to_article(folder, lang, review_data, provider_name, source_chars)
                 applied += 1
             except Exception as e:
                 print(f"[translate] ERROR {slug}.{lang}: {e}", file=sys.stderr)
