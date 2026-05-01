@@ -151,9 +151,11 @@ The original `docs/E39_TRANSLATION_PLAN.md` estimated ~248,500 source chars for 
 
 ---
 
-## 6. Review-gated workflow and exact commands
+## 6. AI-QA-gated workflow and exact commands
 
-The workflow mirrors E35 (`build_summaries.py`) and E39b exactly. No automation calls DeepL without `--allow-network`. No `article.<lang>.md` is created without `--apply-approved`.
+The workflow supports two approval paths. For E39c, the default is **AI-QA approval**.
+
+No automation calls DeepL without `--allow-network`. No `article.<lang>.md` is created without `--apply-approved`.
 
 ### Step 1 — Dry-run preview (no writes, no network)
 
@@ -209,19 +211,21 @@ python3 tools/translate_articles.py \
 
 Output: `translations/reviews/<slug>.<lang>.review.md` for each language.
 
-**Do not commit review files until they have been human-reviewed.**
-
-### Step 4 — Human review
+### Step 4 — AI QA approval
 
 For each review file:
 1. Open `translations/reviews/<slug>.<lang>.review.md`.
-2. Verify the **Terminology check** table against `tools/translation_glossary.json`.
-3. Edit the translated body for tone, nuance, and brand voice.
-4. Fill in:
+2. Run automated QA checks (terminology, markdown integrity, title consistency, missing sections, obvious hallucinations).
+3. If QA passes, mark:
    - `Status: approved`
-   - `Reviewer: Dr. Hernani Costa`
-   - `Reviewed at: YYYY-MM-DD`
-5. Save the review file.
+   - `Approval method: ai_qa`
+   - `Quality checked at: YYYY-MM-DD`
+   - `Quality check model: <model-name>`
+4. Save the review file.
+
+**Human review remains available:** For any article where native-language review is desired, use `Approval method: human` and fill in `Reviewer:` and `Reviewed at:` instead.
+
+**Do not falsely claim human review.** If `Approval method: ai_qa`, do not fill in `Reviewer: Dr. Hernani Costa` unless he explicitly reviewed that specific translation.
 
 ### Step 5 — Apply approved translations
 
@@ -237,6 +241,12 @@ python3 tools/translate_articles.py \
 This creates:
 - `articles/<folder>/article.<lang>.md`
 - `articles/<folder>/translations.json` (updated with `status: published`)
+
+For AI-QA approvals, `translations.json` will include:
+- `approval_method: "ai_qa"`
+- `ai_generated: true`
+- `quality_checked_at: "YYYY-MM-DD"`
+- `quality_check_model: "<model-name>"`
 
 ### Step 6 — Validate before PR
 
@@ -254,6 +264,7 @@ Verify `site/<lang>/articles/<slug>/index.html` renders correctly with:
 - Dynamic `<html lang="...">`
 - Dynamic JSON-LD `inLanguage`
 - hreflang alternate links
+- **AI-generated translation disclosure** (only for `approval_method: ai_qa`)
 
 ### Step 7 — Open PR
 
@@ -279,7 +290,7 @@ feat(translations): publish ES/FR/DE/NL/PT for <slug>
 | hreflang cluster is technically imperfect (English = noindex, translations = index) | Certain | Low | Documented in `docs/E39_TRANSLATION_PLAN.md` Section 7 as Option B. Accepted pragmatic intermediate. Architect for Option C (full self-canonical cluster) after WordPress/Hetzner migration. | **YES** — Dr. Costa already approved Option B for pilot; re-confirm for E39c. |
 | City/location-specific articles creep into future batches | Low | Medium | Explicit exclusion rule in Section 2; re-evaluate only if GoatCounter proves demand. | No — policy gates this |
 | DeepL API rate-limit or outage during batch generation | Low | Medium | Tool has 3 retries with exponential backoff (1s, 2s, 4s). Batch can be resumed by targeting remaining slugs. | No — handled by tool |
-| Reviewer bandwidth bottleneck (5 languages × 19 articles = 95 review files) | Medium | High | Batch quarterly if needed; Spanish + Portuguese share review effort (Iberian overlap); Dutch reviewer can be external. | **YES** — confirm reviewer availability before Batch 1. |
+| AI-QA pipeline coverage (terminology, hallucinations, nuance) | Medium | High | Start with glossary + markdown integrity + title consistency + section-count checks; expand QA rules based on Batch 1 findings. | No — iterative improvement. |
 
 **Rollback per article:**
 1. Edit `articles/<folder>/translations.json` and change language `status` from `"published"` to `"draft"`.
@@ -296,7 +307,7 @@ feat(translations): publish ES/FR/DE/NL/PT for <slug>
 E39c is **complete** when all of the following are true:
 
 1. [ ] All 19 remaining articles have `article.{es,fr,de,nl,pt}.md` sidecars created via `--apply-approved`.
-2. [ ] All 95 translation entries (19 × 5) have `status: published` in their `translations.json` sidecars.
+2. [ ] All 95 translation entries (19 × 5) have `status: published` in their `translations.json` sidecars, with `approval_method: ai_qa` and `ai_generated: true`.
 3. [ ] `python3 tools/check_translations.py` returns 0 errors across all `translations.json` files.
 4. [ ] `python3 -m pytest tools/tests/test_translate_articles.py tools/tests/test_check_translations.py tools/tests/test_multilingual_pages.py -v` passes.
 5. [ ] `python3 tools/rebuild_local.py` completes without error and generates `/es/`, `/fr/`, `/de/`, `/nl/`, `/pt/` routes for all 19 articles.
@@ -312,6 +323,8 @@ E39c is **complete** when all of the following are true:
 10. [ ] No `article.md` or `metadata.json` was modified by the translation tool.
 11. [ ] `DEEPL_API_KEY` was never committed to the repo (gitleaks CI gate passes).
 12. [ ] Attribution to Dr. Hernani Costa, First AI Movers, and CC BY 4.0 is preserved on every translated page.
+14. [ ] AI-generated translation disclosure is visible on every `ai_qa` translated page.
+15. [ ] No `translations.json` falsely claims human review for AI-generated translations.
 13. [ ] `ROADMAP.md` is updated to mark E39c complete (not E39 — E39 as a whole includes potential future expansion beyond top-20).
 
 ---
@@ -321,7 +334,7 @@ E39c is **complete** when all of the following are true:
 | Decision | Blocker for | Suggested default | Consequence of delay |
 |---|---|---|---|
 | Confirm Option B canonical strategy for E39c | Batch 1 PR | **Approve** (already approved for pilot) | None — pilot already uses Option B. |
-| Confirm Dr. Hernani Costa as reviewer for all 5 languages | Batch 1 scheduling | **Approve** (pilot used same reviewer) | Delay until external reviewers are sourced. |
+| Confirm AI-QA pipeline rules and acceptable quality threshold | Batch 1 scheduling | **Approve automated QA** (glossary + markdown + title + section count) | Delay until QA rules are defined. |
 | If DeepL Free quota is exhausted mid-batch, upgrade to Pro or pause? | Batch 2/3 scheduling | **Pause** until next month | 1-month delay per batch. |
 | Should E35b articles (#2–5) be translated in E39c or deferred to a later sprint? | Batch 1 scope | **Include in E39c** (they are in the top-20 table) | If deferred, E39c becomes 15 articles, completes in 2 months. |
 | After E39c completes, should E39d expand to top-50 or stop at top-20? | Post-E39c planning | **Defer decision** | None — E39c plan is self-contained. |
@@ -339,6 +352,7 @@ E39c is **complete** when all of the following are true:
 - **No GoatCounter data invented.** VERIFIED — repo contains no traffic exports.
 - **No `ROADMAP.md` modified.** VERIFIED — E39c remains pending; plan is a separate doc.
 - **No test file added.** VERIFIED — planning docs do not have a docs-governance test pattern in this repo; only runbooks and feature docs get contract tests.
+- **No AI-generated translations were produced.** VERIFIED — this PR updates schema, tooling, templates, and docs only.
 
 ---
 

@@ -531,3 +531,96 @@ class TestDeepLQuotaGuardrails:
         captured = capsys.readouterr()
         assert "sk-12345-super-secret" not in captured.out
         assert "sk-12345-super-secret" not in captured.err
+
+
+class TestTranslateArticlesAiQa:
+    def _import_module(self):
+        import importlib.util
+        from pathlib import Path
+        path = Path(__file__).resolve().parents[1] / "translate_articles.py"
+        spec = importlib.util.spec_from_file_location("translate_articles", path)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["translate_articles"] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    def _setup_article(self, tmp_path, mod, slug="test"):
+        folder = "2026-04-01-test"
+        (tmp_path / "articles" / folder).mkdir(parents=True)
+        meta = {
+            "folder": folder,
+            "slug": slug,
+            "title": "Test Article",
+            "published_date": "2026-04-01",
+            "canonical_url": "https://example.com",
+        }
+        (tmp_path / "articles" / folder / "metadata.json").write_text(json.dumps(meta), encoding="utf-8")
+        (tmp_path / "articles" / folder / "article.md").write_text(
+            "---\ntitle: Test\n---\n\n# Test Article\n\nBody text here.\n",
+            encoding="utf-8",
+        )
+        index = {"articles": [meta]}
+        (tmp_path / "index.json").write_text(json.dumps(index), encoding="utf-8")
+        return folder, meta
+
+    def test_ai_qa_review_file_creates_ai_qa_translations_json(self, tmp_path, monkeypatch):
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+
+        folder, _ = self._setup_article(tmp_path, mod)
+
+        # Generate review file
+        mod.main(["--write-review-files", "--slug", "test", "--lang", "es", "--provider", "mock"])
+        review_path = tmp_path / "translations" / "reviews" / "test.es.review.md"
+        text = review_path.read_text(encoding="utf-8")
+        # Update to AI-QA approval
+        text = text.replace("Status: draft", "Status: approved")
+        text = text.replace("Approval method: human", "Approval method: ai_qa")
+        text = text.replace("Reviewer:", "Reviewer: AI translation QA pipeline")
+        text = text.replace("Reviewed at:", "Reviewed at: 2026-05-01")
+        text = text.replace("Quality checked at:", "Quality checked at: 2026-05-01")
+        text = text.replace("Quality check model:", "Quality check model: claude-3.5-sonnet")
+        review_path.write_text(text, encoding="utf-8")
+
+        # Apply
+        result = mod.main(["--apply-approved", "--slug", "test", "--lang", "es"])
+        assert result == 0
+        assert (tmp_path / "articles" / folder / "article.es.md").exists()
+
+        # Verify translations.json has AI-QA fields
+        tj = json.loads((tmp_path / "articles" / folder / "translations.json").read_text(encoding="utf-8"))
+        assert tj["es"]["status"] == "published"
+        assert tj["es"]["approval_method"] == "ai_qa"
+        assert tj["es"]["ai_generated"] is True
+        assert tj["es"]["quality_checked_at"] == "2026-05-01"
+        assert tj["es"]["quality_check_model"] == "claude-3.5-sonnet"
+        assert "reviewer" not in tj["es"]
+        assert "reviewed_at" not in tj["es"]
+
+    def test_human_review_still_creates_human_translations_json(self, tmp_path, monkeypatch):
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+
+        folder, _ = self._setup_article(tmp_path, mod)
+
+        mod.main(["--write-review-files", "--slug", "test", "--lang", "es", "--provider", "mock"])
+        review_path = tmp_path / "translations" / "reviews" / "test.es.review.md"
+        text = review_path.read_text(encoding="utf-8")
+        text = text.replace("Status: draft", "Status: approved")
+        text = text.replace("Reviewer:", "Reviewer: Dr. Hernani Costa")
+        text = text.replace("Reviewed at:", "Reviewed at: 2026-04-29")
+        review_path.write_text(text, encoding="utf-8")
+
+        result = mod.main(["--apply-approved", "--slug", "test", "--lang", "es"])
+        assert result == 0
+
+        tj = json.loads((tmp_path / "articles" / folder / "translations.json").read_text(encoding="utf-8"))
+        assert tj["es"]["status"] == "published"
+        assert tj["es"]["reviewer"] == "Dr. Hernani Costa"
+        assert tj["es"]["reviewed_at"] == "2026-04-29"
+        assert "approval_method" not in tj["es"]
+        assert "ai_generated" not in tj["es"]

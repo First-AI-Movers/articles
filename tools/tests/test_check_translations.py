@@ -237,3 +237,124 @@ class TestCheckTranslations:
         assert report["files_checked"] == 1
         assert report["entries"] == 2
         assert report["errors"] == 0
+
+
+class TestCheckTranslationsAiQa:
+    def test_ai_qa_published_without_human_reviewer_passes(self, tmp_path, monkeypatch):
+        import check_translations as ct
+        articles = tmp_path / "articles"
+        articles.mkdir()
+        folder = articles / "2026-04-01-test"
+        folder.mkdir()
+        folder.joinpath("translations.json").write_text(
+            json.dumps({
+                "es": {
+                    "status": "published",
+                    "title": "Título AI",
+                    "approval_method": "ai_qa",
+                    "ai_generated": True,
+                    "quality_checked_at": "2026-05-01",
+                    "quality_check_model": "claude-3.5-sonnet",
+                    "model": "deepl",
+                    "source_chars": 1000,
+                }
+            }),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(ct, "ARTICLES_DIR", articles)
+        report = ct.validate_all()
+        assert report["files_checked"] == 1
+        assert report["entries"] == 1
+        assert report["errors"] == 0
+
+    def test_ai_qa_published_without_quality_checked_at_fails(self, tmp_path, monkeypatch):
+        import check_translations as ct
+        articles = tmp_path / "articles"
+        articles.mkdir()
+        folder = articles / "2026-04-01-test"
+        folder.mkdir()
+        folder.joinpath("translations.json").write_text(
+            json.dumps({
+                "es": {
+                    "status": "published",
+                    "title": "Título AI",
+                    "approval_method": "ai_qa",
+                    "ai_generated": True,
+                    "model": "deepl",
+                }
+            }),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(ct, "ARTICLES_DIR", articles)
+        report = ct.validate_all()
+        assert report["errors"] > 0
+        assert any("quality_checked_at" in e for e in report["results"][0]["errors"])
+
+    def test_ai_qa_published_without_ai_generated_fails(self, tmp_path, monkeypatch):
+        import check_translations as ct
+        articles = tmp_path / "articles"
+        articles.mkdir()
+        folder = articles / "2026-04-01-test"
+        folder.mkdir()
+        folder.joinpath("translations.json").write_text(
+            json.dumps({
+                "es": {
+                    "status": "published",
+                    "title": "Título AI",
+                    "approval_method": "ai_qa",
+                    "quality_checked_at": "2026-05-01",
+                    "model": "deepl",
+                }
+            }),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(ct, "ARTICLES_DIR", articles)
+        report = ct.validate_all()
+        assert report["errors"] > 0
+        assert any("ai_generated" in e for e in report["results"][0]["errors"])
+
+    def test_human_published_still_requires_reviewer(self, tmp_path, monkeypatch):
+        import check_translations as ct
+        articles = tmp_path / "articles"
+        articles.mkdir()
+        folder = articles / "2026-04-01-test"
+        folder.mkdir()
+        folder.joinpath("translations.json").write_text(
+            json.dumps({
+                "es": {
+                    "status": "published",
+                    "title": "Título",
+                    "reviewed_at": "2026-04-29",
+                    # reviewer missing
+                }
+            }),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(ct, "ARTICLES_DIR", articles)
+        report = ct.validate_all()
+        assert report["errors"] > 0
+        assert any("requires 'reviewer'" in e for e in report["results"][0]["errors"])
+
+    def test_ai_qa_published_with_bad_quality_checked_at_format_fails(self, tmp_path, monkeypatch):
+        import check_translations as ct
+        articles = tmp_path / "articles"
+        articles.mkdir()
+        folder = articles / "2026-04-01-test"
+        folder.mkdir()
+        folder.joinpath("translations.json").write_text(
+            json.dumps({
+                "es": {
+                    "status": "published",
+                    "title": "Título AI",
+                    "approval_method": "ai_qa",
+                    "ai_generated": True,
+                    "quality_checked_at": "01 May 2026",
+                    "model": "deepl",
+                }
+            }),
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(ct, "ARTICLES_DIR", articles)
+        report = ct.validate_all()
+        assert report["errors"] > 0
+        assert any("YYYY-MM-DD" in e for e in report["results"][0]["errors"])

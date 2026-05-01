@@ -65,22 +65,37 @@ def validate_file(path: Path, schema: dict):
             errors.append(f"[{lang}] status must be 'draft' or 'published', got: {status}")
 
         # Check for unknown properties
-        allowed_props = {"status", "title", "reviewed_at", "reviewer", "model", "source_chars"}
+        allowed_props = {
+            "status", "title", "reviewed_at", "reviewer", "model", "source_chars",
+            "approval_method", "ai_generated", "quality_checked_at", "quality_check_model",
+        }
         for prop in entry:
             if prop not in allowed_props:
                 errors.append(f"[{lang}] Unknown property: '{prop}'")
 
-        # Published requires additional fields
+        # Published requires additional fields depending on approval method
         if status == "published":
             if not entry.get("title"):
                 errors.append(f"[{lang}] status 'published' requires 'title'")
-            if not entry.get("reviewed_at"):
-                errors.append(f"[{lang}] status 'published' requires 'reviewed_at'")
+
+            approval_method = entry.get("approval_method", "human")
+            if approval_method == "ai_qa":
+                if not entry.get("quality_checked_at"):
+                    errors.append(f"[{lang}] approval_method 'ai_qa' requires 'quality_checked_at'")
+                else:
+                    if not STATUS_RE.match(str(entry["quality_checked_at"])):
+                        errors.append(f"[{lang}] quality_checked_at must be YYYY-MM-DD, got: {entry['quality_checked_at']}")
+                if entry.get("ai_generated") is not True:
+                    errors.append(f"[{lang}] approval_method 'ai_qa' requires 'ai_generated': true")
             else:
-                if not STATUS_RE.match(str(entry["reviewed_at"])):
-                    errors.append(f"[{lang}] reviewed_at must be YYYY-MM-DD, got: {entry['reviewed_at']}")
-            if not entry.get("reviewer"):
-                errors.append(f"[{lang}] status 'published' requires 'reviewer'")
+                # human review (default)
+                if not entry.get("reviewed_at"):
+                    errors.append(f"[{lang}] status 'published' requires 'reviewed_at'")
+                else:
+                    if not STATUS_RE.match(str(entry["reviewed_at"])):
+                        errors.append(f"[{lang}] reviewed_at must be YYYY-MM-DD, got: {entry['reviewed_at']}")
+                if not entry.get("reviewer"):
+                    errors.append(f"[{lang}] status 'published' requires 'reviewer'")
 
     return data, errors
 

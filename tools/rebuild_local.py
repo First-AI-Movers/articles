@@ -123,6 +123,8 @@ def build_index():
                     if isinstance(tentry, dict) and tentry.get("status") == "published":
                         published[lang_code] = {
                             "title": tentry.get("title", ""),
+                            "approval_method": tentry.get("approval_method", "human"),
+                            "ai_generated": tentry.get("ai_generated", False),
                         }
                 if published:
                     entry["translations"] = published

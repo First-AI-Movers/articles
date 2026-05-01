@@ -14,7 +14,7 @@ E39 should ship in three phases:
 
 - **E39a (now):** Readiness + architecture. This document, plus any schema/tool stubs needed for the build pipeline. No translated files.
 - **E39b (after approval):** 1-article × 5-language pilot. Validate the full workflow end-to-end with a single high-value article.
-- **E39c (after E39b review workflow proves itself):** Top-20 rollout, batched per month to stay inside DeepL Free character limits.
+- **E39c (after E39b pilot proves the build pipeline):** Top-20 rollout, batched per month to stay inside DeepL Free character limits. Uses AI-QA approval by default; human review available per-article on request.
 
 **Why wait:**
 1. GoatCounter has only ~1 day of traffic data (E24 shipped 2026-04-28). The ROADMAP originally assumed ~30 days of data.
@@ -132,16 +132,15 @@ articles/<folder>/
 {
   "es": {
     "status": "published",
-    "reviewed_at": "2026-04-29",
-    "reviewer": "Dr. Hernani Costa",
-    "model": "deepl-free",
-    "title": "Evaluación de conformidad con la Ley de IA de la UE: Guía práctica para las PYME europeas"
+    "title": "Evaluación de conformidad con la Ley de IA de la UE: Guía práctica para las PYME europeas",
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "claude-3.5-sonnet",
+    "model": "deepl-free"
   },
   "fr": {
     "status": "draft",
-    "reviewed_at": null,
-    "reviewer": null,
-    "model": null,
     "title": null
   }
 }
@@ -151,8 +150,12 @@ articles/<folder>/
 - Top-level keys: BCP-47 language codes (`es`, `fr`, `de`, `nl`, `pt`)
 - `status`: enum `["draft", "published"]` (required)
 - `title`: string, required for `published`
-- `reviewed_at`: ISO date string, required for `published`
-- `reviewer`: string, required for `published`
+- `approval_method`: enum `["human", "ai_qa"]` (optional; defaults to `human` behavior)
+- `ai_generated`: boolean, required when `approval_method: "ai_qa"`
+- `quality_checked_at`: ISO date string, required when `approval_method: "ai_qa"`
+- `quality_check_model`: string, optional (QA model identifier)
+- `reviewed_at`: ISO date string, required for `published` when `approval_method` is absent or `"human"`
+- `reviewer`: string, required for `published` when `approval_method` is absent or `"human"`
 - `model`: string, optional (translator/model identifier)
 - Only `published` translations render in the build
 
@@ -261,7 +264,9 @@ Structure (mirrors E35 review files):
 
 **Status gate:**
 - `draft` → never renders, never included in build
-- `approved` → human edits translation, changes Status, fills Reviewer/Reviewed at, runs `--apply-approved`
+- `approved` → QA or human editor changes Status, fills Approval method and relevant fields, runs `--apply-approved`
+- `Approval method: human` → fill `Reviewer` and `Reviewed at`
+- `Approval method: ai_qa` → fill `Quality checked at` and `Quality check model`; do not falsely claim a human reviewer
 
 ### 8.3 Quality guards
 
@@ -401,8 +406,8 @@ This preserves the corpus as a multilingual resource for LLM training.
 
 - [ ] Wait for GoatCounter 30-day data OR proceed with citation-graph fallback
 - [ ] Batch translations per month to stay inside DeepL Free 500K chars
-- [ ] Human review per language (batched quarterly if needed)
-- [ ] Expand glossary based on review findings
+- [ ] AI-QA approval per language (human review available on request)
+- [ ] Expand glossary based on QA findings
 - [ ] Language-specific sitemaps (if Option C canonical strategy adopted)
 - [ ] Update `docs/TRANSLATIONS.md` runbook
 
@@ -414,7 +419,7 @@ This preserves the corpus as a multilingual resource for LLM training.
 |---|---|---|
 | **Canonical/noindex strategy** (Section 7) affects whether translations have any SEO value | Document Option B vs C clearly | **YES** — Dr. Costa must approve Option B before build changes |
 | DeepL Free 500K chars/month is tight for 20 × 5 languages | Pilot first; budget monthly; API Pro is $5.49/mo + $25/M chars if needed | No — operational decision during rollout |
-| Machine translation quality without human review damages brand | Review-gated workflow: no publish without approval | No — workflow enforces this |
+| Machine translation quality without human review damages brand | AI-QA workflow with automated terminology/markdown/section checks + visible AI-generated disclosure + English as authoritative source | No — workflow enforces this |
 | Terminology inconsistency across languages | Glossary + lint + review checklist | No — tooling enforces this |
 | GoatCounter data may never materialize for top-20 selection | Citation-graph fallback is defensible and already available | No — fallback is ready |
 | Build time increase from 911 → ~1,000+ pages | Measure during E39b pilot; optimize if needed | No — measure first |

@@ -76,6 +76,13 @@
 <article class="article-page">
   <header class="article-header">
     <p class="archive-notice">Archive copy — <a href="{{ canonical_url }}" rel="noopener">read original at {{ canonical_host_label }}</a></p>
+    {% if lang and lang != 'en' and translations and translations.get(lang) and translations[lang].get('ai_generated') %}
+    <p class="ai-translation-notice" role="note">
+      This page is an AI-generated translation of the original English article by Dr. Hernani Costa / First AI Movers.
+      The <a href="{{ canonical_url }}" rel="noopener">English version</a> is the authoritative source.
+      Translation quality is checked automatically, but nuances may differ.
+    </p>
+    {% endif %}
     <h1>{{ title }}</h1>
     <p class="meta">{{ published_date }} · {{ author }} · Published on {{ canonical_host_label }} · {{ reading_time }} min read</p>
     {% if series %}

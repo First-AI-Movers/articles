@@ -363,3 +363,100 @@ class TestMultilingualPages:
         sitemap = (tmp_path / "sitemap.xml").read_text(encoding="utf-8")
         assert "es/articles" not in sitemap
         assert "fr/articles" not in sitemap
+
+
+class TestMultilingualPagesAiQa:
+    def _import_rebuild(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("rebuild_local", REBUILD_LOCAL)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["rebuild_local"] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    def _setup_article_with_ai_qa_translation(self, tmp_path, mod, slug="test"):
+        folder = "2026-04-01-test"
+        (tmp_path / "articles" / folder).mkdir(parents=True)
+        meta = {
+            "folder": folder,
+            "slug": slug,
+            "title": "Test Article",
+            "published_date": "2026-04-01",
+            "canonical_url": "https://example.com/test",
+            "topics": ["AI Strategy"],
+        }
+        (tmp_path / "articles" / folder / "metadata.json").write_text(json.dumps(meta), encoding="utf-8")
+        (tmp_path / "articles" / folder / "article.md").write_text(
+            "---\ntitle: Test\n---\n\n# Test Article\n\nBody text here.\n",
+            encoding="utf-8",
+        )
+        (tmp_path / "articles" / folder / "article.es.md").write_text(
+            "# Artículo de prueba\n\nTexto del cuerpo.\n",
+            encoding="utf-8",
+        )
+        translations = {
+            "es": {
+                "status": "published",
+                "title": "Artículo de prueba",
+                "approval_method": "ai_qa",
+                "ai_generated": True,
+                "quality_checked_at": "2026-05-01",
+                "quality_check_model": "claude-3.5-sonnet",
+                "model": "deepl",
+                "source_chars": 100,
+            }
+        }
+        (tmp_path / "articles" / folder / "translations.json").write_text(
+            json.dumps(translations), encoding="utf-8"
+        )
+        index = {"articles": [meta]}
+        (tmp_path / "index.json").write_text(json.dumps(index), encoding="utf-8")
+        return folder, meta
+
+    def test_ai_qa_translation_shows_disclosure(self, tmp_path, monkeypatch):
+        mod = self._import_rebuild()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+
+        monkeypatch.setattr(mod, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(mod, "TEMPLATE_DIR", REPO_ROOT / "templates")
+        monkeypatch.setattr(mod, "STATIC_DIR", REPO_ROOT / "static")
+        monkeypatch.setattr(mod, "TOPIC_INTROS_PATH", tmp_path / "tools" / "topic_intros.json")
+        monkeypatch.setattr(mod, "COMMENTS_CONFIG_PATH", tmp_path / "tools" / "comments_config.json")
+        monkeypatch.setattr(mod, "OG_CONFIG_PATH", tmp_path / "tools" / "og_config.json")
+        monkeypatch.setattr(mod, "CITATION_GRAPH_PATH", tmp_path / "citation_graph.json")
+
+        self._setup_article_with_ai_qa_translation(tmp_path, mod)
+
+        idx = mod.build_index()
+        mod.build_site(idx)
+
+        es_path = tmp_path / "site" / "es" / "articles" / "test" / "index.html"
+        html = es_path.read_text(encoding="utf-8")
+        assert "AI-generated translation" in html
+        assert "authoritative source" in html
+        assert "English version" in html
+
+    def test_human_translation_does_not_show_ai_disclosure(self, tmp_path, monkeypatch):
+        mod = self._import_rebuild()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+
+        monkeypatch.setattr(mod, "SITE_DIR", tmp_path / "site")
+        monkeypatch.setattr(mod, "TEMPLATE_DIR", REPO_ROOT / "templates")
+        monkeypatch.setattr(mod, "STATIC_DIR", REPO_ROOT / "static")
+        monkeypatch.setattr(mod, "TOPIC_INTROS_PATH", tmp_path / "tools" / "topic_intros.json")
+        monkeypatch.setattr(mod, "COMMENTS_CONFIG_PATH", tmp_path / "tools" / "comments_config.json")
+        monkeypatch.setattr(mod, "OG_CONFIG_PATH", tmp_path / "tools" / "og_config.json")
+        monkeypatch.setattr(mod, "CITATION_GRAPH_PATH", tmp_path / "citation_graph.json")
+
+        # Use the existing human-reviewed setup from TestMultilingualPages
+        base = TestMultilingualPages()
+        base._setup_article_with_translation(tmp_path, mod, status="published")
+
+        idx = mod.build_index()
+        mod.build_site(idx)
+
+        es_path = tmp_path / "site" / "es" / "articles" / "test" / "index.html"
+        html = es_path.read_text(encoding="utf-8")
+        assert "AI-generated translation" not in html
