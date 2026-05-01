@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -45,20 +45,6 @@ jobs:
         env:
           INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/rebuild_local.py
-
-      - name: Commit regenerated artifacts if changed
-        run: |
-          # Only watch the derived artifacts we commit. site/ is gitignored.
-          if git status --porcelain articles/*/metadata.json index.json sitemap.xml feed.xml llms-full.txt llms-recent.txt README.md llms.txt | grep -q .; then
-            git config user.name "Index Bot"
-            git config user.email "info@firstaimovers.com"
-            git add articles/*/metadata.json
-            git add index.json sitemap.xml feed.xml llms-full.txt llms-recent.txt README.md llms.txt
-            git commit -m "Rebuild derived artifacts"
-            git push
-          else
-            echo "No derived artifacts changed."
-          fi
 
       - uses: actions/configure-pages@v4
 
