@@ -522,14 +522,14 @@ def _parse_review_file(review_path):
         return None
     text = review_path.read_text(encoding="utf-8")
 
-    status_re = re.compile(r"^Status:\s*(\S+)", re.IGNORECASE)
-    reviewer_re = re.compile(r"^Reviewer:\s*(.*)$", re.MULTILINE)
-    reviewed_at_re = re.compile(r"^Reviewed at:\s*(.*)$", re.MULTILINE)
-    title_re = re.compile(r"^-\s*\*\*Translated title:\*\*\s*(.*)$", re.MULTILINE)
-    model_re = re.compile(r"^-\s*\*\*Model:\*\*\s*(.*)$", re.MULTILINE)
-    approval_method_re = re.compile(r"^Approval method:\s*(.*)$", re.MULTILINE)
-    quality_checked_at_re = re.compile(r"^Quality checked at:\s*(.*)$", re.MULTILINE)
-    quality_check_model_re = re.compile(r"^Quality check model:\s*(.*)$", re.MULTILINE)
+    status_re = re.compile(r"^Status:[ \t]*(\S+)", re.IGNORECASE)
+    reviewer_re = re.compile(r"^Reviewer:[ \t]*([^\n]*)$", re.MULTILINE)
+    reviewed_at_re = re.compile(r"^Reviewed at:[ \t]*([^\n]*)$", re.MULTILINE)
+    title_re = re.compile(r"^-\s*\*\*Translated title:\*\*\s*([^\n]*)$", re.MULTILINE)
+    model_re = re.compile(r"^-\s*\*\*Model:\*\*\s*([^\n]*)$", re.MULTILINE)
+    approval_method_re = re.compile(r"^Approval method:[ \t]*([^\n]*)$", re.MULTILINE)
+    quality_checked_at_re = re.compile(r"^Quality checked at:[ \t]*([^\n]*)$", re.MULTILINE)
+    quality_check_model_re = re.compile(r"^Quality check model:[ \t]*([^\n]*)$", re.MULTILINE)
 
     status = "draft"
     for line in text.splitlines():

@@ -140,6 +140,24 @@ python3 tools/translate_articles.py --write-review-files --slug <slug> --lang es
 python3 tools/translate_articles.py --write-review-files --slug <slug> --lang es --provider deepl --allow-network
 ```
 
+### AI-QA check review files before apply
+
+```bash
+python3 tools/check_translation_quality.py --slug <slug> --lang es,fr,de,nl,pt
+python3 tools/check_translation_quality.py --slug <slug> --lang es,fr,de,nl,pt --strict
+```
+
+Run this **before** `--apply-approved`. It checks:
+- `Status: approved` is set
+- `Approval method: ai_qa` has `Quality checked at` (YYYY-MM-DD) and `Quality check model`
+- Translated body is present and not a placeholder
+- Code fences are balanced
+- Heading count hasn't dropped severely vs source
+- Glossary terms are present in target language
+- Source links are preserved
+
+Warnings are surfaced for human review; `--strict` treats warnings as errors.
+
 ### Apply approved translations
 
 ```bash
@@ -181,8 +199,10 @@ Run these before any translation PR:
 
 ```bash
 python3 tools/check_translations.py
+python3 tools/check_translation_quality.py --slug <slug>
 python3 -m pytest tools/tests/test_translate_articles.py -v
 python3 -m pytest tools/tests/test_check_translations.py -v
+python3 -m pytest tools/tests/test_check_translation_quality.py -v
 python3 -m pytest tools/tests/test_multilingual_pages.py -v
 ```
 
