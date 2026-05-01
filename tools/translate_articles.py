@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Generate translation review files and apply approved translations.
 
-Mirrors the E35 summaries workflow: draft review files -> human review ->
-approved -> article.<lang>.md sidecars.
+Mirrors the E35 summaries workflow: draft review files -> human review or AI QA ->
+approved -> article.<lang>.md sidecars. Supports both human-reviewed and AI-QA-approved translations.
 
 Usage:
     python3 tools/translate_articles.py --dry-run --slug XYZ --lang es --provider mock
@@ -502,8 +502,11 @@ def _write_review_file(review_path, article, body, provider, model, lang, glossa
         "## Review status",
         "",
         "Status: draft",
+        "Approval method: human",
         "Reviewer:",
         "Reviewed at:",
+        "Quality checked at:",
+        "Quality check model:",
         "",
         "## Reviewer notes",
         "",
@@ -524,6 +527,9 @@ def _parse_review_file(review_path):
     reviewed_at_re = re.compile(r"^Reviewed at:\s*(.*)$", re.MULTILINE)
     title_re = re.compile(r"^-\s*\*\*Translated title:\*\*\s*(.*)$", re.MULTILINE)
     model_re = re.compile(r"^-\s*\*\*Model:\*\*\s*(.*)$", re.MULTILINE)
+    approval_method_re = re.compile(r"^Approval method:\s*(.*)$", re.MULTILINE)
+    quality_checked_at_re = re.compile(r"^Quality checked at:\s*(.*)$", re.MULTILINE)
+    quality_check_model_re = re.compile(r"^Quality check model:\s*(.*)$", re.MULTILINE)
 
     status = "draft"
     for line in text.splitlines():
@@ -551,6 +557,21 @@ def _parse_review_file(review_path):
     if m:
         model = m.group(1).strip()
 
+    approval_method = ""
+    m = approval_method_re.search(text)
+    if m:
+        approval_method = m.group(1).strip().lower()
+
+    quality_checked_at = ""
+    m = quality_checked_at_re.search(text)
+    if m:
+        quality_checked_at = m.group(1).strip()
+
+    quality_check_model = ""
+    m = quality_check_model_re.search(text)
+    if m:
+        quality_check_model = m.group(1).strip()
+
     # Extract body between "## Translated body" and "## Review status"
     body = ""
     in_body = False
@@ -571,6 +592,9 @@ def _parse_review_file(review_path):
         "reviewed_at": reviewed_at,
         "translated_title": translated_title,
         "model": model,
+        "approval_method": approval_method,
+        "quality_checked_at": quality_checked_at,
+        "quality_check_model": quality_check_model,
     }
 
 
@@ -578,14 +602,22 @@ def _parse_review_file(review_path):
 # Translations.json sidecar
 # ---------------------------------------------------------------------------
 def _build_translations_json(review_data, provider, source_chars):
-    return {
+    entry = {
         "status": "published" if review_data["status"] == "approved" else "draft",
         "title": review_data.get("translated_title", ""),
-        "reviewed_at": review_data.get("reviewed_at", ""),
-        "reviewer": review_data.get("reviewer", ""),
         "model": provider,
         "source_chars": source_chars,
     }
+    approval_method = review_data.get("approval_method", "")
+    if approval_method == "ai_qa":
+        entry["approval_method"] = "ai_qa"
+        entry["ai_generated"] = True
+        entry["quality_checked_at"] = review_data.get("quality_checked_at", "")
+        entry["quality_check_model"] = review_data.get("quality_check_model", "")
+    else:
+        entry["reviewed_at"] = review_data.get("reviewed_at", "")
+        entry["reviewer"] = review_data.get("reviewer", "")
+    return entry
 
 
 def _apply_review_to_article(folder, lang, review_data, provider, source_chars):
