@@ -1,0 +1,52 @@
+{
+  "es": {
+    "status": "published",
+    "title": "Deja de complicar las indicaciones para Claude más allá de lo necesario",
+    "model": "deepl",
+    "source_chars": 9534,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "fr": {
+    "status": "published",
+    "title": "Cessez de rendre les prompts de Claude plus compliqués que la tâche elle-même",
+    "model": "deepl",
+    "source_chars": 9534,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "de": {
+    "status": "published",
+    "title": "Hört auf, Claude-Prompts komplizierter zu gestalten als die eigentliche Aufgabe",
+    "model": "deepl",
+    "source_chars": 9534,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "nl": {
+    "status": "published",
+    "title": "Maak Claude-prompts niet ingewikkelder dan het werk zelf",
+    "model": "deepl",
+    "source_chars": 9534,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "pt": {
+    "status": "published",
+    "title": "Deixem de tornar os prompts do Claude mais complicados do que o próprio trabalho",
+    "model": "deepl",
+    "source_chars": 9534,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  }
+}

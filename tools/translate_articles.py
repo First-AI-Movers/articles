@@ -363,7 +363,7 @@ def _provider_deepl(article_text, lang, model=None):
             "text": chunk,
             "target_lang": target_lang,
             "source_lang": "EN",
-            "tag_handling": "xml",
+            "tag_handling": "html",
         }
 
         last_error = None
