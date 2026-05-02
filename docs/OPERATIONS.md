@@ -158,6 +158,7 @@ Run these locally to verify archive integrity:
 python3 tools/check_duplicate_titles.py
 python3 tools/normalize_tags.py --dry-run
 python3 tools/build_citation_graph.py --check
+python3 tools/check_translation_quality.py
 python3 tools/rebuild_local.py
 python3 -m pytest tools/tests -q
 npm run test:e2e
@@ -252,7 +253,7 @@ python3 tools/translate_articles.py --write-review-files --slug <slug> --lang es
 python3 tools/translate_articles.py --apply-approved --slug <slug> --lang es
 ```
 
-Translations are human-reviewed and gated by `status: published` in `translations.json`. The build renders translated pages only when the sidecar declares `published`. No automated CI translation.
+Translations are gated by `status: published` in `translations.json`. The default approval path for E39c is AI-QA (`approval_method: ai_qa`, `ai_generated: true`). Human review remains available for individual articles when explicitly desired. The build renders translated pages only when the sidecar declares `published`. No automated CI translation.
 
 ## Errata and corrections
 

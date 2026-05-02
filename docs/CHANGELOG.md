@@ -16,7 +16,6 @@
 - feat(docs): E16 documentation pipeline + dynamic docs ([69](https://github.com/First-AI-Movers/articles/pull/69))
 - feat(governance): add repo policy and external publishing path ([67](https://github.com/First-AI-Movers/articles/pull/67))
 - feat(seo): strengthen topic hub metadata and structured data ([36](https://github.com/First-AI-Movers/articles/pull/36))
-- feat(indexing): add IndexNow key and submission tooling ([33](https://github.com/First-AI-Movers/articles/pull/33))
 
 ## Bug Fixes
 
@@ -24,6 +23,9 @@
 
 ## Documentation
 
+- docs(readme): refresh archive stats ([132](https://github.com/First-AI-Movers/articles/pull/132))
+- docs(roadmap): align E39 with AI-QA translation workflow ([130](https://github.com/First-AI-Movers/articles/pull/130))
+- docs(roadmap): mark E39b pilot complete, preserve E39c follow-up ([124](https://github.com/First-AI-Movers/articles/pull/124))
 - docs(translations): plan multilingual article variants ([120](https://github.com/First-AI-Movers/articles/pull/120))
 - docs(roadmap): mark E38 OG renderer complete ([119](https://github.com/First-AI-Movers/articles/pull/119))
 - docs(roadmap): mark E35b summary pilot complete ([117](https://github.com/First-AI-Movers/articles/pull/117))
@@ -43,7 +45,6 @@
 - docs(seo): add search visibility monitoring checklist ([37](https://github.com/First-AI-Movers/articles/pull/37))
 - docs(roadmap): add Phase 8 — Reach, permanence, and AI-native distribution (E21-E33) ([35](https://github.com/First-AI-Movers/articles/pull/35))
 - docs(roadmap): add E20a/E20b — self-hosted Airtable ingestion ([34](https://github.com/First-AI-Movers/articles/pull/34))
-- docs(roadmap): add Phase 7 — Professionalization (E14-E19) ([31](https://github.com/First-AI-Movers/articles/pull/31))
 
 ## Tests
 
@@ -51,6 +52,7 @@
 
 ## Other Changes
 
+- E39c: Batch 1 mini-pilot — AI-QA translations for claude-prompt-architecture-vs-complexity-2026 ([129](https://github.com/First-AI-Movers/articles/pull/129))
 - E35a roadmap closure: mark multi-length summary infrastructure complete ([115](https://github.com/First-AI-Movers/articles/pull/115))
 - E35a: Multi-length structured summaries infrastructure ([114](https://github.com/First-AI-Movers/articles/pull/114))
 - E40: Multi-property archive pattern ([107](https://github.com/First-AI-Movers/articles/pull/107))
@@ -65,5 +67,3 @@
 - E24 closure — mark GoatCounter analytics as done in ROADMAP ([86](https://github.com/First-AI-Movers/articles/pull/86))
 - E29 closure — mark AI-training clarity manifest as done in ROADMAP ([84](https://github.com/First-AI-Movers/articles/pull/84))
 - E29 — AI-training clarity manifest ([83](https://github.com/First-AI-Movers/articles/pull/83))
-- PR A: sitemap cleanup — remove cross-host canonicals and data files ([32](https://github.com/First-AI-Movers/articles/pull/32))
-- E10 follow-up: mark E10 done in ROADMAP.md, list PR #29, update test count to 222 ([30](https://github.com/First-AI-Movers/articles/pull/30))
