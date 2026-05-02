@@ -51,21 +51,50 @@
 {% endblock %}
 
 {% block content %}
-<nav class="breadcrumb"><a href="{{ rel_root }}">Home</a> / <a href="{{ rel_root }}topics/">Topics</a> / {{ topic }}</nav>
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{{ rel_root }}">Home</a> / <a href="{{ rel_root }}topics/">Topics</a> / {{ topic }}</nav>
 
 <h1>{{ topic }}</h1>
 <p class="meta">{{ articles|length }} articles · Latest: {{ articles[0].published_date }}</p>
 
+{% if narrative and narrative.intro %}
+<section class="prose" aria-label="Topic overview">
+{% for para in narrative.intro.split('\n\n') %}<p>{{ para }}</p>
+{% endfor %}</section>
+
+{% if narrative.key_themes %}
+<section aria-labelledby="topic-themes">
+<h2 id="topic-themes">What the coverage keeps coming back to</h2>
+<ul>
+{% for theme in narrative.key_themes %}<li>{{ theme }}</li>
+{% endfor %}</ul>
+</section>
+{% endif %}
+
+{% if narrative.why_it_matters %}
+<section aria-labelledby="topic-why">
+<h2 id="topic-why">Why it matters now</h2>
+<p>{{ narrative.why_it_matters }}</p>
+</section>
+{% endif %}
+
+<section aria-labelledby="topic-articles">
+<h2 id="topic-articles">All articles on {{ topic }}</h2>
+{% else %}
 <p class="lede">Every article in the First AI Movers archive tagged <strong>{{ topic }}</strong>. Each article's canonical home is on its publishing property — Radar, the newsletter, Insights, Voices, or a third-party platform — linked from each title below.</p>
+<section aria-label="Articles">
+{% endif %}
 
 {% for article in articles %}
   {% include "partials/article_card.html.j2" %}
 {% endfor %}
+</section>
 
 {% if related_topics %}
-<h2>Related topics</h2>
+<nav aria-labelledby="related-topics">
+<h2 id="related-topics">Related topics</h2>
 <p style="font-family: ui-sans-serif, system-ui, sans-serif; font-size: 0.95rem;">
 {% for rt in related_topics %}{% if rt in topics_with_page %}<a href="{{ rel_root }}topics/{{ topic_slug(rt) }}/" style="margin-right: 1rem;">{{ rt }}</a>{% endif %}{% endfor %}
 </p>
+</nav>
 {% endif %}
 {% endblock %}

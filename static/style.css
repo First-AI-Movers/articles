@@ -123,8 +123,10 @@ a:hover { color: var(--link-hover); }
   margin: 1.5rem 0;
 }
 
-.stats b { display: block; font-size: 1.35rem; color: var(--text); }
-.stats span { color: var(--muted); font-size: 0.85rem; }
+.stats { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+.stats > div { display: flex; flex-direction: column-reverse; }
+.stats dt { color: var(--muted); font-size: 0.85rem; margin: 0; }
+.stats dd { font-size: 1.35rem; color: var(--text); margin: 0; font-weight: 600; }
 
 /* Article card */
 .card {
@@ -246,6 +248,20 @@ a:hover { color: var(--link-hover); }
 }
 
 /* Selection + focus */
+/* Accessibility: skip-link is visually hidden until focused. */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 1rem;
+  background: var(--text);
+  color: var(--bg);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 100;
+}
+.skip-link:focus { top: 0; }
+
 ::selection { background: #ffe9b8; }
 a:focus-visible {
   outline: 2px solid var(--link);

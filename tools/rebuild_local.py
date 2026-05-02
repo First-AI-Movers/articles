@@ -759,14 +759,32 @@ def build_site(index):
     # Topics index
     _render("topics_index.html.j2", "topics/index.html", topic_entries=topic_entries)
 
+    # Topic narratives — optional intro / key-themes / why-it-matters per
+    # topic, sourced from tools/topic_intros.json. Topics without an entry
+    # render the list-only fallback. File may be wrapped as
+    # {"version": N, "intros": {...}} or flat {"Topic Name": {...}}.
+    narratives = {}
+    intros_path = REPO_ROOT / "tools" / "topic_intros.json"
+    if intros_path.exists():
+        try:
+            loaded = json.loads(intros_path.read_text(encoding="utf-8"))
+            narratives = loaded.get("intros", loaded) if isinstance(loaded, dict) else {}
+        except json.JSONDecodeError as e:
+            print(f"[site] warning: topic_intros.json invalid JSON: {e}", file=sys.stderr)
+
     # Per-topic pages (only topics with >= threshold)
     topic_pages = 0
+    topics_with_narrative = 0
     for topic in sorted(topics_with_page):
         topic_articles = by_topic[topic]  # already newest-first (from index sort)
         related = _related_topics_for(topic, topic_articles, topic_counts, RELATED_TOPICS_ON_TOPIC_PAGE)
         slug = _slugify(topic)
+        narrative = narratives.get(topic)
+        if narrative:
+            topics_with_narrative += 1
         _render("topic.html.j2", f"topics/{slug}/index.html",
-                topic=topic, articles=topic_articles, related_topics=related)
+                topic=topic, articles=topic_articles, related_topics=related,
+                narrative=narrative)
         topic_pages += 1
 
     # About — hernanicosta.json is stored wrapped in <script> tags. Strip the
@@ -820,7 +838,9 @@ def build_site(index):
 
     total_pages = 1 + 1 + topic_pages + 1 + 1  # home + topics_index + topic pages + about + 404
     print(f"[site] pages={total_pages} topic_pages={topic_pages} "
-          f"topics_with_page={len(topics_with_page)} min_articles={MIN_ARTICLES_FOR_TOPIC_PAGE} "
+          f"topics_with_page={len(topics_with_page)} "
+          f"topics_with_narrative={topics_with_narrative} "
+          f"min_articles={MIN_ARTICLES_FOR_TOPIC_PAGE} "
           f"out={SITE_DIR}")
 
 

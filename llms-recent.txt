@@ -7,7 +7,7 @@ Rolling 30-day window of First AI Movers articles by Dr. Hernani Costa, optimize
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Articles in window: 212
 - Window: 2026-03-25 to 2026-04-24
-- Generated: 2026-04-25
+- Generated: 2026-05-02
 
 Full corpus (all articles, ~7 MB): https://articles.firstaimovers.com/llms-full.txt  
 Machine-readable catalog: https://articles.firstaimovers.com/index.json

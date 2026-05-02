@@ -55,22 +55,24 @@
 
 <p class="lede">{{ stats.total }} original articles by <a href="https://drhernanicosta.com">Dr. Hernani Costa</a>, PhD, on AI strategy, EU AI Act compliance, governance, and agentic systems for European businesses. Published under CC BY 4.0 — free to read, cite, adapt, and redistribute with attribution.</p>
 
-<div class="stats">
-  <div><b>{{ stats.total }}</b><span>articles</span></div>
-  <div><b>{{ stats.topics_count }}</b><span>canonical topics</span></div>
-  <div><b>{{ stats.date_min_month }}</b><span>first article</span></div>
-  <div><b>{{ stats.date_max_month }}</b><span>most recent</span></div>
-</div>
+<dl class="stats" aria-label="Archive statistics">
+  <div><dt>articles</dt><dd>{{ stats.total }}</dd></div>
+  <div><dt>canonical topics</dt><dd>{{ stats.topics_count }}</dd></div>
+  <div><dt>first article</dt><dd>{{ stats.date_min_month }}</dd></div>
+  <div><dt>most recent</dt><dd>{{ stats.date_max_month }}</dd></div>
+</dl>
 
-<h2>Latest articles</h2>
+<section aria-labelledby="latest-articles">
+<h2 id="latest-articles">Latest articles</h2>
 {% for article in latest %}
   {% include "partials/article_card.html.j2" %}
 {% endfor %}
+</section>
 
 <p style="margin-top: 2rem;"><a href="{{ rel_root }}topics/">Browse all {{ topics_with_page|length }} topic pages →</a></p>
 
-<div class="data-links">
-  <h3>Machine-readable surfaces</h3>
+<aside class="data-links" aria-labelledby="machine-readable">
+  <h3 id="machine-readable">Machine-readable surfaces</h3>
   <ul>
     <li><code>/index.json</code> — catalog of all {{ stats.total }} articles with metadata</li>
     <li><code>/feed.xml</code> — Atom feed of the 50 most-recent articles</li>
@@ -80,5 +82,5 @@
     <li><code>/sitemap.xml</code> — XML sitemap pointing to canonical article URLs</li>
     <li><code>/hernanicosta.json</code> — Schema.org Person entity for the author</li>
   </ul>
-</div>
+</aside>
 {% endblock %}

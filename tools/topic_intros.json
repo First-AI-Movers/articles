@@ -1,0 +1,116 @@
+{
+  "_comment": "Hand-written narrative content per canonical topic. Renders above the article list on each /topics/<slug>/ page. Adding new topics is purely additive — schema and renderer already wired in tools/rebuild_local.py and templates/topic.html.j2. Voice: dry, practitioner, decision-shaped. Third-person archive framing. Grounded in the actual articles' TL;DRs.",
+  "version": 1,
+  "intros": {
+    "European SME AI": {
+      "intro": "European SMEs (typically 20-300 people) operate inside a constraint set most AI commentary ignores: GDPR, the EU AI Act, country-specific data-protection regulators, language fragmentation across markets, and budgets that do not stretch to enterprise-grade AI consulting fees. The defaults shipped by US-led tooling do not always fit, and the failure modes are concrete — wrong data residency, a vendor without an EU presence, an automation that quietly trains on customer records.\n\nFirst AI Movers' coverage of this audience runs from board-level AI readiness to tactical city-by-city consulting guidance (Utrecht, Frankfurt, Milan, Madrid, Munich, Vienna, Zurich, Amsterdam, Dublin, Stockholm, Lisbon, and more). The throughline is making AI adoption decisions that hold up under European compliance, governance, and procurement reality — not retrofitting US playbooks onto European constraints.",
+      "key_themes": [
+        "City- and country-specific AI consulting playbooks",
+        "EU AI Act + GDPR compliance baked into adoption",
+        "Vendor evaluation under EU data-residency constraints",
+        "AI governance frameworks for 20-300 person companies",
+        "Practitioner choices over enterprise-consultancy theatre"
+      ],
+      "why_it_matters": "The EU AI Act high-risk obligations land in August 2026, GDPR enforcement is already mature, and country regulators (AEPD, BfDI, AESIA, IDPC, FINMA) are issuing AI-specific guidance. SMEs that absorb AI without a governance posture create audit liabilities long before they create competitive advantage. The articles in this topic exist to compress that learning curve — what to ask vendors, which use cases are ready, what a real consulting engagement should deliver."
+    },
+    "AI Strategy": {
+      "intro": "AI strategy at SME scale is not a deck — it is a sequence of small, reversible decisions about where AI lives in the workflow, who owns each pilot, what success looks like, and when to stop. Every founder, CEO, and ops leader is being told they need an AI strategy. Most do not need a strategy document; they need a hiring sequence, a vendor short-list, and a clear answer to 'what do we automate first and how do we measure it'.\n\nThe archive's strategy coverage focuses on those decision points. It treats AI adoption as an operating discipline: roadmap design, ROI framing for the board, build-vs-buy decisions under EU AI Act risk, change management when teams resist new tools, and the underrated question of which AI role to hire first. Recurring framing: scope discipline beats AI ambition for businesses under 300 people.",
+      "key_themes": [
+        "Roadmap sequencing over strategy documents",
+        "AI ROI framing CFOs and boards will accept",
+        "AI Build vs Buy under EU AI Act risk classes",
+        "First AI hire and team-shape decisions",
+        "Change management when adoption stalls"
+      ],
+      "why_it_matters": "Most early AI rollouts fail not because the technology is wrong but because the organisation cannot absorb it: ownership is unclear, success criteria drift, and pilots accumulate without consolidation. SMEs that lack a strategic posture end up paying for licences they do not use, or running shadow AI that creates compliance exposure. The strategy coverage addresses the operating reality, not the marketing fiction."
+    },
+    "AI Governance": {
+      "intro": "AI governance for SMEs is not the same problem as governance at enterprise scale. There is no chief AI officer, no risk committee, no separate audit function. There is, typically, one operations leader and one technical lead trying to stop the company creating GDPR liabilities while an AI vendor onboards their team. Governance has to be lightweight enough that it actually gets used and structured enough that it survives a regulator audit.\n\nFirst AI Movers' governance coverage emphasises practical artefacts: a pilot register, a vendor evaluation scorecard, an incident response runbook, an AI use policy short enough to be read, and a governance committee charter scaled to a 50-person company. Each piece is presented as a working operational artefact, not a policy document; the test is whether a non-AI manager can use it on a Tuesday afternoon.",
+      "key_themes": [
+        "Lightweight governance frameworks for sub-300-person companies",
+        "Pilot registers and vendor evaluation scorecards",
+        "AI audit and risk-management for SME boards",
+        "Shadow AI detection without surveillance",
+        "Governance committee charters that survive an audit"
+      ],
+      "why_it_matters": "The cost of getting governance wrong is not theoretical. EU AI Act violations carry fines of up to 7% of global turnover; GDPR breaches have already produced multi-million-euro fines on smaller companies. Insurance underwriters are starting to ask for AI governance evidence. The articles in this topic exist to give SME leaders something concrete to point at when the auditor, the buyer, or the board asks how the company manages its AI exposure."
+    },
+    "AI Productivity Tools": {
+      "intro": "AI productivity tools have stopped being a lone-developer concern and become a team-rollout decision. Claude Code, Cursor, GitHub Copilot, ChatGPT for business, Microsoft 365 Copilot — the question is no longer whether to allow them but how to deploy them with governance attached, what each costs at team scale, and which seats actually need which tool. The serious productivity gains are now on the table, but so are the security, billing, and dependency concerns that come with letting an AI tool reach into the codebase or the document store.\n\nThe archive's productivity coverage centres on team-scale deployment patterns: 90-day rollout playbooks, cost management, hooks and MCP integration, decision frameworks for non-technical founders being asked to approve AI tool budgets, and explicit comparisons between competing tools. The framing is consistently 'what does a 10-30 person team actually do on Monday'.",
+      "key_themes": [
+        "Team-scale rollout playbooks (90-day, phased)",
+        "Cost and billing management for AI subscriptions",
+        "Hooks, MCP, and integration patterns",
+        "Tool comparisons (Claude Code vs Cursor vs Copilot)",
+        "Non-technical founder briefings before approval"
+      ],
+      "why_it_matters": "Productivity-tool sprawl is the next budget conversation. Companies are already paying for three overlapping AI seats per developer with no measurement of overlap or output. Without a deployment posture, the cost grows monotonically and the security surface multiplies. The articles in this topic exist to support the technical lead trying to consolidate, the CFO trying to forecast, and the founder trying to say yes responsibly."
+    },
+    "EU AI Act": {
+      "intro": "The EU AI Act is no longer a future event. The high-risk-system obligations apply from August 2026, the prohibited-practice list is already in force, and national supervisory authorities are publishing guidance now. SMEs that build, deploy, or distribute AI systems inside the EU need to know which of their use cases fall under which risk class — not as an annual compliance ritual, but as a deployment-time checkpoint that can change architectural decisions.\n\nFirst AI Movers' coverage of the Act focuses on what it actually means at SME scale: how to classify a use case, what evidence the regulator will expect, how it interacts with GDPR and sector-specific rules (MDR for medtech, DORA for financial services), and where the August 2026 deadline forces real architecture choices. City-by-city articles add the missing dimension — local regulators interpret the same Act differently in Madrid, Munich, Milan, and Dublin.",
+      "key_themes": [
+        "August 2026 high-risk obligation deadline",
+        "Risk-class classification under EU AI Act Annex III",
+        "Sector overlays (MDR, DORA, GDPR) on AI Act compliance",
+        "National regulator divergence across the EU",
+        "Audit-ready evidence for SMEs without compliance teams"
+      ],
+      "why_it_matters": "The Act's August 2026 deadline is the first regulatory event since GDPR that forces companies to inventory their AI systems and produce conformity evidence. Companies that wait until summer 2026 to start will not finish in time. The coverage in this topic is intentionally pragmatic — risk-class flowcharts, evidence checklists, and city-specific consulting context — because the gap between 'the Act exists' and 'we are demonstrably compliant' is months of work, not weeks."
+    },
+    "AI Workflow Automation": {
+      "intro": "Workflow automation entered an awkward middle phase. The mature tools (n8n, Zapier, Make, Power Automate) are deterministic and well-understood; the new agentic systems (Claude Code agents, Codex automations, Claude Routines) are flexible and unpredictable. SME operators have to decide which class of tool fits which workflow — not as a binary choice, but as a per-workflow architecture decision. Some processes need agents; most still want deterministic graphs with AI in specific nodes.\n\nThe archive's automation coverage maps that decision space. Side-by-side comparisons (Copilot Studio vs Power Automate, AI agents vs traditional workflow, Claude Routines vs Codex Automations) are the spine. Around them, articles cover the specific automation patterns that hold up in production: human-in-the-loop checkpoints, audit logging, finance-team workflows that CFOs sign off on, and the threat-model work needed when an agent can write to systems of record.",
+      "key_themes": [
+        "Agents vs deterministic workflow tools — when to choose which",
+        "Human-in-the-loop checkpoints for AI-driven automation",
+        "Production-grade automation patterns with audit trails",
+        "Tool comparisons (n8n, Zapier, Power Automate, Copilot Studio)",
+        "Threat models for agents with write access"
+      ],
+      "why_it_matters": "Most automation projects fail at the boundary where the AI handoff happens — either the agent does too much without supervision, or the supervision is so heavy the productivity gain disappears. SMEs do not have the slack to run a bad automation for six months and then untangle it. The articles in this topic exist to keep that decision concrete: pick the right tool class, design the supervision shape up front, and instrument the audit trail before going live."
+    },
+    "AI Agents": {
+      "intro": "AI agents moved from research-paper interest to deployable infrastructure during the period this archive covers. Claude Code agent mode runs multi-step tasks without constant prompting. Claude Routines schedule autonomous work. Codex Computer Use takes desktop control. Multi-agent orchestrations are being written into operations playbooks. The gap is no longer capability — it is governance, supervision, and the question of which workflows are actually ready to be handed to an agent at SME scale.\n\nThe archive's agent coverage stays close to deployment reality. Articles compare specific agent platforms (Claude Routines vs Codex Automations, Claude Code vs Junie CLI), document the operator handbook for managed agents, and treat agent rollout as a security-first decision: hooks, MCP, plugin trust, untrusted-repository handling. The recurring framing: agents can run autonomously, but the moment they touch production data or external systems, the operating model has to change.",
+      "key_themes": [
+        "Agent-platform comparisons for engineering teams",
+        "Operator handbooks: hooks, MCP, plugin governance",
+        "Multi-agent orchestration patterns and trade-offs",
+        "Agent threat models for untrusted inputs",
+        "Computer-use and desktop-control deployment risk"
+      ],
+      "why_it_matters": "Agents are the first AI capability that materially changes the security surface of a small business — they hold credentials, write to systems, and act between scheduled checkpoints without a human in the loop. SMEs that deploy agents without a threat model will discover the failure modes the expensive way. The articles in this topic exist to make the security and governance work explicit before the rollout, not after the incident."
+    },
+    "Healthcare AI": {
+      "intro": "Healthcare AI in Europe sits at the intersection of three regulatory regimes — GDPR for patient data, MDR for medical devices, and the EU AI Act risk overlay. A clinical AI tool that ignores any of the three cannot be deployed legally. The technology is moving fast — time-series LLMs, fine-tuned wearable interpreters, AI-assisted clinical workflows — but the deployment path runs through procurement, conformity assessment, and audit trails that most clinical SMEs are not staffed to navigate.\n\nThe archive's healthcare coverage stays oriented around real practitioners — clinics, veterinary practices, healthtech startups, and the procurement teams buying AI for them. The articles cover MDR + EU AI Act intersection points, the 15-point procurement checklist for healthcare buyers, governance for veterinary and animal-health SMEs, and the technical pieces (fine-tuning vs RAG for wearables, time-series LLMs, unifying global health data) that the clinical CTOs need to understand before signing.",
+      "key_themes": [
+        "MDR + EU AI Act + GDPR intersection for clinical AI",
+        "Procurement checklists for healthcare AI buyers",
+        "Veterinary and animal-health SME governance",
+        "Time-series LLMs and health-wearable interpreters",
+        "Clinical validation and audit-evidence requirements"
+      ],
+      "why_it_matters": "Patient data and clinical outputs are the highest-stakes AI surface in the SME world. A misclassified medical device, a model trained on data without consent, or a clinical workflow that drops audit evidence creates regulatory exposure that smaller clinics cannot absorb. The articles in this topic exist to make the procurement and governance work survivable for healthcare SMEs that do not have a dedicated regulatory affairs function."
+    },
+    "B2B SaaS Growth": {
+      "intro": "B2B SaaS growth has changed shape. Acquisition through Google search is being eroded by AI Overviews, Perplexity, and ChatGPT search; product-led growth still works but the funnels look different; lean infrastructure is now defensible (most early AI products do not need Kubernetes); and AI-native teams compress what used to take a quarter into weeks. Founders building B2B AI products inside Europe are navigating all of this with smaller teams than the US comparables.\n\nThe archive's growth coverage stays anchored in operator decisions. GEO (Generative Engine Optimisation) for being found in ChatGPT and Perplexity, B2B AI product architecture (separate billing owner, workspace, legal entity early), build-vs-buy framing for SMEs, lean infrastructure choices (Docker Compose long before Kubernetes), and city-specific go-to-market guidance for tech and creative SMEs across Europe.",
+      "key_themes": [
+        "GEO and AI-search visibility for B2B products",
+        "Lean infrastructure for early-stage AI products",
+        "B2B AI product architecture (billing, workspace, legal entity)",
+        "Build vs Buy under EU SME constraints",
+        "City-specific go-to-market for European tech founders"
+      ],
+      "why_it_matters": "Distribution is the binding constraint for B2B AI products in 2026. The companies that figure out AI-search visibility, ship lean enough to iterate, and structure their architecture for early multi-tenant reality will compound. Those that copy 2022 SaaS playbooks will spend their runway on infrastructure and ads that no longer work. The articles in this topic exist to keep the decisions current."
+    },
+    "GDPR & Data Privacy": {
+      "intro": "GDPR was already the binding constraint on European AI deployment before the AI Act arrived. Data residency, lawful basis, processor agreements, breach notification, data subject rights — all of these now apply to AI tools that touch customer data, train on it, or simply log prompts containing it. The vendor's default contract is rarely sufficient for an EU SME; the work is in the addenda and the architecture.\n\nThe archive's privacy coverage focuses on what changes when AI joins the data-flow diagram. AI data governance frameworks for SMEs, vendor evaluation under GDPR (where does the data go, who is the processor, can it be deleted), MCP server security audits, the privacy posture for Codex Computer Use and other desktop-control tools, and the city-by-city regulator guidance (IDPC, AEPD, BfDI, FINMA) that determines what 'compliant' actually looks like in each jurisdiction.",
+      "key_themes": [
+        "AI data-governance frameworks for SMEs",
+        "Vendor evaluation under GDPR processor obligations",
+        "Data residency and EU sovereignty patterns",
+        "MCP and desktop-agent privacy threat models",
+        "National-regulator divergence across EU member states"
+      ],
+      "why_it_matters": "GDPR enforcement against AI deployments is already happening, and the rulings are clarifying fast. Companies that have not done the data-flow work for their AI tools cannot honestly answer a data subject access request, cannot demonstrate purpose limitation, and cannot pass procurement diligence with EU enterprise buyers. The articles in this topic exist to give SME leaders the architecture and contractual moves that hold up under scrutiny — not the marketing-grade privacy theatre."
+    }
+  }
+}

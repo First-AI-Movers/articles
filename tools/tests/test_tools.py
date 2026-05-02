@@ -1045,6 +1045,61 @@ class TestBuildSite:
         assert m._canonical_host_label("https://www.linkedin.com/pulse/x") == "LinkedIn"
         assert m._canonical_host_label("https://insights.firstaimovers.com/y") == "Insights"
 
+    # --- narrative rendering ---------------------------------------------
+
+    def test_topic_page_renders_narrative_when_provided(self, monkeypatch, tmp_path):
+        import json as _json
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        # Inject a topic_intros.json after first build, then rebuild from same tmp tree.
+        # The fixture reverts to non-narrative baseline; we want to assert
+        # narrative rendering when the data IS present, so we re-invoke with
+        # the file in place.
+        m = self._mod()
+        intros = {
+            "intros": {
+                "AI Strategy": {
+                    "intro": "First paragraph framing.\n\nSecond paragraph context.",
+                    "key_themes": ["Theme alpha", "Theme beta"],
+                    "why_it_matters": "Stakes paragraph here.",
+                }
+            }
+        }
+        (tmp_path / "tools").mkdir(exist_ok=True)
+        (tmp_path / "tools" / "topic_intros.json").write_text(
+            _json.dumps(intros), encoding="utf-8")
+        # Rebuild — REPO_ROOT is already monkeypatched by _run on the previous call.
+        # _run replaces site/ each time, so call build_site again on the same index.
+        index = self._synthetic_index({"AI Strategy": 6})
+        m.build_site(index)
+        page = (tmp_path / "site" / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        assert 'aria-label="Topic overview"' in page
+        assert "First paragraph framing" in page
+        assert "Second paragraph context" in page
+        assert 'id="topic-themes"' in page
+        assert "Theme alpha" in page
+        assert 'id="topic-why"' in page
+        assert "Stakes paragraph here" in page
+        assert 'id="topic-articles"' in page
+
+    def test_topic_page_falls_back_when_no_narrative(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        page = (site / "topics" / "ai-strategy" / "index.html").read_text(encoding="utf-8")
+        # No narrative file present => falls back to the lede paragraph.
+        assert "Every article in the First AI Movers archive tagged" in page
+        assert 'aria-label="Topic overview"' not in page
+
+    def test_skip_link_present_on_every_page(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path,
+                         self._synthetic_index({"AI Strategy": 6}))
+        for path in ["index.html", "topics/index.html",
+                     "topics/ai-strategy/index.html",
+                     "about/index.html", "404.html"]:
+            html = (site / path).read_text(encoding="utf-8")
+            assert '<a class="skip-link" href="#main-content">' in html, path
+            assert 'id="main-content"' in html, path
+
 
 # =========================================================================
 # Tests: rebuild_local.py llms-recent.txt (30-day slice)

@@ -20,11 +20,11 @@
 {% endblock %}
 
 {% block content %}
-<nav class="breadcrumb"><a href="{{ rel_root }}">Home</a> / About</nav>
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{{ rel_root }}">Home</a> / About</nav>
 
-<h1>About the Author</h1>
+<h1 id="about-author">About the Author</h1>
 
-<div class="prose">
+<section class="prose" aria-labelledby="about-author">
 <p class="lede">Dr. Hernani Costa is an AI strategy consultant, builder, and entrepreneur based in Amsterdam, Netherlands. This archive collects his writing for <a href="https://firstaimovers.com">First AI Movers</a>.</p>
 
 <h2>Credentials</h2>
@@ -60,5 +60,5 @@
 Costa, H. (2026). <em>First AI Movers — Article Archive</em>. GitHub. https://github.com/First-AI-Movers/articles. Licensed under CC BY 4.0.
 </blockquote>
 <p>Machine-readable citation: <a href="{{ site_url }}/CITATION.cff">CITATION.cff</a>.</p>
-</div>
+</section>
 {% endblock %}

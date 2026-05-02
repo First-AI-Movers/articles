@@ -23,9 +23,10 @@
 {% block head_extra %}{% endblock %}
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="site">
   <a class="brand" href="{{ rel_root }}">First AI Movers — Archive</a>
-  <nav>
+  <nav aria-label="Primary">
     <a href="{{ rel_root }}">Home</a>
     <a href="{{ rel_root }}topics/">Topics</a>
     <a href="{{ rel_root }}about/">About</a>
@@ -33,7 +34,7 @@
   </nav>
 </header>
 
-<main{% block main_class %}{% endblock %}>
+<main id="main-content"{% block main_class %}{% endblock %}>
 {% block content %}{% endblock %}
 </main>
 
