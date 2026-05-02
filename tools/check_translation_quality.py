@@ -173,10 +173,13 @@ def _check_glossary(source_text: str, translated_text: str, lang: str, glossary:
         # Only check if the source actually contains the term
         if term.lower() in source_lower:
             # The expected translation should appear in the translated text
-            if expected.lower() not in trans_lower:
+            # Support comma-separated alternatives in glossary values
+            alternatives = [a.strip() for a in expected.split(',')]
+            matched_any = any(a.lower() in trans_lower for a in alternatives)
+            if not matched_any:
                 # Also check for partial matches (some terms may be inflected)
                 # Use a simple heuristic: check if any word from expected appears
-                expected_words = expected.lower().split()
+                expected_words = alternatives[0].lower().split()
                 if len(expected_words) > 1:
                     # For multi-word terms, require at least 2/3 of words
                     threshold = max(1, len(expected_words) * 2 // 3)

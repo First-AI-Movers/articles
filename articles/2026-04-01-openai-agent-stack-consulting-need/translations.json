@@ -1,0 +1,52 @@
+{
+  "es": {
+    "status": "published",
+    "title": "OpenAI acaba de hacer que los agentes de programación sean más prácticos. La mayoría de las empresas siguen necesitando ayuda para traducir eso en resultados",
+    "model": "deepl",
+    "source_chars": 9482,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "fr": {
+    "status": "published",
+    "title": "OpenAI vient de rendre les agents de codage plus pratiques. La plupart des entreprises ont encore besoin d’aide pour transformer cela en résultats concrets",
+    "model": "deepl",
+    "source_chars": 9482,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "de": {
+    "status": "published",
+    "title": "OpenAI hat Programmier-Agenten gerade praktischer gemacht. Die meisten Unternehmen brauchen jedoch noch Hilfe dabei, daraus Ergebnisse zu erzielen",
+    "model": "deepl",
+    "source_chars": 9482,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "nl": {
+    "status": "published",
+    "title": "OpenAI heeft programmeeragenten nu praktischer gemaakt. De meeste bedrijven hebben echter nog steeds hulp nodig om daar resultaten mee te boeken",
+    "model": "deepl",
+    "source_chars": 9482,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "pt": {
+    "status": "published",
+    "title": "A OpenAI tornou os agentes de programação mais práticos. A maioria das empresas ainda precisa de ajuda para transformar isso em resultados",
+    "model": "deepl",
+    "source_chars": 9482,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  }
+}
