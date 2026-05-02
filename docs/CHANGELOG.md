@@ -5,6 +5,9 @@
 
 ## Features
 
+- feat(translations): complete E39c Batch 1 AI-QA translations ([135](https://github.com/First-AI-Movers/articles/pull/135))
+- feat(translations): add automated AI-QA checker ([128](https://github.com/First-AI-Movers/articles/pull/128))
+- feat(translations): support AI-QA translation approval ([126](https://github.com/First-AI-Movers/articles/pull/126))
 - feat(translations): add review-gated translation tooling ([121](https://github.com/First-AI-Movers/articles/pull/121))
 - feat(og): add custom OG image renderer ([118](https://github.com/First-AI-Movers/articles/pull/118))
 - feat(summaries): add reviewed summary pilot ([116](https://github.com/First-AI-Movers/articles/pull/116))
@@ -20,10 +23,17 @@
 
 ## Bug Fixes
 
+- fix(workflows): avoid direct generated-artifact push to protected main ([127](https://github.com/First-AI-Movers/articles/pull/127))
 - fix(ci): make changelog check compatible with protected main ([95](https://github.com/First-AI-Movers/articles/pull/95))
 
 ## Documentation
 
+- docs(ops): audit automation readiness for archive closeout ([133](https://github.com/First-AI-Movers/articles/pull/133))
+- docs(readme): refresh archive stats ([132](https://github.com/First-AI-Movers/articles/pull/132))
+- docs(roadmap): split archive closeout into parallel tracks ([131](https://github.com/First-AI-Movers/articles/pull/131))
+- docs(roadmap): align E39 with AI-QA translation workflow ([130](https://github.com/First-AI-Movers/articles/pull/130))
+- docs(translations): plan E39c rollout batches ([125](https://github.com/First-AI-Movers/articles/pull/125))
+- docs(roadmap): mark E39b pilot complete, preserve E39c follow-up ([124](https://github.com/First-AI-Movers/articles/pull/124))
 - docs(translations): plan multilingual article variants ([120](https://github.com/First-AI-Movers/articles/pull/120))
 - docs(roadmap): mark E38 OG renderer complete ([119](https://github.com/First-AI-Movers/articles/pull/119))
 - docs(roadmap): mark E35b summary pilot complete ([117](https://github.com/First-AI-Movers/articles/pull/117))
@@ -51,6 +61,7 @@
 
 ## Other Changes
 
+- E39c: Batch 1 mini-pilot — AI-QA translations for claude-prompt-architecture-vs-complexity-2026 ([129](https://github.com/First-AI-Movers/articles/pull/129))
 - E35a roadmap closure: mark multi-length summary infrastructure complete ([115](https://github.com/First-AI-Movers/articles/pull/115))
 - E35a: Multi-length structured summaries infrastructure ([114](https://github.com/First-AI-Movers/articles/pull/114))
 - E40: Multi-property archive pattern ([107](https://github.com/First-AI-Movers/articles/pull/107))
