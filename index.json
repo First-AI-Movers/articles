@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-04-29",
+  "last_updated": "2026-05-02",
   "total_articles": 829,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
@@ -713,7 +713,37 @@
         "AI Strategy"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-conformity-assessment-guide-european-smes-2026"
+      "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-conformity-assessment-guide-european-smes-2026",
+      "summary_short": "This practical guide walks European SMEs through the EU AI Act conformity assessment for Annex III high-risk AI systems. It distinguishes between providers, who bear the full documentation and CE marking burden, and deployers, whose obligations under Article 25 are lighter but still require human oversight, incident monitoring, and operational documentation before going live.",
+      "summary_medium": "This guide explains the EU AI Act conformity assessment for European SMEs deploying Annex III high-risk AI systems. The key distinction is between providers and deployers. Providers develop AI systems and place them on the market, bearing the full burden of quality management systems, technical documentation, conformity assessment, EU Declaration of Conformity, and CE marking. Deployers use AI systems within their own operations and face lighter but specific obligations under Article 25: following provider instructions for use, implementing human oversight under Article 14 with competent trained personnel who can intervene, monitoring for substantial modifications that change risk profile, and registering in the EU database when required.\n\nFor most SMEs, the deployer path is relevant. The four-step procedure involves classifying the system against Annex III categories and checking Article 6 exclusions, obtaining the provider's technical documentation and Declaration of Conformity before deployment, implementing documented human oversight measures, and producing a deployment record covering classification, documentation, oversight process, and incident monitoring. Deployers should receive six technical documentation components from providers: system description, intended purpose statement, risk management process, data governance documentation, accuracy and cybersecurity metrics, and post-market monitoring plan. The guide clarifies that internal use can trigger deployer obligations, that SaaS companies offering AI features are likely providers for those features, and that substantial modifications to third-party systems can reclassify the modifier as a provider.",
+      "summary_long": "This practical guide walks European SMEs through the EU AI Act conformity assessment for Annex III high-risk AI systems, focusing on the critical distinction between providers and deployers. A provider is an organisation that develops an AI system and places it on the market under its own name or brand, while a deployer uses an AI system within its own professional activities without placing it on the market. This classification determines whether compliance takes weeks or months, and getting it wrong creates significant liability exposure.\n\nFor providers, the full Annex III obligations apply. They must establish a quality management system under Article 17 covering the entire AI lifecycle including risk management, data governance, validation and testing methodology, post-market monitoring, and incident handling. Providers must also produce comprehensive technical documentation, conduct a conformity assessment (self-assessment for most Annex III categories; third-party assessment by a notified body for biometric identification and a small number of other categories), draw up an EU Declaration of Conformity, and affix CE marking before placing the system on the market. For a mid-sized software company building in a regulated AI domain, this is a substantial undertaking requiring input from legal, technical, and data teams plus external review for regulated sectors like financial services or healthcare.\n\nFor deployers, which most SMEs using third-party tools are, Article 25 imposes four proportionate obligations. First, follow the provider's instructions for use, including intended purpose, safe deployment conditions, and human oversight requirements; deploying outside the intended purpose transfers provider-level liability to the deployer. Second, implement Article 14 human oversight by assigning natural persons with necessary competence, training, and authority to understand system outputs, identify anomalies, and intervene or override when needed; the oversight must be structurally possible. Third, monitor for substantial modifications that change intended purpose or risk profile, and flag material changes to the provider. Fourth, register in the EU database when required, though this obligation applies primarily to providers and public-sector deployers rather than most private-sector SMEs.\n\nThe guide presents a four-step deployer conformity procedure. Step one is classifying the system against Annex III's eight high-risk categories and checking whether Article 6 exclusions apply for clearly ancillary functions. Step two is obtaining the provider's technical documentation package and Declaration of Conformity before deployment; if the provider cannot produce these documents, they are not in compliance and the deployer should not proceed. Step three is implementing documented human oversight based on provider instructions, specifying who is responsible, what training they have received, how they can intervene, and how AI-influenced decisions are reviewed. Step four is producing a deployment record covering system classification, provider documentation obtained, oversight process, configuration decisions, and incident monitoring procedures.\n\nThe minimum technical documentation set covers six areas: system description including AI approach and deployment context, intended purpose statement, risk management process covering error and bias risks, data governance documentation including training data quality and known limitations, accuracy and cybersecurity metrics with validation benchmarks, and post-market monitoring plan with performance tracking and communication procedures.",
+      "translations": {
+        "es": {
+          "title": "Evaluación de conformidad con el Reglamento de Inteligencia Artificial de la UE: Guía práctica para las PYME europeas",
+          "approval_method": "human",
+          "ai_generated": false
+        },
+        "fr": {
+          "title": "Évaluation de conformité au Règlement européen sur l'intelligence artificielle : Guide pratique pour les PME européennes",
+          "approval_method": "human",
+          "ai_generated": false
+        },
+        "de": {
+          "title": "Konformitätsbewertung nach der EU-KI-Verordnung: Ein praktischer Leitfaden für europäische KMU",
+          "approval_method": "human",
+          "ai_generated": false
+        },
+        "nl": {
+          "title": "Conformiteitsbeoordeling onder de EU AI-verordening: Een praktische gids voor Europese kmo's",
+          "approval_method": "human",
+          "ai_generated": false
+        },
+        "pt": {
+          "title": "Avaliação de conformidade com o Regulamento Europeu da Inteligência Artificial: Um guia prático para as PME europeias",
+          "approval_method": "human",
+          "ai_generated": false
+        }
+      }
     },
     {
       "folder": "2026-04-24-eu-ai-act-high-risk-systems-assessment-european-smes-20",
@@ -2624,7 +2654,10 @@
         "AI Strategy"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/agentic-ai-smes-european-operators-guide-2026"
+      "canonical_url": "https://radar.firstaimovers.com/agentic-ai-smes-european-operators-guide-2026",
+      "summary_short": "This guide explains what agentic AI means for non-technical operators at European SMEs, which workflows are ready for deployment in 2026, and what governance is required under the EU AI Act before going live. It covers planning, tool use, memory, decision accountability, error surfaces, data access, and staff role shifts.",
+      "summary_medium": "This guide translates agentic AI for operations leaders and founders at European SMEs. Unlike standard LLMs that respond to single prompts and stop, agentic AI takes a goal, breaks it into sub-tasks, executes them using tools like APIs and databases, checks output, and loops until completion or a stopping condition. Three components define most production systems: planning, tool use, and memory and state.\n\nViable SME use cases in 2026 include document processing workflows such as invoice routing and contract review, customer triage with clear escalation policies, internal operations automation like CRM updates and knowledge base queries, and financial decision support in advisory mode. Use cases not ready for most SMEs include autonomous hiring or firing decisions, customer interaction in regulated sectors without human review, and systems that can move money without approval.\n\nDeploying agentic AI changes four things immediately. Decision accountability moves upstream into the system chain. Error surfaces multiply because a bad decision at step three can compound through steps four and five. Data access scopes become a liability question requiring principle of least privilege. Staff roles shift toward judgment and quality review rather than routing and assembly.\n\nUnder the EU AI Act, high-risk classification applies to systems used in hiring, credit assessment, or essential services, requiring conformity assessments and human oversight by design. Even lower-risk systems must include transparency and pause points.",
+      "summary_long": "This guide explains what agentic AI means for non-technical operators and founders at European SMEs, which workflows are ready for deployment in 2026, and what governance must be in place under the EU AI Act before going live. The core distinction is between standard LLMs, which respond to a single prompt and stop, and agentic systems, which take a goal, decompose it into sub-tasks, execute them using tools like APIs and databases, check output, and loop until completion or a stopping condition. For a small business operator, the practical implication is that agentic AI can handle processes that previously required a human to make routing decisions at each step.\n\nThree components define most production systems: planning, which decomposes goals into ordered steps; tool use, which calls external APIs, databases, and third-party software; and memory and state, which tracks progress within and across sessions.\n\nNot every use case is equal. The most mature category is document processing workflows including invoice routing, contract review, proposal generation, and compliance summarisation. Customer triage and first-response is viable but requires a clear escalation policy before deployment. Internal operations automation covers meeting notes to action items, CRM updates, and knowledge base queries. Financial decision support is worth exploring but should stay in advisory mode. Use cases not ready for most SMEs include autonomous hiring or firing decisions, customer interaction in regulated sectors without human review, and systems that can move money without approval.\n\nFour things shift immediately when agentic AI is deployed. Decision accountability moves upstream into the execution chain. Error surfaces multiply because a bad decision at step three can compound through steps four and five. Data access scopes become a liability question requiring principle of least privilege. Staff roles shift toward judgment and quality review rather than routing and assembly.\n\nUnder the EU AI Act, three obligations are most relevant. High-risk classification applies to systems used in hiring, credit assessment, or essential services, requiring conformity assessments and human oversight by design. Transparency requirements mean affected people must know they are interacting with an automated system. Human oversight requires pause points, escalation triggers, and override capabilities built as system features.\n\nBefore deploying, five preparation steps are recommended. Create a decision inventory listing every autonomous decision, who is accountable, what error rate triggers a pause, and who reviews flagged outputs. Build a data access map documenting readable and writable sources confirmed against GDPR records. Define an escalation protocol built into system configuration specifying when the system stops and routes to a human. Brief staff on what the system does, what it does not do, and how to override it. Ensure every action is logged with enough detail to reconstruct events if something goes wrong."
     },
     {
       "folder": "2026-04-15-ai-coding-tools-product-managers-operations-leaders-202",
@@ -4743,7 +4776,34 @@
         "AI Coding Tools"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/openai-agent-stack-consulting-need"
+      "canonical_url": "https://radar.firstaimovers.com/openai-agent-stack-consulting-need",
+      "translations": {
+        "es": {
+          "title": "OpenAI acaba de hacer que los agentes de programación sean más prácticos. La mayoría de las empresas siguen necesitando ayuda para traducir eso en resultados",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "fr": {
+          "title": "OpenAI vient de rendre les agents de codage plus pratiques. La plupart des entreprises ont encore besoin d’aide pour transformer cela en résultats concrets",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "de": {
+          "title": "OpenAI hat Programmier-Agenten gerade praktischer gemacht. Die meisten Unternehmen brauchen jedoch noch Hilfe dabei, daraus Ergebnisse zu erzielen",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "nl": {
+          "title": "OpenAI heeft programmeeragenten nu praktischer gemaakt. De meeste bedrijven hebben echter nog steeds hulp nodig om daar resultaten mee te boeken",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "pt": {
+          "title": "A OpenAI tornou os agentes de programação mais práticos. A maioria das empresas ainda precisa de ajuda para transformar isso em resultados",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        }
+      }
     },
     {
       "folder": "2026-04-01-openai-agent-stack-gpt-5-4-codex-consulting",
@@ -4940,7 +5000,34 @@
         "AI Literacy"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/ai-native-engineering-playbook-european-smes"
+      "canonical_url": "https://radar.firstaimovers.com/ai-native-engineering-playbook-european-smes",
+      "translations": {
+        "es": {
+          "title": "Guía de ingeniería nativa de IA para pymes europeas",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "fr": {
+          "title": "Le guide pratique de l&#x27;ingénierie native IA pour les PME européennes",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "de": {
+          "title": "Das Leitfaden für KI-native Entwicklung für europäische KMU",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "nl": {
+          "title": "Het AI-Native Engineering-handboek voor Europese kmo’s",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "pt": {
+          "title": "O Manual de Engenharia Nativa de IA para PME europeias",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        }
+      }
     },
     {
       "folder": "2026-03-26-ai-readiness-vs-ai-consulting-smes",
@@ -5328,7 +5415,34 @@
         "AI Governance"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/mcp-for-teams-ai-integration-layer-2026"
+      "canonical_url": "https://radar.firstaimovers.com/mcp-for-teams-ai-integration-layer-2026",
+      "translations": {
+        "es": {
+          "title": "MCP para equipos: la capa de integración que necesitan las empresas nativas de IA",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "fr": {
+          "title": "MCP for Teams : la couche d&#x27;intégration dont les entreprises natives de l&#x27;IA ont besoin",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "de": {
+          "title": "MCP for Teams: Die Integrationsschicht, die KI-native Unternehmen brauchen",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "nl": {
+          "title": "MCP for Teams: de integratielaag die AI-native bedrijven nodig hebben",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "pt": {
+          "title": "MCP para Equipas: A Camada de Integração de que as Empresas Nativas de IA Precisam",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        }
+      }
     },
     {
       "folder": "2026-03-26-openrouter-for-teams-multi-model-strategy",
@@ -5440,7 +5554,37 @@
         "European SME AI"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/sovereign-media-engine-owned-audience-2026"
+      "canonical_url": "https://radar.firstaimovers.com/sovereign-media-engine-owned-audience-2026",
+      "summary_short": "This article argues that companies need a sovereign media engine to own their audience and control their reach as AI search replaces traditional discovery. It defines the engine as a system that captures expertise in owned assets, distributes across discovery surfaces, and converts attention into direct audience without platform permission.",
+      "summary_medium": "This article argues that the old visibility model is weakening because search is becoming answer-oriented, social reach is rented, and AI systems are becoming discovery layers. The real problem is rented reach: depending on Google rankings, LinkedIn distribution, and platform feeds means your growth engine is partly owned by someone else.\n\nA sovereign media engine is defined as a system that captures expertise in owned assets, distributes across discovery surfaces, and converts attention into direct audience without platform permission. It is not just a newsletter, SEO, or content calendar. It is control, not isolation.\n\nThe article proposes four layers: the site as knowledge base and authority layer; the direct audience layer as newsletter or subscriber list; the conversational discovery layer for AI search and answer engines; and the professional identity layer for LinkedIn, author profiles, and reputation surfaces.\n\nThe framework for building one includes defining one commercial narrative, turning expertise into durable source material, building for answer engines not just click engines, converting borrowed attention into direct audience, and measuring citation recall and audience control rather than just traffic.",
+      "summary_long": "This article argues that companies need a sovereign media engine to own their audience and control their reach as AI search replaces the traditional visibility model. The old model is weakening because search is becoming conversational and answer-oriented, social reach remains rented, and AI systems from Google and OpenAI are becoming independent discovery layers.\n\nThe real problem is rented reach. If a company depends too heavily on Google rankings, LinkedIn distribution, platform feeds, or third-party algorithms, its growth engine is partly owned by someone else whose rules are changing fast. Google reports that AI Overviews are used by more than a billion people across over two hundred countries and forty languages. OpenAI's ChatGPT Search provides inline citations and source links. Discovery is spreading across multiple answer interfaces.\n\nA sovereign media engine is defined as a business system that captures expertise in owned assets, distributes across discovery surfaces, and converts attention into direct audience without platform permission. The term sovereign means control, not isolation. Publishers are already prioritising their own platforms and direct-to-consumer strategies as search referrals weaken.\n\nThe article proposes four layers. The site is the knowledge base and structured authority layer. The direct audience layer is the newsletter or subscriber list providing attention independent of platform feeds. The conversational discovery layer is where content becomes useful to AI search and answer engines that cite web sources. The professional identity layer is where LinkedIn, author profiles, and executive bios matter as reputation surfaces.\n\nThe practical framework has five components. First, define one commercial narrative connecting buyer problem, point of view, proof, and outcome. Second, turn expertise into durable source material including pillar articles, service pages, FAQs, and explainer pieces. Third, build for answer engines by answering exact questions in plain language with evidence and scannable sections. Fourth, convert borrowed attention into direct audience through subscribers, booked calls, event signups, and branded search demand. Fifth, measure citation, recall, and audience control through branded search growth, newsletter growth, direct traffic, repeat visits, and conversion from thought leadership to business inquiry.\n\nThe article warns against five mistakes: building strategy on one platform, confusing a LinkedIn post with a media system, publishing generic AI content, letting best thinking live only in social threads, and assuming websites are dead in the answer-engine era. The conclusion is that most companies do not need more content. They need a media system they actually own. The article concludes that the next phase of search and discovery will not necessarily reward the loudest brand, but the company that publishes durable thinking, structures it clearly, distributes it intelligently, turns attention into a direct audience it owns, and keeps compounding trust as discovery surfaces change.",
+      "translations": {
+        "es": {
+          "title": "Por qué tu empresa necesita un motor de medios soberano",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "fr": {
+          "title": "Pourquoi votre entreprise a besoin d’un moteur média souverain",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "de": {
+          "title": "Warum Ihr Unternehmen eine „Sovereign Media Engine“ braucht",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "nl": {
+          "title": "Waarom uw bedrijf een soevereine media-engine nodig heeft",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "pt": {
+          "title": "Por que a sua empresa precisa de um motor de mídia soberano",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        }
+      }
     },
     {
       "folder": "2026-03-26-the-european-ceos-12-month-ai-agenda",
@@ -5465,7 +5609,37 @@
         "AI Risk Management"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/the-european-ceos-12-month-ai-agenda"
+      "canonical_url": "https://radar.firstaimovers.com/the-european-ceos-12-month-ai-agenda",
+      "summary_short": "This article outlines a 12-month CEO agenda for turning AI into governed execution across European companies. It maps five priorities to four quarters: building visibility and control, redesigning workflows, aligning governance with infrastructure and sovereignty, and scaling what proves value while cutting what does not.",
+      "summary_medium": "This article presents a 12-month agenda for European CEOs to move from AI experimentation to governed execution. The argument is that external pressure has made AI an execution problem, not an awareness problem: Europe is scaling AI Factories and sector adoption programs while the EU AI Act moves into operational reality, and the ECB notes AI could add significant productivity growth if adoption is strong.\n\nThe agenda is organised across four quarters. Quarter one focuses on visibility and control through a company-wide AI inventory, a simple risk taxonomy, a token and usage ledger, and clear executive ownership across technology, legal, security, and operations. Quarter two moves to workflow redesign rather than task acceleration, selecting three to five repetitive cross-functional workflows and defining mandatory review thresholds for AI-generated outputs. Quarter three addresses governance, infrastructure, and sovereignty through workload-by-workload stance decisions, vendor and architecture reviews for critical dependencies, and a governance model connecting model policy, security, legal obligations, and auditability. Quarter four is about scaling what works and cutting what does not, using metrics such as cost per approved output, correction rate after human review, and cycle-time reduction rather than pilot counts or user numbers.\n\nThe article concludes with six board-ready questions covering measurable value, workflow redesign, highest-risk use cases, external dependencies, cost and quality measurement, and workforce readiness.",
+      "summary_long": "This article presents a 12-month agenda for European CEOs to move from AI experimentation to governed execution, arguing that the combination of European policy pressure, regulatory timelines, and competitive dynamics has made AI an execution problem rather than an awareness problem. Europe is pushing an AI Continent Action Plan, scaling AI Factories, and expanding sector adoption programs, while the EU AI Act transitions from abstract regulation into operational reality with broad applicability from August 2026. The European Central Bank has noted that AI could add more than four percentage points to euro-area productivity growth over the next decade if adoption is strong. McKinsey's 2025 survey reinforces that high-performing organisations are not merely expanding AI access but redesigning workflows, increasing senior-leader ownership, and defining when human validation is required.\n\nThe agenda maps five priorities across four quarters. Quarter one is about visibility and control. Most firms do not know where AI is being used, by whom, for what work, and under which risk assumptions. This is dangerous in Europe where prohibited practices and AI literacy obligations have applied since February 2025, GPAI obligations since August 2025, and broad AI Act applicability begins August 2026. Quarter one should produce four outputs: a company-wide AI inventory tracking models, tools, vendors, and use cases; a simple risk taxonomy distinguishing low-risk assistive work, managed workflows with review, and high-risk regulated use cases; a token and usage ledger showing model consumption by team and workflow; and clear executive ownership across technology, legal, security, and operations.\n\nQuarter two focuses on workflow redesign, not task acceleration. McKinsey's data shows high performers are nearly three times as likely to have fundamentally redesigned individual workflows. The recommendation is to choose three to five workflows that are repetitive, cross-functional, measurable, and reviewable. This is also the quarter to define review thresholds: which outputs require mandatory human approval, which can be sampled, and which can run autonomously within narrow boundaries. The real scarce resource is review design, not prompting skill.\n\nQuarter three addresses governance, infrastructure, and sovereignty. Leadership should make harder decisions about where AI should run, what it can touch, and which dependencies are acceptable. Sovereign AI for most companies does not mean training frontier models; it means deciding which data, workflows, and operational controls must remain governable inside Europe. Quarter three should produce three outcomes: a workload-by-workload sovereignty stance, a vendor and architecture review for critical dependencies, and a governance model connecting model policy, security, legal obligations, and auditability.\n\nQuarter four is about scaling what works and cutting what does not. Leadership should know which workflows create real throughput and where cost, quality, and control are out of balance. The most useful metrics are cost per approved output, correction rate after human review, cycle-time reduction, and approved outcomes per unit of model consumption. Quarter four should also include aggressive cuts: some pilots will not justify scaling, some agent patterns will be too risky, and some use cases will create more correction work than value.\n\nThe article closes with six board questions every CEO should be ready to answer: how AI is creating measurable value, which workflows have been redesigned rather than accelerated, what the highest-risk use cases are and how they are governed, which critical dependencies sit outside Europe and what the fallback plan is, how cost and review effectiveness are measured, and what workforce and organisational changes are still required.",
+      "translations": {
+        "es": {
+          "title": "La agenda de 12 meses de los directores ejecutivos europeos en materia de IA",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "fr": {
+          "title": "Le programme de l&#x27;IA sur 12 mois des PDG européens",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "de": {
+          "title": "Die 12-Monats-Agenda für KI der europäischen CEOs",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "nl": {
+          "title": "De 12-maanden-agenda voor AI van de Europese CEO’s",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "pt": {
+          "title": "A agenda de IA para os próximos 12 meses dos CEOs europeus",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        }
+      }
     },
     {
       "folder": "2026-03-26-the-new-kpi-is-tokens-per-approved-outcome",
@@ -5575,7 +5749,37 @@
         "AI Strategy"
       ],
       "funnel_stage": "middle",
-      "canonical_url": "https://radar.firstaimovers.com/claude-prompt-architecture-vs-complexity-2026"
+      "canonical_url": "https://radar.firstaimovers.com/claude-prompt-architecture-vs-complexity-2026",
+      "summary_short": "This article argues that better Claude output comes from instruction quality, not prompt complexity. The key pattern is clear scope, ordered steps, explicit constraints, defined validation, and exact success criteria. Simple prompts outperform advanced ones for bounded tasks; richer prompts are only justified when the work itself has multiple coordinated layers.",
+      "summary_medium": "This article reframes Claude prompt design around architecture rather than complexity. When agent output is inconsistent, the instinct to make prompts longer or more advanced is usually wrong. What improves execution is precise scope, ordered steps, explicit constraints, defined validation, exact success criteria, and clear completion conditions. Anthropic's Claude Code guidance and OpenAI's reasoning guidance both emphasize that simple, direct prompts with specific end goals outperform bloated scaffolding.\n\nThe article identifies three failure modes of overcomplicated prompts. Scope blurs when Claude optimises across multiple goals at once. Validation weakens when the prompt asks for improvement without defining how success will be proven. Context gets polluted when the agent carries irrelevant branches, edge cases, and premature abstractions. Anthropic's documentation reinforces that context is a constrained resource and reducing unnecessary information improves quality and controls costs.\n\nSimple prompts are the right tool for bounded tasks: one feature, one file family, one main failure mode, one validation path, one clear done state. Richer prompts become necessary only when the task has multiple decision branches, research plus implementation, migration risk, benchmark tradeoffs, or the need to update project memory across sessions. The right mental model is simple prompt for bounded execution, structured spec for multi-stage delivery. The article closes with a practical rule for teams: keep it lean unless the task genuinely has multiple stages, option comparisons, validation loops, or cross-session memory requirements.",
+      "summary_long": "This article reframes Claude prompt design around architecture and instruction quality rather than complexity or length. The central argument is that when agent output is inconsistent, the instinct to make prompts longer or more advanced is usually wrong. What improves execution is precise scope, ordered steps, explicit constraints, defined validation, exact success criteria, and completion conditions. Both Anthropic's Claude Code documentation and OpenAI's reasoning guidance reinforce that simple, direct prompts with specific end goals outperform bloated scaffolding.\n\nThe real lever is prompt architecture. When Claude performs well, the pattern is consistently boring: clear scope, one slice at a time, explicit constraints, defined validation, exact success criteria, and completion conditions. Anthropic's documentation states that verifiability is the single highest-leverage improvement and stresses that long-lived sessions and unnecessary context degrade performance.\n\nThree failure modes occur when prompts become too complicated. Scope blurs because Claude optimises across multiple goals at once. Validation weakens because the prompt asks for improvement without defining how success will be proven. Context gets polluted because the agent carries irrelevant branches, edge cases, and premature abstractions. Anthropic's best-practices and cost-management docs frame context as a constrained resource where reducing unnecessary information improves quality and controls costs.\n\nSimple prompts are the right tool for bounded tasks: one feature, one file family, one main failure mode, one validation path, one benchmark comparison, and one clear done state. A strong simple prompt might specify: inspect files X and Y, explain the failure cause, propose the smallest safe change, implement it, run these tests, commit only if tests pass.\n\nRicher prompts become necessary only when the task has more structure: multiple decision branches, research plus implementation, migration risk, benchmark tradeoffs, data modeling choices, or the need to keep docs, code, and validation aligned across sessions. Anthropic's guidance for sustained agent work emphasizes progress files, clear rules, test oracles, and artifacts that make the next session more reliable. Their engineering write-up frames the problem as harness design, not prompt decoration.\n\nAdvanced users are building leverage by using a strong reasoning model to design the instruction, then Claude Code to execute it. OpenAI's reasoning guidance recommends simple direct prompts with clear goals. Anthropic's Claude Code guidance emphasizes verification and structured execution. The pattern is: use one model to sharpen the brief, then let the coding agent run against it.\n\nThe article closes with a practical rule. Use simple prompts for one bounded feature, one file family, one validation path, and low migration risk. Use richer prompts only when research and implementation must happen together, multiple decisions affect downstream behavior, schema choices matter, or docs, code, and tests must stay aligned. The threshold is not length or formality. It is whether the work has multiple layers that must stay coordinated.",
+      "translations": {
+        "es": {
+          "title": "Deja de complicar las indicaciones para Claude más allá de lo necesario",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "fr": {
+          "title": "Cessez de rendre les prompts de Claude plus compliqués que la tâche elle-même",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "de": {
+          "title": "Hört auf, Claude-Prompts komplizierter zu gestalten als die eigentliche Aufgabe",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "nl": {
+          "title": "Maak Claude-prompts niet ingewikkelder dan het werk zelf",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        },
+        "pt": {
+          "title": "Deixem de tornar os prompts do Claude mais complicados do que o próprio trabalho",
+          "approval_method": "ai_qa",
+          "ai_generated": true
+        }
+      }
     },
     {
       "folder": "2026-03-23-claude-desktop-vs-terminal-config-guide",

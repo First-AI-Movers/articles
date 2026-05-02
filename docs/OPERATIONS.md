@@ -159,6 +159,7 @@ python3 tools/check_duplicate_titles.py
 python3 tools/normalize_tags.py --dry-run
 python3 tools/build_citation_graph.py --check
 python3 tools/check_translation_quality.py
+python3 tools/check_generated_artifacts.py
 python3 tools/rebuild_local.py
 python3 -m pytest tools/tests -q
 npm run test:e2e
