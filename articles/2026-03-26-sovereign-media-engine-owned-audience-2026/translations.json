@@ -1,0 +1,52 @@
+{
+  "es": {
+    "status": "published",
+    "title": "Por qué tu empresa necesita un motor de medios soberano",
+    "model": "deepl",
+    "source_chars": 12743,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "fr": {
+    "status": "published",
+    "title": "Pourquoi votre entreprise a besoin d’un moteur média souverain",
+    "model": "deepl",
+    "source_chars": 12743,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "de": {
+    "status": "published",
+    "title": "Warum Ihr Unternehmen eine „Sovereign Media Engine“ braucht",
+    "model": "deepl",
+    "source_chars": 12743,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "nl": {
+    "status": "published",
+    "title": "Waarom uw bedrijf een soevereine media-engine nodig heeft",
+    "model": "deepl",
+    "source_chars": 12743,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "pt": {
+    "status": "published",
+    "title": "Por que a sua empresa precisa de um motor de mídia soberano",
+    "model": "deepl",
+    "source_chars": 12743,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  }
+}

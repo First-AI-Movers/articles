@@ -1,0 +1,52 @@
+{
+  "es": {
+    "status": "published",
+    "title": "Guía de ingeniería nativa de IA para pymes europeas",
+    "model": "deepl",
+    "source_chars": 10441,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "fr": {
+    "status": "published",
+    "title": "Le guide pratique de l&#x27;ingénierie native IA pour les PME européennes",
+    "model": "deepl",
+    "source_chars": 10441,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "de": {
+    "status": "published",
+    "title": "Das Leitfaden für KI-native Entwicklung für europäische KMU",
+    "model": "deepl",
+    "source_chars": 10441,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "nl": {
+    "status": "published",
+    "title": "Het AI-Native Engineering-handboek voor Europese kmo’s",
+    "model": "deepl",
+    "source_chars": 10441,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "pt": {
+    "status": "published",
+    "title": "O Manual de Engenharia Nativa de IA para PME europeias",
+    "model": "deepl",
+    "source_chars": 10441,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  }
+}
