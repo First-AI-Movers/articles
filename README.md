@@ -43,7 +43,7 @@
   ],
   "isAccessibleForFree": true,
   "dateCreated": "2025-02-17",
-  "dateModified": "2026-04-29"
+  "dateModified": "2026-05-01"
 }
 -->
 
@@ -273,6 +273,7 @@ It contains every article's title, publication date, tags, funnel stage (top/mid
 - **103** canonical topics
 - **3 funnel stages:** top (221 articles), middle (597), bottom (11)
 - **Date range:** February 17, 2025 – April 25, 2026
+- **10** translated pages (2 articles × 5 languages: ES, FR, DE, NL, PT)
 - **Cadence:** Multiple articles per week
 
 ---
