@@ -254,7 +254,9 @@ python3 tools/translate_articles.py --write-review-files --slug <slug> --lang es
 python3 tools/translate_articles.py --apply-approved --slug <slug> --lang es
 ```
 
-Translations are gated by `status: published` in `translations.json`. The default approval path for E39c is AI-QA (`approval_method: ai_qa`, `ai_generated: true`). Human review remains available for individual articles when explicitly desired. The build renders translated pages only when the sidecar declares `published`. No automated CI translation.
+Translations are gated by `status: published` in `translations.json`. The build renders translated pages only when the sidecar declares `published`. No automated CI translation.
+
+The E39c default approval path is AI-QA (`approval_method: ai_qa`, `ai_generated: true`), validated by `tools/check_translation_quality.py`. Human review remains available for individual articles when explicitly desired.
 
 ## Errata and corrections
 
@@ -279,6 +281,10 @@ See [`docs/C2PA_RESEARCH.md`](C2PA_RESEARCH.md) for the research note on C2PA Co
 See [`docs/decisions/adr-001-c2pa-content-credentials.md`](decisions/adr-001-c2pa-content-credentials.md) for the formal decision (status: **Deferred**).
 
 > **Rule:** Do not add C2PA signing, manifests, or cryptographic credentials without a new ADR that supersedes ADR-001.
+
+## Release and External Surface Readiness
+
+See [`docs/RELEASE_EXTERNAL_READINESS.md`](RELEASE_EXTERNAL_READINESS.md) for the consolidated readiness matrix covering Zenodo/DOI, MCP server, Ask endpoint, embeddings, IndexNow, Airtable ingestion, OG worker, Giscus, analytics, and GEO audit. Use this matrix to decide which optional surfaces to enable before v1 freeze.
 
 ## Multi-property archive pattern
 
