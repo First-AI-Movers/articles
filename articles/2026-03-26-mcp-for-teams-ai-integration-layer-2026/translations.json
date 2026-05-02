@@ -1,0 +1,52 @@
+{
+  "es": {
+    "status": "published",
+    "title": "MCP para equipos: la capa de integración que necesitan las empresas nativas de IA",
+    "model": "deepl",
+    "source_chars": 11687,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "fr": {
+    "status": "published",
+    "title": "MCP for Teams : la couche d&#x27;intégration dont les entreprises natives de l&#x27;IA ont besoin",
+    "model": "deepl",
+    "source_chars": 11687,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "de": {
+    "status": "published",
+    "title": "MCP for Teams: Die Integrationsschicht, die KI-native Unternehmen brauchen",
+    "model": "deepl",
+    "source_chars": 11687,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "nl": {
+    "status": "published",
+    "title": "MCP for Teams: de integratielaag die AI-native bedrijven nodig hebben",
+    "model": "deepl",
+    "source_chars": 11687,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "pt": {
+    "status": "published",
+    "title": "MCP para Equipas: A Camada de Integração de que as Empresas Nativas de IA Precisam",
+    "model": "deepl",
+    "source_chars": 11687,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  }
+}

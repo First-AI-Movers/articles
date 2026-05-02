@@ -1,0 +1,52 @@
+{
+  "es": {
+    "status": "published",
+    "title": "La agenda de 12 meses de los directores ejecutivos europeos en materia de IA",
+    "model": "deepl",
+    "source_chars": 12368,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "fr": {
+    "status": "published",
+    "title": "Le programme de l&#x27;IA sur 12 mois des PDG européens",
+    "model": "deepl",
+    "source_chars": 12368,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "de": {
+    "status": "published",
+    "title": "Die 12-Monats-Agenda für KI der europäischen CEOs",
+    "model": "deepl",
+    "source_chars": 12368,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "nl": {
+    "status": "published",
+    "title": "De 12-maanden-agenda voor AI van de Europese CEO’s",
+    "model": "deepl",
+    "source_chars": 12368,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  },
+  "pt": {
+    "status": "published",
+    "title": "A agenda de IA para os próximos 12 meses dos CEOs europeus",
+    "model": "deepl",
+    "source_chars": 12368,
+    "approval_method": "ai_qa",
+    "ai_generated": true,
+    "quality_checked_at": "2026-05-01",
+    "quality_check_model": "kimi-2.6"
+  }
+}
