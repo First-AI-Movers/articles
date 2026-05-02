@@ -34,7 +34,7 @@
 
 | Item | What ships | What remains | Certainty |
 |---|---|---|---|
-| **E39c top-20 translation rollout** | E39b pilot done (1 article, human-reviewed). E39c mini-pilot Batch 1 done (1 article, AI-QA approved). Tooling, tests, docs, batch plan ready. | 18 remaining articles × 5 languages = 90 translation entries pending AI-QA approval and `--apply-approved`. | VERIFIED |
+| **E39c top-20 translation rollout** | E39b pilot done (1 article, human-reviewed). E39c mini-pilot Batch 1 done (6 articles, AI-QA approved). Tooling, tests, docs, batch plan ready. | 13 remaining articles × 5 languages = 65 translation entries pending. Re-scoped to **quota-paced growth layer**: ~1 article/month on DeepL Free tier. Optional for archive v1 closeout. | VERIFIED |
 | **E20a Airtable ingestion** | Dry-run validated (67/67 records clean); field mapping correct | Write mode disabled; controlled single-record write test not done; Make.com not retired | VERIFIED |
 | **E21 MCP server** | Code, tests, data export, docs shipped | Live deployment gated — `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `MCP_DEPLOY_ENABLED=1` not configured | VERIFIED |
 | **E33 Ask the Archive** | Backend (`/api/ask`), frontend (`/ask/`), tests, docs shipped | Live deployment gated — Cloudflare credentials + rate-limit setup pending | VERIFIED |
@@ -47,8 +47,8 @@
 
 | Item | Why pending | Blocker |
 |---|---|---|
-| **E39c Batch 2–3 translations** | Awaiting owner go-ahead on DeepL quota + AI-QA threshold | Owner decision |
-| **E39c hreflang/SEO strategy confirmation** | Option B approved for pilot; re-confirmation needed for full rollout | Owner decision |
+| **E39c remaining translations** | Awaiting owner decision on strategic option (A/B/C/D); ~1 article/month default on DeepL Free | Owner decision |
+| **E39c hreflang/SEO strategy confirmation** | Option B approved for pilot; re-confirmation needed for continued rollout | Owner decision |
 | **N2 Live IndexNow switch** | CI step still `--dry-run` | Owner decision (low risk, reversible) |
 | **N3 Topic hub CTR optimization** | Requires 2–4 weeks of GSC data | GoatCounter data not yet available (~3 days since E24) |
 | **N4 WordPress/Hetzner migration checklist** | External platform work, not archive blocker | Owner timeline |
@@ -79,13 +79,12 @@
 
 | Work item | Why Track A | Size | Owner |
 |---|---|---|---|
-| **A1 — E39c Batch 2 translations** (6 articles × 5 languages) | Continue AI-QA approved rollout; fits DeepL Free month 2 | M | Content/Translation |
-| **A2 — E39c Batch 3 translations** (6 articles × 5 languages) | Complete top-20 rollout | M | Content/Translation |
-| **A3 — E39c Batch 4 translations** (6 articles × 5 languages) | Finish remaining 18 | M | Content/Translation |
-| **A4 — README.md stats refresh** | Ensure badges and counts match `index.json` | XS | Docs |
-| **A5 — N2 Live IndexNow switch** (optional) | If owner approves, remove `--dry-run` from `build-and-deploy.yml` indexnow step | XS | Automation |
+| **A1 — E39c monthly translation** (~1 article × 5 languages) | Optional growth layer; ~1 article/month on DeepL Free. AI-QA approved. Not a blocker for v1 closeout. | S | Content/Translation |
+| **A2 — README.md stats refresh** | Ensure badges and counts match `index.json` | XS | Docs |
+| **A3 — N2 Live IndexNow switch** (optional) | If owner approves, remove `--dry-run` from `build-and-deploy.yml` indexnow step | XS | Automation |
 
 **Track A avoids:**
+- Treating E39c as mandatory or time-sensitive
 - Broad workflow rewrites
 - Automation architecture changes (MCP deploy, chatbot deploy, OG deploy)
 - Final audit changes
@@ -130,21 +129,20 @@
 | B6 Release/DOI/MCP readiness | B | B2 | After B2 | Low | Checklist doc |
 | B8 Security/secrets review | B | B2 | After B2 | Low | gitleaks green |
 | B7 Final audit harness | B | B2, B5, B6 | After B5 | Medium | Checklist doc + scripts |
-| A4 README stats refresh | A | None | **Yes** | Low | `rebuild_local.py` output |
-| A5 Live IndexNow | A | Owner approval | **Yes** (if approved) | Low | CI step removes `--dry-run` |
-| A1 Batch 2 translations | A | Owner approves quota + AI-QA threshold | **Yes** (if approved) | Medium | `translations.json` entries |
-| A2 Batch 3 translations | A | A1 complete | Month 3 | Medium | Published sidecars |
-| A3 Batch 4 translations | A | A2 complete | Month 4 | Medium | Published sidecars |
-| **Final large audit** | Final | A1–A5, B1–B8 | After both tracks | Medium | Section 6 checklist |
+| A2 README stats refresh | A | None | **Yes** | Low | `rebuild_local.py` output |
+| A3 Live IndexNow | A | Owner approval | **Yes** (if approved) | Low | CI step removes `--dry-run` |
+| A1 E39c monthly translation | A | Owner approves option A/B/C/D | **Yes** (if approved) | Low | `translations.json` entries |
+| **Final large audit** | Final | A2–A3, B1–B8 | After both tracks | Medium | Section 6 checklist |
 | **Archive closeout PR** | Final | Final audit green | After audit | Low | `ROADMAP.md` marks archive v1 |
 
 **What can run in parallel immediately:**
 - B1, B3, B4, B8 (all doc/planning work)
-- A4 (small docs fix)
-- A1 Batch 2 (if owner approves DeepL + AI-QA threshold now)
+- A2 (small docs fix)
+- A1 E39c (if owner approves option A now; otherwise deferred indefinitely)
 
 **What must wait for Track A:**
 - Nothing in Track B is blocked by Track A. They are intentionally decoupled.
+- E39c is explicitly optional — archive v1 can close out with zero additional translations.
 
 **What must wait for Track B:**
 - Final audit harness (B7) needs automation readiness verified first.
@@ -163,27 +161,26 @@
 ```
 Independent (parallel):
 ├── PR B1  → docs(roadmap): canonical closeout tracks
-└── PR A4  → docs(readme): refresh stats from latest index
+└── PR A2  → docs(readme): refresh stats from latest index
 
 After B1 merges:
 ├── PR B2  → docs(ops): workflow/doc consistency pass
 ├── PR B4  → docs(ops): generated artifact policy
 └── PR B8  → ci(sec): secrets review + gitleaks coverage check
 
-After A4 merges:
-├── PR A5  → ci(indexnow): switch to live submission (owner-approved)
-└── PR A1  → feat(translations): E39c Batch 2 — 6 articles × 5 languages (AI-QA)
+After A2 merges:
+└── PR A3  → ci(indexnow): switch to live submission (owner-approved)
 
-After A1 merges:
-├── PR A2  → feat(translations): E39c Batch 3 — 6 articles × 5 languages (AI-QA)
-└── PR A3  → feat(translations): E39c Batch 4 — 6 articles × 5 languages (AI-QA)
+Optional, ongoing (not on critical path):
+└── PR A1  → feat(translations): E39c Month N — <slug> × 5 languages (AI-QA)
+    (Repeat monthly while owner approves continuation)
 
 After B2 + B4 + B8 merge:
 ├── PR B5  → ci(pages): verify deploy health + URL proof
 ├── PR B6  → docs(ops): release/DOI/MCP/embeddings readiness matrix
 └── PR B7  → docs(audit): final audit harness and checklist
 
-After ALL above:
+After B1–B8 + A2–A3 (A1 is optional):
 ├── PR FINAL → docs(closeout): archive v1 freeze — CHANGELOG.md, CITATION.cff
 ```
 
@@ -281,14 +278,14 @@ These are **true owner decisions**, not implementation details. They determine s
 | # | Decision | Options | Suggested default | Consequence of delay |
 |---|---|---|---|---|
 | D1 | **E39c scope:** Finish only planned top-20 or expand later to top-50? | Top-20 only; or top-20 now + top-50 later | **Top-20 only for v1 freeze** | None — expansion is documented as future growth layer |
-| D2 | **E39c canonical strategy:** Re-confirm Option B for full rollout? | Option B (status quo); or architect Option C | **Option B** | Blocks Batch 2 if not confirmed |
+| D2 | **E39c canonical strategy:** Re-confirm Option B for continued rollout? | Option B (status quo); or architect Option C | **Option B** | Blocks Month 1 if not confirmed |
 | D3 | **AI-QA tolerance threshold:** Confirm `check_translation_quality.py` strictness for E39c? | Default lenient; or `--strict` for higher bar | **Default lenient** | Blocks `--apply-approved` if threshold is undefined |
-| D4 | **DeepL quota exhaustion:** If Free tier runs out mid-batch, upgrade to Pro or pause until next month? | Upgrade Pro ($5.49/mo + $25/M chars); or pause | **Pause until next month** | 1-month delay per affected batch |
+| D4 | **E39c pace:** Choose strategic option (A/B/C/D) from `docs/E39C_ROLLOUT_PLAN.md` Section 5 | Option A (~1 article/month Free); Option B (DeepL Pro fast); Option C (fewer languages); Option D (pause) | **Option A** (~1 article/month, Free tier, sustainable) | If deferred, E39c stays pending indefinitely |
 | D5 | **Enable comments/Giscus?** Enable GitHub Discussions, install Giscus app, fill IDs? | Enable now; or leave disabled for v1 | **Leave disabled for v1** | None — safe to enable later |
 | D6 | **Mint production DOI now or defer?** Corpus-level Zenodo DOI + per-article DOIs | Mint corpus DOI at v1 tag; or defer all | **Mint corpus DOI at v1 tag** | Citation metadata stays "pending" |
 | D7 | **Deploy MCP/Ask live now or leave scaffolded?** Requires Cloudflare credentials + rate limits | Deploy now; or leave scaffolded for v2 | **Leave scaffolded for v1** | None — all code is ready |
 | D8 | **Live IndexNow now or keep dry-run?** Switch `build-and-deploy.yml` from `--dry-run` | Switch to live; or keep dry-run | **Switch to live** (low risk, reversible) | Bing may index slower |
-| D9 | **Treat E39 completion as archive closeout blocker or optional growth layer?** | Blocker for v1 tag; or optional post-v1 | **Optional growth layer** | If blocker, v1 freezes in ~3 months; if optional, v1 can freeze now |
+| D9 | **Treat E39 completion as archive closeout blocker or optional growth layer?** | Blocker for v1 tag; or optional post-v1 | **Optional growth layer** | If blocker, v1 freezes in ~13 months; if optional, v1 can freeze immediately |
 
 ---
 
@@ -297,20 +294,19 @@ These are **true owner decisions**, not implementation details. They determine s
 The fastest responsible closeout that leaves the archive in a professional, defensible, contributor-ready state:
 
 1. **Merge B1** (this doc) immediately.
-2. **Merge A4** (README stats refresh) in parallel.
+2. **Merge A2** (README stats refresh) in parallel.
 3. **Owner decides D1–D9** (can be async via PR comments or Issues).
-4. **If owner approves E39c continuation:**
-   - Run A1 Batch 2 in June 2026.
-   - Run B2–B8 automation readiness in parallel during June.
-   - Run A2 Batch 3 in July 2026.
-   - Run A3 Batch 4 in August 2026.
-   - Run final audit after Batch 4.
-   - Freeze/archive as stable v1.
-5. **If owner defers E39c:**
-   - Run B2–B8 in parallel during June.
-   - Run final audit in late June.
+4. **If owner approves E39c Option A:**
+   - Run A1 (~1 article/month) starting next billing cycle reset (~June 2026).
+   - Run B2–B8 automation readiness in parallel.
+   - Continue A1 monthly while owner approves continuation.
+   - Run final audit after B7 completes (A1 does not block).
+   - Freeze/archive as stable v1 with E39c continuing as a background growth layer.
+5. **If owner defers E39c (Option D):**
+   - Run B2–B8 in parallel.
+   - Run final audit after B7 completes.
    - Freeze/archive as stable v1 with E39c documented as a future growth layer.
-6. **Post-freeze:** All optional growth items (E39c expansion, E35 full-corpus summaries, MCP deploy, Ask deploy, OG deploy, Giscus enable) live in `docs/` as documented backlog. They do not block the archive from being cited, referenced, or reused.
+6. **Post-freeze:** All optional growth items (E39c completion, E35 full-corpus summaries, MCP deploy, Ask deploy, OG deploy, Giscus enable) live in `docs/` as documented backlog. They do not block the archive from being cited, referenced, or reused.
 
 **Why this is responsible:**
 - It does not leave automation in a half-broken state.
