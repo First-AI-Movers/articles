@@ -54,7 +54,7 @@ class TestAirtableIngestion:
                 "GUID": "https://example.com/test",
                 "Content HTML": "# Hello\n\nWorld.",
                 "tags": "AI, Strategy",
-                "Status": "published",
+                "FAIM Status": "published",
                 "Funnel Stage": "middle",
             }
         }
@@ -339,7 +339,7 @@ class TestAirtableIngestion:
                 "Pub Date": "2026-04-01",
                 "GUID": "https://example.com/write-mode-test",
                 "Content HTML": "# Hello",
-                "Status": "published",
+                "FAIM Status": "published",
             }
         }
         monkeypatch.setattr(ingest_airtable, "_fetch_records", lambda *a, **k: iter([record]))
@@ -381,7 +381,7 @@ class TestAirtableIngestion:
                 "GUID": "https://example.com/real",
                 "Content HTML": "# Real\n\nContent.",
                 "tags": "AI, Strategy",
-                "Status": "published",
+                "FAIM Status": "published",
             }
         }
         payload = ingest_airtable._record_to_payload(record)
@@ -559,4 +559,117 @@ class TestAirtableIngestion:
         text = (Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml").read_text(encoding="utf-8")
         assert "create-pull-request" in text.lower() or "peter-evans/create-pull-request" in text
         assert "git push" not in text.lower()
+
+
+class TestAirtableFaimStatusGate:
+    """E41a — Airtable status mapping must target the live "FAIM Status" field.
+
+    The Pubs/beehiiv table does not expose a literal "Status" field. Editorial
+    state lives in "FAIM Status" (singleSelect: Ready, Posted, ...). The
+    allowed-status set stays {published, ready, approved} (case-insensitive)
+    until E41c/E41d revisits Posted handling.
+    """
+
+    def test_field_map_targets_faim_status(self):
+        import ingest_airtable
+        assert ingest_airtable.AIRTABLE_FIELD_MAP["status"] == "FAIM Status"
+
+    def test_no_literal_status_field_required(self):
+        import ingest_airtable
+        # No mapping value should be the bare "Status" field — that field does
+        # not exist in the live Pubs/beehiiv schema.
+        assert "Status" not in ingest_airtable.AIRTABLE_FIELD_MAP.values()
+
+    def test_allowed_statuses_unchanged(self):
+        import ingest_airtable
+        assert ingest_airtable.ALLOWED_STATUSES == {"published", "ready", "approved"}
+
+    def test_faim_status_ready_maps_to_payload_status(self):
+        import ingest_airtable
+        record = {
+            "id": "recReady",
+            "fields": {
+                "Title": "Ready Article",
+                "slug": "ready-article",
+                "Pub Date": "2026-05-01",
+                "GUID": "https://radar.firstaimovers.com/ready-article",
+                "Content HTML": "body",
+                "FAIM Status": "Ready",
+            },
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert payload["status"] == "Ready"
+        # Script lowercases before gate comparison; ensure that lowercase form is allowed.
+        assert payload["status"].lower() in ingest_airtable.ALLOWED_STATUSES
+
+    def test_faim_status_posted_is_not_in_allowed_set(self):
+        import ingest_airtable
+        record = {
+            "id": "recPosted",
+            "fields": {
+                "Title": "Posted Article",
+                "slug": "posted-article",
+                "Pub Date": "2026-05-01",
+                "GUID": "https://radar.firstaimovers.com/posted-article",
+                "Content HTML": "body",
+                "FAIM Status": "Posted",
+            },
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert payload["status"] == "Posted"
+        assert payload["status"].lower() not in ingest_airtable.ALLOWED_STATUSES
+
+    def test_missing_faim_status_yields_no_status_key(self):
+        import ingest_airtable
+        record = {
+            "id": "recNoStatus",
+            "fields": {
+                "Title": "No Status Article",
+                "slug": "no-status-article",
+                "Pub Date": "2026-05-01",
+                "GUID": "https://radar.firstaimovers.com/no-status-article",
+                "Content HTML": "body",
+            },
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        # _record_to_payload drops None values, so missing status must not appear.
+        assert "status" not in payload
+
+    def test_missing_faim_status_does_not_invalidate_required_schema(self):
+        import ingest_airtable
+        record = {
+            "id": "recNoStatus",
+            "fields": {
+                "Title": "No Status Article",
+                "slug": "no-status-article",
+                "Pub Date": "2026-05-01",
+                "GUID": "https://radar.firstaimovers.com/no-status-article",
+                "Content HTML": "body",
+            },
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        schema = {
+            "required": ["title", "slug", "published_date", "canonical_url", "article_markdown"],
+            "properties": {},
+        }
+        errors, warnings = ingest_airtable._validate_payload(payload, schema)
+        assert errors == []
+
+    def test_legacy_literal_status_field_is_not_read(self):
+        # Defends against silent fallback: if someone re-adds a literal "Status"
+        # field to Airtable, the script must still rely only on "FAIM Status".
+        import ingest_airtable
+        record = {
+            "id": "recLegacy",
+            "fields": {
+                "Title": "Legacy",
+                "slug": "legacy",
+                "Pub Date": "2026-05-01",
+                "GUID": "https://radar.firstaimovers.com/legacy",
+                "Content HTML": "body",
+                "Status": "approved",  # legacy field — must be ignored
+            },
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        assert "status" not in payload
 

@@ -50,7 +50,10 @@ AIRTABLE_FIELD_MAP = {
     "tags": "tags",
     "funnel_stage": "Funnel Stage",
     "first_ai_movers_services": "First AI Movers Services",
-    "status": "Status",
+    # The live "Pubs/beehiiv" base does not have a literal "Status" field;
+    # editorial state is tracked in "FAIM Status" (singleSelect: Ready, Posted, ...).
+    # Allowed-status logic remains case-insensitive against ALLOWED_STATUSES below.
+    "status": "FAIM Status",
     "word_count": "Word Count",
     "read_time_minutes": "Read Time",
     "license": "License",
