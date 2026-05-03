@@ -62,10 +62,20 @@ If your Airtable base uses different field names, edit `AIRTABLE_FIELD_MAP` in `
 
 ## Status gate
 
-Only records with status `published`, `ready`, or `approved` are ingested by default.
-Records with `draft`, `needs review`, or `archived` are skipped.
+Only records with `FAIM Status = Posted` are ingested.
 
-If your base does not have a `Status` field:
+`Posted` means the article is already live in the upstream publishing system
+(Hashnode/Beehiiv/Medium/etc.) and its canonical URL resolves. Mirroring it
+into the archive is therefore safe.
+
+`Ready` means the article is prepared for upstream publication but has NOT
+yet been posted. The canonical URL may not yet resolve and post-publication
+edits may still occur, so `Ready` records must NOT be archived.
+
+Records with any other `FAIM Status` value (e.g. `Draft`, `Failed`, blank)
+are skipped.
+
+If a record is missing `FAIM Status` entirely:
 - Dry-run allows missing status for discovery (passes `--allow-no-status-gate`).
 - Write mode requires `--allow-no-status-gate` to be set explicitly.
 

@@ -59,8 +59,16 @@ AIRTABLE_FIELD_MAP = {
     "license": "License",
 }
 
-# Status values that are allowed for ingestion.
-ALLOWED_STATUSES = {"published", "ready", "approved"}
+# Status values that are allowed for archive ingestion.
+#
+# `Posted` means: the article has already been published in the upstream
+# system (Hashnode/Beehiiv/Medium/etc.) and is now safe to mirror into the
+# canonical archive. `Ready` means: prepared for upstream publication but not
+# yet posted — those records must NOT be archived because their canonical
+# URLs may not yet resolve and post-publication edits may still happen.
+#
+# Comparison is case-insensitive (see _validate_payload / main).
+ALLOWED_STATUSES = {"posted"}
 
 AIRTABLE_API_URL = "https://api.airtable.com/v0"
 
@@ -332,7 +340,10 @@ def _write_article(payload, record_id, dry_run):
         "read_time_minutes": payload.get("read_time_minutes"),
         "funnel_stage": payload.get("funnel_stage"),
         "first_ai_movers_services": payload.get("first_ai_movers_services", []),
-        "status": payload.get("status", "published"),
+        # Normalize to lowercase so values written by this script match the
+        # convention already used across the archive (existing 829 articles
+        # all store status as lowercase "published").
+        "status": payload.get("status", "published").lower(),
         "topics": [],  # populated by normalize_tags.py
     }
     # Drop None values to keep JSON clean
