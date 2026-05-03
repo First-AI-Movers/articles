@@ -5,6 +5,7 @@
 
 ## Features
 
+- feat(audit): add final archive audit harness ([144](https://github.com/First-AI-Movers/articles/pull/144))
 - feat(translations): complete E39c Batch 1 AI-QA translations ([135](https://github.com/First-AI-Movers/articles/pull/135))
 - feat(translations): add automated AI-QA checker ([128](https://github.com/First-AI-Movers/articles/pull/128))
 - feat(translations): support AI-QA translation approval ([126](https://github.com/First-AI-Movers/articles/pull/126))
@@ -28,6 +29,12 @@
 
 ## Documentation
 
+- docs(closeout): freeze archive v1 ([145](https://github.com/First-AI-Movers/articles/pull/145))
+- docs(ops): add CI and Pages proof for closeout ([143](https://github.com/First-AI-Movers/articles/pull/143))
+- docs(sec): add security and secrets closeout review ([142](https://github.com/First-AI-Movers/articles/pull/142))
+- docs(ops): restore AI-QA and quota-paced closeout wording ([141](https://github.com/First-AI-Movers/articles/pull/141))
+- docs(ops): add release and external readiness matrix ([139](https://github.com/First-AI-Movers/articles/pull/139))
+- docs(roadmap): re-scope E39c to quota-paced growth layer ([137](https://github.com/First-AI-Movers/articles/pull/137))
 - docs(ops): audit automation readiness for archive closeout ([133](https://github.com/First-AI-Movers/articles/pull/133))
 - docs(readme): refresh archive stats ([132](https://github.com/First-AI-Movers/articles/pull/132))
 - docs(roadmap): split archive closeout into parallel tracks ([131](https://github.com/First-AI-Movers/articles/pull/131))
@@ -54,6 +61,12 @@
 - docs(roadmap): add Phase 8 — Reach, permanence, and AI-native distribution (E21-E33) ([35](https://github.com/First-AI-Movers/articles/pull/35))
 - docs(roadmap): add E20a/E20b — self-hosted Airtable ingestion ([34](https://github.com/First-AI-Movers/articles/pull/34))
 - docs(roadmap): add Phase 7 — Professionalization (E14-E19) ([31](https://github.com/First-AI-Movers/articles/pull/31))
+
+## CI/CD
+
+- ci(artifacts): add generated artifact drift check ([138](https://github.com/First-AI-Movers/articles/pull/138))
+- ci(pages): verify deploy health and URL proof ([143](https://github.com/First-AI-Movers/articles/pull/143))
+- ci(sec): add gitleaks coverage and secrets review ([142](https://github.com/First-AI-Movers/articles/pull/142))
 
 ## Tests
 

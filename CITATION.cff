@@ -9,6 +9,8 @@ authors:
     affiliation: "First AI Movers / Core Ventures"
 title: "First AI Movers — Article Archive"
 abstract: "Canonical, open-access archive of 829+ original articles on AI strategy, EU AI Act compliance, AI governance, agentic systems, and responsible AI adoption for European SMEs. Written by Dr. Hernani Costa, PhD."
+version: "1.0.0"
+date-released: "2026-05-03"
 repository-code: "https://github.com/First-AI-Movers/articles"
 url: "https://github.com/First-AI-Movers/articles"
 # DOI will be issued by Zenodo after the first GitHub release.
