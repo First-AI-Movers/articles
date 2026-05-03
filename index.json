@@ -1,11 +1,27 @@
 {
   "last_updated": "2026-05-03",
-  "total_articles": 829,
+  "total_articles": 830,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-05-03-cto-checklist-securing-coding-agents-rollout",
+      "slug": "cto-checklist-securing-coding-agents-rollout",
+      "title": "The CTO's Checklist for Securing Coding Agents Before a Team-Wide Rollout",
+      "published_date": "2026-05-03",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/cto-checklist-securing-coding-agents-rollout"
+    },
     {
       "folder": "2026-04-25-ai-consulting-bratislava-tech-smes-2026",
       "slug": "ai-consulting-bratislava-tech-smes-2026",
