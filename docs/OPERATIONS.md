@@ -290,6 +290,10 @@ See [`docs/RELEASE_EXTERNAL_READINESS.md`](RELEASE_EXTERNAL_READINESS.md) for th
 
 See [`docs/SECURITY_SECRETS_REVIEW.md`](SECURITY_SECRETS_REVIEW.md) for the complete security closeout audit: secret inventory, workflow permissions, gitleaks coverage, external activation gates, dependency surface, and supply-chain hygiene.
 
+## CI and Pages proof
+
+See [`docs/CI_PAGES_PROOF.md`](CI_PAGES_PROOF.md) for the CI health and Pages deployment verification: required checks, build-and-deploy workflow, public URL HTTP 200 proof, translated page rendering, and IndexNow dry-run confirmation.
+
 ## Multi-property archive pattern
 
 See [`docs/MULTI_PROPERTY_PATTERN.md`](MULTI_PROPERTY_PATTERN.md) for the full pattern.
