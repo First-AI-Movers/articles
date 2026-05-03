@@ -286,6 +286,10 @@ See [`docs/decisions/adr-001-c2pa-content-credentials.md`](decisions/adr-001-c2p
 
 See [`docs/RELEASE_EXTERNAL_READINESS.md`](RELEASE_EXTERNAL_READINESS.md) for the consolidated readiness matrix covering Zenodo/DOI, MCP server, Ask endpoint, embeddings, IndexNow, Airtable ingestion, OG worker, Giscus, analytics, and GEO audit. Use this matrix to decide which optional surfaces to enable before v1 freeze.
 
+## Security and secrets
+
+See [`docs/SECURITY_SECRETS_REVIEW.md`](SECURITY_SECRETS_REVIEW.md) for the complete security closeout audit: secret inventory, workflow permissions, gitleaks coverage, external activation gates, dependency surface, and supply-chain hygiene.
+
 ## Multi-property archive pattern
 
 See [`docs/MULTI_PROPERTY_PATTERN.md`](MULTI_PROPERTY_PATTERN.md) for the full pattern.
