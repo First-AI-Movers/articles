@@ -70,8 +70,8 @@
     },
     "status": {
       "type": "string",
-      "enum": ["published", "draft", "ready", "approved", "archived", "needs review"],
-      "description": "Editorial status. Only published/ready/approved records are ingested by default."
+      "enum": ["published", "posted", "draft", "ready", "approved", "archived", "needs review"],
+      "description": "Editorial status. The Airtable archive ingestion path admits only `posted` (already published upstream). Legacy archive records use `published`. Other values are valid for non-Airtable sources but are not auto-ingested."
     },
     "word_count": {
       "type": "integer",

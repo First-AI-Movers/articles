@@ -339,13 +339,18 @@ class TestAirtableIngestion:
                 "Pub Date": "2026-04-01",
                 "GUID": "https://example.com/write-mode-test",
                 "Content HTML": "# Hello",
-                "FAIM Status": "published",
+                "FAIM Status": "Posted",
             }
         }
         monkeypatch.setattr(ingest_airtable, "_fetch_records", lambda *a, **k: iter([record]))
         code = ingest_airtable.main(["--write", "--limit", "1"])
         assert code == 0
         assert (tmp_path / "articles" / "2026-04-01-write-mode-test" / "article.md").exists()
+        # Status must be normalized to lowercase in metadata.json so it matches
+        # the convention used by the existing 829 archive records.
+        meta_path = tmp_path / "articles" / "2026-04-01-write-mode-test" / "metadata.json"
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        assert meta["status"] == "posted"
 
     def test_dry_run_and_write_are_mutually_exclusive(self, monkeypatch, capsys):
         import ingest_airtable
@@ -562,12 +567,16 @@ class TestAirtableIngestion:
 
 
 class TestAirtableFaimStatusGate:
-    """E41a — Airtable status mapping must target the live "FAIM Status" field.
+    """E41b — Airtable archive ingestion must gate on `FAIM Status = Posted`.
 
-    The Pubs/beehiiv table does not expose a literal "Status" field. Editorial
-    state lives in "FAIM Status" (singleSelect: Ready, Posted, ...). The
-    allowed-status set stays {published, ready, approved} (case-insensitive)
-    until E41c/E41d revisits Posted handling.
+    Lifecycle in the Pubs/beehiiv base:
+      Ready  → article is prepared for upstream publication (NOT yet posted).
+      Posted → article is already live in the upstream system; the canonical
+               URL resolves; safe to mirror into the archive.
+
+    Archive ingestion must therefore admit only `Posted`. `Ready` records
+    must be skipped — their canonical URLs are not guaranteed to exist yet
+    and post-publication edits may still occur upstream.
     """
 
     def test_field_map_targets_faim_status(self):
@@ -580,11 +589,43 @@ class TestAirtableFaimStatusGate:
         # not exist in the live Pubs/beehiiv schema.
         assert "Status" not in ingest_airtable.AIRTABLE_FIELD_MAP.values()
 
-    def test_allowed_statuses_unchanged(self):
+    def test_allowed_statuses_is_posted_only(self):
         import ingest_airtable
-        assert ingest_airtable.ALLOWED_STATUSES == {"published", "ready", "approved"}
+        assert ingest_airtable.ALLOWED_STATUSES == {"posted"}
 
-    def test_faim_status_ready_maps_to_payload_status(self):
+    def test_ready_is_excluded_from_archive_ingestion(self):
+        import ingest_airtable
+        # Defensive: `Ready` must NOT be in the allowed set — Ready means
+        # not-yet-posted upstream, so the archive must not mirror it.
+        assert "ready" not in ingest_airtable.ALLOWED_STATUSES
+
+    def test_legacy_published_is_excluded_from_archive_ingestion(self):
+        import ingest_airtable
+        # Defensive: legacy values like `published` / `approved` (which lived
+        # in the old `Status` field map) must not silently re-admit records
+        # under the new `Posted` gate.
+        assert "published" not in ingest_airtable.ALLOWED_STATUSES
+        assert "approved" not in ingest_airtable.ALLOWED_STATUSES
+
+    def test_faim_status_posted_maps_and_is_eligible(self):
+        import ingest_airtable
+        record = {
+            "id": "recPosted",
+            "fields": {
+                "Title": "Posted Article",
+                "slug": "posted-article",
+                "Pub Date": "2026-05-01",
+                "GUID": "https://radar.firstaimovers.com/posted-article",
+                "Content HTML": "body",
+                "FAIM Status": "Posted",
+            },
+        }
+        payload = ingest_airtable._record_to_payload(record)
+        # Raw Airtable casing is preserved on the payload; gate compares lowercase.
+        assert payload["status"] == "Posted"
+        assert payload["status"].lower() in ingest_airtable.ALLOWED_STATUSES
+
+    def test_faim_status_ready_maps_but_is_skipped(self):
         import ingest_airtable
         record = {
             "id": "recReady",
@@ -599,25 +640,62 @@ class TestAirtableFaimStatusGate:
         }
         payload = ingest_airtable._record_to_payload(record)
         assert payload["status"] == "Ready"
-        # Script lowercases before gate comparison; ensure that lowercase form is allowed.
-        assert payload["status"].lower() in ingest_airtable.ALLOWED_STATUSES
+        # The lowercase form must NOT match the allowed set — main() will skip.
+        assert payload["status"].lower() not in ingest_airtable.ALLOWED_STATUSES
 
-    def test_faim_status_posted_is_not_in_allowed_set(self):
+    def test_main_skips_ready_record_under_write_mode(self, monkeypatch, tmp_path, capsys):
+        """End-to-end: under --write, a Ready record must not produce a folder."""
         import ingest_airtable
+        monkeypatch.setenv("AIRTABLE_PAT", "pat_test")
+        monkeypatch.setenv("AIRTABLE_BASE_ID", "app_test")
+        monkeypatch.setenv("AIRTABLE_TABLE_NAME", "Articles")
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
         record = {
-            "id": "recPosted",
+            "id": "recReadySkip",
             "fields": {
-                "Title": "Posted Article",
-                "slug": "posted-article",
+                "Title": "Ready Should Skip",
+                "slug": "ready-should-skip",
                 "Pub Date": "2026-05-01",
-                "GUID": "https://radar.firstaimovers.com/posted-article",
+                "GUID": "https://radar.firstaimovers.com/ready-should-skip",
+                "Content HTML": "body",
+                "FAIM Status": "Ready",
+            },
+        }
+        monkeypatch.setattr(ingest_airtable, "_fetch_records", lambda *a, **k: iter([record]))
+        code = ingest_airtable.main(["--write"])
+        assert code == 0
+        # No folder should have been created — Ready was gated out.
+        assert not (tmp_path / "articles" / "2026-05-01-ready-should-skip").exists()
+        captured = capsys.readouterr()
+        assert "[SKIP]" in captured.err
+        assert "ready" in captured.err.lower()
+
+    def test_main_admits_posted_record_under_write_mode(self, monkeypatch, tmp_path):
+        """End-to-end: under --write, a Posted record produces an article folder."""
+        import ingest_airtable
+        monkeypatch.setenv("AIRTABLE_PAT", "pat_test")
+        monkeypatch.setenv("AIRTABLE_BASE_ID", "app_test")
+        monkeypatch.setenv("AIRTABLE_TABLE_NAME", "Articles")
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        record = {
+            "id": "recPostedAdmit",
+            "fields": {
+                "Title": "Posted Should Land",
+                "slug": "posted-should-land",
+                "Pub Date": "2026-05-01",
+                "GUID": "https://radar.firstaimovers.com/posted-should-land",
                 "Content HTML": "body",
                 "FAIM Status": "Posted",
             },
         }
-        payload = ingest_airtable._record_to_payload(record)
-        assert payload["status"] == "Posted"
-        assert payload["status"].lower() not in ingest_airtable.ALLOWED_STATUSES
+        monkeypatch.setattr(ingest_airtable, "_fetch_records", lambda *a, **k: iter([record]))
+        code = ingest_airtable.main(["--write"])
+        assert code == 0
+        article_dir = tmp_path / "articles" / "2026-05-01-posted-should-land"
+        assert (article_dir / "article.md").exists()
+        meta = json.loads((article_dir / "metadata.json").read_text(encoding="utf-8"))
+        # Lowercase normalization keeps archive consistent with legacy "published".
+        assert meta["status"] == "posted"
 
     def test_missing_faim_status_yields_no_status_key(self):
         import ingest_airtable
@@ -668,8 +746,10 @@ class TestAirtableFaimStatusGate:
                 "GUID": "https://radar.firstaimovers.com/legacy",
                 "Content HTML": "body",
                 "Status": "approved",  # legacy field — must be ignored
+                "FAIM Status": "Posted",  # only this counts
             },
         }
         payload = ingest_airtable._record_to_payload(record)
-        assert "status" not in payload
+        # Should map from FAIM Status, not the legacy literal field.
+        assert payload["status"] == "Posted"
 

@@ -23,10 +23,19 @@ activated until the prior stage has shipped and been observed.
 
 The original E20a scaffold mapped `"status" → "Status"`. The live Pubs/beehiiv
 table has no literal `Status` field, so write mode would have skipped every
-record with `[SKIP] no Status field`. E41a remaps `"status" → "FAIM Status"`.
-Allowed statuses remain `{published, ready, approved}` (case-insensitive).
-`Ready` is eligible; `Posted` is intentionally excluded — Posted records have
-already been published downstream and re-ingesting them is undesirable.
+record with `[SKIP] no Status field`. E41a remapped `"status" → "FAIM Status"`.
+
+E41b corrected the lifecycle interpretation: archive ingestion gates on
+`FAIM Status = Posted`. `Posted` means the article is already live upstream
+(canonical URL resolves; post-publication edits unlikely), which is the only
+state where mirroring into the canonical archive is safe. `Ready` means the
+record is prepared for upstream publication but NOT yet posted — its canonical
+URL may not yet resolve, so the archive must not mirror it.
+
+`ALLOWED_STATUSES` is therefore `{"posted"}` (case-insensitive). The script
+also lowercases the value when writing `metadata.json`, so newly-ingested
+records carry `"status": "posted"`, matching the convention used by the
+existing 829 archive records (which all carry lowercase `"published"`).
 
 ## Doppler / GitHub secret-sync recommendation
 
@@ -92,7 +101,7 @@ until the owner explicitly approves the listed record.
       (presence only; never reveal values).
 - [ ] `INGEST_DRY_RUN` is `1` or unset at start.
 - [ ] One Airtable record selected by the owner with:
-  - `FAIM Status = Ready`
+  - `FAIM Status = Posted`
   - `Source` consistent with `articles.firstaimovers.com` archive scope
   - Slug NOT already present under `articles/<YYYY-MM-DD>-<slug>/`
   - Title NOT already present in `index.json`

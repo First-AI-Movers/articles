@@ -67,7 +67,11 @@ jobs:
         if: env.INGEST_DRY_RUN != '1'
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Prefer ARTICLE_INGESTION_PR_TOKEN so PR-create triggers downstream
+          # CI; GitHub suppresses workflow runs on PRs created with the default
+          # GITHUB_TOKEN to prevent recursion. Falls back to GITHUB_TOKEN when
+          # the PAT is not provisioned (PR will need close/reopen for CI).
+          token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
           branch: ingest/airtable-articles
           title: "ingest(articles): add articles from Airtable"
           body: |
