@@ -113,6 +113,33 @@ class TestRebuildLocalDocs:
         result = self._mod()._funnel_summary({"middle": 10, "top": 5})
         assert result.startswith("top (5 articles)")
 
+    def test_compute_stats_handles_null_funnel_stage(self):
+        """Regression: index.json may carry funnel_stage=None when ingested
+        from sources without a Funnel Stage field. The stats aggregator must
+        coerce None to 'unknown' so the funnel-summary sort stays orderable.
+        """
+        index = {"articles": [
+            {"title": "A", "tags": [], "topics": [], "funnel_stage": "top",     "published_date": "2026-05-01"},
+            {"title": "B", "tags": [], "topics": [], "funnel_stage": None,      "published_date": "2026-05-02"},
+            {"title": "C", "tags": [], "topics": [], "funnel_stage": "middle",  "published_date": "2026-05-03"},
+        ]}
+        stats = self._mod().compute_stats(index)
+        assert stats["funnel"]["top"] == 1
+        assert stats["funnel"]["middle"] == 1
+        assert stats["funnel"].get("unknown") == 1
+        # And the summary must render without raising on the mixed-key sort.
+        out = self._mod()._funnel_summary(stats["funnel"])
+        assert "unknown (1)" in out
+
+    def test_funnel_summary_tolerates_stray_none_key(self):
+        """Defensive: if a None key reaches _funnel_summary directly, the
+        sort over extras must use str() so it never crashes."""
+        result = self._mod()._funnel_summary({"top": 5, None: 2, "middle": 3})
+        assert "top (5 articles)" in result
+        assert "middle (3)" in result
+        # None key renders as the string "None" — present, not a crash.
+        assert "None (2)" in result
+
     def _stats(self, **overrides):
         base = {"total": 700, "tags_count": 4000, "topics_count": 105,
                 "funnel": {"top": 300, "middle": 395, "bottom": 5},
