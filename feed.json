@@ -13,6 +13,20 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-cto-checklist-securing-coding-agents-rollout",
+      "url": "https://radar.firstaimovers.com/cto-checklist-securing-coding-agents-rollout",
+      "title": "The CTO's Checklist for Securing Coding Agents Before a Team-Wide Rollout",
+      "date_published": "2026-05-03T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "content_text": "Seven security controls every CTO should verify before expanding coding agent access: access model, secrets, review gates, sandboxing, and audit trail."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026",
       "url": "https://radar.firstaimovers.com/ai-consulting-bratislava-tech-smes-2026",
       "title": "AI Consulting for Bratislava Tech SMEs in 2026",
@@ -682,20 +696,6 @@
         "AI Strategy"
       ],
       "content_text": "RAG, fine-tuning, or out-of-the-box: which internal AI knowledge base fits your 20-50 person European team? A guide with cost and GDPR notes."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-20:2026-04-20-ai-automation-agency-utrecht",
-      "url": "https://radar.firstaimovers.com/ai-automation-agency-utrecht",
-      "title": "Utrecht AI Automation Agency: What to Check Before You Hire",
-      "date_published": "2026-04-20T00:00:00Z",
-      "tags": [
-        "Business Process Automation",
-        "Netherlands AI",
-        "European SME AI",
-        "AI Strategy",
-        "GDPR & Data Privacy"
-      ],
-      "content_text": "Utrecht businesses face a noisy AI automation market. Here is how to identify credible process partners before committing."
     }
   ]
 }

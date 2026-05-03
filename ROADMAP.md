@@ -220,7 +220,7 @@ The roadmap below is what's *remaining*. For context, here's what already shippe
 - **PR #98** E30: Article quality CI (`tools/readability.py`, `.vale.ini` + `.vale/styles/FAM/`, `.lychee.toml`, `.github/workflows/article-quality.yml`, `docs/ARTICLE_QUALITY_CI.md`, 42 tests)
 
 <!-- BEGIN auto:operational-state -->
-Operational state today: **829 articles**, **103 canonical topics**, **77 rendered topic hubs**, **829 local noindex article pages**, sitemap limited to **80 first-party indexable URLs**, and the current test suite split across Python unit/integration tests plus Playwright E2E.
+Operational state today: **830 articles**, **103 canonical topics**, **77 rendered topic hubs**, **830 local noindex article pages**, sitemap limited to **80 first-party indexable URLs**, and the current test suite split across Python unit/integration tests plus Playwright E2E.
 <!-- END auto:operational-state -->
 
 ## E20a operational follow-ups
