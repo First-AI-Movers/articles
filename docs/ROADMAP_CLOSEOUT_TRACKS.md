@@ -105,7 +105,7 @@
 | **B5 — CI/Pages proof** | Verify `build-and-deploy.yml` deploys cleanly; verify Pages URL returns 200 | S | Automation |
 | **B6 — Release/DOI/MCP/embeddings readiness checklist** | Consolidate E21/E22/E23/E34/E38 gated items into one readiness matrix | S | Automation | `docs/RELEASE_EXTERNAL_READINESS.md` |
 | **B7 — Final audit harness/checklist** | Create the checklist and scripts for the final large audit (Section 6) | M | Planning |
-| **B8 — Security/secrets review** | Verify `.gitleaks.toml` coverage, confirm no secrets in history, document rotation schedule | S | Automation |
+| **B8 — Security/secrets review** | Verify `.gitleaks.toml` coverage, confirm no secrets in history, document rotation schedule | S | Automation | `docs/SECURITY_SECRETS_REVIEW.md` |
 
 **Track B avoids:**
 - Article translation rollout
