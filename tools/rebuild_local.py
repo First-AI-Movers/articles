@@ -157,7 +157,13 @@ def compute_stats(index):
     for a in articles:
         tags.update(a.get("tags", []))
         topics.update(a.get("topics", []))
-        funnel[a.get("funnel_stage", "unknown")] = funnel.get(a.get("funnel_stage", "unknown"), 0) + 1
+        # `index.json` stores funnel_stage as null when metadata.json omits it
+        # (e.g. Airtable-ingested records from sources without a Funnel Stage
+        # field). `dict.get` only falls back when the KEY is missing, not when
+        # its value is None — so coerce explicitly to keep the funnel-summary
+        # sort orderable (str < str, never str < NoneType).
+        stage = a.get("funnel_stage") or "unknown"
+        funnel[stage] = funnel.get(stage, 0) + 1
         if a.get("published_date"):
             dates.append(a["published_date"])
     dates.sort()
@@ -184,9 +190,11 @@ def _funnel_summary(funnel):
         if stage in funnel:
             parts.append(f"{stage} ({funnel[stage]} articles)" if first else f"{stage} ({funnel[stage]})")
             first = False
-    for stage, count in sorted(funnel.items()):
-        if stage not in ("top", "middle", "bottom"):
-            parts.append(f"{stage} ({count})")
+    # Defensive: callers should already coerce None -> "unknown", but sort
+    # by str() so a stray None key cannot crash the rebuild.
+    extras = [(s, c) for s, c in funnel.items() if s not in ("top", "middle", "bottom")]
+    for stage, count in sorted(extras, key=lambda item: str(item[0])):
+        parts.append(f"{stage} ({count})")
     return ", ".join(parts)
 
 
