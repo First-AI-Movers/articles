@@ -132,7 +132,7 @@
 | A5 Live IndexNow | A | Owner approval | **Yes** (if approved) | Low | CI step removes `--dry-run` |
 | A1 E39c next translation | A | Owner approves quota + AI-QA threshold | **Yes** (if approved) | Medium | `translations.json` entries |
 | **Final large audit** | Final | B1–B8 (A1–A5 optional) | After Track B complete | Medium | Section 6 checklist |
-| **Archive closeout PR** | Final | Final audit green | After audit | Low | `ROADMAP.md` marks archive v1 |
+| **Archive closeout PR** | Final | Final audit green | **In progress** | Low | `ROADMAP.md` marks archive v1 |
 
 **What can run in parallel immediately:**
 - B1, B3, B4, B6, B8 (all doc/planning work)
@@ -177,7 +177,7 @@ After B2 + B4 + B8 merge:
 └── PR B7  → docs(audit): final audit harness and checklist
 
 After Track B complete (A1 optional):
-├── PR FINAL → docs(closeout): archive v1 freeze — CHANGELOG.md, CITATION.cff
+├── PR FINAL → docs(closeout): archive v1 freeze — ROADMAP.md, CHANGELOG.md, CITATION.cff
 ```
 
 **Naming convention:**

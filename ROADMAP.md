@@ -253,6 +253,28 @@ E18 is **merged and active**. The following are documented expectations, not nec
 | `workflow_dispatch` on `ingest-article.yml` | **uses fixture payload** | Intentional test path. Running manually opens a PR with the synthetic fixture article. Close without merging. |
 | External publishing sender token | **not yet configured** | Sender needs a fine-grained PAT with `actions:write` scoped to this repo only. Documented in `docs/EXTERNAL_PUBLISHING.md`. |
 
+## Archive v1 Closeout — ✅ Complete
+
+The archive is frozen as **v1 stable** as of 2026-05-03. All required closeout prep is repo-grounded:
+
+- **Final audit harness** — `tools/final_audit.py` passes 12/12 required checks; optional warnings (CHANGELOG drift, pytest with optional deps) are documented non-blockers. See `docs/FINAL_AUDIT_CHECKLIST.md`.
+- **CI/Pages proof** — `build-and-deploy.yml` deploys cleanly; Pages URL returns 200; required checks green on every PR/push. See `docs/CI_PAGES_PROOF.md`.
+- **Security/secrets review** — `gitleaks` green; no credentials in repo; Dependabot active; all external surfaces gated. See `docs/SECURITY_SECRETS_REVIEW.md`.
+- **Release/external readiness** — All optional surfaces (Zenodo DOI, MCP, Ask, OG, IndexNow, Airtable, Giscus) are either ready or documented as deferred. See `docs/RELEASE_EXTERNAL_READINESS.md`.
+- **Generated artifacts** — Drift detection active; committed artifacts current. See `docs/GENERATED_ARTIFACTS.md`.
+
+**What remains post-v1 (optional growth layer, not blockers):**
+- E39c translation rollout — 13 articles × 5 languages remaining at quota pace (~1 article/month). See `docs/E39C_ROLLOUT_PLAN.md`.
+- E35 full-corpus summaries — pending owner approval.
+- Live MCP/Ask/OG deployment — pending Cloudflare credentials.
+- Live IndexNow — pending owner flip from `--dry-run`.
+- Zenodo DOI minting — pending release creation.
+- Airtable write mode — pending controlled single-record write test.
+
+**Closeout PRs:** #137 E39c re-scope, #138 artifact drift check, #139 release readiness, #141 AI-QA wording restore, #142 security review, #143 CI/Pages proof, #144 final audit harness, #145 archive v1 freeze (this PR).
+
+---
+
 ## Known hardening follow-up
 
 ✅ **Resolved in E19.** The duplicate-title CI gate (`tools/check_duplicate_titles.py`) is now **blocking** — `continue-on-error: true` was removed after all 6 historical pairs were disambiguated with date/property qualifiers:
