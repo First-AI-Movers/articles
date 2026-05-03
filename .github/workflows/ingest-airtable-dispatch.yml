@@ -94,6 +94,14 @@ jobs:
           INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/rebuild_local.py
 
+      - name: Patch ROADMAP operational-state marker
+        # rebuild_local.py only patches README.md and llms.txt; ROADMAP.md's
+        # auto:operational-state block is patched by update_docs.py. Without
+        # this step, test_check_mode_exits_zero_when_unchanged would fail
+        # whenever ingestion changes the article count.
+        if: env.INGEST_DRY_RUN != '1'
+        run: python3 tools/update_docs.py
+
       - name: Run pytest
         if: env.INGEST_DRY_RUN != '1'
         run: python3 -m pytest tools/tests -v
