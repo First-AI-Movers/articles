@@ -152,6 +152,20 @@ Topic hub pages show curated intros from `tools/topic_intros.json`.
 
 ## Checking Archive Health
 
+### Quick health check (one command)
+
+Run the final audit harness for a comprehensive, read-only health check:
+
+```bash
+python3 tools/final_audit.py
+```
+
+This runs 12 required checks (repo structure, generated artifacts, duplicates, citations, errata, translations, translation QA, citation graph, tags, sitemap, LLMS files, feeds) and 2 optional checks (CHANGELOG freshness, full pytest suite). Required checks must all pass; optional warnings are non-blocking. Use `--strict` to treat optional checks as required, or `--skip-local` to skip checks that need optional local dependencies.
+
+See [`docs/FINAL_AUDIT_CHECKLIST.md`](FINAL_AUDIT_CHECKLIST.md) for the complete pre-freeze sign-off process, including manual browser verification steps.
+
+### Individual checks
+
 Run these locally to verify archive integrity:
 
 ```bash
