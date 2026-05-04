@@ -11,6 +11,13 @@ permissions:
 
 env:
   INGEST_DRY_RUN: ${{ vars.INGEST_DRY_RUN || '1' }}
+  # Production safety bounds for the daily cron.
+  # INGEST_MAX_RECORDS caps how many records the script PAGES from Airtable
+  # in one run. INGEST_MAX_CREATED caps how many article folders the script
+  # actually CREATES in one run. Skips/dedupes/invalids do not count.
+  # Defaults are conservative; tune via repo variables once steady-state.
+  INGEST_MAX_RECORDS: ${{ vars.INGEST_MAX_RECORDS || '20' }}
+  INGEST_MAX_CREATED: ${{ vars.INGEST_MAX_CREATED || '5' }}
 
 jobs:
   ingest:
@@ -34,7 +41,13 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
           AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
-        run: python3 tools/ingest_airtable.py --dry-run --since-hours 72 --allow-no-status-gate
+        run: |
+          python3 tools/ingest_airtable.py \
+            --dry-run \
+            --since-hours 72 \
+            --limit "${INGEST_MAX_RECORDS}" \
+            --max-created "${INGEST_MAX_CREATED}" \
+            --allow-no-status-gate
 
       - name: Ingest from Airtable (write)
         if: env.INGEST_DRY_RUN != '1'
@@ -43,7 +56,12 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
           AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
-        run: python3 tools/ingest_airtable.py --write --since-hours 72
+        run: |
+          python3 tools/ingest_airtable.py \
+            --write \
+            --since-hours 72 \
+            --limit "${INGEST_MAX_RECORDS}" \
+            --max-created "${INGEST_MAX_CREATED}"
 
       - name: Normalize tags to canonical topics
         if: env.INGEST_DRY_RUN != '1'
@@ -103,3 +121,39 @@ jobs:
             llms-recent.txt
             README.md
             ROADMAP.md
+
+      - name: Open incident issue on cron-write failure
+        # Fires only when the write-mode cron path fails. Skipped on dry-run
+        # (no archive impact) and skipped on success. Logs the run URL,
+        # commit, and dry-run state so the operator can investigate without
+        # parsing logs. Never echoes secret values.
+        if: failure() && env.INGEST_DRY_RUN != '1'
+        env:
+          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          gh issue create \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "E41 cron ingestion incident: workflow run ${{ github.run_id }} failed" \
+            --body "$(cat <<EOF
+          ## Cron write-mode ingestion failed
+
+          - **Workflow run:** ${RUN_URL}
+          - **Commit:** \`${GITHUB_SHA}\`
+          - **Ref:** \`${GITHUB_REF}\`
+          - **INGEST_DRY_RUN:** \`${INGEST_DRY_RUN}\`
+          - **INGEST_MAX_RECORDS:** \`${INGEST_MAX_RECORDS}\`
+          - **INGEST_MAX_CREATED:** \`${INGEST_MAX_CREATED}\`
+          - **Trigger:** \`${GITHUB_EVENT_NAME}\`
+
+          Investigate via the workflow logs at the run URL above. Confirm
+          \`INGEST_DRY_RUN\` is restored to \`1\` if the failure left it in an
+          inconsistent state (variable lives at repo level, not job level —
+          this workflow does not flip it, but defense-in-depth checks are
+          cheap).
+
+          No secret values are recorded in this issue. Close once root cause
+          is documented and any required code/workflow fix has shipped.
+          EOF
+          )"
