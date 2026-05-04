@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-05-04",
-  "total_articles": 830,
+  "total_articles": 831,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -3178,6 +3178,21 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/ai-readiness-amsterdam-software-agencies-2026"
+    },
+    {
+      "folder": "2026-04-14-ai-use-policy-template-european-employees-2026",
+      "slug": "ai-use-policy-template-european-employees-2026",
+      "title": "How to Write an AI Use Policy European Employees Will Actually Follow",
+      "published_date": "2026-04-14",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-use-policy-template-european-employees-2026"
     },
     {
       "folder": "2026-04-14-claude-code-agent-mode-autonomous-workflows-2026",
