@@ -60,6 +60,31 @@ The ingestion script maps Airtable fields to article payload fields via `AIRTABL
 
 If your Airtable base uses different field names, edit `AIRTABLE_FIELD_MAP` in `tools/ingest_airtable.py`.
 
+## Duplicate detection
+
+Two-layer defense, in order of evaluation per record:
+
+1. **Folder collision** — `articles/<YYYY-MM-DD>-<slug>/` already exists.
+2. **Title duplicate** — any existing `metadata.json.title` matches after
+   `_normalize_title()`. Normalization (driven by E41e issue #156):
+   - Unicode NFKC.
+   - Em/en/minus/horizontal-bar/non-breaking-hyphen → ASCII hyphen.
+   - Curly single/double quotes → ASCII apostrophe / double-quote.
+   - Whitespace runs → single space; non-breaking space → regular.
+   - `casefold()`.
+3. **Canonical URL duplicate** — any existing `metadata.json.canonical_url`
+   matches after `_normalize_canonical_url()`. Normalization:
+   - Strip whitespace, drop trailing slash, lowercase scheme + host.
+   - Path/query/fragment preserved case-sensitively.
+
+Any of the three returning True ⇒ the record is silently skipped (no PR,
+no incident — idempotent dedupe).
+
+The standalone `tools/check_duplicate_titles.py` and the
+`test_no_duplicate_titles_in_index` test stay on simpler `.lower()`
+comparison to avoid breaking on a small set of legacy smart-quote pairs
+that predate the strict gate; cleanup of those is tracked separately.
+
 ## Status gate
 
 Only records with `FAIM Status = Posted` are ingested.
