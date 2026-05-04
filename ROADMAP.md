@@ -280,12 +280,16 @@ observed. Full plan, cost model, and single-record test checklist live in
 
 | # | Epic | What ships | Tag | Effort |
 |---|---|---|:---:|:---:|
-| **E41a** | Airtable status mapping fix + write-mode plan | Field map updated `Status` → `FAIM Status` so write mode no longer skips every record; 7 new tests; `docs/AUTONOMOUS_AIRTABLE_PUBLISHING_PLAN.md` with Doppler/GitHub sync recommendation, rollout stages, cost estimates. No workflow change. No write-mode activation. | 📱 | XS |
-| **E41b** | Controlled single-record write test | Owner-approved one-record dispatch run with `INGEST_DRY_RUN=0` set transiently; PR opened, reviewed, merged; flag returned to `1`. | 📱 | XS |
+| ~~E41a~~ | ~~Airtable status mapping fix + write-mode plan~~ | ✅ **Done** in PR #147. Field map updated `Status` → `FAIM Status`; 7 new tests; `docs/AUTONOMOUS_AIRTABLE_PUBLISHING_PLAN.md` shipped. | 📱 | XS |
+| ~~E41a'~~ | ~~Posted-only gate + cron token-fallback~~ | ✅ **Done** in PR #148. `ALLOWED_STATUSES = {"posted"}`; status normalized to lowercase on write; cron uses `ARTICLE_INGESTION_PR_TOKEN \|\| GITHUB_TOKEN`. | 📱 | XS |
+| ~~E41a''~~ | ~~rebuild_local funnel-None coercion~~ | ✅ **Done** in PR #149. Discovered when first ingestion run crashed sorting `{None: 1, "top": 5}.items()`. Fix at aggregation + sort site; 2 regression tests. | 📱 | XS |
+| ~~E41a'''~~ | ~~update_docs.py runs before pytest~~ | ✅ **Done** in PR #150. Both ingestion workflows now patch ROADMAP marker between rebuild and pytest. | 📱 | XS |
+| ~~E41a''''~~ | ~~ROADMAP.md added to ingestion add-paths~~ | ✅ **Done** in PR #153. The in-runner ROADMAP patch now reaches the generated PR. | 📱 | XS |
+| ~~E41b~~ | ~~Controlled single-record write test~~ | ✅ **Done** 2026-05-03 in PR #154. First autonomous Airtable→PR→CI→merge ingestion (`rec6nsPU1kHTcKYXF`, 829 → 830). Pipeline proven; incident #151 (PAT scope) opened then resolved. | 📱 | XS |
+| **E41e** | Bounded daily cron write mode + incident logging | `INGEST_MAX_RECORDS` (default 20) + `INGEST_MAX_CREATED` (default 5) cap each cron run. `--max-created` added to `tools/ingest_airtable.py` with 5 new tests. Incident-issue step on cron-write failure. After merge, set `INGEST_DRY_RUN=0` to activate. | 📱 | S |
 | **E41c** | Anthropic AI polish — design only | ADR for TL;DR / summary / headline polish using Anthropic; provider, prompt contract, dry-run plan, cost guardrails. No code. | 📱 | S |
 | **E41d** | Anthropic AI polish — dry-run implementation | Polish script writes to `.polish.draft.json` siblings, behind opt-in env var; no live calls in default CI; cost cap enforced in code. | 📱 | M |
-| **E41e** | Daily write-mode PR creation | After E41b green and ≥14 days observation, set `INGEST_DRY_RUN=0` permanently. Make.com cutover follows. | 📱 | XS |
-| **E41f** | Gated auto-merge for ingestion PRs | GitHub native auto-merge restricted to `ingest/airtable-*` branches with all required checks green and one CODEOWNERS approval. | 📱 | S |
+| **E41f** | Gated auto-merge for ingestion PRs | GitHub native auto-merge restricted to `ingest/airtable-*` branches with all required checks green and one CODEOWNERS approval. Activate after ≥14 days of E41e observation. | 📱 | S |
 
 **Closeout PRs:** #137 E39c re-scope, #138 artifact drift check, #139 release readiness, #141 AI-QA wording restore, #142 security review, #143 CI/Pages proof, #144 final audit harness, #145 archive v1 freeze (this PR).
 

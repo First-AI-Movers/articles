@@ -90,6 +90,16 @@ If a record is missing `slug` but has `GUID`:
 - **Trigger:** `workflow_dispatch` (manual) or scheduled cron (`17 6 * * *`)
 - **Default mode:** `INGEST_DRY_RUN=1` (reports candidates, writes nothing)
 - **Write mode:** Set repository variable `INGEST_DRY_RUN=0` to enable PR creation
+- **Batch caps (E41e):**
+  - `INGEST_MAX_RECORDS` (default `20`) — pages this many records from
+    Airtable per run.
+  - `INGEST_MAX_CREATED` (default `5`) — caps successful folder creations
+    per run. Skips and dedupes do not consume the budget.
+  - Both can be tuned with `gh variable set NAME --body N`.
+- **Incident logging:** A final workflow step opens a GitHub issue if any
+  prior step in a write-mode run fails. Title format:
+  `E41 cron ingestion incident: workflow run <id> failed`. Skipped on
+  dry-run and on success. No secret values are recorded.
 
 ### Dry-run (default)
 

@@ -75,18 +75,86 @@ sync project `articles-git`, config `dev` into GitHub repository secrets.
 
 ## Write-mode rollout stages
 
-| Stage | What ships | Gate | This PR? |
+| Stage | What ships | Gate | Status |
 |---|---|---|---|
-| E41a | Status mapping fix (`Status` → `FAIM Status`); tests; this plan | None — code-only | ✅ yes |
-| E41b | Controlled single-record write test with one known `Ready` record | Owner approval; `INGEST_DRY_RUN=0` set transiently for one dispatch run | ❌ no |
+| E41a | Status mapping fix (`Status` → `FAIM Status`); tests; this plan | None — code-only | ✅ shipped (PR #147) |
+| E41a' | Posted-only gate correction; cron token-fallback | Code-only | ✅ shipped (PR #148) |
+| E41a'' | rebuild_local funnel-None coercion | Code-only | ✅ shipped (PR #149) |
+| E41a''' | update_docs.py runs before pytest in both ingestion workflows | Workflow-only | ✅ shipped (PR #150) |
+| E41a'''' | ROADMAP.md added to ingestion add-paths | Workflow-only | ✅ shipped (PR #153) |
+| E41b | Controlled single-record write test (one Posted record, dispatch path) | Owner approval; `INGEST_DRY_RUN=0` transient | ✅ proven 2026-05-03: PR #154 ingested `rec6nsPU1kHTcKYXF` end-to-end with machine gates |
+| E41e | Bounded daily cron write mode + incident logging | Repo variables flip after PR merge | ✅ shipping (this PR) |
+| E41f | Gated auto-merge for `ingest/airtable-*` branches | Required CI green + CODEOWNERS approval | ❌ deferred |
 | E41c | Anthropic polish design (provider, prompt contract, dry-run plan) | Owner approval; ADR | ❌ no |
 | E41d | Anthropic polish dry-run implementation behind feature flag | Provider gated; opt-in env var; no live calls in CI | ❌ no |
-| E41e | Daily write-mode PR creation enabled via `INGEST_DRY_RUN=0` | E41b green; observation window ≥ 14 days | ❌ no |
-| E41f | Gated auto-merge for ingestion PRs | All required CI checks green; CODEOWNERS approval; explicit allowlist | ❌ no |
 
 Nothing in this plan changes the workflow's "PR-only, never push to main"
 contract. `peter-evans/create-pull-request` remains the single integration
 point for both `ingest-airtable.yml` and `ingest-airtable-dispatch.yml`.
+
+## E41e — bounded daily cron write mode (active)
+
+The cron at `17 6 * * *` UTC scans Airtable for `FAIM Status = Posted`
+records modified in the last 72 h, runs the same pipeline that E41b
+proved (ingest → normalize tags → dedupe-title → rebuild → patch
+ROADMAP marker → pytest → PR), and opens an `ingest/airtable-articles`
+branch. The PR is **not** auto-merged — that's E41f.
+
+### Production safety bounds
+
+The cron is gated by three repo variables. Defaults in the workflow YAML
+are conservative; tune via `gh variable set` once steady-state is observed.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `INGEST_DRY_RUN` | `1` (workflow fallback) | Master kill switch. Set to `0` to enable write-mode. Set back to `1` to instantly stop creating PRs. |
+| `INGEST_MAX_RECORDS` | `20` | Caps how many records the script PAGES from Airtable in one run. |
+| `INGEST_MAX_CREATED` | `5` | Caps how many article folders the script actually CREATES per run. Skips and dedupes don't count. |
+
+**Activation procedure (after this PR merges):**
+
+```bash
+gh variable set INGEST_DRY_RUN     --body 0  -R First-AI-Movers/articles
+gh variable set INGEST_MAX_RECORDS --body 20 -R First-AI-Movers/articles
+gh variable set INGEST_MAX_CREATED --body 5  -R First-AI-Movers/articles
+```
+
+**Kill switch (revert to dry-run):**
+
+```bash
+gh variable set INGEST_DRY_RUN --body 1 -R First-AI-Movers/articles
+```
+
+The next cron tick reads the variable; no workflow restart needed.
+
+### Incident logging
+
+If a write-mode cron run fails (any step exits non-zero), a final step
+in the job opens a GitHub issue titled
+`E41 cron ingestion incident: workflow run <id> failed`, including:
+
+- workflow run URL
+- commit SHA
+- ref
+- INGEST_DRY_RUN / INGEST_MAX_RECORDS / INGEST_MAX_CREATED state
+- trigger event
+
+The step uses `${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}`
+and never echoes secret values. The step is skipped on dry-run runs and
+on success — only writes-that-fail are logged.
+
+### Generated artifacts covered by ingestion PRs
+
+Both ingestion workflows' `add-paths` cover the full set of files
+touched by `rebuild_local.py` + `update_docs.py`:
+
+- `articles/*` (new article folders)
+- `index.json`
+- `sitemap.xml`
+- `feed.xml`, `feed.json`
+- `llms.txt`, `llms-full.txt`, `llms-recent.txt`
+- `README.md`
+- `ROADMAP.md` (added in E41a'''')
 
 ## Controlled single-record write test (E41b checklist)
 

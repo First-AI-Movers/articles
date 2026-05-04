@@ -403,6 +403,12 @@ def main(argv=None):
                         help="Fetch a single Airtable record by ID")
     parser.add_argument("--limit", type=int,
                         help="Limit total records fetched (for testing)")
+    parser.add_argument("--max-created", type=int,
+                        help=("Stop after creating N article folders. Production "
+                              "safety bound for the daily cron — limits the blast "
+                              "radius of an unexpectedly large Airtable backlog. "
+                              "Skips, invalids, and folder/title dedupes do NOT "
+                              "count toward this cap; only successful creates do."))
     parser.add_argument("--allow-no-status-gate", action="store_true",
                         help="Allow ingestion when no Status field is present")
     args = parser.parse_args(argv)
@@ -451,6 +457,9 @@ def main(argv=None):
                 action = "[CREATE]" if not dry_run else "[WOULD CREATE]"
                 print(f"{action} {folder}")
                 created += 1
+                if args.max_created is not None and created >= args.max_created:
+                    print(f"[stop] reached --max-created={args.max_created}")
+                    break
             else:
                 print(f"[SKIP] {record_id}: folder '{folder}' already exists or title duplicate")
                 skipped += 1
