@@ -896,3 +896,207 @@ class TestAirtableMaxCreated:
         # Nothing actually written.
         assert not (tmp_path / "articles").exists() or not list((tmp_path / "articles").iterdir())
 
+
+class TestTitleNormalization:
+    """E41e — incident #156 regression: titles that differ only in
+    typography (em-dash vs hyphen, smart vs straight quotes, NFD vs NFC,
+    extra whitespace) must collapse to the same comparable form so a
+    duplicate cannot slip past _title_exists."""
+
+    def test_em_dash_and_hyphen_collapse(self):
+        import ingest_airtable
+        a = "Agent Mode Goes GA in JetBrains, Eclipse, and Xcode — A New Era"
+        b = "Agent Mode Goes GA in JetBrains, Eclipse, and Xcode - A New Era"
+        assert ingest_airtable._normalize_title(a) == ingest_airtable._normalize_title(b)
+
+    def test_en_dash_collapses_to_hyphen(self):
+        import ingest_airtable
+        assert (ingest_airtable._normalize_title("AI Strategy – 2026")
+                == ingest_airtable._normalize_title("AI Strategy - 2026"))
+
+    def test_smart_quotes_collapse(self):
+        import ingest_airtable
+        a = "It’s the CEO’s playbook"   # right single quote
+        b = "It's the CEO's playbook"
+        assert ingest_airtable._normalize_title(a) == ingest_airtable._normalize_title(b)
+
+    def test_curly_doublequotes_collapse(self):
+        import ingest_airtable
+        a = "“The AI Era”"
+        b = '"The AI Era"'
+        assert ingest_airtable._normalize_title(a) == ingest_airtable._normalize_title(b)
+
+    def test_nfkc_normalization_collapses_compatibility_forms(self):
+        import ingest_airtable
+        # Half-width vs full-width digit; NFKC collapses them.
+        a = "AI in 2026"
+        b = "AI in ２０２６"  # full-width "2026"
+        assert ingest_airtable._normalize_title(a) == ingest_airtable._normalize_title(b)
+
+    def test_whitespace_collapse(self):
+        import ingest_airtable
+        a = "  AI   Strategy\tGuide  "
+        b = "AI Strategy Guide"
+        assert ingest_airtable._normalize_title(a) == ingest_airtable._normalize_title(b)
+
+    def test_non_breaking_space_collapses(self):
+        import ingest_airtable
+        a = "AI Strategy"   # non-breaking space
+        b = "AI Strategy"
+        assert ingest_airtable._normalize_title(a) == ingest_airtable._normalize_title(b)
+
+    def test_casefold_handles_non_ascii(self):
+        import ingest_airtable
+        # casefold lowercases sharp-S → "ss"; lower() does NOT.
+        assert ingest_airtable._normalize_title("Straße") == ingest_airtable._normalize_title("strasse")
+
+    def test_empty_and_none_safe(self):
+        import ingest_airtable
+        assert ingest_airtable._normalize_title("") == ""
+        assert ingest_airtable._normalize_title(None) == ""
+
+    def test_unrelated_titles_do_not_collapse(self):
+        """Defensive: normalization must NOT be so aggressive that
+        legitimately-different titles look identical."""
+        import ingest_airtable
+        assert (ingest_airtable._normalize_title("AI Strategy 2026")
+                != ingest_airtable._normalize_title("AI Strategy 2025"))
+        assert (ingest_airtable._normalize_title("EU AI Act Compliance")
+                != ingest_airtable._normalize_title("EU AI Act Enforcement"))
+
+
+class TestTitleDedupeRegression:
+    """E41e — incident #156: when an Airtable record's title differs
+    from the existing archive metadata.json title only in punctuation,
+    _title_exists must still return True so _write_article skips it."""
+
+    def _seed(self, articles_dir, folder, title):
+        d = articles_dir / folder
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "metadata.json").write_text(json.dumps({"title": title}, indent=2) + "\n", encoding="utf-8")
+
+    def test_em_dash_archive_vs_hyphen_airtable(self, monkeypatch, tmp_path):
+        """The exact incident #156 scenario: archive has em-dash, Airtable
+        sends ASCII hyphen (or vice versa)."""
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        self._seed(
+            tmp_path / "articles",
+            "2025-07-22-agent-mode-goes-ga-in-jetbrains-eclipse-and-xcode-a-new",
+            "Agent Mode Goes GA in JetBrains, Eclipse, and Xcode — A New Era of AI-Assisted Development",
+        )
+        # Airtable record's title with the SAME meaning but ASCII hyphen.
+        assert ingest_airtable._title_exists(
+            "Agent Mode Goes GA in JetBrains, Eclipse, and Xcode - A New Era of AI-Assisted Development"
+        ) is True
+
+    def test_write_article_skips_punctuation_drift_duplicate(self, monkeypatch, tmp_path):
+        """End-to-end: _write_article returns (folder, False) — no folder
+        created — when the legacy archive entry differs only in dash type."""
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        self._seed(
+            tmp_path / "articles",
+            "2025-07-22-agent-mode-goes-ga-in-jetbrains-eclipse-and-xcode-a-new",
+            "Agent Mode Goes GA in JetBrains, Eclipse, and Xcode — A New Era of AI-Assisted Development",
+        )
+        payload = {
+            "title": "Agent Mode Goes GA in JetBrains, Eclipse, and Xcode - A New Era of AI-Assisted Development",
+            "slug": "agent-mode-goes-ga-in-jetbrains-eclipse-and-xcode-a-new-era-of-ai-assisted-development-eb666c6e6db3",
+            "published_date": "2025-07-22",
+            "canonical_url": "https://insights.firstaimovers.com/agent-mode-goes-ga-different-canonical",
+            "article_markdown": "body",
+        }
+        folder, created = ingest_airtable._write_article(payload, "rec156", dry_run=False)
+        assert created is False
+        # The new full-length folder was NOT created.
+        assert not (tmp_path / "articles" / f"2025-07-22-{payload['slug']}").exists()
+
+
+class TestCanonicalUrlDedupe:
+    """E41e — defense in depth (incident #156): even when title drifts
+    beyond what title-normalization can recover, a matching canonical URL
+    must still cause _write_article to skip the record."""
+
+    def _seed(self, articles_dir, folder, title, canonical_url):
+        d = articles_dir / folder
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "metadata.json").write_text(
+            json.dumps({"title": title, "canonical_url": canonical_url}, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+    def test_normalize_canonical_url_is_idempotent(self):
+        import ingest_airtable
+        url = "https://radar.firstaimovers.com/article-slug"
+        assert (ingest_airtable._normalize_canonical_url(url)
+                == ingest_airtable._normalize_canonical_url(url))
+
+    def test_normalize_strips_trailing_slash(self):
+        import ingest_airtable
+        a = "https://radar.firstaimovers.com/article-slug/"
+        b = "https://radar.firstaimovers.com/article-slug"
+        assert ingest_airtable._normalize_canonical_url(a) == ingest_airtable._normalize_canonical_url(b)
+
+    def test_normalize_lowercases_scheme_and_host(self):
+        import ingest_airtable
+        a = "HTTPS://Radar.FirstAIMovers.COM/article-slug"
+        b = "https://radar.firstaimovers.com/article-slug"
+        assert ingest_airtable._normalize_canonical_url(a) == ingest_airtable._normalize_canonical_url(b)
+
+    def test_normalize_preserves_path_case(self):
+        import ingest_airtable
+        # Path is case-significant; do NOT lowercase it.
+        a = "https://example.com/MyArticle"
+        b = "https://example.com/myarticle"
+        assert ingest_airtable._normalize_canonical_url(a) != ingest_airtable._normalize_canonical_url(b)
+
+    def test_normalize_handles_empty_and_none(self):
+        import ingest_airtable
+        assert ingest_airtable._normalize_canonical_url(None) == ""
+        assert ingest_airtable._normalize_canonical_url("") == ""
+
+    def test_canonical_url_exists_finds_match(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        self._seed(
+            tmp_path / "articles", "2026-01-01-x", "X",
+            "https://radar.firstaimovers.com/x",
+        )
+        # Same canonical with trailing slash and uppercase host — should still match.
+        assert ingest_airtable._canonical_url_exists(
+            "https://Radar.firstaimovers.com/x/"
+        ) is True
+
+    def test_canonical_url_exists_misses_unrelated(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        self._seed(
+            tmp_path / "articles", "2026-01-01-x", "X",
+            "https://radar.firstaimovers.com/x",
+        )
+        assert ingest_airtable._canonical_url_exists(
+            "https://radar.firstaimovers.com/y"
+        ) is False
+
+    def test_write_article_skips_when_canonical_url_already_archived(self, monkeypatch, tmp_path):
+        """Even if title differs in ways the title normalizer can't catch,
+        a matching canonical URL skips the record."""
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        self._seed(
+            tmp_path / "articles", "2026-01-01-original-title",
+            "Original Title v1",
+            "https://radar.firstaimovers.com/some-article",
+        )
+        payload = {
+            "title": "Completely Different Title Now",  # title drift beyond normalization
+            "slug": "completely-different-title-now",
+            "published_date": "2026-01-02",
+            "canonical_url": "https://radar.firstaimovers.com/some-article/",  # same canonical (with slash)
+            "article_markdown": "body",
+        }
+        folder, created = ingest_airtable._write_article(payload, "recCanon", dry_run=False)
+        assert created is False
+        assert not (tmp_path / "articles" / "2026-01-02-completely-different-title-now").exists()
+

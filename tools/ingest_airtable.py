@@ -192,11 +192,97 @@ def _folder_exists(folder):
     return (ARTICLES_DIR / folder).exists()
 
 
+# Translation table for dash and quote normalization. Driven by the E41e
+# duplicate-title incident (issue #156) where the legacy archive entry's
+# em-dash compared unequal to the Airtable record's title. Maps Unicode
+# punctuation variants to their ASCII equivalents BEFORE casefold so that
+# titles which differ only in typography collapse to one form.
+_TITLE_TRANSLATIONS = str.maketrans({
+    # Em / en / minus / horizontal-bar / non-breaking-hyphen → ASCII hyphen.
+    "—": "-",  # em dash —
+    "–": "-",  # en dash –
+    "−": "-",  # minus sign −
+    "―": "-",  # horizontal bar ―
+    "‑": "-",  # non-breaking hyphen ‑
+    # Curly single quotes → ASCII apostrophe.
+    "‘": "'",  # left single quotation mark ‘
+    "’": "'",  # right single quotation mark ’
+    "‚": "'",  # single low-9 quotation mark ‚
+    "‛": "'",  # single high-reversed-9 quotation mark ‛
+    # Curly double quotes → ASCII double-quote.
+    "“": '"',  # left double quotation mark “
+    "”": '"',  # right double quotation mark ”
+    "„": '"',  # double low-9 quotation mark „
+    "‟": '"',  # double high-reversed-9 quotation mark ‟
+    # Non-breaking space → regular space (collapsed below).
+    " ": " ",
+})
+
+
+def _normalize_title(title):
+    """Return a canonical comparable form of an article title.
+
+    Applies, in order:
+      1. None/empty guard.
+      2. Unicode NFKC normalization (compatibility decomposition + canonical
+         composition; collapses presentation forms, ligatures, etc.).
+      3. Punctuation translation: dash and quote variants → ASCII.
+      4. Whitespace collapse: runs of any whitespace → single space.
+      5. Strip leading/trailing whitespace.
+      6. casefold() (more aggressive than lower() for non-ASCII).
+
+    The output is intentionally LESS conservative than the original
+    `.strip().casefold()` so post-publication typography drift between
+    Airtable and the archive does not allow duplicate titles to slip in
+    (E41e incident #156).
+    """
+    import unicodedata
+    if not title:
+        return ""
+    s = unicodedata.normalize("NFKC", str(title))
+    s = s.translate(_TITLE_TRANSLATIONS)
+    s = " ".join(s.split())  # collapse all whitespace runs to one space
+    return s.strip().casefold()
+
+
+def _normalize_canonical_url(url):
+    """Return a canonical comparable form of an article's canonical URL.
+
+    Conservative: strip whitespace, drop trailing slash, lowercase scheme
+    and host, leave path/query/fragment untouched. Used to dedupe the
+    Airtable `GUID` against any existing `metadata.json.canonical_url`.
+    """
+    if not url:
+        return ""
+    try:
+        from urllib.parse import urlparse, urlunparse
+        s = str(url).strip()
+        if not s:
+            return ""
+        parsed = urlparse(s)
+        # If no scheme/netloc, treat as opaque string (rare path).
+        if not parsed.scheme or not parsed.netloc:
+            return s.rstrip("/")
+        scheme = parsed.scheme.lower()
+        netloc = parsed.netloc.lower()
+        path = parsed.path.rstrip("/")
+        rebuilt = urlunparse((scheme, netloc, path, parsed.params, parsed.query, parsed.fragment))
+        return rebuilt
+    except Exception:
+        return str(url).strip().rstrip("/")
+
+
 def _title_exists(title):
-    """Check whether a case-insensitive title already exists in the repo."""
+    """Whether a normalized title already exists in any archived metadata.json.
+
+    Uses _normalize_title so dash/quote/whitespace/compatibility-form
+    differences between Airtable and the archive do not allow a duplicate.
+    """
     if not ARTICLES_DIR.exists():
         return False
-    target = title.strip().casefold()
+    target = _normalize_title(title)
+    if not target:
+        return False
     for p in ARTICLES_DIR.iterdir():
         if not p.is_dir():
             continue
@@ -205,7 +291,31 @@ def _title_exists(title):
             continue
         try:
             data = json.loads(meta.read_text(encoding="utf-8"))
-            if data.get("title", "").strip().casefold() == target:
+            if _normalize_title(data.get("title", "")) == target:
+                return True
+        except Exception:
+            continue
+    return False
+
+
+def _canonical_url_exists(canonical_url):
+    """Whether a normalized canonical URL already exists in any archived
+    metadata.json. Defense in depth: catches duplicates even when the
+    title drifted post-publication."""
+    if not ARTICLES_DIR.exists():
+        return False
+    target = _normalize_canonical_url(canonical_url)
+    if not target:
+        return False
+    for p in ARTICLES_DIR.iterdir():
+        if not p.is_dir():
+            continue
+        meta = p / "metadata.json"
+        if not meta.exists():
+            continue
+        try:
+            data = json.loads(meta.read_text(encoding="utf-8"))
+            if _normalize_canonical_url(data.get("canonical_url", "")) == target:
                 return True
         except Exception:
             continue
@@ -296,6 +406,12 @@ def _write_article(payload, record_id, dry_run):
     title = payload["title"]
     if _title_exists(title):
         return folder, False  # duplicate title — skip
+
+    # Defense in depth (E41e issue #156): catch duplicates even when the
+    # title drifted post-publication but the canonical URL is still the same.
+    canonical = payload.get("canonical_url")
+    if canonical and _canonical_url_exists(canonical):
+        return folder, False  # duplicate canonical URL — skip
 
     if dry_run:
         return folder, True  # would create

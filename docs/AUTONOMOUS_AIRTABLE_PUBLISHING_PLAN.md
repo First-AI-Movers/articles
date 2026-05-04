@@ -143,6 +143,30 @@ The step uses `${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
 and never echoes secret values. The step is skipped on dry-run runs and
 on success — only writes-that-fail are logged.
 
+### Duplicate detection (E41e' — issue #156 fix)
+
+The first E41e cron run (workflow run 25312661954) admitted a record
+whose archive twin existed under a Make.com-truncated folder name with
+slightly different title typography (em-dash vs ASCII hyphen). pytest
+caught it before PR creation, the new incident-issue step opened
+[#156](https://github.com/First-AI-Movers/articles/issues/156)
+automatically, and the kill switch was activated.
+
+The fix (PR after #155) strengthens ingest-time duplicate detection:
+
+- `_normalize_title()` — Unicode NFKC, dash/quote variants → ASCII,
+  whitespace collapse, casefold. Used by `_title_exists()`.
+- `_normalize_canonical_url()` — strip + lowercase scheme/host + strip
+  trailing slash. Used by new `_canonical_url_exists()` defense-in-
+  depth check, which catches duplicates even when title drifted beyond
+  what title normalization can recover.
+- `_write_article()` evaluates folder, title, and canonical URL gates
+  in that order; any match ⇒ silent idempotent skip.
+
+The standalone `tools/check_duplicate_titles.py` and the index-level
+test stay on `.lower()` to avoid surfacing legacy smart-quote pairs as
+hard CI failures; that cleanup is editorial-scope follow-up.
+
 ### Generated artifacts covered by ingestion PRs
 
 Both ingestion workflows' `add-paths` cover the full set of files

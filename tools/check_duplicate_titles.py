@@ -2,7 +2,16 @@
 """Check index.json for duplicate article titles.
 
 Exits with code 1 and prints actionable output when duplicates are found.
-Case-insensitive comparison. Empty or missing titles are ignored.
+Case-insensitive comparison via `.lower()`. Empty or missing titles ignored.
+
+Note: the SOURCE-of-truth duplicate gate is at ingest time
+(`tools/ingest_airtable.py::_title_exists`), which uses stricter
+normalization (NFKC + dash/quote collapse) so new Airtable records cannot
+be admitted with a title that differs from an existing archive entry only
+in typography — the E41e issue #156 scenario. This index-level gate stays
+on `.lower()` to avoid breaking on a small set of legacy smart-quote-vs-
+straight-quote pairs that predate the strict gate; those are tracked as
+an editorial cleanup follow-up.
 
 Usage:
     python3 tools/check_duplicate_titles.py

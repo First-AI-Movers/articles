@@ -156,6 +156,17 @@ class TestSecurityTooling:
         assert "continue-on-error" not in text, "Duplicate-title gate must not be soft"
 
     def test_no_duplicate_titles_in_index(self):
+        """Index-level duplicate-title gate. Uses the same `.lower()`
+        comparison as `tools/check_duplicate_titles.py` so the two stay
+        in lock-step. The ingest-time gate
+        (`tools/ingest_airtable.py::_title_exists`) deliberately uses
+        STRICTER normalization (NFKC + dash/quote collapse) so that new
+        records from Airtable cannot be added with the same title as an
+        existing article merely because typography differs (E41e issue
+        #156). Index-level normalization is left looser to avoid breaking
+        on a small set of legacy smart-quote-vs-straight-quote pairs that
+        predate the strict gate; tracked separately as an editorial
+        cleanup follow-up."""
         import json
         from pathlib import Path
         from collections import defaultdict
