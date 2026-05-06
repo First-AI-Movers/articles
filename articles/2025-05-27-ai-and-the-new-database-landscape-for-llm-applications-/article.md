@@ -152,7 +152,7 @@ We're witnessing databases morph to meet the age of AI: relational rows and JSON
 ---
 
 **In a nutshell**, the database world didn't disappear with the rise of LLMs - it _transformed_ and expanded. As you architect your next AI-powered system, you're not choosing **a** database; you're choosing the right **set** of data tools for the job. Embrace the change, experiment with these new capabilities, and you'll find a sweet spot where your databases and your AI models work in harmony.
- **Want to bounce ideas or swap takes?** Connect with me on [LinkedIn](https://www.linkedin.com/in/hernanicosta) or drop a comment below, and let's start crafting AI-native solutions that let everyone breathe smarter.
+ **Want to bounce ideas or swap takes?** Connect with me on [LinkedIn](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) or drop a comment below, and let's start crafting AI-native solutions that let everyone breathe smarter.
  Happy building! - _[Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/)_
 
 ---

@@ -86,7 +86,7 @@ That’s it for the main article. Next, we will highlight...
 
 \*\*\*
 
-_Stay in the loop with the latest insights._ **Connect with me** on [LinkedIn→](https://www.linkedin.com/in/hernanicosta) and **subscribe** to the LinkedIn Newsletter [First AI Movers→](https://www.linkedin.com/newsletters/first-ai-movers-7285707335191154688/) for more in-depth analysis and exclusive updates.
+_Stay in the loop with the latest insights._ **Connect with me** on [LinkedIn→](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) and **subscribe** to the LinkedIn Newsletter [First AI Movers→](https://www.linkedin.com/newsletters/first-ai-movers-7285707335191154688/) for more in-depth analysis and exclusive updates.
 
 ---
 

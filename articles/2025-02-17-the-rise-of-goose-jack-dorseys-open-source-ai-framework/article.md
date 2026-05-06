@@ -93,7 +93,7 @@ The AI landscape is at an inflection point. Goose's open-source model offers a c
 
 ---
 
-_🖊 ️ [Hernani](https://www.linkedin.com/in/hernanicosta/), The AI Sailor_
+_🖊 ️ [Hernani](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), The AI Sailor_
 
 _Sailing toward a future where innovation meets intelligence 🌊  I believe in harnessing technology to empower people and drive ethical innovation. Let's set sail together toward a smarter, more inclusive tomorrow. If you found this article valuable, please consider sharing it. Thank you! Disclaimer: The insights expressed in this article are provided for informational and recreational purposes only and should not be construed as professional advice - financial, investment, or legal. Any references to partnerships or sponsorships are disclosed solely for transparency. For guidance tailored to your unique situation, please consider requesting a private consultation with me._
 
