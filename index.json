@@ -1,11 +1,65 @@
 {
   "last_updated": "2026-05-06",
-  "total_articles": 831,
+  "total_articles": 836,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-05-04-canonical-docs-ai-memory-system-2026",
+      "slug": "canonical-docs-ai-memory-system-2026",
+      "title": "Canonical Docs Are the Most Underrated AI Memory System",
+      "published_date": "2026-05-04",
+      "tags": [
+        "ai-governance",
+        "ai-automation",
+        "company-tech-strategy",
+        "software development",
+        "engineering-leadership"
+      ],
+      "topics": [
+        "Executive AI Literacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/canonical-docs-ai-memory-system-2026"
+    },
+    {
+      "folder": "2026-05-04-enterprise-ai-agent-memory-layer-2026",
+      "slug": "enterprise-ai-agent-memory-layer-2026",
+      "title": "The Memory Layer Enterprises Actually Need for AI Agents",
+      "published_date": "2026-05-04",
+      "tags": [
+        "ai-governance",
+        "ai-automation",
+        "company-tech-strategy",
+        "digital-transformation",
+        "software development"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/enterprise-ai-agent-memory-layer-2026"
+    },
+    {
+      "folder": "2026-05-03-ai-pull-request-auto-merge-enterprise-guide-2026",
+      "slug": "ai-pull-request-auto-merge-enterprise-guide-2026",
+      "title": "The Merge Button Should Be Policy, Not a Person",
+      "published_date": "2026-05-03",
+      "tags": [
+        "ai-automation",
+        "engineering-leadership",
+        "pull-requests",
+        "auto-merge",
+        "ci-cd",
+        "platform-engineering",
+        "ai-governance"
+      ],
+      "topics": [
+        "Executive AI Literacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-pull-request-auto-merge-enterprise-guide-2026"
+    },
     {
       "folder": "2026-05-03-cto-checklist-securing-coding-agents-rollout",
       "slug": "cto-checklist-securing-coding-agents-rollout",
@@ -21,6 +75,42 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/cto-checklist-securing-coding-agents-rollout"
+    },
+    {
+      "folder": "2026-05-03-github-2026-history-evolution-agent-runtime",
+      "slug": "github-2026-history-evolution-agent-runtime",
+      "title": "GitHub in 2026: From a Weekend Project to the Runtime for AI Agents",
+      "published_date": "2026-05-03",
+      "tags": [
+        "company-tech-strategy",
+        "developer-tools",
+        "ai-automation",
+        "digital-transformation",
+        "ai-governance"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/github-2026-history-evolution-agent-runtime"
+    },
+    {
+      "folder": "2026-05-03-github-automation-stack-engineering-teams-2026",
+      "slug": "github-automation-stack-engineering-teams-2026",
+      "title": "The GitHub Automation Stack Most Engineering Teams Are Still Underusing",
+      "published_date": "2026-05-03",
+      "tags": [
+        "github",
+        "github-actions",
+        "platform-engineering",
+        "devsecops",
+        "ci-cd",
+        "ai-automation",
+        "engineering-leadership"
+      ],
+      "topics": [
+        "Executive AI Literacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/github-automation-stack-engineering-teams-2026"
     },
     {
       "folder": "2026-04-25-ai-consulting-bratislava-tech-smes-2026",
