@@ -84,8 +84,8 @@ sync project `articles-git`, config `dev` into GitHub repository secrets.
 | E41a'''' | ROADMAP.md added to ingestion add-paths | Workflow-only | ✅ shipped (PR #153) |
 | E41b | Controlled single-record write test (one Posted record, dispatch path) | Owner approval; `INGEST_DRY_RUN=0` transient | ✅ proven 2026-05-03: PR #154 ingested `rec6nsPU1kHTcKYXF` end-to-end with machine gates |
 | E41e | Bounded daily cron write mode + incident logging | Repo variables flip after PR merge | ✅ shipping (this PR) |
-| E41g | List-fetch sort by `Date Added` desc (newest-first) | Code-only; issue #164 root cause | 🚧 this PR |
-| E41f | Gated auto-merge for `ingest/airtable-*` branches | Required CI green + CODEOWNERS approval | ❌ deferred |
+| E41g | List-fetch sort by `Date Added` desc (newest-first) | Code-only; issue #164 root cause | ✅ shipped (PR #166) |
+| E41f | Gated auto-merge for `ingest/airtable-*` branches | Required CI green; default OFF via `AUTO_MERGE_INGESTION_PRS` | 🚧 this PR (code shipped, activation gated) |
 | E41c | Anthropic polish design (provider, prompt contract, dry-run plan) | Owner approval; ADR | ❌ no |
 | E41d | Anthropic polish dry-run implementation behind feature flag | Provider gated; opt-in env var; no live calls in CI | ❌ no |
 
@@ -269,15 +269,69 @@ until the owner explicitly approves the listed record.
 - Out of scope for this PR: no Anthropic SDK dependency, no API key, no
   prompt files, no schema changes.
 
-## Auto-merge (E41f) — deferred
+## Auto-merge (E41f) — shipped, default OFF
 
-- Eligible only if all of the following are true on the ingestion PR:
-  - `tests.yml`, `e2e.yml`, `gitleaks.yml`, `geo-audit.yml` all green.
-  - `check_duplicate_titles.py` and `check_generated_artifacts.py` green.
-  - PR has exactly one CODEOWNERS approval.
-  - Branch is `ingest/airtable-*`; no other paths touched.
-- Mechanism: GitHub native auto-merge (squash). No third-party action.
-- Out of scope for this PR.
+`tools/auto_merge_ingestion_pr.py` runs after `peter-evans/create-pull-request`
+in `.github/workflows/ingest-airtable.yml`. It is gated by:
+
+- `INGEST_DRY_RUN != '1'` — the cron's existing kill switch (workflow-level
+  `if:` on every write step). Flipping `INGEST_DRY_RUN=1` instantly disables
+  ingestion *and* auto-merge.
+- `AUTO_MERGE_INGESTION_PRS == '1'` — E41f-specific repo variable. Default `0`.
+
+When both are on, the script enforces, in order:
+
+1. Open PR exists with head ref starting with `ingest/airtable-`.
+2. PR title equals exactly `ingest(articles): add articles from Airtable`.
+3. Every changed path matches the allowlist:
+   - `articles/<folder>/article.md`
+   - `articles/<folder>/metadata.json`
+   - `README.md`, `ROADMAP.md`, `index.json`, `sitemap.xml`, `feed.xml`,
+     `feed.json`, `llms.txt`, `llms-full.txt`, `llms-recent.txt`
+   - No nested article subdirs, no other top-level files.
+4. `mergeable == "MERGEABLE"`.
+5. All required CI checks finish with `conclusion == "SUCCESS"`:
+   - `check` (Generated artifacts)
+   - `e2e` (E2E tests)
+   - `geo-audit` (GEO audit)
+   - `gitleaks` (Secret scanning)
+   - `lychee`, `readability`, `vale` (Article quality audit, three checks)
+   - `test` (Run tests)
+
+   The script polls with a configurable timeout (default 900s / 30s interval).
+
+When all gates pass, the script squash-merges the PR and deletes the head
+branch. Any block (allowlist violation, failed check, timeout, mergeability
+failure) opens an `E41 auto-merge blocked: <reason>` issue with the PR URL,
+workflow run, changed-file list, and the failed-check classification. No
+secret values are recorded.
+
+**Activation procedure (after this PR merges and is observed for ≥ 1 cron
+tick under the default OFF setting):**
+
+```bash
+gh variable set AUTO_MERGE_INGESTION_PRS --body 1 -R First-AI-Movers/articles
+```
+
+**Kill switches (either reverts auto-merge):**
+
+```bash
+# E41f-specific — auto-merge off, cron still opens PRs for human review
+gh variable set AUTO_MERGE_INGESTION_PRS --body 0 -R First-AI-Movers/articles
+
+# Whole-cron kill switch — also disables PR creation
+gh variable set INGEST_DRY_RUN --body 1 -R First-AI-Movers/articles
+```
+
+The next cron tick reads both variables; no workflow restart needed.
+
+The auto-merge step never pushes to `main` directly. Squash-merge goes
+through the standard GitHub merge path; branch protection rules continue
+to apply (the merging token is `ARTICLE_INGESTION_PR_TOKEN` if provisioned
+with the right scope, otherwise `GITHUB_TOKEN`). If branch protection
+requires CODEOWNERS approval and the token has no review-bypass, the
+merge will fail and an incident issue will be filed — that's the desired
+safety property.
 
 ## Cost estimates
 

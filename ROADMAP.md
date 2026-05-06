@@ -290,7 +290,7 @@ observed. Full plan, cost model, and single-record test checklist live in
 | **E41g** | List-fetch sort by `Date Added` desc (issue #164) | `_fetch_records` adds `sort[0][field]=Date Added&sort[0][direction]=desc` so newly-added Posted records cannot be hidden behind the lexically-oldest 20 record IDs that re-saves keep refreshing. Record-id dispatch path unaffected. 8 new tests. | 📱 | XS |
 | **E41c** | Anthropic AI polish — design only | ADR for TL;DR / summary / headline polish using Anthropic; provider, prompt contract, dry-run plan, cost guardrails. No code. | 📱 | S |
 | **E41d** | Anthropic AI polish — dry-run implementation | Polish script writes to `.polish.draft.json` siblings, behind opt-in env var; no live calls in default CI; cost cap enforced in code. | 📱 | M |
-| **E41f** | Gated auto-merge for ingestion PRs | GitHub native auto-merge restricted to `ingest/airtable-*` branches with all required checks green and one CODEOWNERS approval. Activate after ≥14 days of E41e observation. | 📱 | S |
+| **E41f** | Gated auto-merge for ingestion PRs | `tools/auto_merge_ingestion_pr.py` runs after PR-create. Verifies branch prefix `ingest/airtable-`, exact PR title, file allowlist, mergeability, and required-check success. Squash-merges on pass; opens `E41 auto-merge blocked` issue on any block. Default OFF via `AUTO_MERGE_INGESTION_PRS=0`. 49 unit tests. | 📱 | S |
 
 **Closeout PRs:** #137 E39c re-scope, #138 artifact drift check, #139 release readiness, #141 AI-QA wording restore, #142 security review, #143 CI/Pages proof, #144 final audit harness, #145 archive v1 freeze (this PR).
 

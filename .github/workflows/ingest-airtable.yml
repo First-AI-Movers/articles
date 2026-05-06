@@ -122,6 +122,18 @@ jobs:
             README.md
             ROADMAP.md
 
+      - name: Auto-merge clean ingestion PR (E41f)
+        # Gated by AUTO_MERGE_INGESTION_PRS (default '0' — disabled). The
+        # script is defensive: it verifies branch prefix, exact PR title,
+        # file allowlist, mergeability, and required-check success before
+        # squashing. Any blocker opens an `E41 auto-merge blocked` issue
+        # rather than failing the cron loudly.
+        if: env.INGEST_DRY_RUN != '1'
+        env:
+          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          AUTO_MERGE_INGESTION_PRS: ${{ vars.AUTO_MERGE_INGESTION_PRS || '0' }}
+        run: python3 tools/auto_merge_ingestion_pr.py
+
       - name: Open incident issue on cron-write failure
         # Fires only when the write-mode cron path fails. Skipped on dry-run
         # (no archive impact) and skipped on success. Logs the run URL,

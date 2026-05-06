@@ -137,6 +137,16 @@ If a record is missing `slug` but has `GUID`:
   prior step in a write-mode run fails. Title format:
   `E41 cron ingestion incident: workflow run <id> failed`. Skipped on
   dry-run and on success. No secret values are recorded.
+- **Auto-merge (E41f, default OFF):** when `AUTO_MERGE_INGESTION_PRS=1`
+  is set as a repo variable AND `INGEST_DRY_RUN != '1'`, an additional
+  step (`tools/auto_merge_ingestion_pr.py`) runs after the PR-create
+  step. It verifies branch prefix (`ingest/airtable-`), exact PR title,
+  the file allowlist, mergeability, and that every required CI check
+  ended in `SUCCESS`. On pass it squash-merges the PR and deletes the
+  branch. On any block it opens an `E41 auto-merge blocked: <reason>`
+  issue rather than crashing the cron. See
+  [`docs/AUTONOMOUS_AIRTABLE_PUBLISHING_PLAN.md`](AUTONOMOUS_AIRTABLE_PUBLISHING_PLAN.md)
+  for the full activation procedure.
 
 ### Dry-run (default)
 
