@@ -1,0 +1,40 @@
+name: _debug Airtable schema (E41g pre-flight)
+
+# Temporary one-shot probe used to verify the existence of an Airtable
+# field before E41g changes ingest_airtable.py to sort by it. Workflow
+# is workflow_dispatch only — no cron, no PR triggers — so it cannot
+# fire automatically. Will be removed once verification is recorded in
+# the E41g PR.
+
+on:
+  workflow_dispatch:
+    inputs:
+      field:
+        description: "Airtable field name to verify (e.g. 'Date Added')"
+        required: true
+        default: "Date Added"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Verify field exists in Airtable schema
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
+          AIRTABLE_VERIFY_FIELD: ${{ inputs.field }}
+        run: python3 tools/_verify_airtable_field.py
