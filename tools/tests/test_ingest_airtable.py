@@ -1013,6 +1013,124 @@ class TestTitleDedupeRegression:
         assert not (tmp_path / "articles" / f"2025-07-22-{payload['slug']}").exists()
 
 
+class TestDateAddedNewestFirstSort:
+    """E41g — issue #164: list fetch must sort by `Date Added` desc.
+
+    Default Airtable response order is by record ID, lexically ascending
+    (oldest first). Combined with `INGEST_MAX_RECORDS=20`, the cron was
+    consuming its entire scan budget on the lexically-oldest 20 records,
+    which were already archived (re-saves modified the LAST_MODIFIED_TIME
+    timestamp but not the underlying article). New Posted records with
+    lexically-larger record IDs were invisible.
+
+    Fix: pass an explicit `sort[0]` parameter pinning the response to
+    newest-first by `Date Added`. The record-id dispatch path is
+    unaffected — it fetches a single record by ID and never sorts.
+    """
+
+    class _StubResponse:
+        def __init__(self, payload, captured_url):
+            self._payload = payload
+            self.captured_url = captured_url
+
+        def raise_for_status(self):  # pragma: no cover - happy path
+            return None
+
+        def json(self):
+            return self._payload
+
+    def _patch_get(self, monkeypatch):
+        captured = {"url": None}
+
+        def fake_get(url, headers=None, timeout=None, **_):
+            captured["url"] = url
+            return TestDateAddedNewestFirstSort._StubResponse(
+                {"records": []}, captured_url=url
+            )
+
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable.requests, "get", fake_get)
+        return captured
+
+    def test_list_path_sends_date_added_field(self, monkeypatch):
+        import ingest_airtable
+        captured = self._patch_get(monkeypatch)
+        list(ingest_airtable._fetch_records(
+            pat="pat", base_id="appX", table_name="tblY",
+        ))
+        assert captured["url"] is not None
+        # urlencode renders sort[0][field] as sort%5B0%5D%5Bfield%5D.
+        assert "sort%5B0%5D%5Bfield%5D=Date+Added" in captured["url"]
+
+    def test_list_path_sends_descending_direction(self, monkeypatch):
+        import ingest_airtable
+        captured = self._patch_get(monkeypatch)
+        list(ingest_airtable._fetch_records(
+            pat="pat", base_id="appX", table_name="tblY",
+        ))
+        assert "sort%5B0%5D%5Bdirection%5D=desc" in captured["url"]
+
+    def test_list_path_preserves_since_hours_filter(self, monkeypatch):
+        import ingest_airtable
+        captured = self._patch_get(monkeypatch)
+        list(ingest_airtable._fetch_records(
+            pat="pat", base_id="appX", table_name="tblY", since_hours=72,
+        ))
+        assert "filterByFormula=" in captured["url"]
+        assert "LAST_MODIFIED_TIME" in captured["url"]
+        # Sort still present alongside the filter.
+        assert "sort%5B0%5D%5Bfield%5D=Date+Added" in captured["url"]
+
+    def test_list_path_preserves_limit_max_records(self, monkeypatch):
+        import ingest_airtable
+        captured = self._patch_get(monkeypatch)
+        list(ingest_airtable._fetch_records(
+            pat="pat", base_id="appX", table_name="tblY", limit=20,
+        ))
+        assert "maxRecords=20" in captured["url"]
+        assert "sort%5B0%5D%5Bfield%5D=Date+Added" in captured["url"]
+
+    def test_list_path_preserves_view(self, monkeypatch):
+        import ingest_airtable
+        captured = self._patch_get(monkeypatch)
+        list(ingest_airtable._fetch_records(
+            pat="pat", base_id="appX", table_name="tblY", view_name="Posted",
+        ))
+        assert "view=Posted" in captured["url"]
+        assert "sort%5B0%5D%5Bfield%5D=Date+Added" in captured["url"]
+
+    def test_record_id_path_does_not_include_sort_params(self, monkeypatch):
+        """The record-id dispatch path GETs /v0/{base}/{table}/{recId}
+        and must not include sort params — Airtable's single-record
+        endpoint rejects them."""
+        import ingest_airtable
+        captured = self._patch_get(monkeypatch)
+        # Use a stub that returns a record-shaped dict for the record-id path.
+
+        def fake_get(url, headers=None, timeout=None, **_):
+            captured["url"] = url
+            return TestDateAddedNewestFirstSort._StubResponse(
+                {"id": "recAAA", "fields": {}}, captured_url=url
+            )
+        monkeypatch.setattr(ingest_airtable.requests, "get", fake_get)
+
+        list(ingest_airtable._fetch_records(
+            pat="pat", base_id="appX", table_name="tblY",
+            record_id="recAAA00000000000",
+        ))
+        assert captured["url"] is not None
+        assert "/recAAA00000000000" in captured["url"]
+        assert "sort%5B0%5D%5Bfield%5D" not in captured["url"]
+        assert "sort%5B0%5D%5Bdirection%5D" not in captured["url"]
+
+    def test_sort_constants_are_exposed(self):
+        """Constants are module-level so tests and ops tooling can
+        reference them rather than hardcoding the field name."""
+        import ingest_airtable
+        assert ingest_airtable.LIST_SORT_FIELD == "Date Added"
+        assert ingest_airtable.LIST_SORT_DIRECTION == "desc"
+
+
 class TestCanonicalUrlDedupe:
     """E41e — defense in depth (incident #156): even when title drifts
     beyond what title-normalization can recover, a matching canonical URL

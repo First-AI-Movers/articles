@@ -84,6 +84,7 @@ sync project `articles-git`, config `dev` into GitHub repository secrets.
 | E41a'''' | ROADMAP.md added to ingestion add-paths | Workflow-only | ✅ shipped (PR #153) |
 | E41b | Controlled single-record write test (one Posted record, dispatch path) | Owner approval; `INGEST_DRY_RUN=0` transient | ✅ proven 2026-05-03: PR #154 ingested `rec6nsPU1kHTcKYXF` end-to-end with machine gates |
 | E41e | Bounded daily cron write mode + incident logging | Repo variables flip after PR merge | ✅ shipping (this PR) |
+| E41g | List-fetch sort by `Date Added` desc (newest-first) | Code-only; issue #164 root cause | 🚧 this PR |
 | E41f | Gated auto-merge for `ingest/airtable-*` branches | Required CI green + CODEOWNERS approval | ❌ deferred |
 | E41c | Anthropic polish design (provider, prompt contract, dry-run plan) | Owner approval; ADR | ❌ no |
 | E41d | Anthropic polish dry-run implementation behind feature flag | Provider gated; opt-in env var; no live calls in CI | ❌ no |
@@ -166,6 +167,35 @@ The fix (PR after #155) strengthens ingest-time duplicate detection:
 The standalone `tools/check_duplicate_titles.py` and the index-level
 test stay on `.lower()` to avoid surfacing legacy smart-quote pairs as
 hard CI failures; that cleanup is editorial-scope follow-up.
+
+### List-fetch ordering (E41g — issue #164)
+
+The 2026-05-05 cron and 2026-05-06 manual dispatch both observed the
+same 20 already-archived records (`rec01miXg…rec1gSdd`) skipped as
+duplicates, with `Ingested 0 article(s)`. Root cause:
+`tools/ingest_airtable.py::_fetch_records` sent no `sort=` parameter,
+so Airtable returned records in default order — by record ID, lexically
+ascending — which is by construction the oldest cohort of records.
+With `INGEST_MAX_RECORDS=20`, the entire scan budget was consumed on
+records that already existed in the archive; new Posted records with
+lexically-larger IDs were never seen.
+
+E41g pins the list path to:
+
+```text
+sort[0][field]=Date Added
+sort[0][direction]=desc
+```
+
+This is the field that records when an article record *entered*
+Airtable, which is the right ordering signal for archive ingestion.
+Modification time is not used because re-saves of long-archived
+records would otherwise float to the top. Pub Date is not used because
+it tracks upstream publication, which can drift from when the record
+arrived in Airtable.
+
+`maxRecords` and `--since-hours 72` are unchanged. The `--record-id`
+dispatch path is unaffected — single-record fetch never sorts.
 
 ### Generated artifacts covered by ingestion PRs
 

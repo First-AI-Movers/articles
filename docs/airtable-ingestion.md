@@ -121,6 +121,18 @@ If a record is missing `slug` but has `GUID`:
   - `INGEST_MAX_CREATED` (default `5`) — caps successful folder creations
     per run. Skips and dedupes do not consume the budget.
   - Both can be tuned with `gh variable set NAME --body N`.
+- **List-fetch sort (E41g, issue #164):** the list path passes
+  `sort[0][field]=Date Added&sort[0][direction]=desc` so newly-added
+  Posted records always sort above older re-saved records inside the
+  `INGEST_MAX_RECORDS` scan window. Without this sort the cron consumed
+  its entire 20-record budget on the lexically-oldest record IDs (which
+  are by construction the oldest already-archived records). The
+  `--since-hours 72` filter on `LAST_MODIFIED_TIME()` is unchanged; the
+  sort applies only within the filtered set. Why `Date Added` and not
+  `LAST_MODIFIED_TIME` or `Pub Date`: archive ingestion cares about
+  records *entering* Airtable, not later edits or upstream publication
+  dates that may drift. The `--record-id` dispatch path is unaffected
+  (no sort).
 - **Incident logging:** A final workflow step opens a GitHub issue if any
   prior step in a write-mode run fails. Title format:
   `E41 cron ingestion incident: workflow run <id> failed`. Skipped on

@@ -72,6 +72,15 @@ ALLOWED_STATUSES = {"posted"}
 
 AIRTABLE_API_URL = "https://api.airtable.com/v0"
 
+# E41g (issue #164) — sort the list-fetch response newest-first by the
+# Airtable `Date Added` field so newly-added Posted records cannot be
+# hidden behind older re-saved records inside the `INGEST_MAX_RECORDS`
+# scan window. The default Airtable response order is by record ID,
+# lexically ascending (oldest first), which silently consumed the
+# scan budget on already-archived re-saves.
+LIST_SORT_FIELD = "Date Added"
+LIST_SORT_DIRECTION = "desc"
+
 
 def _yaml_quote(value):
     """Serialize a string as a YAML scalar using JSON double-quoted string rules.
@@ -491,6 +500,11 @@ def _fetch_records(pat, base_id, table_name, view_name=None, since_hours=None, r
     if since_hours:
         cutoff = (datetime.now(timezone.utc) - timedelta(hours=since_hours)).strftime("%Y-%m-%dT%H:%M:%SZ")
         params["filterByFormula"] = f"IS_AFTER(LAST_MODIFIED_TIME(), '{cutoff}')"
+    # Newest-first sort by `Date Added` (E41g). Applies only to the list
+    # path; the --record-id path above returns a single record by ID and
+    # does not need (or accept) sort parameters.
+    params["sort[0][field]"] = LIST_SORT_FIELD
+    params["sort[0][direction]"] = LIST_SORT_DIRECTION
 
     url = f"{AIRTABLE_API_URL}/{base_id}/{table_name}"
     while True:
