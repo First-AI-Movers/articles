@@ -12,7 +12,7 @@
     "sameAs": [
       "https://orcid.org/0000-0002-6813-4641",
       "https://scholar.google.com/citations?user=N9pus4gAAAAJ",
-      "https://linkedin.com/in/hernani-costa-ai-ceo-firstaimovers"
+      "https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/"
     ],
     "jobTitle": "Founder & CEO",
     "affiliation": {
@@ -43,7 +43,7 @@
   ],
   "isAccessibleForFree": true,
   "dateCreated": "2025-02-17",
-  "dateModified": "2026-05-04"
+  "dateModified": "2026-05-06"
 }
 -->
 
@@ -115,7 +115,7 @@ He doesn't just write about AI — he builds AI-first companies. His portfolio i
 - **[Tarucca](https://tarucca.com)** — AI-powered wind turbine monitoring and renewable energy intelligence
 - **[Desapega](https://desapega.nl)** — Circular economy marketplace for the Netherlands
 
-**Verified profiles:** [ORCID](https://orcid.org/0000-0002-6813-4641) · [LinkedIn](https://linkedin.com/in/hernani-costa-ai-ceo-firstaimovers) · [Google Scholar](https://scholar.google.com/citations?user=N9pus4gAAAAJ) · [ResearchGate](https://researchgate.net/profile/Hernani-Costa) · [GitHub](https://github.com/hpcosta) · [Dev.to](https://dev.to/dr_hernani_costa) · [Medium](https://medium.com/@firstaimovers)
+**Verified profiles:** [ORCID](https://orcid.org/0000-0002-6813-4641) · [LinkedIn](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) · [Google Scholar](https://scholar.google.com/citations?user=N9pus4gAAAAJ) · [ResearchGate](https://researchgate.net/profile/Hernani-Costa) · [GitHub](https://github.com/hpcosta) · [Dev.to](https://dev.to/dr_hernani_costa) · [Medium](https://medium.com/@firstaimovers)
 
 See [ABOUT.md](ABOUT.md) and [hernanicosta.json](hernanicosta.json) for full structured author data.
 
@@ -328,7 +328,7 @@ See [LICENSE](LICENSE) and [LICENSE-CODE](LICENSE-CODE) for the full legal texts
 | **Email** | info@firstaimovers.com |
 | **Schedule a call** | [Book on Google Calendar](https://calendar.app.google/eb8gH1onDTQnUtP6A) |
 | **Personal site** | [drhernanicosta.com](https://drhernanicosta.com) |
-| **LinkedIn** | [hernani-costa-ai-ceo-firstaimovers](https://linkedin.com/in/hernani-costa-ai-ceo-firstaimovers) |
+| **LinkedIn** | [hernani-costa-ai-ceo-firstaimovers](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) |
 | **First AI Movers** | [firstaimovers.com](https://firstaimovers.com) |
 | **Core Ventures** | [coreventures.xyz](https://coreventures.xyz) |
 

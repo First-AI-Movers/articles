@@ -63,7 +63,7 @@ Remember, **done is better than perfect.** Get things working first instead of o
 
 So next time you get a burst of inspiration for a new feature or product, don't dive in blindly. Take a moment to chat it out, make a plan, and then vibe-code your way to a prototype. You'll be amazed at how much ground you can cover with an AI by your side - and you might even _sleep_ a little more knowing your "co-founder" can handle those late-night coding sprints. This is exactly how high‑performance teams operate - the difference is that, as a solo founder, you'll lean on your AI sidekick/copilot and do it yourself. Don't sweat perfection; it never truly arrives, even with a five‑person crew.
 
-**Want a hand turning this workflow into your own shipping machine?** Connect with me on [LinkedIn](https://www.linkedin.com/in/hernanicosta) or drop a comment below, and let's map your PRDs, task lists, and AI‑pairing strategy together.
+**Want a hand turning this workflow into your own shipping machine?** Connect with me on [LinkedIn](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) or drop a comment below, and let's map your PRDs, task lists, and AI‑pairing strategy together.
 
 ---
 

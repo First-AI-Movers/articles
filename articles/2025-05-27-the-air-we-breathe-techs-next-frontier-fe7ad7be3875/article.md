@@ -133,7 +133,7 @@ The invisible enemy of pollution is finally meeting its match - and it might jus
 
 ---
 
-**Want to help turn this vision into reality?** If you're serious about building cleaner-air tech for yourself, your community, and the children who will inherit our skies, reach out to me. Connect on [LinkedIn](https://www.linkedin.com/in/hernanicosta) or drop a comment below, and let's start creating solutions that allow everyone to breathe smarter.
+**Want to help turn this vision into reality?** If you're serious about building cleaner-air tech for yourself, your community, and the children who will inherit our skies, reach out to me. Connect on [LinkedIn](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) or drop a comment below, and let's start creating solutions that allow everyone to breathe smarter.
 
 ---
 

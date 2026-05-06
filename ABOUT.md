@@ -12,7 +12,7 @@ Dr. Hernani Costa is the founder of [First AI Movers](https://firstaimovers.com)
 
 - Personal site: https://drhernanicosta.com
 - ORCID: https://orcid.org/0000-0002-6813-4641
-- LinkedIn: https://linkedin.com/in/hernani-costa-ai-ceo-firstaimovers
+- LinkedIn: https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/
 - Google Scholar: https://scholar.google.com/citations?user=N9pus4gAAAAJ
 - ResearchGate: https://researchgate.net/profile/Hernani-Costa
 - GitHub: https://github.com/hpcosta
