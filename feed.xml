@@ -44,6 +44,40 @@
     <summary type="text">AI agents need memory, but enterprise memory must be governed, reviewable, and auditable. Here is why canonical docs should come before vector databases.</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-acceptable-use-policy-engineering-teams</id>
+    <title>What Your AI Acceptable Use Policy Should Actually Cover (And What Most Companies Miss)</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-acceptable-use-policy-engineering-teams"/>
+    <published>2026-05-03T00:00:00Z</published>
+    <updated>2026-05-03T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-governance"/>
+    <category term="company-tech-strategy"/>
+    <category term="digital-transformation"/>
+    <category term="ai-automation"/>
+    <category term="business-automation"/>
+    <summary type="text">What an effective AI acceptable use policy covers: data classification, model tiers, prompt hygiene, and escalation triggers for engineering organisations.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-incident-response-engineering-leaders</id>
+    <title>AI Incident Response for Engineering Leaders: What to Do When Your AI Tooling Leaks, Hallucinates, or Breaks Production</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-incident-response-engineering-leaders"/>
+    <published>2026-05-03T00:00:00Z</published>
+    <updated>2026-05-03T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-governance"/>
+    <category term="company-tech-strategy"/>
+    <category term="digital-transformation"/>
+    <category term="ai-automation"/>
+    <category term="business-automation"/>
+    <summary type="text">A practical incident response playbook for AI-specific failures: hallucinations, data leaks, agent overreach, and production breaks from AI tooling.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-pull-request-auto-merge-enterprise-guide-2026</id>
     <title>The Merge Button Should Be Policy, Not a Person</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/ai-pull-request-auto-merge-enterprise-guide-2026"/>
@@ -55,6 +89,23 @@
     </author>
     <category term="Executive AI Literacy"/>
     <summary type="text">AI is accelerating code creation. Learn how enterprises automate pull request review and auto-merge with policy, CI, merge queues, and human gates.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-security-posture-engineering-organisation</id>
+    <title>How to Build an AI Security Posture for Your Engineering Organisation Before It Becomes an Emergency</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-security-posture-engineering-organisation"/>
+    <published>2026-05-03T00:00:00Z</published>
+    <updated>2026-05-03T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-governance"/>
+    <category term="company-tech-strategy"/>
+    <category term="digital-transformation"/>
+    <category term="ai-automation"/>
+    <category term="business-automation"/>
+    <summary type="text">A practical framework for CTOs building an AI security posture: identity, permissions, data boundaries, review gates, and incident readiness.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-03:2026-05-03-cto-checklist-securing-coding-agents-rollout</id>
@@ -102,6 +153,23 @@
     </author>
     <category term="Executive AI Literacy"/>
     <summary type="text">GitHub is no longer just a repo. Enterprise guide to rulesets, merge queue, environments, OIDC, attestations, Copilot review, and what to pay for.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-03:2026-05-03-shadow-ai-engineering-teams-detect-measure-decide</id>
+    <title>Shadow AI in Engineering Teams: How to Detect It, Measure It, and Decide What to Do About It</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/shadow-ai-engineering-teams-detect-measure-decide"/>
+    <published>2026-05-03T00:00:00Z</published>
+    <updated>2026-05-03T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-governance"/>
+    <category term="company-tech-strategy"/>
+    <category term="digital-transformation"/>
+    <category term="ai-automation"/>
+    <category term="business-automation"/>
+    <summary type="text">Detect unsanctioned AI tool usage in engineering teams, classify the risk, and decide what to govern, adopt, or block as a CTO or engineering leader.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026</id>
@@ -772,71 +840,5 @@
     <category term="AI Governance"/>
     <category term="AI Productivity Tools"/>
     <summary type="text">AI spend audit checklist for European SMEs (20-50 staff). Find hidden costs, remove duplicates, and set quarterly review habits in under two hours.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-tools-european-retail-ecommerce-smes-2026</id>
-    <title>Retail AI Is a Different Category: What European SMEs Need to Evaluate in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-tools-european-retail-ecommerce-smes-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="Retail AI"/>
-    <category term="European SME AI"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <summary type="text">Which AI tools deliver results for European retail and e-commerce SMEs in 2026. Customer service, inventory, personalisation, and GDPR compliance.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-vendor-contract-negotiation-european-smes-2026</id>
-    <title>AI Vendor Contract Negotiation: 7 Clauses Every European SME Must Negotiate</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-vendor-contract-negotiation-european-smes-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <summary type="text">Before signing an AI vendor contract, these 7 clauses protect your data, limit liability, and preserve exit rights. A guide for European buyers.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-claude-code-backend-api-development-european-teams-2026</id>
-    <title>Claude Code for Backend and API Development: A European Team Playbook</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/claude-code-backend-api-development-european-teams-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="Claude Code"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <category term="AI Coding Tools"/>
-    <category term="European SME AI"/>
-    <summary type="text">How European backend teams use Claude Code for Python, Node.js, and REST APIs: setup steps, workflow patterns, and GDPR compliance notes.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-eu-ai-act-gp-systems-august-2026-compliance-checklist</id>
-    <title>EU AI Act August 2026: What European SMEs Must Do Before the GP Systems Deadline</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/eu-ai-act-gp-systems-august-2026-compliance-checklist"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="AI Regulation"/>
-    <summary type="text">The EU AI Act August 2026 deadline for general-purpose AI systems is 4 months away. The practical compliance checklist every European SME needs.</summary>
   </entry>
 </feed>

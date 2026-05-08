@@ -37,6 +37,34 @@
       "content_text": "AI agents need memory, but enterprise memory must be governed, reviewable, and auditable. Here is why canonical docs should come before vector databases."
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-acceptable-use-policy-engineering-teams",
+      "url": "https://radar.firstaimovers.com/ai-acceptable-use-policy-engineering-teams",
+      "title": "What Your AI Acceptable Use Policy Should Actually Cover (And What Most Companies Miss)",
+      "date_published": "2026-05-03T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "content_text": "What an effective AI acceptable use policy covers: data classification, model tiers, prompt hygiene, and escalation triggers for engineering organisations."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-incident-response-engineering-leaders",
+      "url": "https://radar.firstaimovers.com/ai-incident-response-engineering-leaders",
+      "title": "AI Incident Response for Engineering Leaders: What to Do When Your AI Tooling Leaks, Hallucinates, or Breaks Production",
+      "date_published": "2026-05-03T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "content_text": "A practical incident response playbook for AI-specific failures: hallucinations, data leaks, agent overreach, and production breaks from AI tooling."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-pull-request-auto-merge-enterprise-guide-2026",
       "url": "https://radar.firstaimovers.com/ai-pull-request-auto-merge-enterprise-guide-2026",
       "title": "The Merge Button Should Be Policy, Not a Person",
@@ -45,6 +73,20 @@
         "Executive AI Literacy"
       ],
       "content_text": "AI is accelerating code creation. Learn how enterprises automate pull request review and auto-merge with policy, CI, merge queues, and human gates."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-security-posture-engineering-organisation",
+      "url": "https://radar.firstaimovers.com/ai-security-posture-engineering-organisation",
+      "title": "How to Build an AI Security Posture for Your Engineering Organisation Before It Becomes an Emergency",
+      "date_published": "2026-05-03T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "content_text": "A practical framework for CTOs building an AI security posture: identity, permissions, data boundaries, review gates, and incident readiness."
     },
     {
       "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-cto-checklist-securing-coding-agents-rollout",
@@ -83,6 +125,20 @@
         "Executive AI Literacy"
       ],
       "content_text": "GitHub is no longer just a repo. Enterprise guide to rulesets, merge queue, environments, OIDC, attestations, Copilot review, and what to pay for."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-shadow-ai-engineering-teams-detect-measure-decide",
+      "url": "https://radar.firstaimovers.com/shadow-ai-engineering-teams-detect-measure-decide",
+      "title": "Shadow AI in Engineering Teams: How to Detect It, Measure It, and Decide What to Do About It",
+      "date_published": "2026-05-03T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "content_text": "Detect unsanctioned AI tool usage in engineering teams, classify the risk, and decide what to govern, adopt, or block as a CTO or engineering leader."
     },
     {
       "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026",
@@ -633,60 +689,6 @@
         "AI Productivity Tools"
       ],
       "content_text": "AI spend audit checklist for European SMEs (20-50 staff). Find hidden costs, remove duplicates, and set quarterly review habits in under two hours."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-tools-european-retail-ecommerce-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-tools-european-retail-ecommerce-smes-2026",
-      "title": "Retail AI Is a Different Category: What European SMEs Need to Evaluate in 2026",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "Retail AI",
-        "European SME AI",
-        "GDPR & Data Privacy"
-      ],
-      "content_text": "Which AI tools deliver results for European retail and e-commerce SMEs in 2026. Customer service, inventory, personalisation, and GDPR compliance."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-vendor-contract-negotiation-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-vendor-contract-negotiation-european-smes-2026",
-      "title": "AI Vendor Contract Negotiation: 7 Clauses Every European SME Must Negotiate",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "European SME AI"
-      ],
-      "content_text": "Before signing an AI vendor contract, these 7 clauses protect your data, limit liability, and preserve exit rights. A guide for European buyers."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-claude-code-backend-api-development-european-teams-2026",
-      "url": "https://radar.firstaimovers.com/claude-code-backend-api-development-european-teams-2026",
-      "title": "Claude Code for Backend and API Development: A European Team Playbook",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "Claude Code",
-        "GDPR & Data Privacy",
-        "AI Governance",
-        "AI Coding Tools",
-        "European SME AI"
-      ],
-      "content_text": "How European backend teams use Claude Code for Python, Node.js, and REST APIs: setup steps, workflow patterns, and GDPR compliance notes."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-eu-ai-act-gp-systems-august-2026-compliance-checklist",
-      "url": "https://radar.firstaimovers.com/eu-ai-act-gp-systems-august-2026-compliance-checklist",
-      "title": "EU AI Act August 2026: What European SMEs Must Do Before the GP Systems Deadline",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "European SME AI",
-        "AI Strategy",
-        "AI Regulation"
-      ],
-      "content_text": "The EU AI Act August 2026 deadline for general-purpose AI systems is 4 months away. The practical compliance checklist every European SME needs."
     }
   ]
 }
