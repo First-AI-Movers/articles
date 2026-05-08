@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-05-07",
-  "total_articles": 836,
+  "last_updated": "2026-05-08",
+  "total_articles": 840,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -41,6 +41,38 @@
       "canonical_url": "https://radar.firstaimovers.com/enterprise-ai-agent-memory-layer-2026"
     },
     {
+      "folder": "2026-05-03-ai-acceptable-use-policy-engineering-teams",
+      "slug": "ai-acceptable-use-policy-engineering-teams",
+      "title": "What Your AI Acceptable Use Policy Should Actually Cover (And What Most Companies Miss)",
+      "published_date": "2026-05-03",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-acceptable-use-policy-engineering-teams"
+    },
+    {
+      "folder": "2026-05-03-ai-incident-response-engineering-leaders",
+      "slug": "ai-incident-response-engineering-leaders",
+      "title": "AI Incident Response for Engineering Leaders: What to Do When Your AI Tooling Leaks, Hallucinates, or Breaks Production",
+      "published_date": "2026-05-03",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-incident-response-engineering-leaders"
+    },
+    {
       "folder": "2026-05-03-ai-pull-request-auto-merge-enterprise-guide-2026",
       "slug": "ai-pull-request-auto-merge-enterprise-guide-2026",
       "title": "The Merge Button Should Be Policy, Not a Person",
@@ -59,6 +91,22 @@
       ],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/ai-pull-request-auto-merge-enterprise-guide-2026"
+    },
+    {
+      "folder": "2026-05-03-ai-security-posture-engineering-organisation",
+      "slug": "ai-security-posture-engineering-organisation",
+      "title": "How to Build an AI Security Posture for Your Engineering Organisation Before It Becomes an Emergency",
+      "published_date": "2026-05-03",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-security-posture-engineering-organisation"
     },
     {
       "folder": "2026-05-03-cto-checklist-securing-coding-agents-rollout",
@@ -111,6 +159,22 @@
       ],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/github-automation-stack-engineering-teams-2026"
+    },
+    {
+      "folder": "2026-05-03-shadow-ai-engineering-teams-detect-measure-decide",
+      "slug": "shadow-ai-engineering-teams-detect-measure-decide",
+      "title": "Shadow AI in Engineering Teams: How to Detect It, Measure It, and Decide What to Do About It",
+      "published_date": "2026-05-03",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/shadow-ai-engineering-teams-detect-measure-decide"
     },
     {
       "folder": "2026-04-25-ai-consulting-bratislava-tech-smes-2026",
