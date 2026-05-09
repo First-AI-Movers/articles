@@ -137,6 +137,17 @@ If a record is missing `slug` but has `GUID`:
   prior step in a write-mode run fails. Title format:
   `E41 cron ingestion incident: workflow run <id> failed`. Skipped on
   dry-run and on success. No secret values are recorded.
+- **No-content suppression (E41h):** `tools/ingest_airtable.py` writes
+  `ingest-summary.json` at the repo root with the run's
+  `seen/created/skipped/invalid` counts. The workflow's
+  `Read ingest summary` step parses `created` and exposes it as a step
+  output. The rebuild, PR-create, and auto-merge steps are gated on
+  `steps.ingest_summary.outputs.created != '0'`. When `created == 0`,
+  no generated artifacts are touched, no PR is opened, no auto-merge
+  fires — the workflow still completes successfully. This eliminates
+  the daily noise PRs (incident: PR #169, 5 generated-artifact files,
+  zero article files) that occurred when no eligible Posted records
+  existed for the day.
 - **Auto-merge (E41f, default OFF):** when `AUTO_MERGE_INGESTION_PRS=1`
   is set as a repo variable AND `INGEST_DRY_RUN != '1'`, an additional
   step (`tools/auto_merge_ingestion_pr.py`) runs after the PR-create

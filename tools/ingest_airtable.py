@@ -33,6 +33,14 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = REPO_ROOT / "articles"
 SCHEMA_PATH = Path(__file__).resolve().parent / "article_schema.json"
 
+# E41h (post-PR-#169) — machine-readable summary so the workflow can
+# distinguish "0 created" runs from "N created" runs and skip the
+# rebuild + PR-create + auto-merge tail when nothing was ingested.
+# Written at the end of every successful main() invocation (write and
+# dry-run paths alike). Not committed; lives in the workflow's
+# scratch dir for one job. .gitignore'd defensively.
+SUMMARY_PATH = REPO_ROOT / "ingest-summary.json"
+
 # ---------------------------------------------------------------------------
 # Configurable field mapping: Airtable field name → article payload key.
 # Edit this mapping if your Airtable base uses different field names.
@@ -611,7 +619,27 @@ def main(argv=None):
     print(f"Skipped {skipped} record(s)")
     print(f"Invalid {invalid} record(s)")
     print(f"Total seen {seen} record(s)")
+    _write_summary(seen=seen, created=created, skipped=skipped, invalid=invalid, dry_run=dry_run)
     return 0
+
+
+def _write_summary(*, seen, created, skipped, invalid, dry_run):
+    """Emit ingest-summary.json so the workflow can gate on `created`.
+
+    The workflow's "Read ingest summary" step parses `created` from this
+    file and skips the rebuild → PR → auto-merge tail when it equals 0.
+    Without the gate, every cron tick (even ones that ingested zero
+    records) would touch date-stamped generated artifacts and open a
+    noise PR — incident #169 demonstrated this in production.
+    """
+    payload = {
+        "seen": int(seen),
+        "created": int(created),
+        "skipped": int(skipped),
+        "invalid": int(invalid),
+        "dry_run": bool(dry_run),
+    }
+    SUMMARY_PATH.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

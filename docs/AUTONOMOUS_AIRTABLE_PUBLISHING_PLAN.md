@@ -85,7 +85,8 @@ sync project `articles-git`, config `dev` into GitHub repository secrets.
 | E41b | Controlled single-record write test (one Posted record, dispatch path) | Owner approval; `INGEST_DRY_RUN=0` transient | ✅ proven 2026-05-03: PR #154 ingested `rec6nsPU1kHTcKYXF` end-to-end with machine gates |
 | E41e | Bounded daily cron write mode + incident logging | Repo variables flip after PR merge | ✅ shipping (this PR) |
 | E41g | List-fetch sort by `Date Added` desc (newest-first) | Code-only; issue #164 root cause | ✅ shipped (PR #166) |
-| E41f | Gated auto-merge for `ingest/airtable-*` branches | Required CI green; default OFF via `AUTO_MERGE_INGESTION_PRS` | 🚧 this PR (code shipped, activation gated) |
+| E41f | Gated auto-merge for `ingest/airtable-*` branches | Required CI green; default OFF via `AUTO_MERGE_INGESTION_PRS` | ✅ shipped (PR #167); activated 2026-05-06 |
+| E41h | Skip PR creation when no articles created (suppress noise PRs) | `ingest-summary.json` + workflow `created != '0'` gate | 🚧 this PR |
 | E41c | Anthropic polish design (provider, prompt contract, dry-run plan) | Owner approval; ADR | ❌ no |
 | E41d | Anthropic polish dry-run implementation behind feature flag | Provider gated; opt-in env var; no live calls in CI | ❌ no |
 
@@ -268,6 +269,44 @@ until the owner explicitly approves the listed record.
   token cap, monthly cap).
 - Out of scope for this PR: no Anthropic SDK dependency, no API key, no
   prompt files, no schema changes.
+
+## No-content suppression (E41h)
+
+`tools/ingest_airtable.py` writes `ingest-summary.json` at repo root at the
+end of every successful run with the shape:
+
+```json
+{ "seen": 20, "created": 0, "skipped": 20, "invalid": 0, "dry_run": false }
+```
+
+The workflow's `Read ingest summary` step parses `created` and exposes it
+as the `steps.ingest_summary.outputs.created` output. The rebuild,
+update_docs, pytest, PR-create, and auto-merge steps are all gated on:
+
+```yaml
+if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
+```
+
+When `created == 0`:
+- **No** rebuild_local.py call (no date-stamp drift on README/llms/etc.).
+- **No** update_docs.py call (ROADMAP marker untouched).
+- **No** pytest run (working tree is clean by definition).
+- **No** PR creation (peter-evans has nothing to commit).
+- **No** auto-merge (no PR exists to merge).
+- Workflow still ends `success`.
+
+When `created > 0`: behaviour is exactly as before E41h — the full E41e/E41f
+pipeline runs end-to-end.
+
+The incident-issue step is **not** gated on `created`, only on
+`failure() && INGEST_DRY_RUN != '1'`, so a crash before the summary file
+is written still surfaces an issue.
+
+`ingest-summary.json` is `.gitignore`d; `peter-evans/create-pull-request`'s
+`add-paths` filter would also exclude it.
+
+This eliminates the daily noise PR pattern surfaced by PR #169 (5
+generated-artifact files, 0 article files, 0 records ingested).
 
 ## Auto-merge (E41f) — shipped, default OFF
 

@@ -291,6 +291,7 @@ observed. Full plan, cost model, and single-record test checklist live in
 | **E41c** | Anthropic AI polish — design only | ADR for TL;DR / summary / headline polish using Anthropic; provider, prompt contract, dry-run plan, cost guardrails. No code. | 📱 | S |
 | **E41d** | Anthropic AI polish — dry-run implementation | Polish script writes to `.polish.draft.json` siblings, behind opt-in env var; no live calls in default CI; cost cap enforced in code. | 📱 | M |
 | **E41f** | Gated auto-merge for ingestion PRs | `tools/auto_merge_ingestion_pr.py` runs after PR-create. Verifies branch prefix `ingest/airtable-`, exact PR title, file allowlist, mergeability, and required-check success. Squash-merges on pass; opens `E41 auto-merge blocked` issue on any block. Default OFF via `AUTO_MERGE_INGESTION_PRS=0`. 49 unit tests. | 📱 | S |
+| **E41h** | Skip PR creation when no articles created | `tools/ingest_airtable.py` emits `ingest-summary.json`; workflow gates rebuild/PR/auto-merge on `created != '0'`. Eliminates daily noise PRs (incident: PR #169). 13 new tests. | 📱 | XS |
 
 **Closeout PRs:** #137 E39c re-scope, #138 artifact drift check, #139 release readiness, #141 AI-QA wording restore, #142 security review, #143 CI/Pages proof, #144 final audit harness, #145 archive v1 freeze (this PR).
 
