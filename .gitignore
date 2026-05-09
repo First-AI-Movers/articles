@@ -2,6 +2,11 @@
 .env
 .indexnow-key
 
+# E41h — workflow scratch file emitted by tools/ingest_airtable.py.
+# Used by ingest-airtable.yml to gate the rebuild/PR/auto-merge tail.
+# Never committed.
+ingest-summary.json
+
 # Claude Code local config
 .claude/
 
@@ -54,3 +59,4 @@ summaries/*.draft.md
 summaries/*.tmp.md
 summary_generation_report*.json
 
+.aider*

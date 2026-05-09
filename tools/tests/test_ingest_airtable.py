@@ -1013,6 +1013,191 @@ class TestTitleDedupeRegression:
         assert not (tmp_path / "articles" / f"2025-07-22-{payload['slug']}").exists()
 
 
+class TestIngestSummaryFile:
+    """E41h — main() must emit `ingest-summary.json` so the workflow can
+    gate the rebuild/PR/auto-merge tail on `created > 0`. Without this,
+    every cron tick that ingests zero records still touches the
+    date-stamped generated artifacts and opens a noise PR (incident
+    that produced PR #169)."""
+
+    def _seed(self, monkeypatch, tmp_path, records):
+        import ingest_airtable
+        monkeypatch.setenv("AIRTABLE_PAT", "pat_test")
+        monkeypatch.setenv("AIRTABLE_BASE_ID", "app_test")
+        monkeypatch.setenv("AIRTABLE_TABLE_NAME", "Articles")
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(ingest_airtable, "SUMMARY_PATH", tmp_path / "ingest-summary.json")
+        monkeypatch.setattr(ingest_airtable, "_fetch_records", lambda *a, **k: iter(records))
+        return ingest_airtable
+
+    def test_summary_emitted_in_write_mode_with_creates(self, monkeypatch, tmp_path):
+        record = {
+            "id": "recE41hA",
+            "fields": {
+                "Title": "E41h A",
+                "slug": "e41h-a",
+                "Pub Date": "2026-05-09",
+                "GUID": "https://radar.firstaimovers.com/e41h-a",
+                "Content HTML": "body",
+                "FAIM Status": "Posted",
+            },
+        }
+        mod = self._seed(monkeypatch, tmp_path, [record])
+        rc = mod.main(["--write"])
+        assert rc == 0
+        summary = json.loads((tmp_path / "ingest-summary.json").read_text(encoding="utf-8"))
+        assert summary == {
+            "seen": 1,
+            "created": 1,
+            "skipped": 0,
+            "invalid": 0,
+            "dry_run": False,
+        }
+
+    def test_summary_emitted_when_zero_creates(self, monkeypatch, tmp_path):
+        """The PR-#169 scenario: 20 records seen, all already-archived.
+        The summary must clearly signal `created=0` so the workflow can
+        skip the noise PR."""
+        # Pre-seed an existing folder so the record dedupe-skips.
+        existing = tmp_path / "articles" / "2026-05-09-e41h-zero"
+        existing.mkdir(parents=True)
+        (existing / "metadata.json").write_text(
+            json.dumps({"title": "E41h Zero"}, indent=2) + "\n", encoding="utf-8"
+        )
+        record = {
+            "id": "recE41hZ",
+            "fields": {
+                "Title": "E41h Zero",
+                "slug": "e41h-zero",
+                "Pub Date": "2026-05-09",
+                "GUID": "https://radar.firstaimovers.com/e41h-zero",
+                "Content HTML": "body",
+                "FAIM Status": "Posted",
+            },
+        }
+        mod = self._seed(monkeypatch, tmp_path, [record])
+        rc = mod.main(["--write"])
+        assert rc == 0
+        summary = json.loads((tmp_path / "ingest-summary.json").read_text(encoding="utf-8"))
+        assert summary["created"] == 0
+        assert summary["skipped"] == 1
+        assert summary["seen"] == 1
+        assert summary["dry_run"] is False
+
+    def test_summary_emitted_in_dry_run(self, monkeypatch, tmp_path):
+        """Dry-run also writes the summary; the `dry_run` flag tells
+        the workflow not to act on it (the workflow's read step is
+        gated by `INGEST_DRY_RUN != '1'`)."""
+        record = {
+            "id": "recE41hD",
+            "fields": {
+                "Title": "E41h Dry",
+                "slug": "e41h-dry",
+                "Pub Date": "2026-05-09",
+                "GUID": "https://radar.firstaimovers.com/e41h-dry",
+                "Content HTML": "body",
+                "FAIM Status": "Posted",
+            },
+        }
+        mod = self._seed(monkeypatch, tmp_path, [record])
+        rc = mod.main(["--dry-run"])
+        assert rc == 0
+        summary = json.loads((tmp_path / "ingest-summary.json").read_text(encoding="utf-8"))
+        assert summary["dry_run"] is True
+        assert summary["created"] == 1   # would-create count
+        assert summary["seen"] == 1
+
+    def test_summary_overwritten_on_subsequent_run(self, monkeypatch, tmp_path):
+        """The summary file must reflect THIS run's counts, not be
+        appended-to or stale from a previous run."""
+        mod = self._seed(monkeypatch, tmp_path, [])  # 0 records
+        mod.main(["--write"])
+        first = json.loads((tmp_path / "ingest-summary.json").read_text(encoding="utf-8"))
+        assert first == {"seen": 0, "created": 0, "skipped": 0, "invalid": 0, "dry_run": False}
+
+        record = {
+            "id": "recE41hO",
+            "fields": {
+                "Title": "E41h Over",
+                "slug": "e41h-over",
+                "Pub Date": "2026-05-09",
+                "GUID": "https://radar.firstaimovers.com/e41h-over",
+                "Content HTML": "body",
+                "FAIM Status": "Posted",
+            },
+        }
+        mod2 = self._seed(monkeypatch, tmp_path, [record])
+        mod2.main(["--write"])
+        second = json.loads((tmp_path / "ingest-summary.json").read_text(encoding="utf-8"))
+        assert second["created"] == 1
+        assert second["seen"] == 1
+
+    def test_summary_path_default_at_repo_root(self):
+        """Defensive: the default location must be repo root so the
+        workflow's working directory finds it without a path arg."""
+        import ingest_airtable
+        assert ingest_airtable.SUMMARY_PATH.name == "ingest-summary.json"
+        assert ingest_airtable.SUMMARY_PATH.parent == ingest_airtable.REPO_ROOT
+
+
+class TestWorkflowGateOnCreatedCount:
+    """E41h — the workflow's rebuild/PR/auto-merge tail must be gated
+    on `steps.ingest_summary.outputs.created != '0'`. This is a static
+    YAML check rather than a runtime test because the workflow runs
+    in CI, not under pytest."""
+
+    def _workflow_text(self):
+        from pathlib import Path
+        path = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml"
+        return path.read_text(encoding="utf-8")
+
+    def test_summary_read_step_present(self):
+        text = self._workflow_text()
+        assert "Read ingest summary" in text
+        assert "id: ingest_summary" in text
+        assert "ingest-summary.json" in text
+        assert "$GITHUB_OUTPUT" in text
+
+    def test_normalize_tags_gated(self):
+        text = self._workflow_text()
+        section = text.split("Normalize tags to canonical topics", 1)[1].split("\n\n", 1)[0]
+        assert "steps.ingest_summary.outputs.created != '0'" in section
+
+    def test_rebuild_gated(self):
+        text = self._workflow_text()
+        section = text.split("Rebuild index, sitemap, feed, corpus", 1)[1].split("\n\n", 1)[0]
+        assert "steps.ingest_summary.outputs.created != '0'" in section
+
+    def test_update_docs_gated(self):
+        text = self._workflow_text()
+        section = text.split("Patch ROADMAP operational-state marker", 1)[1].split("\n\n", 1)[0]
+        assert "steps.ingest_summary.outputs.created != '0'" in section
+
+    def test_pytest_gated(self):
+        text = self._workflow_text()
+        section = text.split("- name: Run pytest", 1)[1].split("\n\n", 1)[0]
+        assert "steps.ingest_summary.outputs.created != '0'" in section
+
+    def test_open_pr_gated(self):
+        text = self._workflow_text()
+        section = text.split("- name: Open PR for new articles", 1)[1].split("\n      - ", 1)[0]
+        assert "steps.ingest_summary.outputs.created != '0'" in section
+
+    def test_auto_merge_gated(self):
+        text = self._workflow_text()
+        section = text.split("Auto-merge clean ingestion PR (E41f)", 1)[1].split("\n\n", 1)[0]
+        assert "steps.ingest_summary.outputs.created != '0'" in section
+
+    def test_incident_step_not_gated_on_created(self):
+        """The incident-issue step must keep `failure() && INGEST_DRY_RUN != '1'`
+        and must NOT be additionally gated on created — failures may
+        happen before the summary file is written."""
+        text = self._workflow_text()
+        section = text.split("Open incident issue on cron-write failure", 1)[1].split("- name:", 1)[0]
+        assert "failure()" in section
+        assert "steps.ingest_summary.outputs.created" not in section
+
+
 class TestDateAddedNewestFirstSort:
     """E41g — issue #164: list fetch must sort by `Date Added` desc.
 

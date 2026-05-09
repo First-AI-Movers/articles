@@ -63,16 +63,35 @@ jobs:
             --limit "${INGEST_MAX_RECORDS}" \
             --max-created "${INGEST_MAX_CREATED}"
 
-      - name: Normalize tags to canonical topics
+      - name: Read ingest summary (E41h)
+        # tools/ingest_airtable.py emits ingest-summary.json with the
+        # write-run counts. The downstream rebuild/PR/auto-merge steps
+        # gate on `created != '0'` so the cron stops generating noise
+        # PRs (incident #169) when no Airtable records were ingested.
+        # If the summary file is missing for any reason, default to
+        # `0` so we err on the side of not opening a PR.
         if: env.INGEST_DRY_RUN != '1'
+        id: ingest_summary
+        run: |
+          if [ -f ingest-summary.json ]; then
+            created=$(python3 -c 'import json; print(json.load(open("ingest-summary.json"))["created"])')
+          else
+            created=0
+            echo "::warning::ingest-summary.json not found; treating created=0"
+          fi
+          echo "created=${created}" >> "$GITHUB_OUTPUT"
+          echo "ingest summary: created=${created}"
+
+      - name: Normalize tags to canonical topics
+        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         run: python3 tools/normalize_tags.py
 
       - name: Check for duplicate article titles
-        if: env.INGEST_DRY_RUN != '1'
+        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         run: python3 tools/check_duplicate_titles.py
 
       - name: Rebuild index, sitemap, feed, corpus, docs, and static site
-        if: env.INGEST_DRY_RUN != '1'
+        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         env:
           INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/rebuild_local.py
@@ -82,15 +101,15 @@ jobs:
         # auto:operational-state block is patched by update_docs.py. Without
         # this step, test_check_mode_exits_zero_when_unchanged would fail
         # whenever ingestion changes the article count.
-        if: env.INGEST_DRY_RUN != '1'
+        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         run: python3 tools/update_docs.py
 
       - name: Run pytest
-        if: env.INGEST_DRY_RUN != '1'
+        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         run: python3 -m pytest tools/tests -v
 
       - name: Open PR for new articles
-        if: env.INGEST_DRY_RUN != '1'
+        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         uses: peter-evans/create-pull-request@v6
         with:
           # Prefer ARTICLE_INGESTION_PR_TOKEN so PR-create triggers downstream
@@ -127,8 +146,10 @@ jobs:
         # script is defensive: it verifies branch prefix, exact PR title,
         # file allowlist, mergeability, and required-check success before
         # squashing. Any blocker opens an `E41 auto-merge blocked` issue
-        # rather than failing the cron loudly.
-        if: env.INGEST_DRY_RUN != '1'
+        # rather than failing the cron loudly. Also gated on E41h's
+        # `created != '0'` — when no records were ingested, no PR was
+        # created so there is nothing for this step to merge.
+        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         env:
           GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
           AUTO_MERGE_INGESTION_PRS: ${{ vars.AUTO_MERGE_INGESTION_PRS || '0' }}
