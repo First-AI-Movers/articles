@@ -137,7 +137,7 @@ What's your experience with AI and databases? Have you implemented RAG or semant
 
 The database world is no longer one-size-fits-all, and for those of us building AI applications, that's a very good thing.
 
-_by [Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/), [First AI Movers](https://firstaimovers.com/)_
+_by [Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](https://firstaimovers.com/)_
 
 ---
 

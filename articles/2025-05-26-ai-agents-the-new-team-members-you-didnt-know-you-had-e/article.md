@@ -71,7 +71,7 @@ So, why not give your team a turbo-boost? Those who embrace AI agents early will
 
 ---
 
-_by [Hernani Costa](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/), [First AI Movers](https://firstaimovers.com/)_
+_by [Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](https://firstaimovers.com/)_
 
 ---
 

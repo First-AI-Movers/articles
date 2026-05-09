@@ -427,7 +427,7 @@ For the young AI founder aiming to not just participate in this revolution but t
 
 By understanding these adjacent trends and their intricate interplay, and by strategically positioning their ventures to navigate the associated challenges and capitalize on the emergent opportunities, aspiring AI founders can significantly enhance their prospects of building impactful, resilient, and successful companies in the transformative era ahead.
 
-_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ceo-amplexai?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app), [First AI Movers](https://www.firstaimovers.com/)_
+_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app), [First AI Movers](https://www.firstaimovers.com/)_
 
 ---
 

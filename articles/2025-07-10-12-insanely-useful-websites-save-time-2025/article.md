@@ -54,7 +54,7 @@ Tired of the endless back-and-forth emails to set up a meeting time? Calendly el
 
 Building a thriving social media presence can be slow going, but Fedica helps you work smarter, not harder. This all-in-one platform uses AI to analyze your followers, optimal posting times, and content performance across your social networks. Instead of manually digging through analytics dashboards, you get clear insights and recommendations on how to grow and engage your community. It’s like having a marketing analyst on your team, pointing you to what works best. By using Fedica’s data-driven tips, you can save time **and** see faster results from your social media efforts.
 
-The following three tools are exclusive to premium members. **Want AI insights that give you a first-mover advantage?** Become a Premium First AI Movers subscriber to unlock exclusive content **and** get a free 15-minute strategy session with me – [Dr. Hernani Costa, AI CxO Consultant](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/) – to talk AI, tech, business, and even healthspan optimization through science-backed micro-habits. **Don’t miss out on this limited opportunity to stay ahead.**
+The following three tools are exclusive to premium members. **Want AI insights that give you a first-mover advantage?** Become a Premium First AI Movers subscriber to unlock exclusive content **and** get a free 15-minute strategy session with me – [Dr. Hernani Costa, AI CxO Consultant](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) – to talk AI, tech, business, and even healthspan optimization through science-backed micro-habits. **Don’t miss out on this limited opportunity to stay ahead.**
 
 ## 10. [Tango](https://www.tango.us) – Automatic How-To Guides
 

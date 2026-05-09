@@ -65,7 +65,7 @@ _Why it matters now:_ As enterprises race to roll out GPT-powered apps and AI as
 
 Thank you for reading **First AI Movers Pro**! If you enjoyed this briefing and want to stay ahead in the AI transformation journey, please consider sharing the newsletter or connecting with me on LinkedIn. Let’s grow this community of forward-thinkers – and keep the conversation going.
 
-Stay connected and expand your professional network by connecting with Dr. Hernani on [LinkedIn](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/). Whether you're looking to collaborate, seek advice, or simply stay updated with industry insights, Dr. Hernani is eager to engage with like-minded professionals. Additionally, if you find this newsletter valuable, don't hesitate to share it with your network by using the share button. Your support helps us reach more readers and continue delivering quality content.
+Stay connected and expand your professional network by connecting with Dr. Hernani on [LinkedIn](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/). Whether you're looking to collaborate, seek advice, or simply stay updated with industry insights, Dr. Hernani is eager to engage with like-minded professionals. Additionally, if you find this newsletter valuable, don't hesitate to share it with your network by using the share button. Your support helps us reach more readers and continue delivering quality content.
 
 — by [Dr. Hernani Costa](https://www.firstaimovers.com/authors/9539ab37-97a0-4191-b8c6-16d938c3f196) at [First AI Movers](https://www.firstaimovers.com/)
 

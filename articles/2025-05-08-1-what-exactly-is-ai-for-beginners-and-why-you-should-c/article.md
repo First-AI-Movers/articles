@@ -49,7 +49,7 @@ Stay tuned for our [next piece](https://medium.com/@hernanimax/s01e02-not-all-ai
 
 ---
 
-_by [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), [First AI Movers](http://www.firstaimovers.com/)_
+_by [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com/)_
 
 ---
 
