@@ -13,6 +13,16 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-08:2026-05-08-pkl-vs-yaml-typed-configuration-enterprise-2026",
+      "url": "https://radar.firstaimovers.com/pkl-vs-yaml-typed-configuration-enterprise-2026",
+      "title": "Pkl vs YAML: Why Developers Should Consider Typed Configuration in 2026",
+      "date_published": "2026-05-08T00:00:00Z",
+      "tags": [
+        "AI DevOps"
+      ],
+      "content_text": "YAML works for simple files, but enterprise teams need validation and reuse. Here is when Pkl makes sense, and how to migrate safely."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-04:2026-05-04-canonical-docs-ai-memory-system-2026",
       "url": "https://radar.firstaimovers.com/canonical-docs-ai-memory-system-2026",
       "title": "Canonical Docs Are the Most Underrated AI Memory System",
@@ -675,20 +685,6 @@
         "AI Strategy"
       ],
       "content_text": "AI consulting for Warsaw tech and professional services SMEs. UODO compliance, EU AI Act, KNF context, and what to look for in an AI partner."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-spend-audit-checklist-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-spend-audit-checklist-european-smes-2026",
-      "title": "AI Spend Audit Checklist for European SMEs in 2026",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Cost Optimization",
-        "GDPR & Data Privacy",
-        "AI Governance",
-        "AI Productivity Tools"
-      ],
-      "content_text": "AI spend audit checklist for European SMEs (20-50 staff). Find hidden costs, remove duplicates, and set quarterly review habits in under two hours."
     }
   ]
 }
