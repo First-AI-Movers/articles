@@ -63,7 +63,7 @@ This blending of disciplines has also been a lesson in humility and continuous l
 
 In the end, I have learned that great ideas require great storytelling. The essence behind every algorithm and every product is the human context in which it exists. Where I once viewed marketing as a _soulless_ spin, I now recognize it as the very soul itself – imparting meaning, voice, and connection to the work of our algorithms. My journey from dismissing marketing to embracing it has been nothing short of transformative. I now stand at a new kind of crossroads, where code meets customer, and I am all the better for it.
 
-[Happy to Connect on LinkedIn](https://www.linkedin.com/in/hernani-costa-ceo-amplexai)
+[Happy to Connect on LinkedIn](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers)
 
 ---
 

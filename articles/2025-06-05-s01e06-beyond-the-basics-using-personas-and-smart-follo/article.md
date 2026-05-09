@@ -61,7 +61,7 @@ Start experimenting with personas and see what deeper insights you can uncover!
 
 ---
 
-_by [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), [First AI Movers](http://www.firstaimovers.com/)_
+_by [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com/)_
 
 ---
 

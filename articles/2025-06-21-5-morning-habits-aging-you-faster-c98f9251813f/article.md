@@ -85,7 +85,7 @@ The research is clear: the habits that accelerate aging are completely preventab
 
 **Ready to optimize your health and longevity with cutting-edge insights?** Get into the science of healthier living with these comprehensive guides on [Navigating AI innovation in wearable technology](https://medium.com/@hernanimax/garmin-and-the-ai-frontier-navigating-innovation-competition-and-trust-in-the-wearable-tech-b00b533b3575) and [Revolutionizing your fitness journey through digital health apps](https://medium.com/@hernanimax/the-fitness-app-revolution-navigating-innovation-competition-and-trust-in-the-digital-health-4c22fe37fdc1). These resources will help you leverage technology for better health outcomes and make informed decisions about the digital tools that can transform your wellness journey.
 
-by _[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), [First AI Movers](http://www.firstaimovers.com/)_
+by _[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com/)_
 
 ---
 

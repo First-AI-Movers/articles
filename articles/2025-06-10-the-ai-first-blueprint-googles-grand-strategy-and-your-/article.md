@@ -53,7 +53,7 @@ Google is laying down the tracks for an AI-powered future. Your vision, your gri
 
 ## **Connect and Conquer the AI Frontier**
 
-Feeling energized by the possibilities? Ready to translate these insights from Google I/O 2025 into a concrete strategy for your AI startup's growth and impact? The journey from understanding these powerful new tools to successfully implementing them requires insight and strategic guidance. Let's explore how your venture can not just adapt, but lead in this AI-first era. Reach out to [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/) to start the conversation and architect your success.
+Feeling energized by the possibilities? Ready to translate these insights from Google I/O 2025 into a concrete strategy for your AI startup's growth and impact? The journey from understanding these powerful new tools to successfully implementing them requires insight and strategic guidance. Let's explore how your venture can not just adapt, but lead in this AI-first era. Reach out to [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) to start the conversation and architect your success.
 
 ---
 

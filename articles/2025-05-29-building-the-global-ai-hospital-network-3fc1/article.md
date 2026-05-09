@@ -77,7 +77,7 @@ As always, I’d love to hear your thoughts. Do you have questions about today�
 
 Thank you for reading. Until next time, stay curious and keep innovating. I’ll see you again soon with more First AI Movers insights!
 
-_[Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/), First AI Movers_
+_[Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), First AI Movers_
 
 ---
 

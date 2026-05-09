@@ -51,7 +51,7 @@ Looking ahead, the long-term winners will balance rich AI assistance with rock-s
 
 For entrepreneurs in AI and productivity, the Recall rollout is a clarion call. Get hands-on with memory-augmentation tech, join discussions on privacy standards, and build tools that add value _and_ safeguard personal data. By innovating in this space - whether through new UIs, secure algorithms, or complementary services - startups can help define an era where our devices truly remember for us. Engage now to help craft the future of ambient memory and next-gen AI assistants!
 
-_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), [First AI Movers](http://www.firstaimovers.com/)_
+_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com/)_
 
 ---
 

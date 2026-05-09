@@ -137,7 +137,7 @@ The invisible enemy of pollution is finally meeting its match - and it might jus
 
 ---
 
-_By [Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/)_
+_By [Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/)_
 
 ---
 

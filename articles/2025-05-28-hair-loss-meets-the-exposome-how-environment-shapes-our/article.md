@@ -91,7 +91,7 @@ The market for these innovations is promising. The global hair care industry is 
 
 The exposome reminds us that **our hair's story is not written by genetics alone, but by every sunrise, snack, and stressor in our lives**. This revelation is shifting hair care from a reactive endeavor to a proactive and personalized science. For everyday individuals, it means that by tweaking our environment and habits, we can significantly influence the fate of our follicles. Simple steps like protecting your scalp from UV, eating a balanced diet, and managing stress really do add up for healthier hair. For innovators and AI-first founders, it's a call to build the tools and products that make this easier for everyone.
 
-If you're excited by this convergence of environmental health, AI, and personal care, let's keep the conversation going. **_I'm [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), an AI strategist passionate about bridging technology and well-being. Connect with me on [LinkedIn](https://www.linkedin.com/in/hernani-costa-cto-ai/) or [WhatsApp](https://whatsapp.com/channel/0029VbB259Y5Ui2fqnZtgY3P) to swap ideas, explore collaboration, or just share your hair care victories and struggles._** Together, we can harness the exposome to not only solve hair loss, but to pioneer a new era of truly personalized healthtech innovation.
+If you're excited by this convergence of environmental health, AI, and personal care, let's keep the conversation going. **_I'm [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), an AI strategist passionate about bridging technology and well-being. Connect with me on [LinkedIn](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) or [WhatsApp](https://whatsapp.com/channel/0029VbB259Y5Ui2fqnZtgY3P) to swap ideas, explore collaboration, or just share your hair care victories and struggles._** Together, we can harness the exposome to not only solve hair loss, but to pioneer a new era of truly personalized healthtech innovation.
 
 ---
 
@@ -107,7 +107,7 @@ Both pieces showcase how thoughtful AI integration can accelerate innovation in 
 
 ---
 
-_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), [First AI Movers](http://www.firstaimovers.com)_
+_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com)_
 
 ---
 

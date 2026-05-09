@@ -67,7 +67,7 @@ So next time you get a burst of inspiration for a new feature or product, don't 
 
 ---
 
-_By [Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/)_, _[First AI Movers](http://www.firstaimovers.com)_
+_By [Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/)_, _[First AI Movers](http://www.firstaimovers.com)_
 
 ---
 

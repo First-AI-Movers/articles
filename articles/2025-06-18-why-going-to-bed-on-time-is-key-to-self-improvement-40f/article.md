@@ -105,7 +105,7 @@ Give yourself the tools you need to thrive - start reading today!
 
 ---
 
-_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), [First AI Movers](http://www.firstaimovers.com/)_
+_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com/)_
 
 ---
 

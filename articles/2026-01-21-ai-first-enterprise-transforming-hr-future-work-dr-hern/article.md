@@ -24,7 +24,7 @@ However, the adoption of AI in HR also raises important considerations. Ensuring
 Training and upskilling are equally vital. As AI tools become integral to HR functions, equipping HR professionals with the necessary skills to work alongside these technologies is essential. This includes understanding AI capabilities, interpreting data analytics, and making informed decisions based on AI-generated insights.
 The shift towards an AI-first HR model signifies a broader transformation in the workplace. It reflects a move towards more agile, data-driven, and employee-centric organizations. By leveraging AI, companies can create more inclusive and dynamic work environments that adapt to the evolving needs of their workforce.
 In conclusion, the fusion of AI and HR is not just about technological advancement; it’s about reimagining the future of work. As organizations navigate this transformation, embracing AI with a thoughtful and ethical approach will be key to unlocking its full potential and driving sustainable success.
-_Thank you for joining **[me](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/)** in exploring AI’s impact on the future of work. Stay ahead by embracing these innovations and transforming your HR strategies._
+_Thank you for joining **[me](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/)** in exploring AI’s impact on the future of work. Stay ahead by embracing these innovations and transforming your HR strategies._
 
 ---
 

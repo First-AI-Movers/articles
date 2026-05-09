@@ -71,7 +71,7 @@ Don't let your AI insights collect dust. Be the founder who pops up in every Wha
 
 ---
 
-_by [Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/), [First AI Movers](http://www.firstaimovers.com)_
+_by [Dr Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com)_
 
 ---
 

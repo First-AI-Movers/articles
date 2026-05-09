@@ -113,7 +113,7 @@ Ready to leverage the power of AI and stay ahead of these technological trends?
 
 - **Stay informed** about human-centric AI developments by subscribing to the [First AI Movers newsletter](https://www.linkedin.com/newsletters/first-ai-movers-7285707335191154688/)
 
-- **Connect with me** on [LinkedIn](https://nl.linkedin.com/in/hernani-costa-cto-ai) for personalized insights and collaboration opportunities
+- **Connect with me** on [LinkedIn](https://nl.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers) for personalized insights and collaboration opportunities
 
 - **Follow @firstaimovers** on X for real-time updates on emerging AI trends and applications
 
@@ -121,7 +121,7 @@ Don't just read about the future of technology - be part of shaping it.
 
 ---
 
-_Created by [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), with insights from Gemini._
+_Created by [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), with insights from Gemini._
 
 ---
 

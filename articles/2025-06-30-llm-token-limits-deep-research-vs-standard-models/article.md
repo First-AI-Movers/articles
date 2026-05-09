@@ -82,7 +82,7 @@ The information above is drawn from recent AI model documentation and announceme
 
 **Upgrade today** to access weekly deep dives, technical guides, and strategic AI insights that keep you ahead of the curve. Join 1,000+ professionals making smarter AI decisions with our premium content.
 
-_by [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), [First AI Movers](http://www.firstaimovers.com/)_
+_by [Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com/)_
 
 ---
 

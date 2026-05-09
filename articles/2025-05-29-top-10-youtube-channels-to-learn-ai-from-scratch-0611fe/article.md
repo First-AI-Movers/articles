@@ -67,13 +67,13 @@ Want to dive deeper or discuss these resources and your AI ventures more directl
 
 - Join my exclusive [WhatsApp channel](https://whatsapp.com/channel/0029VbB259Y5Ui2fqnZtgY3P) for real-time insights.
 
-- Connect with me, Dr. Hernani Costa, on [LinkedIn](https://www.linkedin.com/in/hernani-costa-ceo-amplexai/) - I'm always open to networking with fellow AI builders and innovators.
+- Connect with me, Dr. Hernani Costa, on [LinkedIn](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/) - I'm always open to networking with fellow AI builders and innovators.
 
 Let's keep the conversation going and collectively shape the future of AI.
 
 ---
 
-_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-cto-ai/), [First AI Movers](http://www.firstaimovers.com/)_
+_[Dr. Hernani Costa](https://www.linkedin.com/in/hernani-costa-ai-ceo-firstaimovers/), [First AI Movers](http://www.firstaimovers.com/)_
 
 ---
 
