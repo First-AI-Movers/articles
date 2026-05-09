@@ -3,7 +3,7 @@
   <id>tag:articles.firstaimovers.com,2025-02-17:feed</id>
   <title>First AI Movers — Article Archive</title>
   <subtitle>Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act compliance, governance, and agentic systems for European SMEs.</subtitle>
-  <updated>2026-05-04T00:00:00Z</updated>
+  <updated>2026-05-08T00:00:00Z</updated>
   <link rel="self" type="application/atom+xml" href="https://articles.firstaimovers.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://firstaimovers.com"/>
   <author>
@@ -13,6 +13,19 @@
   </author>
   <rights>Creative Commons Attribution 4.0 International (CC BY 4.0)</rights>
   <generator uri="https://github.com/First-AI-Movers/articles" version="1.0">rebuild_local.py</generator>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-08:2026-05-08-pkl-vs-yaml-typed-configuration-enterprise-2026</id>
+    <title>Pkl vs YAML: Why Developers Should Consider Typed Configuration in 2026</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/pkl-vs-yaml-typed-configuration-enterprise-2026"/>
+    <published>2026-05-08T00:00:00Z</published>
+    <updated>2026-05-08T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI DevOps"/>
+    <summary type="text">YAML works for simple files, but enterprise teams need validation and reuse. Here is when Pkl makes sense, and how to migrate safely.</summary>
+  </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-04:2026-05-04-canonical-docs-ai-memory-system-2026</id>
     <title>Canonical Docs Are the Most Underrated AI Memory System</title>
@@ -823,22 +836,5 @@
     <category term="AI Governance"/>
     <category term="AI Strategy"/>
     <summary type="text">AI consulting for Warsaw tech and professional services SMEs. UODO compliance, EU AI Act, KNF context, and what to look for in an AI partner.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-spend-audit-checklist-european-smes-2026</id>
-    <title>AI Spend Audit Checklist for European SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-spend-audit-checklist-european-smes-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Cost Optimization"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <category term="AI Productivity Tools"/>
-    <summary type="text">AI spend audit checklist for European SMEs (20-50 staff). Find hidden costs, remove duplicates, and set quarterly review habits in under two hours.</summary>
   </entry>
 </feed>

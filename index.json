@@ -1,11 +1,29 @@
 {
-  "last_updated": "2026-05-08",
-  "total_articles": 840,
+  "last_updated": "2026-05-09",
+  "total_articles": 841,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-05-08-pkl-vs-yaml-typed-configuration-enterprise-2026",
+      "slug": "pkl-vs-yaml-typed-configuration-enterprise-2026",
+      "title": "Pkl vs YAML: Why Developers Should Consider Typed Configuration in 2026",
+      "published_date": "2026-05-08",
+      "tags": [
+        "software-development",
+        "devops",
+        "platform-engineering",
+        "ai-automation",
+        "company-tech-strategy"
+      ],
+      "topics": [
+        "AI DevOps"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/pkl-vs-yaml-typed-configuration-enterprise-2026"
+    },
     {
       "folder": "2026-05-04-canonical-docs-ai-memory-system-2026",
       "slug": "canonical-docs-ai-memory-system-2026",
