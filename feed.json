@@ -13,6 +13,56 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
+      "url": "https://radar.firstaimovers.com/kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
+      "title": "Kimi 2.6 as an AI Engineering Auditor: Where It Actually Fits",
+      "date_published": "2026-05-10T00:00:00Z",
+      "tags": [
+        "AI DevOps"
+      ],
+      "content_text": "Kimi 2.6 is a bounded, auditable AI engineering reviewer, not a chatbot replacement. Here is where it fits and where it does not."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-09:2026-05-09-local-first-ai-assistants-enterprise-privacy-2026",
+      "url": "https://radar.firstaimovers.com/local-first-ai-assistants-enterprise-privacy-2026",
+      "title": "The Local-First AI Assistant Wave: Privacy, Control, and Enterprise Adoption",
+      "date_published": "2026-05-09T00:00:00Z",
+      "tags": [
+        "AI DevOps"
+      ],
+      "content_text": "Local-first AI assistants run on your hardware, never send data to the cloud, and solve compliance. Here is when they make sense for enterprise teams."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-09:2026-05-09-open-source-ai-stack-engineering-leaders-2026",
+      "url": "https://radar.firstaimovers.com/open-source-ai-stack-engineering-leaders-2026",
+      "title": "The Open-Source AI Stack Engineering Leaders Should Watch in 2026",
+      "date_published": "2026-05-09T00:00:00Z",
+      "tags": [
+        "AI DevOps"
+      ],
+      "content_text": "The open-source AI tooling boom is real, but winning companies evaluate repos by governance, not star count. Here is what to watch and what to avoid."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-09:2026-05-09-rust-ai-developer-tools-infrastructure-language-2026",
+      "url": "https://radar.firstaimovers.com/rust-ai-developer-tools-infrastructure-language-2026",
+      "title": "Why Rust Is Becoming the Infrastructure Language for AI Developer Tools",
+      "date_published": "2026-05-09T00:00:00Z",
+      "tags": [
+        "AI DevOps"
+      ],
+      "content_text": "Rust is replacing Python and JavaScript in high-performance AI developer tools. Here is why engineering leaders should care, and where to start."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-09:2026-05-09-terminal-native-vs-workflow-native-coding-agents-2026",
+      "url": "https://radar.firstaimovers.com/terminal-native-vs-workflow-native-coding-agents-2026",
+      "title": "Coding Agents Are Splitting Into Two Camps: Terminal-Native vs Workflow-Native",
+      "date_published": "2026-05-09T00:00:00Z",
+      "tags": [
+        "AI DevOps"
+      ],
+      "content_text": "Coding agents are splitting into terminal-native and workflow-native camps. Here is how to choose the right paradigm for your engineering team."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-08:2026-05-08-pkl-vs-yaml-typed-configuration-enterprise-2026",
       "url": "https://radar.firstaimovers.com/pkl-vs-yaml-typed-configuration-enterprise-2026",
       "title": "Pkl vs YAML: Why Developers Should Consider Typed Configuration in 2026",
@@ -615,76 +665,6 @@
         "AI Governance"
       ],
       "content_text": "A decision framework for European SME leaders considering whether to rebuild workflows around AI tools versus keeping AI as a productivity layer."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-berlin-tech-startup-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-berlin-tech-startup-smes-2026",
-      "title": "AI Consulting for Berlin Tech Startups and SMEs: What to Expect in 2026",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "DACH AI",
-        "AI Consulting",
-        "EU AI Act",
-        "AI Governance"
-      ],
-      "content_text": "Berlin's tech and startup SMEs face BfDI, BSI, and EU AI Act rules. Here is what AI consulting looks like in Berlin's ecosystem in 2026."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-lisbon-tech-fintech-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-lisbon-tech-fintech-smes-2026",
-      "title": "AI Consulting for Lisbon Tech and Fintech SMEs in 2026",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "Iberia AI",
-        "AI Consulting",
-        "EU AI Act",
-        "AI Governance"
-      ],
-      "content_text": "What Lisbon tech, fintech, and professional services SMEs should expect from AI consulting in 2026. CNPD, Banco de Portugal, and EU AI Act guidance."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-paris-tech-digital-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-paris-tech-digital-smes-2026",
-      "title": "AI Consulting for Paris Tech and Digital SMEs: What to Expect in 2026",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Consulting",
-        "AI Governance",
-        "France and Benelux AI",
-        "EU AI Act"
-      ],
-      "content_text": "Paris tech and digital SMEs face CNIL enforcement, ANSSI security rules, and EU AI Act obligations. What AI consulting looks like in Paris in 2026."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-prague-tech-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-prague-tech-smes-2026",
-      "title": "Prague Tech Companies Face a Specific AI Consulting Challenge in 2026",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "GDPR & Data Privacy",
-        "European SME AI",
-        "AI Consulting"
-      ],
-      "content_text": "What Prague tech and professional services SMEs should expect from AI consulting in 2026. UOOU, Czech National Bank, and EU AI Act implementation."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-warsaw-tech-professional-services-smes-20",
-      "url": "https://radar.firstaimovers.com/ai-consulting-warsaw-tech-professional-services-smes-2026",
-      "title": "AI Consulting for Warsaw Tech and Professional Services SMEs: What You Need to Know in 2026",
-      "date_published": "2026-04-23T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Consulting",
-        "EU AI Act",
-        "AI Governance",
-        "AI Strategy"
-      ],
-      "content_text": "AI consulting for Warsaw tech and professional services SMEs. UODO compliance, EU AI Act, KNF context, and what to look for in an AI partner."
     }
   ]
 }

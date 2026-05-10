@@ -3,7 +3,7 @@
   <id>tag:articles.firstaimovers.com,2025-02-17:feed</id>
   <title>First AI Movers — Article Archive</title>
   <subtitle>Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act compliance, governance, and agentic systems for European SMEs.</subtitle>
-  <updated>2026-05-08T00:00:00Z</updated>
+  <updated>2026-05-10T00:00:00Z</updated>
   <link rel="self" type="application/atom+xml" href="https://articles.firstaimovers.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://firstaimovers.com"/>
   <author>
@@ -13,6 +13,71 @@
   </author>
   <rights>Creative Commons Attribution 4.0 International (CC BY 4.0)</rights>
   <generator uri="https://github.com/First-AI-Movers/articles" version="1.0">rebuild_local.py</generator>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026</id>
+    <title>Kimi 2.6 as an AI Engineering Auditor: Where It Actually Fits</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/kimi-2-6-ai-engineering-auditor-best-use-cases-2026"/>
+    <published>2026-05-10T00:00:00Z</published>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI DevOps"/>
+    <summary type="text">Kimi 2.6 is a bounded, auditable AI engineering reviewer, not a chatbot replacement. Here is where it fits and where it does not.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-09:2026-05-09-local-first-ai-assistants-enterprise-privacy-2026</id>
+    <title>The Local-First AI Assistant Wave: Privacy, Control, and Enterprise Adoption</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/local-first-ai-assistants-enterprise-privacy-2026"/>
+    <published>2026-05-09T00:00:00Z</published>
+    <updated>2026-05-09T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI DevOps"/>
+    <summary type="text">Local-first AI assistants run on your hardware, never send data to the cloud, and solve compliance. Here is when they make sense for enterprise teams.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-09:2026-05-09-open-source-ai-stack-engineering-leaders-2026</id>
+    <title>The Open-Source AI Stack Engineering Leaders Should Watch in 2026</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/open-source-ai-stack-engineering-leaders-2026"/>
+    <published>2026-05-09T00:00:00Z</published>
+    <updated>2026-05-09T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI DevOps"/>
+    <summary type="text">The open-source AI tooling boom is real, but winning companies evaluate repos by governance, not star count. Here is what to watch and what to avoid.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-09:2026-05-09-rust-ai-developer-tools-infrastructure-language-2026</id>
+    <title>Why Rust Is Becoming the Infrastructure Language for AI Developer Tools</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/rust-ai-developer-tools-infrastructure-language-2026"/>
+    <published>2026-05-09T00:00:00Z</published>
+    <updated>2026-05-09T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI DevOps"/>
+    <summary type="text">Rust is replacing Python and JavaScript in high-performance AI developer tools. Here is why engineering leaders should care, and where to start.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-09:2026-05-09-terminal-native-vs-workflow-native-coding-agents-2026</id>
+    <title>Coding Agents Are Splitting Into Two Camps: Terminal-Native vs Workflow-Native</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/terminal-native-vs-workflow-native-coding-agents-2026"/>
+    <published>2026-05-09T00:00:00Z</published>
+    <updated>2026-05-09T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI DevOps"/>
+    <summary type="text">Coding agents are splitting into terminal-native and workflow-native camps. Here is how to choose the right paradigm for your engineering team.</summary>
+  </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-08:2026-05-08-pkl-vs-yaml-typed-configuration-enterprise-2026</id>
     <title>Pkl vs YAML: Why Developers Should Consider Typed Configuration in 2026</title>
@@ -751,90 +816,5 @@
     <category term="European SME AI"/>
     <category term="AI Governance"/>
     <summary type="text">A decision framework for European SME leaders considering whether to rebuild workflows around AI tools versus keeping AI as a productivity layer.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-berlin-tech-startup-smes-2026</id>
-    <title>AI Consulting for Berlin Tech Startups and SMEs: What to Expect in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-berlin-tech-startup-smes-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="DACH AI"/>
-    <category term="AI Consulting"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <summary type="text">Berlin's tech and startup SMEs face BfDI, BSI, and EU AI Act rules. Here is what AI consulting looks like in Berlin's ecosystem in 2026.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-lisbon-tech-fintech-smes-2026</id>
-    <title>AI Consulting for Lisbon Tech and Fintech SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-lisbon-tech-fintech-smes-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="Iberia AI"/>
-    <category term="AI Consulting"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <summary type="text">What Lisbon tech, fintech, and professional services SMEs should expect from AI consulting in 2026. CNPD, Banco de Portugal, and EU AI Act guidance.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-paris-tech-digital-smes-2026</id>
-    <title>AI Consulting for Paris Tech and Digital SMEs: What to Expect in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-paris-tech-digital-smes-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="AI Governance"/>
-    <category term="France and Benelux AI"/>
-    <category term="EU AI Act"/>
-    <summary type="text">Paris tech and digital SMEs face CNIL enforcement, ANSSI security rules, and EU AI Act obligations. What AI consulting looks like in Paris in 2026.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-prague-tech-smes-2026</id>
-    <title>Prague Tech Companies Face a Specific AI Consulting Challenge in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-prague-tech-smes-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <summary type="text">What Prague tech and professional services SMEs should expect from AI consulting in 2026. UOOU, Czech National Bank, and EU AI Act implementation.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-23:2026-04-23-ai-consulting-warsaw-tech-professional-services-smes-20</id>
-    <title>AI Consulting for Warsaw Tech and Professional Services SMEs: What You Need to Know in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-warsaw-tech-professional-services-smes-2026"/>
-    <published>2026-04-23T00:00:00Z</published>
-    <updated>2026-04-23T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="AI Strategy"/>
-    <summary type="text">AI consulting for Warsaw tech and professional services SMEs. UODO compliance, EU AI Act, KNF context, and what to look for in an AI partner.</summary>
   </entry>
 </feed>

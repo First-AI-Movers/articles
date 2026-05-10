@@ -1,11 +1,101 @@
 {
-  "last_updated": "2026-05-09",
-  "total_articles": 841,
+  "last_updated": "2026-05-10",
+  "total_articles": 846,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
+      "slug": "kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
+      "title": "Kimi 2.6 as an AI Engineering Auditor: Where It Actually Fits",
+      "published_date": "2026-05-10",
+      "tags": [
+        "software development",
+        "ai-automation",
+        "company-tech-strategy",
+        "Devops",
+        "platform-engineering"
+      ],
+      "topics": [
+        "AI DevOps"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/kimi-2-6-ai-engineering-auditor-best-use-cases-2026"
+    },
+    {
+      "folder": "2026-05-09-local-first-ai-assistants-enterprise-privacy-2026",
+      "slug": "local-first-ai-assistants-enterprise-privacy-2026",
+      "title": "The Local-First AI Assistant Wave: Privacy, Control, and Enterprise Adoption",
+      "published_date": "2026-05-09",
+      "tags": [
+        "software development",
+        "ai-automation",
+        "company-tech-strategy",
+        "Devops",
+        "platform-engineering"
+      ],
+      "topics": [
+        "AI DevOps"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/local-first-ai-assistants-enterprise-privacy-2026"
+    },
+    {
+      "folder": "2026-05-09-open-source-ai-stack-engineering-leaders-2026",
+      "slug": "open-source-ai-stack-engineering-leaders-2026",
+      "title": "The Open-Source AI Stack Engineering Leaders Should Watch in 2026",
+      "published_date": "2026-05-09",
+      "tags": [
+        "software development",
+        "ai-automation",
+        "company-tech-strategy",
+        "Devops",
+        "platform-engineering"
+      ],
+      "topics": [
+        "AI DevOps"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/open-source-ai-stack-engineering-leaders-2026"
+    },
+    {
+      "folder": "2026-05-09-rust-ai-developer-tools-infrastructure-language-2026",
+      "slug": "rust-ai-developer-tools-infrastructure-language-2026",
+      "title": "Why Rust Is Becoming the Infrastructure Language for AI Developer Tools",
+      "published_date": "2026-05-09",
+      "tags": [
+        "software development",
+        "ai-automation",
+        "company-tech-strategy",
+        "Devops",
+        "platform-engineering"
+      ],
+      "topics": [
+        "AI DevOps"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/rust-ai-developer-tools-infrastructure-language-2026"
+    },
+    {
+      "folder": "2026-05-09-terminal-native-vs-workflow-native-coding-agents-2026",
+      "slug": "terminal-native-vs-workflow-native-coding-agents-2026",
+      "title": "Coding Agents Are Splitting Into Two Camps: Terminal-Native vs Workflow-Native",
+      "published_date": "2026-05-09",
+      "tags": [
+        "software development",
+        "ai-automation",
+        "company-tech-strategy",
+        "Devops",
+        "platform-engineering"
+      ],
+      "topics": [
+        "AI DevOps"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/terminal-native-vs-workflow-native-coding-agents-2026"
+    },
     {
       "folder": "2026-05-08-pkl-vs-yaml-typed-configuration-enterprise-2026",
       "slug": "pkl-vs-yaml-typed-configuration-enterprise-2026",
