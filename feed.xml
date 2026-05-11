@@ -3,7 +3,7 @@
   <id>tag:articles.firstaimovers.com,2025-02-17:feed</id>
   <title>First AI Movers — Article Archive</title>
   <subtitle>Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act compliance, governance, and agentic systems for European SMEs.</subtitle>
-  <updated>2026-05-10T00:00:00Z</updated>
+  <updated>2026-05-11T00:00:00Z</updated>
   <link rel="self" type="application/atom+xml" href="https://articles.firstaimovers.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://firstaimovers.com"/>
   <author>
@@ -13,6 +13,45 @@
   </author>
   <rights>Creative Commons Attribution 4.0 International (CC BY 4.0)</rights>
   <generator uri="https://github.com/First-AI-Movers/articles" version="1.0">rebuild_local.py</generator>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-11:2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026</id>
+    <title>How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026"/>
+    <published>2026-05-11T00:00:00Z</published>
+    <updated>2026-05-11T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI Governance"/>
+    <summary type="text">Evaluate MCP servers across eight dimensions and a 30-day approval workflow to meet EU AI Act and DORA enterprise governance needs.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-11:2026-05-11-tune-maintainer-health-rubric-thresholds-dependency-tier-2026</id>
+    <title>Should Your Maintainer Health Rubric Change by Dependency Tier?</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026"/>
+    <published>2026-05-11T00:00:00Z</published>
+    <updated>2026-05-11T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="Healthcare AI"/>
+    <summary type="text">Tier your open-source maintainer health rubric by dependency blast radius and replaceability to meet EU AI Act and DORA conformity expectations.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-automate-maintainer-health-rubric-ci-ai-tools-2026</id>
+    <title>How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026"/>
+    <published>2026-05-10T00:00:00Z</published>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="Healthcare AI"/>
+    <summary type="text">Automate a maintainer health rubric in CI to evaluate open-source AI tools before adoption, ensuring compliance with EU AI Act and DORA.</summary>
+  </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026</id>
     <title>Kimi 2.6 as an AI Engineering Auditor: Where It Actually Fits</title>
@@ -25,6 +64,32 @@
     </author>
     <category term="AI DevOps"/>
     <summary type="text">Kimi 2.6 is a bounded, auditable AI engineering reviewer, not a chatbot replacement. Here is where it fits and where it does not.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-maintainer-health-matters-more-than-github-stars-2026</id>
+    <title>Maintainer Health Matters More Than GitHub Stars for AI Tool Procurement</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/maintainer-health-matters-more-than-github-stars-2026"/>
+    <published>2026-05-10T00:00:00Z</published>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="Healthcare AI"/>
+    <summary type="text">CTOs and platform leaders discover why maintainer health outranks star counts for enterprise when selecting open source AI tools.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-open-source-ai-tool-security-checklist-european-scale-ups-2026</id>
+    <title>Open-Source AI Tool Security Checklist for European Scale-Ups</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/open-source-ai-tool-security-checklist-european-scale-ups-2026"/>
+    <published>2026-05-10T00:00:00Z</published>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="GDPR &amp; Data Privacy"/>
+    <summary type="text">A practical security checklist for European scale-ups evaluating open-source AI tools before procurement, covering license through DORA.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-09:2026-05-09-local-first-ai-assistants-enterprise-privacy-2026</id>
@@ -732,89 +797,5 @@
     <category term="AI Governance"/>
     <category term="European SME AI"/>
     <summary type="text">How European dev teams use Claude Code for unit test generation, test plan scaffolding, and coverage analysis. Setup steps and GDPR-safe workflow patterns.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-eu-ai-act-conformity-assessment-guide-european-smes-202</id>
-    <title>EU AI Act Conformity Assessment: A Practical Guide for European SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/eu-ai-act-conformity-assessment-guide-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI Risk Management"/>
-    <category term="AI Strategy"/>
-    <summary type="text">Step-by-step conformity assessment for EU SMEs deploying Annex III high-risk AI. Covers deployer vs provider split, documentation, and oversight.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-eu-ai-act-high-risk-systems-assessment-european-smes-20</id>
-    <title>EU AI Act High-Risk Systems Assessment: A Self-Assessment Guide for European SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/eu-ai-act-high-risk-systems-assessment-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="AI Risk Management"/>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <summary type="text">EU AI Act Annex III self-assessment guide. Sector-by-sector high-risk checklist for European SMEs with 10 to 50 employees.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-gpt-4o-image-generation-guide-european-smes-2026</id>
-    <title>GPT-4o Image Generation: A Practical Guide for European SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/gpt-4o-image-generation-guide-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="GPT Models"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="European SME AI"/>
-    <summary type="text">How EU small businesses can use GPT-4o image generation, covering copyright, GDPR compliance, and practical prompting for marketing teams.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-how-to-choose-ai-vendor-european-smes-2026</id>
-    <title>How to Choose an AI Vendor: A Step-by-Step Process for European SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/how-to-choose-ai-vendor-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="AI Vendor Evaluation"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <summary type="text">Step-by-step AI vendor selection guide for European SMEs: from requirements through RFP, pilot evaluation, and contract signing.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-should-you-go-ai-first-european-smes-2026</id>
-    <title>Should You Redesign Your Business Processes to Be AI-First?</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/should-you-go-ai-first-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="Business Process Automation"/>
-    <category term="AI Strategy"/>
-    <category term="European SME AI"/>
-    <category term="AI Governance"/>
-    <summary type="text">A decision framework for European SME leaders considering whether to rebuild workflows around AI tools versus keeping AI as a productivity layer.</summary>
   </entry>
 </feed>
