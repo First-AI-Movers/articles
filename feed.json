@@ -13,6 +13,36 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-11:2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026",
+      "url": "https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026",
+      "title": "How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows",
+      "date_published": "2026-05-11T00:00:00Z",
+      "tags": [
+        "AI Governance"
+      ],
+      "content_text": "Evaluate MCP servers across eight dimensions and a 30-day approval workflow to meet EU AI Act and DORA enterprise governance needs."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-11:2026-05-11-tune-maintainer-health-rubric-thresholds-dependency-tier-2026",
+      "url": "https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026",
+      "title": "Should Your Maintainer Health Rubric Change by Dependency Tier?",
+      "date_published": "2026-05-11T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "Tier your open-source maintainer health rubric by dependency blast radius and replaceability to meet EU AI Act and DORA conformity expectations."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-automate-maintainer-health-rubric-ci-ai-tools-2026",
+      "url": "https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026",
+      "title": "How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool",
+      "date_published": "2026-05-10T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "Automate a maintainer health rubric in CI to evaluate open-source AI tools before adoption, ensuring compliance with EU AI Act and DORA."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
       "url": "https://radar.firstaimovers.com/kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
       "title": "Kimi 2.6 as an AI Engineering Auditor: Where It Actually Fits",
@@ -21,6 +51,26 @@
         "AI DevOps"
       ],
       "content_text": "Kimi 2.6 is a bounded, auditable AI engineering reviewer, not a chatbot replacement. Here is where it fits and where it does not."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-maintainer-health-matters-more-than-github-stars-2026",
+      "url": "https://radar.firstaimovers.com/maintainer-health-matters-more-than-github-stars-2026",
+      "title": "Maintainer Health Matters More Than GitHub Stars for AI Tool Procurement",
+      "date_published": "2026-05-10T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "CTOs and platform leaders discover why maintainer health outranks star counts for enterprise when selecting open source AI tools."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-open-source-ai-tool-security-checklist-european-scale-ups-2026",
+      "url": "https://radar.firstaimovers.com/open-source-ai-tool-security-checklist-european-scale-ups-2026",
+      "title": "Open-Source AI Tool Security Checklist for European Scale-Ups",
+      "date_published": "2026-05-10T00:00:00Z",
+      "tags": [
+        "GDPR & Data Privacy"
+      ],
+      "content_text": "A practical security checklist for European scale-ups evaluating open-source AI tools before procurement, covering license through DORA."
     },
     {
       "id": "tag:articles.firstaimovers.com,2026-05-09:2026-05-09-local-first-ai-assistants-enterprise-privacy-2026",
@@ -596,75 +646,6 @@
         "European SME AI"
       ],
       "content_text": "How European dev teams use Claude Code for unit test generation, test plan scaffolding, and coverage analysis. Setup steps and GDPR-safe workflow patterns."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-eu-ai-act-conformity-assessment-guide-european-smes-202",
-      "url": "https://radar.firstaimovers.com/eu-ai-act-conformity-assessment-guide-european-smes-2026",
-      "title": "EU AI Act Conformity Assessment: A Practical Guide for European SMEs",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "European SME AI",
-        "AI Risk Management",
-        "AI Strategy"
-      ],
-      "content_text": "Step-by-step conformity assessment for EU SMEs deploying Annex III high-risk AI. Covers deployer vs provider split, documentation, and oversight."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-eu-ai-act-high-risk-systems-assessment-european-smes-20",
-      "url": "https://radar.firstaimovers.com/eu-ai-act-high-risk-systems-assessment-european-smes-2026",
-      "title": "EU AI Act High-Risk Systems Assessment: A Self-Assessment Guide for European SMEs",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "AI Risk Management",
-        "European SME AI",
-        "AI Strategy"
-      ],
-      "content_text": "EU AI Act Annex III self-assessment guide. Sector-by-sector high-risk checklist for European SMEs with 10 to 50 employees."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-gpt-4o-image-generation-guide-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/gpt-4o-image-generation-guide-european-smes-2026",
-      "title": "GPT-4o Image Generation: A Practical Guide for European SMEs",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "GPT Models",
-        "GDPR & Data Privacy",
-        "European SME AI"
-      ],
-      "content_text": "How EU small businesses can use GPT-4o image generation, covering copyright, GDPR compliance, and practical prompting for marketing teams."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-how-to-choose-ai-vendor-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/how-to-choose-ai-vendor-european-smes-2026",
-      "title": "How to Choose an AI Vendor: A Step-by-Step Process for European SMEs",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "AI Vendor Evaluation",
-        "AI Governance",
-        "European SME AI",
-        "AI Strategy",
-        "GDPR & Data Privacy"
-      ],
-      "content_text": "Step-by-step AI vendor selection guide for European SMEs: from requirements through RFP, pilot evaluation, and contract signing."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-should-you-go-ai-first-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/should-you-go-ai-first-european-smes-2026",
-      "title": "Should You Redesign Your Business Processes to Be AI-First?",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "Business Process Automation",
-        "AI Strategy",
-        "European SME AI",
-        "AI Governance"
-      ],
-      "content_text": "A decision framework for European SME leaders considering whether to rebuild workflows around AI tools versus keeping AI as a productivity layer."
     }
   ]
 }

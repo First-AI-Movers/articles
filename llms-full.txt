@@ -17,14 +17,567 @@ Please preserve article titles, canonical URLs, publication dates, and attributi
 - Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)
 - Publication: First AI Movers — https://firstaimovers.com
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-- Articles: 846
-- Date range: 2025-02-17 to 2026-05-10
-- Generated: 2026-05-10
+- Articles: 851
+- Date range: 2025-02-17 to 2026-05-11
+- Generated: 2026-05-11
 
 Machine-readable catalog: https://articles.firstaimovers.com/index.json  
 Atom feed (recent only): https://articles.firstaimovers.com/feed.xml
 
 Each article below is prefixed with title, date, URL, and topics, separated by `---` lines.
+
+
+---
+
+# How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows
+
+- **Published:** 2026-05-11
+- **URL:** https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026
+- **Topics:** AI Governance
+
+> **TL;DR:** Evaluate MCP servers across eight dimensions and a 30-day approval workflow to meet EU AI Act and DORA enterprise governance needs.
+
+MCP servers are not harmless developer plugins; they are privileged workflow infrastructure that exposes tools, data, and identity to AI agents. Connecting an MCP server to your enterprise workflow without rigorous evaluation is a compliance and security gamble. Why this matters: For European scale-ups, the EU AI Act sandbox milestone of 2 August 2026 (S6) and DORA (S9) transform MCP server evaluation from optional hardening into a mandatory compliance artifact. CTOs, platform engineering leads, AI transformation leads, security leads, and operations leaders must adopt a structured evaluation framework to avoid exposing their organizations to tool-execution abuse, data leakage, and regulatory penalties.
+
+## The short answer
+
+Evaluate MCP servers across eight dimensions: data access, tool permissions, identity, auditability, sandboxing, prompt-injection exposure, vendor maturity, and rollback. Use a 30-day phased workflow that includes initial security review, sandbox pilot, and production rollout with rollback drill. For European scale-ups, this evaluation is a compliance artifact under EU AI Act (S6) and DORA (S9).
+
+## Why this matters for European scale-ups
+
+European scale-ups face a unique regulatory landscape. The EU AI Act (S6) requires conformity assessment for high-risk AI systems; an MCP server that executes tool calls on business resources qualifies as part of the system. DORA (S9) Article 28 demands third-party risk management for ICT services; MCP servers are third-party components that must be evaluated. Scale-ups often have limited security resources, but skipping due diligence invites operational disruption and regulatory penalties. A structured evaluation program protects your organization and creates evidence for compliance audits.
+
+The audit-facing version of this argument is even sharper. EU AI Act Article 16 obligations and DORA Article 28 third-party risk requirements are not satisfied by a vendor questionnaire response that says "we use OAuth and we log calls." They are satisfied by repeatable evidence: a per-server scorecard, a sandbox-pilot run log, a rollback-drill timestamp, an audit-trail sample. Pre-MCP, you could argue the AI integration was opaque. With MCP servers exposing a structured tool list, the regulator can ask: which tools does this server expose, which agents can call them, what data do they touch, and when was the last rollback drill? Those four questions have crisp answers when the eight-dimension matrix has been run; without it, the answers are anecdotal. For a 20-person to 50-person engineering team, the difference between a half-day audit response and a two-week audit response is whether the MCP server evaluation was structured up front. Founder-led companies and growing software teams should adopt the evaluation discipline before they have many MCP servers, because the cost scales with the number of servers in production.
+
+## What an MCP server actually is, in operational terms
+
+The Model Context Protocol (MCP) is an open standard for connecting AI models to external tools and data sources (S1). An MCP server is a service that receives tool call requests from an AI client, executes those calls against underlying systems (APIs, databases, file systems), and returns results (S2). The protocol is published as an open specification (S1) and is documented in vendor reference materials including the Anthropic agents-and-tools docs (S14), which give engineering leaders a stable shape to evaluate against rather than a moving vendor-specific surface. In operational terms, the MCP server is a gateway: it translates an AI model's intent into real actions on your infrastructure. It exposes a list of tools, each with a name, description, input schema, and execution logic. When a connected AI agent invokes a tool, the server runs the associated code with whatever credentials it holds. This trust boundary is the server's tool list (S1, S2).
+
+## The eight evaluation dimensions
+
+**Data access.** What data can the MCP server read or write? Evaluate the scope of resources (files, databases, APIs) the server interacts with. Verify that the server requests only the minimum data necessary for its function. Read-only access is preferable unless write operations are explicitly required and justified.
+
+**Tool permissions.** Which tools does the server expose, and what authorization model governs their invocation? Check whether any AI agent may call any tool or if there are client-side or server-side restrictions. Tool permissions must be granular and configurable.
+
+**Identity.** How does the MCP server authenticate to downstream services? Ideally, it uses scoped delegation via OAuth 2.0 (S5) or short-lived service accounts. Avoid servers that reuse a single static credential for all tool calls without scoping.
+
+**Auditability.** Does the server log every tool call with structured, append-only records? Logs should include the prompt that triggered the call, the tool name, arguments, result, and latency (S2, S10). Tamper-proof logging is critical for incident response and compliance.
+
+**Sandboxing.** Is the MCP server runtime isolated from production infrastructure? Code-execution servers must run in a sandboxed environment with no production credentials (S7, S8). Network egress should be restricted to required endpoints.
+
+**Prompt-injection exposure.** How does the server handle instructions that might be adversarial? Prompt injection (S3, S4) is the dominant attack vector against tool-calling agents. The server should validate tool arguments, enforce input constraints, and implement rate limiting to reduce blast radius.
+
+**Vendor maturity.** Is the server actively maintained? Check for signed releases (S8), versioning policies, a security policy, and an incident response process. The OpenSSF Scorecard (S7) provides a quantitative signal of project health.
+
+**Rollback.** What is the plan if the MCP server causes problems? Every adoption decision must include a documented rollback path covering credential rotation, log retention, and tool-list removal (S9, S10). Rollback drills should be tested before production deployment.
+
+## The MCP server evaluation matrix
+
+| Dimension | What you measure | Where to find evidence | Suggested gate | Red flag |
+|-----------|------------------|------------------------|----------------|----------|
+| Data access | List of resources the server reads/writes; whether access is read-only or write; data classification level | Server source code, documentation, or an SBOM (S10) | Read-only for production data unless explicitly justified | Broad wildcard access patterns (e.g., SELECT _ FROM _) |
+| Tool permissions | Tool names, parameters, and authorization model; whether tools are callable by any client or require scoped tokens | Server specification (S2) and configuration files | Client-side tool filters and server-side authorization | Tools that allow arbitrary SQL or shell execution |
+| Identity | Authentication mechanism used for downstream services; delegation approach (OAuth, API keys) | Server configuration and integration tests | Scoped OAuth 2.0 tokens (S5) or short-lived API keys | Use of the same credential for multiple servers without restriction |
+| Auditability | Existence of structured, append-only logs for each tool call; log retention period; log output format | Server logs, documentation, and source (S2, S10) | Logs include prompt, tool name, arguments, result, latency; stored in immutable storage | No logging or logs that can be easily tampered with |
+| Sandboxing | Isolation level (container, VM, serverless); network egress controls; filesystem access | Deployment artifacts, Dockerfile, cluster manifest | Code-execution servers run in isolated network sandbox with no production secrets | Server can access internal production resources directly |
+| Prompt-injection exposure | Input validation, rate limiting, anomaly detection on tool call patterns | OWASP LLM Top 10 guidelines (S3, S4) | Server validates tool arguments and implements rate limits per client | No validation; any string from the model can become a tool argument |
+| Vendor maturity | Release cadence, signed releases (S8), OpenSSF Scorecard (S7), incident response documentation | GitHub repository, OpenSSF Scorecard, SLSA attestations | Maintained in last 90 days, Scorecard >= 7, signed releases | No releases in past year, no security policy, low Scorecard |
+| Rollback | Documented rollback procedure, credential rotation process, log retention during rollback | Runbook, security policy, deployment scripts | Rollback plan tested at least quarterly; rollback completes within 1 hour | No rollback plan or plan assumes manual intervention without verification |
+
+## A worked example: evaluating three illustrative MCP server categories
+
+**Read-only data-warehouse MCP server.** This server executes read-only SQL queries against a data warehouse. The evaluator checks data access: which tables are exposed, and are queries read-only? Tool permissions: only SELECT statements are allowed. Identity uses a read-only service account. Auditability logs every query with the full SQL and timestamp. Sandboxing is minimal but the server runs in a restricted network. Prompt-injection exposure: the server uses parameterized queries to prevent SQL injection. Vendor maturity: if from a known vendor, verify signed releases; if community-maintained, check OpenSSF Scorecard. Suggested gate: low risk after initial validation. Pilot in sandbox tenant is optional.
+
+**Write-capable issue-tracker MCP server.** This server can create, update, and delete issues. Data access includes read and write to the issue database. Tool permissions distinguish read-only and write operations. Identity uses scoped OAuth tokens (S5). Auditability logs every mutation with user context. Sandboxing is required to prevent access to other systems. Prompt-injection exposure: validate that issue titles and descriptions cannot contain script injection. Vendor maturity: prefer servers with signed releases and documented rollback. Suggested gate: moderate risk; require a 2-week sandbox pilot and audit validation.
+
+**Experimental community-maintained code-execution MCP server.** This server allows the AI agent to run arbitrary shell commands. Data access is unrestricted unless sandboxed; tool permissions include code execution. Identity should be scoped but often is not. Auditability may be absent. Sandboxing is critical: must run in isolated container with no production secrets. Prompt-injection exposure is extreme: any prompt could produce a malicious command. Vendor maturity likely low; rely on OpenSSF Scorecard and source inspection. Suggested gate: high risk; require full security review, sandboxed pilot, and explicit CTO approval before any production use.
+
+## A 30-day approval workflow
+
+**Days 1 to 7: Intake + initial security review + tier classification.** The AI transformation lead or CTO submits an intake form describing the intended workflow and data sensitivity. The platform engineering lead performs an initial scan using OpenSSF Scorecard (S7) and dependency vulnerability check (S11). The security lead classifies the MCP server into a tier (low, moderate, high) based on data access and tool permission scope. The procurement-aware engineering manager checks vendor maturity documentation.
+
+**Days 8 to 21: Pilot in a sandbox tenant + log capture + audit-trail validation.** The operations leader deploys the MCP server in a sandbox environment with no production data. The AI transformation lead designs test scenarios that include normal use and adversarial prompts. The security lead validates that audit logs contain all required fields (S2, S10). The platform engineering lead monitors resource usage and network calls. The procurement-aware engineering manager reviews the outcome and updates the risk register for DORA (S9) compliance.
+
+**Days 22 to 30: Production rollout + rollback drill + procurement sign-off.** The CTO reviews the final risk assessment and approves production deployment. The operations leader executes a rollback drill: stops the server, rotates any shared credentials, and verifies that logs are preserved. The security lead confirms that audit trails are append-only and immutable. The procurement-aware engineering manager signs off on the usage agreement or contract. All evaluation artefacts are archived for EU AI Act and DORA evidence. The rollback drill itself is the most underrated checkpoint in this workflow: most teams document a rollback plan and never test it; the first time they execute it is during an incident, when the cost of an unfamiliar procedure is highest. A scheduled drill on day 28 to 30 turns the rollback plan from a document into operational muscle memory, and the drill log becomes part of the evidence package for the next conformity assessment review.
+
+## What you can automate safely today
+
+You can automate OpenSSF Scorecard scans for every new MCP server candidate using a CI pipeline (S13). Automate dependency vulnerability scanning with Dependabot (S11) against the server's repository, and cross-check against the GitHub Advisory Database (S12) for published CVEs against the server's runtime, transport library, or transitive dependencies. Automate sandbox deployment via Infrastructure as Code and log collection into a SIEM. Automated checks catch common issues early, but they cannot assess the risk of a novel prompt-injection vector or the trustworthiness of a maintainer's incident response. Treat the automated scan as the cheap pre-filter that lets the human review focus on the dimensions automation cannot see: data classification, scope decisions, and rollback rehearsal.
+
+## What must remain human-reviewed (and what not to automate yet)
+
+1. Do not let an MCP server's automated evaluation become a substitute for security review of the underlying tool surfaces, secrets handling, or supply-chain integrity of the server's runtime.
+2. Do not fully automate the first connection to a production data source. A human must verify the data classification and confirm that only necessary resources are accessed.
+3. Do not skip manual inspection of tool permissions for write-capable servers. Automated scans may miss context-specific authorization gaps.
+4. Do not rely solely on vendor documentation for identity delegation. Test the actual OAuth flow or API key scoping in a sandbox.
+5. Do not approve a server without a verified rollback plan. Rollback must be tested, not just documented.
+6. Do not assume a server with many GitHub stars is secure. Star count is not a security metric; evaluate actual maintainer health.
+
+## How MCP evaluation maps to EU AI Act and DORA
+
+Under the EU AI Act (S6), providers of high-risk AI systems must demonstrate risk management and transparency. MCP servers with tool-execution authority are integral to the system's behaviour; their evaluation artefacts (audit logs, permission matrices, security test results) directly support the technical documentation required for conformity assessment. For DORA (S9), Article 28 mandates ICT third-party risk management. MCP server evaluation outputs feed into the risk register, contractual clauses, and reporting obligations. Without a structured evaluation, your compliance documentation is incomplete.
+
+For professional guidance on aligning your MCP server evaluation with EU AI Act and DORA, see our AI Readiness Assessment page (https://radar.firstaimovers.com/page/ai-readiness-assessment) and AI Consulting page (https://radar.firstaimovers.com/page/ai-consulting).
+
+## Limits and failure modes
+
+No evaluation is foolproof. An MCP server can be updated with new tool behaviours after approval. Prompt injection research evolves, and new attack vectors may bypass existing controls. Vendor maturity can decline over time. Internal misuse by authorised agents remains a risk. Mitigate these by (a) requiring signed releases (S8) and version pinning, (b) implementing continuous monitoring of tool call patterns for anomalies, (c) scheduling quarterly reassessments of all production MCP servers, and (d) maintaining a security incident response plan that includes MCP-specific scenarios.
+
+A second class of failure deserves explicit naming because it bites scale-ups harder than enterprises. Tool-list drift: the evaluation captures the server's tool list at time of approval, but the maintainer adds a new tool in a later release. If the consumer pins the version and refuses upgrades, the security posture is stable but the team loses bug fixes. If the consumer auto-upgrades, the new tool may bypass the original evaluation. The right middle ground is a tool-list diff check on every release: re-evaluate any new tool against the matrix before allowing the upgrade to land in production. This is a small CI script that compares the latest release's tool list to the approved baseline and fails the deploy if the diff is non-empty without an updated evaluation artefact.
+
+A third class is human. Engineers under shipping pressure will request approval to bypass the sandbox-pilot phase for a server they personally trust. This is the easiest failure to miss because the request is reasonable on its face. Mitigations: require a written exception with a documented rollback plan and a one-week post-deployment review; surface bypass requests to the CTO and security lead in a monthly review; track the bypass rate as a process metric. If the bypass rate exceeds 20% of new MCP server adoptions in any quarter, the workflow itself needs revision, not the bypass policy.
+
+## Frequently Asked Questions
+
+**Q: How long does the full evaluation take for a new MCP server?**
+A: The 30-day approval workflow is typical, but low-risk read-only servers from trusted vendors may be expedited to 7 days after initial scan.
+
+**Q: Should we trust a community-maintained MCP server in production?**
+A: Only with heightened scrutiny: require signed releases (S8), OpenSSF Scorecard >=7, and sandboxing for any code-execution server. Even then, treat as high-risk pending pilot.
+
+**Q: Does the evaluation matrix replace a security review?**
+A: No, it structures the review but does not replace expert judgment. Use it as a checklist within a broader security assessment.
+
+**Q: How does MCP server evaluation interact with EU AI Act and DORA?**
+A: It provides evidence for conformity assessment (EU AI Act) and third-party risk management (DORA). Without evaluation, your compliance documentation is incomplete.
+
+**Q: Can the same MCP server be approved for one workflow and rejected for another?**
+A: Yes. Approval is context-dependent: a read-only server for a non-sensitive dataset may be approved, while the same server for a critical production database may be rejected due to data access concerns. Record the approval-context boundary explicitly in the evaluation artefact so that a future engineer who tries to reuse the approved server for a different workflow triggers the matrix again rather than coasting on the prior decision.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows",
+  "description": "Evaluate MCP servers across eight dimensions and a 30-day approval workflow to meet EU AI Act and DORA enterprise governance needs.",
+  "datePublished": "2026-05-11T09:05:41.256704+00:00",
+  "dateModified": "2026-05-11T09:05:41.256704+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+-->
+
+
+---
+
+# Should Your Maintainer Health Rubric Change by Dependency Tier?
+
+- **Published:** 2026-05-11
+- **URL:** https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026
+- **Topics:** Healthcare AI
+
+> **TL;DR:** Tier your open-source maintainer health rubric by dependency blast radius and replaceability to meet EU AI Act and DORA conformity expectations.
+
+No, a single maintainer-health threshold does not work for every dependency. The verdict: you must tier your rubric by dependency impact level. Why this matters: a one-size rubric discards critical risk signals for runtime AI frameworks while overblocking harmless developer tools, wasting CTO and platform engineering lead time. With the EU AI Act regulatory sandbox deadline on 2 August 2026 (S7), European scale-ups must defend their dependency decisions with documented, risk-based evidence. This article shows how CTOs, platform engineering leads, AI transformation leads, procurement-aware engineering managers, and security leads can build a tiered maintainer health rubric that aligns with EU AI Act and DORA compliance.
+
+## The short answer
+
+Yes, your maintainer health rubric must change by dependency tier. A single threshold for bus factor, release recency, or security coverage is too blunt. The same signal means different things depending on blast radius, replaceability, data access, and deployment path. A single-maintainer build-chain dev tool is not equivalent to a single-maintainer runtime model-serving framework. The rubric should define per-tier thresholds, then gate adoption decisions accordingly. A failing rubric at a higher tier blocks adoption; at a lower tier it warns and routes to manual review.
+
+## Why this matters for European scale-ups
+
+European scale-ups, mid-sized companies, and founder-led software teams of 20 to 50 engineers face dual regulatory pressure. The EU AI Act (S7) requires conformity assessments for high-risk AI systems, and DORA (S11) imposes third-party risk management on critical ICT dependencies. Both demand evidence that your dependency decisions are risk-based and documented. A flat rubric (for example, requiring two maintainers and a 90-day release for every package) does not satisfy a regulator. You need a tiered policy that shows you calibrated thresholds to blast radius, replaceability, and data sensitivity. For CTOs and security leads, this is the difference between a rubber stamp and a defensible procurement log.
+
+## Why one threshold across all dependencies breaks at scale-up
+
+At 20 dependencies, a single threshold works. At 200 (typical for a scale-up using AI tooling), it breaks. Build-chain linters fail the bus-factor gate, forcing wasteful manual reviews. Meanwhile, a runtime-critical inference framework with one maintainer passes the same gate because it has frequent releases, hiding true risk. The problem is not the rubric; it is the assumption that all dependencies are equal. OpenSSF Scorecard (S1) gives you contributor-diversity, code-review, maintained, dependency-update-tool, and signed-releases as automatable signals, but these signals must be weighted differently per tier. License clarity is a hard gate at every tier: no license means default copyright (S6), making enterprise commercial use unsafe. A tiered rubric encodes these distinctions.
+
+The OWASP CI/CD Top 10 (S8) frames the threat model that motivates tiering. Two of the ten top risks (CICD-SEC-3 dependency chain abuse and CICD-SEC-6 insufficient credential hygiene) hit build-chain dependencies harder than developer-only ones; conversely, CICD-SEC-1 insufficient flow control and CICD-SEC-7 insecure system configuration hit runtime-critical paths harder. A flat rubric treats both clusters the same and either over-blocks the harmless side or under-protects the dangerous one. Tiering aligns the strength of the gate with the threat surface the OWASP catalogue actually names. For AI runtime stacks, OWASP LLM Top 10 (S14) adds a layer the build-chain piece does not see: prompt-injection-class risks, training-data poisoning, and model denial-of-service, each of which sits inside the runtime-critical tier and demands stricter signed-release and SBOM coverage than a non-AI runtime library at the same tier would need.
+
+## The six dependency tiers
+
+1. **Runtime-critical**: dependencies that ship in production, serve user requests, or process sensitive data. Blast radius: full system compromise. Replaceability: very low. Gates: maximum rigor on all signals.
+2. **Security-sensitive**: dependencies that handle authentication, encryption, or network security. Similar blast radius to runtime-critical but often narrower scope. Replaceability: low.
+3. **Build-chain**: dependencies used during build, test, or CI, but not present in production. Blast radius: supply-chain injection. Replaceability: moderate (can pin versions or fork).
+4. **Developer-only**: dependencies used on dev machines, not in CI or production. Blast radius: local developer environment. Replaceability: high.
+5. **Experimental**: dependencies used for prototyping or research, with no production path. Blast radius: limited to notebook or sandbox. Replaceability: very high.
+6. **Replaceable**: libraries with multiple mature alternatives, minimal unique functionality. Blast radius: low. Replaceability: immediate swap.
+
+## The dependency-tier matrix
+
+| Tier | Blast radius if compromised | Replaceability | Suggested release-recency floor | Suggested bus-factor floor | License gate | SBOM/SLSA required |
+|------|----------------------------|----------------|----------------------------------|----------------------------|--------------|--------------------|
+| Runtime-critical | Full production compromise | Very low | Last 30 days | 2+ maintainers, 2+ orgs | Must be permissive or LGPL with explicit patent grant | Yes (SBOM + SLSA L1+) |
+| Security-sensitive | Compromise of auth/crypto | Low | Last 60 days | 2+ maintainers, 1+ org | Must be permissive | Yes (SBOM + SLSA L1 recommended) |
+| Build-chain | Supply-chain injection | Moderate | Last 90 days | 1+ maintainer | Must be permissive or GPL with known terms | SBOM recommended, SLSA optional |
+| Developer-only | Local dev machine | High | Last 180 days | 1+ maintainer | Any license acceptable if cleared | Optional |
+| Experimental | Notebook/sandbox | Very high | Last 365 days | 0+ maintainers | Any license, but note in risk log | Not required |
+| Replaceable | Low | Immediate swap | Last 365 days | 1+ maintainer | Any license, but prefer known | Not required |
+
+## Worked example: applying the matrix to a real dependency tree
+
+Consider three illustrative dependencies in a typical AI scale-up stack:
+
+- **Runtime LLM-serving framework**: sits in production, handles user prompts, accesses model weights. This is runtime-critical. The tier classifier checks: does data flow through it? Is it in the critical path? Yes. Thresholds: release within 30 days, bus factor 2+, permissive license, SBOM and SLSA required. The rubric queries GitHub REST API for release recency (S2), contributors (S2), CODEOWNERS (S10) for merge control, OpenSSF Scorecard (S1) for maintenance signal. If any check fails, adoption is blocked. For example, if the framework has a single maintainer (bus factor 1), the rubric blocks automatically, triggering a risk review. For AI-specific risk, OWASP LLM Top 10 (S14) prompt-injection and training-data poisoning are flagged as items the rubric cannot itself test; the framework's documentation, model-card, and incident-response history are required as compensating evidence before the security lead signs off.
+
+- **Build-time linter**: used only in CI, not packaged in production. This is build-chain. The tier classifier asks: does it run in deployment pipeline? Is it ephemeral? Yes. Thresholds: release within 90 days, bus factor 1+, permit any license but verify, SBOM recommended but not required. The rubric passes a single-maintainer linter with infrequent releases, but flags it for manual review if the maintainer has no recent activity or if there are unaddressed advisories (S5). Dependabot (S12) monitors for vulnerabilities, but the severity threshold is relaxed: only critical or high blocking advisories trigger a fail.
+
+- **Experimental research notebook**: used by a data scientist for ad-hoc model evaluation, not in production. This is experimental. The tier classifier asks: is it on the production path? Is it replaceable? Yes. Thresholds: release within 365 days, no bus factor requirement, any license as long as noted in risk log. The rubric warns but does not block. The team documents the risk and moves on. This tier saves hours of review time compared to treating it as runtime-critical.
+
+## A 30-day implementation plan
+
+**Days 1 to 7: tier inventory and dry-run scoring against your top 20 dependencies.** The platform engineering lead and security lead collaborate to classify the top 20 dependencies using the six-tier model. The CTO approves the classification criteria. For each dependency, run a dry-run score using OpenSSF Scorecard (S1), GitHub contributor stats (S2), release recency (S2), advisory checks (S5), and license verification (S6). Record what the tiered rubric would decide versus your current flat rubric. Expect mismatches: that is the point.
+
+**Days 8 to 21: CI integration: tier metadata + tiered thresholds.** The platform engineering lead embeds tier metadata into your dependency management system. Each dependency gets a `tier` field in its config file or database. Then configure CI scripts to apply tier-specific thresholds. Use the OpenSSF Scorecard GitHub Action to pull scores and compare against per-tier pass/fail rules. For example, for runtime-critical: require score >= 7 on maintained, code-review, contributor-diversity, signed-releases. For build-chain: require >= 5 on maintained and code-review. Use Dependabot (S12) for security patching, but tier its alert severity: runtime-critical blocks on any open advisory; build-chain blocks only on critical/high. The AI transformation lead can automate the scoring for common Python/JavaScript AI packages using a lookup table.
+
+**Days 22 to 30: procurement handoff: link rubric output to risk-class register.** The procurement-aware engineering manager maps the rubric output to your existing risk-class register. The handoff itself takes roughly two working days for a 100-dependency inventory: half a day to define the tier-to-risk-class mapping, half a day to load the existing dependency tags into the register, and one full day to dry-run the first five procurement requests against the new evidence shape so that finance and security have aligned expectations. Each tier corresponds to a risk level: runtime-critical = high risk, security-sensitive = medium-high, build-chain = medium, developer-only = low, experimental = minimal, replaceable = negligible. The security lead updates the third-party risk policy to require the rubric evidence for any new dependency approval. The CTO reviews the first five procurement requests to validate the process. This handoff ensures that every new dependency has a documented risk-based rationale, satisfying EU AI Act and DORA audit trails.
+
+## What you can automate safely today
+
+- **OpenSSF Scorecard signals**: contributor-diversity, code-review, maintained, dependency-update-tool, signed-releases (S1). These are fully automatable via GitHub Actions.
+- **Release recency and bus factor**: pull from GitHub REST API repos endpoint (S2) and contributor stats. Easy to script in CI.
+- **License detection**: use tools like `licensee` or GitHub's API to verify presence. No license means default copyright (S6) and must block at tiers 1-3.
+- **Advisory scanning**: GitHub Advisory Database (S5) and Dependabot (S12) cover known vulnerabilities. Automate severity-based alerts per tier.
+- **SBOM generation and SLSA attestation**: tools like `syft` and `slsa-verifier` can be integrated in CI for runtime-critical and security-sensitive tiers (S13, S9).
+- **CODEOWNERS check**: use the GitHub API to verify that the repository has CODEOWNERS set for relevant files (S10). Combine with contributor stats for bus factor.
+
+## What must remain human-reviewed (and what not to automate yet)
+
+1. Do not automate the final decision to block or allow a dependency when the rubric yields a borderline result. Manual review by the security lead or platform lead is required for all tier 1 and 2 failures.
+2. Do not let tier classification become a substitute for security review of model weights, training data, or supply-chain integrity beyond the repo.
+3. Do not automate classification for dependencies with ambiguous scope; always require a human to confirm the tier.
+4. Do not automate the handling of dependencies with a single maintainer who has not responded to published advisories within 30 days; that requires human escalation.
+5. Do not rely solely on release recency for non-maintained projects; check the issue tracker (S3) and pull requests (S4) for signs of life.
+6. Do not automate exceptions for build-chain dependencies that have access to production secrets; that is a tier-misclassification bug.
+
+## How tier classification interacts with EU AI Act and DORA
+
+Tiered evidence directly supports EU AI Act (S7) conformity assessments. The Act requires that high-risk AI systems demonstrate a risk management process. By documenting that you classify dependencies by tier and apply proportional thresholds, you show the regulator that your risk decisions are systematic and documented. For each tier, the rubric output maps to a risk level that aligns with the Act's high-risk vs limited-risk classifications. The regulator can inspect your rubric logs to see why a runtime-critical dependency was accepted (e.g., because it passed all gates) or flagged (e.g., because bus factor threshold failed). This is stronger than a flat policy: it proves you considered blast radius and replaceability.
+
+For DORA (S11), Article 28 on third-party risk reporting consumes tier metadata directly. Your ICT risk management framework must classify critical third-party dependencies. The tier rubric produces exactly that classification. You can report that runtime-critical and security-sensitive dependencies have passed SLSA L1 (S13) and SBOM minimum elements (S9), while developer-only dependencies are excluded from criticality assessment. This simplifies the reporting burden for the CTO, the security lead, the operations leader, and the finance team that signs off on the compliance budget.
+
+A concrete walk-through. A 30-person engineering scale-up with a mid-sized B2B SaaS product runs through this in roughly half a day on the first dependency cohort. The CTO classifies the 5 dependencies sitting on the production inference path as runtime-critical. The security lead classifies the 12 dependencies that touch authentication, encryption, or external network calls as security-sensitive. The platform engineering lead classifies the 40 build-chain dependencies (linters, test runners, type checkers, schema validators) as build-chain. The AI transformation lead classifies the 8 research-notebook libraries the data team uses as experimental. The procurement-aware engineering manager classifies the 30 developer-only utilities (formatters, local dev servers, IDE-specific helpers) as developer-only. Total tagged: 95 of 120 dependencies. The remaining 25 are flagged as ambiguous and routed to the security lead for one-pass human classification. That single afternoon produces the metadata that every downstream CI gate, EU AI Act file, and DORA Article 28 report can reuse.
+
+If you are not confident your team can structure this process, start with our [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) or explore how our [AI Consulting](https://radar.firstaimovers.com/page/ai-consulting) team can operationalize tiered rubric design within 30 days.
+
+## Limits and failure modes
+
+Tiered rubrics fail if the classification itself is wrong. Misclassifying a runtime-critical dependency as build-chain can lead to under-scrutiny and a supply-chain attack. Common failure modes: dependencies that straddle tiers (a library used in both production CI and development), dependencies that change tier after release (a research tool that gets promoted to production), and dependencies with no clear owner (orphaned projects). Also, the rubric cannot detect zero-day vulnerabilities; it only measures maintainer health and known security posture. Finally, bus factor thresholds based on GitHub contributor stats can be misleading if the real maintainers work in private repos.
+
+A second class of failure is operational. Tiering adds metadata to your dependency graph, and that metadata can rot. A package that was experimental in week 1 quietly becomes runtime-critical by week 12 because someone wired it into the inference path; if the tier tag never updated, the rubric still applies experimental-tier thresholds and the project's risk surface grows without anyone noticing. Schedule a quarterly tier-reclassification review and an event-driven re-tier on any change to the production import graph. The platform engineering lead owns the schedule; the security lead owns the event-driven trigger.
+
+A third class is human. Engineers under shipping pressure will downgrade a tier to make a rubric pass. This is the easiest failure to miss because the rubric still returns green. Mitigations: keep tier downgrades inside a one-way log (append-only) so post-hoc audit can flag any pattern; require a second approver for runtime-critical-to-build-chain downgrades; surface tier-downgrade events in the publishing-control-tower-equivalent platform analyst lane so the CTO sees them in routine review. Combine those with mandatory SLSA attestations (S13) for the top two tiers to reduce impersonation risk and you have a rubric whose failure modes are observable, even when individual decisions are wrong.
+
+## Frequently Asked Questions
+
+- **Q: How do I assign a tier to a new dependency in CI?** A: Automatically by checking its runtime scope: is it imported in production code? Does it touch sensitive data? Is it in the Docker image? Use a script that interrogates your dependency graph and assigns a provisional tier, then human-review for edge cases.
+- **Q: Should one project be in two tiers at once?** A: Yes, if it is used in multiple contexts. For example, a logging library used in both production and development-only scripts. In that case, assign the higher tier for the most sensitive use. Document both usages in the risk register.
+- **Q: Does tiering replace a security review?** A: No. Tiering is a triage step. It gates which dependencies get full security review (tier 1-2) versus lighter review (tier 3-4) versus accepted risk (tier 5-6). Security review depth scales with tier.
+- **Q: How does tiering interact with EU AI Act risk classes?** A: Align yours: runtime-critical and security-sensitive tiers correspond to high-risk AI system dependencies, which require conformity assessment artifacts including tier classification logs. Lower tiers map to limited or minimal risk, reducing documentation burden.
+- **Q: Can a single-maintainer project ever pass the runtime-critical tier?** A: It can pass only if the rubric exception process approves it with compensating controls: forking the repo, mirroring with signed releases, and continuous security monitoring. The rubric initially blocks, then a human review can override with documented risk acceptance.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Should Your Maintainer Health Rubric Change by Dependency Tier?",
+  "description": "Tier your open-source maintainer health rubric by dependency blast radius and replaceability to meet EU AI Act and DORA conformity expectations.",
+  "datePublished": "2026-05-11T07:23:49.020366+00:00",
+  "dateModified": "2026-05-11T07:23:49.020366+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1560472355-536de3962603?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Should Your Maintainer Health Rubric Change by Dependency Tier?",
+  "description": "Tier your open-source maintainer health rubric by dependency blast radius and replaceability to meet EU AI Act and DORA conformity expectations.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Runtime-critical",
+      "text": "dependencies that ship in production, serve user requests, or process sensitive data. Blast radius: full system compromise. Replaceability: very low. Gates: maximum rigor on all signals."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Security-sensitive",
+      "text": "dependencies that handle authentication, encryption, or network security. Similar blast radius to runtime-critical but often narrower scope. Replaceability: low."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Build-chain",
+      "text": "dependencies used during build, test, or CI, but not present in production. Blast radius: supply-chain injection. Replaceability: moderate (can pin versions or fork)."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Developer-only",
+      "text": "dependencies used on dev machines, not in CI or production. Blast radius: local developer environment. Replaceability: high."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Experimental",
+      "text": "dependencies used for prototyping or research, with no production path. Blast radius: limited to notebook or sandbox. Replaceability: very high."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Replaceable",
+      "text": "libraries with multiple mature alternatives, minimal unique functionality. Blast radius: low. Replaceability: immediate swap."
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool
+
+- **Published:** 2026-05-10
+- **URL:** https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026
+- **Topics:** Healthcare AI
+
+You cannot buy an open-source AI tool on GitHub stars alone. The verdict: automate a maintainer-health rubric in your CI pipeline before you even run a proof-of-concept. This is not about rejecting imperfect projects; it is about making adoption decisions explicit, repeatable, and auditable for your CTO, platform engineering lead, security lead, AI transformation lead, and procurement-aware engineering manager. Why this matters: the EU AI Act regulatory sandbox milestone (2 August 2026) and DORA (effective 17 January 2025) turn documented maintainer health into a compliance artifact, not a tech-debt indulgence. For European scale-ups, a failing rubric should warn for 30 days, then block on hard gates like license clarity and security advisory matches.
+
+## The short answer
+
+Automate a maintainer-health rubric in CI by scoring nine signals from public sources: license clarity (S6), release recency (S2), contributor activity (S2), open issue quality (S3), bus factor (S10), security posture (S5, S12), CODEOWNERS coverage (S10), dependency hygiene (S12), and SBOM readiness (S9). Use OpenSSF Scorecard CLI (S1), GitHub REST API endpoints (S2, S3, S4), and Dependabot alerts (S12). The CI pipeline produces a pass/warn/fail output that procurement and security can consume directly. The goal is not to reject every imperfect tool; it is to make adoption decisions explicit, repeatable, and auditable for security, finance, and engineering stakeholders.
+
+## Why this matters for European scale-ups
+
+European scale-ups face a compliance double-bind. The EU AI Act (S7) classifies many AI tools as high-risk if they are used in safety-critical or profiling contexts. DORA (S11) mandates operational resilience for financial-sector clients. Both regulations require documented evidence that the software components you adopt are actively maintained, secure, and not a single-vendor risk. A maintainer-health rubric in CI provides an auditable trail: license check, security advisory scan, contributor diversity score, and bus-factor estimate. Without it, your procurement decisions rely on anecdotes or star counts. For founder-led companies and growing software teams, this is a matter of scaling governance without scaling headcount. Finance teams will demand it when the next audit cycle arrives.
+
+The auditable trail is what regulators ask for first. EU AI Act Article 16 obligations and DORA Article 28 third-party risk requirements are not satisfied by a sentence in a vendor questionnaire. They are satisfied by repeatable evidence: a CI run log, a JSON document, a timestamp, and a sign-off. A rubric in CI gives you all four every time a candidate tool is evaluated. For a 20-person engineering team or a 50-person scale-up, this is the difference between an audit response that takes two days and one that takes two weeks. The CTO sees one less open risk on the quarterly review. The security lead reuses the same evidence package across multiple regulators. The procurement-aware engineering manager has a defensible answer when a tool is later flagged.
+
+## Why maintainer health belongs in CI, not in a spreadsheet
+
+Spreadsheets age the moment they are saved. A CI pipeline checks maintainer health every time your team evaluates a new AI tool. The OpenSSF Scorecard (S1) runs as a command-line tool and produces scores for contributor-diversity, code-review, maintained, dependency-update-tool, and signed-releases. GitHub REST endpoints (S2, S3, S4) let you query release recency, issue responsiveness, and PR cadence. Dependabot alerts (S12) surface known vulnerabilities. All of these can be triggered in a GitHub Actions workflow or any CI runner. The output is a machine-readable JSON that feeds into a scoring model. That JSON becomes part of your procurement record. A CI gate ensures that every evaluation follows the same rules, every time.
+
+There is a second reason maintainer health belongs in CI rather than in a spreadsheet: the spreadsheet was written by one person and represents one moment. The CI pipeline runs whenever someone opens a pull request that adds a new dependency, whenever a procurement candidate is added to an issue tracker, and whenever a scheduled job re-evaluates the existing tool inventory. The OWASP CI/CD Top 10 (S8) treats unverified third-party components as one of the top supply-chain risks; a maintainer-health gate is one of the cheapest controls you can put in place against that risk. Treat the rubric as an automation, not as a document. Documents drift; automations fail loudly. Loud failure is what an auditor wants to see, and it is what a security lead can act on. The rubric output becomes a structured record per repository, per evaluation date, per candidate version.
+
+## The maintainer-health rubric: nine signals you can score
+
+| Signal | What you measure | Source | Automatable today | Suggested CI threshold |
+| --- | --- | --- | --- | --- |
+| License clarity | Presence of a standard open-source license file | GitHub API / Scorecard | Yes | Must be present (fail if none) |
+| Release recency | Date of last release vs. evaluation date | GitHub API (releases) | Yes | Release within 6 months |
+| Contributor activity | Unique contributors in last 90 days | GitHub API (commits) | Yes | At least 2 active contributors |
+| Open issue responsiveness | Median time to first response on issues | GitHub API (issues) | Yes | Median response time < 14 days |
+| Bus factor | Number of core contributors with >50% of commits | GitHub API (stats/contributors) | Yes | >= 2 (warn if 1) |
+| Security posture | Known advisories in GitHub Advisory Database | GitHub Advisory DB / Dependabot | Yes | Zero unpatched critical advisories |
+| CODEOWNERS coverage | Fraction of code owned | CODEOWNERS file | Yes | >= 80% coverage |
+| Dependency hygiene | Dependabot alert count and severity | Dependabot alerts (S12) | Yes | No high/critical alerts |
+| SBOM readiness | Existence of a published SBOM or build provenance | SLSA (S13), CISA SBOM (S9) | Partial (check for file) | SBOM present or SLSA L2+ |
+
+Row 1: License clarity is a hard gate. No license means default copyright (S6); enterprise commercial deployment is unsafe. Row 2: Release recency uses `/repos/{owner}/{repo}/releases`. Row 3: Contributor activity uses `/repos/{owner}/{repo}/stats/contributors`. Row 4: Issue responsiveness uses `/repos/{owner}/{repo}/issues` with filtering. Row 5: Bus factor same contributor stats. Row 6: Security posture uses GitHub Advisory Database (S5) and Dependabot alerts (S12). Row 7: CODEOWNERS file check (S10). Row 8: Dependency hygiene from Dependabot. Row 9: SBOM readiness checks for `cyclonedx` or `spdx` files; if none, SLSA provenance (S13) is a bonus.
+
+## What you can automate safely today
+
+You can fully automate license detection, release recency, contributor count, issue response time, bus factor (via contributor stats), security advisory lookup, CODEOWNERS coverage, and dependency alert count. The OWASP CI/CD Top 10 (S8) frames the threat model for these automated checks: you are minimizing the risk of a malicious or abandoned component entering your pipeline. OpenSSF Scorecard CLI (S1) can be integrated into any CI step.
+
+License detection is the cheapest and most valuable check. The GitHub REST repos endpoint (S2) returns a `license` field with a SPDX identifier when a recognized license file is detected. If that field is null, the project is unlicensed by default copyright (S6) and the build should fail outright before any other check runs. Release recency uses `/repos/{owner}/{repo}/releases` (S2) or, when a project does not cut formal releases, the latest commit date on the default branch. Contributor activity uses `/repos/{owner}/{repo}/stats/contributors` (S2) which returns weekly commit counts per author for the last year; counting authors with at least one commit in the most recent 13 weeks gives you a reasonable activity signal. Issue responsiveness uses `/repos/{owner}/{repo}/issues` (S3) with a state filter; comparing `created_at` to the first comment timestamp gives the median first-response time, which is a better signal than total issue count. PR cadence (S4) is the analogous check on the pull-request side. OpenSSF Scorecard CLI (S1) packages many of these signals into one call, but running the GitHub API directly gives you the raw evidence to attach to your procurement record. For example:
+
+```
+# Run OpenSSF Scorecard on a target repo
+
+> **TL;DR:** Automate a maintainer health rubric in CI to evaluate open-source AI tools before adoption, ensuring compliance with EU AI Act and DORA.
+
+scorecard --repo=github.com/owner/repo --show-details
+```
+
+This outputs a JSON with scores for `Maintained`, `Code-Review`, `Contributors`, `Dependency-Update-Tool`, `Signed-Releases`. You then parse those JSON values into your rubric.
+
+## What must remain human-reviewed
+
+Automation cannot judge intent. Bus factor is a number; it does not tell you if the sole maintainer is responsive or about to disappear. Security advisories may be missing for a zero-day that has not been reported. SBOM readiness is a file check, not a content validation. The rubric flags risks; a human must decide whether to accept them. For AI tools specifically, OWASP LLM Top 10 (S14) covers prompt-injection-specific risks. Those require manual review of documentation and source code. Do not let CI thresholds become a substitute for security review of model weights, training data, or supply-chain integrity beyond the repo.
+
+Three categories of judgment must remain with a human. First, the model-supply-chain check. An open-source AI tool may have a clean repo and a poisoned model checkpoint hosted elsewhere; the rubric does not see the model. Your security lead has to verify the checkpoint provenance using SLSA (S13) or vendor-published hashes. Second, the license-compatibility check. Detecting a license is automatable; deciding whether that license is compatible with your commercial use is not. Apache 2.0, MIT, BSD-3-Clause are common; AGPL-3.0 is restrictive for SaaS deployments and may require legal review. The procurement-aware engineering manager owns this call, often with input from outside counsel. Third, the strategic-fit check. A tool may pass every signal in the rubric and still be the wrong choice for your stack. Architecture-fit, support availability for your major dependency versions, and total cost of ownership over the next 24 months are decisions a CTO makes with the engineering leadership team. The rubric reduces noise; it does not make decisions.
+
+## A 30-day implementation plan
+
+### Days 1 to 7: Manual rubric on top three candidates
+Your platform engineering lead and security lead pick three open-source AI tools under consideration. They manually run the rubric using OpenSSF Scorecard, GitHub API calls, and manual checks of CODEOWNERS, SBOM, and Dependabot. This establishes baseline scores and teaches the team which signals are meaningful. The CTO reviews the first three reports to set threshold expectations.
+
+### Days 8 to 21: CI integration
+Your AI transformation lead and platform engineering lead write a GitHub Actions workflow (or equivalent) that:
+- Clones the target repo.
+- Runs `scorecard --repo=$REPO_URL --show-details` against the candidate.
+- Calls GitHub API for releases, contributors, issues, pull requests.
+- Checks for CODEOWNERS file.
+- Queries Dependabot alerts for the repo via the GitHub GraphQL API.
+- Outputs a JSON summary.
+The workflow is triggered by a new issue or Pull Request that contains the repo URL. The result is posted as a comment. The AI transformation lead ensures the rubric is visible to all engineering teams.
+
+### Days 22 to 30: Procurement handoff and threshold tuning
+The procurement-aware engineering manager works with the security lead to map rubric results to procurement categories: pass (green), warn (yellow), fail (red). They tune thresholds: for example, license absent triggers immediate fail; a single critical advisory triggers fail; a bus factor of 1 triggers warn. The CTO signs off on the scoring model. The CI pipeline now runs on every candidate tool before purchase approval. Finance teams receive the JSON output as part of the procurement package.
+
+## An example scoring model you can adapt
+
+```
+#!/usr/bin/env python3
+"""Maintainer health rubric evaluator."""
+import json, sys, requests
+from datetime import datetime, timezone
+
+def evaluate(owner, repo):
+    base_url = f"https://api.github.com/repos/{owner}/{repo}"
+    # License check
+    repo_info = requests.get(base_url).json()
+    license_ok = repo_info.get("license") is not None
+    if not license_ok:
+        return {"decision": "FAIL", "reason": "No license file detected"}
+    
+    # Release recency
+    releases = requests.get(f"{base_url}/releases?per_page=1").json()
+    if len(releases) == 0:
+        return {"decision": "FAIL", "reason": "No releases found"}
+    latest_date = datetime.strptime(releases[0]["published_at"], "%Y-%m-%dT%H:%M:%SZ")
+    if (datetime.now(timezone.utc) - latest_date).days > 180:
+        return {"decision": "FAIL", "reason": "Release older than 6 months"}
+    
+    # Contributor activity (last 90 days)
+    contributors = requests.get(f"{base_url}/stats/contributors").json()
+    active = sum(1 for c in contributors if c["total"] > 0)  # simplified
+    if active < 2:
+        return {"decision": "WARN", "reason": "Fewer than 2 active contributors"}
+    
+    # Security posture (Dependabot alerts require token, example placeholder)
+    # alerts = requests.get(f"{base_url}/dependabot/alerts").json()
+    # critical = [a for a in alerts if a["security_advisory"]["severity"]=="critical"]
+    # if len(critical) > 0:
+    #     return {"decision": "FAIL", "reason": "Unpatched critical advisory"}
+    
+    # Placeholder for more checks
+    return {"decision": "PASS", "score": 85}
+
+if __name__ == "__main__":
+    owner, repo = sys.argv[1], sys.argv[2]
+    print(json.dumps(evaluate(owner, repo)))
+```
+
+The script uses GitHub REST API endpoints for license (S2), releases (S2), and contributors (S2). The Dependabot alert call is commented out because it requires authentication. In production, pass a GitHub token via environment variable.
+
+## How to use the result in procurement
+
+The rubric output is a JSON document that becomes part of your procurement record. It includes the decision (PASS/WARN/FAIL), the reason, and individual signal scores. Your procurement-aware engineering manager attaches this JSON to the purchase request. The finance team uses it to justify the adoption to auditors. For EU AI Act (S7) compliance, keep the JSON and the CI run log for at least the duration of the system's lifecycle. For DORA (S11), maintain a record of all third-party component assessments. The goal is not to reject every imperfect tool; it is to make adoption decisions explicit, repeatable, and auditable for security, finance, and engineering stakeholders.
+
+Practical procurement integration looks like this. The CI pipeline writes the JSON to a procurement bucket or attaches it to a ticket in your issue tracker. The procurement-aware engineering manager has a one-page checklist that maps PASS/WARN/FAIL to procurement next steps: PASS routes to standard purchase approval; WARN requires a documented risk acceptance from the CTO and security lead; FAIL is rejected unless an exception is granted, in which case the exception itself becomes part of the audit trail. For finance teams, the JSON is the basis of the budget line item: a tool that fails the bus-factor check needs a contingency budget for replacement; a tool that fails the security advisory check needs a budget for the patch or fork. EU AI Act conformity assessments and DORA third-party risk reviews can both reference the same JSON, which means you build the evidence once and reuse it across regulators. If you need help setting this up, consider our AI Readiness Assessment or our AI Consulting services. Start by visiting: https://radar.firstaimovers.com/page/ai-readiness-assessment or https://radar.firstaimovers.com/page/ai-consulting.
+
+## Limits and failure modes
+
+1. A project may pass the rubric today but become abandoned tomorrow. The rubric is a point-in-time snapshot. Run it periodically for active tools.
+2. The rubric does not validate the quality of the code, only community signals. A well-maintained project can still contain bugs.
+3. The bus factor signal is a proxy, not a guarantee. A project with two contributors could still stop abruptly if both leave simultanously.
+4. The security posture check only covers reported advisories. Zero-days are invisible.
+5. Do not let CI thresholds become a substitute for security review of model weights, training data, or supply-chain integrity beyond the repo.
+6. The rubric is biased toward repositories that use GitHub features fully. Projects hosted elsewhere require adaptation.
+
+A seventh limit deserves explicit naming because European scale-ups hit it more often than US peers. The rubric assumes the candidate tool's primary repository is its actual development repository. For some projects the public GitHub repo is a mirror of an internal repository (a vendor-led project where pull requests go through a private fork) or a downstream of an upstream maintained elsewhere (a fork that became more popular than the original). Mirror repositories show high commit cadence but low contributor diversity because most authors never touch the public surface. Forked-popular projects show a healthy public cadence but the actual fix-rate depends on a different repository the rubric never sees. Detecting this requires reading the README and the GitHub topics, both of which a human can do in under a minute and an automation cannot. Note this in the rubric's "manual review" column for any candidate that scores high on contributor diversity but low on contributor count, and any candidate that has fewer than ten stars on the listed repository but is widely deployed in production according to public documentation.
+
+## Frequently Asked Questions
+
+- Q: How long does the CI integration take to wire up? A: With a working example script and a GitHub Actions workflow, a platform engineering lead can integrate the rubric in two to three days. The 30-day plan allows for threshold tuning and stakeholder buy-in.
+- Q: Should the build fail or warn when a tool fails the rubric? A: For the first 30 days, use warn-only mode to build trust. After threshold finalization, block on hard gates: license absent, unpatched critical advisory, no CODEOWNERS. Warnings remain for soft signals like low contributor count.
+- Q: Does the rubric replace a security review? A: No. The rubric is a procurement gate, not a security audit. It flags obvious risks but does not replace a deep review of code, dependencies, or model behavior (see OWASP LLM Top 10, S14).
+- Q: How does the rubric interact with the EU AI Act and DORA? A: The rubric produces documented evidence of maintainer health that can be used in EU AI Act compliance files and DORA third-party risk assessments. It is a tool for operational governance, not a certification.
+- Q: Can a single-maintainer project ever pass? A: Yes, if it meets all other thresholds and the bus factor risk is accepted by your organization. The rubric will warn, and a human must sign off. For critical infrastructure, many European scale-ups choose to require at least two maintainers.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool",
+  "description": "Automate a maintainer health rubric in CI to evaluate open-source AI tools before adoption, ensuring compliance with EU AI Act and DORA.",
+  "datePublished": "2026-05-10T20:14:10.342918+00:00",
+  "dateModified": "2026-05-10T20:14:10.342918+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+-->
 
 
 ---
@@ -247,6 +800,502 @@ Our [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-
       "/html/body//article//p[2]"
     ]
   }
+}
+</script>
+-->
+
+
+---
+
+# Maintainer Health Matters More Than GitHub Stars for AI Tool Procurement
+
+- **Published:** 2026-05-10
+- **URL:** https://radar.firstaimovers.com/maintainer-health-matters-more-than-github-stars-2026
+- **Topics:** Healthcare AI
+
+> **TL;DR:** CTOs and platform leaders discover why maintainer health outranks star counts for enterprise when selecting open source AI tools.
+
+If your procurement process for AI tools still leans heavily on GitHub star counts, you are selecting for popularity, not reliability. Stars signal attention; maintainer health signals survival. **Why this matters**: the EU AI Act sandbox milestone of 2 August 2026 (S7) will require demonstrable due diligence on the tools incorporated into AI systems, and a high-star, abandoned repository is a compliance liability. For CTOs, platform engineering leads, procurement-aware engineering managers, AI transformation leads, security leads, and operations leaders in founder-led companies or growing software teams, the shift from star chasing to health checking is the single most impactful change you can make in your open source procurement workflow. Finance teams need this too: abandoned tools burn budget through security incidents and migration costs.
+
+## The short version
+
+- Maintainer health is a set of leading and lagging indicators that tell you whether a project will still be alive next quarter. Star counts measure attention, not maintenance.
+- The ten dimensions in this article (commit recency, contributor breadth, bus factor, issue response time, release cadence, security responsiveness, license clarity, dependency hygiene, governance model, enterprise support) are the columns of a procurement-grade scorecard. Pull them once for every open-source AI tool before adoption.
+- Contributor breadth plus recency together survive the loss of any single contributor. Single-author MIT licensed projects are safe for personal use but unsafe for enterprise commercial deployment.
+- Backed-but-orphaned is a real failure mode. A corporate sponsor stopping investment looks identical to a community-maintained project losing momentum, and the cost of unwinding both is the same.
+- Policy controls the merge button; maintainer health controls the supply chain. Both gates need to be in place. The 15-minute rubric in this article belongs in every procurement scorecard, not in a separate security review.
+- For European scale-ups, the EU AI Act sandbox milestone (2 August 2026, S7) and DORA third-party-vendor obligations for financial services (S11) make documented maintainer-health evidence a compliance artifact, not just a procurement preference.
+
+## What maintainer health actually measures
+
+The table below lays out the ten dimensions you need to track, where to find the data, and the red flags that should stop your procurement process.
+
+| Dimension | What it tells you | Where to find it | Red flag |
+|---|---|---|---|
+| Commit recency | Whether the project is actively maintained | GitHub Insights > Code frequency | Last commit > 6 months ago |
+| Contributor breadth | How many distinct people contribute | Insights > Contributors > Individuals | 80%+ commits from one or two people |
+| Bus factor | Number of contributors whose loss would stall the project | Insights > Contributors > Commits | Bus factor < 3 |
+| Issue response time | Whether maintainers care about users | REST API /repos/{owner}/{repo}/issues | Median first response > 30 days |
+| Release cadence | How often new versions are shipped | Releases page | No release in 12 months |
+| Security responsiveness | Speed of patch delivery for CVEs | GitHub Advisory Database (S5) | Advisory unfixed > 90 days |
+| License clarity | Legal permission to use | LICENSE file or choosealicense.com (S6) | No license or non-OSI license |
+| Dependency hygiene | Health of recursive dependencies | Dependabot alerts (S12), SBOM | High count of unfixed alerts |
+| Governance model | Decision-making structure | CODEOWNERS file (S10), contributing guide | No governance doc, single person merges |
+| Enterprise support | Commercial backing or SLAs | README, website, vendor contact | No support channel, no SLA |
+
+## How to read the GitHub signals: contributors, commits, releases, issues
+
+GitHub provides several built-in surfaces to assess maintainer health without leaving the platform.
+
+**Insights tab** (S2): Navigate to `Insights > Contributors` to see commit activity per contributor over time. The `Individuals` view shows unique authors per month. A healthy project has a stable or growing number of contributors month over month. `Insights > Code Frequency` gives commit volume trends; a long flat tail indicates abandonment. `Insights > Pulse` shows recent activity across issues and pull requests.
+
+**REST API endpoints** (S3, S4): For automated checks, call `GET /repos/{owner}/{repo}/issues` to list issues with timestamps. Filter by `state:open` and `sort:updated` to see issue response lag. Use `GET /repos/{owner}/{repo}/pulls` to review pull request merge times. Track `GET /repos/{owner}/{repo}/stats/contributors` for contributor diversity over time.
+
+**Release page**: Check `GitHub Releases` for semantic versioning and release notes. A project with regular releases (monthly or quarterly) signals active maintenance, and a project that ships release notes describing security fixes signals an even more mature posture.
+
+A platform engineering lead automating these checks should script the four endpoints together. The procurement-grade pattern is: pull `GET /repos/{owner}/{repo}/stats/contributors` to compute the bus factor (count contributors whose share of the last 90 days of commits crosses 5%); pull `GET /repos/{owner}/{repo}/issues?state=open&sort=updated&per_page=20` to sample issue-response lag; pull `GET /repos/{owner}/{repo}/pulls?state=closed&per_page=30` to compute median merge time; cross-check against the GitHub Advisory Database (S5) for any open advisories the maintainer has not patched. Layer Dependabot alerts on top per S12. The four pulls together fit in a 60-line script that an AI transformation lead or a security lead can run before the procurement scorecard meeting. None of the calls require write authentication; a personal access token with `public_repo` scope is enough for any public repository, and rate limits at 60 requests per hour unauthenticated or 5,000 per hour authenticated handle a procurement-batch of 30 to 50 repositories comfortably.
+
+## Bus-factor and corporate backing: when one maintainer is enough
+
+The bus factor is the number of contributors whose departure would cripple the project. A single-maintainer project has a bus factor of 1. Even if backed by a well-known company, if all commits flow through one person, the project is fragile. Corporate backing can provide resources, but if the sole maintainer leaves the company, the project may stall. Healthy projects have a bus factor of 3 or more, or a governance model that distributes responsibilities across multiple people. R1 (qdrant) has multiple core contributors; R2 (llama.cpp) benefits from broad community engagement. R5 (DeepSeek-TUI) is a single-author project with high bus-factor risk.
+
+There are three legitimate exceptions to the "bus factor must be at least 3" rule, and a CTO or security lead should know them before the procurement-aware engineering manager raises an objection. First, a paid support contract that names a specific bench of engineers as the SLA-bound responders effectively raises the bus factor by the bench size; the maintainer-health column on your scorecard then reads "1 + N (under SLA)" and the procurement decision becomes a contract-review decision. Second, an escrow agreement that gives you the right to fork and continue the project on the original maintainer's incapacity; this is rare in OSS but common in dual-licensed commercial OSS. Third, a tool whose blast radius if abandoned is genuinely contained (a CLI utility used only by your own engineering team, never embedded in a customer-facing product) where the operations leader can absorb the rewrite cost. Outside those three, single-maintainer is unsafe for enterprise commercial deployment regardless of how clean the code is or how responsive the maintainer was last quarter.
+
+The corporate-backing-as-substitute pattern deserves a separate note. A platform engineering lead who has seen one project orphaned after a strategic shift at a sponsoring company will never trust corporate backing alone again. The signal you actually want is contributor breadth that survives a sponsor change: commits from at least three distinct organizations or domains in the last twelve months. The OpenSSF Scorecard contributor-diversity check (S1) computes this directly. Read it as "diversity-adjusted bus factor" rather than "is the sponsor on the README."
+
+## The OpenSSF Scorecard contributor-diversity check
+
+OpenSSF Scorecard (S1) automates several maintainer-health checks and produces a single 0-10 score that procurement-aware engineering managers can drop straight into a vendor scorecard. Three Scorecard checks bear directly on maintainer health.
+
+The `contributor-diversity` check verifies that project commits come from multiple organizations within a recent window. A repo where every commit comes from one company will score low here even if the company is a household name. The check defends against the backed-but-orphaned failure mode by treating "diverse organizational sources" as the more durable signal than "one well-known sponsor."
+
+The `code-review` check ensures that changes are reviewed before merging. A single-maintainer project where every commit lands without review will score zero on this check. Even if the rest of the score is acceptable, the absence of code review is a procurement red flag because it means the project has no peer-validation step on the code that ends up in your supply chain. The OWASP CI/CD Top 10 (S8) treats poisoned-pipeline execution as a top supply-chain risk for exactly this reason.
+
+The `maintained` check confirms recent commit and issue activity. It is not a binary "alive vs dead" signal; it is a graded score that captures both commit recency and issue-response cadence. A repo that ships one commit a quarter to keep the check satisfied without engaging with issues will score lower here than the maintained check first appears to suggest.
+
+Operating instruction: run `scorecard --repo=github.com/owner/repo` against any AI tool before procurement and record the score in the artifact register. A score below 5 for `contributor-diversity` or `maintained` should block procurement absent a documented mitigation. A score above 7 is the comfortable bar for high-stakes use; below 5 is a hard stop until the maintainers address the gaps. Pair the Scorecard score with the 15-minute rubric in the next section; Scorecard answers the "is this maintained at all" question deterministically, the rubric answers the "is this maintained well enough for our specific use case" question.
+
+## A 15-minute maintainer-health rubric
+
+Spend 15 minutes on the following checklist for any AI open source tool before adding it to your stack. Each item includes the action and the pass criterion.
+
+- [ ] Check commit recency: GitHub Code Frequency graph (last commit < 90 days)
+- [ ] Assess contributor breadth: Insights > Contributors > Individuals (at least 3 unique authors in last quarter)
+- [ ] Calculate bus factor: Review top 5 contributors by commit count (no single person > 50% of total)
+- [ ] Scan issue response time: REST API issues endpoint (median response < 7 days)
+- [ ] Review release cadence: Releases page (at least one release in last 12 months)
+- [ ] Verify security responsiveness: GitHub Advisory Database (no critical unfixed advisory > 30 days)
+- [ ] Confirm license: LICENSE file present and OSI approved (MIT, Apache 2.0, BSD)
+- [ ] Inspect dependency hygiene: Dependabot alerts (no high/critical unfixed alerts)
+- [ ] Evaluate governance: CODEOWNERS file or governance doc (clear review process)
+- [ ] Run OpenSSF Scorecard: Score >= 5 on contributor-diversity and maintained
+
+If your team needs a structured approach consider booking an AI readiness assessment at https://radar.firstaimovers.com/page/ai-readiness-assessment or consulting support at https://radar.firstaimovers.com/page/ai-consulting.
+
+## Three failure modes from public repos
+
+These three patterns surface across the open-source AI corpus more often than any operations leader would like. Each is a teaching example, not a hit-list. The point is not that the named repos are bad; the point is that a CTO or AI transformation lead who scans only the star count would miss every one.
+
+**Failure 1: Abandoned but popular (R3: stanford-oval/storm).** This repository's last commit was September 2025 per `gh api` check on 2026-05-10, more than seven months stale at the time of this article. Despite high attention and a citation-rich README, the project is no longer being maintained. Security patches do not arrive. Dependencies rot. The maintainers may resume activity later, but a procurement decision today cannot rest on that hope. Compare with R1 (qdrant/qdrant), which has regular commits, frequent tagged releases, and a security-disclosure policy. The two repositories are in the same broad ecosystem; the maintainer-health columns separate them cleanly.
+
+**Failure 2: No license but popular (R4: forrestchang/andrej-karpathy-skills).** High star count, no LICENSE file. Under default copyright (S6), you have no right to use, modify, or distribute the code in your commercial product. Even if your engineering team loves the design, your legal lead cannot sign off, and your procurement-aware engineering manager cannot record a green legal-review memo. Procurement teams routinely skip legal review for trending repos because the absence of a license file is invisible from the GitHub homepage. The maintainer-health rubric in this article surfaces it on the License clarity row in 30 seconds. This is a hard pass for enterprise commercial deployment unless the operator obtains an explicit written license grant from the maintainer.
+
+**Failure 3: Single-author bus factor (R5: Hmbown/DeepSeek-TUI).** All commits come from one person. If that person disappears, so does the project. Even if the code is MIT and the engineering team has every right to fork it, the cost of forking and maintaining a production-critical tool falls on the operations leader and the technical team that picked it. For a 20-person company or a growing software team, that is rarely a cost worth absorbing. Single-author repositories are safe for personal use and for dev-only experimentation; they are unsafe for production embedding without one of the three exceptions named in the bus-factor section above. Contrast with R2 (ggml-org/llama.cpp), which has diverse contributors across multiple organizations and a stable cadence; the maintainer-health rubric scores R2 high on contributor breadth and low on bus-factor risk.
+
+The procurement implication is the same in all three cases. The 15-minute rubric catches each pattern in the first five minutes. Star counts catch none of them. The cost of the rubric is twenty minutes of platform engineering lead or security lead time per candidate tool; the cost of skipping the rubric is the migration project that arrives twelve months later when the tool's maintenance gap finally hits production.
+
+## What not to delegate to maintainer-health metrics
+
+Avoid these anti-patterns that misinterpret maintainer health:
+
+- **Star count as health proxy** . Stars measure attention, not maintenance. A 50K star repo can be dead.
+- **Single corporate sponsor as substitute for breadth** . VMware-backed projects have gone orphaned when priorities shift.
+- **"Active in last 90 days" without checking who committed** . One person pushing cosmetic commits is not health.
+- **Skipping legal review on non-OSI licenses** (S6) . Non-OSI licenses can create compliance issues under EU AI Act.
+- **Auto-promoting trending tools** . GitHub Trending highlights velocity, not sustainability.
+- **Confusing release cadence with release quality** . Frequent releases of buggy code are worse than none.
+
+## Frequently Asked Questions
+
+### Q: Is a single-maintainer project ever safe for enterprise use?
+A: Rarely. A single maintainer project can be safe only if you have a paid support contract, an escrow agreement, or you fork and maintain it yourself. For most enterprise contexts, a bus factor of at least 3 is required.
+
+### Q: How recent is "recent enough" for the commit-recency check?
+A: For a project in active development, a commit within the last 90 days is a baseline. For stable libraries, 6 months may be acceptable, but verify that security issues are still addressed.
+
+### Q: Does corporate backing replace the contributor-diversity check?
+A: No. Corporate backing can provide resources but does not guarantee contributor diversity. A project with commits from a single company still has a single point of failure if that company changes priorities.
+
+### Q: How does the EU AI Act change maintainer-health expectations?
+A: The EU AI Act (S7) sandbox milestone of 2 August 2026 requires documented due diligence on tools used in AI systems. A maintainer-health assessment becomes a compliance artifact. Abandoned or opaque projects may fail audits.
+
+### Q: What is the realistic time to run the 15-minute rubric?
+A: For an experienced platform engineering lead or security lead, the manual checklist takes 10 to 15 minutes per repository on the first run. The first time a technical team builds the muscle, expect closer to 25 to 30 minutes while they learn which Insights tab path to click and which REST API endpoint returns the data they need. By the third or fourth run, the rubric drops to under 10 minutes. Automated tools like OpenSSF Scorecard (S1) and GitHub REST API scripts (S3, S4) can reduce the per-project pass to under 2 minutes when the operations leader wires the checks into a CI pre-procurement step. The cost of running the rubric is dwarfed by the cost of unwinding a bad procurement decision six months in, especially for a founder-led company or a finance team that has to absorb the migration spend off-budget.
+
+### Q: How does maintainer health interact with cluster pieces in this Radar series?
+A: This article is the operational rubric layer for the cluster anchored by `github-stars-bad-procurement-metric-ai-tools-2026`. The parent piece argues that stars are not procurement evidence; this piece converts the argument into a 15-minute checklist a technical team can run. The companion `open-source-ai-tool-security-checklist-european-scale-ups-2026` extends the rubric into the security-specific dimensions (SBOM per S9, dependency hygiene per S12, OWASP CI/CD Top 10 per S8). The companion `30-day-pilot-open-source-ai-coding-agent-2026` is the next step after the rubric passes: once a tool clears the maintainer-health rubric, the 30-day pilot is the procurement gate that produces the evidence the EU AI Act sandbox audit (S7) will look for.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Maintainer Health Matters More Than GitHub Stars for AI Tool Procurement",
+  "description": "CTOs and platform leaders discover why maintainer health outranks star counts for enterprise when selecting open source AI tools.",
+  "datePublished": "2026-05-10T19:48:44.982279+00:00",
+  "dateModified": "2026-05-10T19:48:44.982279+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/maintainer-health-matters-more-than-github-stars-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1488229297570-58520851e868?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Q: Is a single-maintainer project ever safe for enterprise use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: Rarely. A single maintainer project can be safe only if you have a paid support contract, an escrow agreement, or you fork and maintain it yourself. For most enterprise contexts, a bus factor of at least 3 is required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: How recent is "recent enough" for the commit-recency check?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: For a project in active development, a commit within the last 90 days is a baseline. For stable libraries, 6 months may be acceptable, but verify that security issues are still addressed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: Does corporate backing replace the contributor-diversity check?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: No. Corporate backing can provide resources but does not guarantee contributor diversity. A project with commits from a single company still has a single point of failure if that company changes priorities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: How does the EU AI Act change maintainer-health expectations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: The EU AI Act (S7) sandbox milestone of 2 August 2026 requires documented due diligence on tools used in AI systems. A maintainer-health assessment becomes a compliance artifact. Abandoned or opaque projects may fail audits."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: What is the realistic time to run the 15-minute rubric?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: For an experienced platform engineering lead or security lead, the manual checklist takes 10 to 15 minutes per repository on the first run. The first time a technical team builds the muscle, expect closer to 25 to 30 minutes while they learn which Insights tab path to click and which REST API ..."
+      }
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# Open-Source AI Tool Security Checklist for European Scale-Ups
+
+- **Published:** 2026-05-10
+- **URL:** https://radar.firstaimovers.com/open-source-ai-tool-security-checklist-european-scale-ups-2026
+- **Topics:** GDPR & Data Privacy
+
+> **TL;DR:** A practical security checklist for European scale-ups evaluating open-source AI tools before procurement, covering license through DORA.
+
+GitHub stars measure popularity, not security. For every open-source AI tool your engineering team or platform engineering team considers, a proper security review is the only way to know whether it belongs in your production infrastructure. This checklist replaces star-count procurement with a repeatable evaluation built for a CTO, a security lead, an AI transformation lead, a procurement-aware engineering manager, or a founder-led company moving fast. It covers everything from license clarity to EU regulatory compliance, with concrete owners and artifacts at every step. Why this matters: one unreviewed dependency can leak personal data, violate GDPR Article 28, or create liability under the EU AI Act, and the cost of unwinding a bad procurement decision lands on the operations leader and the finance team six months later. European scale-ups face three concurrent pressures: the EU AI Act sandbox deadline of 2 August 2026 (S11), GDPR data-flow obligations on every cross-border prompt and completion (S12), and for financial-services entities and their critical ICT vendors, DORA third-party-vendor rules effective since January 2025 (S15). The checklist below accounts for all three.
+
+## The short version
+
+- This article gives you a 22-item security checklist organized by signal category, plus a 30-day evaluation workflow and a procurement-ready artifact table.
+- The seven signal categories separate **attention** from **maintenance**, **security**, **license**, **data flow**, **deployment / control**, and **support / vendor**. Stars sit only in the first column.
+- The mandatory items are license clarity (S13), maintenance recency (last 90 days), OpenSSF Scorecard above 5 (S1), SBOM generation (S10), data-flow review, and an EU AI Act risk-tier classification (S11).
+- The default decision is **do not promote without evidence**. A pilot that has not exercised rollback is not a pilot, it is a hope.
+- For European teams, the data-flow question is decisive. Self-hosting (where supported) collapses residency risk; cloud-only tools need a documented residency posture before pilot.
+
+## Why a security checklist replaces the star count
+
+Star counts hide license risk, maintenance risk, and supply-chain risk. A repo with 50,000 stars may have no license file (S13), no recent commits, no security policy, and no SBOM. The seven signal categories in the next section separate these dimensions; the checklist then gives you a pass / fail or a graded score for each. Policy controls the merge button regardless of which AI tool the team adopts: CODEOWNERS (S14), repository rulesets (S8), and OWASP LLM01 mitigations (S4) form the policy spine. Without a checklist, you are flying blind on a procurement decision that locks in operating risk for years.
+
+The other reason a checklist beats a star count is **comparability**. Two tools that both report 80,000 stars might score 8 / 10 and 3 / 10 on OpenSSF Scorecard, ship SLSA L3 build provenance and SLSA L0 respectively, and have completely different data-flow postures. A buyer-aware procurement memo lines up those columns and makes the decision obvious. Stars-only procurement throws away that comparability. Once your security team has the checklist artifacts in hand, the procurement conversation moves from "the team likes this one" to "this one passes the gates we agreed on; that one fails on items 4, 9, and 17." That is the conversation that holds up at the 2 August 2026 EU AI Act sandbox audit.
+
+## The seven signal categories you must read separately
+
+| Signal category | What it tells you | What to check | Red flag |
+|---|---|---|---|
+| Attention signals | How many people watch or star the repo; community interest | Compare star count with commit recency; look for issue response times | Many stars but no commits in 6 months; unanswered critical issues |
+| Maintenance signals | Whether the project is alive and well | Last commit date, release cadence, number of maintainers, bus factor | One maintainer with no activity for 90+ days |
+| Security signals | How seriously the team takes security | OpenSSF Scorecard (S1), presence of SECURITY.md (S5), Dependabot alerts (S6), CodeQL (S5) | Scorecard below 5; no SECURITY.md; no automated security scanning |
+| License signals | Legal permission to use, modify, distribute | OSI-approved license (S13); check for commercial use clauses | No license file; non-OSI license like "Sustainable Use" without legal review |
+| Data-flow signals | Where prompts, outputs, and telemetry go | Data-flow diagram; check for external API calls; read privacy policy | Prompts or outputs sent to untrusted third parties without opt-in |
+| Deployment / control signals | How you run and govern the tool | Support for self-hosting; branch protection; rulesets (S8); SLSA provenance (S2, S9) | No container image available; no signed releases; cloud-only deployment |
+| Support / vendor signals | Who to call when it breaks | Existence of a paid support channel; response SLAs; community size | No clear way to get help; single vendor lock-in |
+
+## The full security checklist
+
+- [ ] License clarity: confirm an OSI-approved license exists (S13).
+- [ ] OSI approval check: ensure the license is on the OSI list; avoid "no license" default (S13).
+- [ ] Last-commit recency check: commits within the last 90 days; ideally within 30.
+- [ ] Maintainer count and bus-factor check: at least 2 active maintainers; no single point of failure.
+- [ ] OpenSSF Scorecard score above 5 (S1).
+- [ ] SECURITY.md present with disclosure policy (S5).
+- [ ] Dependabot alerts enabled on the repo (S6).
+- [ ] Secret scanning with push protection enabled (S5).
+- [ ] CodeQL default setup enabled (S5).
+- [ ] SBOM generation possible (S10).
+- [ ] SLSA L2 build provenance available (S2, S9).
+- [ ] Dependency graph reviewed against Advisory Database (S7).
+- [ ] CODEOWNERS coverage on critical paths (S14).
+- [ ] Branch protection rules + rulesets for production branches (S8).
+- [ ] OWASP CI/CD Top 10 mitigations checked (S3).
+- [ ] OWASP LLM01 prompt-injection mitigations addressed: least privilege, input/output filtering, human-in-the-loop for privileged operations (S4).
+- [ ] Data-flow review: document where prompts and outputs are sent; ensure no unauthorized data leakage.
+- [ ] GDPR Article 28 Data Processing Agreement in place where applicable (S12).
+- [ ] EU AI Act risk-tier classification documented: determine whether the tool is low, high, or unacceptable risk (S11).
+- [ ] DORA third-party-vendor coverage if financial services entity (S15).
+- [ ] Rollback / exit plan documented: how to quickly remove the tool and restore previous state.
+- [ ] Key / credential rotation cadence defined: rotate API keys and secrets every 90 days or on incident.
+
+## A 30-day evaluation workflow
+
+The 30-day workflow below is bounded, time-boxed, and produces named artifacts that hold up under audit. Skipping the artifacts is the most common failure mode; the artifacts are what carry the rigor between legal, security, and engineering when nobody has time for a daily meeting.
+
+1. **Week 1: License and initial triage.** Owner: legal lead plus security engineer. Action: run license check (S13), OpenSSF Scorecard (S1), and repo recency scan. Confirm an OSI-approved license, Scorecard score above 5, last commit within 90 days, and three or more active maintainers (or a corporate sponsor). Artifact: license review memo with traffic-light status (green / amber / red) per use case. Success criterion: green or amber on every dimension; any red blocks progression to week 2 until the operations leader signs off on the explicit risk acceptance.
+2. **Week 2: Security and supply-chain audit.** Owner: security engineer. Action: enable Dependabot alerts plus security updates (S6), CodeQL default setup (S5), and secret scanning with push protection (S5) on a fork or mirror. Verify SLSA L2 build provenance via GitHub Actions artifact attestations (S2, S9). Generate an SBOM that meets CISA minimum elements (S10) and cross-check it against the GitHub Advisory Database (S7). Walk the OWASP CI/CD Top 10 (S3) against the tool's pipeline definitions. Artifacts: SBOM, Scorecard report, OWASP CI/CD Top 10 review. Success criterion: no critical or high-severity advisories that lack a documented mitigation; SBOM completeness validated.
+3. **Week 3: Data flow and regulation review.** Owner: Data Protection Officer plus CISO. Action: map every place a prompt, a completion, or a log can travel. Note storage region, encryption posture, and retention period. Draft a GDPR Article 28 Data Processing Agreement if the tool processes personal data of EU residents (S12). Classify the tool against the EU AI Act risk tiers (S11). For financial-services entities, complete a DORA third-party register entry (S15). For non-financial-services teams, use DORA framing as a maturity reference rather than a compliance requirement. Artifacts: data-flow diagram, GDPR DPA (if applicable), EU AI Act risk-tier classification memo, DORA register entry (if applicable). Success criterion: every data destination is documented, encrypted, and either inside the EU or covered by Standard Contractual Clauses.
+4. **Week 4: Pilot and governance gate.** Owner: platform lead plus security engineer. Action: deploy to a restricted staging environment with branch protection rules (S5), repository rulesets (S8), CODEOWNERS coverage on critical paths (S14), and least-privilege access for any AI agent that participates. Run OWASP LLM01 prompt-injection tests against repo content and external retrieval surfaces (S4). Exercise rollback at least once during the week so the operations leader has confidence that revert is real, not theoretical. Artifact: pilot evidence report with one row per checklist item plus a rollback timing measurement. Success criterion: all critical checklist items pass; no unmitigated prompt-injection vector; rollback completes inside the team's stated incident-response window.
+5. **Post-pilot: Rollback plan and owner assignment.** Owner: platform lead. Action: document the rollback steps in a runbook, assign an ongoing maintenance owner from the technical team, and set a credential rotation cadence (90 days is the cheapest default; 30 days where the tool touches sensitive data). Artifact: rollback / exit plan and credential rotation schedule. Success criterion: exit plan can be executed in under 15 minutes by the on-call engineer who did not run the pilot.
+6. **Governance gate.** Review every artifact in a security committee with the CTO, CISO, legal lead, and a representative from the technical team that ran the pilot. Decide one of four outcomes: extend the pilot by two weeks if a single dimension is inconclusive, promote-bounded to a wider pilot in one more repo, reject the tool, or pause-for-fix on a named blocker. Artifact: governance gate decision memo signed by every named role.
+7. **Continuous monitoring after promotion.** If the tool is promoted, schedule the OpenSSF Scorecard, the SBOM, and the data-flow diagram for refresh every 90 days. Wire Dependabot alerts to the security team's pager. The checklist is not a one-shot gate; the supply chain it covers shifts every quarter.
+
+Interested in a guided pilot? Start with our [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) or explore [AI Consulting](https://radar.firstaimovers.com/page/ai-consulting) for European-scale-up specific support, including the regulatory mapping that an internal team rarely has bandwidth to do alongside the technical pilot.
+
+## A procurement-ready owner and artifact table
+
+| Artifact | Owner | When produced | Used by |
+|---|---|---|---|
+| License review memo | Legal | Week 1 | Security Engineer, Procurement |
+| SBOM | Security Engineer | Week 2 | Platform Lead, CISO |
+| SLSA provenance check | Security Engineer | Week 2 | Platform Lead |
+| OpenSSF Scorecard report | Security Engineer | Week 1 | CISO, Security Engineer |
+| Data-flow diagram | Data Protection Officer | Week 3 | CISO, Legal |
+| GDPR DPA (if applicable) | Legal | Week 3 | Data Protection Officer |
+| EU AI Act risk-tier classification memo | CISO | Week 3 | Legal, Board |
+| DORA third-party register entry (if applicable) | CISO | Week 3 | Risk Management |
+| Rollback / exit plan | Platform Lead | Week 4 | Operations, Security |
+| Pilot evidence report | Security Engineer | Week 4 | Security Committee |
+
+## What not to automate yet
+
+- **Agents with merge authority:** never give an AI agent the ability to directly merge code. OWASP LLM01 (S4) and CODEOWNERS (S14) require human-in-the-loop for privileged operations.
+- **Agents with shell access on production hosts:** an injected prompt could execute arbitrary commands. Keep AI agents in read-only or sandboxed environments.
+- **Browser-automation agents in customer-facing flows:** they can be manipulated to perform actions on behalf of users. Isolate them from sensitive data.
+- **Reliance on a no-license repo for commercial deployment:** default copyright makes it unusable without risk of litigation (S13). Always get legal approval.
+- **Auto-promotion of pilot to production without governance gate:** a pilot is not production. Require a formal review of all artifacts.
+- **Skipping SBOM generation because the project is small:** even small components can hide transitive vulnerabilities. Always generate an SBOM.
+
+## How European regulation shapes the checklist
+
+**EU AI Act (S11):** Classify your tool as low, high, or unacceptable risk by 2 August 2026, when Member States must offer regulatory sandboxes. High-risk tools (e.g., those used in hiring, credit scoring, or critical infrastructure) require additional transparency and documentation. This checklist includes a risk-tier classification memo.
+
+**GDPR (S12):** Any open-source AI tool that processes personal data of EU residents requires a lawful basis and a Data Processing Agreement (Article 28). Map data flows to identify whether prompts or outputs contain personal data. If they do, the tool must support data subject rights and breach notification.
+
+**DORA (S15):** For financial-services entities, every third-party ICT provider (including an open-source AI tool) must be registered in a third-party register. Contracts must include specific DORA clauses. Even if your company is not financial-services, using DORA as a maturity benchmark elevates your security posture.
+
+**EU Cyber Resilience Act (S10):** The CRA will require SBOMs for commercial software. Start generating SBOMs now; it positions you ahead of compliance deadlines.
+
+**Pragmatic sovereignty:** Self-hosting the AI tool (where supported) collapses the residency question to a contained, in-network deployment. Cloud-only tools need a documented residency posture before pilot. Document where data is processed and stored.
+
+## Frequently Asked Questions
+
+### Q: Do we need every item on the checklist for every tool?
+
+No. Prioritize by tool risk and use case. For an internal experiment that processes no personal data and never reaches a customer-facing path, skip the GDPR DPA, the DORA register entry, and the EU AI Act risk-tier memo; you still need license clarity, maintenance recency, and a basic Scorecard. For production-facing tools that process personal data, run every item. The risk-tier classification from S11 is the cleanest way to set the bar in advance: low-risk tools get the short list (license, Scorecard, data-flow review, rollback plan); high-risk tools get the full 22 items plus a documented sandbox plan. Document the bar you applied so a future auditor can reproduce the decision.
+
+### Q: How do we handle non-OSI licenses like Sustainable Use?
+
+Non-OSI licenses (n8n's Sustainable Use License, Dify's restricted license, business-source licenses generally) are valid open-source choices but require legal review against your specific business model before any commercial embedding or hosted-service redistribution. The pattern is: legal lead reads the specific clauses against your contract for the proposed use, produces a one-page memo with traffic-light status (green / amber / red), and the procurement-aware engineering manager records the memo in the artifact register. For internal-only use behind a firewall, non-OSI licenses are usually safe; the constraint typically only fires when you start to redistribute or resell the tool itself, not when you use it to build your own product. A repo with no LICENSE file at all is a hard pass per S13 regardless of how popular it is.
+
+### Q: Is OpenSSF Scorecard enough on its own?
+
+No. Scorecard (S1) is necessary but not sufficient for European-scale-up procurement. It covers 18+ technical security signals (branch protection, code review, dependency update tools, signed releases, security policy, fuzzing, token permissions) but does not cover the data-flow question, the regulatory tier under EU AI Act, the GDPR DPA status, the DORA third-party register requirement, or the OWASP LLM01 prompt-injection mitigations. Treat Scorecard as one input among seven (the seven signal categories above). A score above 5 is the floor; a score above 7 is the comfortable bar; below 5 is a hard stop until the maintainers address the gaps. For high-risk tools, also require SLSA L2 build provenance (S2) on top of the Scorecard score.
+
+### Q: When does DORA apply to our AI tooling decisions?
+
+DORA (S15) applies directly to financial entities supervised in the EU: banks, investment firms, payment institutions, central counterparties, central securities depositories, trading venues, insurance and reinsurance undertakings, certain crypto-asset service providers, and a list of others in the regulation's Article 2 scope. If your scale-up is not a financial entity, DORA does not apply by force of law but applies indirectly when you sell or integrate with a financial entity that names you as a critical ICT third-party provider. In that case the financial-entity customer will require DORA-aligned contract language, incident-reporting commitments, and a register entry on their side. Even for non-financial-services teams, the DORA framing on third-party-vendor risk, ICT incident reporting, and resilience testing is a strong maturity reference. We list the DORA register entry as conditional in the artifact table so non-financial teams can skip it cleanly.
+
+### Q: What is the realistic effort to run this checklist?
+
+For a single tool, expect 2 to 4 weeks of calendar time and roughly 0.4 to 0.6 FTE-weeks of distributed effort. Week 1 is mostly legal and a security engineer running automated scans (Scorecard, license review). Week 2 is the security engineer doing the SBOM and the OWASP CI/CD Top 10 review. Week 3 is the Data Protection Officer plus the CISO mapping data flows and producing the GDPR / EU AI Act / DORA memos. Week 4 is the platform lead plus security engineer running the bounded pilot. None of the four weeks is full-time work. The cost of running the checklist is dwarfed by the cost of unwinding a bad procurement decision six months later, especially for a 20-person company or a small business that does not have a separate procurement function.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Open-Source AI Tool Security Checklist for European Scale-Ups",
+  "description": "A practical security checklist for European scale-ups evaluating open-source AI tools before procurement, covering license through DORA.",
+  "datePublished": "2026-05-10T18:20:41.117027+00:00",
+  "dateModified": "2026-05-10T18:20:41.117027+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/open-source-ai-tool-security-checklist-european-scale-ups-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Q: Do we need every item on the checklist for every tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Prioritize by tool risk and use case. For an internal experiment that processes no personal data and never reaches a customer-facing path, skip the GDPR DPA, the DORA register entry, and the EU AI Act risk-tier memo; you still need license clarity, maintenance recency, and a basic Scorecard. ..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: How do we handle non-OSI licenses like Sustainable Use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non-OSI licenses (n8n's Sustainable Use License, Dify's restricted license, business-source licenses generally) are valid open-source choices but require legal review against your specific business model before any commercial embedding or hosted-service redistribution. The pattern is: legal lead ..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: Is OpenSSF Scorecard enough on its own?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Scorecard (S1) is necessary but not sufficient for European-scale-up procurement. It covers 18+ technical security signals (branch protection, code review, dependency update tools, signed releases, security policy, fuzzing, token permissions) but does not cover the data-flow question, the reg..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: When does DORA apply to our AI tooling decisions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DORA (S15) applies directly to financial entities supervised in the EU: banks, investment firms, payment institutions, central counterparties, central securities depositories, trading venues, insurance and reinsurance undertakings, certain crypto-asset service providers, and a list of others in t..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: What is the realistic effort to run this checklist?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For a single tool, expect 2 to 4 weeks of calendar time and roughly 0.4 to 0.6 FTE-weeks of distributed effort. Week 1 is mostly legal and a security engineer running automated scans (Scorecard, license review). Week 2 is the security engineer doing the SBOM and the OWASP CI/CD Top 10 review. Wee..."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Open-Source AI Tool Security Checklist for European Scale-Ups",
+  "description": "A practical security checklist for European scale-ups evaluating open-source AI tools before procurement, covering license through DORA.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Week 1: License and initial triage.",
+      "text": "Owner: legal lead plus security engineer. Action: run license check (S13), OpenSSF Scorecard (S1), and repo recency scan. Confirm an OSI-approved license, Scorecard score above 5, last commit within 90 days, and three or more active maintainers (or a corporate sponsor). Artifact: license review memo with traffic-light status (green / amber / red) per use case. Success criterion: green or amber on every dimension; any red blocks progression to week 2 until the operations leader signs off on the explicit risk acceptance."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Week 2: Security and supply-chain audit.",
+      "text": "Owner: security engineer. Action: enable Dependabot alerts plus security updates (S6), CodeQL default setup (S5), and secret scanning with push protection (S5) on a fork or mirror. Verify SLSA L2 build provenance via GitHub Actions artifact attestations (S2, S9). Generate an SBOM that meets CISA minimum elements (S10) and cross-check it against the GitHub Advisory Database (S7). Walk the OWASP CI/CD Top 10 (S3) against the tool's pipeline definitions. Artifacts: SBOM, Scorecard report, OWASP CI/CD Top 10 review. Success criterion: no critical or high-severity advisories that lack a documented mitigation; SBOM completeness validated."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Week 3: Data flow and regulation review.",
+      "text": "Owner: Data Protection Officer plus CISO. Action: map every place a prompt, a completion, or a log can travel. Note storage region, encryption posture, and retention period. Draft a GDPR Article 28 Data Processing Agreement if the tool processes personal data of EU residents (S12). Classify the tool against the EU AI Act risk tiers (S11). For financial-services entities, complete a DORA third-party register entry (S15). For non-financial-services teams, use DORA framing as a maturity reference rather than a compliance requirement. Artifacts: data-flow diagram, GDPR DPA (if applicable), EU AI Act risk-tier classification memo, DORA register entry (if applicable). Success criterion: every data destination is documented, encrypted, and either inside the EU or covered by Standard Contractual Clauses."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Week 4: Pilot and governance gate.",
+      "text": "Owner: platform lead plus security engineer. Action: deploy to a restricted staging environment with branch protection rules (S5), repository rulesets (S8), CODEOWNERS coverage on critical paths (S14), and least-privilege access for any AI agent that participates. Run OWASP LLM01 prompt-injection tests against repo content and external retrieval surfaces (S4). Exercise rollback at least once during the week so the operations leader has confidence that revert is real, not theoretical. Artifact: pilot evidence report with one row per checklist item plus a rollback timing measurement. Success criterion: all critical checklist items pass; no unmitigated prompt-injection vector; rollback completes inside the team's stated incident-response window."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Post-pilot: Rollback plan and owner assignment.",
+      "text": "Owner: platform lead. Action: document the rollback steps in a runbook, assign an ongoing maintenance owner from the technical team, and set a credential rotation cadence (90 days is the cheapest default; 30 days where the tool touches sensitive data). Artifact: rollback / exit plan and credential rotation schedule. Success criterion: exit plan can be executed in under 15 minutes by the on-call engineer who did not run the pilot."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Governance gate.",
+      "text": "Review every artifact in a security committee with the CTO, CISO, legal lead, and a representative from the technical team that ran the pilot. Decide one of four outcomes: extend the pilot by two weeks if a single dimension is inconclusive, promote-bounded to a wider pilot in one more repo, reject the tool, or pause-for-fix on a named blocker. Artifact: governance gate decision memo signed by every named role."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Continuous monitoring after promotion.",
+      "text": "If the tool is promoted, schedule the OpenSSF Scorecard, the SBOM, and the data-flow diagram for refresh every 90 days. Wire Dependabot alerts to the security team's pager. The checklist is not a one-shot gate; the supply chain it covers shifts every quarter."
+    }
+  ]
 }
 </script>
 -->

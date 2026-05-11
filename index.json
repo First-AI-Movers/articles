@@ -1,11 +1,65 @@
 {
-  "last_updated": "2026-05-10",
-  "total_articles": 846,
+  "last_updated": "2026-05-11",
+  "total_articles": 851,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026",
+      "slug": "evaluate-mcp-servers-enterprise-workflows-2026",
+      "title": "How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows",
+      "published_date": "2026-05-11",
+      "tags": [
+        "mcp-server-evaluation",
+        "enterprise-ai-workflows",
+        "ai-agent-security",
+        "eu-ai-act-compliance",
+        "dora-third-party-risk"
+      ],
+      "topics": [
+        "AI Governance"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026"
+    },
+    {
+      "folder": "2026-05-11-tune-maintainer-health-rubric-thresholds-dependency-tier-2026",
+      "slug": "tune-maintainer-health-rubric-thresholds-dependency-tier-2026",
+      "title": "Should Your Maintainer Health Rubric Change by Dependency Tier?",
+      "published_date": "2026-05-11",
+      "tags": [
+        "maintainer-health",
+        "dependency-tier",
+        "open-source-security",
+        "eu-ai-act",
+        "platform-engineering"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026"
+    },
+    {
+      "folder": "2026-05-10-automate-maintainer-health-rubric-ci-ai-tools-2026",
+      "slug": "automate-maintainer-health-rubric-ci-ai-tools-2026",
+      "title": "How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool",
+      "published_date": "2026-05-10",
+      "tags": [
+        "maintainer-health",
+        "ci-automation",
+        "open-source-governance",
+        "ai-tool-adoption",
+        "eu-ai-act"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026"
+    },
     {
       "folder": "2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
       "slug": "kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
@@ -23,6 +77,42 @@
       ],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/kimi-2-6-ai-engineering-auditor-best-use-cases-2026"
+    },
+    {
+      "folder": "2026-05-10-maintainer-health-matters-more-than-github-stars-2026",
+      "slug": "maintainer-health-matters-more-than-github-stars-2026",
+      "title": "Maintainer Health Matters More Than GitHub Stars for AI Tool Procurement",
+      "published_date": "2026-05-10",
+      "tags": [
+        "maintainer-health",
+        "github-stars",
+        "procurement",
+        "open-source-ai",
+        "due-diligence"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/maintainer-health-matters-more-than-github-stars-2026"
+    },
+    {
+      "folder": "2026-05-10-open-source-ai-tool-security-checklist-european-scale-ups-2026",
+      "slug": "open-source-ai-tool-security-checklist-european-scale-ups-2026",
+      "title": "Open-Source AI Tool Security Checklist for European Scale-Ups",
+      "published_date": "2026-05-10",
+      "tags": [
+        "open-source-ai",
+        "security-checklist",
+        "eu-ai-act",
+        "gdpr",
+        "supply-chain-security"
+      ],
+      "topics": [
+        "GDPR & Data Privacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/open-source-ai-tool-security-checklist-european-scale-ups-2026"
     },
     {
       "folder": "2026-05-09-local-first-ai-assistants-enterprise-privacy-2026",
