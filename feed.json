@@ -23,6 +23,41 @@
       "content_text": "Evaluate MCP servers across eight dimensions and a 30-day approval workflow to meet EU AI Act and DORA enterprise governance needs."
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-11:2026-05-11-local-first-ai-stack-privacy-trade-offs-2026",
+      "url": "https://radar.firstaimovers.com/local-first-ai-stack-privacy-trade-offs-2026",
+      "title": "The Local-First AI Stack: Privacy Trade-Offs European Teams Need to Understand",
+      "date_published": "2026-05-11T00:00:00Z",
+      "tags": [
+        "GDPR & Data Privacy",
+        "AI Governance"
+      ],
+      "content_text": "Local-first AI does not equal private; map data flows, logs, and reversibility before EU AI Act and GDPR documentation obligations fire."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-11:2026-05-11-map-data-flows-local-first-ai-assistant-2026",
+      "url": "https://radar.firstaimovers.com/map-data-flows-local-first-ai-assistant-2026",
+      "title": "How to Map Data Flows in a Local-First AI Assistant",
+      "date_published": "2026-05-11T00:00:00Z",
+      "tags": [
+        "GDPR & Data Privacy"
+      ],
+      "content_text": "Learn how to map data flows in a local-first AI assistant to meet GDPR Article 30 and EU AI Act requirements with a 10-boundary framework."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-11:2026-05-11-skills-memory-agent-harnesses-next-ai-layer-2026",
+      "url": "https://radar.firstaimovers.com/skills-memory-agent-harnesses-next-ai-layer-2026",
+      "title": "Skills, Memory, and Agent Harnesses Are the Next AI Platform Layer",
+      "date_published": "2026-05-11T00:00:00Z",
+      "tags": [
+        "ai-agent-platform-layer",
+        "reusable-agent-skills",
+        "agent-memory-governance",
+        "ai-execution-harness",
+        "eu-ai-act-agent"
+      ],
+      "content_text": "European scale-ups can turn reusable skills, governed memory, and audited harnesses into a compliance layer for EU AI Act and DORA."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-11:2026-05-11-tune-maintainer-health-rubric-thresholds-dependency-tier-2026",
       "url": "https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026",
       "title": "Should Your Maintainer Health Rubric Change by Dependency Tier?",
@@ -33,6 +68,20 @@
       "content_text": "Tier your open-source maintainer health rubric by dependency blast radius and replaceability to meet EU AI Act and DORA conformity expectations."
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-30-day-pilot-open-source-ai-coding-agent-2026",
+      "url": "https://radar.firstaimovers.com/30-day-pilot-open-source-ai-coding-agent-2026",
+      "title": "How to Run a 30-Day Pilot for an Open-Source AI Coding Agent",
+      "date_published": "2026-05-10T00:00:00Z",
+      "tags": [
+        "open-source-ai-coding-agent",
+        "30-day-pilot",
+        "eu-ai-act",
+        "engineering-leaders",
+        "coding-agent-evaluation"
+      ],
+      "content_text": "A concrete 30-day pilot runbook to evaluate an open-source AI coding agent before procurement, with seven evidence dimensions and EU AI Act context."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-automate-maintainer-health-rubric-ci-ai-tools-2026",
       "url": "https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026",
       "title": "How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool",
@@ -41,6 +90,20 @@
         "Healthcare AI"
       ],
       "content_text": "Automate a maintainer health rubric in CI to evaluate open-source AI tools before adoption, ensuring compliance with EU AI Act and DORA."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-github-stars-bad-procurement-metric-ai-tools-2026",
+      "url": "https://radar.firstaimovers.com/github-stars-bad-procurement-metric-ai-tools-2026",
+      "title": "Why GitHub Stars Are a Bad Procurement Metric for AI Tools",
+      "date_published": "2026-05-10T00:00:00Z",
+      "tags": [
+        "ai-tool-procurement",
+        "github-stars",
+        "open-source-governance",
+        "ai-engineering",
+        "supply-chain-security"
+      ],
+      "content_text": "GitHub stars measure attention, not procurement fitness. Replace them with a license, maintenance, security, and pilot evidence frame."
     },
     {
       "id": "tag:articles.firstaimovers.com,2026-05-10:2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026",
@@ -580,72 +643,6 @@
         "GDPR & Data Privacy"
       ],
       "content_text": "How HR leads at EU SMEs can deploy AI for hiring, onboarding, and reviews without triggering EU AI Act Annex III obligations."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-tools-productivity-reality-check-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-tools-productivity-reality-check-european-smes-2026",
-      "title": "AI Tools Productivity Reality Check: Are They Saving Time or Just Changing the Work?",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "AI Productivity Tools",
-        "European SME AI",
-        "AI Strategy"
-      ],
-      "content_text": "Are AI tools saving time or shifting work? A 5-category productivity assessment for European SMEs with 10 to 50 employees."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-vendor-contract-template-gdpr-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-vendor-contract-template-gdpr-european-smes-2026",
-      "title": "AI Vendor Contract Template: A Practical Guide for European SMEs",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "AI Governance",
-        "GDPR & Data Privacy",
-        "EU AI Act",
-        "European SME AI",
-        "Data Sovereignty"
-      ],
-      "content_text": "Annotated AI vendor contract and DPA template for European SMEs. Key clauses for GDPR Article 28, EU AI Act Article 25, and data residency."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-chatgpt-5-features-european-business-teams-2026",
-      "url": "https://radar.firstaimovers.com/chatgpt-5-features-european-business-teams-2026",
-      "title": "ChatGPT 5 for European Business Teams: What Changed and What to Do Next",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "GPT Models",
-        "AI Governance",
-        "European SME AI",
-        "AI Strategy",
-        "Business Process Automation"
-      ],
-      "content_text": "ChatGPT 5 brings new capabilities for business teams. Key changes, EU data compliance checklist, and a decision guide for European SMEs."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-claude-code-devops-advanced-ci-patterns-2026",
-      "url": "https://radar.firstaimovers.com/claude-code-devops-advanced-ci-patterns-2026",
-      "title": "Advanced CI/CD Automation with Claude Code for European Engineering Teams",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "AI CI/CD",
-        "European SME AI",
-        "GDPR & Data Privacy",
-        "AI Governance",
-        "AI DevOps"
-      ],
-      "content_text": "Advanced CI/CD automation with Claude Code: pre-commit hooks, PR review, deployment gates, and GDPR audit logging for EU software teams."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-claude-code-testing-qa-european-teams-2026",
-      "url": "https://radar.firstaimovers.com/claude-code-testing-qa-european-teams-2026",
-      "title": "Claude Code for Testing and QA: A European Dev Team Guide",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "GDPR & Data Privacy",
-        "AI Governance",
-        "European SME AI"
-      ],
-      "content_text": "How European dev teams use Claude Code for unit test generation, test plan scaffolding, and coverage analysis. Setup steps and GDPR-safe workflow patterns."
     }
   ]
 }

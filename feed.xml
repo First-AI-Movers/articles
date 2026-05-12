@@ -27,6 +27,50 @@
     <summary type="text">Evaluate MCP servers across eight dimensions and a 30-day approval workflow to meet EU AI Act and DORA enterprise governance needs.</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-11:2026-05-11-local-first-ai-stack-privacy-trade-offs-2026</id>
+    <title>The Local-First AI Stack: Privacy Trade-Offs European Teams Need to Understand</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/local-first-ai-stack-privacy-trade-offs-2026"/>
+    <published>2026-05-11T00:00:00Z</published>
+    <updated>2026-05-11T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="GDPR &amp; Data Privacy"/>
+    <category term="AI Governance"/>
+    <summary type="text">Local-first AI does not equal private; map data flows, logs, and reversibility before EU AI Act and GDPR documentation obligations fire.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-11:2026-05-11-map-data-flows-local-first-ai-assistant-2026</id>
+    <title>How to Map Data Flows in a Local-First AI Assistant</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/map-data-flows-local-first-ai-assistant-2026"/>
+    <published>2026-05-11T00:00:00Z</published>
+    <updated>2026-05-11T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="GDPR &amp; Data Privacy"/>
+    <summary type="text">Learn how to map data flows in a local-first AI assistant to meet GDPR Article 30 and EU AI Act requirements with a 10-boundary framework.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-11:2026-05-11-skills-memory-agent-harnesses-next-ai-layer-2026</id>
+    <title>Skills, Memory, and Agent Harnesses Are the Next AI Platform Layer</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/skills-memory-agent-harnesses-next-ai-layer-2026"/>
+    <published>2026-05-11T00:00:00Z</published>
+    <updated>2026-05-11T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-agent-platform-layer"/>
+    <category term="reusable-agent-skills"/>
+    <category term="agent-memory-governance"/>
+    <category term="ai-execution-harness"/>
+    <category term="eu-ai-act-agent"/>
+    <summary type="text">European scale-ups can turn reusable skills, governed memory, and audited harnesses into a compliance layer for EU AI Act and DORA.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-05-11:2026-05-11-tune-maintainer-health-rubric-thresholds-dependency-tier-2026</id>
     <title>Should Your Maintainer Health Rubric Change by Dependency Tier?</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026"/>
@@ -40,6 +84,23 @@
     <summary type="text">Tier your open-source maintainer health rubric by dependency blast radius and replaceability to meet EU AI Act and DORA conformity expectations.</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-30-day-pilot-open-source-ai-coding-agent-2026</id>
+    <title>How to Run a 30-Day Pilot for an Open-Source AI Coding Agent</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/30-day-pilot-open-source-ai-coding-agent-2026"/>
+    <published>2026-05-10T00:00:00Z</published>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="open-source-ai-coding-agent"/>
+    <category term="30-day-pilot"/>
+    <category term="eu-ai-act"/>
+    <category term="engineering-leaders"/>
+    <category term="coding-agent-evaluation"/>
+    <summary type="text">A concrete 30-day pilot runbook to evaluate an open-source AI coding agent before procurement, with seven evidence dimensions and EU AI Act context.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-automate-maintainer-health-rubric-ci-ai-tools-2026</id>
     <title>How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026"/>
@@ -51,6 +112,23 @@
     </author>
     <category term="Healthcare AI"/>
     <summary type="text">Automate a maintainer health rubric in CI to evaluate open-source AI tools before adoption, ensuring compliance with EU AI Act and DORA.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-github-stars-bad-procurement-metric-ai-tools-2026</id>
+    <title>Why GitHub Stars Are a Bad Procurement Metric for AI Tools</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/github-stars-bad-procurement-metric-ai-tools-2026"/>
+    <published>2026-05-10T00:00:00Z</published>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-tool-procurement"/>
+    <category term="github-stars"/>
+    <category term="open-source-governance"/>
+    <category term="ai-engineering"/>
+    <category term="supply-chain-security"/>
+    <summary type="text">GitHub stars measure attention, not procurement fitness. Replace them with a license, maintenance, security, and pilot evidence frame.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026</id>
@@ -716,86 +794,5 @@
     <category term="AI for HR"/>
     <category term="GDPR &amp; Data Privacy"/>
     <summary type="text">How HR leads at EU SMEs can deploy AI for hiring, onboarding, and reviews without triggering EU AI Act Annex III obligations.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-tools-productivity-reality-check-european-smes-2026</id>
-    <title>AI Tools Productivity Reality Check: Are They Saving Time or Just Changing the Work?</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-tools-productivity-reality-check-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="AI Productivity Tools"/>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <summary type="text">Are AI tools saving time or shifting work? A 5-category productivity assessment for European SMEs with 10 to 50 employees.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-vendor-contract-template-gdpr-european-smes-2026</id>
-    <title>AI Vendor Contract Template: A Practical Guide for European SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-vendor-contract-template-gdpr-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="AI Governance"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="EU AI Act"/>
-    <category term="European SME AI"/>
-    <category term="Data Sovereignty"/>
-    <summary type="text">Annotated AI vendor contract and DPA template for European SMEs. Key clauses for GDPR Article 28, EU AI Act Article 25, and data residency.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-chatgpt-5-features-european-business-teams-2026</id>
-    <title>ChatGPT 5 for European Business Teams: What Changed and What to Do Next</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/chatgpt-5-features-european-business-teams-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="GPT Models"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="Business Process Automation"/>
-    <summary type="text">ChatGPT 5 brings new capabilities for business teams. Key changes, EU data compliance checklist, and a decision guide for European SMEs.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-claude-code-devops-advanced-ci-patterns-2026</id>
-    <title>Advanced CI/CD Automation with Claude Code for European Engineering Teams</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/claude-code-devops-advanced-ci-patterns-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="AI CI/CD"/>
-    <category term="European SME AI"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <category term="AI DevOps"/>
-    <summary type="text">Advanced CI/CD automation with Claude Code: pre-commit hooks, PR review, deployment gates, and GDPR audit logging for EU software teams.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-claude-code-testing-qa-european-teams-2026</id>
-    <title>Claude Code for Testing and QA: A European Dev Team Guide</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/claude-code-testing-qa-european-teams-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <summary type="text">How European dev teams use Claude Code for unit test generation, test plan scaffolding, and coverage analysis. Setup steps and GDPR-safe workflow patterns.</summary>
   </entry>
 </feed>
