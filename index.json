@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-05-11",
-  "total_articles": 851,
+  "last_updated": "2026-05-12",
+  "total_articles": 856,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -25,6 +25,59 @@
       "canonical_url": "https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026"
     },
     {
+      "folder": "2026-05-11-local-first-ai-stack-privacy-trade-offs-2026",
+      "slug": "local-first-ai-stack-privacy-trade-offs-2026",
+      "title": "The Local-First AI Stack: Privacy Trade-Offs European Teams Need to Understand",
+      "published_date": "2026-05-11",
+      "tags": [
+        "local-first-ai",
+        "privacy-trade-offs",
+        "eu-ai-act",
+        "gdpr-compliance",
+        "ai-governance"
+      ],
+      "topics": [
+        "GDPR & Data Privacy",
+        "AI Governance"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/local-first-ai-stack-privacy-trade-offs-2026"
+    },
+    {
+      "folder": "2026-05-11-map-data-flows-local-first-ai-assistant-2026",
+      "slug": "map-data-flows-local-first-ai-assistant-2026",
+      "title": "How to Map Data Flows in a Local-First AI Assistant",
+      "published_date": "2026-05-11",
+      "tags": [
+        "data-flow-map",
+        "local-first-ai",
+        "gdpr-article-30",
+        "eu-ai-act",
+        "mcp-audit"
+      ],
+      "topics": [
+        "GDPR & Data Privacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/map-data-flows-local-first-ai-assistant-2026"
+    },
+    {
+      "folder": "2026-05-11-skills-memory-agent-harnesses-next-ai-layer-2026",
+      "slug": "skills-memory-agent-harnesses-next-ai-layer-2026",
+      "title": "Skills, Memory, and Agent Harnesses Are the Next AI Platform Layer",
+      "published_date": "2026-05-11",
+      "tags": [
+        "ai-agent-platform-layer",
+        "reusable-agent-skills",
+        "agent-memory-governance",
+        "ai-execution-harness",
+        "eu-ai-act-agent"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/skills-memory-agent-harnesses-next-ai-layer-2026"
+    },
+    {
       "folder": "2026-05-11-tune-maintainer-health-rubric-thresholds-dependency-tier-2026",
       "slug": "tune-maintainer-health-rubric-thresholds-dependency-tier-2026",
       "title": "Should Your Maintainer Health Rubric Change by Dependency Tier?",
@@ -43,6 +96,22 @@
       "canonical_url": "https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026"
     },
     {
+      "folder": "2026-05-10-30-day-pilot-open-source-ai-coding-agent-2026",
+      "slug": "30-day-pilot-open-source-ai-coding-agent-2026",
+      "title": "How to Run a 30-Day Pilot for an Open-Source AI Coding Agent",
+      "published_date": "2026-05-10",
+      "tags": [
+        "open-source-ai-coding-agent",
+        "30-day-pilot",
+        "eu-ai-act",
+        "engineering-leaders",
+        "coding-agent-evaluation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/30-day-pilot-open-source-ai-coding-agent-2026"
+    },
+    {
       "folder": "2026-05-10-automate-maintainer-health-rubric-ci-ai-tools-2026",
       "slug": "automate-maintainer-health-rubric-ci-ai-tools-2026",
       "title": "How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool",
@@ -59,6 +128,22 @@
       ],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026"
+    },
+    {
+      "folder": "2026-05-10-github-stars-bad-procurement-metric-ai-tools-2026",
+      "slug": "github-stars-bad-procurement-metric-ai-tools-2026",
+      "title": "Why GitHub Stars Are a Bad Procurement Metric for AI Tools",
+      "published_date": "2026-05-10",
+      "tags": [
+        "ai-tool-procurement",
+        "github-stars",
+        "open-source-governance",
+        "ai-engineering",
+        "supply-chain-security"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/github-stars-bad-procurement-metric-ai-tools-2026"
     },
     {
       "folder": "2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026",

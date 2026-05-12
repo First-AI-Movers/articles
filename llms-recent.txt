@@ -17,9 +17,9 @@ Please preserve article titles, canonical URLs, publication dates, and attributi
 - Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)
 - Publication: First AI Movers — https://firstaimovers.com
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-- Articles in window: 171
+- Articles in window: 176
 - Window: 2026-04-11 to 2026-05-11
-- Generated: 2026-05-11
+- Generated: 2026-05-12
 
 Full corpus (all articles, ~7 MB): https://articles.firstaimovers.com/llms-full.txt  
 Machine-readable catalog: https://articles.firstaimovers.com/index.json
@@ -173,6 +173,659 @@ A: Yes. Approval is context-dependent: a read-only server for a non-sensitive da
     "@id": "https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026"
   },
   "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+-->
+
+
+---
+
+# The Local-First AI Stack: Privacy Trade-Offs European Teams Need to Understand
+
+- **Published:** 2026-05-11
+- **URL:** https://radar.firstaimovers.com/local-first-ai-stack-privacy-trade-offs-2026
+- **Topics:** GDPR & Data Privacy, AI Governance
+
+> **TL;DR:** Local-first AI does not equal private; map data flows, logs, and reversibility before EU AI Act and GDPR documentation obligations fire.
+
+Local-first AI sounds safer because data stays closer to the company, but it is not automatically compliant, private, or enterprise-ready. The real question is: what runs locally, what still calls cloud APIs, what gets logged, who controls the model, how updates happen, how audit trails work, and whether the team can reverse the decision if the tool becomes risky. Why this matters: the EU AI Act regulatory sandbox milestone on 2 August 2026 (S1) and GDPR Article 30 (S2) impose a documentation duty that survives the local-vs-cloud distinction. For CTOs, platform engineering leads, AI transformation leads, privacy leads, security leads, operations leaders, and procurement-aware engineering managers at European scale-ups, the evidence shape required for compliance is the same whether inference runs on-device or in the cloud.
+
+## The short version
+
+- Local-first does not equal private. It shifts risk from network to endpoint, but documentation and audit obligations remain (S1, S2).
+- GDPR Article 30 records of processing activities still apply when data stays on-device (S2). The European Data Protection Board (EDPB) treats on-device processing as a controller-side responsibility, not a vendor-side exemption (S3).
+- Local-first AI assistants typically still call cloud APIs for telemetry, updates, optional features, and tool calls (S4, S5). These calls create data flows that must be mapped and logged.
+- OWASP LLM Top 10 risks, especially prompt injection (S6, S7), apply at the local boundary. Injection can leak sensitive data via local logs or tool calls to external services.
+- Supply-chain evidence from OpenSSF Scorecard (S8), SLSA build provenance (S9), and CISA SBOM minimum elements (S10) is essential for local-first tools, just as it is for SaaS.
+
+## Why this matters for European scale-ups
+
+European scale-ups operate under two overlapping regulatory regimes: the EU AI Act (S1) and GDPR (S2). Both require documented risk assessments and data-flow maps. A local-first AI stack does not reduce this burden. In fact, it introduces new vectors: model update channels, local telemetry, and endpoint security. The ENISA AI threat landscape (S11) identifies data-flow and model-supply-chain risks as critical for European deployments. For a founder-led company with a growing software team and a finance team that signs off procurement, the cost of a privacy misstep can be a DPA investigation or a failed audit. The NIST AI Risk Management Framework (S12) gives engineering teams a structured way to surface these trade-offs to non-technical stakeholders.
+
+The audit-facing version of this argument is sharper. EU AI Act Article 16 obligations and GDPR Article 30 (S2) are not satisfied by a vendor questionnaire response that says "our tool runs on-device, so we have no transfers to log." They are satisfied by repeatable evidence: a data-flow map, an egress-point inventory, a log-retention policy, a reversibility-drill timestamp. The data-flow map is the load-bearing artefact: it is what an EDPB-aligned supervisor (S3) or a national DPA inspector like CNIL (S4) will ask to see first. Pre-AI, teams could argue the assistant was opaque. With a local-first AI assistant exposing a structured set of egress points, the regulator can ask: which endpoints does this tool call, what payload does each call carry, and how long is the local log retained? Those three questions have crisp answers when the seven-question rubric below has been run; without it, the answers are anecdotal. For a 20-person to 50-person engineering team, that is the difference between a half-day audit response and a two-week audit response.
+
+## What "local-first" actually means in operational terms
+
+Local-first means the AI runtime executes on the user's device or on a server under the organization's control. However, no local-first stack is fully air-gapped. Most local-first tools still reach external endpoints for model downloads, telemetry, and optional features like web search. For example, Ollama (S13) and llama.cpp (S14) are open-source runtimes that run inference locally, but they rely on model registries and update channels that may transmit metadata. The operational definition of local-first must include a complete map of all egress points, including:
+
+- Model weight downloads and updates.
+- Telemetry and crash reports.
+- Optional cloud API calls (e.g., for tool use or retrieval-augmented generation).
+- License verification or usage analytics.
+
+Each egress point is a privacy boundary that must be documented under Article 30 (S2).
+
+A practical way for the platform engineering lead to enumerate egress points is to run the local-first tool inside a network-monitored sandbox for a representative working week and capture every outbound DNS query, every TLS handshake, and every HTTP payload. Most operating systems and proxies (mitmproxy, a transparent egress proxy, a managed endpoint security agent) can produce this capture without modifying the tool. The capture is the input to the data-flow map; without it, every line of the map is speculation. Once the capture exists, the AI transformation lead reviews each endpoint with the privacy lead and decides whether it is essential (model updates, weight downloads, license verification), optional and disable-able (telemetry, crash reports, usage analytics), or undocumented (every other endpoint is a finding, not a feature).
+
+## The seven questions a privacy-aware buyer must answer
+
+1. **What actually runs locally vs what still calls a cloud API?** Distinguish between inference (local) and ancillary services (telemetry, updates, model search). Document every external HTTP call.
+2. **What gets logged, where, and for how long?** Local logs can contain prompts, responses, and system metadata. Log retention policies and storage locations must be defined. If logs sync to a central server, that is a data transfer.
+3. **Who controls the model weights and the update channel?** Open-source models may have update channels that are community-maintained. Verify SLSA provenance (S9) and OpenSSF Scorecard (S8) for the supply chain.
+4. **How are audit trails produced and stored?** Local-first tools should generate structured audit logs that capture user, timestamp, prompt, response, and tool calls. These logs must be tamper-proof or at least append-only.
+5. **How are prompt-injection vectors handled at the local boundary?** Prompt injection (S7) can occur even without a network call. Injected prompts could trigger tool calls that exfiltrate data via local APIs or clipboard outputs.
+6. **How are model updates verified and rolled back?** Updates should be signed and verifiable. A rollback plan must exist if a new model version degrades performance or introduces vulnerabilities.
+7. **Can the team reverse the adoption decision cleanly if the tool becomes risky?** Reversibility means uninstalling the tool and purging all local data and logs without impacting other systems. This should be tested before production deployment.
+
+## Decision matrix: local-first, self-hosted, private cloud, SaaS
+
+| Dimension | Local-first | Self-hosted | Private cloud | SaaS |
+|-----------|-------------|-------------|---------------|------|
+| Data residency | Device or on-prem | On-prem or private datacenter | Cloud region of choice | Vendor's cloud (may not be EU) |
+| Network egress | Minimal but not zero (updates, telemetry) | Controlled but still for updates | Controlled, but cloud provider may have egress | Significant (all data leaves via API) |
+| Audit trail granularity | High if logs are captured locally | High, but requires centralized logging | Moderate, cloud provider logs may be available | Low, vendor logs may be limited |
+| Update cadence | User-controlled or automatic from registry | User-controlled via repo | Automated by cloud provider | Vendor-managed |
+| Vendor lock-in | Low (open models) | Medium (custom infra) | Medium (cloud provider) | High (proprietary model & API) |
+| Inference latency | Very low (no network) | Low (intra-datacenter) | Low to moderate | Moderate to high |
+| Cost profile | Hardware + electricity + maintenance | Hardware + ops team | Cloud compute + storage | Per-seat or per-token |
+| Reversibility | High (uninstall + delete) | High (decommission) | Medium (data migration) | Low (data export may be limited) |
+
+## A 30-day evaluation workflow
+
+**Phase 1: Days 1 to 7 (data-flow map)**
+- Owner: CTO and platform engineering lead.
+- Artifact: A complete map of all egress points, including model downloads, telemetry, and optional APIs.
+- Success criterion: Every external endpoint is documented, and the team can answer the seven questions above.
+
+**Phase 2: Days 8 to 21 (sandbox pilot + log capture)**
+- Owner: Privacy lead and security lead, with support from AI transformation lead and operations leader.
+- Artifact: A sandbox environment running the local-first tool with full log capture. Logs include prompt, response, tool calls, and system events.
+- Success criterion: The sandbox produces audit records that satisfy GDPR Article 30 (S2) and EU AI Act documentation duties (S1).
+
+**Phase 3: Days 22 to 30 (reversibility drill + procurement sign-off)**
+- Owner: Operations leader and procurement-aware engineering manager, with input from finance team.
+- Artifact: A documented reversibility test that uninstalls the tool, purges all local data and logs, and verifies no residual data remains.
+- Success criterion: The reversibility drill passes with no data leakage, and procurement signs off based on the evidence package.
+
+## What you can verify safely today
+
+Before committing to a local-first tool, run lightweight checks on the open-source runtime using published security frameworks. For any open-source local-first AI tool, you can:
+
+- Run OpenSSF Scorecard (S8) to assess the project's security practices.
+- Check for SLSA build provenance (S9) in release artifacts.
+- Request a CISA SBOM (S10) for the runtime and model dependencies.
+- Scan the repository for known vulnerabilities using a tool like Trivy.
+- Review the disclosure policy for prompt-injection vulnerabilities (S6, S7).
+
+These checks can be done in a day and provide an initial risk signal.
+
+A second layer of verification is what an engineer can prove about the actual binary installed on a representative laptop. Compute the local binary's checksum and compare it to the upstream release's signed checksum. If the project does not publish a signed checksum or a SLSA attestation (S9), record that as a finding; it is not an automatic disqualifier for a developer-only tier, but it is a hard gate for any runtime-critical use. Run the local-first tool in an offline laptop (network disabled at the OS firewall) and confirm which features still function; features that require network access reveal an implicit dependency the data-flow map must cover. For the prompt-injection risk surface (S7), run a small red-team set of adversarial prompts that attempt to exfiltrate clipboard contents, environment variables, or open files; this exercises the local boundary in a way the OWASP LLM01 catalogue (S7) was written to characterise. None of these checks require vendor cooperation, and none of them require committing a single line of source code from the organization.
+
+## What must remain human-reviewed (and what not to automate yet)
+
+1. Do not let "local-first" framing become a substitute for a documented data-flow map, a network-egress audit, or a reversibility plan.
+2. Do not assume that on-device processing exempts the organization from GDPR Article 30 (S2) or EU AI Act conformity assessments (S1).
+3. Do not automate deployment of local-first AI tools without a verified supply chain (S8, S9, S10).
+4. Do not rely solely on community-maintained runtimes for production workloads without a maintainer-health assessment.
+5. Do not skip prompt-injection testing on local interfaces; injection can propagate via tool calls to external services (S7).
+6. Do not ignore the telemetry channel; even crash reports can contain sensitive data.
+
+## How local-first evidence maps to EU AI Act and GDPR
+
+(a) For EU AI Act conformity assessments (S1), the local-first stack's data-flow map serves as evidence of data governance practices. The map shows where training data and user inputs reside, how they are processed, and which measures prevent leakage. This directly supports the Act's transparency and risk-management requirements.
+
+(b) The same data-flow map and audit logs support GDPR Article 30 records of processing activities (S2). Article 30 requires a description of categories of data subjects, purposes, and transfers. Local-first documentation must capture every egress point, even for telemetry or updates.
+
+(c) The EDPB (S3) and national DPAs like CNIL (S4) treat on-device processing as a controller-side responsibility. This means the organization must still demonstrate accountability. A local-first tool does not shift the burden to the vendor; the controller remains responsible for documenting all processing activities.
+
+Concrete walk-through. A 30-person engineering scale-up rolls out a local-first AI coding assistant to ten engineers. The privacy lead drafts the Article 30 register entry in roughly half a day: the categories of personal data (source code that may contain personal information, developer identifiers, prompt content), the purposes (code completion, refactoring suggestions, documentation generation), the recipients (the local-first runtime; the model registry that serves weight updates; the optional cloud-search endpoint when enabled), the transfers to third countries (the model registry's CDN region; the cloud-search endpoint's region), and the retention period for each local log type. The security lead pairs each recipient with an OpenSSF Scorecard (S8) snapshot and a SLSA provenance check (S9) of the binary actually installed on the engineers' laptops. The operations leader runs the egress-monitoring sandbox once per quarter to confirm the data-flow map is still accurate. The procurement-aware engineering manager keeps the artefact in the third-party register and the finance team has the budget line for the per-quarter sandbox cost. None of these activities required SaaS-style vendor cooperation; all of them are on-device, on the organization's side, and reusable across both EU AI Act conformity files and DORA-style third-party reviews for financial-sector clients.
+
+For a structured readiness assessment, start with the [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) or consult the [AI Consulting](https://radar.firstaimovers.com/page/ai-consulting) team.
+
+## Limits and failure modes
+
+Local-first AI is not a panacea. Common failure modes include:
+
+- **Update channel compromise**: A malicious model update could inject backdoor behavior. Without SLSA provenance (S9), this is hard to detect.
+- **Log drift**: Teams may forget to audit local log storage, leading to data retention beyond policy.
+- **Tool call exfiltration**: Even if inference is local, tool calls to cloud APIs (e.g., for search) can leak context.
+- **False sense of security**: The local-first label can lead teams to skip compliance steps, which backfires during a DPA investigation.
+- **Reversibility failure**: If the tool modifies system settings or stores data in unexpected locations, clean removal becomes difficult.
+
+A second class of failure deserves explicit naming because European scale-ups hit it more often than US peers. **Implicit-controller drift.** A local-first AI assistant runs on a developer's laptop with the developer's personal credentials. The developer enables a feature that calls a cloud API for retrieval-augmented generation, and the API call carries a sample of company source code as context. The organization is now a controller of personal data transferred to a third country, but no one in the organization recorded the transfer because the developer enabled the feature without procurement sign-off. The data-flow map drifts behind the actual data flow. Mitigation: bind the local-first tool's feature flags to an organization-controlled policy file (a YAML or JSON shipped with the tool), enable only the features the privacy lead has approved, and run the egress-monitoring sandbox quarterly to catch drift.
+
+A third class is human. Engineers under shipping pressure will install a local-first AI assistant from a personal source rather than wait for procurement approval, then point it at the codebase because "it runs locally so privacy is not a concern". The data-flow argument shows why that reasoning is wrong, but the mitigation is operational, not rhetorical: maintain a short list of approved local-first AI tools per role, gate IDE plugins behind a managed extensions allowlist, and surface the unapproved-tool installation rate as a process metric in the CTO's monthly review. The procurement-aware engineering manager owns the approved-tool list; the security lead owns the metric.
+
+## Frequently Asked Questions
+
+**Q: Is local-first always more private than SaaS?**
+Not necessarily. Local-first reduces network exposure but introduces endpoint risks. Privacy depends on how the tool handles data, logs, and updates, not just where inference runs.
+
+**Q: Does "data stays on my machine" satisfy GDPR Article 30?**
+No. Article 30 requires a record of processing activities regardless of where processing occurs (S2). You must document the data flows, even if they are local.
+
+**Q: Should we trust a community-maintained local AI assistant in production?**
+Only if the project meets OpenSSF Scorecard (S8) and SLSA provenance (S9) standards, and if the team has tested reversibility and audit logging. Community trust is not sufficient.
+
+**Q: How do prompt-injection risks differ at the local boundary?**
+Prompt injection at the local boundary can lead to other local tool calls (e.g., scripting APIs) that may exfiltrate data via network calls. The risk surface is still significant (S7).
+
+**Q: How long does the full 30-day evaluation take in practice?**
+The 30-day evaluation is a defined process, but preparation (selecting tools, setting up sandboxes, booking the egress-monitoring window) may add one to two weeks. A 30-person engineering scale-up should plan for roughly two engineering days of focused work plus one stakeholder review session across the calendar month; the procurement-aware engineering manager books the sandbox window in advance and the privacy lead drafts the Article 30 register entry in parallel during phase 1.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The Local-First AI Stack: Privacy Trade-Offs European Teams Need to Understand",
+  "description": "Local-first AI does not equal private; map data flows, logs, and reversibility before EU AI Act and GDPR documentation obligations fire.",
+  "datePublished": "2026-05-11T11:46:19.819593+00:00",
+  "dateModified": "2026-05-11T11:46:19.819593+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/local-first-ai-stack-privacy-trade-offs-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "The Local-First AI Stack: Privacy Trade-Offs European Teams Need to Understand",
+  "description": "Local-first AI does not equal private; map data flows, logs, and reversibility before EU AI Act and GDPR documentation obligations fire.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "What actually runs locally vs what still calls a cloud API?",
+      "text": "Distinguish between inference (local) and ancillary services (telemetry, updates, model search). Document every external HTTP call."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "What gets logged, where, and for how long?",
+      "text": "Local logs can contain prompts, responses, and system metadata. Log retention policies and storage locations must be defined. If logs sync to a central server, that is a data transfer."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Who controls the model weights and the update channel?",
+      "text": "Open-source models may have update channels that are community-maintained. Verify SLSA provenance (S9) and OpenSSF Scorecard (S8) for the supply chain."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "How are audit trails produced and stored?",
+      "text": "Local-first tools should generate structured audit logs that capture user, timestamp, prompt, response, and tool calls. These logs must be tamper-proof or at least append-only."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "How are prompt-injection vectors handled at the local boundary?",
+      "text": "Prompt injection (S7) can occur even without a network call. Injected prompts could trigger tool calls that exfiltrate data via local APIs or clipboard outputs."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "How are model updates verified and rolled back?",
+      "text": "Updates should be signed and verifiable. A rollback plan must exist if a new model version degrades performance or introduces vulnerabilities."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Can the team reverse the adoption decision cleanly if the tool becomes risky?",
+      "text": "Reversibility means uninstalling the tool and purging all local data and logs without impacting other systems. This should be tested before production deployment."
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# How to Map Data Flows in a Local-First AI Assistant
+
+- **Published:** 2026-05-11
+- **URL:** https://radar.firstaimovers.com/map-data-flows-local-first-ai-assistant-2026
+- **Topics:** GDPR & Data Privacy
+
+> **TL;DR:** Learn how to map data flows in a local-first AI assistant to meet GDPR Article 30 and EU AI Act requirements with a 10-boundary framework.
+
+If you are a CTO, platform engineering lead, or AI transformation lead at a European scale-up adopting a local-first AI assistant, here is the verdict: your data-flow map is the only artefact that both GDPR Article 30 (S2) and the EU AI Act Article 16 (S1) will accept as auditable evidence. **Why this matters**: by 2 August 2026, the first EU AI Act regulatory sandbox milestone (S1), all AI systems in scope must demonstrate mapped data flows. For privacy leads, security leads, and operations leaders, the map reveals egress points that marketing materials hide. This article covers 10 boundary classes, a 30-day workflow, and the compliance mapping your team needs. Procurement-aware engineering managers and finance teams will also find the risk table essential for vendor evaluation. Founder-led companies with growing software teams should pay attention: the map is your cheapest insurance against regulatory delay.
+
+## The short version
+
+- A local-first AI assistant has more egress points than advertised; a data-flow map is the only audit trail regulators accept.
+- The minimum map covers 10 boundary classes: user prompt, local files, connectors, model call path, local vs remote inference, vector store, logs, plugins, secrets, human approval.
+- For European scale-ups, the map directly feeds GDPR Article 30 (S2) records of processing and EU AI Act Article 16 (S1) technical documentation.
+- On-device processing is controller responsibility per EDPB (S3) and CNIL (S4); the vendor is not exempt.
+- Common failures include prompt injection (S8), sensitive info disclosure (S9), and connector overscope (S13, S14).
+
+## Why this matters for European scale-ups
+
+European scale-ups operate under a stricter privacy regime than US or Asian competitors. GDPR Article 30 (S2) requires every controller to maintain a record of processing activities, and the EU AI Act (S1) extends this to technical documentation for high-risk AI systems. A local-first AI assistant does not exempt you: the European Data Protection Board (S3) and CNIL (S4) have made clear that on-device processing remains a controller-side responsibility. The ENISA AI threat landscape (S5) identifies on-device AI as a vector for novel attacks, while the NIST AI RMF (S6) provides a structured way to surface trade-offs. For privacy leads and operations leaders, failing to map flows means exposing the company to fines and audit failures. For security leads, the map is the starting point for threat modelling.
+
+The audit-facing version of this argument is sharper. EU AI Act Article 16 obligations and DORA-style third-party risk processes are not satisfied by a vendor questionnaire response that says "our assistant runs locally so most data stays on the device". They are satisfied by repeatable evidence: a versioned data-flow map, a categorisation per boundary class, a per-boundary retention window, and a tested reversibility runbook. For a 30-person engineering scale-up, the difference between a half-day audit response and a two-week audit response is whether the 10 boundary classes below were structured up front. Finance teams who sign off the compliance budget should treat the map as the cheapest single compliance investment available: the same artefact serves GDPR Article 30 (S2) records of processing, EU AI Act Article 16 (S1) technical documentation, the procurement-aware engineering manager's third-party register, and the security lead's incident-response runbook.
+
+## What "data flow" actually means for a local-first AI assistant
+
+A data-flow map for a local-first AI assistant is not the same as a network diagram. It traces every path that personally identifiable information (PII), proprietary code, or credentials can travel from the moment a user types a prompt to the moment the model returns an output. This includes local processes (IPC, socket calls), file system reads, extensions to browser or email APIs, and any remote inference fallback. The map must distinguish between encrypted tunnels and clear-text paths, between ephemeral state and persistent storage. The key difference from a cloud-only assistant is that many flows terminate on your device but leak through logging, telemetry, or connectors to external services like MCP servers (S13, S14).
+
+OWASP LLM Top 10 v2.0 (S7) frames the broader threat-model context for this kind of map. Three risks dominate at the local boundary: LLM01 prompt injection (S8) targets the user-prompt boundary and the file-read boundary; LLM02 sensitive information disclosure (S9) targets the telemetry, log, and vector-store boundaries; LLM08 excessive agency targets the connector and human-approval boundaries. Engineering leaders sometimes treat the data-flow map as a privacy artefact only; it is also the cheapest threat-model artefact available, because every boundary you record is also a place where one of those three risk classes can land. Pair the map with OpenSSF Scorecard (S10) signals for the assistant's binary, SLSA build provenance (S11) for the model and runtime, and the CISA SBOM minimum elements (S12) for the assistant's supply chain, and you have one consolidated evidence package that satisfies the privacy lead, the security lead, and the procurement-aware engineering manager simultaneously.
+
+## The minimum data-flow map (10 boundary classes)
+
+1. **User prompt**: The input string entered by the user. Capture length, encoding, and whether it includes file attachments or system context. Flag plaintext transmission to local processes.
+2. **Local files (project, repo, working directory)**: The assistant often accesses files to provide context. Map which directories are read, which symlinks are followed, and whether write-back occurs.
+3. **Clipboard, browser, email, calendar, ticketing connectors**: Every integration that pushes or pulls data across application boundaries. Each connector is a potential egress point for PII or confidential data.
+4. **Model call path (HTTP, IPC, websocket, local socket)**: The exact mechanism by which the prompt reaches the model. For local models, this is typically IPC; for remote fallback, it is HTTPS. Both must be recorded with endpoint addresses and TLS versions.
+5. **Local model vs remote model selection**: How the system decides to use a local model or a cloud API. The decision logic may itself leak data through timing or error messages.
+6. **Vector store / memory**: Persistent or session-based storage of embeddings, chat history, or retrieved documents. Map where vectors are stored, whether they are encrypted, and how they are evicted.
+7. **Logs and telemetry**: Every log line and telemetry event that includes prompt content, model output, or metadata. This is the most common source of accidental PII disclosure (S9).
+8. **Plugins, MCP servers, or connectors**: Third-party extensions that extend assistant capabilities. Each MCP server (S13, S14) introduces a separate data flow that must be audited for scope and data handling.
+9. **Secrets and credentials**: API keys, OAuth tokens, and other secrets stored for the assistant to use. Map where they are stored, how they are transmitted, and whether they are logged.
+10. **Human approval boundary**: Points where a human must approve an action (e.g., sending an email, executing code). The map should show which actions bypass human review and under what conditions.
+
+## A practical 30-day mapping workflow
+
+**Phase 1: Days 1 to 7 - Egress capture and inventory**
+
+Owner: Platform engineering lead. Artefact: Raw flow inventory (a list of all observed egress events). Success criterion: At least 90% of unique destinations recorded by instrumenting network calls, file access, and IPC.
+
+**Phase 2: Days 8 to 21 - Categorisation and policy draft**
+
+Owner: AI transformation lead with privacy lead and security lead. Artefact: Categorised flow map with risk labels (high, medium, low) and draft data-handling policies. Success criterion: Every flow class is annotated with its data sensitivity and applicable regulation (GDPR Article 30, EU AI Act).
+
+**Phase 3: Days 22 to 30 - Audit-trail wiring and reversibility drill**
+
+Owner: CTO with operations leader and procurement-aware engineering manager. Artefact: Automated audit trail and a signed reversal procedure for each high-risk flow. Success criterion: A full reversal drill is executed for at least two high-risk flows without data loss or service interruption. Finance team reviews cost implications.
+
+## What you can automate safely
+
+- Egress capture: Use network proxies or seccomp profiles to log all outbound connections from the assistant process.
+- Flow inventory: Automatically generate a first-pass list of unique hosts, file paths, and IPC channels.
+- Change detection: Alert when a new egress destination appears or a known flow changes its TLS version.
+- Policy enforcement: Block flows that match a deny list (e.g., unknown MCP servers) or that exceed a data size threshold.
+- Regression testing: Re-run the capture on CI to ensure new features do not introduce unmapped flows.
+
+## What must remain human-reviewed
+
+Anti-patterns that require manual oversight:
+
+1. Do not rely solely on automated egress capture; it may miss short-lived or low-frequency flows that only appear under specific conditions.
+2. Do not treat a single scan as final; data flows change with every update to the assistant or its connectors.
+3. Do not ignore flows that originate from local system processes (e.g., a telemetry daemon embedded by the vendor).
+4. Do not assume that local model inference is safe from data leakage; side-channel attacks and model exfiltration via model weights are real.
+5. Do not let a green data-flow map become a substitute for a documented purpose-limitation per data class, a tested reversibility drill, or a published incident response runbook.
+6. Do not skip the human approval boundary review; every flow that bypasses human consent is a potential risk.
+
+## A risk table for European scale-ups
+
+| Boundary | Most likely failure | Detection signal | Mitigation |
+|----------|---------------------|------------------|------------|
+| prompt-injection-via-files (S8) | Attacker crafts malicious file content that alters model behaviour | Unexpected model output, data exfiltration to external host | Sandbox file reads; use content-level detection; limit file size |
+| telemetry-leaks-PII (S9) | Prompt or model output containing PII is sent to telemetry endpoint | Telemetry log contains names, emails, or credit card numbers | Strip or mask PII before telemetry; audit telemetry endpoint contracts |
+| connector-overscope | Connector reads more data than needed (e.g., entire mailbox instead of single email) | Connector logs show bulk reads; user reports unexpected access | Enforce least-privilege scopes; require user consent per action |
+| vector-store-poisoning | Malicious data added to vector store corrupts retrieval results | Retrieved context contains adversarial content; model behaviour shifts | Validate content before ingestion; implement integrity checks |
+| log-retention-drift | Logs retained longer than policy allows, exposing historical data | Log files exceed retention period; audit trail marks old records | Enforce automated log rotation; test expiration regularly |
+| reversibility-failure | Cannot undo an action taken by the assistant (e.g., email sent in error) | User reports unapproved action; no manual override available | Build undo endpoints for all high-risk actions; test with red team |
+
+## How the data-flow map maps to GDPR Article 30 and the EU AI Act
+
+(a) **GDPR Article 30 (S2)**: The data-flow map directly serves as the technical basis for your records of processing activities (ROPA). Each boundary class corresponds to a processing purpose: user prompt (request processing), local files (context enrichment), connectors (data sharing), logs (compliance monitoring). For each flow, document the categories of data subjects, the nature of data, the retention period, and the technical safeguards. The map proves that you have identified all processing operations, which is the core requirement of Article 30.
+
+(b) **EU AI Act Article 16 (S1)**: For high-risk AI systems, the technical documentation must include a detailed description of the system's data flows, including the sources of training data, the methods for ensuring data quality, and the mechanisms for human oversight. Your data-flow map provides this description. It shows where data enters and exits the system, how it is transformed, and where human approval is required. As of 2 August 2026, sandbox participants (S1) must have this map in place.
+
+For both regulations, the map is not a one-time artefact. It must be kept current and version-controlled. We recommend tying flow changes to your CI/CD pipeline.
+
+A concrete walk-through for a 30-person engineering scale-up. The platform engineering lead exports the boundary table as JSON: 10 rows, each with the boundary class, the data category, the retention window, the encryption-in-transit setting, and the most recent egress-capture timestamp. The privacy lead pairs each row with the GDPR Article 30 (S2) processing-activity entry it backs. The security lead pairs each row with the OWASP risk class (S7, S8, S9) it most plausibly fails under. The procurement-aware engineering manager attaches the SBOM (S12) for the assistant binary and the OpenSSF Scorecard (S10) snapshot for the assistant's source repository. The CTO signs off the consolidated package. Total elapsed engineering time for the first article-30-style readback: roughly half a day on the first boundary cohort, then under two hours per quarterly refresh thereafter. The same artefact answers an EU AI Act conformity assessor, a CNIL (S4) inspector, and an internal DORA-style third-party-risk review with zero rework.
+
+To assess your current compliance posture, start with our [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment). For strategic guidance, explore our [AI Consulting](https://radar.firstaimovers.com/page/ai-consulting) services.
+
+## Limits and failure modes
+
+A data-flow map is only as good as its coverage. Common failure modes include: missing flows that only occur during error recovery or degraded-mode operation; assuming that all flows are captured by a single monitoring tool (network proxy will miss local socket connections); treating the map as a static document instead of a living model; failing to include third-party dependencies (OS libraries, kernel modules). Also, the map may give a false sense of control if it is not paired with enforcement mechanisms (e.g., egress policies, trigger-action rules). Finally, the map itself is sensitive data: if it falls into the wrong hands, it reveals attack surface.
+
+A second class of failure deserves explicit naming because European scale-ups hit it harder than US peers. Boundary-class drift: the assistant ships a new feature (a calendar connector, a browser extension, a remote-inference fallback) and the data-flow map remains anchored to last quarter's boundary list. The CI-side mitigation is a boundary-class diff check on every release: re-run the egress capture from Phase 1, compare to the approved baseline, and fail the deploy if a new boundary appeared without a documented owner. A platform engineering lead can ship the check inside a one-day spike using the same egress-monitoring proxy from Phase 1.
+
+A third class is human. Engineers under shipping pressure will mark a boundary as low-risk to avoid the categorisation step. Mitigations: require a written exception with a documented retention window for any boundary that is downgraded; surface downgrade frequency as a process metric in the CTO's monthly review; track the bypass rate as part of the Publishing Control Tower equivalent platform analyst lane. If the downgrade rate exceeds 15 percent of new boundaries per quarter, the categorisation workflow itself needs revision, not the bypass policy. ENISA (S5) explicitly frames human-process gaps as the dominant failure mode in European AI deployments, which is why the metric belongs on a recurring review and not in a one-time audit.
+
+## Frequently Asked Questions
+
+**Q: What egress point do European teams miss most often?**
+
+A: Telemetry and analytics. Many local-first assistants collect usage metrics that include prompt summaries or model output snippets. These telemetry endpoints often bypass the main network proxy and are sent directly to the vendor's cloud. European teams frequently forget to include these in their data-flow map, leading to GDPR non-compliance.
+
+**Q: Should the data-flow map cover GDPR Article 30 explicitly?**
+
+A: Yes. The map should be structured so that each flow can be mapped to a specific processing activity in your ROPA. Include columns for legal basis, data category, and retention period. This makes the map directly usable by privacy leads and auditors.
+
+**Q: How often does the map need to be refreshed?**
+
+A: At a minimum, after each major release of the assistant or any of its connectors. For teams with continuous deployment, we recommend automated regression checks that flag new egress points. In a scale-up environment where features ship weekly, a manual refresh every quarter is the practical baseline.
+
+**Q: What is the smallest acceptable data-flow map for a 30-person scale-up?**
+
+A: A table with 10 rows (one per boundary class) and columns for data type, destination, storage, and access control. It should be accompanied by a one-page diagram showing the main flows. This is sufficient for early-stage compliance, but you must commit to expanding it as the assistant's capabilities grow.
+
+**Q: How does the map interact with MCP servers and connectors?**
+
+A: Each MCP server (S13, S14) is a separate data flow that must be audited individually. The map should list the MCP server's identity, its declared capabilities, the data it accesses, and the authentication method. Treat MCP servers as untrusted until you verify their claims with the MCP specification (S14).
+
+## Further Reading
+
+- [Local-First AI Stack Privacy Trade-Offs (2026)](https://radar.firstaimovers.com/local-first-ai-stack-privacy-trade-offs-2026)
+- [How to Evaluate MCP Servers for Enterprise Workflows (2026)](https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026)
+- [Skills, Memory, and Agent Harnesses: The Next AI Layer (2026)](https://radar.firstaimovers.com/skills-memory-agent-harnesses-next-ai-layer-2026)
+- [Local-First AI Assistants for Enterprise Privacy (2026)](https://radar.firstaimovers.com/local-first-ai-assistants-enterprise-privacy-2026)
+- [Open-Source AI Tool Security Checklist for European Scale-Ups (2026)](https://radar.firstaimovers.com/open-source-ai-tool-security-checklist-european-scale-ups-2026)
+- [How to Run a 30-Day Pilot for an Open-Source AI Coding Agent (2026)](https://radar.firstaimovers.com/30-day-pilot-open-source-ai-coding-agent-2026)
+- [Should Your Maintainer Health Rubric Change by Dependency Tier? (2026)](https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026)
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Map Data Flows in a Local-First AI Assistant",
+  "description": "Learn how to map data flows in a local-first AI assistant to meet GDPR Article 30 and EU AI Act requirements with a 10-boundary framework.",
+  "datePublished": "2026-05-11T14:38:04.450082+00:00",
+  "dateModified": "2026-05-11T14:38:04.450082+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/map-data-flows-local-first-ai-assistant-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Map Data Flows in a Local-First AI Assistant",
+  "description": "Learn how to map data flows in a local-first AI assistant to meet GDPR Article 30 and EU AI Act requirements with a 10-boundary framework.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "User prompt",
+      "text": "The input string entered by the user. Capture length, encoding, and whether it includes file attachments or system context. Flag plaintext transmission to local processes."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Local files (project, repo, working directory)",
+      "text": "The assistant often accesses files to provide context. Map which directories are read, which symlinks are followed, and whether write-back occurs."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Clipboard, browser, email, calendar, ticketing connectors",
+      "text": "Every integration that pushes or pulls data across application boundaries. Each connector is a potential egress point for PII or confidential data."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Model call path (HTTP, IPC, websocket, local socket)",
+      "text": "The exact mechanism by which the prompt reaches the model. For local models, this is typically IPC; for remote fallback, it is HTTPS. Both must be recorded with endpoint addresses and TLS versions."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Local model vs remote model selection",
+      "text": "How the system decides to use a local model or a cloud API. The decision logic may itself leak data through timing or error messages."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Vector store / memory",
+      "text": "Persistent or session-based storage of embeddings, chat history, or retrieved documents. Map where vectors are stored, whether they are encrypted, and how they are evicted."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Logs and telemetry",
+      "text": "Every log line and telemetry event that includes prompt content, model output, or metadata. This is the most common source of accidental PII disclosure (S9)."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Plugins, MCP servers, or connectors",
+      "text": "Third-party extensions that extend assistant capabilities. Each MCP server (S13, S14) introduces a separate data flow that must be audited for scope and data handling."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Secrets and credentials",
+      "text": "API keys, OAuth tokens, and other secrets stored for the assistant to use. Map where they are stored, how they are transmitted, and whether they are logged."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Human approval boundary",
+      "text": "Points where a human must approve an action (e.g., sending an email, executing code). The map should show which actions bypass human review and under what conditions."
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# Skills, Memory, and Agent Harnesses Are the Next AI Platform Layer
+
+- **Published:** 2026-05-11
+- **URL:** https://radar.firstaimovers.com/skills-memory-agent-harnesses-next-ai-layer-2026
+- **Topics:** 
+
+> **TL;DR:** European scale-ups can turn reusable skills, governed memory, and audited harnesses into a compliance layer for EU AI Act and DORA.
+
+The AI agent hype cycle has crested. Chat interfaces alone do not make agents useful. The next platform layer is reusable skills, governed memory, and audited execution harnesses. Why this matters: European scale-ups face the EU AI Act regulatory sandbox milestone by 2 August 2026 (S1) and DORA Article 28 third-party risk reporting (S6). For CTOs, platform engineering leads, AI transformation leads, security leads, privacy leads, product/operations leaders, and procurement-aware engineering managers, this layer is not a convenience; it is a compliance artefact.
+
+## The short version
+
+Skills are versioned, reusable capabilities any agent can call. Memory is the governed subset of context an agent can read and write across sessions, with a documented retention and scope policy (S4, S9). The harness is the execution and audit layer: it governs who calls which skill, with what arguments, against which tools, and produces a structured log for compliance (S5, S7). Together they form a platform layer that turns AI agents from experimental toys into operational tools. For European scale-ups, this layer is the natural home for EU AI Act conformity assessments and DORA third-party risk reports.
+
+## Why this matters for European scale-ups
+
+Founder-led companies and growing software teams are under pressure to deploy AI without introducing uncontrolled risk. The EU AI Act (S1) requires high-impact AI systems to be auditable, explainable, and reversible by 2026. DORA (S6) demands that financial sector third-party risk from AI tools be tracked and reported. Meanwhile, security leads worry about prompt injection (S8) and memory poisoning, while privacy leads must ensure that agent memory does not become an ungoverned data lake (S9). The skills-memory-harness layer addresses all these concerns structurally, not through policy workarounds.
+
+The audit-facing version of this argument is sharper. EU AI Act Article 16 obligations are not satisfied by a vendor questionnaire response that says "our agent calls an LLM and uses good prompts". They are satisfied by repeatable evidence: a versioned skill registry with an owner per skill, a memory policy document with retention windows per data class, and a harness log that captures every tool call with prompt context, arguments, result, and latency. The same three artefacts feed DORA Article 28 (S6) third-party risk reports without re-derivation. For a 30-person engineering scale-up, the difference between a half-day audit response and a two-week audit response is whether the skills-memory-harness layer was structured up front. Finance teams and operations leaders who sign off the compliance budget should treat the layer as the single most reusable compliance investment available; the same artefacts cover EU AI Act, DORA, and most internal incident response runbooks at once. ENISA (S14) explicitly frames data-flow and tool-execution risks as priority threats for European deployments, which makes the harness log a regulator-readable artefact, not just an internal nicety.
+
+## What "skills, memory, and harnesses" actually means
+
+These three components form a new platform layer that sits between the language model and the application. Skills replace ad-hoc prompts with named, versioned capabilities. Memory replaces raw context with a controlled, policy-governed store. The harness replaces the chat interface as the primary execution surface, logging every call and enforcing boundaries.
+
+The shift is similar in shape to what happened with web applications around 2008 to 2012. Teams stopped writing PHP files per page and started using frameworks that separated routing, business logic, persistence, and audit logging into distinct, testable layers. The framework imposed structure, and structure produced reliability. Agents in 2026 are at the equivalent inflection point: prompts have done their job, the same way raw PHP did its job, and the next reliability gain comes from a structured platform layer. A skill catalog plays the role of route handlers. Governed memory plays the role of persistence with controlled access. The harness plays the role of the request-response middleware: authentication, authorization, logging, rate limiting, and traceability. Once a team has all three in place, the question shifts from "did the model produce a good response" to "can we explain why the agent took this action, and can we reverse it cleanly". That is the question regulators ask, and it is the question that distinguishes a controlled rollout from a risk event.
+
+## The three operating components
+
+**Skills**: Reusable, named, versioned capabilities that a team can call from any agent. Skills encapsulate tool calls, data lookups, and business logic, and are stored in a versioned registry (S2, S3). They enable teams to reuse proven components across multiple agents without duplicating prompts.
+
+**Memory**: The controlled subset of context an agent is allowed to read and write across sessions. Memory has a documented retention policy, a scope boundary (e.g., user-level vs. session-level), and a privacy review process that aligns with GDPR Article 30 (S4) and EDPB guidance (S9).
+
+**Harness**: The execution and audit layer that governs how skills are called, which tools are permitted, and what is logged. The harness is the enforcement point for access control, rate limiting, and audit-trail generation. It also exposes a surface for MCP servers (S5) to plug in, and it is the primary defence against prompt-injection attacks (S8) because it controls tool invocation independently of the prompt.
+
+Concrete shape of each component for a 30-person scale-up. The skill catalog is typically a git-tracked directory of YAML or TypeScript files, one per skill, each with a name, a version, a description, an owner, the tools it may call, the input and output schema, and a list of test fixtures. The memory store is typically a row-per-record table in PostgreSQL or a vector store with a per-record retention timestamp and a scope key; the policy that governs reads and writes lives in the same git repository. The harness is a small service (usually under 1,000 lines) that wraps the model call, the skill registry, and the memory store, and that emits a structured audit log per invocation. None of these pieces require a new vendor; all three can be built from open-source components combined with the team's existing observability stack. The investment is in the discipline of treating skills, memory, and the harness as first-class platform concerns rather than scattered prompt files.
+
+## The maturity model: from prompts to platform layer
+
+| Level | Description | What lives where | Failure mode |
+|-------|-------------|------------------|--------------|
+| L0 prompt chaos | Ad-hoc prompts scattered across teams | No central repository | Teams rebuild same agent logic repeatedly |
+| L1 prompt library | Shared folder of prompts | File system or wiki | Prompts become stale; no versioning |
+| L2 reusable skills | Named, versioned skills in a catalog | Dedicated skill registry | Skills lack memory governance |
+| L3 governed memory | Memory with retention and scope policies | Policy engine + context store | No execution audit trail |
+| L4 audited harness | Full execution logs, access control, SBOM | Harness platform | Overhead if not automated |
+
+## A 30-day adoption path
+
+### Days 1-7: Audit + skill catalog
+- Owner: CTO, platform engineering lead
+- Artifact: Skill inventory (list of all existing prompt-based agent capabilities)
+- Success criterion: 20 skills cataloged in a versioned registry (e.g., a Git-based store with semantic versioning)
+
+### Days 8-21: Controlled-memory pilot
+- Owner: AI transformation lead, security lead, privacy lead
+- Artifact: Memory policy document (retention, scope, access rules)
+- Success criterion: Pilot agent passes privacy review; memory operations are logged and reversible
+
+### Days 22-30: Harness + audit-trail rollout
+- Owner: Operations leader, procurement-aware engineering manager
+- Artifact: Harness configuration (skill-to-tool mappings, audit-log schema)
+- Success criterion: First compliance report generated from harness logs, covering skill calls, memory accesses, and tool invocations
+
+## What you can govern safely today
+
+Using existing open-source and commercial tools, you can implement a basic harness that logs all agent actions, enforces a whitelist of MCP servers (S5), and rejects calls that exceed defined argument bounds. You can generate SBOMs (S7) for the harness binary itself and apply SLSA build provenance (S11) to your skill registry. OpenSSF Scorecard (S10) can rate the health of your skill repositories. NIST AI RMF (S13) provides a structured framework to communicate trade-offs to non-technical stakeholders. ENISA AI threat landscape (S14) gives a European-specific attack taxonomy to validate your harness defences.
+
+Concrete first-week actions a platform engineering lead can take without budget approval. (a) Inventory every prompt currently in production by grepping the codebase for known prompt markers; classify each as a candidate skill, a candidate memory entry, or a one-off. (b) Pick the top three highest-traffic prompts and rewrite them as named YAML skills in a new git directory; this is the seed of the skill catalog. (c) Add a per-invocation structured log to the existing model call site, capturing prompt, arguments, result, latency, and a stable trace identifier. (d) Run the OpenSSF Scorecard (S10) against the new skill repository and record the score as the baseline. (e) Sketch the memory policy on one page: what data classes the agent may read, what it may write, where it lives, how long it is retained, and which role purges it. None of these five actions require a vendor decision; all five produce evidence the security lead and the procurement-aware engineering manager can review on day 7.
+
+## What must stay human-reviewed
+
+Even with a mature harness, certain decisions must remain under human control to prevent catastrophic failures.
+
+1. Do not let a skill catalog become shadow automation; every skill must have a documented owner, a tested rollback, and a published audit signature.
+2. Do not allow memory to accumulate indefinitely without a retention review; memory that stores PII must be purged according to GDPR Article 30 (S4).
+3. Do not grant an agent write access to production databases without a human-in-the-loop approval gate.
+4. Do not deploy a harness that can call arbitrary MCP servers; maintain an allowlist reviewed by operations and security leads.
+5. Do not use agent-generated logs as the sole source of truth for compliance; cross-reference with harness logs that cannot be modified by the agent.
+6. Do not give the same agent access to both internal finance data and customer support tools without separate context boundaries.
+
+## How the platform layer maps to EU AI Act and DORA
+
+(a) Skill metadata (version, author, test results), memory policy (retention, scope, purges), and harness logs (every call, argument, result, duration) together form the evidence required for EU AI Act (S1) conformity assessments. A scale-up can produce a compliance artifact that shows exactly which skills were used, in what context, and how memory was handled.
+
+(b) DORA Article 28 (S6) requires financial firms to monitor third-party ICT providers and report incidents. A harness that logs every skill invocation and tool call can be consumed directly by DORA reporting pipelines, providing an unbroken chain of evidence for any incident involving an AI agent.
+
+A concrete walk-through for a 30-person engineering scale-up. The platform engineering lead exports the skill catalog as JSON; each row carries skill name, version, owner, last test pass date, list of permitted tools. The privacy lead exports the memory policy as a one-page register: per data class, the retention window, the scope key, the purge cadence, and the legal basis. The AI transformation lead exports the harness audit log for the inventory window: per invocation, the timestamp, the agent identity, the skill name, the tool calls made, the result code, the latency, and a stable trace id. Combine the three exports and you have the EU AI Act technical-documentation kernel for any high-risk AI system using this agent platform; the same three exports become the DORA third-party-risk register entry and the EDPB-aligned (S9) Article 30 entry for processing activities. The procurement-aware engineering manager attaches these artefacts to the third-party register; the security lead cross-references them against incident response runbooks; the operations leader uses the same audit log to drive the quarterly skill-deprecation review. One investment, three regulators, four internal processes.
+
+To assess your organization's readiness for this platform layer, start with our AI Readiness Assessment: https://radar.firstaimovers.com/page/ai-readiness-assessment. For hands-on implementation support, visit our AI Consulting page: https://radar.firstaimovers.com/page/ai-consulting.
+
+## Limits and failure modes
+
+No platform layer is a silver bullet. Skills can become too granular, leading to a proliferation of micro-skills that are hard to manage. Memory policies can be too restrictive, crippling agent usefulness. The harness itself can become a bottleneck if not designed for low latency and high throughput. Prompt-injection attacks (S8) can still bypass some harness controls if the harness does not validate tool arguments server-side. Finally, the layer does not solve the fundamental problem of model hallucination or bias; it only governs how the model interacts with the world.
+
+A second class of failure is operational. A skill registry that grows past 200 entries without a deprecation policy becomes a parking lot for half-tested capabilities. Mitigations: schedule a quarterly review where the platform engineering lead and the AI transformation lead jointly retire any skill with zero invocations in the prior 90 days; require a written deprecation notice for any skill an active workflow depends on; track skill-count growth as a process metric in the CTO's monthly review. The same applies to memory: a memory store without a documented purge cadence is a discovery liability waiting for a regulator request.
+
+A third class is human. Engineers under shipping pressure will route around the harness for a quick fix by calling the model directly. This is the easiest failure to miss because the system still works. Mitigations: gate model-API credentials behind the harness service so direct calls are observable; surface direct-call counts as a process metric; require a written exception with a documented rollback for any temporary bypass. The security lead owns the metric; the operations leader owns the exception process. Track the bypass rate per quarter; if it exceeds 10 percent of agent invocations, the harness itself needs a redesign, not the bypass policy.
+
+A fourth class deserves naming because European scale-ups hit it harder than US peers. Memory poisoning through indirect injection. An agent retrieves a document into its context, and that document contains instructions that look benign to a human but tell the model to write a record into memory with elevated trust. The next agent run reads that record and treats it as authoritative. OWASP LLM Top 10 (S12) frames the broader risk class; the harness-specific mitigation is to namespace memory writes by the writing agent's identity, require a signed assertion for any cross-namespace read, and never let the model itself decide whether a memory record is authoritative.
+
+## Frequently Asked Questions
+
+**Q: Are skills, memory, and harnesses just another vendor wrapper?**
+A: No. This is an architectural pattern, not a product. Several vendors offer components (e.g., Anthropic's tools (S2), OpenAI's Assistants API (S3), MCP specification (S5)), but the pattern is implementable with open-source building blocks like LangChain, Haystack, or custom code.
+
+**Q: How do we decide what belongs in memory versus a skill?**
+A: Memory stores data that the agent reads or writes across sessions (e.g., user preferences, conversation history). Skills encapsulate actions and computations that do not persist beyond the current use. A rule of thumb: if you need to keep a value for a future session, it belongs in memory; if you need to perform a deterministic operation, it belongs in a skill.
+
+**Q: Does this layer replace prompt engineering?**
+A: It does not replace prompt engineering; it constrains it. Prompts still matter for instructing the model, but the skills-memory-harness layer ensures that even a poorly written prompt cannot break out of the governed boundaries. The harness is the structural defence against prompt injection (S8).
+
+**Q: How does an agent harness interact with MCP servers?**
+A: MCP servers (S5) expose tools that the harness can call, but the harness sits between the agent and the MCP server. The harness decides which MCP server calls are allowed, validates arguments, and logs the interaction. This decouples the model from direct tool access.
+
+**Q: How long does the first useful maturity jump take?**
+A: A team that already has a basic agent in production can reach Level 2 (reusable skills) in approximately one sprint and Level 3 (governed memory) in two to three sprints, depending on privacy review requirements. The full audited harness (Level 4) typically takes a quarter if the organisation already has compliance processes in place. The five first-week actions in the "What you can govern safely today" section are deliberately scoped so a platform engineering lead can complete them inside a single sprint without a budget request, which is usually the gating factor for these projects.
+
+## Further Reading
+
+- "Enterprise AI Agent Memory Layer" (FAIM, 2026)
+- "Canonical Docs for AI Memory Systems" (FAIM, 2026)
+- "Evaluate MCP Servers for Enterprise Workflows" (FAIM, 2026)
+- "Local-First AI Stack: Privacy Trade-offs" (FAIM, 2026)
+- "Open Source AI Stack for Engineering Leaders" (FAIM, 2026)
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Skills, Memory, and Agent Harnesses Are the Next AI Platform Layer",
+  "description": "European scale-ups can turn reusable skills, governed memory, and audited harnesses into a compliance layer for EU AI Act and DORA.",
+  "datePublished": "2026-05-11T13:23:41.217585+00:00",
+  "dateModified": "2026-05-11T13:23:41.217585+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/skills-memory-agent-harnesses-next-ai-layer-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1200&h=630&fit=crop&q=80",
   "speakable": {
     "@type": "SpeakableSpecification",
     "cssSelector": [
@@ -384,6 +1037,289 @@ A third class is human. Engineers under shipping pressure will downgrade a tier 
 
 ---
 
+# How to Run a 30-Day Pilot for an Open-Source AI Coding Agent
+
+- **Published:** 2026-05-10
+- **URL:** https://radar.firstaimovers.com/30-day-pilot-open-source-ai-coding-agent-2026
+- **Topics:** 
+
+> **TL;DR:** A concrete 30-day pilot runbook to evaluate an open-source AI coding agent before procurement, with seven evidence dimensions and EU AI Act context.
+
+A 30-day bounded pilot with explicit exit criteria is the right unit of evaluation for an open-source AI coding agent. Stars and demos are not enough. This runbook targets the buyer moment: a procurement review, a vendor scorecard, a board-level question on AI tooling adoption, or the first request from a growing software team or a founder-led company to ship AI-generated code. Why this matters: a structured pilot keeps the engineering leader, the security team, and the finance team aligned on what success looks like before any production code reaches main. For European teams, the August 2026 EU AI Act sandbox milestone (S8) changes the stakes: every pilot decision made now will be reviewed under sandbox conditions, and a vague pilot frame creates governance debt that surfaces during sandbox audits, not during the pilot itself.
+
+## The short version
+
+- Run a 30-day pilot on one repo, with one team, for one use case, against one named exit criterion. Before day 1, produce four artifacts: a license review memo, a pilot scope document, a data-flow diagram, and an exit criteria document.
+- Days 1 to 7: set up the agent in an isolated environment, review data flow, and enforce the GitHub security baseline (S2) plus OWASP LLM01 mitigations (S5).
+- Days 8 to 21: bounded use with evidence collection across seven dimensions (security, maintainability, developer adoption, data flow, CI fit, review quality, rollback feasibility).
+- Days 22 to 30: a governance gate that reviews artifacts (not anecdotes) and decides one of four outcomes: extend, promote-bounded, reject, or pause-for-fix.
+- **The default decision is "do not promote without evidence."** Inverting the default is the single most important choice in the whole pilot. A 20-person company or a mid-sized scale-up that defaults to "promote unless we find a reason not to" will ship governance debt; the inverted default is what makes the pilot a real gate instead of a rubber stamp.
+
+## What a pilot is and is not
+
+A pilot is a controlled experiment. It is not a beta test, a proof of concept, or a production rollout. A pilot has a start date, an end date, a defined scope, and an explicit decision framework. It is bounded: one repo, one team, one use case, one month, one named exit criterion. It is not open-ended exploration. It produces evidence, not just outcomes. The governance gate reviews artifacts, not anecdotes.
+
+For an operations leader or an engineering manager planning the pilot, the most common failure mode is scope creep. The agent gets enthusiastic adoption from one technical team, the team starts using it on a second repo, then a third, and by week three the pilot has lost the ability to produce comparable evidence. Hold the line on scope: one repo, one team, one use case, one month. Anything that does not fit goes on a "next pilot" list, not into the current pilot.
+
+The second common failure is treating the pilot as a procurement decision in disguise. A pilot that has already promised a budget for production rollout cannot be honest about its red flags. Treat the pilot as a real experiment whose outcome is genuinely undetermined, even if the technical team is excited.
+
+## The four artifacts you need before day 1
+
+| Artifact | Owner | Source | Success criterion |
+|---|---|---|---|
+| License review memo | Legal or engineering lead | Repo license file (e.g., MIT, Apache-2.0, or no license per S7) | License is OSI-approved and compatible with enterprise use. Per S7, no license is a hard pass. |
+| Pilot scope document | Engineering manager | Team charter or PRD | Scope is bounded: one repo, one team, one use case, one month, one exit criterion. |
+| Data-flow diagram | Security or platform engineer | Agent documentation and network topology | Documented data flows between agent, LLM provider, CI/CD, and source code. For European teams, self-hosting (where supported) reduces residency risk; cloud-only agents need a documented residency posture before pilot. |
+| Exit criteria document | CTO or VP Engineering | Pilot objectives | Minimum of three criteria (e.g., security score, developer adoption rate, review quality). Default decision is "do not promote without evidence." |
+
+## Days 1 to 7: setup and data-flow review
+
+1. **Enable GitHub security baseline (S2).** Action: enable dependency graph, Dependabot alerts, CodeQL default setup, secret scanning with push protection, and SECURITY.md. Artifact: repository security status report. Owner: platform team. Success criterion: all five features are active and passing.
+2. **Verify OpenSSF Scorecard (S1).** Action: run scorecard on the target repo and on the agent's own repository (if available). Artifact: scorecard report (score 0-10). Owner: security engineer. Success criterion: score above 5 for the agent repo; target repo score above 7.
+3. **Map OWASP LLM01 mitigations (S5).** Action: document how your pilot addresses prompt injection (direct and indirect). Constrain model behavior, define output formats, implement input/output filtering, and set least-privilege access. Artifact: LLM01 mitigation checklist. Owner: security engineer. Success criterion: all seven mitigations addressed or explicitly deferred with justification.
+4. **Establish data-flow diagram.** Action: map where code snippets are sent, whether to a third-party API (e.g., Anthropic, OpenAI, or a self-hosted model), and how data is stored. For cloud-only agents, confirm data residency in the EU or a jurisdiction with adequacy decision. Artifact: data-flow diagram. Owner: platform engineer. Success criterion: data flow documented and approved by legal/security.
+5. **Create isolated pilot environment.** Action: fork the target repo into a private internal repo; set branch protection rules (require pull request reviews, status checks, and CODEOWNERS approval per S3). Artifact: pilot repo with branch protection. Owner: platform engineer. Success criterion: agent cannot merge without human approval.
+6. **Define agent access controls.** Action: limit agent to read-only access on code and write access only to a dedicated branch (e.g., `pilot/agent-suggestions`). Artifact: GitHub access control matrix. Owner: security engineer. Success criterion: agent has least-privilege permissions.
+7. **Schedule governance gate.** Action: set a calendar event for day 22 with mandatory attendees (CTO, engineering lead, security lead, legal if needed). Artifact: calendar invite with agenda. Owner: engineering manager. Success criterion: all key stakeholders confirmed.
+
+## Days 8 to 21: bounded use, evidence collection
+
+| Dimension | What to measure | Tool / source | Red flag |
+|---|---|---|---|
+| Security posture | Number of new vulnerabilities introduced by agent-generated code; adherence to OWASP LLM01 mitigations | GitHub Advisory Database (S9), Dependabot alerts (S10), manual review | Any critical or high severity vulnerability in agent-generated code that bypasses review |
+| Maintainability | Code churn rate (lines added/deleted/modified per commit); test coverage of agent-generated code | GitHub Insights, Codecov or similar | Test coverage below 80% for agent-generated code, or high churn rate (more than 20% of lines rewritten within a week) |
+| Developer adoption | Number of suggestions accepted vs. rejected; time to first accepted suggestion; developer satisfaction survey | GitHub API (event data), survey tool (e.g., Google Forms) | Acceptance rate below 30% or developers reporting frustration in survey |
+| Data flow | Confirmation that data flows match the approved diagram; no unexpected data egress | Network logs, proxy logs | Data sent to an unapproved endpoint or stored outside the EU without documented residency posture |
+| CI fit | Build pass rate with agent suggestions (if merged); integration test failures | CI logs (e.g., GitHub Actions) | Agent suggestions consistently break builds or require manual fixes |
+| Review quality | Ratio of PRs with meaningful comments vs. rubber-stamped approvals; time spent in review | GitHub pull request data, manual sampling | More than 50% of PRs approved without comment, or average review time under 2 minutes |
+| Rollback feasibility | Time to revert a change introduced by the agent; successful rollback test | Git revert logs, manual test | Rollback takes longer than 10 minutes or fails due to dependencies |
+
+## Days 22 to 30: governance gate and decision
+
+On day 22, the governance gate meets. Attendees: CTO (decider), engineering lead, security lead, and optionally legal. The agenda: review evidence collected across all seven dimensions. Artifacts: the pilot evidence table (above), the exit criteria document, and the data-flow diagram.
+
+Steps in the gate:
+1. Present evidence against each exit criterion.
+2. Discuss red flags from the evidence table.
+3. Review any license or legal concerns (S7).
+4. Assess OWASP LLM01 mitigation effectiveness (S5).
+5. Evaluate rollback feasibility and CI integration (S3, S4).
+6. Decide on one of four outcomes: extend (need more data), promote-bounded (move to a wider pilot in one more repo), reject (do not adopt), or pause-for-fix (specific blockers must be addressed before reconsideration).
+7. Document the decision and rationale in a governance log.
+8. Communicate the decision to the engineering team within 48 hours.
+
+Common gate failures the engineering manager and the security lead should anticipate. The most frequent is "the technical team loved it" with no evidence table to back the assertion; the gate should refuse to extend on enthusiasm alone and ask for the missing measurement. The second is a single-metric victory: the agent shipped 30% more PRs but the review-quality dimension regressed because reviewers rubber-stamped agent diffs to keep up. The third is silent license drift: the agent's transitive dependencies introduced a non-OSI license into the supply chain that nobody flagged because the day-1 license memo only covered the agent itself. Run an SBOM diff at the gate to catch this. The fourth is a rollback test that nobody actually ran in week 2 or week 3; rollback feasibility is dimension seven for a reason, and a pilot that has not exercised rollback has not validated the most important property of any production tool.
+
+Buyer-safe next steps: if you need help structuring your governance gate, consider using our [AI readiness assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) or [AI consulting](https://radar.firstaimovers.com/page/ai-consulting).
+
+## What success and failure look like
+
+### Signals of a successful pilot
+
+| What changed operationally | Concrete metric |
+|---|---|
+| Security posture improved | No new critical vulnerabilities; Scorecard on target repo increased by at least 1 point |
+| Maintainable code | Test coverage >= 80% for agent-generated code; code churn rate <= 10% per week |
+| Developer adoption | Acceptance rate >= 50%; positive survey feedback (score >= 4/5) |
+| Rollback feasible | Any agent-introduced change can be reverted in under 5 minutes |
+| CI integration smooth | PRs from agent suggestions pass CI at least 90% of the time |
+
+### Signals of a failed pilot
+
+| What to call out explicitly | Concrete metric |
+|---|---|
+| Critical vulnerability introduced | Agent-generated code causes a Dependabot critical alert; red flag from S10 |
+| Low developer adoption | Acceptance rate below 20%; developers report distrust in survey |
+| Unapproved data egress | Data flow deviates from approved diagram; logs show connections to unknown endpoints |
+| Maintainability disaster | Test coverage below 50%; high churn rate (>30% weekly) |
+| Review quality collapses | More than 60% of PRs approved without comment |
+
+## What not to put in production yet
+
+1. **Agents with shell access on production hosts.** Even if the agent produces correct code, shell access on production is a security risk. Keep agent actions in a sandboxed CI environment.
+2. **Agents with merge authority.** The agent should never have the power to merge PRs. Enforce CODEOWNERS (S3) and merge queue (S4) to maintain human oversight.
+3. **Browser-automation agents in customer-facing flows.** These agents can be exploited for prompt injection (S5). Isolate them to internal tools only.
+4. **Reliance on a non-OSI-licensed repo for hosted-service redistribution without legal review.** For example, a repo without a license (S7) cannot be used commercially. Always verify the license before distribution.
+5. **Bus-factor-1 community wrappers as a primary tool.** If the agent's wrapper has a single maintainer and few contributors, you risk abandonment. Prefer agents with a broad contributor base or corporate backing.
+6. **Agents that bypass pull request review.** Any code that goes directly to production without human review violates security best practices and OWASP LLM01 recommendations.
+
+## Frequently Asked Questions
+
+### Q: What if our team is too small for a 30-day pilot?
+
+A: Scale the pilot rather than skip the structure. A small business or a small platform engineering team can run the same shape compressed: one developer, one use case, two weeks, the same four pre-day-1 artifacts, the same governance gate. The compressed shape works because the artifacts are what carries the rigor, not the calendar length. What does NOT work is dropping the artifacts and running an "informal trial" for a month. The default decision rule still applies: do not promote without evidence.
+
+### Q: How do we keep the agent from merging unsafe code?
+
+A: Policy controls the merge button, not the agent. Use GitHub branch protection rules to require pull request reviews, status checks, and CODEOWNERS approval (S3). Implement a merge queue (S4) to enforce these gates so two agent PRs cannot race against each other and bypass review. Restrict the agent's GitHub permissions to read on code and write only on a dedicated branch (e.g. `pilot/agent-suggestions`); never grant `repo` scope when `pull-requests:write` is enough. Apply the OWASP LLM01 indirect-prompt-injection mitigations from S5: segregate external content, add input/output filtering, require human-in-the-loop on every privileged operation. The agent never has merge authority. It never has shell access on production hosts. It never has admin permissions.
+
+### Q: Should European companies pilot non-EU-hosted agents?
+
+A: Yes, with caution and with a documented data-residency posture before the pilot starts. The EU AI Act (S8) does not ban non-EU AI tools for coding work, but the pilot must establish where prompts, completions, and logs flow, where they are stored, and for how long. If the agent sends code to a US-hosted LLM provider, the data-flow review needs to confirm Standard Contractual Clauses or an equivalent mechanism. Self-hosting (where supported) collapses the residency question to a contained, in-network deployment and is the lowest-friction path under sandbox conditions. The August 2026 sandbox milestone is a useful forcing function: a non-EU pilot that has not done its data-flow review will not survive a sandbox audit even if the agent itself is technically capable.
+
+### Q: What is the realistic 30-day cost of a coding-agent pilot?
+
+A: Cost depends on the agent and the team size, but a reasonable planning envelope for a small technical team is the LLM token cost plus the engineering time. Cloud-hosted agents charge per API token, billed on the provider's published rates; self-hosted agents trade API spend for GPU compute on your infrastructure. Either way, the dominant cost is engineering time: budget 15-25% of one engineer's month for setup, daily evidence collection, and the governance gate prep. The pilot is cheap compared to the cost of unwinding a bad procurement decision six months later.
+
+### Q: When should we extend the pilot vs reject the tool?
+
+A: Extend by no more than two weeks if the evidence is inconclusive on a single dimension and you can name the missing measurement (for example, "we did not see enough variety in code-review scenarios; let us add the staging-fix workflow for two weeks"). Reject if any red flag from the days-8-to-21 evidence table fired and was not resolved (critical vulnerability introduced, unapproved data egress, license non-compliance discovered late, rollback that took more than 10 minutes). Pause-for-fix if the blocker is fixable in operator-side configuration (missing CODEOWNERS coverage, missing SECURITY.md, missing data-flow documentation), then re-run the governance gate after the fix lands. The four-decision frame is the gate's most useful output; do not collapse it into a binary "promote or skip."
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Run a 30-Day Pilot for an Open-Source AI Coding Agent",
+  "description": "A concrete 30-day pilot runbook to evaluate an open-source AI coding agent before procurement, with seven evidence dimensions and EU AI Act context.",
+  "datePublished": "2026-05-10T17:40:21.936231+00:00",
+  "dateModified": "2026-05-10T17:40:21.936231+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/30-day-pilot-open-source-ai-coding-agent-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Q: What if our team is too small for a 30-day pilot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: Scale the pilot rather than skip the structure. A small business or a small platform engineering team can run the same shape compressed: one developer, one use case, two weeks, the same four pre-day-1 artifacts, the same governance gate. The compressed shape works because the artifacts are wha..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: How do we keep the agent from merging unsafe code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: Policy controls the merge button, not the agent. Use GitHub branch protection rules to require pull request reviews, status checks, and CODEOWNERS approval (S3). Implement a merge queue (S4) to enforce these gates so two agent PRs cannot race against each other and bypass review. Restrict the ..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: Should European companies pilot non-EU-hosted agents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: Yes, with caution and with a documented data-residency posture before the pilot starts. The EU AI Act (S8) does not ban non-EU AI tools for coding work, but the pilot must establish where prompts, completions, and logs flow, where they are stored, and for how long. If the agent sends code to a..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: What is the realistic 30-day cost of a coding-agent pilot?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: Cost depends on the agent and the team size, but a reasonable planning envelope for a small technical team is the LLM token cost plus the engineering time. Cloud-hosted agents charge per API token, billed on the provider's published rates; self-hosted agents trade API spend for GPU compute on ..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: When should we extend the pilot vs reject the tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A: Extend by no more than two weeks if the evidence is inconclusive on a single dimension and you can name the missing measurement (for example, "we did not see enough variety in code-review scenarios; let us add the staging-fix workflow for two weeks"). Reject if any red flag from the days-8-to-..."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Run a 30-Day Pilot for an Open-Source AI Coding Agent",
+  "description": "A concrete 30-day pilot runbook to evaluate an open-source AI coding agent before procurement, with seven evidence dimensions and EU AI Act context.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Enable GitHub security baseline (S2).",
+      "text": "Action: enable dependency graph, Dependabot alerts, CodeQL default setup, secret scanning with push protection, and SECURITY.md. Artifact: repository security status report. Owner: platform team. Success criterion: all five features are active and passing."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Verify OpenSSF Scorecard (S1).",
+      "text": "Action: run scorecard on the target repo and on the agent's own repository (if available). Artifact: scorecard report (score 0-10). Owner: security engineer. Success criterion: score above 5 for the agent repo; target repo score above 7."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Map OWASP LLM01 mitigations (S5).",
+      "text": "Action: document how your pilot addresses prompt injection (direct and indirect). Constrain model behavior, define output formats, implement input/output filtering, and set least-privilege access. Artifact: LLM01 mitigation checklist. Owner: security engineer. Success criterion: all seven mitigations addressed or explicitly deferred with justification."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Establish data-flow diagram.",
+      "text": "Action: map where code snippets are sent, whether to a third-party API (e.g., Anthropic, OpenAI, or a self-hosted model), and how data is stored. For cloud-only agents, confirm data residency in the EU or a jurisdiction with adequacy decision. Artifact: data-flow diagram. Owner: platform engineer. Success criterion: data flow documented and approved by legal/security."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Create isolated pilot environment.",
+      "text": "Action: fork the target repo into a private internal repo; set branch protection rules (require pull request reviews, status checks, and CODEOWNERS approval per S3). Artifact: pilot repo with branch protection. Owner: platform engineer. Success criterion: agent cannot merge without human approval."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Define agent access controls.",
+      "text": "Action: limit agent to read-only access on code and write access only to a dedicated branch (e.g., `pilot/agent-suggestions`). Artifact: GitHub access control matrix. Owner: security engineer. Success criterion: agent has least-privilege permissions."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Schedule governance gate.",
+      "text": "Action: set a calendar event for day 22 with mandatory attendees (CTO, engineering lead, security lead, legal if needed). Artifact: calendar invite with agenda. Owner: engineering manager. Success criterion: all key stakeholders confirmed."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Agents with shell access on production hosts.",
+      "text": "Even if the agent produces correct code, shell access on production is a security risk. Keep agent actions in a sandboxed CI environment."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Agents with merge authority.",
+      "text": "The agent should never have the power to merge PRs. Enforce CODEOWNERS (S3) and merge queue (S4) to maintain human oversight."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Browser-automation agents in customer-facing flows.",
+      "text": "These agents can be exploited for prompt injection (S5). Isolate them to internal tools only."
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
 # How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool
 
 - **Published:** 2026-05-10
@@ -575,6 +1511,269 @@ A seventh limit deserves explicit naming because European scale-ups hit it more 
       "/html/body//article//p[2]"
     ]
   }
+}
+</script>
+-->
+
+
+---
+
+# Why GitHub Stars Are a Bad Procurement Metric for AI Tools
+
+- **Published:** 2026-05-10
+- **URL:** https://radar.firstaimovers.com/github-stars-bad-procurement-metric-ai-tools-2026
+- **Topics:** 
+
+> **TL;DR:** GitHub stars measure attention, not procurement fitness. Replace them with a license, maintenance, security, and pilot evidence frame.
+
+GitHub stars measure attention, not procurement fitness. A high-star count does not tell you whether a repository has a license, is maintained, or can be safely embedded in your commercial product. Yet many engineering teams, including some at well-run growing software teams and mid-sized companies, still default to "it has X thousand stars" as the primary signal when selecting an open-source AI tool. The buyer moment is the next procurement review, the vendor scorecard discussion, the AI tooling roadmap meeting, or the board-level question on open-source risk. Why this matters: for European scale-ups facing the EU AI Act sandbox milestone on 2 August 2026 (S8), every procurement decision made this quarter will be reviewed under sandbox conditions. If a CTO, a platform engineering lead, an AI transformation team, or a procurement-aware engineering manager keeps the procurement frame anchored on stars, the result is selecting high-attention, high-risk repos like 122k stars with no LICENSE file, or 28k stars with no commits in seven months, while passing over lower-star but safer alternatives that pair an Apache-2.0 license, corporate backing, and active commits. The stakes are concrete: regulatory exposure, litigation risk from unlicensed code, supply-chain compromise, and a quarter of operations leader time spent unwinding a bad pick.
+
+## The problem with using GitHub stars as a buying signal
+
+Stars are a leading indicator of attention, not a lagging indicator of suitability. Attention precedes contribution by months, but procurement needs evidence that a project will survive, be secure, and remain legally usable. The OpenSSF Scorecard (S1) measures contributor diversity, code review, and dependency update tools. Stars correlate poorly with these metrics. A repo can go viral on Hacker News and accumulate 100k stars in a week, yet have zero code review process or security policy. The canonical example is R6: 122k stars, no LICENSE file. Under copyright law, that means no one can use, copy, distribute, or modify the code without risk of litigation (S7). Stars hide that showstopper completely.
+
+For European teams, the problem is compounded by the EU AI Act. By August 2026, every Member State must establish at least one AI regulatory sandbox (S8). Procurement decisions made today will be reviewed under those sandbox conditions. A star-driven selection of a non-compliant or unlicensed component creates governance debt that will surface during sandbox audits.
+
+## What stars are good for and where they fail
+
+Stars are not entirely useless. They signal community interest and can point you toward tools worth investigating. But they fail as a decision input because they conflate popularity with safety, maintenance, and licensing. Forks can indicate active development but can also be cherry-picked. Recent commits and release cadence are stronger signals. Issues and PR health reveal maintainer responsiveness. Security policy (SECURITY.md), SBOM, and license are procurement-grade signals that stars ignore. Customer or community evidence and pilot results are the gold standard.
+
+| Stars vs Procurement Evidence | |
+|---|---|
+| Signal | Procurement value (low / medium / high) and reasoning |
+| Stars | Low. Attention is not procurement fitness. A repo can have 122k stars and no license (R6) or be stale for 7 months (R5). |
+| Forks | Low to medium. Forks can indicate active use, but many are copies with zero changes. Check the origin of the most popular fork. |
+| Recent commits | Medium to high. Commits in the past month signal maintenance. R3 (31k stars) has recent commits; R5 (28k stars) does not. |
+| Releases | High. Tagged releases indicate stability and versioning. Compare with SLSA build provenance (S3). |
+| Issues / PR health | High. Closed vs open ratio, median response time, and PR merge latency reveal maintainer capacity. |
+| Security policy (SECURITY.md) | High. Required for responsible vulnerability disclosure. Part of the GitHub security baseline (S5). |
+| SBOM / provenance | High. SBOM (S10) gives transparency into dependencies. SLSA L2 or L3 (S3) verifies build integrity. |
+| License | High. Determines legal usability. R2 (MIT), R3 (Apache-2.0) are safe. R6 (no license) and R7 (non-OSI) require legal review. |
+| Customer / community evidence | High. Case studies, enterprise testimonials, or active community discussions on security. |
+| Pilot result | Highest. A controlled 30-day pilot with exit criteria (see below) is the only true measure of fit. |
+
+## The procurement signals that actually matter
+
+Procurement for AI tools must move beyond star counts to a multi-signal framework. The signals that matter cluster into three categories: **legal**, **operational**, and **security**. Each category has its own gate, its own owner inside the organization, and its own evidence type. A finance team will recognize this shape from any vendor scorecard exercise; the difference for AI tooling is that license risk and supply-chain risk now sit at the top of the matrix instead of pricing.
+
+**Legal.** The license is the most common blocker. Per S7, no license means default copyright applies, which is a hard pass for any commercial use. The 122k-star repo with no LICENSE file is the canonical trap: the star count masks an unusable artifact. Non-OSI licenses such as the Sustainable Use License (n8n) or Dify's restricted license are valid open-source licenses but require legal review against your specific business model before commercial embedding or hosted-service deployment. Star counts tell you none of this. The license file does. A one-page legal memo per pilot is cheap insurance.
+
+**Operational.** Maintenance health is the second blocker. A repo with no commits in six months should not enter production regardless of star count, because security patches lag and dependencies bit-rot fast. Check three operational signals together: commit recency (last 90 days is the floor for a pilot), release cadence (monthly or quarterly tagged releases indicate versioning discipline), and maintainer count (three or more active contributors, or one with corporate backing, survives a single departure). The OpenSSF Scorecard (S1) bakes contributor-diversity, code-review, and dependency-update-tools checks into its 0-10 score; consult the score before you run the pilot. Dependabot alerts (S4) on the repository show whether the project is responding to advisory-database entries within a reasonable window.
+
+**Security.** The GitHub repo security quickstart (S5) defines a five-feature minimum: dependency graph, Dependabot alerts plus automatic security updates, CodeQL default setup, secret scanning with push protection, and a published SECURITY.md disclosure policy. SLSA build levels (S3) define the build-provenance bar: L0 is dev-only, L1 is trivially forgeable, L2 is the practical procurement minimum (hosted build platform with cryptographic signing), and L3 is the hardened bar for high-stakes use. SBOM (S10) is the dependency-transparency bar; CISA SBOM minimum-elements guidance is increasingly cited in EU Cyber Resilience Act conversations. For European teams, the data-flow question is decisive under the EU AI Act (S8): where do prompts, completions, and logs go? Self-hosting (where supported) reduces residency risk; cloud-only AI tools need a documented residency posture before pilot, not after.
+
+## A practical AI tool evaluation scorecard
+
+The following scorecard condenses the signals into a table your team can use during vendor assessment or tool selection.
+
+| AI Tool Procurement Scorecard | | | | |
+|---|---|---|---|---|
+| Signal | Why it matters | What to check | Red flag | Decision impact |
+| License | Determines legal usability and commercial embeddability. | Check the LICENSE file. Is it OSI-approved? (S7) | No LICENSE file (R6) or non-OSI license (R7, R8) without legal review. | Hard pass if no license. Requires legal review for non-OSI. |
+| Maintainer health | Indicates long-term viability. | How many active maintainers? Are issues and PRs closed regularly? (S1, Scorecard contributor-diversity) | Single maintainer or repo abandoned for 6+ months (R5). | High risk of no support or security patches. |
+| Release cadence | Shows versioning discipline and bug fix frequency. | Check the Releases page. Are there recent releases? Are they semantically versioned? | No releases in 6+ months or all releases are pre-release. | Stale projects may have unpatched vulnerabilities. |
+| Security posture | Protects your supply chain and user data. | Does the repo have a SECURITY.md? Are Dependabot alerts enabled? (S5) | No security policy, no vulnerability reporting path. | You will be blind to vulnerabilities. |
+| Dependency risk | Every dependency is a potential attack vector. | Use Dependabot to inspect the dependency graph. (S4, S9) | Many outdated or unmaintained dependencies. | Increased attack surface. |
+| Data flow | Determines regulatory compliance (EU AI Act, GDPR). | Where do prompts, outputs, and logs go? Can it be self-hosted? (S8) | Cloud-only with no data residency option or unclear data processing terms. | Non-compliance risk. |
+| Enterprise support | Critical for production incidents. | Is there a company backing the project? Are there paid support options? | No company, no forum, no SLA. | You are on your own if something breaks. |
+| Integration fit | Reduces engineering cost. | Does it plug into your existing stack (e.g., Kubernetes, GitHub Actions, observability tools)? | Requires custom integration work or replaces core infrastructure. | High migration cost. |
+| Observability | Essential for monitoring and debugging. | Does it expose metrics, logs, or traces? Can it be monitored with your existing tools? | No observability hooks or black-box behavior. | Hard to diagnose issues in production. |
+| Reversibility / exit path | Avoids vendor lock-in. | Can you export data, models, or configurations? Is there an alternative? | Proprietary format, no export mechanism. | High switching cost. |
+
+## How to run a 30-day pilot without creating governance debt
+
+A pilot is the only way to validate procurement signals before committing to production. Follow these seven steps to run a controlled, low-risk evaluation.
+
+1. Define exit criteria: Write down what success looks like. Example: "The tool must integrate with our existing CI/CD pipeline without modifying our security controls." Owner: Engineering Lead. Success criterion: All criteria met at day 30.
+
+1. Set up a sandbox environment: Use a dedicated namespace in your Kubernetes cluster or a separate cloud subscription. Do not connect to production data. Owner: Platform Engineer. Success criterion: Isolated environment with network policies.
+
+1. Review data flow: Document where prompts, outputs, and logs travel. Check against OWASP LLM01 (S6) prompt injection mitigations. For European teams, verify data residency against the EU AI Act sandbox requirements (S8). Owner: Security Engineer. Success criterion: Data flow diagram with risk assessment.
+
+1. Run the security baseline: Execute the OpenSSF Scorecard (S1) on the repo and its dependencies. Generate an SBOM using a tool like Syft. Owner: DevOps Lead. Success criterion: Scorecard score above 7.0, SBOM produced.
+
+1. Test integration: Connect the AI tool to your staging environment. Verify that it works with your existing identity provider, API gateway, and monitoring. Owner: Integration Engineer. Success criterion: Integration completes without errors and produces observability data.
+
+1. Conduct a load test: Simulate production traffic to measure latency, throughput, and resource consumption. Owner: SRE Lead. Success criterion: Tool meets performance SLAs under 2x expected load.
+
+1. Document lessons and decide: Compile findings against exit criteria. Present to the procurement team. Owner: Engineering Manager. Success criterion: Go/no-go decision with rationale.
+
+If you need help structuring your AI readiness process, consider our AI Readiness Assessment at https://radar.firstaimovers.com/page/ai-readiness-assessment or consult with our team at https://radar.firstaimovers.com/page/ai-consulting.
+
+## What not to automate yet
+
+Some repos are attractive because of their star count but carry risks that automation cannot mitigate. A founder-led company shipping fast is especially exposed here, because the cost of unwinding a star-driven choice falls on the same small technical team that picked it. The avoid bucket from the example set illustrates three concrete risk classes.
+
+- **Abandoned but popular.** stanford-oval/storm (28k stars, last commit September 2025) is the canonical "stars do not decay, but code does" pattern. Seven months without a push, in an ecosystem where dependencies and model interfaces shift quarterly, is a liability. Automating the use of a stale repo, even one with strong stars, exposes the engineering leader running the procurement to security drift, dependency vulnerabilities the maintainer has not patched, and the eventual hard fork. Do not embed an unmaintained dependency in production, period.
+
+- **Licenseless landmine.** forrestchang/andrej-karpathy-skills (122k stars, no LICENSE file) is the highest-star example in the set and the one that fails procurement on the first gate. Per S7, default copyright applies, which means no permission to use, modify, or distribute. Any commercial deployment of a no-license repo creates a litigation surface that no amount of star-count enthusiasm covers. Stars do not just fail to flag this risk; they actively obscure it by signalling community confidence the legal facts do not support.
+
+- **Non-OSI licenses without legal review.** n8n-io/n8n (Sustainable Use License) and langgenius/dify both have very high star counts and restricted licenses that are valid but limit hosted-service redistribution and commercial embedding. The license is on the repo; the analysis is in your legal team's memo. Skip the memo and you are guessing at compliance with a non-OSI clause that lawyers, not engineers, are paid to read.
+
+General anti-patterns to avoid, applicable across coding agents, vector databases, MCP servers, and AI app builders:
+
+- **Star-first filtering.** Using a star threshold as the first filter. Replace it with: (1) license check, (2) commit-recency check, (3) Scorecard score per S1.
+- **Ignoring dependency depth.** Building on a tool whose own dependency graph is hundreds of packages deep. Generate an SBOM per S10 before pilot, scan it against the GitHub Advisory Database (S9), and document any unresolved high-severity items in the pilot's data-flow review.
+- **Assuming corporate backing means safety.** A vendor-backed tool can still ship without a clean license file, without SLSA L2 conformance, or without a SECURITY.md. The presence of a logo on the README is not a substitute for the procurement scorecard above.
+- **Granting an AI agent merge or release authority.** Per S6 OWASP LLM01, indirect prompt injection from repo content can subvert an autonomous agent. The merge button must remain policy-controlled regardless of which AI tool the team adopts, and regardless of how many stars that tool has.
+
+## A better decision rule for engineering leaders
+
+Replace "we picked this because it has 100k stars" with a decision rule that balances attention signals with procurement evidence. Here is a simple rule that fits on a slide:
+
+1. **Legal gate**: Does the repo have a license that permits commercial use? (If no license, hard pass. If non-OSI, legal review.)
+2. **Security gate**: Does the repo pass the GitHub security baseline? (S5: dependency graph, Dependabot alerts, CodeQL, secret scanning, SECURITY.md.)
+3. **Maintenance gate**: Has the repo had a commit or release in the last 90 days? (If no, deprioritize.)
+4. **Evidence gate**: Has at least one positive pilot or community reference? (Pilot result is highest evidence.)
+5. **Decision**: If all gates pass, proceed to a 30-day pilot with exit criteria. If any gate fails, require a mitigation plan before moving forward.
+
+This rule puts stars in their proper place: a weak but useful signal for discovery, not decision. For European teams, the sandbox milestone (August 2026) means that every AI tool procurement should be justifiable under the EU AI Act's transparency and documentation requirements. A star count is not justifiable. A pilot report with scorecard results is.
+
+## Frequently Asked Questions
+
+### Q: Are stars completely useless?
+
+No. Stars are a useful but weak market signal. They indicate community interest and can help you discover tools worth investigating. But they fail as a procurement signal because they conflate attention with safety, maintenance, and licensing. Treat stars as a discovery filter, not a decision input.
+
+### Q: How many stars is enough to take a tool seriously?
+
+There is no magic number. A tool with 1k stars that is actively maintained, licensed, and used in production by similar companies is more credible than a 100k-star repo that is stale or unlicensed. Use stars to get on the radar, then apply the evaluation scorecard.
+
+### Q: Should European teams care about SLSA and SBOM right now?
+
+Yes. SLSA L2 or L3 (S3) is becoming the procurement bar for build provenance. SBOM (S10) is becoming the procurement bar for dependency transparency. The EU AI Act and the upcoming Cyber Resilience Act increase the likelihood that these will become regulatory requirements. European teams that start collecting SBOMs today will be ahead of compliance deadlines.
+
+### Q: What replaces 'we picked this because it has 100k stars' in a procurement memo?
+
+"We selected this tool because it passed all gates in our procurement scorecard. The license allows commercial use, the maintainer team is active, security posture is verified by OpenSSF Scorecard, a 30-day pilot met our exit criteria, and the tool runs self-hosted with documented data flows." That is what a procurement memo should contain.
+
+### Q: How long should a pilot run before a production decision?
+
+30 days is the standard minimum. This allows one full iteration cycle: setup, integration testing, load testing, and evaluation. Extend to 60 days if the tool involves significant data migration or if you need to validate compliance in an EU AI Act sandbox.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Why GitHub Stars Are a Bad Procurement Metric for AI Tools",
+  "description": "GitHub stars measure attention, not procurement fitness. Replace them with a license, maintenance, security, and pilot evidence frame.",
+  "datePublished": "2026-05-10T11:28:13.901976+00:00",
+  "dateModified": "2026-05-10T11:28:13.901976+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/github-stars-bad-procurement-metric-ai-tools-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Q: Are stars completely useless?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Stars are a useful but weak market signal. They indicate community interest and can help you discover tools worth investigating. But they fail as a procurement signal because they conflate attention with safety, maintenance, and licensing. Treat stars as a discovery filter, not a decision input."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: How many stars is enough to take a tool seriously?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no magic number. A tool with 1k stars that is actively maintained, licensed, and used in production by similar companies is more credible than a 100k-star repo that is stale or unlicensed. Use stars to get on the radar, then apply the evaluation scorecard."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: Should European teams care about SLSA and SBOM right now?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. SLSA L2 or L3 (S3) is becoming the procurement bar for build provenance. SBOM (S10) is becoming the procurement bar for dependency transparency. The EU AI Act and the upcoming Cyber Resilience Act increase the likelihood that these will become regulatory requirements. European teams that sta..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: What replaces 'we picked this because it has 100k stars' in a procurement memo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": ""We selected this tool because it passed all gates in our procurement scorecard. The license allows commercial use, the maintainer team is active, security posture is verified by OpenSSF Scorecard, a 30-day pilot met our exit criteria, and the tool runs self-hosted with documented data flows." Th..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: How long should a pilot run before a production decision?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "30 days is the standard minimum. This allows one full iteration cycle: setup, integration testing, load testing, and evaluation. Extend to 60 days if the tool involves significant data migration or if you need to validate compliance in an EU AI Act sandbox."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Why GitHub Stars Are a Bad Procurement Metric for AI Tools",
+  "description": "GitHub stars measure attention, not procurement fitness. Replace them with a license, maintenance, security, and pilot evidence frame.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Legal gate",
+      "text": "Does the repo have a license that permits commercial use? (If no license, hard pass. If non-OSI, legal review.)"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Security gate",
+      "text": "Does the repo pass the GitHub security baseline? (S5: dependency graph, Dependabot alerts, CodeQL, secret scanning, SECURITY.md.)"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Maintenance gate",
+      "text": "Has the repo had a commit or release in the last 90 days? (If no, deprioritize.)"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Evidence gate",
+      "text": "Has at least one positive pilot or community reference? (Pilot result is highest evidence.)"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Decision",
+      "text": "If all gates pass, proceed to a 30-day pilot with exit criteria. If any gate fails, require a mitigation plan before moving forward."
+    }
+  ]
 }
 </script>
 -->
