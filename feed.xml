@@ -157,6 +157,23 @@
     <summary type="text">CTOs and platform leaders discover why maintainer health outranks star counts for enterprise when selecting open source AI tools.</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-open-source-ai-repos-european-engineering-teams-2026</id>
+    <title>The Open-Source AI Repos European Engineering Teams Should Watch Right Now</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/open-source-ai-repos-european-engineering-teams-2026"/>
+    <published>2026-05-10T00:00:00Z</published>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="open-source-ai"/>
+    <category term="ai-engineering"/>
+    <category term="european-tech"/>
+    <category term="ai-governance"/>
+    <category term="coding-agents"/>
+    <summary type="text">A decision framework for European engineering leaders to evaluate open-source AI repos by license, maintenance, and data governance.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-open-source-ai-tool-security-checklist-european-scale-ups-2026</id>
     <title>Open-Source AI Tool Security Checklist for European Scale-Ups</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/open-source-ai-tool-security-checklist-european-scale-ups-2026"/>
@@ -168,6 +185,23 @@
     </author>
     <category term="GDPR &amp; Data Privacy"/>
     <summary type="text">A practical security checklist for European scale-ups evaluating open-source AI tools before procurement, covering license through DORA.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-10:2026-05-10-premium-reasoning-low-cost-ai-development-stack-2026</id>
+    <title>The New AI Development Stack: Premium Reasoning, Low-Cost Execution</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/premium-reasoning-low-cost-ai-development-stack-2026"/>
+    <published>2026-05-10T00:00:00Z</published>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-development-stack"/>
+    <category term="code-generation"/>
+    <category term="governance"/>
+    <category term="european-ai"/>
+    <category term="cost-optimization"/>
+    <summary type="text">Learn to split your AI stack into a premium reasoning lane and a low-cost execution lane. Practical guide for European scale-ups.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-09:2026-05-09-local-first-ai-assistants-enterprise-privacy-2026</id>
@@ -760,39 +794,5 @@
     <category term="European SME AI"/>
     <category term="AI Risk Management"/>
     <summary type="text">Which AI vendors store your data in the EU, and what configuration is required. A GDPR and EU AI Act compliance guide for European SME operators.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-tools-finance-accounting-european-smes-2026</id>
-    <title>AI Tools for Finance and Accounting Teams in European SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-tools-finance-accounting-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="AI for Finance Teams"/>
-    <category term="Fintech AI"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <summary type="text">Which AI tools work for finance and accounting in EU SMEs: VAT automation, GDPR compliance, audit trail requirements, and how to evaluate vendors.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-tools-for-hr-european-smes-2026</id>
-    <title>AI Tools for HR at European SMEs: What Is Safe to Deploy in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-tools-for-hr-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI for HR"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <summary type="text">How HR leads at EU SMEs can deploy AI for hiring, onboarding, and reviews without triggering EU AI Act Annex III obligations.</summary>
   </entry>
 </feed>
