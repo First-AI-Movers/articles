@@ -9,6 +9,14 @@ permissions:
   contents: write
   pull-requests: write
 
+# Serialize ingestion runs. The cron and manual dispatches share the same
+# rebuild artifacts (index.json, sitemap.xml, llms-*.txt) and PR branch
+# (ingest/airtable-articles); without this group, two near-simultaneous
+# runs would race on peter-evans/create-pull-request and rebuild output.
+concurrency:
+  group: ingest-airtable
+  cancel-in-progress: false
+
 env:
   INGEST_DRY_RUN: ${{ vars.INGEST_DRY_RUN || '1' }}
   # Production safety bounds for the daily cron.
