@@ -2,8 +2,20 @@ name: E2E tests
 
 on:
   pull_request:
+    # Skip docs-only / roadmap-only PRs — full Chromium install + 32 browser
+    # tests provide no signal on a markdown edit. Nightly cron still covers
+    # main, so a docs-only PR that subtly broke a template is caught within
+    # 24h. Required-check still applies on any non-doc PR.
+    paths-ignore:
+      - 'ROADMAP.md'
+      - 'docs/**'
+      - '**.md'
   push:
     branches: [main]
+    paths-ignore:
+      - 'ROADMAP.md'
+      - 'docs/**'
+      - '**.md'
   schedule:
     # Nightly at 06:00 UTC — low-noise canary
     - cron: '0 6 * * *'

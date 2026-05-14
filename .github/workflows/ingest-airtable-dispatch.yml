@@ -14,6 +14,14 @@ permissions:
   contents: write
   pull-requests: write
 
+# Share the `ingest-airtable` concurrency group with the cron workflow.
+# Push-driven dispatches (E20b) and the daily cron (E20a) must not run
+# in parallel — they touch the same rebuild artifacts and the same
+# create-pull-request branch pattern.
+concurrency:
+  group: ingest-airtable
+  cancel-in-progress: false
+
 env:
   INGEST_DRY_RUN: ${{ vars.INGEST_DRY_RUN || '1' }}
 
