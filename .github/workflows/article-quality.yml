@@ -2,8 +2,19 @@ name: Article quality audit
 
 on:
   pull_request:
+    # Vale binary + Lychee link-check + readability scoring run against
+    # articles/ — none of these need to fire for docs-only changes. Weekly
+    # cron still covers the full corpus regardless.
+    paths-ignore:
+      - 'ROADMAP.md'
+      - 'docs/**'
+      - '**.md'
   push:
     branches: [main]
+    paths-ignore:
+      - 'ROADMAP.md'
+      - 'docs/**'
+      - '**.md'
   workflow_dispatch:
   schedule:
     # Weekly full-corpus check: Sundays at 04:17 UTC

@@ -2,8 +2,18 @@ name: GEO audit
 
 on:
   pull_request:
+    # GEO audit scores every article in articles/. A docs-only PR cannot
+    # change those scores. Skipping saves ~30s install + full-corpus scan.
+    paths-ignore:
+      - 'ROADMAP.md'
+      - 'docs/**'
+      - '**.md'
   push:
     branches: [main]
+    paths-ignore:
+      - 'ROADMAP.md'
+      - 'docs/**'
+      - '**.md'
   workflow_dispatch:
 
 permissions:
