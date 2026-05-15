@@ -4,6 +4,15 @@ on:
   pull_request:
   push:
     branches: [main]
+  schedule:
+    # Weekly full-history scan: Mondays 07:00 UTC. Catches pre-existing
+    # leaks in files that no PR ever touches (history import, admin
+    # override, force-push attempts that snuck through, rotated tokens
+    # left behind in older commits).
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+    # On-demand operator scan after token rotation, suspected leak, or
+    # external history import. No inputs — runs the same scan as cron.
 
 permissions:
   contents: read

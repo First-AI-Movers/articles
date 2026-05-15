@@ -67,7 +67,15 @@ jobs:
   deploy:
     needs: [test, export-data]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # Gate at the job level so no runner spins up unless deployment is
+    # actually intended. The Cloudflare credential check stays inside the
+    # run step as defense in depth (a configured `MCP_DEPLOY_ENABLED` with
+    # missing tokens is an operator misconfiguration, not a successful
+    # deploy). Conditions are AND-joined; all must hold.
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      github.event_name == 'push' &&
+      (vars.MCP_DEPLOY_ENABLED == '1' || vars.MCP_DEPLOY_ENABLED == 'true')
     defaults:
       run:
         working-directory: mcp-server
@@ -87,14 +95,9 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          MCP_DEPLOY_ENABLED: ${{ vars.MCP_DEPLOY_ENABLED }}
         run: |
           if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            echo "Skipping deployment: Cloudflare credentials not configured"
-            exit 0
-          fi
-          if [ "$MCP_DEPLOY_ENABLED" != "1" ] && [ "$MCP_DEPLOY_ENABLED" != "true" ]; then
-            echo "Skipping deployment: MCP_DEPLOY_ENABLED is not set"
-            exit 0
+            echo "::error::MCP_DEPLOY_ENABLED is set but Cloudflare credentials are missing"
+            exit 1
           fi
           npm run deploy
