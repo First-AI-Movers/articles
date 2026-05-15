@@ -15,8 +15,15 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-# Artifacts produced by rebuild_local.py that are committed to the repo.
-# Order matches the rough dependency chain (index first, then derived files).
+# Artifacts produced by rebuild_local.py (or update_docs.py for ROADMAP.md)
+# that are committed to the repo. Order matches the rough dependency chain
+# (index first, then derived files, then docs whose stats reference them).
+#
+# ROADMAP.md is patched by tools/update_docs.py — specifically its
+# `auto:operational-state` block. The ingestion workflows run update_docs.py
+# after rebuild_local.py to keep this current. Tracking ROADMAP.md here
+# catches the class of drift that landed in commit 75ca5fa (PR #178) when
+# update_docs.py had not yet run on a series of ingestion PRs.
 ARTIFACTS = [
     "index.json",
     "sitemap.xml",
@@ -26,6 +33,7 @@ ARTIFACTS = [
     "llms-full.txt",
     "llms-recent.txt",
     "README.md",
+    "ROADMAP.md",
 ]
 
 
@@ -55,6 +63,21 @@ def check_artifacts(repo_root: Path, rebuild_cmd: list[str] | None = None) -> tu
         )
         if result.returncode != 0:
             return 1, [f"rebuild_local.py failed: {result.stderr.strip()}"]
+
+        # Run update_docs.py to patch ROADMAP.md's auto:operational-state block.
+        # rebuild_local.py covers README/llms.txt; update_docs.py owns ROADMAP.
+        # Mirrors the ingestion workflows' two-step pattern. Skipped if the
+        # script is missing (older trees without E16 dynamic docs).
+        update_docs = repo_root / "tools" / "update_docs.py"
+        if update_docs.exists():
+            result = subprocess.run(
+                [sys.executable, str(update_docs)],
+                cwd=repo_root,
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode != 0:
+                return 1, [f"update_docs.py failed: {result.stderr.strip()}"]
 
         # Compare artifacts
         drift: list[str] = []

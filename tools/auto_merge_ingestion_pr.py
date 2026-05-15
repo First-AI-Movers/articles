@@ -48,7 +48,13 @@ import sys
 import time
 
 EXPECTED_TITLE = "ingest(articles): add articles from Airtable"
-HEAD_BRANCH_PREFIX = "ingest/airtable-"
+# Match the cron workflow's PR branch exactly. E20b dispatch opens PRs on
+# `ingest/airtable-record-rec<id>` branches — those must NEVER be matched
+# here, even if a future operator sets `AUTO_MERGE_HEAD_BRANCH` to one of
+# them, because E20b PRs require human review per record. Title-match would
+# also reject them (different EXPECTED_TITLE) but defense-in-depth: tightening
+# this prefix means `branch_matches()` alone correctly rejects them.
+HEAD_BRANCH_PREFIX = "ingest/airtable-articles"
 ALLOWED_PATHS = [
     # Articles: only the two canonical files per folder.
     ("articles/", "/article.md"),
