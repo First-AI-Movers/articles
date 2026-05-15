@@ -15,15 +15,19 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-# Artifacts produced by rebuild_local.py (or update_docs.py for ROADMAP.md)
-# that are committed to the repo. Order matches the rough dependency chain
-# (index first, then derived files, then docs whose stats reference them).
+# Artifacts produced by the rebuild pipeline that are committed to the repo.
+# Order matches the rough dependency chain (index first, then derived files,
+# then docs whose stats reference them, then export artifacts that consume them).
 #
-# ROADMAP.md is patched by tools/update_docs.py — specifically its
-# `auto:operational-state` block. The ingestion workflows run update_docs.py
-# after rebuild_local.py to keep this current. Tracking ROADMAP.md here
-# catches the class of drift that landed in commit 75ca5fa (PR #178) when
-# update_docs.py had not yet run on a series of ingestion PRs.
+# rebuild_local.py owns: index.json, sitemap.xml, feed.xml, feed.json,
+#   llms.txt, llms-full.txt, llms-recent.txt, README.md
+# update_docs.py owns:   ROADMAP.md's `auto:operational-state` block
+# export_mcp_data.py owns: mcp-server/src/generated/archive-data.json
+#
+# Each of those rebuild tools is invoked by check_artifacts() in turn so the
+# diff step compares all committed outputs against a fresh regeneration.
+# This catches the recurring "stale derived file" drift that landed cleanup
+# commits in PRs #178, #179, and #180.
 ARTIFACTS = [
     "index.json",
     "sitemap.xml",
@@ -34,6 +38,7 @@ ARTIFACTS = [
     "llms-recent.txt",
     "README.md",
     "ROADMAP.md",
+    "mcp-server/src/generated/archive-data.json",
 ]
 
 
@@ -79,6 +84,40 @@ def check_artifacts(repo_root: Path, rebuild_cmd: list[str] | None = None) -> tu
             if result.returncode != 0:
                 return 1, [f"update_docs.py failed: {result.stderr.strip()}"]
 
+        # Run export_mcp_data.py to refresh mcp-server/src/generated/archive-data.json.
+        # The MCP server's bundled data is fed from index.json + article markdown,
+        # so it drifts whenever those drift. Catching it here in the same `check`
+        # job consolidates a class of "surprise drift" that previously only
+        # surfaced when an unrelated PR happened to touch mcp-server/** paths
+        # (cf. the cleanup commit in PR #180).
+        #
+        # pyarrow is only needed for the embeddings.json sibling output; the
+        # archive-data.json export uses stdlib only. We pass the --skip-embeddings
+        # flag if the script supports it; otherwise we treat a pyarrow-missing
+        # error as a non-blocking skip so the check still passes in environments
+        # without pyarrow. CI installs pyarrow via tools/requirements.txt.
+        export_mcp = repo_root / "tools" / "export_mcp_data.py"
+        if export_mcp.exists():
+            result = subprocess.run(
+                [sys.executable, str(export_mcp)],
+                cwd=repo_root,
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode != 0:
+                err = (result.stderr or "").strip()
+                # Tolerate the local-env pyarrow gap; archive-data.json itself
+                # only needs stdlib + index.json. Still report so the operator
+                # sees there was a soft skip.
+                if "pyarrow" in err.lower():
+                    print(
+                        f"[artifact-check] WARN: skipping MCP export (pyarrow missing); "
+                        f"archive-data.json drift cannot be verified locally",
+                        file=sys.stderr,
+                    )
+                else:
+                    return 1, [f"export_mcp_data.py failed: {err}"]
+
         # Compare artifacts
         drift: list[str] = []
         for name in ARTIFACTS:
@@ -102,9 +141,14 @@ def check_artifacts(repo_root: Path, rebuild_cmd: list[str] | None = None) -> tu
         return 0, []
 
     finally:
-        # Restore original artifacts so the working tree is unchanged
+        # Restore original artifacts so the working tree is unchanged.
+        # mkdir parents in case a rebuild step deleted an intermediate dir
+        # (defense in depth — should not happen in practice for the current
+        # rebuild pipeline, but cheap insurance).
         for name, content in backups.items():
-            (repo_root / name).write_bytes(content)
+            path = repo_root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(content)
         # Remove any artifacts that were newly created but not previously committed
         for name in ARTIFACTS:
             if name not in backups:
