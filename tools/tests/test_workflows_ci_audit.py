@@ -29,10 +29,16 @@ def _load(name: str) -> dict:
     return yaml.safe_load((WORKFLOWS / name).read_text(encoding="utf-8"))
 
 
-# Standard docs-only paths that should NOT trigger heavy CI. Any superset
-# satisfies the assertion (e.g., a workflow may also exclude '*.txt'); the
-# minimum bar is that markdown docs and ROADMAP changes don't trigger.
-DOCS_ONLY_PATTERNS = {"ROADMAP.md", "docs/**", "**.md"}
+# Pure-docs paths that should NOT trigger heavy CI. Any superset satisfies
+# the assertion (e.g., a workflow may also exclude '*.txt'); the minimum
+# bar is that ROADMAP and docs/** changes don't trigger.
+#
+# N6 (2026-05-15) deliberately drops the previous '**.md' blanket entry.
+# Article content (`articles/<slug>/article.md`) IS markdown but IS
+# content, so it MUST trigger heavy gates. Pure-docs PRs (ROADMAP.md
+# or docs/**) still skip; required-check `e2e` is reported on those
+# PRs by the sibling `e2e-skip.yml` workflow.
+DOCS_ONLY_PATTERNS = {"ROADMAP.md", "docs/**"}
 
 
 # ----------------------------------------------------------------------------
@@ -140,6 +146,45 @@ def test_heavy_workflow_skips_docs_only_changes(workflow):
         )
     assert triggers_checked > 0, (
         f"{workflow} has neither `pull_request` nor `push` trigger to gate"
+    )
+
+
+def test_e2e_skip_workflow_satisfies_required_check_on_pure_docs_prs():
+    """N6 (2026-05-15): pure-docs PRs must still report the required `e2e` check.
+
+    Branch protection on `main` requires the `e2e` job context. The heavy
+    `e2e.yml` workflow skips pure-docs PRs via paths-ignore; without a
+    satisfier workflow, the required check never reports and docs-only PRs
+    (e.g. ROADMAP-only closeouts) cannot merge. `e2e-skip.yml` reports
+    success for the same `e2e` job name on the inverse path set.
+    """
+    wf = _load("e2e-skip.yml")
+
+    # Must declare the same workflow name as the heavy e2e.yml so GitHub
+    # treats the two as alternate runs of the same check context.
+    heavy = _load("e2e.yml")
+    assert wf.get("name") == heavy.get("name"), (
+        f"e2e-skip.yml must share `name` with e2e.yml so the required "
+        f"`e2e` check is unified across both workflows. "
+        f"e2e-skip.yml name: {wf.get('name')!r}, e2e.yml name: {heavy.get('name')!r}"
+    )
+
+    # Must define a job named exactly `e2e`.
+    assert "e2e" in wf.get("jobs", {}), (
+        "e2e-skip.yml must define a job named `e2e` to satisfy the "
+        "required-check context."
+    )
+
+    # Trigger must be pull_request with `paths` (not paths-ignore) — must
+    # FIRE on the pure-docs paths that the heavy workflow ignores.
+    on_section = wf.get("on") or wf.get(True)
+    assert isinstance(on_section, dict), "e2e-skip.yml `on` must be a dict"
+    pr = on_section.get("pull_request") or {}
+    paths = set(pr.get("paths") or [])
+    assert DOCS_ONLY_PATTERNS <= paths, (
+        f"e2e-skip.yml pull_request.paths must include the docs-only "
+        f"patterns {sorted(DOCS_ONLY_PATTERNS)} so it fires when the heavy "
+        f"e2e.yml is skipped. Currently: {sorted(paths) or 'none'}"
     )
 
 
