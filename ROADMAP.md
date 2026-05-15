@@ -165,10 +165,11 @@ These are not committed epics yet — they are the highest-value next tracks aft
 | # | Track | Why now | Size |
 |---|---|---|---|
 | ~~N1~~ | ~~Duplicate-title remediation~~ | ✅ **Done in E19.** 6 historical pairs disambiguated; gate is now blocking. | XS |
-| **N2** | Live IndexNow workflow switch | After Bing confirms key/submission health (202 accepted), switch CI from `--dry-run` to live submission after deploy. Keep non-blocking. | XS |
+| ~~N2~~ | ~~Live IndexNow workflow switch~~ | ✅ **Done.** PR #178 flipped `.github/workflows/build-and-deploy.yml` from `submit_indexnow.py --dry-run` to live submission; job depends on `deploy` and remains `continue-on-error: true`. **Live verified 2026-05-15** (run [25928942642](https://github.com/First-AI-Movers/articles/actions/runs/25928942642) on `main @ 608d728`): `IndexNow: submitted 80 URLs → 200 https://api.indexnow.org/indexnow` at `16:27:08Z`. Key not logged. `tools/tests/test_workflows_ci_audit.py::test_indexnow_step_does_not_use_dry_run` + `test_indexnow_step_is_non_blocking` both pass. | XS |
 | **N3** | Topic hub CTR optimization | After 2–4 weeks of GSC data, tune titles/meta for hubs with impressions but low CTR. Data-driven, not speculative. | S |
 | **N4** | WordPress/Hetzner migration SEO checklist | Prepare launch checklist for `www.firstaimovers.com` migration: robots.txt, sitemap, Cloudflare bot allowlisting, IndexNow, canonical redirects. | S |
 | **N5** | Archive analytics / reporting | Add simple weekly visibility snapshot artifact generated from GSC/Bing exports if data access becomes available. | M |
+| **N6** | Scope docs-only workflow skips | Article Markdown changes currently skip E2E / quality / GEO checks because `article-quality.yml`, `e2e.yml`, and `geo-audit.yml` all set `paths-ignore: '**.md'`. Tighten so article content edits still trigger these gates while pure-docs `.md` edits (e.g. governance / closeout) continue to skip. Surfaced during N2 verification 2026-05-15. | XS |
 
 ## Status snapshot — completed
 
@@ -267,7 +268,7 @@ The archive is frozen as **v1 stable** as of 2026-05-03. All required closeout p
 - E39c translation rollout — 13 articles × 5 languages remaining at quota pace (~1 article/month). See `docs/E39C_ROLLOUT_PLAN.md`.
 - E35 full-corpus summaries — pending owner approval.
 - Live MCP/Ask/OG deployment — pending Cloudflare credentials.
-- Live IndexNow — pending owner flip from `--dry-run`.
+- ~~Live IndexNow — pending owner flip from `--dry-run`.~~ ✅ Done (PR #178 flip + 2026-05-15 live verification: 200 OK, 80 URLs, run 25928942642).
 - Zenodo DOI minting — pending release creation.
 - Airtable write mode — staged in E41 (see `docs/AUTONOMOUS_AIRTABLE_PUBLISHING_PLAN.md`).
 
