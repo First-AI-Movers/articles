@@ -29,15 +29,24 @@ def _load(name: str) -> dict:
     return yaml.safe_load((WORKFLOWS / name).read_text(encoding="utf-8"))
 
 
-# Pure-docs paths that should NOT trigger heavy CI. Any superset satisfies
-# the assertion (e.g., a workflow may also exclude '*.txt'); the minimum
-# bar is that ROADMAP and docs/** changes don't trigger.
+# Pure-docs paths that should NOT trigger heavy CI on path-filtered
+# workflows (article-quality, geo-audit). Any superset satisfies the
+# assertion; the minimum bar is that ROADMAP and docs/** changes don't
+# trigger.
 #
 # N6 (2026-05-15) deliberately drops the previous '**.md' blanket entry.
 # Article content (`articles/<slug>/article.md`) IS markdown but IS
-# content, so it MUST trigger heavy gates. Pure-docs PRs (ROADMAP.md
-# or docs/**) still skip; required-check `e2e` is reported on those
-# PRs by the sibling `e2e-skip.yml` workflow.
+# content, so it MUST trigger heavy gates.
+#
+# N6-H (2026-05-15) drops `e2e.yml` from the path-filtered set entirely.
+# `e2e.yml` is the SINGLE source of the required `e2e` context (branch
+# protection identifies required checks by job name; a sibling
+# `e2e-skip.yml` would publish a duplicate `e2e` context on mixed PRs
+# and GitHub explicitly warns: "Using the same job name in multiple
+# workflows can cause ambiguous status check results and block pull
+# requests from being merged"). Instead, `e2e.yml` fires on every PR
+# with no `paths-ignore` and uses an internal `classify_change` step
+# to skip the heavy Playwright path on pure-docs PRs.
 DOCS_ONLY_PATTERNS = {"ROADMAP.md", "docs/**"}
 
 
@@ -110,17 +119,19 @@ def test_airtable_ingestion_has_concurrency_block(workflow):
 
 
 @pytest.mark.parametrize("workflow", [
-    "e2e.yml",
     "article-quality.yml",
     "geo-audit.yml",
 ])
 def test_heavy_workflow_skips_docs_only_changes(workflow):
-    """e2e, article-quality, geo-audit must declare paths-ignore for docs-only PRs.
+    """article-quality and geo-audit must declare paths-ignore for docs-only PRs.
 
-    These workflows install heavy toolchains (Playwright + Chromium for e2e,
-    Vale binary for article-quality, etc.) and provide no signal on a README
-    or ROADMAP edit. Skipping them on docs-only changes is the highest-ROI
-    CI minutes optimization in the audit.
+    These workflows install heavy toolchains (Vale binary, GEO scoring) and
+    provide no signal on a README or ROADMAP edit. They are NOT required
+    by branch protection, so they can simply not run on pure-docs PRs.
+
+    `e2e.yml` is deliberately NOT in this set (N6-H, 2026-05-15) — it is the
+    single source of the required `e2e` context and must fire on every PR
+    with no `paths-ignore`; the cheap-vs-heavy decision lives inside the job.
     """
     wf = _load(workflow)
     # PyYAML parses bare 'on' as the boolean True (YAML 1.1). Accept either.
@@ -149,42 +160,127 @@ def test_heavy_workflow_skips_docs_only_changes(workflow):
     )
 
 
-def test_e2e_skip_workflow_satisfies_required_check_on_pure_docs_prs():
-    """N6 (2026-05-15): pure-docs PRs must still report the required `e2e` check.
+def test_no_duplicate_e2e_skip_workflow_file_exists():
+    """N6-H (2026-05-15): `.github/workflows/e2e-skip.yml` must NOT exist.
 
-    Branch protection on `main` requires the `e2e` job context. The heavy
-    `e2e.yml` workflow skips pure-docs PRs via paths-ignore; without a
-    satisfier workflow, the required check never reports and docs-only PRs
-    (e.g. ROADMAP-only closeouts) cannot merge. `e2e-skip.yml` reports
-    success for the same `e2e` job name on the inverse path set.
+    A separate skip-style workflow with the same `name:` and same
+    `jobs.e2e` job name as `e2e.yml` produces duplicate `e2e` required-
+    check contexts on mixed PRs. GitHub explicitly warns this can block
+    merges via ambiguous status. The single-workflow design in `e2e.yml`
+    (no `paths-ignore` + internal `classify_change` step) replaces it.
     """
-    wf = _load("e2e-skip.yml")
-
-    # Must declare the same workflow name as the heavy e2e.yml so GitHub
-    # treats the two as alternate runs of the same check context.
-    heavy = _load("e2e.yml")
-    assert wf.get("name") == heavy.get("name"), (
-        f"e2e-skip.yml must share `name` with e2e.yml so the required "
-        f"`e2e` check is unified across both workflows. "
-        f"e2e-skip.yml name: {wf.get('name')!r}, e2e.yml name: {heavy.get('name')!r}"
+    skip_path = WORKFLOWS / "e2e-skip.yml"
+    assert not skip_path.exists(), (
+        "e2e-skip.yml must not exist after N6-H. The required `e2e` check "
+        "is the single context published by e2e.yml; a sibling skip "
+        "workflow would create the duplicate-context ambiguity GitHub "
+        "warns about (about-protected-branches)."
     )
 
-    # Must define a job named exactly `e2e`.
-    assert "e2e" in wf.get("jobs", {}), (
-        "e2e-skip.yml must define a job named `e2e` to satisfy the "
-        "required-check context."
-    )
 
-    # Trigger must be pull_request with `paths` (not paths-ignore) — must
-    # FIRE on the pure-docs paths that the heavy workflow ignores.
+def test_e2e_workflow_fires_on_every_pr_no_paths_ignore():
+    """N6-H: `e2e.yml` must NOT use paths-ignore on `pull_request`.
+
+    Since `e2e` is a required check identified by job name and `e2e.yml`
+    is its single source, the workflow must fire on every PR. Skipping
+    the heavy steps for pure-docs PRs is handled INSIDE the job by the
+    `classify_change` step (see test_e2e_workflow_has_classify_change_step).
+    """
+    wf = _load("e2e.yml")
     on_section = wf.get("on") or wf.get(True)
-    assert isinstance(on_section, dict), "e2e-skip.yml `on` must be a dict"
+    assert isinstance(on_section, dict), "e2e.yml `on` must be a dict"
     pr = on_section.get("pull_request") or {}
-    paths = set(pr.get("paths") or [])
-    assert DOCS_ONLY_PATTERNS <= paths, (
-        f"e2e-skip.yml pull_request.paths must include the docs-only "
-        f"patterns {sorted(DOCS_ONLY_PATTERNS)} so it fires when the heavy "
-        f"e2e.yml is skipped. Currently: {sorted(paths) or 'none'}"
+    assert not pr.get("paths-ignore"), (
+        f"e2e.yml pull_request must NOT declare paths-ignore — the heavy/"
+        f"skip decision is made inside the job by classify_change. "
+        f"Found paths-ignore: {pr.get('paths-ignore')}"
+    )
+    assert not pr.get("paths"), (
+        f"e2e.yml pull_request must NOT declare paths either — the "
+        f"workflow must fire on every PR so the required `e2e` check "
+        f"always reports. Found paths: {pr.get('paths')}"
+    )
+
+
+def test_e2e_workflow_has_classify_change_step():
+    """N6-H: `e2e.yml` must have a `classify_change` step gating heavy work.
+
+    The step must:
+      (1) exist with id `classify_change`,
+      (2) set output `kind` to either `heavy` or `skip`,
+      (3) gate every Playwright-toolchain step on `kind == 'heavy'`.
+
+    Articles/<slug>/article.md is NOT docs-only (it's article content)
+    and MUST trigger heavy. Pure-docs is ONLY ROADMAP.md and docs/**.
+    """
+    wf = _load("e2e.yml")
+    job = wf["jobs"]["e2e"]
+    steps = job["steps"]
+
+    classify = [s for s in steps if s.get("id") == "classify_change"]
+    assert classify, "e2e.yml must declare a step with id `classify_change`"
+    classify_step = classify[0]
+    run = classify_step.get("run") or ""
+    # The classifier must emit a `kind` output and recognize both heavy
+    # and skip outcomes.
+    assert "kind=heavy" in run and "kind=skip" in run, (
+        "classify_change must emit `kind=heavy` and `kind=skip` outputs"
+    )
+    # Pure-docs detection MUST match ONLY ROADMAP.md and docs/. It must
+    # NOT match `articles/` (since articles/**/article.md is content).
+    assert "ROADMAP" in run and "docs/" in run, (
+        "classify_change must explicitly treat ROADMAP.md and docs/ as "
+        "the pure-docs set"
+    )
+    # Sanity: the classifier must not blanket-ignore '*.md' (would skip
+    # heavy on article content edits — the N6 coverage gap).
+    assert "*.md" not in run and "**.md" not in run, (
+        "classify_change must NOT use '*.md' / '**.md' patterns — "
+        "article content (articles/**/article.md) must trigger heavy"
+    )
+
+    # Every heavy step MUST be gated on the classify output.
+    heavy_indicators = (
+        "setup-python",
+        "Install Python dependencies",
+        "Build static site",
+        "setup-node",
+        "Install npm dependencies",
+        "Install Playwright",
+        "Run Playwright",
+    )
+    for step in steps:
+        if step.get("id") == "classify_change":
+            continue
+        marker = step.get("uses", "") + " " + (step.get("name") or "")
+        if any(ind in marker for ind in heavy_indicators):
+            cond = step.get("if") or ""
+            assert "classify_change.outputs.kind" in cond and "heavy" in cond, (
+                f"Heavy step '{step.get('name') or step.get('uses')}' must "
+                f"be gated on `classify_change.outputs.kind == 'heavy'`. "
+                f"Currently: if={cond!r}"
+            )
+
+
+def test_e2e_workflow_runs_heavy_on_schedule_and_push():
+    """N6-H: schedule and push-to-main triggers must always run heavy.
+
+    Skipping the canary on a schedule would silently weaken nightly
+    coverage. `classify_change` returns `heavy` for any non-pull_request
+    event.
+    """
+    wf = _load("e2e.yml")
+    on_section = wf.get("on") or wf.get(True)
+    assert "schedule" in on_section, "e2e.yml must keep the nightly schedule"
+    assert "push" in on_section, "e2e.yml must keep the push-to-main trigger"
+
+    classify_step = next(
+        s for s in wf["jobs"]["e2e"]["steps"] if s.get("id") == "classify_change"
+    )
+    run = classify_step.get("run") or ""
+    # The non-PR branch of the classifier must short-circuit to heavy.
+    assert 'github.event_name' in run and "pull_request" in run, (
+        "classify_change must distinguish pull_request from other events"
     )
 
 

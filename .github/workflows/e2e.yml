@@ -1,22 +1,36 @@
 name: E2E tests
 
+# Single source of the required `e2e` status check.
+#
+# Branch protection on `main` requires the `e2e` job context (by job name
+# alone; verified via `gh api .../branches/main/protection`). To prevent
+# the duplicate-required-context ambiguity GitHub explicitly warns about
+# ("Using the same job name in multiple workflows can cause ambiguous
+# status check results and block pull requests from being merged"), this
+# workflow MUST be the only one defining a `jobs.e2e` job, and it MUST
+# fire on every PR so the required check always reports.
+#
+# Cheap-path / heavy-path is decided INSIDE the job by `classify_change`:
+#   - schedule / push to main → always heavy (full Playwright suite).
+#   - pull_request whose changed files are ALL `ROADMAP.md` or under
+#     `docs/` → pure-docs; skip toolchain install + browser tests; the
+#     `e2e` job still reports SUCCESS so branch protection clears.
+#   - any other PR (including any change touching `articles/<slug>/
+#     article.md`, `tools/**`, `templates/**`, `static/**`,
+#     `mcp-server/**`, workflow files, or any non-pure-docs path) →
+#     heavy.
+#
+# Surfaced and patched in N6-H (2026-05-15) after Codex P1 on PR #183
+# flagged the dual-workflow design (`e2e.yml` + `e2e-skip.yml`) as
+# producing duplicate `e2e` contexts on mixed PRs. See
+# `docs/04-delivery/` or ROADMAP for the audit decision.
+
 on:
   pull_request:
-    # Skip pure-docs / roadmap-only PRs — full Chromium install + 32 browser
-    # tests provide no signal on a ROADMAP or `docs/**` edit. Article markdown
-    # IS content and DOES trigger e2e (N6, 2026-05-15). Nightly cron still
-    # covers main as the canary. Required-check `e2e` is satisfied on
-    # pure-docs PRs by the sibling `e2e-skip.yml` workflow.
-    paths-ignore:
-      - 'ROADMAP.md'
-      - 'docs/**'
   push:
     branches: [main]
-    paths-ignore:
-      - 'ROADMAP.md'
-      - 'docs/**'
   schedule:
-    # Nightly at 06:00 UTC — low-noise canary
+    # Nightly at 06:00 UTC — full heavy run; canary against main.
     - cron: '0 6 * * *'
 
 permissions:
@@ -27,35 +41,101 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          # Need history to diff against the PR base ref.
+          fetch-depth: 0
 
-      - uses: actions/setup-python@v6
+      - id: classify_change
+        name: Classify change scope (heavy vs pure-docs)
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Non-PR triggers (schedule, push to main, workflow_dispatch if
+          # later added) always run heavy. Skipping on those would silently
+          # weaken the canary.
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "kind=heavy" >> "$GITHUB_OUTPUT"
+            echo "::notice::Trigger=${{ github.event_name }}; running full E2E suite."
+            exit 0
+          fi
+
+          # PR path. Fetch the base ref so the diff resolves on a fresh
+          # checkout; depth was already set to 0 above so the merge-base
+          # is available.
+          base_ref="${{ github.event.pull_request.base.ref }}"
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          head_sha="${{ github.event.pull_request.head.sha }}"
+          git fetch --no-tags --quiet origin "${base_ref}" || true
+
+          # Three-dot diff yields the files changed on the PR side
+          # relative to the merge-base with the base ref.
+          changed_files=$(git diff --name-only "${base_sha}...${head_sha}")
+
+          if [ -z "${changed_files}" ]; then
+            # Defensive: an empty changed-set on a PR is unusual; treat
+            # as heavy so we don't silently mark a no-op merge gate as
+            # SUCCESS.
+            echo "kind=heavy" >> "$GITHUB_OUTPUT"
+            echo "::warning::Empty changed-files set on PR; defaulting to heavy E2E."
+            exit 0
+          fi
+
+          # Pure-docs = every changed file is exactly `ROADMAP.md` or
+          # under `docs/` (any depth). Anything else (incl.
+          # `articles/<slug>/article.md`, `README.md`, `ABOUT.md`,
+          # `SECURITY.md`, source, templates, static, mcp-server,
+          # workflow files) is heavy.
+          non_docs_files=$(printf '%s\n' "${changed_files}" | grep -vE '^(ROADMAP\.md|docs/)' || true)
+
+          if [ -z "${non_docs_files}" ]; then
+            echo "kind=skip" >> "$GITHUB_OUTPUT"
+            echo "::notice::Pure-docs PR (ROADMAP.md / docs/** only); Playwright suite intentionally skipped."
+            echo "::notice::Required check 'e2e' satisfied by this single-workflow design (N6-H)."
+            echo "::notice::Changed files:"
+            printf '%s\n' "${changed_files}" | sed 's/^/  /'
+          else
+            echo "kind=heavy" >> "$GITHUB_OUTPUT"
+            echo "::notice::Non-docs / mixed PR; running full E2E suite."
+            echo "::notice::Non-docs files in this PR:"
+            printf '%s\n' "${non_docs_files}" | sed 's/^/  /'
+          fi
+
+      - if: steps.classify_change.outputs.kind == 'heavy'
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
-      - name: Install Python dependencies
+      - if: steps.classify_change.outputs.kind == 'heavy'
+        name: Install Python dependencies
         run: |
           pip install -r tools/requirements.txt
           pip install pytest
 
-      - name: Build static site
+      - if: steps.classify_change.outputs.kind == 'heavy'
+        name: Build static site
         run: python3 tools/rebuild_local.py
 
-      - uses: actions/setup-node@v4
+      - if: steps.classify_change.outputs.kind == 'heavy'
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install npm dependencies
+      - if: steps.classify_change.outputs.kind == 'heavy'
+        name: Install npm dependencies
         run: npm ci
 
-      - name: Install Playwright Chromium
+      - if: steps.classify_change.outputs.kind == 'heavy'
+        name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run Playwright E2E tests
+      - if: steps.classify_change.outputs.kind == 'heavy'
+        name: Run Playwright E2E tests
         run: npm run test:e2e
 
       - name: Upload Playwright report
-        if: failure()
+        if: failure() && steps.classify_change.outputs.kind == 'heavy'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
@@ -63,7 +143,7 @@ jobs:
           retention-days: 7
 
       - name: Upload Playwright test results
-        if: failure()
+        if: failure() && steps.classify_change.outputs.kind == 'heavy'
         uses: actions/upload-artifact@v4
         with:
           name: test-results
