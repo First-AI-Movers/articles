@@ -20,9 +20,11 @@ class TestCheckGeneratedArtifacts:
         return [sys.executable, str(rebuild)]
 
     def _write_artifacts(self, repo_root: Path):
-        """Create committed artifact files."""
+        """Create committed artifact files (mkdir parent dirs for nested paths)."""
         for name in ARTIFACTS:
-            (repo_root / name).write_text(f"content of {name}\n", encoding="utf-8")
+            path = repo_root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(f"content of {name}\n", encoding="utf-8")
 
     def test_no_drift_exits_zero(self, tmp_path):
         """When rebuild produces identical artifacts, check passes."""
@@ -98,10 +100,12 @@ class TestCheckGeneratedArtifacts:
             tmp_path,
             "import pathlib; pathlib.Path('llms.txt').write_text('new corpus')",
         )
-        # Write all artifacts EXCEPT llms.txt
+        # Write all artifacts EXCEPT llms.txt (mkdir parents for nested paths)
         for name in ARTIFACTS:
             if name != "llms.txt":
-                (tmp_path / name).write_text(f"content of {name}\n", encoding="utf-8")
+                path = tmp_path / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(f"content of {name}\n", encoding="utf-8")
 
         code, messages = check_artifacts(tmp_path, rebuild_cmd=cmd)
         assert code == 1
