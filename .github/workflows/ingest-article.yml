@@ -22,18 +22,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
       - name: Install Python dependencies
         run: |
           pip install -r tools/requirements.txt
           pip install pytest
-
-      - name: Install npm dependencies
-        run: npm ci
 
       - name: Write payload file (repository_dispatch)
         if: github.event_name == 'repository_dispatch'
@@ -45,10 +37,11 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: cp tools/fixtures/external_article_payload.json "$PAYLOAD_FILE"
 
-      - name: Ingest article (dry-run)
-        run: python3 tools/ingest_article.py --payload-file "$PAYLOAD_FILE" --dry-run
-
-      - name: Ingest article (write)
+      - name: Ingest article
+        # ingest_article.py runs its own schema validation before writing,
+        # so a preceding unconditional --dry-run pass would be redundant.
+        # If a dispatch needs a debug preview, run --dry-run locally with
+        # the payload file before triggering the workflow.
         run: python3 tools/ingest_article.py --payload-file "$PAYLOAD_FILE" --write
 
       - name: Normalize tags to canonical topics

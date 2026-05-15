@@ -102,8 +102,15 @@ class TestTitleAndBranch:
         assert mod.title_matches("") is False
 
     def test_branch_prefix_required(self, mod):
+        # The cron workflow's exact branch must match.
         assert mod.branch_matches("ingest/airtable-articles") is True
-        assert mod.branch_matches("ingest/airtable-record-rec123") is True
+
+        # E20b dispatch branches (ingest/airtable-record-recXXX) must NOT
+        # match — they require human review per record, even though the
+        # title-match would also reject them. Defense in depth.
+        assert mod.branch_matches("ingest/airtable-record-rec123") is False
+
+        # External (Flow B) and unrelated refs must not match.
         assert mod.branch_matches("ingest/article-fixture") is False
         assert mod.branch_matches("main") is False
         assert mod.branch_matches("") is False
