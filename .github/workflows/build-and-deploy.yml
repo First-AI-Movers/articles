@@ -46,7 +46,7 @@ jobs:
           INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/rebuild_local.py
 
-      - uses: actions/configure-pages@v4
+      - uses: actions/configure-pages@v6
 
       - uses: actions/upload-pages-artifact@v3
         with:
