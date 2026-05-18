@@ -67,7 +67,7 @@ jobs:
           echo "title=$TITLE" >> "$GITHUB_OUTPUT"
 
       - name: Open PR for new article
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
           branch: ingest/external-article-${{ steps.info.outputs.slug }}
