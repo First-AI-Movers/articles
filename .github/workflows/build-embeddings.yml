@@ -35,7 +35,7 @@ jobs:
         run: python3 tools/build_embeddings.py --out embeddings.parquet
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: embeddings-parquet
           path: embeddings.parquet
