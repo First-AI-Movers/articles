@@ -173,3 +173,48 @@ def test_auto_merge_prefix_excludes_e20b_dispatch_branches():
         f"HEAD_BRANCH_PREFIX='{prefix}' must still match the cron's branch "
         f"'ingest/airtable-articles'"
     )
+
+
+def test_ingest_airtable_has_success_path_incident_cleanup():
+    """A successful schedule-triggered cron-write run must close any open
+    `E41 cron ingestion incident:` issues left by prior failed runs.
+
+    Pairs with the existing failure-path "Open incident issue on cron-write
+    failure" step. The cleanup step must be gated tightly enough that:
+    - dry-run cron runs do not close anything (no archive impact);
+    - workflow_dispatch runs do not close anything (operator-led
+      investigation should resolve incidents manually);
+    - failed runs do not close anything (success() gate);
+    - only issues with the exact title prefix used by the failure-path step
+      are eligible, so unrelated issues mentioning the phrase elsewhere are
+      never touched.
+    """
+    wf = _load_yaml("ingest-airtable.yml")
+    steps = wf["jobs"]["ingest"]["steps"]
+    cleanup_steps = [
+        s for s in steps
+        if "Close" in s.get("name", "") and "incident" in s.get("name", "")
+    ]
+    assert len(cleanup_steps) == 1, (
+        "ingest-airtable.yml must contain exactly one success-path incident "
+        f"cleanup step; found {len(cleanup_steps)}"
+    )
+    step = cleanup_steps[0]
+    condition = step.get("if", "")
+    assert "success()" in condition, (
+        f"cleanup step must be gated on success(); got: {condition!r}"
+    )
+    assert "schedule" in condition, (
+        f"cleanup step must be restricted to schedule events; got: {condition!r}"
+    )
+    assert "INGEST_DRY_RUN" in condition, (
+        f"cleanup step must skip dry-run mode; got: {condition!r}"
+    )
+    run_body = step.get("run") or ""
+    assert "E41 cron ingestion incident:" in run_body, (
+        "cleanup step must reference the exact failure-path title prefix so "
+        "it cannot close unrelated issues"
+    )
+    assert "gh issue close" in run_body, (
+        "cleanup step must use `gh issue close`"
+    )

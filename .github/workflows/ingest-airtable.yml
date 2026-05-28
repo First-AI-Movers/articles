@@ -198,3 +198,40 @@ jobs:
           is documented and any required code/workflow fix has shipped.
           EOF
           )"
+
+      - name: Close stale incident issues on cron-write success
+        # Closes any open `E41 cron ingestion incident:` issues left by
+        # earlier failed cron runs. Only fires when:
+        #   - the entire write-mode cron path completed successfully, AND
+        #   - the trigger was `schedule` (workflow_dispatch keeps incidents
+        #     open so an operator-led investigation can resolve them).
+        # Mirrors the failure-path step's token fallback chain and never
+        # echoes secret values. Title prefix is filtered exactly so this
+        # cannot close unrelated issues that happen to mention the phrase.
+        # Tolerates zero matches and per-issue close failures so a transient
+        # API error does not retroactively fail an otherwise green run.
+        if: success() && env.INGEST_DRY_RUN != '1' && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          mapfile -t ISSUES < <(
+            gh issue list \
+              --repo "${GITHUB_REPOSITORY}" \
+              --state open \
+              --search 'in:title "E41 cron ingestion incident:"' \
+              --limit 100 \
+              --json number,title \
+              --jq '.[] | select(.title | startswith("E41 cron ingestion incident:")) | .number'
+          )
+          if [ "${#ISSUES[@]}" -eq 0 ]; then
+            echo "No open E41 cron ingestion incident issues to close."
+            exit 0
+          fi
+          echo "Closing ${#ISSUES[@]} stale E41 cron ingestion incident issue(s)."
+          for n in "${ISSUES[@]}"; do
+            gh issue close "$n" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --comment "Closed automatically by successful cron run: ${RUN_URL}"
+          done
