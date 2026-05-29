@@ -14,13 +14,69 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          # Need the merge-base so the changed-files classifier can diff the
+          # PR head against the base ref on a fresh checkout.
+          fetch-depth: 0
+
+      - id: classify_change
+        name: Classify change scope (safe maintenance vs heavy)
+        # Push-to-main and workflow_dispatch always run the heavy drift
+        # check — they cannot benefit from a PR-side allowlist and the
+        # post-merge run is the canary against accidental drift landing on
+        # main. Only `pull_request` events take this classifier path.
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          base_sha="${{ github.event.pull_request.base.sha }}"
+          head_sha="${{ github.event.pull_request.head.sha }}"
+          git fetch --no-tags --quiet origin "${{ github.event.pull_request.base.ref }}" || true
+          changed_files=$(git diff --name-only "${base_sha}...${head_sha}")
+
+          if [ -z "${changed_files}" ]; then
+            echo "kind=heavy" >> "$GITHUB_OUTPUT"
+            echo "::warning::Empty changed-files set on PR; defaulting to heavy drift check."
+            exit 0
+          fi
+
+          # Safe-maintenance allowlist. Every changed file must match this
+          # narrow set for the PR to skip the drift check. The set is
+          # restricted to paths that cannot affect any committed generated
+          # artifact (index.json, sitemap.xml, feed.xml, feed.json, llms.txt,
+          # llms-full.txt, llms-recent.txt, README.md, ROADMAP.md auto block,
+          # mcp-server/src/generated/archive-data.json):
+          #   - tools/requirements.txt   → pip range pins only
+          #   - .github/workflows/*.yml  → CI/workflow shape only
+          #   - .github/dependabot.yml   → Dependabot configuration only
+          # Anything else — articles/, tools/*.py, templates/, static/,
+          # mcp-server/**, package.json, lockfiles, generated outputs at
+          # the repo root, docs/, etc. — runs the heavy drift check.
+          non_safe=$(printf '%s\n' "${changed_files}" \
+            | grep -vE '^(tools/requirements\.txt|\.github/workflows/[^/]+\.yml|\.github/dependabot\.yml)$' \
+            || true)
+
+          if [ -z "${non_safe}" ]; then
+            echo "kind=skip" >> "$GITHUB_OUTPUT"
+            echo "::notice::Safe-maintenance-only PR; artifact drift check intentionally skipped."
+            echo "::notice::Allowlist-matched files:"
+            printf '%s\n' "${changed_files}" | sed 's/^/  /'
+          else
+            echo "kind=heavy" >> "$GITHUB_OUTPUT"
+            echo "::notice::Non-maintenance file(s) detected; running full artifact drift check."
+            echo "::notice::Files outside the maintenance allowlist:"
+            printf '%s\n' "${non_safe}" | sed 's/^/  /'
+          fi
 
       - uses: actions/setup-python@v6
+        if: github.event_name != 'pull_request' || steps.classify_change.outputs.kind == 'heavy'
         with:
           python-version: '3.11'
 
       - name: Install dependencies
+        if: github.event_name != 'pull_request' || steps.classify_change.outputs.kind == 'heavy'
         run: pip install -r tools/requirements.txt
 
       - name: Check generated artifacts for drift
+        if: github.event_name != 'pull_request' || steps.classify_change.outputs.kind == 'heavy'
         run: python3 tools/check_generated_artifacts.py

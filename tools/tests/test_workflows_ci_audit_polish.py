@@ -90,3 +90,110 @@ def test_drift_check_gracefully_skips_when_pyarrow_missing():
     assert "json.dump" in export_src or "json.dumps" in export_src, (
         "export_mcp_data.py must serialize archive-data.json via stdlib json"
     )
+
+
+# ----------------------------------------------------------------------------
+# Generated-artifacts workflow carve-out for safe-maintenance PRs
+# ----------------------------------------------------------------------------
+
+
+def test_generated_artifacts_has_safe_maintenance_carveout():
+    """Generated artifacts must not red-flag dependency- or workflow-only
+    PRs that cannot affect committed generated outputs.
+
+    The carve-out must:
+    - be changed-files based, not actor-only (an actor gate would silently
+      mask real drift if Dependabot ever touched a lockfile, a generated
+      output path, or repo tooling);
+    - allow only narrow maintenance paths (pip pins, workflow files,
+      Dependabot config);
+    - never extend the allowlist to articles/, source tools (`tools/*.py`),
+      templates/, static/, mcp-server/, package files, lockfiles, or any
+      committed generated output;
+    - leave push-to-main runs running the full drift check unconditionally.
+    """
+    yaml = pytest.importorskip("yaml")
+    wf_path = REPO_ROOT / ".github" / "workflows" / "generated-artifacts.yml"
+    wf_text = wf_path.read_text(encoding="utf-8")
+    wf = yaml.safe_load(wf_text)
+    steps = wf["jobs"]["check"]["steps"]
+
+    # 1. A classifier step must exist and run on pull_request events.
+    classifier = [
+        s for s in steps
+        if s.get("id") == "classify_change"
+        or "classify" in (s.get("name", "").lower())
+    ]
+    assert len(classifier) == 1, (
+        f"Expected exactly one changed-files classifier step in "
+        f"generated-artifacts.yml; found {len(classifier)}"
+    )
+    step = classifier[0]
+    assert "github.event_name == 'pull_request'" in (step.get("if") or ""), (
+        f"Classifier must only run on pull_request events; got if: "
+        f"{step.get('if')!r}"
+    )
+    body = step.get("run") or ""
+
+    # 2. Must be changed-files based, not actor-only.
+    assert "git diff --name-only" in body, (
+        "Classifier must use `git diff --name-only` so it inspects the PR's "
+        "actual file set, not metadata like the PR author."
+    )
+    assert "github.actor" not in wf_text, (
+        "Generated-artifacts carve-out must not gate on github.actor — an "
+        "actor-only rule would mask real drift if Dependabot touched a "
+        "lockfile, a generated output, or repo tooling."
+    )
+
+    # 3. Extract the literal allowlist regex from the bash body and assert
+    # it equals exactly the narrow safe-maintenance set. Comparing the
+    # regex literal directly is stronger than a substring scan — any new
+    # alternative anyone adds will trip this test and require an explicit
+    # safety review of whether the new path can affect generated artifacts.
+    import re
+    match = re.search(r"grep -vE '\^\(([^']+)\)\$'", body)
+    assert match, (
+        "Could not locate the allowlist regex in the classifier step. "
+        "Expected a line like `grep -vE '^(<alternatives>)$'`."
+    )
+    allowlist_alternatives = set(match.group(1).split("|"))
+    expected_allow = {
+        r"tools/requirements\.txt",
+        r"\.github/workflows/[^/]+\.yml",
+        r"\.github/dependabot\.yml",
+    }
+    assert allowlist_alternatives == expected_allow, (
+        f"Allowlist regex must contain exactly the narrow safe-maintenance "
+        f"set {expected_allow}. Adding any other path (articles/, source "
+        f"tools, templates, static, mcp-server, package files, lockfiles, "
+        f"generated outputs, docs) would mask real drift. Got: "
+        f"{allowlist_alternatives}."
+    )
+
+    # 5. The actual drift-check step must be gated on the classifier output,
+    # AND it must still run on every non-PR event (push to main, workflow_dispatch).
+    drift_steps = [
+        s for s in steps
+        if "check_generated_artifacts.py" in (s.get("run") or "")
+    ]
+    assert len(drift_steps) == 1, (
+        f"Expected exactly one drift-check step; found {len(drift_steps)}"
+    )
+    gate = drift_steps[0].get("if") or ""
+    assert "github.event_name != 'pull_request'" in gate, (
+        "Drift-check step must continue to run for push and workflow_dispatch "
+        "events even when the PR carve-out skips. Got if: " + repr(gate)
+    )
+    assert "steps.classify_change.outputs.kind == 'heavy'" in gate, (
+        "Drift-check step must run on the PR path when the classifier marked "
+        "the change as heavy. Got if: " + repr(gate)
+    )
+
+    # 6. No permissions expansion. The workflow's permissions block must
+    # remain `contents: read` only.
+    perms = wf.get("permissions") or {}
+    assert perms == {"contents": "read"}, (
+        f"generated-artifacts.yml permissions must remain `contents: read` "
+        f"only; carve-out must not request any write scope. Got: {perms!r}"
+    )
