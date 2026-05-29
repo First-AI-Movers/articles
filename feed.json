@@ -13,6 +13,20 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-24:2026-05-24-claude-code-remote-control-dispatch-multi-device-guide-2026-v2",
+      "url": "https://radar.firstaimovers.com/claude-code-remote-control-dispatch-multi-device-guide-2026-v2",
+      "title": "Claude Code Across Every Device: Remote Control, Dispatch, and Agent View Explained",
+      "date_published": "2026-05-24T00:00:00Z",
+      "tags": [
+        "developer-tools",
+        "ai-automation",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation"
+      ],
+      "content_text": "How to run Claude Code sessions across mobile, desktop, and CLI. Remote Control, Dispatch, and Agent View explained with practical setup steps."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-11:2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026",
       "url": "https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026",
       "title": "How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows",
@@ -342,6 +356,20 @@
       "content_text": "Detect unsanctioned AI tool usage in engineering teams, classify the risk, and decide what to govern, adopt, or block as a CTO or engineering leader."
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-coding-agent-cli-comparison-april-2026",
+      "url": "https://radar.firstaimovers.com/ai-coding-agent-cli-comparison-april-2026",
+      "title": "AI Coding Agent CLIs in April 2026: Claude Code, Codex, Gemini, and Kimi Compared",
+      "date_published": "2026-05-02T00:00:00Z",
+      "tags": [
+        "ai-automation",
+        "company-tech-strategy",
+        "ai-governance",
+        "digital-transformation",
+        "developer-tools"
+      ],
+      "content_text": "Four terminal-based AI coding agents now support multi-agent orchestration, and the differences between them, in cost, extensibility, data residency, and governance features, will shape how engineering teams work for the next two years. If your developers are already using one…"
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026",
       "url": "https://radar.firstaimovers.com/ai-consulting-bratislava-tech-smes-2026",
       "title": "AI Consulting for Bratislava Tech SMEs in 2026",
@@ -615,34 +643,6 @@
         "France and Benelux AI"
       ],
       "content_text": "How Lyon SMEs in tech, biotech, and logistics can structure an AI adoption engagement: French regulation, CIR tax credit, and three-phase roadmap."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-rome-professional-services-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-rome-professional-services-smes-2026",
-      "title": "AI Consulting for Rome Professional Services SMEs",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Consulting",
-        "AI Governance",
-        "AI Strategy",
-        "Professional Services AI"
-      ],
-      "content_text": "AI consulting for Rome professional services, legal, and public sector SMEs. Garante compliance, EU AI Act readiness, and implementation support."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-data-residency-guide-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-data-residency-guide-european-smes-2026",
-      "title": "Where Does Your AI Vendor's Data Go? A Practical EU Residency Guide for SMEs",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "Data Sovereignty",
-        "GDPR & Data Privacy",
-        "AI Governance",
-        "European SME AI",
-        "AI Risk Management"
-      ],
-      "content_text": "Which AI vendors store your data in the EU, and what configuration is required. A GDPR and EU AI Act compliance guide for European SME operators."
     }
   ]
 }

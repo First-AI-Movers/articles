@@ -3,7 +3,7 @@
   <id>tag:articles.firstaimovers.com,2025-02-17:feed</id>
   <title>First AI Movers — Article Archive</title>
   <subtitle>Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act compliance, governance, and agentic systems for European SMEs.</subtitle>
-  <updated>2026-05-11T00:00:00Z</updated>
+  <updated>2026-05-24T00:00:00Z</updated>
   <link rel="self" type="application/atom+xml" href="https://articles.firstaimovers.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://firstaimovers.com"/>
   <author>
@@ -13,6 +13,23 @@
   </author>
   <rights>Creative Commons Attribution 4.0 International (CC BY 4.0)</rights>
   <generator uri="https://github.com/First-AI-Movers/articles" version="1.0">rebuild_local.py</generator>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-24:2026-05-24-claude-code-remote-control-dispatch-multi-device-guide-2026-v2</id>
+    <title>Claude Code Across Every Device: Remote Control, Dispatch, and Agent View Explained</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/claude-code-remote-control-dispatch-multi-device-guide-2026-v2"/>
+    <published>2026-05-24T00:00:00Z</published>
+    <updated>2026-05-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="developer-tools"/>
+    <category term="ai-automation"/>
+    <category term="company-tech-strategy"/>
+    <category term="digital-transformation"/>
+    <category term="business-automation"/>
+    <summary type="text">How to run Claude Code sessions across mobile, desktop, and CLI. Remote Control, Dispatch, and Agent View explained with practical setup steps.</summary>
+  </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-11:2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026</id>
     <title>How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows</title>
@@ -427,6 +444,23 @@
     <summary type="text">Detect unsanctioned AI tool usage in engineering teams, classify the risk, and decide what to govern, adopt, or block as a CTO or engineering leader.</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-coding-agent-cli-comparison-april-2026</id>
+    <title>AI Coding Agent CLIs in April 2026: Claude Code, Codex, Gemini, and Kimi Compared</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-coding-agent-cli-comparison-april-2026"/>
+    <published>2026-05-02T00:00:00Z</published>
+    <updated>2026-05-02T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-automation"/>
+    <category term="company-tech-strategy"/>
+    <category term="ai-governance"/>
+    <category term="digital-transformation"/>
+    <category term="developer-tools"/>
+    <summary type="text">Four terminal-based AI coding agents now support multi-agent orchestration, and the differences between them, in cost, extensibility, data residency, and governance features, will shape how engineering teams work for the next two years. If your developers are already using one…</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026</id>
     <title>AI Consulting for Bratislava Tech SMEs in 2026</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-bratislava-tech-smes-2026"/>
@@ -760,39 +794,5 @@
     <category term="AI Governance"/>
     <category term="France and Benelux AI"/>
     <summary type="text">How Lyon SMEs in tech, biotech, and logistics can structure an AI adoption engagement: French regulation, CIR tax credit, and three-phase roadmap.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-rome-professional-services-smes-2026</id>
-    <title>AI Consulting for Rome Professional Services SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-rome-professional-services-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="AI Governance"/>
-    <category term="AI Strategy"/>
-    <category term="Professional Services AI"/>
-    <summary type="text">AI consulting for Rome professional services, legal, and public sector SMEs. Garante compliance, EU AI Act readiness, and implementation support.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-data-residency-guide-european-smes-2026</id>
-    <title>Where Does Your AI Vendor's Data Go? A Practical EU Residency Guide for SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-data-residency-guide-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="Data Sovereignty"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI Risk Management"/>
-    <summary type="text">Which AI vendors store your data in the EU, and what configuration is required. A GDPR and EU AI Act compliance guide for European SME operators.</summary>
   </entry>
 </feed>

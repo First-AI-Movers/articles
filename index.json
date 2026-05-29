@@ -1,11 +1,27 @@
 {
-  "last_updated": "2026-05-15",
-  "total_articles": 858,
+  "last_updated": "2026-05-29",
+  "total_articles": 860,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-05-24-claude-code-remote-control-dispatch-multi-device-guide-2026-v2",
+      "slug": "claude-code-remote-control-dispatch-multi-device-guide-2026-v2",
+      "title": "Claude Code Across Every Device: Remote Control, Dispatch, and Agent View Explained",
+      "published_date": "2026-05-24",
+      "tags": [
+        "developer-tools",
+        "ai-automation",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/claude-code-remote-control-dispatch-multi-device-guide-2026-v2"
+    },
     {
       "folder": "2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026",
       "slug": "evaluate-mcp-servers-enterprise-workflows-2026",
@@ -490,6 +506,22 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/shadow-ai-engineering-teams-detect-measure-decide"
+    },
+    {
+      "folder": "2026-05-02-ai-coding-agent-cli-comparison-april-2026",
+      "slug": "ai-coding-agent-cli-comparison-april-2026",
+      "title": "AI Coding Agent CLIs in April 2026: Claude Code, Codex, Gemini, and Kimi Compared",
+      "published_date": "2026-05-02",
+      "tags": [
+        "ai-automation",
+        "company-tech-strategy",
+        "ai-governance",
+        "digital-transformation",
+        "developer-tools"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-coding-agent-cli-comparison-april-2026"
     },
     {
       "folder": "2026-04-25-ai-consulting-bratislava-tech-smes-2026",
