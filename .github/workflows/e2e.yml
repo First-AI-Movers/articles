@@ -117,7 +117,7 @@ jobs:
         run: python3 tools/rebuild_local.py
 
       - if: steps.classify_change.outputs.kind == 'heavy'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
           cache: 'npm'
@@ -136,7 +136,7 @@ jobs:
 
       - name: Upload Playwright report
         if: failure() && steps.classify_change.outputs.kind == 'heavy'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report
           path: playwright-report/
@@ -144,7 +144,7 @@ jobs:
 
       - name: Upload Playwright test results
         if: failure() && steps.classify_change.outputs.kind == 'heavy'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results
           path: test-results/
