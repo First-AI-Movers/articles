@@ -352,22 +352,36 @@ def main():
         print(f"[poll] checks={state} ({detail}); mergeable={mergeable}/{merge_state}")
 
         if state == "complete-failure":
+            # The PR is a real cron product (branch/title/paths already
+            # validated). A failing required check is operator-review
+            # signal, not a cron-failure signal: the `E41 auto-merge
+            # blocked` issue is the single point of truth. Returning 0
+            # here keeps the workflow itself in `success()` so the
+            # success-path incident-cleanup step (PR #203) can sweep
+            # stale `E41 cron ingestion incident:` issues from prior
+            # failed cron runs without also filing a duplicate incident
+            # for this same event.
             reason = f"required CI failed — {detail}"
             print(f"[block] {reason}")
             open_incident_issue(reason, pr=pr, repo=repo)
-            return 1
+            return 0
 
         if state == "complete-success" and mergeable == "MERGEABLE":
             break
 
         if time.monotonic() >= deadline:
+            # Same rationale as the complete-failure branch above:
+            # "checks have not finished yet" is operator-review signal,
+            # not a cron-failure signal. The blocked-issue captures it;
+            # the cron itself must not also fail and double-file an
+            # incident.
             reason = (
                 f"timed out after {timeout_s}s waiting for CI; "
                 f"last state={state} mergeable={mergeable}/{merge_state} {detail}"
             )
             print(f"[block] {reason}")
             open_incident_issue(reason, pr=pr, repo=repo)
-            return 1
+            return 0
 
         time.sleep(max(1, poll_s))
         try:

@@ -244,6 +244,96 @@ def test_auto_merge_prefix_excludes_e20b_dispatch_branches():
     )
 
 
+def test_ingest_airtable_exports_mcp_archive_data_before_pr():
+    """The cron ingest workflow must rebuild
+    `mcp-server/src/generated/archive-data.json` and include it in the
+    PR before peter-evans/create-pull-request runs. Otherwise the
+    Generated artifacts CI job fails on a real drift on every ingest
+    PR (because `tools/check_generated_artifacts.py` runs
+    `tools/export_mcp_data.py` and treats archive-data.json as one of
+    the tracked artifacts), and `tools/auto_merge_ingestion_pr.py`
+    blocks on `check=FAILURE` every cron run — the E41 doom loop.
+    """
+    wf = _load_yaml("ingest-airtable.yml")
+    steps = wf["jobs"]["ingest"]["steps"]
+
+    # 1. There is an explicit export step that runs tools/export_mcp_data.py.
+    export_steps = [
+        s for s in steps
+        if "tools/export_mcp_data.py" in (s.get("run") or "")
+    ]
+    assert len(export_steps) == 1, (
+        "ingest-airtable.yml must contain exactly one step that runs "
+        f"`python3 tools/export_mcp_data.py`; found {len(export_steps)}"
+    )
+    export_step = export_steps[0]
+
+    # 2. It is gated on the same write-mode + non-zero-created predicate as
+    #    the rest of the rebuild pipeline. Otherwise dry-run cron runs or
+    #    zero-created runs would invoke it pointlessly (and could mask a
+    #    real archive-data drift that was actually present before the cron).
+    condition = export_step.get("if") or ""
+    assert "env.INGEST_DRY_RUN != '1'" in condition, (
+        "Export-MCP step must be skipped in dry-run mode; got if: "
+        + repr(condition)
+    )
+    assert "steps.ingest_summary.outputs.created != '0'" in condition, (
+        "Export-MCP step must be skipped when no records were created; "
+        "got if: " + repr(condition)
+    )
+
+    # 3. Ordering: the export step must come AFTER rebuild_local.py and
+    #    update_docs.py (which feed it transitively via index.json) and
+    #    BEFORE the `peter-evans/create-pull-request` PR-create step.
+    step_names = [s.get("name") or s.get("uses") or "" for s in steps]
+
+    def _index(predicate):
+        for i, s in enumerate(steps):
+            if predicate(s):
+                return i
+        return -1
+
+    rebuild_idx = _index(
+        lambda s: "tools/rebuild_local.py" in (s.get("run") or "")
+    )
+    update_docs_idx = _index(
+        lambda s: "tools/update_docs.py" in (s.get("run") or "")
+    )
+    export_idx = steps.index(export_step)
+    pr_idx = _index(
+        lambda s: "peter-evans/create-pull-request" in (s.get("uses") or "")
+    )
+
+    assert rebuild_idx >= 0 and update_docs_idx >= 0 and pr_idx >= 0, (
+        "ingest-airtable.yml must still contain rebuild_local.py, "
+        "update_docs.py, and the peter-evans/create-pull-request step. "
+        f"step names: {step_names}"
+    )
+    assert rebuild_idx < export_idx < pr_idx, (
+        "Export-MCP step must run AFTER rebuild_local.py and BEFORE "
+        f"peter-evans/create-pull-request. Got indices: rebuild={rebuild_idx}, "
+        f"update_docs={update_docs_idx}, export_mcp={export_idx}, "
+        f"create_pr={pr_idx}."
+    )
+    assert update_docs_idx < export_idx, (
+        "Export-MCP step must run AFTER update_docs.py so the auto-state "
+        "block in ROADMAP.md is current before the snapshot is taken. "
+        f"Got indices: update_docs={update_docs_idx}, export_mcp={export_idx}."
+    )
+
+    # 4. The PR's add-paths list must include the generated archive-data.json
+    #    so the file actually lands on the PR (otherwise the rebuild is run
+    #    but the diff omits it and the Generated artifacts check still fails).
+    pr_step = steps[pr_idx]
+    add_paths_raw = (pr_step.get("with") or {}).get("add-paths") or ""
+    add_paths = [line.strip() for line in str(add_paths_raw).splitlines() if line.strip()]
+    assert "mcp-server/src/generated/archive-data.json" in add_paths, (
+        "peter-evans/create-pull-request `add-paths:` must include "
+        "`mcp-server/src/generated/archive-data.json` so the regenerated "
+        f"MCP snapshot reaches the PR. Got: {add_paths!r}"
+    )
+
+
 def test_ingest_airtable_has_success_path_incident_cleanup():
     """A successful schedule-triggered cron-write run must close any open
     `E41 cron ingestion incident:` issues left by prior failed runs.

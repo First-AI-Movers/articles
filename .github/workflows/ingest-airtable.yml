@@ -112,6 +112,19 @@ jobs:
         if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         run: python3 tools/update_docs.py
 
+      - name: Export MCP archive data
+        # tools/check_generated_artifacts.py also rebuilds
+        # mcp-server/src/generated/archive-data.json via export_mcp_data.py
+        # and compares against the committed version. Without this step the
+        # newly ingested articles would land in index.json + llms-* on this
+        # PR but the bundled MCP archive snapshot would still reflect the
+        # pre-ingest article set, so the Generated artifacts CI job fails
+        # on a real drift and auto-merge blocks. Stays inside the same
+        # write-mode + non-zero-created gating as the rest of the rebuild
+        # pipeline.
+        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
+        run: python3 tools/export_mcp_data.py
+
       - name: Run pytest
         if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         run: python3 -m pytest tools/tests -v
@@ -148,6 +161,7 @@ jobs:
             llms-recent.txt
             README.md
             ROADMAP.md
+            mcp-server/src/generated/archive-data.json
 
       - name: Auto-merge clean ingestion PR (E41f)
         # Gated by AUTO_MERGE_INGESTION_PRS (default '0' — disabled). The
