@@ -28,9 +28,29 @@ jobs:
           pip install pytest
 
       - name: Write payload file (repository_dispatch)
+        # Pass the dispatch payload through an env var rather than
+        # interpolating ${{ toJson(...) }} directly into the shell command.
+        # The previous shape allowed a crafted client_payload containing
+        # shell-significant characters (`, ", $, ;) to break out of the
+        # bash double-quoted string and execute on the runner. The single-
+        # quoted heredoc disables shell expansion of the Python body, and
+        # the payload bytes only reach Python via os.environ.
         if: github.event_name == 'repository_dispatch'
+        env:
+          CLIENT_PAYLOAD_JSON: ${{ toJson(github.event.client_payload) }}
         run: |
-          python3 -c "import json,sys; json.dump(${{ toJson(github.event.client_payload) }}, open('$PAYLOAD_FILE','w'), ensure_ascii=False)"
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          payload = json.loads(os.environ["CLIENT_PAYLOAD_JSON"])
+          payload_file = Path(os.environ["PAYLOAD_FILE"])
+          payload_file.write_text(
+              json.dumps(payload, ensure_ascii=False),
+              encoding="utf-8",
+          )
+          PY
 
 
       - name: Use fixture payload (workflow_dispatch)
