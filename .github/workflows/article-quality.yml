@@ -42,7 +42,7 @@ jobs:
         run: python3 tools/readability.py --articles-dir articles --json-out readability_report.json --md-out readability_report.md
 
       - name: Upload readability reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: readability-reports
           path: |
@@ -71,7 +71,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload Vale report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: vale-report
           path: vale-report/
@@ -92,7 +92,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload Lychee report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lychee-report
           path: lychee/out.md

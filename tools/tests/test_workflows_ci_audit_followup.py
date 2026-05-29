@@ -89,6 +89,75 @@ def test_ingest_article_has_no_dry_run_redundancy():
         )
 
 
+def test_ingest_article_dispatch_payload_uses_env_var_not_shell_interpolation():
+    """The repository_dispatch payload must not be interpolated into a
+    shell command string.
+
+    The historical pattern was:
+
+        python3 -c "import json,sys; json.dump(${{ toJson(...) }}, ...)"
+
+    A crafted client_payload containing shell-significant characters (`, ", $, ;)
+    could break out of the bash double-quoted string and execute on the runner.
+    The hardened shape passes the payload through an env var and parses it
+    inside Python via os.environ; a single-quoted heredoc prevents the shell
+    from expanding the Python body.
+    """
+    wf_text = (WORKFLOWS / "ingest-article.yml").read_text(encoding="utf-8")
+    wf = _load_yaml("ingest-article.yml")
+    steps = wf["jobs"]["ingest"]["steps"]
+
+    # The exact unsafe interpolation must not appear in any step's run body.
+    run_bodies = " ".join((s.get("run") or "") for s in steps)
+    assert "${{ toJson(github.event.client_payload) }}" not in run_bodies, (
+        "client_payload toJson(...) must not appear in any step's run: body; "
+        "it belongs in env: so the payload never reaches the shell."
+    )
+    assert "json.dump(${{" not in wf_text, (
+        "ingest-article.yml must not interpolate ${{ ... }} into a Python "
+        "shell command — that is a workflow-injection vector."
+    )
+
+    # Locate the repository_dispatch payload-writing step.
+    dispatch_steps = [
+        s for s in steps
+        if "repository_dispatch" in (s.get("if") or "")
+        and "payload" in (s.get("name", "").lower())
+    ]
+    assert len(dispatch_steps) == 1, (
+        "Expected exactly one repository_dispatch payload-writing step; "
+        f"found {len(dispatch_steps)}"
+    )
+    step = dispatch_steps[0]
+
+    # The payload must be handed off via env: bound to toJson(client_payload).
+    step_env = step.get("env") or {}
+    assert any(
+        "toJson(github.event.client_payload)" in str(v)
+        for v in step_env.values()
+    ), (
+        "Dispatch payload-writing step must declare an env: var bound to "
+        f"toJson(github.event.client_payload); got: {step_env!r}"
+    )
+
+    # The run body must read from os.environ and still write PAYLOAD_FILE so
+    # the downstream `ingest_article.py --payload-file` contract is preserved.
+    run_body = step.get("run") or ""
+    assert "os.environ" in run_body, (
+        "Dispatch payload-writing step must read the payload from os.environ, "
+        "not from a shell-interpolated literal."
+    )
+    assert "PAYLOAD_FILE" in run_body, (
+        "Dispatch payload-writing step must still write to PAYLOAD_FILE so "
+        "downstream `ingest_article.py --payload-file` keeps working."
+    )
+    # A quoted heredoc disables shell expansion of $, `, and \ inside the body.
+    assert "<<'PY'" in run_body or '<<"PY"' in run_body, (
+        "Python heredoc must be quoted (e.g. <<'PY') so the shell performs "
+        "no parameter or backtick expansion on the body."
+    )
+
+
 # ----------------------------------------------------------------------------
 # Epic B — drift detector + branch protection + auto-merge prefix
 # ----------------------------------------------------------------------------
@@ -172,4 +241,49 @@ def test_auto_merge_prefix_excludes_e20b_dispatch_branches():
     assert "ingest/airtable-articles".startswith(prefix), (
         f"HEAD_BRANCH_PREFIX='{prefix}' must still match the cron's branch "
         f"'ingest/airtable-articles'"
+    )
+
+
+def test_ingest_airtable_has_success_path_incident_cleanup():
+    """A successful schedule-triggered cron-write run must close any open
+    `E41 cron ingestion incident:` issues left by prior failed runs.
+
+    Pairs with the existing failure-path "Open incident issue on cron-write
+    failure" step. The cleanup step must be gated tightly enough that:
+    - dry-run cron runs do not close anything (no archive impact);
+    - workflow_dispatch runs do not close anything (operator-led
+      investigation should resolve incidents manually);
+    - failed runs do not close anything (success() gate);
+    - only issues with the exact title prefix used by the failure-path step
+      are eligible, so unrelated issues mentioning the phrase elsewhere are
+      never touched.
+    """
+    wf = _load_yaml("ingest-airtable.yml")
+    steps = wf["jobs"]["ingest"]["steps"]
+    cleanup_steps = [
+        s for s in steps
+        if "Close" in s.get("name", "") and "incident" in s.get("name", "")
+    ]
+    assert len(cleanup_steps) == 1, (
+        "ingest-airtable.yml must contain exactly one success-path incident "
+        f"cleanup step; found {len(cleanup_steps)}"
+    )
+    step = cleanup_steps[0]
+    condition = step.get("if", "")
+    assert "success()" in condition, (
+        f"cleanup step must be gated on success(); got: {condition!r}"
+    )
+    assert "schedule" in condition, (
+        f"cleanup step must be restricted to schedule events; got: {condition!r}"
+    )
+    assert "INGEST_DRY_RUN" in condition, (
+        f"cleanup step must skip dry-run mode; got: {condition!r}"
+    )
+    run_body = step.get("run") or ""
+    assert "E41 cron ingestion incident:" in run_body, (
+        "cleanup step must reference the exact failure-path title prefix so "
+        "it cannot close unrelated issues"
+    )
+    assert "gh issue close" in run_body, (
+        "cleanup step must use `gh issue close`"
     )
