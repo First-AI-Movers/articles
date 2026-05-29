@@ -265,7 +265,14 @@ class TestMainBlockPaths:
         assert "tools/ingest_airtable.py" in issued["r"]
         assert "allowlist" in issued["r"]
 
-    def test_failed_check_blocks(self, mod, monkeypatch):
+    def test_failed_check_blocks_files_issue_but_does_not_fail_cron(self, mod, monkeypatch):
+        """A real CI failure on the freshly-created ingest PR must surface
+        as an `E41 auto-merge blocked` issue (so an operator can act on
+        it), but must NOT also fail the cron run — otherwise the
+        failure-path step in the workflow files a duplicate
+        `E41 cron ingestion incident:` issue for the same event. The
+        single point of truth is the auto-merge-blocked issue.
+        """
         monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")
         rollup = [
             {"name": n, "conclusion": "SUCCESS"}
@@ -280,7 +287,11 @@ class TestMainBlockPaths:
             lambda reason, pr=None, repo=None: issued.setdefault("r", reason),
         )
         rc = mod.main()
-        assert rc == 1
+        assert rc == 0, (
+            "complete-failure must exit 0 so the cron's success-path "
+            "incident-cleanup step can sweep stale incidents from prior "
+            "failed runs without double-filing for this event."
+        )
         assert "CI failed" in issued["r"]
         assert "e2e=FAILURE" in issued["r"]
 
@@ -402,5 +413,11 @@ class TestMainHappyPath:
             lambda reason, pr=None, repo=None: issued.setdefault("r", reason),
         )
         rc = mod.main()
-        assert rc == 1
+        assert rc == 0, (
+            "Polling timeout (required checks not finished yet) must exit 0 "
+            "so the cron does not fail merely because a freshly opened PR's "
+            "checks have not completed within the auto-merge poll window. "
+            "The `E41 auto-merge blocked` issue captures the operator-review "
+            "signal; the cron itself stays in success()."
+        )
         assert "timed out" in issued["r"]
