@@ -69,6 +69,14 @@ ALLOWED_PATHS = [
     ("llms.txt", None),
     ("llms-full.txt", None),
     ("llms-recent.txt", None),
+    # Bundled MCP archive snapshot — added to the ingest pipeline in
+    # PR #210 so the Generated artifacts drift check passes on fresh
+    # ingest PRs. Must stay in lockstep with `add-paths:` in
+    # `.github/workflows/ingest-airtable.yml` and with
+    # `tools/check_generated_artifacts.py::ARTIFACTS`; the audit test
+    # `test_auto_merge_allowlist_matches_ingest_add_paths` enforces
+    # that alignment so a future contributor cannot regress this gap.
+    ("mcp-server/src/generated/archive-data.json", None),
 ]
 REQUIRED_CHECKS = (
     "check",        # Generated artifacts

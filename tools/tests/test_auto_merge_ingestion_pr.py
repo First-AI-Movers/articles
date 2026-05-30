@@ -10,6 +10,7 @@ Covers:
 
 import importlib
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -39,6 +40,12 @@ class TestPathAllowlist:
             "llms.txt",
             "llms-full.txt",
             "llms-recent.txt",
+            # Bundled MCP archive snapshot — added by the ingest workflow
+            # since PR #210 and tracked by the Generated artifacts drift
+            # check. Issue #212 was the regression where this path was
+            # accepted by the workflow's `add-paths:` but rejected here,
+            # blocking the otherwise-valid PR #211.
+            "mcp-server/src/generated/archive-data.json",
         ],
     )
     def test_allowed(self, mod, path):
@@ -92,6 +99,71 @@ class TestPathAllowlist:
             "ROADMAP.md",
         ]
         assert mod.first_disallowed_path(paths) is None
+
+    def test_auto_merge_allowlist_matches_ingest_add_paths(self, mod):
+        """Regression guard for issue #212.
+
+        PR #210 added `mcp-server/src/generated/archive-data.json` to
+        `.github/workflows/ingest-airtable.yml`'s `add-paths:` list and to
+        `tools/check_generated_artifacts.py::ARTIFACTS` but forgot to add
+        the same path to `tools/auto_merge_ingestion_pr.py::ALLOWED_PATHS`.
+        The next scheduled cron after #210 (run 26679487892) consequently
+        opened a clean PR #211 but the auto-merge script's path-shape
+        check classified the new file as disallowed, filed
+        `E41 auto-merge blocked: file '<path>' not in ingestion allowlist`
+        as #212, returned 1, and triggered a duplicate
+        `E41 cron ingestion incident:` issue (#213).
+
+        This test pins the invariant: every concrete file path the ingest
+        workflow can write to the PR (via the peter-evans/
+        create-pull-request `add-paths:` list, excluding the `articles/*`
+        glob which the auto-merge script handles via prefix+suffix
+        matching on `<folder>/article.md` and `<folder>/metadata.json`)
+        MUST be accepted by `is_path_allowed`. If a contributor adds a
+        new tracked generated artifact to the workflow without also
+        registering it in ALLOWED_PATHS, this test fails before the gap
+        reaches a cron run.
+        """
+        yaml = pytest.importorskip("yaml")
+        repo_root = Path(__file__).resolve().parents[2]
+        wf = yaml.safe_load(
+            (repo_root / ".github" / "workflows" / "ingest-airtable.yml").read_text(
+                encoding="utf-8"
+            )
+        )
+        steps = wf["jobs"]["ingest"]["steps"]
+        pr_steps = [
+            s for s in steps
+            if "peter-evans/create-pull-request" in (s.get("uses") or "")
+        ]
+        assert len(pr_steps) == 1, (
+            "Expected exactly one peter-evans/create-pull-request step in "
+            f"ingest-airtable.yml; found {len(pr_steps)}"
+        )
+        add_paths_raw = (pr_steps[0].get("with") or {}).get("add-paths") or ""
+        raw_lines = [ln.strip() for ln in str(add_paths_raw).splitlines() if ln.strip()]
+
+        # `articles/*` is a glob that expands per-folder; the auto-merge
+        # script accepts the two canonical filenames inside any article
+        # folder. Verify the glob handling separately, then check every
+        # other (concrete) entry.
+        assert "articles/*" in raw_lines, (
+            "ingest-airtable.yml `add-paths:` must continue to list "
+            "`articles/*` so new article folders ship on the PR."
+        )
+        sample_article_folder = "articles/2026-05-04-sample-slug"
+        assert mod.is_path_allowed(f"{sample_article_folder}/article.md") is True
+        assert mod.is_path_allowed(f"{sample_article_folder}/metadata.json") is True
+
+        concrete_paths = [p for p in raw_lines if p != "articles/*"]
+        for path in concrete_paths:
+            assert mod.is_path_allowed(path) is True, (
+                f"Path '{path}' is in `add-paths:` for the ingest workflow "
+                f"but is NOT accepted by auto_merge_ingestion_pr.py::"
+                f"ALLOWED_PATHS. Add the matching entry to ALLOWED_PATHS "
+                f"to keep the workflow and the auto-merge allowlist in lockstep "
+                f"(see PR #210 + issue #212 for the regression history)."
+            )
 
 
 class TestTitleAndBranch:
