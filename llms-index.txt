@@ -69,35 +69,35 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/tune-maintainer-health-rubric-thresholds-dependency-tier-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-11-tune-maintainer-health-rubric-thresholds-dependency-tier-2026/article.md
 - Topics: Healthcare AI
-- Summary: Tier your open-source maintainer health rubric by dependency blast radius and replaceability to meet EU AI Act and DORA conformity expectations.
+- Summary: A single maintainer-health threshold does not survive scale-up. Tier dependencies by blast radius and replaceability — runtime-critical, security-sensitive, build-chain, developer-only, experimental, replaceable — then calibrate bus-factor, release-recency…
 
 ## How to Run a 30-Day Pilot for an Open-Source AI Coding Agent
 - Date: 2026-05-10
 - Canonical: https://radar.firstaimovers.com/30-day-pilot-open-source-ai-coding-agent-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-10-30-day-pilot-open-source-ai-coding-agent-2026/article.md
 - Topics: open-source-ai-coding-agent, 30-day-pilot, eu-ai-act, engineering-leaders, coding-agent-evaluation
-- Summary: A concrete 30-day pilot runbook to evaluate an open-source AI coding agent before procurement, with seven evidence dimensions and EU AI Act context.
+- Summary: A 30-day bounded pilot is the right evaluation unit for an open-source AI coding agent. Four pre-day-1 artefacts, a security and data-flow setup phase, seven evidence dimensions, and a four-outcome governance gate replace anecdote with audit. The default…
 
 ## How to Automate a Maintainer Health Rubric in CI Before You Adopt an AI Tool
 - Date: 2026-05-10
 - Canonical: https://radar.firstaimovers.com/automate-maintainer-health-rubric-ci-ai-tools-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-10-automate-maintainer-health-rubric-ci-ai-tools-2026/article.md
 - Topics: Healthcare AI
-- Summary: Automate a maintainer health rubric in CI to evaluate open-source AI tools before adoption, ensuring compliance with EU AI Act and DORA.
+- Summary: Automate a maintainer-health rubric in CI before piloting any open-source AI tool. Score nine public-source signals — license, release recency, contributors, issue responsiveness, bus factor, security posture, CODEOWNERS, dependency hygiene, SBOM — to a…
 
 ## Why GitHub Stars Are a Bad Procurement Metric for AI Tools
 - Date: 2026-05-10
 - Canonical: https://radar.firstaimovers.com/github-stars-bad-procurement-metric-ai-tools-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-10-github-stars-bad-procurement-metric-ai-tools-2026/article.md
 - Topics: ai-tool-procurement, github-stars, open-source-governance, ai-engineering, supply-chain-security
-- Summary: GitHub stars measure attention, not procurement fitness. Replace them with a license, maintenance, security, and pilot evidence frame.
+- Summary: GitHub stars measure attention, not procurement fitness. A 122k-star repo with no LICENSE file is unusable; a 28k-star repo stale for seven months is a liability. Replace star-driven selection with a five-gate decision rule covering legal, security…
 
 ## Kimi 2.6 as an AI Engineering Auditor: Where It Actually Fits
 - Date: 2026-05-10
 - Canonical: https://radar.firstaimovers.com/kimi-2-6-ai-engineering-auditor-best-use-cases-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-10-kimi-2-6-ai-engineering-auditor-best-use-cases-2026/article.md
 - Topics: AI DevOps
-- Summary: Kimi 2.6 is a bounded, auditable AI engineering reviewer, not a chatbot replacement. Here is where it fits and where it does not.
+- Summary: Kimi K2.6 is best treated as a bounded engineering auditor, not a primary coding agent. The article maps where its long-context review strengths fit — codebase screening, dependency review, documentation drift, and style checks — and where governance concerns…
 
 ## Maintainer Health Matters More Than GitHub Stars for AI Tool Procurement
 - Date: 2026-05-10
