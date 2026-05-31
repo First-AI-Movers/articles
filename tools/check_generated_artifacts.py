@@ -34,6 +34,7 @@ ARTIFACTS = [
     "feed.xml",
     "feed.json",
     "llms.txt",
+    "llms-index.txt",
     "llms-full.txt",
     "llms-recent.txt",
     "README.md",

@@ -67,6 +67,7 @@ ALLOWED_PATHS = [
     ("feed.xml", None),
     ("feed.json", None),
     ("llms.txt", None),
+    ("llms-index.txt", None),
     ("llms-full.txt", None),
     ("llms-recent.txt", None),
     # Bundled MCP archive snapshot — added to the ingest pipeline in
