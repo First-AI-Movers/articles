@@ -1,12 +1,21 @@
 {% extends "base.html.j2" %}
 {% block robots %}{% if lang and lang != 'en' %}<meta name="robots" content="index, follow">{% else %}<meta name="robots" content="noindex, follow">{% endif %}{% endblock %}
 {% block canonical %}{% if lang and lang != 'en' %}<link rel="canonical" href="{{ site_url }}{{ page_path }}">{% else %}<link rel="canonical" href="{{ canonical_url }}">{% endif %}{% endblock %}
-{% block hreflang %}{% if translations %}
-<link rel="alternate" hreflang="en" href="{{ site_url }}/articles/{{ slug }}/" />
+{# Hreflang cluster only renders on translated pages. The English archive
+   page at {{ site_url }}/articles/{{ slug }}/ is `noindex, follow` and
+   canonicalises to the external `canonical_url` (radar/insights/etc.) —
+   so emitting hreflang there would point search engines at a noindex page
+   and confuse the cluster. Under this repo's archive-copy strategy the
+   authoritative English version IS the external `canonical_url`, so on
+   translated pages `hreflang="en"` and `hreflang="x-default"` point there
+   directly. Inter-language alternates remain self-referential to the local
+   `/<lang>/articles/<slug>/` (indexable + self-canonical). #}
+{% block hreflang %}{% if lang and lang != 'en' and translations %}
+<link rel="alternate" hreflang="en" href="{{ canonical_url }}" />
 {% for lang_code, t in translations.items() %}
 <link rel="alternate" hreflang="{{ lang_code }}" href="{{ site_url }}/{{ lang_code }}/articles/{{ slug }}/" />
 {% endfor %}
-<link rel="alternate" hreflang="x-default" href="{{ site_url }}/articles/{{ slug }}/" />
+<link rel="alternate" hreflang="x-default" href="{{ canonical_url }}" />
 {% endif %}{% endblock %}
 {% block title %}{{ title }} — First AI Movers Archive{% endblock %}
 {% block description %}{{ summary or site_description }}{% endblock %}

@@ -103,7 +103,16 @@ class TestMultilingualPages:
         html = es_path.read_text(encoding="utf-8")
         assert "Artículo de prueba" in html
 
-    def test_english_page_has_hreflang_alternates(self, tmp_path, monkeypatch):
+    def test_english_archive_page_emits_no_hreflang_block(self, tmp_path, monkeypatch):
+        """The English archive page is `noindex, follow` and canonicalises
+        to the external `canonical_url`. Under the post-#216 contract it
+        emits NO hreflang block — emitting hreflang from a noindex page
+        only confuses search engines, and the local English archive URL
+        cannot legitimately be the target of any hreflang.
+
+        (Replaces the pre-#216 assertion that the English archive carried
+        the hreflang block; that behaviour was the bug PR #216 fixes.)
+        """
         mod = self._import_rebuild()
         monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
         monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
@@ -123,10 +132,27 @@ class TestMultilingualPages:
 
         en_path = tmp_path / "site" / "articles" / "test" / "index.html"
         html = en_path.read_text(encoding="utf-8")
-        assert 'hreflang="es"' in html
-        assert 'hreflang="x-default"' in html
+        # English archive page must NOT carry any hreflang alternates.
+        assert 'hreflang="es"' not in html, (
+            "English archive page must NOT emit hreflang='es' — it is "
+            "noindex and canonicalises away to the external canonical_url."
+        )
+        assert 'hreflang="en"' not in html, (
+            "English archive page must NOT emit hreflang='en'."
+        )
+        assert 'hreflang="x-default"' not in html, (
+            "English archive page must NOT emit hreflang='x-default'."
+        )
 
     def test_translated_page_has_hreflang_alternates(self, tmp_path, monkeypatch):
+        """Translated pages still emit the full hreflang cluster, but
+        `hreflang="en"` and `hreflang="x-default"` now point at the
+        external `canonical_url` (the authoritative English under the
+        archive-copy strategy), not at the local English archive page.
+
+        Inter-language alternates (`hreflang="<lang>"`) continue to point
+        at the local `/<lang>/articles/<slug>/` self-canonical pages.
+        """
         mod = self._import_rebuild()
         monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
         monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
@@ -146,9 +172,35 @@ class TestMultilingualPages:
 
         es_path = tmp_path / "site" / "es" / "articles" / "test" / "index.html"
         html = es_path.read_text(encoding="utf-8")
+        # Cluster still emitted; presence assertions stay.
         assert 'hreflang="en"' in html
         assert 'hreflang="es"' in html
         assert 'hreflang="x-default"' in html
+        # New contract: en/x-default point at the external canonical_url
+        # (https://example.com/test per the fixture), NOT the local
+        # English archive page.
+        local_en_archive = "https://articles.firstaimovers.com/articles/test/"
+        external_canonical = "https://example.com/test"
+        assert (
+            f'rel="alternate" hreflang="en" href="{external_canonical}"' in html
+            or f'href="{external_canonical}" rel="alternate" hreflang="en"' in html
+        ), (
+            f"hreflang='en' on a translated page must point at the external "
+            f"canonical_url ('{external_canonical}'); rendered HTML does not "
+            "contain that mapping."
+        )
+        assert (
+            f'rel="alternate" hreflang="x-default" href="{external_canonical}"' in html
+            or f'href="{external_canonical}" rel="alternate" hreflang="x-default"' in html
+        ), (
+            f"hreflang='x-default' on a translated page must point at "
+            f"the external canonical_url ('{external_canonical}')."
+        )
+        assert f'hreflang="en" href="{local_en_archive}"' not in html, (
+            "hreflang='en' must NOT point at the local English archive "
+            f"URL ('{local_en_archive}') — that page is noindex and "
+            "canonicalises away."
+        )
 
     def test_english_page_is_noindex_external_canonical(self, tmp_path, monkeypatch):
         mod = self._import_rebuild()
