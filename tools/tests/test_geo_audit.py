@@ -27,12 +27,108 @@ class TestCheckSingleH1:
         assert result["points"] == 0
         assert "2" in result["detail"]
 
-    def test_zero_h1_fails(self):
+    def test_zero_h1_without_metadata_title_fails(self):
+        """Zero Markdown H1 lines AND no metadata title => fail.
+
+        Calling without `meta` is equivalent to passing `meta={}` — the
+        previous (legacy) contract.
+        """
         from geo_audit import _check_single_h1
         body = "## Section\n\nParagraph.\n"
         result = _check_single_h1(body)
         assert result["passed"] is False
         assert result["points"] == 0
+        assert "metadata title missing" in result["detail"]
+
+    def test_zero_h1_with_empty_metadata_title_fails(self):
+        """Empty / whitespace-only metadata title is treated as missing."""
+        from geo_audit import _check_single_h1
+        body = "## Section\n\nParagraph.\n"
+        for empty in ({}, {"title": ""}, {"title": "   "}, {"title": None}):
+            result = _check_single_h1(body, empty)
+            assert result["passed"] is False, (
+                f"meta={empty!r} should not be enough to pass single_h1; "
+                f"got: {result!r}"
+            )
+            assert result["points"] == 0
+
+    def test_zero_h1_with_metadata_title_passes(self):
+        """The renderer in templates/article.html.j2 emits
+        ``<h1>{{ title }}</h1>`` from metadata.json::title, so an article
+        with zero Markdown H1 lines but a non-empty metadata title still
+        has exactly one rendered H1 and must pass the audit.
+        """
+        from geo_audit import _check_single_h1
+        body = "## Section\n\nParagraph.\n"
+        meta = {"title": "Claude Code Across Every Device"}
+        result = _check_single_h1(body, meta)
+        assert result["passed"] is True
+        assert result["points"] == 20
+        assert "metadata title renders H1" in result["detail"]
+
+    def test_multiple_h1_with_metadata_title_still_fails(self):
+        """Metadata title does NOT rescue a body with >1 Markdown H1 — the
+        rendered page would emit the metadata `<h1>` PLUS the body H1s,
+        breaking the single-H1 invariant.
+        """
+        from geo_audit import _check_single_h1
+        body = "# Title One\n\n# Title Two\n"
+        meta = {"title": "Whatever"}
+        result = _check_single_h1(body, meta)
+        assert result["passed"] is False
+        assert result["points"] == 0
+        assert "Markdown H1 count: 2" in result["detail"]
+
+    def test_score_article_uses_metadata_title_path(self):
+        """`_score_article` must propagate meta into `_check_single_h1` so
+        an article with zero Markdown H1 but a complete metadata block
+        gets credit for the rendered H1.
+        """
+        from geo_audit import _score_article
+        # Body has TL;DR, outbound link, numeric signal, hierarchy — but
+        # NO Markdown H1. Metadata has title (renderer emits the H1).
+        body = (
+            "> **TL;DR:** Summary.\n\n"
+            "## Section\n\n### Subsection\n\n"
+            "[Source](https://example.com)\n\n"
+            "Growth was 42%.\n"
+        )
+        meta = {
+            "title": "Renderer-Supplied Title",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://example.com",
+            "tags": ["AI"], "author": "A", "author_url": "https://a.com",
+            "company": "C", "company_url": "https://c.com",
+            "word_count": 100, "read_time_minutes": 2,
+        }
+        result = _score_article(Path("test"), body, meta)
+        # single_h1 must contribute its full 20 points via the metadata path.
+        assert result["checks"]["single_h1"]["passed"] is True
+        assert result["checks"]["single_h1"]["points"] == 20
+        assert "metadata title renders H1" in result["checks"]["single_h1"]["detail"]
+        # Whole article still scores 100 (matches the legacy "perfect" test
+        # but reaches it via the metadata-rendered H1 instead of a body H1).
+        assert result["score"] == 100
+        assert result["status"] == "pass"
+
+    def test_detail_string_distinguishes_paths(self):
+        """The detail string for each pass / fail branch is stable so the
+        GEO report stays diagnostic and operators can tell which path the
+        article took.
+        """
+        from geo_audit import _check_single_h1
+        cases = [
+            ("# Title\n\nBody.\n", {"title": "T"}, "Markdown H1 count: 1"),
+            ("## Section\n\nBody.\n", {"title": "T"}, "Markdown H1 count: 0; metadata title renders H1"),
+            ("## Section\n\nBody.\n", {}, "Markdown H1 count: 0; metadata title missing"),
+            ("# A\n# B\n# C\n", {"title": "T"}, "Markdown H1 count: 3"),
+        ]
+        for body, meta, expected in cases:
+            result = _check_single_h1(body, meta)
+            assert result["detail"] == expected, (
+                f"For body={body!r} meta={meta!r}: expected detail "
+                f"{expected!r}, got {result['detail']!r}"
+            )
 
 
 class TestCheckHeadingHierarchy:
