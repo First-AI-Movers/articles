@@ -625,6 +625,131 @@ def build_llms_full(index):
     print(f"[llms-full.txt] articles={included} skipped={skipped} size={size_mb:.2f}MB")
 
 
+# ---------------------------------------------------------------------------
+# llms-index.txt (middle-context corpus catalog for LLMs)
+# ---------------------------------------------------------------------------
+INDEX_SUMMARY_MAX_CHARS = 260
+INDEX_TOPICS_PER_ENTRY = 6
+
+
+def build_llms_index(index):
+    """Emit `llms-index.txt`: a complete, compact corpus catalog.
+
+    Sits between the tiny `llms.txt` discovery file (~3 KB, just pointers)
+    and the huge `llms-full.txt` corpus (~9 MB / ~2.3M tokens) so an LLM
+    can read the entire catalog in a medium-context window and choose
+    which specific articles to fetch via `index.json`, the public site,
+    or `llms-full.txt`.
+
+    Deterministic by construction:
+    - newest-first ordering matches `llms-full.txt` and `index.json`;
+    - no `datetime.now()` is read inside per-entry blocks (only the
+      `date.today()` stamp in the header, mirroring `llms-full.txt`);
+    - summaries are truncated at INDEX_SUMMARY_MAX_CHARS;
+    - topics capped at INDEX_TOPICS_PER_ENTRY.
+
+    Does NOT include any article body — that's `llms-full.txt`'s job.
+    """
+    from _atomic_io import atomic_write_text
+
+    articles = index["articles"]
+    stats = compute_stats(index)
+    today_iso = str(date.today())
+
+    header = (
+        "# First AI Movers — Corpus Index\n\n"
+        "Complete catalog of all First AI Movers articles by Dr. Hernani Costa.\n"
+        "Use this file to discover what is in the archive without loading the\n"
+        "full corpus. For full article text, fetch `llms-full.txt`. For the\n"
+        "30-day recency slice, fetch `llms-recent.txt`. For machine-readable\n"
+        "metadata only, fetch `index.json`.\n\n"
+        "## License\n\n"
+        "Creative Commons Attribution 4.0 International (CC BY 4.0). "
+        "Reuse and citation explicitly permitted with attribution to "
+        "Dr. Hernani Costa / First AI Movers and the original canonical URL.\n\n"
+        f"- Articles: {stats['total']}\n"
+        f"- Date range: {stats['date_min']} to {stats['date_max']}\n"
+        f"- Topic count: {stats['topics_count']}\n"
+        f"- Generated: {today_iso}\n\n"
+        "## Companion files\n\n"
+        f"- Corpus discovery: {SITE_BASE}/llms.txt\n"
+        f"- Full corpus (every article body): {SITE_BASE}/llms-full.txt\n"
+        f"- Recent 30 days (smaller context): {SITE_BASE}/llms-recent.txt\n"
+        f"- Machine-readable catalog: {SITE_BASE}/index.json\n"
+        f"- Atom feed: {SITE_BASE}/feed.xml\n\n"
+        "Each entry below is one article: title, canonical URL, raw-Markdown\n"
+        "archive URL, publication date, topics, optional DOI/series, and a\n"
+        "short summary. Articles are listed newest-first.\n\n"
+        "---\n"
+    )
+
+    parts = [header]
+    included = 0
+    skipped_no_folder = 0
+    for a in articles:
+        folder = a.get("folder") or ""
+        title = a.get("title") or "Untitled"
+        date_str = a.get("published_date") or "unknown"
+
+        # Canonical: prefer the cleaned, single-line canonical URL if any;
+        # otherwise fall back to the raw-Markdown archive URL.
+        canonical_raw = (a.get("canonical_url") or "").strip()
+        canonical = (
+            canonical_raw.splitlines()[-1].strip() if canonical_raw else ""
+        )
+        archive_url = (
+            f"{SITE_BASE}/articles/{folder}/article.md" if folder else ""
+        )
+
+        topics = a.get("topics") or a.get("tags") or []
+        topics_line = ", ".join(topics[:INDEX_TOPICS_PER_ENTRY])
+
+        # Prefer the curated short summary; fall back to the existing
+        # feed/summary extractor (which uses TL;DR if present, else first
+        # prose paragraph, else title-based fallback). Both paths produce a
+        # ≤ SUMMARY_MAX_CHARS (280-char) text; truncate further to
+        # INDEX_SUMMARY_MAX_CHARS for the catalog's tighter budget.
+        summary = a.get("summary_short") or ""
+        if not summary and folder:
+            summary = _extract_summary(folder, title, date_str)
+        elif not summary:
+            summary = f"{title} — by Dr. Hernani Costa, First AI Movers ({date_str})."
+        summary = _truncate(
+            " ".join(summary.split()), INDEX_SUMMARY_MAX_CHARS
+        )
+
+        block_lines = [
+            f"## {title}",
+            f"- Date: {date_str}",
+        ]
+        if canonical:
+            block_lines.append(f"- Canonical: {canonical}")
+        if archive_url:
+            block_lines.append(f"- Archive: {archive_url}")
+        if topics_line:
+            block_lines.append(f"- Topics: {topics_line}")
+        if a.get("doi"):
+            block_lines.append(f"- DOI: {a['doi']}")
+        if isinstance(a.get("series"), dict) and a["series"].get("slug"):
+            block_lines.append(f"- Series: {a['series']['slug']}")
+        if summary:
+            block_lines.append(f"- Summary: {summary}")
+
+        parts.append("\n" + "\n".join(block_lines) + "\n")
+
+        if not folder:
+            skipped_no_folder += 1
+        included += 1
+
+    body = "".join(parts)
+    atomic_write_text(REPO_ROOT / "llms-index.txt", body)
+    size_kb = len(body.encode("utf-8")) / 1024
+    print(
+        f"[llms-index.txt] entries={included} "
+        f"skipped_no_folder={skipped_no_folder} size={size_kb:.1f}KB"
+    )
+
+
 LLMS_RECENT_DAYS = 30
 
 
@@ -1622,5 +1747,6 @@ if __name__ == "__main__":
     build_feed(idx)
     build_llms_full(idx)
     build_llms_recent(idx)
+    build_llms_index(idx)
     build_json_feed(idx)
     build_site(idx)

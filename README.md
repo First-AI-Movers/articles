@@ -254,6 +254,7 @@ This archive is structured for machine readability:
 - **`hernanicosta.json`** — Schema.org `Person` entity with full biographical and organizational data
 - **`CITATION.cff`** — Standard citation metadata
 - **`feed.xml`** — Atom 1.0 feed of the 50 most-recent articles for poll-based discovery
+- **`llms-index.txt`** — Complete article catalog (title, canonical URL, archive URL, date, topics, short summary per article) sized for medium-context LLMs
 - **`llms-full.txt`** — Single-file concatenation of every article's full text for bulk LLM ingestion
 - **`llms-recent.txt`** — Rolling 30-day window of the corpus for small-context LLM ingestion
 - All content is plain Markdown — no JavaScript rendering required
