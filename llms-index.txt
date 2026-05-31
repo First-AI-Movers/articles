@@ -34,35 +34,35 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/claude-code-remote-control-dispatch-multi-device-guide-2026-v2
 - Archive: https://articles.firstaimovers.com/articles/2026-05-24-claude-code-remote-control-dispatch-multi-device-guide-2026-v2/article.md
 - Topics: developer-tools, ai-automation, company-tech-strategy, digital-transformation, business-automation
-- Summary: Claude Code now runs across your terminal, desktop app, phone, and browser, and sessions stay in sync across all of them. If you have been managing multiple Claude Code sessions by switching terminal tabs and losing track of which agent is doing what, there…
+- Summary: Claude Code now spans CLI, desktop, mobile, and browser through three coordinated features: Remote Control continues local sessions from a phone, Dispatch fires new tasks from mobile that spawn desktop sessions, and Agent View provides a TUI dashboard for…
 
 ## How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows
 - Date: 2026-05-11
 - Canonical: https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026/article.md
 - Topics: AI Governance
-- Summary: Evaluate MCP servers across eight dimensions and a 30-day approval workflow to meet EU AI Act and DORA enterprise governance needs.
+- Summary: MCP servers expose privileged tool execution to AI agents; evaluating them is now a compliance artefact under the EU AI Act and DORA. The article proposes an eight-dimension matrix and a 30-day workflow — intake, sandbox pilot, production rollout with…
 
 ## The Local-First AI Stack: Privacy Trade-Offs European Teams Need to Understand
 - Date: 2026-05-11
 - Canonical: https://radar.firstaimovers.com/local-first-ai-stack-privacy-trade-offs-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-11-local-first-ai-stack-privacy-trade-offs-2026/article.md
 - Topics: GDPR & Data Privacy, AI Governance
-- Summary: Local-first AI does not equal private; map data flows, logs, and reversibility before EU AI Act and GDPR documentation obligations fire.
+- Summary: Local-first AI is not automatically private. The article shows European teams how to map data flows, log retention, and reversibility against EU AI Act Article 16 and GDPR Article 30 obligations. A seven-question rubric, a four-option decision matrix, and a…
 
 ## How to Map Data Flows in a Local-First AI Assistant
 - Date: 2026-05-11
 - Canonical: https://radar.firstaimovers.com/map-data-flows-local-first-ai-assistant-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-11-map-data-flows-local-first-ai-assistant-2026/article.md
 - Topics: GDPR & Data Privacy
-- Summary: Learn how to map data flows in a local-first AI assistant to meet GDPR Article 30 and EU AI Act requirements with a 10-boundary framework.
+- Summary: For European teams adopting a local-first AI assistant, the data-flow map is the only artefact GDPR Article 30 and EU AI Act Article 16 will accept as auditable evidence. The article specifies a ten-boundary framework, a 30-day mapping workflow, and the…
 
 ## Skills, Memory, and Agent Harnesses Are the Next AI Platform Layer
 - Date: 2026-05-11
 - Canonical: https://radar.firstaimovers.com/skills-memory-agent-harnesses-next-ai-layer-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-11-skills-memory-agent-harnesses-next-ai-layer-2026/article.md
 - Topics: ai-agent-platform-layer, reusable-agent-skills, agent-memory-governance, ai-execution-harness, eu-ai-act-agent
-- Summary: European scale-ups can turn reusable skills, governed memory, and audited harnesses into a compliance layer for EU AI Act and DORA.
+- Summary: Reusable skills, governed memory, and audited harnesses form the next AI platform layer for European scale-ups. Skills replace ad-hoc prompts; memory replaces raw context with a policy-governed store; the harness logs every tool call. Together they produce…
 
 ## Should Your Maintainer Health Rubric Change by Dependency Tier?
 - Date: 2026-05-11

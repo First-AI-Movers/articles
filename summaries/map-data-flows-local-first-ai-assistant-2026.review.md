@@ -1,0 +1,38 @@
+# Summary Review — How to Map Data Flows in a Local-First AI Assistant
+
+Article folder: 2026-05-11-map-data-flows-local-first-ai-assistant-2026
+Canonical URL: https://radar.firstaimovers.com/map-data-flows-local-first-ai-assistant-2026
+Generated at: 2026-05-31
+Model: manual / human editorial draft from source article text
+
+## 50-word summary
+
+For European teams adopting a local-first AI assistant, the data-flow map is the only artefact GDPR Article 30 and EU AI Act Article 16 will accept as auditable evidence. The article specifies a ten-boundary framework, a 30-day mapping workflow, and the regression checks that keep boundary-class drift under control.
+
+## 200-word summary
+
+For European scale-ups adopting a local-first AI assistant, the data-flow map is the only artefact both GDPR Article 30 and EU AI Act Article 16 will accept as auditable evidence. The map must cover ten boundary classes — user prompt, local files, third-party connectors (clipboard, browser, email, calendar, ticketing), model call path, local-versus-remote model selection logic, vector store and memory, logs and telemetry, plugins and MCP servers, secrets and credentials, and human approval gates — each annotated with the data category, retention window, encryption-in-transit setting, and the most recent egress-capture timestamp. The article frames a 30-day workflow: egress capture and inventory in days one to seven (platform engineering lead owns), categorisation and policy draft in days eight to twenty-one (AI transformation lead with privacy and security leads), and audit-trail wiring plus a reversibility drill on at least two high-risk flows in days twenty-two to thirty (CTO with operations leader). Telemetry is the most commonly missed egress point because analytics traffic often bypasses the main network proxy. For a thirty-person team, the first Article 30-style readback takes about half a day on the first cohort, then under two hours per quarterly refresh.
+
+## 500-word summary
+
+For European scale-ups adopting a local-first AI assistant, the data-flow map is the only artefact both GDPR Article 30 and EU AI Act Article 16 will accept as auditable evidence. By 2 August 2026, the first EU AI Act regulatory sandbox milestone, all in-scope AI systems must demonstrate mapped data flows. The map reveals egress points that marketing materials hide, and the same artefact serves the privacy lead's Article 30 register, the security lead's threat model, the procurement-aware engineering manager's third-party register, and the CTO's compliance dossier — one investment, several regulators.
+
+A data-flow map for a local-first AI assistant is not the same as a network diagram. It traces every path that PII, proprietary code, or credentials can travel from prompt to model output, including IPC, file system reads, browser and email API extensions, and any remote inference fallback. The map distinguishes encrypted tunnels from clear-text paths and ephemeral state from persistent storage.
+
+Ten boundary classes form the minimum map. User prompt — input length, encoding, file attachments. Local files — directories read, symlinks followed, write-back behaviour. Clipboard, browser, email, calendar, and ticketing connectors. Model call path — HTTP, IPC, websocket, or local socket, with endpoint addresses and TLS versions. Local-versus-remote model selection logic, which can leak through timing or error messages. Vector store and memory — persistent or session-based, encrypted or not, with documented eviction. Logs and telemetry — the most common source of accidental PII disclosure. Plugins and MCP servers, each treated as a separate audited flow. Secrets and credentials — storage, transmission, logging. Human approval boundary — which actions bypass review.
+
+The 30-day workflow assigns owners. Phase 1 (days 1 to 7) — egress capture and inventory by the platform engineering lead using network proxies or seccomp profiles; success criterion is ninety percent of unique destinations recorded. Phase 2 (days 8 to 21) — categorisation and policy draft by the AI transformation lead with privacy and security leads; every flow class is annotated with sensitivity and applicable regulation. Phase 3 (days 22 to 30) — automated audit-trail wiring and a signed reversibility drill on at least two high-risk flows, owned by the CTO with operations leader and procurement input from finance.
+
+Three named failure modes are common. Boundary-class drift: a new feature ships and the map remains anchored to last quarter's list. The CI-side fix is a boundary-class diff check on every release that re-runs the egress capture and fails the deploy if a new boundary appears without a documented owner. Telemetry as the missed egress — analytics endpoints frequently bypass the main proxy and carry prompt summaries or output snippets directly to the vendor. Engineer downgrade — under shipping pressure, boundaries get marked low risk to avoid categorisation; mitigation is a written exception with a documented retention window, downgrade-frequency as a process metric, and a fifteen percent quarterly threshold that triggers workflow revision rather than bypass-policy adjustment.
+
+## Review status
+
+Status: approved
+Reviewer: Dr. Hernani Costa
+Reviewed at: 2026-05-31
+
+## Notes
+
+- This article cross-references the local-first-ai-stack-privacy-trade-offs-2026 piece; the canonical URLs are taken verbatim from the source.
+- The ninety-percent egress-capture target and the fifteen-percent quarterly downgrade threshold are stated in the source body.
+- No invented citations, vendor claims, or regulatory references were added.
