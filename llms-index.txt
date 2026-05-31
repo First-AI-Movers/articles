@@ -104,35 +104,35 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/maintainer-health-matters-more-than-github-stars-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-10-maintainer-health-matters-more-than-github-stars-2026/article.md
 - Topics: Healthcare AI
-- Summary: CTOs and platform leaders discover why maintainer health outranks star counts for enterprise when selecting open source AI tools.
+- Summary: Stars measure attention; maintainer health measures survival. The article maps ten maintainer-health dimensions into a procurement-grade scorecard plus a 15-minute rubric a technical team can run in CI. For European scale-ups, the same evidence pack satisfies…
 
 ## The Open-Source AI Repos European Engineering Teams Should Watch Right Now
 - Date: 2026-05-10
 - Canonical: https://radar.firstaimovers.com/open-source-ai-repos-european-engineering-teams-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-10-open-source-ai-repos-european-engineering-teams-2026/article.md
 - Topics: open-source-ai, ai-engineering, european-tech, ai-governance, coding-agents
-- Summary: A decision framework for European engineering leaders to evaluate open-source AI repos by license, maintenance, and data governance.
+- Summary: A decision framework for European engineering leaders evaluating open-source AI repositories: read license clarity, maintenance recency, maintainer backing, data-flow posture, and integration depth in that order, not star count. Outputs are pilot, watch, or…
 
 ## Open-Source AI Tool Security Checklist for European Scale-Ups
 - Date: 2026-05-10
 - Canonical: https://radar.firstaimovers.com/open-source-ai-tool-security-checklist-european-scale-ups-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-10-open-source-ai-tool-security-checklist-european-scale-ups-2026/article.md
 - Topics: GDPR & Data Privacy
-- Summary: A practical security checklist for European scale-ups evaluating open-source AI tools before procurement, covering license through DORA.
+- Summary: A 22-item security checklist replaces star-count procurement for European scale-ups evaluating open-source AI tools. Seven signal categories separate attention from maintenance, security, license, data flow, deployment, and vendor support. A four-week…
 
 ## The New AI Development Stack: Premium Reasoning, Low-Cost Execution
 - Date: 2026-05-10
 - Canonical: https://radar.firstaimovers.com/premium-reasoning-low-cost-ai-development-stack-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-10-premium-reasoning-low-cost-ai-development-stack-2026/article.md
 - Topics: ai-development-stack, code-generation, governance, european-ai, cost-optimization
-- Summary: Learn to split your AI stack into a premium reasoning lane and a low-cost execution lane. Practical guide for European scale-ups.
+- Summary: A two-lane AI development stack — premium reasoning for architecture, threat modelling, and review; lower-cost execution for mechanical implementation — cuts AI coding spend without degrading quality if routing is correct. Policy, not the agent, controls the…
 
 ## The Local-First AI Assistant Wave: Privacy, Control, and Enterprise Adoption
 - Date: 2026-05-09
 - Canonical: https://radar.firstaimovers.com/local-first-ai-assistants-enterprise-privacy-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-09-local-first-ai-assistants-enterprise-privacy-2026/article.md
 - Topics: AI DevOps
-- Summary: Local-first AI assistants run on your hardware, never send data to the cloud, and solve compliance. Here is when they make sense for enterprise teams.
+- Summary: Local-first AI assistants run inside the enterprise perimeter and give auditors a custody chain they can follow. The article frames four data surfaces, a four-question decision rubric, and an honest trade-off between local-and-cloud performance, then warns…
 
 ## The Open-Source AI Stack Engineering Leaders Should Watch in 2026
 - Date: 2026-05-09

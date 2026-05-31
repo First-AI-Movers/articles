@@ -1,0 +1,38 @@
+# Summary Review — The New AI Development Stack: Premium Reasoning, Low-Cost Execution
+
+Article folder: 2026-05-10-premium-reasoning-low-cost-ai-development-stack-2026
+Canonical URL: https://radar.firstaimovers.com/premium-reasoning-low-cost-ai-development-stack-2026
+Generated at: 2026-05-31
+Model: manual / human editorial draft from source article text
+
+## 50-word summary
+
+A two-lane AI development stack — premium reasoning for architecture, threat modelling, and review; lower-cost execution for mechanical implementation — cuts AI coding spend without degrading quality if routing is correct. Policy, not the agent, controls the merge button, with CODEOWNERS, branch protection, merge queues, and rulesets as the spine.
+
+## 200-word summary
+
+The article argues for a two-lane AI development stack: premium reasoning models for architecture review, threat modelling, acceptance criteria, and final code review, and lower-cost execution models for mechanical implementation, refactoring, test scaffolding, documentation, and dependency upgrades. The economic premise is real because execution-lane output runs an order of magnitude below premium output per token, but the savings only materialise when routing is correct. A clear routing rule applies: security-sensitive or customer-facing paths go to premium for the spec, then to execution for implementation, then back to premium for final review; internal tooling and non-production code can be execution-only. Policy controls the merge button, not the agent. The spine is GitHub CODEOWNERS, branch protection, merge queues, and rulesets, with AI agent permissions scoped to Contents / Issues / Pull requests read-and-write rather than admin, and `allowedTools` / `disallowedTools` configured to block destructive actions. A four-level maturity model — ad-hoc, assisted, structured, governed — defines the adoption path and the promotion triggers. A 30-day plan moves a scale-up team from a spend audit to a pilot sprint with measured cost reduction and routing-discipline training, ending at a documented EU AI Act compliance check before August 2026.
+
+## 500-word summary
+
+The article argues for a two-lane AI development stack as the cheapest credible path to scale AI coding spend without degrading quality. The premium lane runs frontier-class reasoning models for architecture review, threat modelling, acceptance criteria, and final code review. The execution lane runs lower-cost models for mechanical implementation, refactoring, test scaffolding, documentation, dependency upgrades, mechanical migrations, log triage, and prototype generation. The economic premise is real because execution-lane output runs an order of magnitude below premium output per token on published per-million-token rates, but the savings only materialise when routing is correct.
+
+The routing rule is explicit. If the output will land in a security-sensitive or customer-facing path, route to premium for the spec, then to execution for the implementation, then back to premium for the final review. For internal tooling, non-production code, or one-off scripts, execution-only is safe. Architecture review, acceptance criteria, threat modelling, and security-sensitive code review go to premium because reasoning fidelity matters and the OWASP LLM01 indirect-prompt-injection scenario — where a repository RAG retrieval surface feeds attacker-controlled instructions to the model — requires human-supervised analysis. Mechanical refactors, doc generation, test scaffolding, and dependency upgrades go to execution because spec is already locked.
+
+Policy controls the merge button, not the agent. The spine is GitHub CODEOWNERS for required approvals on critical paths, branch protection rules to require code-owner sign-off, merge queues to prevent race conditions on concurrent agent PRs, and organisation-level rulesets that override local settings. AI agent permissions stay scoped to Contents / Issues / Pull requests read-and-write rather than admin or deployment scopes. `allowedTools` and `disallowedTools` block destructive actions such as branch deletion. API keys live in GitHub Secrets, never hard-coded. The OWASP LLM01 mitigations — constrain model behaviour, enforce output formats, require human-in-the-loop for privileged operations, segregate external content — apply across every coding agent and RAG pipeline.
+
+A four-level maturity model orients the adoption path. Level 0 is ad-hoc with a single model, no routing, no policy, unlimited blast radius. Level 1 is assisted with manual inconsistent routing and rubber-stamped reviews. Level 2 is structured with two-lane routing and CODEOWNERS on security-sensitive directories plus a merge queue and rulesets. Level 3 is governed with multi-model pipelines, audit trails, adversarial prompt-injection testing, and least-privilege agent permissions. Each level names its promotion trigger: a production incident or a finance flag, an audit request for AI-code review evidence, the EU AI Act sandbox deadline of August 2026, or scaling past 100 developers.
+
+A 30-day plan moves a scale-up team from a spend audit through a risk-class matrix linked to EU AI Act tiers, a multi-model routing tool on one non-critical repo, policy gates that block AI-only-account merges, a pilot sprint that measures cost reduction against a single-model baseline, a routing-discipline training session, and a final compliance check that documents data residency, key-rotation cadence, and EU AI Act sandbox readiness ahead of the August deadline. The article names three explicit do-not-split conditions: teams smaller than five engineers, active incident response, and regulatory environments requiring full per-token traceability.
+
+## Review status
+
+Status: approved
+Reviewer: Dr. Hernani Costa
+Reviewed at: 2026-05-31
+
+## Notes
+
+- Pricing is abstracted into "an order of magnitude below premium output per token" because the article's exact per-million-token figure rots fastest. The source body retains the specific provider pricing for readers.
+- The two-lane routing rule, four-level maturity model (L0–L3), and 30-day plan are reproduced as written.
+- OWASP LLM01:2025 indirect-prompt-injection scenario #4 (repository RAG injection) and the three do-not-split conditions are preserved from the source.
