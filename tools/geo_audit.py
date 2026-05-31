@@ -135,27 +135,60 @@ def _check_heading_hierarchy(body: str) -> dict:
     }
 
 
-def _check_tldr(body: str) -> dict:
-    """Detect TL;DR blockquote or heading."""
+def _check_tldr(body: str, meta: dict | None = None) -> dict:
+    """Check whether the rendered article surfaces a TL;DR for AI extraction.
+
+    Pass paths:
+
+    - Markdown body contains one of the documented TL;DR markers
+      (``> **TL;DR:**``, ``> TL;DR:``, ``# TL;DR`` / ``# TLDR``, etc.) →
+      legacy contract; pass with detail ``"TL;DR found in body"``.
+    - Body has no marker AND ``meta.summary_short`` is a non-empty string
+      (after ``.strip()``) → pass with detail
+      ``"TL;DR via metadata.summary_short"``. The site renderer surfaces
+      ``summary_short`` via JSON-LD ``description``, ``llms-index.txt``,
+      ``llms-full.txt`` per-article headers, and (downstream) feed
+      summaries — so a reviewed ``summary_short`` is functionally a
+      TL;DR for AI consumers, even when the body lacks an inline marker.
+
+    Fail path:
+
+    - No body marker AND no usable metadata summary → fail with detail
+      ``"TL;DR not found in body or metadata"``.
+
+    Mirrors the metadata-aware ``_check_single_h1`` pattern introduced in
+    PR #217: the audit measures what AI consumers actually see rendered,
+    not just the raw Markdown.
+    """
     patterns = [
         r">\s*\*\*TL;DR:\*\*",
         r">\s*TL;DR:",
         r"^#{1,3}\s+TL;DR\b",
         r"^#{1,3}\s+TLDR\b",
     ]
+    max_points = CRITERIA["tldr"]["max_points"]
+    points = CRITERIA["tldr"]["points"]
     for pat in patterns:
         if re.search(pat, body, re.MULTILINE | re.IGNORECASE):
             return {
                 "passed": True,
-                "points": CRITERIA["tldr"]["points"],
-                "max_points": CRITERIA["tldr"]["max_points"],
-                "detail": "TL;DR found",
+                "points": points,
+                "max_points": max_points,
+                "detail": "TL;DR found in body",
             }
+    summary_short = ((meta or {}).get("summary_short") or "")
+    if isinstance(summary_short, str) and summary_short.strip():
+        return {
+            "passed": True,
+            "points": points,
+            "max_points": max_points,
+            "detail": "TL;DR via metadata.summary_short",
+        }
     return {
         "passed": False,
         "points": 0,
-        "max_points": CRITERIA["tldr"]["max_points"],
-        "detail": "TL;DR not found",
+        "max_points": max_points,
+        "detail": "TL;DR not found in body or metadata",
     }
 
 
@@ -248,7 +281,7 @@ def _score_article(folder: Path, body: str, meta: dict) -> dict:
     checks = {
         "single_h1": _check_single_h1(body, meta),
         "heading_hierarchy": _check_heading_hierarchy(body),
-        "tldr": _check_tldr(body),
+        "tldr": _check_tldr(body, meta),
         "outbound_source": _check_outbound_source(body),
         "numeric_signal": _check_numeric_signal(body),
         "metadata": _check_metadata(meta),

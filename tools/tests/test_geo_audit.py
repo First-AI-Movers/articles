@@ -169,12 +169,108 @@ class TestCheckTldr:
         result = _check_tldr(body)
         assert result["passed"] is True
 
-    def test_missing_tldr(self):
+    def test_missing_tldr_without_metadata_fails(self):
+        """No body marker AND no metadata.summary_short = fail (legacy)."""
         from geo_audit import _check_tldr
         body = "# Title\n\nParagraph.\n"
         result = _check_tldr(body)
         assert result["passed"] is False
         assert result["points"] == 0
+        assert "not found in body or metadata" in result["detail"]
+
+    def test_body_marker_passes_with_detail_path(self):
+        """Body-marker path must be reported in the detail string."""
+        from geo_audit import _check_tldr
+        body = "> **TL;DR:** Summary in body.\n\nBody.\n"
+        result = _check_tldr(body, {"summary_short": "Also in metadata."})
+        assert result["passed"] is True
+        assert result["points"] == 20
+        # Body marker wins; detail reports the body path even when metadata
+        # is also populated.
+        assert result["detail"] == "TL;DR found in body"
+
+    def test_metadata_summary_short_passes_when_no_body_tldr(self):
+        """The site renderer surfaces `summary_short` via JSON-LD
+        `description`, `llms-index.txt`, and `llms-full.txt` per-article
+        headers — so a reviewed `summary_short` is functionally a TL;DR
+        for AI consumers, even when the article body lacks an inline
+        marker. The audit must credit it.
+        """
+        from geo_audit import _check_tldr
+        body = "## Section\n\nProse body without any TL;DR marker.\n"
+        meta = {"summary_short": "A concise reviewed summary."}
+        result = _check_tldr(body, meta)
+        assert result["passed"] is True
+        assert result["points"] == 20
+        assert "metadata.summary_short" in result["detail"]
+
+    def test_metadata_empty_string_fails(self):
+        from geo_audit import _check_tldr
+        body = "## Section\n\nProse only.\n"
+        for empty in ({}, {"summary_short": ""}, {"summary_short": None},
+                      {"summary_short": "   "}, {"summary_short": "\t\n"}):
+            result = _check_tldr(body, empty)
+            assert result["passed"] is False, (
+                f"meta={empty!r} must not pass; got: {result!r}"
+            )
+            assert result["points"] == 0
+
+    def test_meta_none_treated_as_no_metadata(self):
+        """Explicit `meta=None` (default arg) is the same as no metadata."""
+        from geo_audit import _check_tldr
+        body = "## Section\n\nProse only.\n"
+        result = _check_tldr(body, None)
+        assert result["passed"] is False
+
+    def test_score_article_uses_metadata_tldr_path(self):
+        """`_score_article` must propagate `meta` into `_check_tldr` so an
+        article without a body TL;DR but with a reviewed `summary_short`
+        gets credit for the rendered TL;DR.
+        """
+        from geo_audit import _score_article
+        # Body has H1 (via title), heading hierarchy, outbound link, numeric
+        # signal — but NO body TL;DR marker. Metadata carries summary_short.
+        body = (
+            "## Section\n\n"
+            "[Source](https://example.com)\n\n"
+            "Growth was 42%.\n"
+        )
+        meta = {
+            "title": "An Article",
+            "published_date": "2026-01-01",
+            "canonical_url": "https://example.com",
+            "tags": ["AI"], "author": "A", "author_url": "https://a.com",
+            "company": "C", "company_url": "https://c.com",
+            "word_count": 100, "read_time_minutes": 2,
+            "summary_short": "A concise reviewed summary.",
+        }
+        result = _score_article(Path("test"), body, meta)
+        # The tldr check must contribute 20 points via the metadata path.
+        assert result["checks"]["tldr"]["passed"] is True
+        assert result["checks"]["tldr"]["points"] == 20
+        assert "metadata.summary_short" in result["checks"]["tldr"]["detail"]
+
+    def test_detail_string_distinguishes_paths(self):
+        """The detail string is stable across body / metadata / missing
+        paths so the GEO report remains diagnostic.
+        """
+        from geo_audit import _check_tldr
+        cases = [
+            ("> **TL;DR:** Body.\n", {"summary_short": "Meta."},
+             "TL;DR found in body"),
+            ("Plain body.\n", {"summary_short": "Meta."},
+             "TL;DR via metadata.summary_short"),
+            ("Plain body.\n", {},
+             "TL;DR not found in body or metadata"),
+            ("Plain body.\n", None,
+             "TL;DR not found in body or metadata"),
+        ]
+        for body, meta, expected in cases:
+            result = _check_tldr(body, meta)
+            assert result["detail"] == expected, (
+                f"For body={body!r} meta={meta!r}: expected "
+                f"{expected!r}, got {result['detail']!r}"
+            )
 
 
 class TestCheckOutboundSource:
