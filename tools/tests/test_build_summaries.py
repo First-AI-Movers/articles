@@ -769,3 +769,348 @@ class TestBuildIntegration:
         assert "review" in text.lower()
         assert "draft" in text.lower()
         assert "approved" in text.lower()
+
+
+class TestMiniMaxProvider:
+    """Tests for the live MiniMax provider integration.
+
+    All tests are network-free. The harness's HTTP call is monkeypatched
+    via the module-level ``_http_post_json`` so no real outbound request
+    is ever made.
+    """
+
+    def _import_module(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_summaries", BUILD_SUMMARIES)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["build_summaries"] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    def _stage_article(self, mod, tmp_path, folder="2026-04-01-test", slug="test"):
+        import json
+        monkeypatch_repo_root = tmp_path
+        (tmp_path / "articles" / folder).mkdir(parents=True)
+        meta = {
+            "folder": folder, "slug": slug, "title": "Test",
+            "published_date": "2026-04-01",
+            "canonical_url": "https://example.com",
+        }
+        (tmp_path / "articles" / folder / "metadata.json").write_text(json.dumps(meta), encoding="utf-8")
+        (tmp_path / "articles" / folder / "article.md").write_text(
+            "# Test\n\nBody of the article goes here.\n", encoding="utf-8",
+        )
+        index = {"articles": [meta]}
+        (tmp_path / "index.json").write_text(json.dumps(index), encoding="utf-8")
+        return slug, folder
+
+    def _stub_summaries_json(self, *, short_words=50, medium_words=200, long_words=500) -> dict:
+        import json
+        return {
+            "summary_short": "alpha " * short_words,
+            "summary_medium": "beta " * medium_words,
+            "summary_long": "gamma " * long_words,
+        }
+
+    def _envelope(self, summaries_json: dict, in_tokens=4000, out_tokens=1500) -> str:
+        import json
+        return json.dumps({
+            "id": "test-id",
+            "choices": [{
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {"role": "assistant", "content": json.dumps(summaries_json)},
+            }],
+            "usage": {
+                "prompt_tokens": in_tokens,
+                "completion_tokens": out_tokens,
+                "total_tokens": in_tokens + out_tokens,
+            },
+        })
+
+    # --------------------------------------------------------------
+    # Key handling + network gating
+    # --------------------------------------------------------------
+
+    def test_request_construction_carries_bearer_auth_without_printing_key(
+        self, tmp_path, monkeypatch, capsys
+    ) -> None:
+        mod = self._import_module()
+        captured = {}
+
+        def fake_post(url, headers, body, timeout):
+            captured["url"] = url
+            captured["headers"] = dict(headers)
+            captured["body"] = body
+            return 200, 12.3, self._envelope(self._stub_summaries_json())
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        monkeypatch.setenv("MINIMAX_API_KEY", "secret-fake-key-for-test")
+
+        result = mod._call_minimax_once("article body", "MiniMax-M2", "secret-fake-key-for-test")
+        assert result["ok"] is True
+        assert captured["url"] == "https://api.minimax.io/v1/text/chatcompletion_v2"
+        # Bearer header IS constructed (the auth path works).
+        assert "Authorization" in captured["headers"]
+        assert captured["headers"]["Authorization"].startswith("Bearer ")
+        # The captured body must NOT contain the secret value (the body is the
+        # JSON payload; the secret only lives in headers).
+        assert "secret-fake-key-for-test" not in captured["body"]
+        # And the harness must not print the secret to stdout/stderr at any point.
+        out = capsys.readouterr()
+        assert "secret-fake-key-for-test" not in out.out
+        assert "secret-fake-key-for-test" not in out.err
+
+    def test_missing_api_key_fails_safely(
+        self, tmp_path, monkeypatch
+    ) -> None:
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        self._stage_article(mod, tmp_path)
+        monkeypatch.delenv("MINIMAX_API_KEY", raising=False)
+
+        with pytest.raises(SystemExit):
+            mod.main([
+                "--write-review-files", "--slug", "test",
+                "--provider", "minimax", "--allow-network",
+                "--max-cost-usd", "0.10",
+            ])
+
+    def test_live_provider_requires_allow_network(
+        self, tmp_path, monkeypatch
+    ) -> None:
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        self._stage_article(mod, tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-key")
+
+        with pytest.raises(SystemExit):
+            mod.main([
+                "--write-review-files", "--slug", "test",
+                "--provider", "minimax",
+                # NOTE: --allow-network omitted.
+            ])
+
+    # --------------------------------------------------------------
+    # Happy-path generation writes draft review file (NOT approved)
+    # --------------------------------------------------------------
+
+    def test_valid_minimax_json_writes_draft_review_not_metadata(
+        self, tmp_path, monkeypatch
+    ) -> None:
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(mod, tmp_path)
+
+        def fake_post(url, headers, body, timeout):
+            return 200, 50.0, self._envelope(self._stub_summaries_json())
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-key")
+
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "minimax", "--allow-network",
+            "--max-cost-usd", "1.00",
+        ])
+        assert rc == 0
+
+        review_path = tmp_path / "summaries" / f"{slug}.review.md"
+        assert review_path.exists(), "draft review file should have been written"
+        text = review_path.read_text(encoding="utf-8")
+        assert "Status: draft" in text
+        assert "Status: approved" not in text
+        # Metadata file must NOT have summary_* fields set (no auto-apply).
+        meta = json.loads((tmp_path / "articles" / folder / "metadata.json").read_text())
+        assert "summary_short" not in meta
+        assert "summary_reviewed_at" not in meta
+
+    # --------------------------------------------------------------
+    # Retry loop behavior
+    # --------------------------------------------------------------
+
+    def test_retry_loop_retries_only_when_undersize(
+        self, tmp_path, monkeypatch
+    ) -> None:
+        """First call undersize → second call clean → PASS, retries_used=1."""
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(mod, tmp_path)
+
+        calls = {"n": 0}
+
+        def fake_post(url, headers, body, timeout):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                # First response: medium too short.
+                return 200, 50.0, self._envelope(self._stub_summaries_json(medium_words=100))
+            # Retry response: clean output.
+            return 200, 50.0, self._envelope(self._stub_summaries_json())
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-key")
+
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "minimax", "--allow-network",
+            "--max-cost-usd", "1.00", "--max-retries", "2",
+        ])
+        assert rc == 0
+        assert calls["n"] == 2, "should have made one retry"
+        review = (tmp_path / "summaries" / f"{slug}.review.md").read_text(encoding="utf-8")
+        assert "Gate status: PASS" in review
+        assert "Retries used: 1" in review
+
+    def test_retry_loop_stops_after_max_retries(
+        self, tmp_path, monkeypatch
+    ) -> None:
+        """Every call returns undersize → exits as HUMAN_REVIEW."""
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(mod, tmp_path)
+
+        calls = {"n": 0}
+
+        def fake_post(url, headers, body, timeout):
+            calls["n"] += 1
+            return 200, 50.0, self._envelope(self._stub_summaries_json(medium_words=100))
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-key")
+
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "minimax", "--allow-network",
+            "--max-cost-usd", "1.00", "--max-retries", "2",
+        ])
+        assert rc == 0
+        # 1 initial + 2 retries = 3 calls.
+        assert calls["n"] == 3
+        review = (tmp_path / "summaries" / f"{slug}.review.md").read_text(encoding="utf-8")
+        assert "Gate status: HUMAN_REVIEW" in review
+        assert "Retries used: 2" in review
+        # The draft file is still written even when the gate fails — operator
+        # needs to see what the model produced so they can fix or reject.
+        assert "Status: draft" in review
+
+    def test_first_attempt_pass_uses_zero_retries(
+        self, tmp_path, monkeypatch
+    ) -> None:
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(mod, tmp_path)
+        calls = {"n": 0}
+
+        def fake_post(url, headers, body, timeout):
+            calls["n"] += 1
+            return 200, 50.0, self._envelope(self._stub_summaries_json())
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-key")
+
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "minimax", "--allow-network",
+            "--max-cost-usd", "1.00", "--max-retries", "2",
+        ])
+        assert rc == 0
+        assert calls["n"] == 1
+        review = (tmp_path / "summaries" / f"{slug}.review.md").read_text(encoding="utf-8")
+        assert "Gate status: PASS" in review
+        assert "Retries used: 0" in review
+
+    # --------------------------------------------------------------
+    # Cost cap
+    # --------------------------------------------------------------
+
+    def test_cost_cap_stops_before_exceeding_budget(
+        self, tmp_path, monkeypatch
+    ) -> None:
+        """Two articles staged, budget covers exactly one — second must halt."""
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+
+        # Stage two articles.
+        for i in (1, 2):
+            (tmp_path / "articles" / f"2026-04-0{i}-test").mkdir(parents=True)
+            meta = {
+                "folder": f"2026-04-0{i}-test", "slug": f"test{i}", "title": f"Test {i}",
+                "published_date": "2026-04-01", "canonical_url": f"https://example.com/t{i}",
+            }
+            (tmp_path / "articles" / f"2026-04-0{i}-test" / "metadata.json").write_text(json.dumps(meta), encoding="utf-8")
+            (tmp_path / "articles" / f"2026-04-0{i}-test" / "article.md").write_text(
+                "# T\n\nBody.\n", encoding="utf-8",
+            )
+        index = {"articles": [
+            {"folder": "2026-04-01-test", "slug": "test1", "title": "Test 1", "canonical_url": "https://example.com/t1"},
+            {"folder": "2026-04-02-test", "slug": "test2", "title": "Test 2", "canonical_url": "https://example.com/t2"},
+        ]}
+        (tmp_path / "index.json").write_text(json.dumps(index), encoding="utf-8")
+
+        # Each call costs about $0.0030 input + $0.0018 output = ~$0.0048
+        # (5000 in * 0.30/M + 1500 out * 1.20/M). Budget cap at $0.003 means
+        # the first article spends ~$0.0048 (exceeding $0.003), so the
+        # cumulative-cost guard at the top of the next iteration aborts.
+        def fake_post(url, headers, body, timeout):
+            return 200, 50.0, self._envelope(self._stub_summaries_json(), in_tokens=5000, out_tokens=1500)
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-key")
+
+        rc = mod.main([
+            "--write-review-files",
+            "--provider", "minimax", "--allow-network",
+            "--max-cost-usd", "0.003",  # tight budget
+            "--max-retries", "0",       # no retries to keep math simple
+        ])
+        assert rc == 0
+
+        # First article's review file exists; second's does not.
+        assert (tmp_path / "summaries" / "test1.review.md").exists()
+        assert not (tmp_path / "summaries" / "test2.review.md").exists()
+
+    # --------------------------------------------------------------
+    # --apply-approved is unchanged by this PR
+    # --------------------------------------------------------------
+
+    def test_apply_approved_still_requires_approved_status(
+        self, tmp_path, monkeypatch
+    ) -> None:
+        """A draft minimax-produced review file must NOT be auto-applied."""
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(mod, tmp_path)
+
+        # Hand-craft a draft review file (mimic what minimax would write).
+        (tmp_path / "summaries").mkdir(exist_ok=True)
+        (tmp_path / "summaries" / f"{slug}.review.md").write_text(
+            "# Summary Review — Test\n\n"
+            "## 50-word summary\n\n" + ("alpha " * 50) + "\n\n"
+            "## 200-word summary\n\n" + ("beta " * 200) + "\n\n"
+            "## 500-word summary\n\n" + ("gamma " * 500) + "\n\n"
+            "## Review status\n\nStatus: draft\n",
+            encoding="utf-8",
+        )
+
+        rc = mod.main(["--apply-approved", "--slug", slug])
+        assert rc == 0
+        meta = json.loads((tmp_path / "articles" / folder / "metadata.json").read_text())
+        # No summary fields applied because review is draft.
+        assert "summary_short" not in meta
+        assert "summary_reviewed_at" not in meta
