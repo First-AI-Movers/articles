@@ -377,3 +377,45 @@ def test_ingest_airtable_has_success_path_incident_cleanup():
     assert "gh issue close" in run_body, (
         "cleanup step must use `gh issue close`"
     )
+
+    # Token-scope tolerance — close-with-comment is preferred but the
+    # cron token has been observed without `addComment` scope (run
+    # 26708845288 on 2026-05-31). The cleanup step MUST fall back to a
+    # bare close so the loop still drains the stale-issue backlog.
+    assert "--comment" in run_body, (
+        "cleanup step should prefer close-with-comment so the closing run "
+        "is linked in-context"
+    )
+    bare_close_marker = 'gh issue close "$n" --repo "${GITHUB_REPOSITORY}"'
+    assert bare_close_marker in run_body, (
+        "cleanup step must have a bare `gh issue close` fallback for issues "
+        "where the token cannot call addComment; expected literal "
+        f"'{bare_close_marker}' but not found in the step body. See run "
+        "26708845288 for the regression that motivates this fallback."
+    )
+
+    # Per-issue failures must be logged as warnings rather than propagated.
+    assert "WARN:" in run_body, (
+        "cleanup step must log warnings for per-issue close failures so the "
+        "operator can sweep manually; expected at least one 'WARN:' marker."
+    )
+
+    # Step must always exit 0 — a cleanup-only failure must never turn a
+    # successful cron into a failed cron and re-spawn the doom loop.
+    assert run_body.rstrip().endswith("exit 0"), (
+        "cleanup step must end with `exit 0` so a stale-issue close failure "
+        "cannot cascade into `failure()` and trigger the failure-path "
+        "incident step (the doom loop this cleanup is supposed to break). "
+        "Got trailing: " + repr(run_body.rstrip()[-80:])
+    )
+
+    # Workflow permissions remain narrow. The cleanup step uses gh CLI with
+    # the same PAT-or-GITHUB_TOKEN fallback as the failure-path step; we do
+    # NOT widen workflow permissions to grant issues:write to GITHUB_TOKEN
+    # — the operator owns the PAT scope decision separately.
+    wf_perms = wf.get("permissions") or {}
+    assert "issues" not in wf_perms, (
+        "Workflow `permissions:` must not gain an `issues:` entry as part of "
+        "the cleanup-step token-scope hardening; the fix is to tolerate "
+        f"missing comment scope, not to widen workflow permissions. Got: {wf_perms!r}"
+    )

@@ -222,8 +222,15 @@ jobs:
         # Mirrors the failure-path step's token fallback chain and never
         # echoes secret values. Title prefix is filtered exactly so this
         # cannot close unrelated issues that happen to mention the phrase.
-        # Tolerates zero matches and per-issue close failures so a transient
-        # API error does not retroactively fail an otherwise green run.
+        # Tolerant of token-scope limits: `gh issue close --comment` is
+        # preferred (so the closing run is linked in-context) but falls
+        # back to bare close when the token cannot call `addComment` —
+        # observed on run 26708845288 where the cron token can create and
+        # close issues but is not authorized for the `addComment`
+        # GraphQL mutation. A per-issue failure logs a warning and moves
+        # on; the step always exits 0 so cleanup-only errors cannot
+        # turn an otherwise successful cron into a failed cron and re-
+        # spawn the doom loop this step exists to break.
         if: success() && env.INGEST_DRY_RUN != '1' && github.event_name == 'schedule'
         env:
           GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
@@ -245,7 +252,20 @@ jobs:
           fi
           echo "Closing ${#ISSUES[@]} stale E41 cron ingestion incident issue(s)."
           for n in "${ISSUES[@]}"; do
-            gh issue close "$n" \
-              --repo "${GITHUB_REPOSITORY}" \
-              --comment "Closed automatically by successful cron run: ${RUN_URL}"
+            if gh issue close "$n" \
+                --repo "${GITHUB_REPOSITORY}" \
+                --comment "Closed automatically by successful scheduled cron run: ${RUN_URL}"; then
+              echo "Closed issue #${n} with comment."
+            else
+              echo "WARN: close-with-comment failed for #${n}; trying bare close."
+              if gh issue close "$n" --repo "${GITHUB_REPOSITORY}"; then
+                echo "Closed issue #${n} without comment."
+              else
+                echo "WARN: failed to close issue #${n}; leaving it for manual cleanup."
+              fi
+            fi
           done
+          # Cleanup is best-effort: a stale-issue close failure must never
+          # turn this cron run into a failure() and trigger the failure-
+          # path step (which would file yet another incident issue).
+          exit 0
