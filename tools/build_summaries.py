@@ -53,6 +53,14 @@ def _build_argparser():
                         help="Required for real LLM calls.")
     parser.add_argument("--allow-partial", action="store_true",
                         help="Allow applying review files missing some lengths.")
+    parser.add_argument("--missing-only", action="store_true",
+                        help="Filter to articles whose metadata.json::summary_short "
+                             "is missing, empty, or whitespace-only. Use this for the "
+                             "backlog rollout so already-summarized articles are not "
+                             "re-processed.")
+    parser.add_argument("--batch-offset", type=int, default=0,
+                        help="After candidate filtering, skip the first N candidates. "
+                             "Applied before --limit so pagination is deterministic.")
     return parser
 
 
@@ -382,7 +390,7 @@ def main(argv=None):
     index = _load_index()
     all_articles = index.get("articles", [])
 
-    # Filter candidates
+    # Filter candidates by slug (preserves prior behavior).
     candidates = []
     for a in all_articles:
         if args.slug:
@@ -391,6 +399,76 @@ def main(argv=None):
                 break
         else:
             candidates.append(a)
+
+    # --missing-only: keep only articles whose metadata.json::summary_short is
+    # missing, None, empty, or whitespace-only. Soft-skip articles whose
+    # metadata.json is missing or unparseable (a separate ingestion concern).
+    if args.missing_only:
+        kept = []
+        for a in candidates:
+            folder = a.get("folder") or ""
+            if not folder:
+                print(f"[summaries] WARN: skip candidate without folder; cannot inspect metadata",
+                      file=sys.stderr)
+                continue
+            meta_path = ARTICLES_DIR / folder / "metadata.json"
+            try:
+                meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            except FileNotFoundError:
+                print(f"[summaries] WARN: skip {folder}: metadata.json not found",
+                      file=sys.stderr)
+                continue
+            except (json.JSONDecodeError, OSError) as exc:
+                print(f"[summaries] WARN: skip {folder}: metadata.json unparseable ({exc})",
+                      file=sys.stderr)
+                continue
+            summary_short = meta.get("summary_short")
+            already = isinstance(summary_short, str) and summary_short.strip() != ""
+            if already:
+                if args.slug:
+                    print(
+                        f"[summaries] SKIP {folder}: --missing-only set but "
+                        f"summary_short is already populated; nothing to do.",
+                        file=sys.stderr,
+                    )
+                continue
+            kept.append(a)
+        candidates = kept
+    elif not args.slug:
+        # Warn when an operator runs an unfiltered batch and the candidate set
+        # includes already-summarized articles — re-processing them is almost
+        # never the intent. Count without I/O when possible (the index entry
+        # already carries summary_short via passthrough from PR #114), and
+        # only fall back to disk when the index lacks the field.
+        already_count = 0
+        for a in candidates:
+            ss = a.get("summary_short")
+            if isinstance(ss, str) and ss.strip():
+                already_count += 1
+                continue
+            # Fall back to disk for entries the index does not carry.
+            folder = a.get("folder") or ""
+            if not folder:
+                continue
+            meta_path = ARTICLES_DIR / folder / "metadata.json"
+            try:
+                meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            except (FileNotFoundError, json.JSONDecodeError, OSError):
+                continue
+            ss = meta.get("summary_short")
+            if isinstance(ss, str) and ss.strip():
+                already_count += 1
+        if already_count > 0:
+            print(
+                f"[summaries] WARN: --missing-only not set; candidate set includes "
+                f"{already_count} already-summarized articles. Re-pass with "
+                f"--missing-only to target the backlog.",
+                file=sys.stderr,
+            )
+
+    # --batch-offset before --limit so pagination is deterministic.
+    if args.batch_offset and args.batch_offset > 0:
+        candidates = candidates[args.batch_offset:]
 
     if args.limit is not None:
         candidates = candidates[:args.limit]

@@ -328,6 +328,255 @@ class TestBuildSummariesTool:
         assert "summary_long" not in after_a
 
 
+class TestMissingOnlyAndBatchOffset:
+    """Backlog-rollout safety: ``--missing-only`` + ``--batch-offset``.
+
+    These flags landed in the post-#218 infra PR to make
+    ``build_summaries.py`` safe to point at the 855-article backlog
+    without re-processing the 5 already-summarized E35b pilot articles.
+    """
+
+    def _import_module(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_summaries", BUILD_SUMMARIES)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["build_summaries"] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    def _setup_fixture(self, tmp_path, monkeypatch, summary_short_values):
+        """Create N articles where summary_short_values[i] is one of:
+        None / "" / "   " / "Some short summary text." / a missing-meta sentinel.
+        Returns the rebuilt module instance.
+        """
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+
+        index_entries = []
+        for i, value in enumerate(summary_short_values):
+            folder = f"2026-04-{i + 1:02d}-article-{i}"
+            slug = f"article-{i}"
+            (tmp_path / "articles" / folder).mkdir(parents=True)
+            (tmp_path / "articles" / folder / "article.md").write_text(
+                f"# Article {i}\n\nBody for article {i}.\n", encoding="utf-8"
+            )
+            meta = {
+                "folder": folder,
+                "slug": slug,
+                "title": f"Article {i}",
+                "published_date": f"2026-04-{i + 1:02d}",
+                "canonical_url": f"https://example.com/{slug}",
+            }
+            if value is _MISSING_META:
+                # Intentionally omit metadata.json — soft skip path.
+                pass
+            elif value is _UNPARSEABLE_META:
+                (tmp_path / "articles" / folder / "metadata.json").write_text(
+                    "{this is not json", encoding="utf-8"
+                )
+            else:
+                if value is not None:
+                    meta["summary_short"] = value
+                (tmp_path / "articles" / folder / "metadata.json").write_text(
+                    json.dumps(meta), encoding="utf-8"
+                )
+            # Index entry mirrors metadata; surface summary_short when set so
+            # the warning-counter's index-fast-path is exercised.
+            entry = dict(meta)
+            if value not in (None, "", "   ", _MISSING_META, _UNPARSEABLE_META):
+                entry["summary_short"] = value
+            index_entries.append(entry)
+
+        (tmp_path / "index.json").write_text(
+            json.dumps({"articles": index_entries}), encoding="utf-8"
+        )
+        return mod
+
+    def test_missing_only_excludes_articles_with_summary_short(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        mod = self._setup_fixture(
+            tmp_path,
+            monkeypatch,
+            [
+                "Already summarized 1.",  # article-0 has it; should be excluded
+                None,                       # article-1 missing — included
+                "Already summarized 2.",  # article-2 has it; excluded
+                None,                       # article-3 — included
+            ],
+        )
+        result = mod.main(
+            ["--dry-run", "--missing-only", "--provider", "mock"]
+        )
+        assert result == 0
+        out = capsys.readouterr().out
+        # The dry-run loop prints DRY-RUN <slug> per candidate.
+        assert "DRY-RUN article-1" in out
+        assert "DRY-RUN article-3" in out
+        assert "DRY-RUN article-0" not in out
+        assert "DRY-RUN article-2" not in out
+
+    def test_missing_only_treats_empty_string_as_missing(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        mod = self._setup_fixture(
+            tmp_path, monkeypatch,
+            ["", "Already there."],
+        )
+        result = mod.main(
+            ["--dry-run", "--missing-only", "--provider", "mock"]
+        )
+        assert result == 0
+        out = capsys.readouterr().out
+        assert "DRY-RUN article-0" in out, (
+            "Empty-string summary_short must be treated as missing and "
+            "the article must be included."
+        )
+        assert "DRY-RUN article-1" not in out
+
+    def test_missing_only_treats_whitespace_only_as_missing(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        mod = self._setup_fixture(
+            tmp_path, monkeypatch,
+            ["   ", "\t\n  ", "Real summary text."],
+        )
+        result = mod.main(
+            ["--dry-run", "--missing-only", "--provider", "mock"]
+        )
+        assert result == 0
+        out = capsys.readouterr().out
+        assert "DRY-RUN article-0" in out
+        assert "DRY-RUN article-1" in out
+        assert "DRY-RUN article-2" not in out
+
+    def test_batch_offset_skips_first_n_candidates(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        mod = self._setup_fixture(
+            tmp_path, monkeypatch,
+            [None, None, None, None, None],
+        )
+        result = mod.main(
+            ["--dry-run", "--batch-offset", "2", "--provider", "mock"]
+        )
+        assert result == 0
+        out = capsys.readouterr().out
+        # Offset 2 skips article-0 and article-1; the remaining 3 should
+        # be visible in the dry-run log.
+        assert "DRY-RUN article-0" not in out
+        assert "DRY-RUN article-1" not in out
+        assert "DRY-RUN article-2" in out
+        assert "DRY-RUN article-3" in out
+        assert "DRY-RUN article-4" in out
+
+    def test_missing_only_composes_with_limit_and_batch_offset(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        # 6 articles: 0/2/4 already have summaries, 1/3/5 do not.
+        mod = self._setup_fixture(
+            tmp_path, monkeypatch,
+            ["x", None, "y", None, "z", None],
+        )
+        result = mod.main(
+            [
+                "--dry-run",
+                "--missing-only",
+                "--batch-offset", "1",
+                "--limit", "1",
+                "--provider", "mock",
+            ]
+        )
+        assert result == 0
+        out = capsys.readouterr().out
+        # After --missing-only filter: candidates are article-1, article-3,
+        # article-5 (in that order). --batch-offset 1 drops article-1,
+        # leaving article-3, article-5. --limit 1 keeps only article-3.
+        assert "DRY-RUN article-3" in out
+        assert "DRY-RUN article-1" not in out
+        assert "DRY-RUN article-5" not in out
+        assert "DRY-RUN article-0" not in out
+
+    def test_warning_when_missing_only_omitted_and_summaries_present(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        mod = self._setup_fixture(
+            tmp_path, monkeypatch,
+            ["already-summarized", None, None],
+        )
+        result = mod.main(
+            ["--dry-run", "--provider", "mock"]
+        )
+        assert result == 0
+        err = capsys.readouterr().err
+        assert "--missing-only not set" in err
+        assert "1 already-summarized" in err
+
+    def test_warning_absent_when_missing_only_omitted_and_no_summaries(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        mod = self._setup_fixture(
+            tmp_path, monkeypatch,
+            [None, None, None],
+        )
+        result = mod.main(["--dry-run", "--provider", "mock"])
+        assert result == 0
+        err = capsys.readouterr().err
+        assert "--missing-only not set" not in err
+
+    def test_unparseable_metadata_skipped_softly_not_fatal(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        # First article has unparseable metadata; --missing-only must
+        # soft-skip it (warn to stderr) and continue processing the rest.
+        mod = self._setup_fixture(
+            tmp_path, monkeypatch,
+            [_UNPARSEABLE_META, None, _MISSING_META, None],
+        )
+        result = mod.main(
+            ["--dry-run", "--missing-only", "--provider", "mock"]
+        )
+        assert result == 0
+        captured = capsys.readouterr()
+        assert "unparseable" in captured.err
+        assert "metadata.json not found" in captured.err
+        # article-0 and article-2 are soft-skipped; article-1 and article-3
+        # remain and should be in the dry-run output.
+        assert "DRY-RUN article-1" in captured.out
+        assert "DRY-RUN article-3" in captured.out
+
+    def test_slug_with_missing_only_skips_already_summarized_target(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        mod = self._setup_fixture(
+            tmp_path, monkeypatch,
+            ["Already-summarized.", None],
+        )
+        # Pointing --slug at the summarized article + --missing-only =
+        # nothing to do. The tool reports the skip on stderr and exits 0.
+        result = mod.main(
+            [
+                "--dry-run",
+                "--missing-only",
+                "--slug", "article-0",
+                "--provider", "mock",
+            ]
+        )
+        assert result == 0
+        captured = capsys.readouterr()
+        assert "SKIP" in captured.err
+        assert "summary_short is already populated" in captured.err
+        assert "DRY-RUN article-0" not in captured.out
+
+
+# Sentinels for the fixture: keep these at module scope so the test class
+# above can reference them without leaking real metadata states.
+_MISSING_META = object()
+_UNPARSEABLE_META = object()
+
+
 class TestBuildIntegration:
     def _mod(self):
         pytest.importorskip("jinja2")
