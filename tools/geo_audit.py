@@ -47,15 +47,66 @@ def _strip_front_matter(text: str) -> str:
     return text
 
 
-def _check_single_h1(body: str) -> dict:
-    """Return True if exactly one markdown H1 exists in body."""
+def _check_single_h1(body: str, meta: dict | None = None) -> dict:
+    """Check that the rendered article page will have exactly one ``<h1>``.
+
+    The site template (``templates/article.html.j2``) renders the article
+    page with ``<h1>{{ title }}</h1>`` taken from ``metadata.json::title``.
+    The Markdown body itself often does NOT carry a ``# Heading`` line
+    because the title is supplied via metadata + Jinja. The previous
+    revision of this check searched only the Markdown body for ``^# `` and
+    therefore false-positive-failed any article that relied on the
+    template-rendered H1 — which is the majority of the corpus.
+
+    Pass paths:
+
+    - Markdown body has exactly one ``# `` H1 → pass (legacy contract).
+    - Markdown body has zero H1 lines AND ``meta.title`` is non-empty →
+      pass (rendered ``<h1>`` is emitted from metadata by the template).
+
+    Fail paths:
+
+    - Zero Markdown H1 lines and metadata title missing/empty.
+    - More than one Markdown H1 line (the template's metadata-rendered
+      ``<h1>`` would compound with the body H1s and break the
+      "single H1 per page" invariant). Metadata title presence does not
+      rescue a >1 case.
+
+    Detail string distinguishes which path was used so the GEO audit
+    report stays diagnostic.
+    """
     h1s = re.findall(r"^# .+$", body, re.MULTILINE)
-    passed = len(h1s) == 1
+    h1_count = len(h1s)
+    title = ((meta or {}).get("title") or "").strip()
+    max_points = CRITERIA["single_h1"]["max_points"]
+    points = CRITERIA["single_h1"]["points"]
+
+    if h1_count == 1:
+        return {
+            "passed": True,
+            "points": points,
+            "max_points": max_points,
+            "detail": "Markdown H1 count: 1",
+        }
+    if h1_count == 0 and title:
+        return {
+            "passed": True,
+            "points": points,
+            "max_points": max_points,
+            "detail": "Markdown H1 count: 0; metadata title renders H1",
+        }
+    if h1_count == 0:
+        return {
+            "passed": False,
+            "points": 0,
+            "max_points": max_points,
+            "detail": "Markdown H1 count: 0; metadata title missing",
+        }
     return {
-        "passed": passed,
-        "points": CRITERIA["single_h1"]["points"] if passed else 0,
-        "max_points": CRITERIA["single_h1"]["max_points"],
-        "detail": f"H1 count: {len(h1s)}",
+        "passed": False,
+        "points": 0,
+        "max_points": max_points,
+        "detail": f"Markdown H1 count: {h1_count}",
     }
 
 
@@ -195,7 +246,7 @@ def _check_metadata(meta: dict) -> dict:
 def _score_article(folder: Path, body: str, meta: dict) -> dict:
     """Run all checks and return scored result."""
     checks = {
-        "single_h1": _check_single_h1(body),
+        "single_h1": _check_single_h1(body, meta),
         "heading_hierarchy": _check_heading_hierarchy(body),
         "tldr": _check_tldr(body),
         "outbound_source": _check_outbound_source(body),
