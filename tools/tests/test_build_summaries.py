@@ -1517,3 +1517,442 @@ class TestMiniMaxJSONValidityHardening:
         assert result["gate_status"] == GateStatus.HUMAN_REVIEW
         assert result["corrective_retries_used"] == 0
         assert state["i"] == 1
+
+
+class TestDeepSeekFallback:
+    """Tests for PR H — DeepSeek fallback on persistent summary_long undersize.
+
+    The fallback fires ONLY when MiniMax has exhausted its undersize retry
+    budget and the deterministic gate's single remaining problem is
+    summary_long below the 430-word minimum. All other shapes
+    (oversize, mixed undersize, gate REJECT, verifier failures, missing
+    DEEPSEEK_API_KEY, exhausted cost cap, flag disabled) must NOT trigger
+    the fallback.
+
+    Tests are network-free; both MiniMax and DeepSeek HTTP calls share the
+    module-level _http_post_json which is monkeypatched per test.
+    """
+
+    def _import_module(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_summaries", BUILD_SUMMARIES)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["build_summaries"] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    # --- Fixtures -----------------------------------------------------
+
+    def _stage_article(self, tmp_path, folder="2026-04-01-test", slug="test"):
+        (tmp_path / "articles" / folder).mkdir(parents=True)
+        meta = {
+            "folder": folder, "slug": slug, "title": "Test",
+            "published_date": "2026-04-01",
+            "canonical_url": "https://example.com",
+        }
+        (tmp_path / "articles" / folder / "metadata.json").write_text(
+            json.dumps(meta), encoding="utf-8"
+        )
+        (tmp_path / "articles" / folder / "article.md").write_text(
+            "# Test\n\nBody.\n", encoding="utf-8",
+        )
+        index = {"articles": [meta]}
+        (tmp_path / "index.json").write_text(json.dumps(index), encoding="utf-8")
+        return slug, folder
+
+    def _minimax_envelope(self, short=50, medium=200, long=500, in_tokens=4000, out_tokens=1500):
+        return json.dumps({
+            "id": "minimax-id",
+            "choices": [{
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {"role": "assistant", "content": json.dumps({
+                    "summary_short": "alpha " * short,
+                    "summary_medium": "beta " * medium,
+                    "summary_long": "gamma " * long,
+                })},
+            }],
+            "usage": {
+                "prompt_tokens": in_tokens, "completion_tokens": out_tokens,
+                "total_tokens": in_tokens + out_tokens,
+            },
+        })
+
+    def _deepseek_envelope(self, short=50, medium=200, long=500, in_tokens=4000, out_tokens=1500):
+        return json.dumps({
+            "id": "deepseek-id",
+            "choices": [{
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {"role": "assistant", "content": json.dumps({
+                    "summary_short": "alpha " * short,
+                    "summary_medium": "beta " * medium,
+                    "summary_long": "delta " * long,
+                })},
+            }],
+            "usage": {
+                "prompt_tokens": in_tokens, "completion_tokens": out_tokens,
+                "total_tokens": in_tokens + out_tokens,
+            },
+        })
+
+    def _route(self, monkeypatch, mod, on_minimax, on_deepseek):
+        """Route requests by URL so MiniMax and DeepSeek can be stubbed
+        independently in the same test."""
+        def fake_post(url, headers, body, timeout):
+            if "deepseek.com" in url:
+                return on_deepseek(headers, body)
+            return on_minimax(headers, body)
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+
+    # --- Provider helpers --------------------------------------------
+
+    def test_deepseek_request_construction_does_not_print_or_write_key(
+        self, monkeypatch, capsys, tmp_path
+    ):
+        mod = self._import_module()
+        # Use a sentinel that does NOT match the local secret-scanner regex
+        # (no real-looking prefix), so the hook doesn't false-positive at
+        # commit time while we still get unique-string leak detection.
+        secret = "FALLBACK-FIXTURE-DEEPSEEK-MUST-NOT-LEAK-99"
+        monkeypatch.setenv("DEEPSEEK_API_KEY", secret)
+        captured = {"calls": []}
+
+        def fake_post(url, headers, body, timeout):
+            captured["calls"].append({"url": url, "headers": dict(headers), "body": body})
+            return 200, 10.0, self._deepseek_envelope()
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        result = mod._call_deepseek_once(
+            article_text="article body",
+            model=mod.DEEPSEEK_DEFAULT_MODEL,
+            api_key=secret,
+        )
+        assert result["ok"] is True
+        assert captured["calls"], "expected exactly one DeepSeek call"
+        first = captured["calls"][0]
+        assert "deepseek.com" in first["url"]
+        assert first["headers"].get("Authorization", "").startswith("Bearer ")
+        # Secret must not appear in any request body or any stdout/stderr.
+        for call in captured["calls"]:
+            assert secret not in call["body"]
+        out = capsys.readouterr()
+        assert secret not in out.out
+        assert secret not in out.err
+
+    def test_missing_deepseek_key_fails_safely_when_fallback_requested(
+        self, tmp_path, monkeypatch
+    ):
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax-key")
+        monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)
+        with pytest.raises(SystemExit):
+            mod.main([
+                "--write-review-files", "--slug", slug,
+                "--provider", "minimax", "--allow-network",
+                "--enable-fallback-on-undersize",
+                "--max-cost-usd", "1.00",
+            ])
+
+    # --- Activation gating -------------------------------------------
+
+    def test_fallback_inactive_without_flag(self, monkeypatch):
+        """With the flag off, MiniMax persistent undersize must NOT trigger
+        a DeepSeek call even when the rest of the conditions are met."""
+        mod = self._import_module()
+        deepseek_calls = {"n": 0}
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope(long=300)  # undersize
+
+        def on_deepseek(headers, body):  # pragma: no cover - must not run
+            deepseek_calls["n"] += 1
+            raise AssertionError("fallback must not fire without flag")
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-minimax",
+            # enable_fallback_on_undersize defaults to False
+        )
+        assert deepseek_calls["n"] == 0
+        assert result["fallback_attempts_used"] == 0
+        assert result["gate_status"].value == "HUMAN_REVIEW"
+
+    def test_fallback_activates_on_persistent_long_undersize(self, monkeypatch):
+        mod = self._import_module()
+        # MiniMax always returns long=300 (below 430 minimum); 1 initial + 2
+        # undersize retries all undersize; then DeepSeek fallback returns clean.
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope(long=300)
+
+        deepseek_called = {"n": 0}
+
+        def on_deepseek(headers, body):
+            deepseek_called["n"] += 1
+            return 200, 10.0, self._deepseek_envelope()  # 500-word long, in band
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-minimax",
+            enable_fallback_on_undersize=True,
+            fallback_api_key="fake-deepseek",
+        )
+        assert deepseek_called["n"] == 1
+        assert result["fallback_attempts_used"] == 1
+        assert result["fallback_provider_used"] == "deepseek"
+        assert result["gate_status"].value == "PASS"
+        assert result["terminated_reason"] == "PASS_via_fallback"
+
+    def test_fallback_default_max_attempts_is_one(self, monkeypatch):
+        """Even if DeepSeek also produces undersize, only one fallback
+        attempt may be made — no infinite loop."""
+        mod = self._import_module()
+        ds_calls = {"n": 0}
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope(long=300)
+
+        def on_deepseek(headers, body):
+            ds_calls["n"] += 1
+            return 200, 10.0, self._deepseek_envelope(long=300)  # still undersize
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-minimax",
+            enable_fallback_on_undersize=True,
+            fallback_api_key="fake-deepseek",
+        )
+        assert ds_calls["n"] == 1
+        assert result["fallback_attempts_used"] == 1
+        # MiniMax HUMAN_REVIEW preserved; DeepSeek failure surfaced in notes.
+        assert result["gate_status"].value == "HUMAN_REVIEW"
+
+    def test_fallback_does_not_activate_on_oversize(self, monkeypatch):
+        mod = self._import_module()
+        # short oversize (80 words > 60 max) → HUMAN_REVIEW non-retryable.
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope(short=80)
+
+        ds_called = {"n": 0}
+
+        def on_deepseek(headers, body):  # pragma: no cover
+            ds_called["n"] += 1
+            raise AssertionError("oversize must not trigger fallback")
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-minimax",
+            enable_fallback_on_undersize=True,
+            fallback_api_key="fake-deepseek",
+        )
+        assert ds_called["n"] == 0
+        assert result["fallback_attempts_used"] == 0
+
+    def test_fallback_does_not_activate_when_medium_also_undersize(self, monkeypatch):
+        """Mixed undersize (medium + long) is NOT eligible — the fallback
+        is scoped narrowly to long-only undersize because that is the
+        production batch-004 shape and bias-risk band."""
+        mod = self._import_module()
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope(medium=100, long=300)
+
+        ds_called = {"n": 0}
+
+        def on_deepseek(headers, body):  # pragma: no cover
+            ds_called["n"] += 1
+            raise AssertionError("mixed undersize must not trigger fallback")
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-minimax",
+            enable_fallback_on_undersize=True,
+            fallback_api_key="fake-deepseek",
+        )
+        assert ds_called["n"] == 0
+        assert result["fallback_attempts_used"] == 0
+        assert "not a long-only-undersize shape" in result["fallback_skipped_reason"]
+
+    def test_fallback_does_not_activate_on_gate_pass(self, monkeypatch):
+        """If MiniMax PASSes the gate first try, the fallback never fires."""
+        mod = self._import_module()
+        ds_called = {"n": 0}
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope()  # all in-band
+
+        def on_deepseek(headers, body):  # pragma: no cover
+            ds_called["n"] += 1
+            raise AssertionError("PASS must not trigger fallback")
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-minimax",
+            enable_fallback_on_undersize=True,
+            fallback_api_key="fake-deepseek",
+        )
+        assert ds_called["n"] == 0
+        assert result["gate_status"].value == "PASS"
+
+    def test_fallback_skipped_when_cost_cap_exceeded(self, monkeypatch):
+        """If the MiniMax retries have already consumed the entire budget,
+        the fallback must not even attempt a call."""
+        mod = self._import_module()
+
+        def on_minimax(headers, body):
+            # Big token usage so the three MiniMax calls together blow
+            # past the $0.005 cap.
+            return 200, 10.0, self._minimax_envelope(
+                long=300, in_tokens=200000, out_tokens=50000,
+            )
+
+        ds_called = {"n": 0}
+
+        def on_deepseek(headers, body):  # pragma: no cover
+            ds_called["n"] += 1
+            raise AssertionError("cost-cap exceeded must skip fallback")
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=0.005, api_key="fake-minimax",
+            enable_fallback_on_undersize=True,
+            fallback_api_key="fake-deepseek",
+        )
+        assert ds_called["n"] == 0
+        assert result["fallback_attempts_used"] == 0
+        assert "cost cap" in (result["fallback_skipped_reason"] or "").lower()
+
+    def test_fallback_skipped_when_deepseek_key_absent_in_function_call(self, monkeypatch):
+        """Direct call to _generate_with_retries with fallback_api_key=None
+        must skip the fallback path with a clear reason."""
+        mod = self._import_module()
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope(long=300)
+
+        def on_deepseek(headers, body):  # pragma: no cover
+            raise AssertionError("missing fallback key must skip")
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-minimax",
+            enable_fallback_on_undersize=True,
+            fallback_api_key=None,
+        )
+        assert result["fallback_attempts_used"] == 0
+        assert "DEEPSEEK_API_KEY" in (result["fallback_skipped_reason"] or "")
+
+    # --- End-to-end via main() ---------------------------------------
+
+    def test_main_writes_review_with_fallback_metadata(self, tmp_path, monkeypatch):
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("DEEPSEEK_API_KEY", "fake-deepseek")
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope(long=300)
+
+        def on_deepseek(headers, body):
+            return 200, 10.0, self._deepseek_envelope()
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "minimax", "--allow-network",
+            "--enable-fallback-on-undersize",
+            "--max-cost-usd", "1.00",
+        ])
+        assert rc == 0
+        review = (tmp_path / "summaries" / f"{slug}.review.md").read_text(encoding="utf-8")
+        # Status stays draft; auto-apply path is not triggered.
+        assert "Status: draft" in review
+        assert "Status: approved" not in review
+        assert "Fallback attempts used: 1" in review
+        assert "Fallback provider: deepseek/deepseek-v4-flash" in review
+
+    def test_main_writes_review_with_no_fallback_when_minimax_passes(
+        self, tmp_path, monkeypatch
+    ):
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("DEEPSEEK_API_KEY", "fake-deepseek")
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._minimax_envelope()
+
+        def on_deepseek(headers, body):  # pragma: no cover
+            raise AssertionError("PASS must not invoke fallback")
+
+        self._route(monkeypatch, mod, on_minimax, on_deepseek)
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "minimax", "--allow-network",
+            "--enable-fallback-on-undersize",
+            "--max-cost-usd", "1.00",
+        ])
+        assert rc == 0
+        review = (tmp_path / "summaries" / f"{slug}.review.md").read_text(encoding="utf-8")
+        assert "Gate status: PASS" in review
+        assert "Fallback attempts used: 0" in review
+        assert "Fallback: not invoked" in review
+
+    def test_apply_approved_path_unchanged(self, tmp_path, monkeypatch):
+        """The existing --apply-approved path is unaffected by the fallback
+        flags. A hand-crafted draft review file is not auto-applied."""
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(tmp_path)
+        (tmp_path / "summaries").mkdir(exist_ok=True)
+        (tmp_path / "summaries" / f"{slug}.review.md").write_text(
+            "# Summary Review — Test\n\n"
+            "## 50-word summary\n\n" + ("alpha " * 50) + "\n\n"
+            "## 200-word summary\n\n" + ("beta " * 200) + "\n\n"
+            "## 500-word summary\n\n" + ("gamma " * 500) + "\n\n"
+            "## Review status\n\nStatus: draft\n",
+            encoding="utf-8",
+        )
+        rc = mod.main(["--apply-approved", "--slug", slug])
+        assert rc == 0
+        meta = json.loads((tmp_path / "articles" / folder / "metadata.json").read_text())
+        assert "summary_short" not in meta
+        assert "summary_reviewed_at" not in meta
+
+    def test_mock_provider_unchanged(self, tmp_path, monkeypatch):
+        """Mock provider path stays out of the fallback machinery."""
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(tmp_path)
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "mock",
+            "--enable-fallback-on-undersize",  # flag is harmless here
+        ])
+        assert rc == 0
+        review = (tmp_path / "summaries" / f"{slug}.review.md").read_text(encoding="utf-8")
+        assert "## 50-word summary" in review
+        # No fallback metadata is rendered for the mock path (no gate_meta).
+        assert "Fallback attempts used" not in review
