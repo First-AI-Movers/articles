@@ -1114,3 +1114,406 @@ class TestMiniMaxProvider:
         # No summary fields applied because review is draft.
         assert "summary_short" not in meta
         assert "summary_reviewed_at" not in meta
+
+
+class TestMiniMaxJSONValidityHardening:
+    """Tests for PR G — prompt hardening + corrective JSON-validity retry.
+
+    These tests cover the one-shot corrective retry path that exists to
+    recover the failure shape observed in production batch 003: MiniMax
+    occasionally returned valid JSON missing one of summary_short /
+    summary_medium / summary_long, or invalid JSON entirely. The
+    corrective retry is bounded to ONE attempt, does not count toward
+    --max-retries (which is reserved for undersize retries), and still
+    respects the cost cap.
+    """
+
+    def _import_module(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_summaries", BUILD_SUMMARIES)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["build_summaries"] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    def _stage_article(self, tmp_path, folder="2026-04-01-test", slug="test"):
+        (tmp_path / "articles" / folder).mkdir(parents=True)
+        meta = {
+            "folder": folder, "slug": slug, "title": "Test",
+            "published_date": "2026-04-01",
+            "canonical_url": "https://example.com",
+        }
+        (tmp_path / "articles" / folder / "metadata.json").write_text(
+            json.dumps(meta), encoding="utf-8"
+        )
+        (tmp_path / "articles" / folder / "article.md").write_text(
+            "# Test\n\nBody of the article goes here.\n", encoding="utf-8",
+        )
+        index = {"articles": [meta]}
+        (tmp_path / "index.json").write_text(json.dumps(index), encoding="utf-8")
+        return slug, folder
+
+    def _full_summaries_json(self, short=50, medium=200, long=500):
+        return {
+            "summary_short": "alpha " * short,
+            "summary_medium": "beta " * medium,
+            "summary_long": "gamma " * long,
+        }
+
+    def _envelope(self, content_obj_or_str, in_tokens=4000, out_tokens=1500):
+        """Wrap an arbitrary content payload in a MiniMax response envelope.
+
+        ``content_obj_or_str`` may be:
+          - a dict (will be json-encoded as the assistant's content), or
+          - a string (passed through verbatim — useful for invalid-JSON tests).
+        """
+        if isinstance(content_obj_or_str, dict):
+            content = json.dumps(content_obj_or_str)
+        else:
+            content = content_obj_or_str
+        return json.dumps({
+            "id": "test-id",
+            "choices": [{
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {"role": "assistant", "content": content},
+            }],
+            "usage": {
+                "prompt_tokens": in_tokens,
+                "completion_tokens": out_tokens,
+                "total_tokens": in_tokens + out_tokens,
+            },
+        })
+
+    # ------------------------------------------------------------------
+    # Prompt content
+    # ------------------------------------------------------------------
+
+    def test_system_prompt_mentions_all_three_required_keys_explicitly(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        assert "summary_short" in prompt
+        assert "summary_medium" in prompt
+        assert "summary_long" in prompt
+        # Explicit "no key may be omitted" or equivalent.
+        assert ("No key may be omitted" in prompt) or ("not omit" in prompt.lower())
+
+    def test_system_prompt_forbids_markdown_fences_and_extra_prose(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        assert "markdown fences" in prompt.lower() or "no ```" in prompt.lower()
+        assert (
+            "no prose" in prompt.lower()
+            or "no commentary" in prompt.lower()
+            or "no preamble" in prompt.lower()
+        )
+
+    def test_system_prompt_includes_upper_middle_targets_alongside_hard_bands(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        # Hard bands still present.
+        assert "40-60" in prompt
+        assert "170-230" in prompt
+        assert "430-570" in prompt
+        # Upper-middle targets present (look for any of the documented numbers).
+        upper_middle_signals = ["50-55", "200-220", "500-540"]
+        present = [s for s in upper_middle_signals if s in prompt]
+        assert len(present) >= 2, (
+            "expected at least two upper-middle band targets in the prompt; "
+            f"found {present}"
+        )
+
+    def test_user_prompt_reinforces_required_keys(self):
+        mod = self._import_module()
+        user = mod._build_minimax_user_prompt("body")
+        assert "summary_short" in user
+        assert "summary_medium" in user
+        assert "summary_long" in user
+        # Tells the model not to omit any key.
+        assert "do not omit" in user.lower() or "must contain all three" in user.lower()
+
+    def test_corrective_prompt_for_missing_fields_names_each_missing_field(self):
+        mod = self._import_module()
+        prompt = mod._build_minimax_corrective_prompt(
+            error_kind="missing_fields",
+            missing_fields=["summary_medium", "summary_long"],
+            raw_excerpt='{"summary_short": "ok"}',
+        )
+        assert "missing" in prompt.lower()
+        assert "summary_medium" in prompt
+        assert "summary_long" in prompt
+        # Reminds the model of the full envelope shape.
+        assert "summary_short" in prompt
+        # Includes the excerpt for self-diagnosis.
+        assert "summary_short" in prompt  # excerpt mentions it
+
+    def test_corrective_prompt_for_invalid_json_does_not_dump_huge_blob(self):
+        mod = self._import_module()
+        big = "x" * 5000
+        prompt = mod._build_minimax_corrective_prompt(
+            error_kind="invalid_json",
+            missing_fields=None,
+            raw_excerpt=big,
+        )
+        # Excerpt is capped at 400 chars; the rest of the prompt is small.
+        assert len(prompt) < 1500
+        assert "json" in prompt.lower()
+        assert "summary_short" in prompt
+        assert "summary_medium" in prompt
+        assert "summary_long" in prompt
+
+    # ------------------------------------------------------------------
+    # _call_minimax_once now distinguishes error_kind
+    # ------------------------------------------------------------------
+
+    def test_call_returns_missing_fields_kind_on_partial_json(self, monkeypatch):
+        mod = self._import_module()
+
+        def fake_post(url, headers, body, timeout):
+            partial = {"summary_short": "alpha " * 50}  # medium + long missing
+            return 200, 10.0, self._envelope(partial)
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        result = mod._call_minimax_once("body", "MiniMax-M2", "fake-key")
+        assert result["ok"] is False
+        assert result["error_kind"] == "missing_fields"
+        assert set(result["missing_fields"]) == {"summary_medium", "summary_long"}
+
+    def test_call_returns_invalid_json_kind_on_unparseable_content(self, monkeypatch):
+        mod = self._import_module()
+
+        def fake_post(url, headers, body, timeout):
+            return 200, 10.0, self._envelope("this is plain text not json")
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        result = mod._call_minimax_once("body", "MiniMax-M2", "fake-key")
+        assert result["ok"] is False
+        assert result["error_kind"] == "invalid_json"
+
+    # ------------------------------------------------------------------
+    # Corrective retry behavior in _generate_with_retries
+    # ------------------------------------------------------------------
+
+    def _wire(self, mod, monkeypatch, responses):
+        """Wire a sequence of HTTP responses for sequential calls."""
+        state = {"i": 0}
+
+        def fake_post(url, headers, body, timeout):
+            i = state["i"]
+            state["i"] += 1
+            status, content = responses[min(i, len(responses) - 1)]
+            return status, 10.0, content
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        return state
+
+    def test_missing_short_triggers_one_corrective_retry(self, monkeypatch):
+        mod = self._import_module()
+        partial = {
+            "summary_medium": "beta " * 200,
+            "summary_long": "gamma " * 500,
+        }
+        state = self._wire(mod, monkeypatch, [
+            (200, self._envelope(partial)),
+            (200, self._envelope(self._full_summaries_json())),
+        ])
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-key",
+        )
+        assert result["summaries"] is not None
+        assert result["corrective_retries_used"] == 1
+        assert result["retries_used"] == 0
+        assert state["i"] == 2
+
+    def test_missing_medium_triggers_one_corrective_retry(self, monkeypatch):
+        mod = self._import_module()
+        partial = {
+            "summary_short": "alpha " * 50,
+            "summary_long": "gamma " * 500,
+        }
+        state = self._wire(mod, monkeypatch, [
+            (200, self._envelope(partial)),
+            (200, self._envelope(self._full_summaries_json())),
+        ])
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-key",
+        )
+        assert result["summaries"] is not None
+        assert result["corrective_retries_used"] == 1
+        assert state["i"] == 2
+
+    def test_missing_long_triggers_one_corrective_retry(self, monkeypatch):
+        mod = self._import_module()
+        partial = {
+            "summary_short": "alpha " * 50,
+            "summary_medium": "beta " * 200,
+        }
+        state = self._wire(mod, monkeypatch, [
+            (200, self._envelope(partial)),
+            (200, self._envelope(self._full_summaries_json())),
+        ])
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-key",
+        )
+        assert result["summaries"] is not None
+        assert result["corrective_retries_used"] == 1
+        assert state["i"] == 2
+
+    def test_malformed_json_triggers_one_corrective_retry(self, monkeypatch):
+        mod = self._import_module()
+        state = self._wire(mod, monkeypatch, [
+            (200, self._envelope("not a JSON object at all")),
+            (200, self._envelope(self._full_summaries_json())),
+        ])
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-key",
+        )
+        assert result["summaries"] is not None
+        assert result["corrective_retries_used"] == 1
+        assert state["i"] == 2
+
+    def test_corrective_retry_success_produces_valid_review_state(
+        self, monkeypatch, tmp_path
+    ):
+        """After a corrective retry succeeds, the build path writes a draft
+        review with Status: draft and the Notes block mentions the corrective
+        retry count."""
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(tmp_path)
+        partial = {"summary_short": "alpha " * 50}
+        self._wire(mod, monkeypatch, [
+            (200, self._envelope(partial)),
+            (200, self._envelope(self._full_summaries_json())),
+        ])
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-key")
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "minimax", "--allow-network",
+            "--max-cost-usd", "1.00",
+        ])
+        assert rc == 0
+        text = (tmp_path / "summaries" / f"{slug}.review.md").read_text(encoding="utf-8")
+        assert "Status: draft" in text
+        assert "Status: approved" not in text
+        assert "Corrective JSON retries used: 1" in text
+
+    def test_corrective_retry_failure_preserves_generation_failure(
+        self, monkeypatch, tmp_path
+    ):
+        """If the corrective retry also returns missing fields, the runner
+        surfaces a terminal failure — the draft review file is NOT written
+        (no summaries to put in it)."""
+        mod = self._import_module()
+        monkeypatch.setattr(mod, "REPO_ROOT", tmp_path)
+        monkeypatch.setattr(mod, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.setattr(mod, "INDEX_PATH", tmp_path / "index.json")
+        slug, folder = self._stage_article(tmp_path)
+        partial = {"summary_short": "alpha " * 50}
+        # Both attempts return the same partial JSON.
+        self._wire(mod, monkeypatch, [
+            (200, self._envelope(partial)),
+            (200, self._envelope(partial)),
+        ])
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-key")
+        rc = mod.main([
+            "--write-review-files", "--slug", slug,
+            "--provider", "minimax", "--allow-network",
+            "--max-cost-usd", "1.00",
+        ])
+        assert rc == 0
+        # The _write_review_file path is still hit because that's where the
+        # gate_meta is rendered; the summaries dict is None so the body
+        # fields are empty. Most importantly: no metadata.json was modified.
+        meta = json.loads((tmp_path / "articles" / folder / "metadata.json").read_text())
+        assert "summary_short" not in meta
+        assert "summary_reviewed_at" not in meta
+
+    def test_corrective_retry_respects_cost_cap(self, monkeypatch):
+        """If the budget is already consumed, no corrective retry fires."""
+        mod = self._import_module()
+        partial = {"summary_short": "alpha " * 50}
+        state = self._wire(mod, monkeypatch, [
+            # Single attempt: returns missing-fields with high token usage so
+            # cost on this one call already exceeds the cap.
+            (200, self._envelope(partial, in_tokens=200000, out_tokens=50000)),
+            # If a second call happened, this fixture would catch it.
+            (200, self._envelope(self._full_summaries_json())),
+        ])
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=0.001, api_key="fake-key",
+        )
+        # The corrective retry was skipped because budget was already gone.
+        assert result["corrective_retries_used"] == 0
+        assert state["i"] == 1
+        assert result["terminated_reason"] == "provider_failure"
+
+    def test_corrective_retry_is_bounded_to_one(self, monkeypatch):
+        """Even if the corrective retry also fails with a correctable error,
+        only ONE corrective retry is attempted — no infinite loop."""
+        mod = self._import_module()
+        partial = {"summary_short": "alpha " * 50}
+        state = self._wire(mod, monkeypatch, [
+            (200, self._envelope(partial)),
+            (200, self._envelope(partial)),
+            # If a third call happened the loop is unbounded.
+            (200, self._envelope(self._full_summaries_json())),
+        ])
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-key",
+        )
+        assert state["i"] == 2, "corrective retry must be bounded to one attempt"
+        assert result["summaries"] is None
+        assert result["terminated_reason"] == "corrective_retry_failed"
+        assert result["corrective_retries_used"] == 1
+
+    # ------------------------------------------------------------------
+    # Existing undersize-retry behavior still works
+    # ------------------------------------------------------------------
+
+    def test_undersize_retry_path_still_works_after_corrective_success(
+        self, monkeypatch
+    ):
+        """Corrective retry recovers JSON shape, then the undersize-retry
+        loop fixes a remaining undersize on the corrective output."""
+        mod = self._import_module()
+        partial = {"summary_short": "alpha " * 50}
+        # Sequence: missing fields → corrective returns undersize medium →
+        # undersize retry returns clean.
+        self._wire(mod, monkeypatch, [
+            (200, self._envelope(partial)),
+            (200, self._envelope(self._full_summaries_json(medium=100))),
+            (200, self._envelope(self._full_summaries_json())),
+        ])
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-key",
+        )
+        assert result["corrective_retries_used"] == 1
+        assert result["retries_used"] == 1
+        assert result["terminated_reason"] == "PASS"
+
+    def test_oversize_remains_human_review(self, monkeypatch):
+        """Oversize output stays HUMAN_REVIEW; the corrective retry path
+        does not fire on oversize (it's not a JSON-shape error)."""
+        mod = self._import_module()
+        from summary_quality import GateStatus
+        oversize = self._full_summaries_json(short=80)  # short > 60 max
+        state = self._wire(mod, monkeypatch, [
+            (200, self._envelope(oversize)),
+        ])
+        result = mod._generate_with_retries(
+            article_text="body", model="MiniMax-M2",
+            max_retries=2, max_cost_usd=1.00, api_key="fake-key",
+        )
+        assert result["gate_status"] == GateStatus.HUMAN_REVIEW
+        assert result["corrective_retries_used"] == 0
+        assert state["i"] == 1
