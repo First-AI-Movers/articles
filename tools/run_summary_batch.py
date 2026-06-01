@@ -179,6 +179,13 @@ class ArticleOutcome:
     gen_retries: int = 0
     gen_cost_usd: float = 0.0
     gen_error: str = ""
+    # Fallback (DeepSeek) — populated when the build_summaries fallback
+    # path actually evaluated for this article. Default zero/empty so
+    # rows with no fallback consideration aggregate to clean zeros.
+    fallback_attempts_used: int = 0
+    fallback_provider_used: Optional[str] = None
+    fallback_model_used: Optional[str] = None
+    fallback_skipped_reason: str = ""
     # Verification
     primary_verdict: Optional[str] = None
     secondary_verdict: Optional[str] = None
@@ -335,6 +342,13 @@ def run_one_article(
     dry_run: bool,
     apply_auto_approved: bool,
     require_dual_verifier_for_apply: bool = True,
+    # DeepSeek fallback config (PR I plumbing). Defaults disable the
+    # fallback entirely so existing call sites and tests stay unchanged.
+    enable_fallback_on_undersize: bool = False,
+    fallback_provider: str = "deepseek",
+    fallback_model: str = "deepseek-v4-flash",
+    fallback_max_attempts: int = 1,
+    fallback_api_key: Optional[str] = None,
 ) -> ArticleOutcome:
     """Run the full pipeline for one article. Always returns an outcome."""
     outcome = ArticleOutcome(
@@ -374,10 +388,19 @@ def run_one_article(
         max_retries=max_retries,
         max_cost_usd=article_budget_usd,
         api_key=minimax_api_key,
+        enable_fallback_on_undersize=enable_fallback_on_undersize,
+        fallback_provider=fallback_provider,
+        fallback_model=fallback_model,
+        fallback_max_attempts=fallback_max_attempts,
+        fallback_api_key=fallback_api_key,
     )
     outcome.gen_gate_status = getattr(gen["gate_status"], "value", str(gen["gate_status"]))
     outcome.gen_retries = gen.get("retries_used", 0)
     outcome.gen_cost_usd = float(gen.get("total_cost_usd") or 0.0)
+    outcome.fallback_attempts_used = int(gen.get("fallback_attempts_used") or 0)
+    outcome.fallback_provider_used = gen.get("fallback_provider_used")
+    outcome.fallback_model_used = gen.get("fallback_model_used")
+    outcome.fallback_skipped_reason = gen.get("fallback_skipped_reason") or ""
     if gen.get("gate_issues"):
         outcome.notes.extend(_truncate(i, 160) for i in gen["gate_issues"][:3])
 
@@ -517,6 +540,10 @@ def render_report(
         ("max_retries", "max_retries"),
         ("verify", "verify"),
         ("apply_auto_approved", "apply_auto_approved"),
+        ("enable_fallback_on_undersize", "enable_fallback_on_undersize"),
+        ("fallback_provider", "fallback_provider"),
+        ("fallback_model", "fallback_model"),
+        ("fallback_max_attempts", "fallback_max_attempts"),
         ("dry_run", "dry_run"),
     ):
         if key in args_summary:
@@ -579,7 +606,11 @@ def render_report(
         "reject": 0,
         "applied": 0,
         "exceptions": 0,
+        "fallback_attempts_total": 0,
+        "fallback_articles_invoked": 0,
+        "fallback_articles_skipped": 0,
     }
+    fallback_skip_reasons: dict[str, int] = {}
     for o in outcomes:
         if o.gen_gate_status not in ("n/a", "DRY_RUN"):
             counts["generated"] += 1
@@ -600,10 +631,22 @@ def render_report(
             ACTION_GENERATION_FAILED,
         ):
             counts["exceptions"] += 1
+        if o.fallback_attempts_used:
+            counts["fallback_attempts_total"] += o.fallback_attempts_used
+            counts["fallback_articles_invoked"] += 1
+        if o.fallback_skipped_reason:
+            counts["fallback_articles_skipped"] += 1
+            fallback_skip_reasons[o.fallback_skipped_reason] = (
+                fallback_skip_reasons.get(o.fallback_skipped_reason, 0) + 1
+            )
     for k, v in counts.items():
         lines.append(f"- {k}: {v}")
     lines.append(f"- cumulative_cost_usd: {cumulative_cost:.6f}")
     lines.append(f"- max_budget_usd: {args.max_budget_usd}")
+    if fallback_skip_reasons:
+        lines.append("- fallback_skipped_reasons:")
+        for reason, n in sorted(fallback_skip_reasons.items(), key=lambda kv: -kv[1]):
+            lines.append(f"  - {redact(reason)}: {n}")
     lines.append("")
 
     lines.append("## Next command suggestion")
@@ -681,6 +724,24 @@ def build_parser() -> argparse.ArgumentParser:
                    help="Flag-only in PR F: the runner emits a next-command hint "
                         "instead of running the rebuild. Keeps generated-artifact "
                         "diffs out of automation PRs.")
+    # DeepSeek fallback (PR I plumbing — implemented in build_summaries.py
+    # via PR H). Disabled by default; live activation requires the same
+    # triple gate as the generator + a DEEPSEEK_API_KEY in env.
+    p.add_argument("--enable-fallback-on-undersize", action="store_true", default=False,
+                   help="When the primary generator (MiniMax) exhausts undersize "
+                        "retries and the only deterministic-gate failure is "
+                        "summary_long below the 430-word minimum, route ONE "
+                        "additional generation attempt through the fallback "
+                        "provider (DeepSeek). Output still passes the same "
+                        "deterministic gate and dual verifier; no auto-approval "
+                        "boundary change.")
+    p.add_argument("--fallback-provider", choices=["deepseek"], default="deepseek",
+                   help="Fallback provider name. Default: deepseek.")
+    p.add_argument("--fallback-model", default="deepseek-v4-flash",
+                   help="Fallback model id. Default: deepseek-v4-flash.")
+    p.add_argument("--fallback-max-attempts", type=int, default=1,
+                   help="Hard cap on fallback attempts per article. "
+                        "Effectively pinned to 1 by the build_summaries layer.")
     p.add_argument("--dry-run", action="store_true", default=False,
                    help="Force dry-run even if --allow-network is set.")
     p.add_argument("--articles-dir", default=str(ARTICLES_DIR))
@@ -708,8 +769,15 @@ def _print_plan_header(
         f"limit={args.limit} slug={args.slug or '-'} "
         f"summaries_dir={args.summaries_dir} "
         f"max_budget_usd=${args.max_budget_usd:.2f} "
-        f"selected={len(selected)}"
+        f"selected={len(selected)} "
+        f"fallback_enabled={args.enable_fallback_on_undersize}"
     )
+    if args.enable_fallback_on_undersize:
+        print(
+            f"[batch] fallback_provider={args.fallback_provider} "
+            f"fallback_model={args.fallback_model} "
+            f"fallback_max_attempts={args.fallback_max_attempts}"
+        )
 
 
 def main(argv: Optional[list[str]] = None) -> int:
@@ -761,6 +829,7 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     # Resolve generator key once. Detection only — never print the value.
     minimax_api_key: Optional[str] = None
+    fallback_api_key: Optional[str] = None
     if live:
         minimax_api_key = os.environ.get("MINIMAX_API_KEY", "").strip() or None
         if minimax_api_key is None:
@@ -775,6 +844,18 @@ def main(argv: Optional[list[str]] = None) -> int:
                 print(
                     f"[batch] ERROR: {primary_spec.env_var} required for the "
                     f"primary verifier (value not printed).",
+                    file=sys.stderr,
+                )
+                return 2
+        # DeepSeek fallback key — only required when the fallback flag is
+        # set on a live run. Presence-only check; never print the value.
+        if args.enable_fallback_on_undersize and args.fallback_provider == "deepseek":
+            fallback_api_key = os.environ.get("DEEPSEEK_API_KEY", "").strip() or None
+            if fallback_api_key is None:
+                print(
+                    "[batch] ERROR: DEEPSEEK_API_KEY required when "
+                    "--enable-fallback-on-undersize is set with fallback provider "
+                    "'deepseek' (value not printed).",
                     file=sys.stderr,
                 )
                 return 2
@@ -808,6 +889,11 @@ def main(argv: Optional[list[str]] = None) -> int:
             do_verify=args.verify,
             dry_run=not live,
             apply_auto_approved=args.apply_auto_approved,
+            enable_fallback_on_undersize=args.enable_fallback_on_undersize,
+            fallback_provider=args.fallback_provider,
+            fallback_model=args.fallback_model,
+            fallback_max_attempts=args.fallback_max_attempts,
+            fallback_api_key=fallback_api_key,
         )
         cumulative_cost += outcome.total_cost_usd()
         outcomes.append(outcome)
@@ -834,6 +920,10 @@ def main(argv: Optional[list[str]] = None) -> int:
         "max_retries": args.max_retries,
         "verify": args.verify,
         "apply_auto_approved": args.apply_auto_approved,
+        "enable_fallback_on_undersize": args.enable_fallback_on_undersize,
+        "fallback_provider": args.fallback_provider,
+        "fallback_model": args.fallback_model,
+        "fallback_max_attempts": args.fallback_max_attempts,
         "dry_run": not live,
     }
     report = render_report(

@@ -609,3 +609,378 @@ class TestFilesystemInvariants:
         assert rc == 0
         captured = capsys.readouterr()
         assert "flag-only" in captured.out
+
+
+# ===========================================================================
+# DeepSeek fallback plumbing (PR I)
+# ===========================================================================
+
+class TestFallbackPlumbing:
+    """Tests for PR I — the batch runner forwards the DeepSeek fallback
+    flags to build_summaries._generate_with_retries.
+
+    PR H added the fallback to build_summaries.py; PR I wires the four
+    CLI flags through tools/run_summary_batch.py. Defaults must stay
+    safe: no fallback unless --enable-fallback-on-undersize is set,
+    no DEEPSEEK_API_KEY required unless live + fallback enabled,
+    auto-approval boundary unchanged.
+    """
+
+    def _stub_minimax_envelope(self, **kw):
+        # Reuse the same helper shape used elsewhere in this file.
+        return _minimax_envelope(**kw)
+
+    def _stub_deepseek_envelope(self, short=50, medium=200, long=500):
+        return json.dumps({
+            "id": "ds-id",
+            "choices": [{
+                "finish_reason": "stop",
+                "index": 0,
+                "message": {"role": "assistant", "content": json.dumps({
+                    "summary_short": "alpha " * short,
+                    "summary_medium": "beta " * medium,
+                    "summary_long": "delta " * long,
+                })},
+            }],
+            "usage": {"prompt_tokens": 4000, "completion_tokens": 1500},
+        })
+
+    def _route(self, monkeypatch, on_minimax, on_deepseek):
+        """Route HTTP by URL so MiniMax and DeepSeek stubs stay independent."""
+        def fake_post(url, headers, body, timeout):
+            if "deepseek.com" in url:
+                return on_deepseek(headers, body)
+            return on_minimax(headers, body)
+        monkeypatch.setattr(bs, "_http_post_json", fake_post)
+
+    # ------------------------------------------------------------------
+    # Default-disabled posture
+    # ------------------------------------------------------------------
+
+    def test_fallback_disabled_by_default_in_argparser(self):
+        """Without --enable-fallback-on-undersize, the parsed namespace
+        carries fallback_enabled=False but still surfaces the default
+        provider/model values."""
+        parser = rsb.build_parser()
+        args = parser.parse_args(["--limit", "3"])
+        assert args.enable_fallback_on_undersize is False
+        assert args.fallback_provider == "deepseek"
+        assert args.fallback_model == "deepseek-v4-flash"
+        assert args.fallback_max_attempts == 1
+
+    def test_fallback_disabled_default_runs_without_deepseek_key(
+        self, tmp_path, monkeypatch
+    ):
+        """Live run with default fallback OFF must not require DEEPSEEK_API_KEY."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("OPENAI_API_KEY", "fake-openai")
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "fake-anthropic")
+        monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)
+        _wire_live_http(monkeypatch)
+        report = Path("/tmp") / f"batch-test-noFB-noKey-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+
+    def test_dry_run_plan_header_shows_fallback_enabled_flag(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        report = Path("/tmp") / f"batch-test-plan-fb-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--limit", "3", "--enable-fallback-on-undersize",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        captured = capsys.readouterr()
+        assert "fallback_enabled=True" in captured.out
+        assert "fallback_provider=deepseek" in captured.out
+        assert "fallback_model=deepseek-v4-flash" in captured.out
+
+    def test_dry_run_plan_header_omits_fallback_when_disabled(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        report = Path("/tmp") / f"batch-test-plan-noFB-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--limit", "3",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        captured = capsys.readouterr()
+        assert "fallback_enabled=False" in captured.out
+        # Provider/model line only appears when fallback is enabled.
+        assert "fallback_provider=" not in captured.out
+
+    # ------------------------------------------------------------------
+    # Live: live+fallback requires DEEPSEEK_API_KEY
+    # ------------------------------------------------------------------
+
+    def test_live_fallback_requires_deepseek_api_key(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("OPENAI_API_KEY", "fake-openai")
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "fake-anthropic")
+        monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)
+        # Block all HTTP so a stray live call would be obvious in test output.
+        def trip_wire(*a, **kw):  # pragma: no cover - must not run
+            raise AssertionError("must not call network without key")
+        monkeypatch.setattr(bs, "_http_post_json", trip_wire)
+        report = Path("/tmp") / f"batch-test-FB-needKey-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--enable-fallback-on-undersize",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        captured = capsys.readouterr()
+        assert rc == 2
+        assert "DEEPSEEK_API_KEY" in captured.err
+        # Never print value (no value to print, but be defensive).
+        assert "Bearer" not in captured.err
+
+    # ------------------------------------------------------------------
+    # Live: fallback actually fires when MiniMax underproduces long
+    # ------------------------------------------------------------------
+
+    def test_live_fallback_activates_on_persistent_long_undersize(
+        self, tmp_path, monkeypatch
+    ):
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("OPENAI_API_KEY", "fake-openai")
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "fake-anthropic")
+        monkeypatch.setenv("DEEPSEEK_API_KEY", "fake-deepseek")
+
+        ds_calls = {"n": 0}
+
+        def on_minimax(headers, body):
+            # Persistent long undersize; gate flags RETRYABLE then
+            # max_retries → HUMAN_REVIEW.
+            return 200, 10.0, self._stub_minimax_envelope(long_w=300)
+
+        def on_deepseek(headers, body):
+            ds_calls["n"] += 1
+            return 200, 10.0, self._stub_deepseek_envelope()  # 500-word long
+
+        self._route(monkeypatch, on_minimax, on_deepseek)
+
+        def fake_verifier(url, headers, body, timeout):
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("AUTO_APPROVE")
+            return 200, 10.0, _openai_verdict_envelope("AUTO_APPROVE")
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-FB-activates-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--enable-fallback-on-undersize",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        assert ds_calls["n"] == 1
+        report_text = report.read_text(encoding="utf-8")
+        assert "fallback_articles_invoked: 1" in report_text
+        assert "fallback_attempts_total: 1" in report_text
+        # Run-parameters section surfaces the flag.
+        assert "enable_fallback_on_undersize" in report_text
+
+    # ------------------------------------------------------------------
+    # Trust boundary preserved: fallback does not relax auto-apply rules
+    # ------------------------------------------------------------------
+
+    def test_fallback_human_review_still_not_applied(
+        self, tmp_path, monkeypatch
+    ):
+        """If fallback fires but the verifier votes HUMAN_REVIEW, no apply."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("OPENAI_API_KEY", "fake-openai")
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "fake-anthropic")
+        monkeypatch.setenv("DEEPSEEK_API_KEY", "fake-deepseek")
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._stub_minimax_envelope(long_w=300)
+
+        def on_deepseek(headers, body):
+            return 200, 10.0, self._stub_deepseek_envelope()
+
+        self._route(monkeypatch, on_minimax, on_deepseek)
+
+        def fake_verifier(url, headers, body, timeout):
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("HUMAN_REVIEW")
+            return 200, 10.0, _openai_verdict_envelope("AUTO_APPROVE")
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-FB-HR-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--enable-fallback-on-undersize",
+            "--apply-auto-approved",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        meta = json.loads(
+            (tmp_path / "articles" / "f1" / "metadata.json").read_text()
+        )
+        # Verifier disagreement → HUMAN_REVIEW final → not applied even
+        # though fallback recovered the gate.
+        assert "summary_short" not in meta
+
+    def test_fallback_reject_still_not_applied(
+        self, tmp_path, monkeypatch
+    ):
+        """If fallback fires but a verifier votes REJECT, no apply."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("OPENAI_API_KEY", "fake-openai")
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "fake-anthropic")
+        monkeypatch.setenv("DEEPSEEK_API_KEY", "fake-deepseek")
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._stub_minimax_envelope(long_w=300)
+
+        def on_deepseek(headers, body):
+            return 200, 10.0, self._stub_deepseek_envelope()
+
+        self._route(monkeypatch, on_minimax, on_deepseek)
+
+        def fake_verifier(url, headers, body, timeout):
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("REJECT")
+            return 200, 10.0, _openai_verdict_envelope("AUTO_APPROVE")
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-FB-REJ-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--enable-fallback-on-undersize",
+            "--apply-auto-approved",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        meta = json.loads(
+            (tmp_path / "articles" / "f1" / "metadata.json").read_text()
+        )
+        assert "summary_short" not in meta
+
+    def test_no_metadata_write_without_apply_flag_even_with_fallback(
+        self, tmp_path, monkeypatch
+    ):
+        """The --apply-auto-approved gate still gates metadata writes
+        when fallback is enabled."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("OPENAI_API_KEY", "fake-openai")
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "fake-anthropic")
+        monkeypatch.setenv("DEEPSEEK_API_KEY", "fake-deepseek")
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._stub_minimax_envelope(long_w=300)
+
+        def on_deepseek(headers, body):
+            return 200, 10.0, self._stub_deepseek_envelope()
+
+        self._route(monkeypatch, on_minimax, on_deepseek)
+
+        def fake_verifier(url, headers, body, timeout):
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("AUTO_APPROVE")
+            return 200, 10.0, _openai_verdict_envelope("AUTO_APPROVE")
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-FB-noApply-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--enable-fallback-on-undersize",
+            # NOTE: no --apply-auto-approved.
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        meta = json.loads(
+            (tmp_path / "articles" / "f1" / "metadata.json").read_text()
+        )
+        assert "summary_short" not in meta
+        review = (tmp_path / "summaries" / "s1.review.md").read_text()
+        assert "Status: draft" in review
+        assert "Status: approved" not in review
+
+    # ------------------------------------------------------------------
+    # When the flag is OFF, fallback machinery is dormant
+    # ------------------------------------------------------------------
+
+    def test_flag_off_does_not_call_deepseek_even_on_undersize(
+        self, tmp_path, monkeypatch
+    ):
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        monkeypatch.setenv("MINIMAX_API_KEY", "fake-minimax")
+        monkeypatch.setenv("OPENAI_API_KEY", "fake-openai")
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "fake-anthropic")
+        monkeypatch.setenv("DEEPSEEK_API_KEY", "fake-deepseek")
+
+        ds_calls = {"n": 0}
+
+        def on_minimax(headers, body):
+            return 200, 10.0, self._stub_minimax_envelope(long_w=300)
+
+        def on_deepseek(headers, body):  # pragma: no cover
+            ds_calls["n"] += 1
+            raise AssertionError("flag off must not invoke fallback")
+
+        self._route(monkeypatch, on_minimax, on_deepseek)
+
+        def fake_verifier(url, headers, body, timeout):
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("HUMAN_REVIEW")
+            return 200, 10.0, _openai_verdict_envelope("HUMAN_REVIEW")
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-FB-off-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            # NOTE: no --enable-fallback-on-undersize.
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        assert ds_calls["n"] == 0
