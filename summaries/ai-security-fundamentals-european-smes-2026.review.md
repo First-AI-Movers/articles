@@ -1,0 +1,53 @@
+# Summary Review — AI Security Risks Every European SME Must Address in 2026
+
+Article folder: 2026-04-17-ai-security-fundamentals-european-smes-2026
+Canonical URL: https://radar.firstaimovers.com/ai-security-fundamentals-european-smes-2026
+Generated at: 2026-06-01
+Model: minimax (MiniMax-M2)
+
+## 50-word summary
+
+European SMEs face five critical AI security risks: prompt injection attacks, data leakage via API calls, model supply chain vulnerabilities, PII exposure in logs, and poisoned fine-tuning. The article provides a probability-versus-impact matrix and recommends immediate actions including scoping AI access, signing GDPR Article 28 data processing agreements, and conducting a one-day internal audit of AI tool usage.
+
+## 200-word summary
+
+This article identifies and addresses five AI-specific security risks facing European SMEs with 10-50 employees. The first risk, prompt injection attacks, occurs when malicious actors embed instructions in content processed by AI systems, potentially causing models to leak data or perform unauthorized actions. Customer-facing chatbots, document-processing pipelines, and internal assistants connected to CRMs represent the highest-risk scenarios. The second risk involves data leakage through AI API calls, where employee prompts containing customer PII, invoice data with banking details, and internal HR documents travel to external servers. Most SMEs lack GDPR Article 28 data processing agreements with their AI vendors, creating significant compliance exposure. Model integrity and supply chain risks encompass poisoned fine-tuning, where manipulated training data produces subtly incorrect outputs, and dependency hijacking through malicious open-source AI packages. PII exposure in AI logs represents a secondary compliance gap, as log retention often falls outside existing data governance policies. The article provides a practical risk matrix prioritizing prompt injection and data leakage as act now items due to high probability and impact. The EU AI Act's August 2026 deadline for high-risk AI systems in hiring, credit assessment, and customer-facing functions adds regulatory urgency. The recommended first step is a one-day internal audit mapping AI tools to data categories and verifying data processing agreements are in place.
+
+## 500-word summary
+
+This comprehensive article addresses five critical AI security risks confronting European small and medium-sized enterprises, particularly those with 10 to 50 employees who have adopted AI tools without parallel security reviews. The article argues that most SME security checklists predate generative AI, creating a dangerous gap between current business operations and protective measures. The first risk examined is prompt injection attacks, where malicious actors embed hostile instructions within content processed by AI systems. A concrete example illustrates this vulnerability: a company using AI to summarize customer support emails could be tricked into forwarding customer records to external addresses. The highest-risk scenarios for SMEs include customer-facing chatbots with database access, document-processing pipelines handling external PDFs and invoices, and internal assistants connected to calendars, CRMs, or email systems. The recommended mitigation focuses on scoping, defining exact data access boundaries, validating outputs before downstream actions, and treating all user-supplied content as untrusted input. The second risk addresses data leakage via AI API calls, a particularly relevant concern given that most usage policies permit training on non-enterprise tiers and data retention periods vary significantly across providers. When employees send prompts containing pasted invoice data with banking details, customer complaint emails with embedded PII, or internal HR documents, that context travels across networks to servers outside company control. The article emphasizes that the issue is not necessarily malicious API providers but rather lack of visibility into data flows and absent GDPR Article 28 data processing agreements. Model integrity and AI supply chain risks constitute the third category, encompassing poisoned fine-tuning where models trained on manipulated data produce subtly incorrect outputs in specific contexts, and dependency hijacking where malicious packages target AI developers through familiar npm-style vulnerability patterns. SMEs using off-the-shelf SaaS AI tools face additional risk from model updates that change validated workflow behavior without notice. The fourth risk highlights PII exposure in AI logs and training pipelines. AI systems generate logs containing full prompt text, and without proper access controls or retention policies, these logs create secondary PII exposure surfaces not covered by existing GDPR data inventories. The article recommends pulling sample rows from AI-related log tables to assess actual exposure levels. The article provides a practical probability-versus-impact matrix with five risk categories. Two risks, data leakage and PII in logs, show high probability and are addressable through process changes rather than technology investment, making them priority starting points. The EU AI Act's August 2026 deadline for high-risk AI systems in employment screening, credit assessment, and customer-facing functions adds regulatory pressure, requiring documentation, human oversight, and transparency when AI influences individual decisions. The recommended first step is a one-day internal audit mapping active AI tools to data categories and verifying data processing agreements are in place with each vendor.
+
+## Review status
+
+Status: approved
+Reviewer:
+Reviewed at:
+
+## Notes
+
+- Gate status: PASS
+- Retries used: 0
+- Termination: PASS
+- Estimated cost (USD): 0.004617
+- Word counts: short=58, medium=215, long=455
+
+## Verification
+
+Verification status: AUTO_APPROVE
+Deterministic gate: PASS
+Primary verifier: openai/gpt-5.4-mini — AUTO_APPROVE
+Secondary verifier: anthropic/claude-haiku-4-5-20251001 — AUTO_APPROVE
+Fallback verifier: not-used
+Single verifier: false
+Estimated verifier cost (USD): 0.006480
+Verified at: 2026-06-01
+
+### Verification notes
+
+- Merge rationale: both verifiers AUTO_APPROVE
+- openai/gpt-5.4-mini: Covers the five risks and the matrix accurately.
+- openai/gpt-5.4-mini: Regulatory references and the one-day audit recommendation match source.
+- openai/gpt-5.4-mini: No unsupported vendor mentions or added sections.
+- anthropic/claude-haiku-4-5-20251001: All three summaries accurately represent the five AI security risks and the practical risk matrix from the source.
+- anthropic/claude-haiku-4-5-20251001: Durable regulatory facts (GDPR Article 28, EU AI Act August 2026 deadline) are preserved exactly across all summaries.
+- anthropic/claude-haiku-4-5-20251001: No volatile facts (pricing, vendor rankings, version numbers) are embedded; summaries focus on structural risks and processes.
