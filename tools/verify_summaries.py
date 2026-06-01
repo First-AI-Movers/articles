@@ -43,7 +43,7 @@ Safety model:
 
 Live calls are operator-local through Doppler-injected env:
 
-    doppler run --project articles-git --config dev -- \\
+    doppler run -- \\
         python3 tools/verify_summaries.py --review-file <path> \\
         --allow-network --write-verification --max-verifier-cost-usd 0.25
 

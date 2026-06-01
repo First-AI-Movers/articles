@@ -28,12 +28,12 @@ Usage:
     python3 tools/run_summary_batch.py --limit 3
 
     # Live batch (Doppler-injected keys):
-    doppler run --project articles-git --config dev -- \\
+    doppler run -- \\
         python3 tools/run_summary_batch.py --batch --limit 5 \\
         --allow-network --max-budget-usd 0.10
 
     # Live batch + auto-apply AUTO_APPROVE summaries to metadata:
-    doppler run --project articles-git --config dev -- \\
+    doppler run -- \\
         python3 tools/run_summary_batch.py --batch --limit 5 \\
         --allow-network --max-budget-usd 0.10 \\
         --apply-auto-approved

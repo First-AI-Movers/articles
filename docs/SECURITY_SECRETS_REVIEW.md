@@ -290,14 +290,14 @@ Raw tags with no canonical match (1951 unique, 2105 total occurrences):
       3  AI-driven business innovation
 [citation-graph] --check passed
 [changelog] CHANGELOG.md would change
-[check-citation] /Users/nac/dev/articles/CITATION.cff
+[check-citation] <local checkout>/CITATION.cff
   OK: CITATION.cff looks valid.
 [errata] No errata files found — nothing to validate
 OK: no duplicate titles found
 
 ==================================== ERRORS ====================================
 _______________ ERROR collecting tools/tests/test_embeddings.py ________________
-ImportError while importing test module '/Users/nac/dev/articles/tools/tests/test_embeddings.py'.
+ImportError while importing test module '<local checkout>/tools/tests/test_embeddings.py'.
 Hint: make sure your test modules/packages have valid Python names.
 Traceback:
 /opt/homebrew/Cellar/python@3.14/3.14.4/Frameworks/Python.framework/Versions/3.14/lib/python3.14/importlib/__init__.py:88: in import_module

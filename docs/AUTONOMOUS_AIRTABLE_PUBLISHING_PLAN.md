@@ -40,7 +40,7 @@ existing 829 archive records (which all carry lowercase `"published"`).
 ## Doppler / GitHub secret-sync recommendation
 
 **Recommendation:** Use Doppler's first-party GitHub Actions integration to
-sync project `articles-git`, config `dev` into GitHub repository secrets.
+sync the operator-local secret-manager project/config into GitHub repository secrets.
 
 - The existing workflows reference `${{ secrets.AIRTABLE_PAT }}` etc.
   Doppler-managed sync keeps that contract unchanged.
@@ -49,7 +49,7 @@ sync project `articles-git`, config `dev` into GitHub repository secrets.
 - GitHub Actions still consumes plain encrypted secrets — no token
   exfiltration surface beyond Doppler's existing sync.
 
-**Required Doppler values (project `articles-git`, config `dev`):**
+**Required Doppler values (under the operator-local `<secret-manager-project>` / `<secret-manager-config>`):**
 
 | Key | Value | Notes |
 |---|---|---|
@@ -219,7 +219,7 @@ until the owner explicitly approves the listed record.
 **Pre-flight**
 
 - [ ] E41a is merged.
-- [ ] Doppler `articles-git/dev` populated as above.
+- [ ] Doppler `<secret-manager-project>/<secret-manager-config>` populated as above.
 - [ ] Doppler → GitHub sync verified by inspecting GitHub Settings → Secrets
       (presence only; never reveal values).
 - [ ] `INGEST_DRY_RUN` is `1` or unset at start.
