@@ -146,7 +146,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/rust-ai-developer-tools-infrastructure-language-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-09-rust-ai-developer-tools-infrastructure-language-2026/article.md
 - Topics: AI DevOps
-- Summary: Rust is replacing Python and JavaScript in high-performance AI developer tools. Here is why engineering leaders should care, and where to start.
+- Summary: Rust is replacing Python and JavaScript in AI developer tools like OpenAI Codex, Astral uv, and Zed. Engineering leaders should adopt Rust-based tools for performance-critical infrastructure due to memory safety, true parallelism without Python's GIL, and…
 
 ## Coding Agents Are Splitting Into Two Camps: Terminal-Native vs Workflow-Native
 - Date: 2026-05-09
@@ -167,7 +167,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/canonical-docs-ai-memory-system-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-04-canonical-docs-ai-memory-system-2026/article.md
 - Topics: Executive AI Literacy
-- Summary: AGENTS.md and CLAUDE.md outperform vector databases on the metrics that matter: reviewable, reversible, auditable, and free. Here is how to build them.
+- Summary: Canonical docs like AGENTS.md and CLAUDE.md are the most effective and underrated AI memory system for coding agents. These version-controlled markdown files tell agents about tech stack, conventions, and constraints. Research shows they reduce agent runtime…
 
 ## The Memory Layer Enterprises Actually Need for AI Agents
 - Date: 2026-05-04
@@ -216,7 +216,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/github-2026-history-evolution-agent-runtime
 - Archive: https://articles.firstaimovers.com/articles/2026-05-03-github-2026-history-evolution-agent-runtime/article.md
 - Topics: company-tech-strategy, developer-tools, ai-automation, digital-transformation, ai-governance
-- Summary: The complete story of GitHub, from its 2008 founding to AI agent runtime in 2026, with GitLab comparison and what engineering leaders need now.
+- Summary: GitHub evolved from a 2008 weekend project by four developers into a 2026 platform hosting 420+ million repositories and serving 81% of developers. It pioneered forkable repositories and pull requests, integrated CI/CD via GitHub Actions, and now orchestrates…
 
 ## The GitHub Automation Stack Most Engineering Teams Are Still Underusing
 - Date: 2026-05-03
@@ -237,7 +237,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-coding-agent-cli-comparison-april-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-05-02-ai-coding-agent-cli-comparison-april-2026/article.md
 - Topics: ai-automation, company-tech-strategy, ai-governance, digital-transformation, developer-tools
-- Summary: Four terminal-based AI coding agents now support multi-agent orchestration, and the differences between them, in cost, extensibility, data residency, and governance features, will shape how engineering teams work for the next two years. If your developers are…
+- Summary: This article compares four terminal-based AI coding agents: Claude Code (Opus 4.7), Kimi K2.6, Codex CLI (GPT-5.4), and Gemini CLI. Each offers multi-agent orchestration, with Claude leading on code quality (87.6% SWE-bench) and Kimi offering the most…
 
 ## AI Consulting for Bratislava Tech SMEs in 2026
 - Date: 2026-04-25
@@ -314,7 +314,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/eu-ai-act-professional-services-accounting-compliance-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-25-eu-ai-act-professional-services-accounting-compliance-2/article.md
 - Topics: EU AI Act, AI Governance, European SME AI, Professional Services AI, AI for Finance Teams, AI Strategy
-- Summary: Accounting firms face EU AI Act obligations for AI tools in 2026. Covers risk classification, deployer duties, and a 6-step compliance checklist.
+- Summary: Accounting firms using AI tools face EU AI Act deployer obligations starting August 2026. The regulation classifies AI into prohibited, Annex III high-risk, and general-purpose categories. High-risk tools like AI employee review systems require human…
 
 ## NIS2 Compliance Guide for European SMEs in 2026
 - Date: 2026-04-25
@@ -349,7 +349,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-consulting-budapest-tech-smes-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-24-ai-consulting-budapest-tech-smes-2026/article.md
 - Topics: EU AI Act, AI Governance, European SME AI, B2B SaaS Growth, AI Consulting, GDPR & Data Privacy
-- Summary: Budapest tech SMEs navigate NAIH and EU AI Act obligations. What AI consulting delivers for Hungarian software firms and SaaS teams in 2026.
+- Summary: Budapest tech SMEs must navigate both NAIH (Hungarian data protection authority) and EU AI Act compliance when serving EU clients. The article outlines four AI adoption priorities: development team productivity, SaaS product feature development, business…
 
 ## AI Consulting for Geneva Life Sciences and Pharma SMEs in 2026
 - Date: 2026-04-24
@@ -377,14 +377,14 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-consulting-lyon-tech-biotech-smes-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-24-ai-consulting-lyon-tech-biotech-smes-2026/article.md
 - Topics: European SME AI, AI Strategy, AI Regulation, AI Governance, France and Benelux AI, Healthcare AI
-- Summary: How Lyon SMEs in tech, biotech, and logistics can structure an AI adoption engagement: French regulation, CIR tax credit, and three-phase roadmap.
+- Summary: This guide addresses Lyon SMEs in biotech, tech, and logistics navigating AI adoption. Each sector faces distinct EU AI Act risk classifications, CNIL data obligations, and ANSSI cybersecurity requirements. The article outlines a three-phase engagement model…
 
 ## AI Consulting for Rome Professional Services SMEs
 - Date: 2026-04-24
 - Canonical: https://radar.firstaimovers.com/ai-consulting-rome-professional-services-smes-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-24-ai-consulting-rome-professional-services-smes-2026/article.md
 - Topics: European SME AI, AI Consulting, AI Governance, AI Strategy, Professional Services AI, AI Regulation
-- Summary: AI consulting for Rome professional services, legal, and public sector SMEs. Garante compliance, EU AI Act readiness, and implementation support.
+- Summary: Rome's professional services SMEs face a distinctive AI adoption environment shaped by the Garante's active AI enforcement, professional confidentiality obligations, and public procurement rules. Key constraints include Garante-specific AI guidance…
 
 ## Where Does Your AI Vendor's Data Go? A Practical EU Residency Guide for SMEs
 - Date: 2026-04-24
@@ -475,7 +475,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/should-you-go-ai-first-european-smes-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-24-should-you-go-ai-first-european-smes-2026/article.md
 - Topics: Business Process Automation, AI Strategy, European SME AI, AI Governance
-- Summary: A decision framework for European SME leaders considering whether to rebuild workflows around AI tools versus keeping AI as a productivity layer.
+- Summary: This framework helps European SME leaders decide whether to redesign core processes around AI tools (AI-first) or keep AI as a productivity layer (AI-assisted). Four filters determine readiness: process repetition, volume, EU AI Act compliance, and team…
 
 ## AI Consulting for Berlin Tech Startups and SMEs: What to Expect in 2026
 - Date: 2026-04-23
