@@ -1,0 +1,56 @@
+# Summary Review — What 700 Million ChatGPT Users Reveal About Your AI Strategy
+
+Article folder: 2026-02-11-chatgpt-usage-data-ai-strategy-smes-2025
+Canonical URL: https://radar.firstaimovers.com/chatgpt-usage-data-ai-strategy-smes-2025
+Generated at: 2026-06-02
+Model: minimax (MiniMax-M2)
+
+## 50-word summary
+
+A study of 700 million ChatGPT users reveals 77% of usage concentrates in three categories: practical guidance (28.3%), writing (28.1%), and information seeking (21.3%). Information seeking nearly doubled in 12 months. Writing for editing dominates over creative generation. Coding accounts for just 4.2%. Nearly half of users are under 26.
+
+## 200-word summary
+
+The NBER working paper with Harvard economist David Deming analyzed 1.5 million conversations from ChatGPT's 700 million weekly active users, revealing a significant gap between consumer AI usage and business AI strategy. Three categories dominate all interactions: practical guidance at 28.3%, writing at 28.1%, and information seeking at 21.3%, together comprising 77% of all usage. The most consequential trend is information seeking nearly doubling from 14% to 24.4% in just 12 months, representing a 71% increase. The researchers noted this appears to be a close substitute for web search. Writing overall declined from 36% to 24%, but two-thirds of writing-related messages involve editing existing text rather than generating new content, with editing alone representing 10.6% compared to just 1.4% for creative generation. Approximately 70% of usage is personal rather than professional. Coding accounts for only 4.2% of all messages. The demographic data shows 46% of adult users are aged 18-25, representing the first generation entering the workforce with AI as a baseline tool. The researchers introduced an Asking-Doing-Expressing framework where Asking comprises 49% of all messages and is growing fastest, suggesting people value AI most as a decision advisor rather than a task executor.
+
+## 500-word summary
+
+The landmark NBER working paper produced with Harvard economist David Deming analyzed 1.5 million conversations from ChatGPT's 700 million weekly active users, producing the largest study of consumer AI usage ever conducted. The findings should fundamentally change how European SMEs approach AI adoption, revealing a stark disconnect between how people actually use AI and how most businesses deploy it. The concentration is striking: three categories dominate all consumer AI interactions, comprising 77% of all usage. Practical guidance accounts for 28.3% including tutoring, how-to advice, health guidance, and creative ideation. Writing represents 28.1%, dominated by editing and text modification at 10.6%, personal communication at 8.0%, translation at 4.5%, and surprisingly, pure creative generation at just 1.4%. Information seeking comprises 21.3% and represents the most consequential trend in the study. This category grew from 14% of all conversations in July 2024 to 24.4% by mid-2025, representing a 71% increase in share within a single year. The researchers themselves noted that information seeking appears to be a very close substitute for web search, carrying immediate strategic implications for how businesses capture customer discovery. Writing was once ChatGPT's dominant use case at 36% of usage but has dropped to 24%, with the data revealing that two-thirds of all writing-related messages involve modifying existing text rather than generating new content from scratch. The study found approximately 70% of ChatGPT conversations are not work-related, surging from 53% in mid-2024 to 73% by June 2025, meaning employees already use AI fluently in their personal lives and the adoption barrier is organizational permission and workflow integration rather than technology literacy. Computer programming represents just 4.2% of all messages, with the entire Technical Help category reaching 7.6% and declining significantly from 12% in July 2024. Nearly half of all messages from adult users come from people aged 18 to 25, representing the first generation entering the workforce with no memory of professional life without an on-demand AI advisor. The gender gap has closed, with users with typically feminine names representing 52% of the active base by mid-2025, reflecting the general adult population. The researchers introduced a taxonomy classifying every message into three modes: Asking (seeking advice or information at 49% and growing fastest with highest quality ratings), Doing (requesting task completion at 40%), and Expressing (sharing thoughts without expecting action at 11%). For work-related messages specifically, Doing dominates at 56% with writing as the primary task, but the growth trajectory belongs to Asking, suggesting advisory function will overtake task completion as the primary professional use case as AI capabilities improve. The implications for European SMEs are significant: they should build answer engine presence by structuring expertise as clear, authoritative, citable content that AI systems can cite; redesign AI literacy training around actual usage patterns focusing on editing, refining, decision support, and information synthesis rather than original content generation; treat AI as a decision advisor not a task robot; prepare for AI-native talent expectations as 46% of users are under 26; and align AI governance with actual risk profiles since advisory AI and task-execution AI require different compliance approaches under the EU AI Act.
+
+## Review status
+
+Status: approved
+Reviewer:
+Reviewed at:
+
+## Notes
+
+- Gate status: PASS
+- Retries used: 0
+- Corrective JSON retries used: 0
+- Fallback attempts used: 0
+- Fallback: not invoked
+- Termination: PASS
+- Estimated cost (USD): 0.003741
+- Word counts: short=50, medium=194, long=514
+
+## Verification
+
+Verification status: AUTO_APPROVE
+Deterministic gate: PASS
+Primary verifier: openai/gpt-5.4-mini — AUTO_APPROVE
+Secondary verifier: anthropic/claude-haiku-4-5-20251001 — AUTO_APPROVE
+Fallback verifier: not-used
+Single verifier: false
+Estimated verifier cost (USD): 0.006447
+Verified at: 2026-06-02
+
+### Verification notes
+
+- Merge rationale: both verifiers AUTO_APPROVE
+- openai/gpt-5.4-mini: All major claims are supported by the source.
+- openai/gpt-5.4-mini: Volatile stats are preserved and not over-specific beyond the article.
+- openai/gpt-5.4-mini: No added sections, FAQs, or vendor mentions appear.
+- anthropic/claude-haiku-4-5-20251001: All three summaries accurately reflect source data: 77% concentration, information seeking growth from 14% to 24.4%, writing decline from 36% to 24%, coding at 4.2%, 46% under-26 users.
+- anthropic/claude-haiku-4-5-20251001: Volatile facts (percentages, growth rates, demographic data) are presented as snapshot findings from the study period (July 2024–mid-2025), not as durable claims, minimizing staleness risk.
+- anthropic/claude-haiku-4-5-20251001: No fabrication detected: all claims about the NBER study, Harvard economist David Deming, the Asking-Doing-Expressing framework, and the five strategic recommendations are present in source.
