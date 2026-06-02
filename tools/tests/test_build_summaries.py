@@ -1956,3 +1956,373 @@ class TestDeepSeekFallback:
         assert "## 50-word summary" in review
         # No fallback metadata is rendered for the mock path (no gate_meta).
         assert "Fallback attempts used" not in review
+
+
+class TestSourceFidelityAndDatedClaimsHardening:
+    """PR J — generator prompt grounding hardening.
+
+    Batch 006 saw the apply rate fall to 18.0% because most HUMAN_REVIEW
+    and REJECT verdicts came from source-fidelity drift and dated/time-
+    sensitive material rather than JSON-shape or word-band failures.
+    These tests pin the additional grounding rules into both the primary
+    MiniMax system prompt and the DeepSeek fallback system prompt, and
+    confirm that the long-summary expansion strategy says to expand via
+    reasoning and implications instead of new facts. The tests also
+    re-assert the load-bearing pieces that must NOT change (JSON envelope,
+    word bands, fallback activation criteria, retry behavior).
+    """
+
+    def _import_module(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_summaries", BUILD_SUMMARIES)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["build_summaries"] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    # ------------------------------------------------------------------
+    # MiniMax system prompt — new grounding rules present
+    # ------------------------------------------------------------------
+
+    def test_minimax_prompt_has_explicit_source_fidelity_section(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        assert "Source-fidelity rules" in prompt
+        assert "directly supported by the article body" in normalized
+        assert "Do not infer" in prompt
+
+    def test_minimax_prompt_lists_specific_unsupported_claim_categories(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.MINIMAX_SYSTEM_PROMPT.split())
+        # Categories the model must not assert without explicit source support.
+        for needle in [
+            "company size",
+            "product capability",
+            "pricing",
+            "compliance status",
+            "regulatory consequence",
+            "customer adoption",
+            "benchmark results",
+            "vendor roadmap",
+        ]:
+            assert needle in normalized, f"missing source-fidelity rule for {needle!r}"
+
+    def test_minimax_prompt_forbids_invented_examples_and_frameworks(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.MINIMAX_SYSTEM_PROMPT.split())
+        # The invention forbidden-list must enumerate the categories that
+        # produced the bulk of batch 006 hallucination flags.
+        for needle in [
+            "case studies",
+            "examples",
+            "frameworks",
+            "FAQ",
+            "pilot programs",
+            "statistics",
+            "citations",
+            "named organizations",
+        ]:
+            assert needle in normalized, f"missing invention-forbid for {needle!r}"
+
+    def test_minimax_prompt_forbids_section_headers_inside_summaries(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        # Each summary value is a single continuous string of prose.
+        assert "section names" in prompt
+        assert "headings" in prompt
+        # Allow line-wrap inside the constraint sentence.
+        normalized = " ".join(prompt.split())
+        assert "single continuous string of prose" in normalized
+
+    def test_minimax_prompt_frames_implied_lessons_as_takeaways(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        assert "strategic takeaway" in normalized
+        assert "factual claim about a specific" in normalized
+
+    def test_minimax_prompt_has_dated_and_time_sensitive_section(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        assert "Dated and time-sensitive material" in prompt
+
+    def test_minimax_prompt_lists_volatile_specifics(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        for needle in [
+            "precise pricing",
+            "model-version claims",
+            "star counts",
+            "funding amounts",
+            "legal deadlines",
+            "certification statuses",
+            "release schedules",
+        ]:
+            assert needle in normalized, f"missing dated-material rule for {needle!r}"
+
+    def test_minimax_prompt_forbids_bare_currency_adverbs(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        # The model should not lean on bare current-news adverbs.
+        for needle in [
+            '"latest"',
+            '"currently"',
+            '"new"',
+            '"recently"',
+            '"today"',
+            '"this week"',
+            '"now available"',
+        ]:
+            assert needle in prompt, f"missing current-news adverb guard for {needle!r}"
+
+    def test_minimax_prompt_prefers_durable_phrasing(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        # Both the explicit "durable" / "evergreen" preference and the
+        # leaders-should-evaluate framing must be in the prompt so the
+        # model sees a positive substitution, not just a forbid list.
+        assert "durable" in prompt.lower()
+        assert "evergreen" in prompt.lower()
+        assert "leaders should evaluate" in normalized
+
+    def test_minimax_prompt_keeps_named_regulations_as_anchors(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        # The hardening replaces the old "Volatile-facts rule" block but
+        # preserves the regulatory-anchor carve-out.
+        assert "EU AI Act" in prompt
+        assert "GDPR" in prompt
+        assert "DORA" in prompt
+
+    def test_minimax_prompt_has_long_summary_expansion_strategy(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        assert "summary_long expansion strategy" in prompt
+        # Expansion-via-reasoning, not via new facts.
+        for needle in [
+            "reasoning",
+            "decision criteria",
+            "risks",
+            "operating implications",
+        ]:
+            assert needle in normalized, f"missing long-summary expansion lever {needle!r}"
+        # The "do not expand by adding new facts" directive must be present.
+        assert "Do not expand by adding new facts" in normalized
+
+    # ------------------------------------------------------------------
+    # DeepSeek fallback system prompt — same grounding applied
+    # ------------------------------------------------------------------
+
+    def test_deepseek_prompt_has_source_fidelity_section(self):
+        mod = self._import_module()
+        prompt = mod.DEEPSEEK_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        assert "Source-fidelity rules" in prompt
+        assert "directly supported by the article body" in normalized
+        assert "Do not infer" in prompt
+
+    def test_deepseek_prompt_lists_specific_unsupported_claim_categories(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.DEEPSEEK_SYSTEM_PROMPT.split())
+        for needle in [
+            "company size",
+            "product capability",
+            "pricing",
+            "compliance status",
+            "regulatory consequence",
+            "customer adoption",
+            "benchmark results",
+            "vendor roadmap",
+        ]:
+            assert needle in normalized, f"missing source-fidelity rule for {needle!r}"
+
+    def test_deepseek_prompt_forbids_invented_examples_and_frameworks(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.DEEPSEEK_SYSTEM_PROMPT.split())
+        for needle in [
+            "case studies",
+            "examples",
+            "frameworks",
+            "FAQ",
+            "pilot programs",
+            "statistics",
+            "citations",
+            "named organizations",
+        ]:
+            assert needle in normalized, f"missing invention-forbid for {needle!r}"
+
+    def test_deepseek_prompt_has_dated_and_time_sensitive_section(self):
+        mod = self._import_module()
+        prompt = mod.DEEPSEEK_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        assert "Dated and time-sensitive material" in prompt
+        # Same volatile-specifics list.
+        for needle in [
+            "precise pricing",
+            "model-version claims",
+            "legal deadlines",
+            "certification statuses",
+        ]:
+            assert needle in normalized, f"missing dated-material rule for {needle!r}"
+        # Same current-news adverb guard.
+        for needle in ['"latest"', '"currently"', '"recently"']:
+            assert needle in prompt, f"missing current-news adverb guard for {needle!r}"
+
+    def test_deepseek_prompt_has_long_summary_expansion_strategy(self):
+        mod = self._import_module()
+        prompt = mod.DEEPSEEK_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        assert "summary_long expansion strategy" in prompt
+        for needle in ["reasoning", "decision criteria", "risks", "operating implications"]:
+            assert needle in normalized, f"missing long-summary lever {needle!r}"
+        assert "Do not expand by adding new facts" in normalized
+
+    def test_deepseek_prompt_remains_a_fallback_not_a_primary(self):
+        """Fallback-only framing in the DeepSeek system prompt is preserved."""
+        mod = self._import_module()
+        prompt = mod.DEEPSEEK_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        # The fallback role wording is load-bearing for the verifier and
+        # for cost-cap accounting. Hardening must not erase it.
+        assert "FALLBACK" in prompt
+        assert "MiniMax-M2" in prompt
+        assert "below its 430-word minimum" in normalized
+
+    # ------------------------------------------------------------------
+    # Retry prompt picks up the same expansion-via-reasoning rule
+    # ------------------------------------------------------------------
+
+    def test_minimax_retry_prompt_says_expand_via_reasoning_not_new_facts(self):
+        mod = self._import_module()
+        prompt = mod._build_minimax_retry_prompt(
+            previous_summaries={"short": "ok", "medium": "ok", "long": "short"},
+            gate_issues=["summary_long undersize"],
+            undersize_fields=["summary_long"],
+        )
+        normalized = " ".join(prompt.split())
+        # Existing "do not invent facts / no orphan IDs" guards stay.
+        assert "orphan citation IDs" in normalized
+        # New expansion-strategy guidance is present.
+        for needle in ["reasoning", "decision criteria", "risks", "operating implications"]:
+            assert needle in normalized, f"missing retry expansion lever {needle!r}"
+        # Existing word-band reference for the listed field is preserved.
+        assert "summary_long" in prompt
+
+    # ------------------------------------------------------------------
+    # Load-bearing pieces that must NOT change
+    # ------------------------------------------------------------------
+
+    def test_minimax_prompt_json_envelope_rules_preserved(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        # JSON envelope is non-negotiable and must remain explicit.
+        assert "OUTPUT ENVELOPE" in prompt
+        assert "Return ONE JSON object" in prompt
+        assert "summary_short" in prompt
+        assert "summary_medium" in prompt
+        assert "summary_long" in prompt
+        assert "No key may be omitted" in prompt
+        # No markdown fences / no prose outside JSON / no commentary still required.
+        low = prompt.lower()
+        assert "markdown fences" in low or "no ```" in low
+        assert "no prose" in low or "no commentary" in low or "no preamble" in low
+
+    def test_minimax_prompt_word_bands_preserved(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        # Hard bands.
+        assert "40-60" in prompt
+        assert "170-230" in prompt
+        assert "430-570" in prompt
+        # Upper-middle targets.
+        for needle in ["50-55", "200-220", "500-540"]:
+            assert needle in prompt, f"missing upper-middle target {needle!r}"
+
+    def test_deepseek_prompt_word_bands_preserved(self):
+        mod = self._import_module()
+        prompt = mod.DEEPSEEK_SYSTEM_PROMPT
+        assert "40-60" in prompt
+        assert "170-230" in prompt
+        assert "430-570" in prompt
+        for needle in ["50-55", "200-220", "500-540"]:
+            assert needle in prompt, f"missing upper-middle target {needle!r}"
+
+    def test_word_targets_constant_unchanged(self):
+        """WORD_TARGETS drives the deterministic gate; it must not move."""
+        mod = self._import_module()
+        assert mod.WORD_TARGETS["short"] == (40, 60)
+        assert mod.WORD_TARGETS["medium"] == (170, 230)
+        assert mod.WORD_TARGETS["long"] == (430, 570)
+
+    def test_fallback_activation_predicate_unchanged(self):
+        """PR J must not change when DeepSeek fallback activates."""
+        mod = self._import_module()
+        # Pure long-only undersize -> activates.
+        assert mod._is_long_undersize_only(
+            gate_issues=["summary_long word_count=380 BELOW minimum 430"],
+            undersize_fields=["summary_long"],
+        ) is True
+        # Medium also undersize -> does not activate.
+        assert mod._is_long_undersize_only(
+            gate_issues=[
+                "summary_long word_count=380 BELOW minimum 430",
+                "summary_medium word_count=150 BELOW minimum 170",
+            ],
+            undersize_fields=["summary_long", "summary_medium"],
+        ) is False
+        # Oversize on long (no undersize field) -> does not activate.
+        assert mod._is_long_undersize_only(
+            gate_issues=["summary_long word_count=620 ABOVE maximum 570"],
+            undersize_fields=[],
+        ) is False
+        # No issues at all -> does not activate.
+        assert mod._is_long_undersize_only(
+            gate_issues=[],
+            undersize_fields=[],
+        ) is False
+
+    def test_user_prompt_unchanged_shape(self):
+        """User prompt still wraps body in <article_body> tags and reminds keys."""
+        mod = self._import_module()
+        user = mod._build_minimax_user_prompt("BODY")
+        assert "<article_body>" in user
+        assert "</article_body>" in user
+        assert "summary_short" in user
+        assert "summary_medium" in user
+        assert "summary_long" in user
+
+    def test_deepseek_user_prompt_unchanged_shape(self):
+        """DeepSeek user prompt envelope is unchanged."""
+        mod = self._import_module()
+        user = mod._build_deepseek_fallback_prompt("BODY", reason="summary_long undersize")
+        assert "<article_body>" in user
+        assert "</article_body>" in user
+        assert "summary_short" in user
+        assert "summary_medium" in user
+        assert "summary_long" in user
+
+    def test_no_live_network_in_prompt_assertions(self, monkeypatch):
+        """Sanity guard: pulling a prompt string must not touch the network."""
+        mod = self._import_module()
+
+        def boom(*a, **kw):
+            raise AssertionError("Prompt-string reads must not call the network")
+
+        monkeypatch.setattr(mod, "_http_post_json", boom)
+        # Touching the prompts and helpers cannot trigger any HTTP call.
+        _ = mod.MINIMAX_SYSTEM_PROMPT
+        _ = mod.DEEPSEEK_SYSTEM_PROMPT
+        _ = mod._build_minimax_user_prompt("x")
+        _ = mod._build_deepseek_fallback_prompt("x", "y")
+        _ = mod._build_minimax_corrective_prompt(
+            error_kind="invalid_json", missing_fields=None, raw_excerpt="x"
+        )
+        _ = mod._build_minimax_retry_prompt(
+            previous_summaries={"short": "a", "medium": "b", "long": "c"},
+            gate_issues=["summary_long undersize"],
+            undersize_fields=["summary_long"],
+        )
