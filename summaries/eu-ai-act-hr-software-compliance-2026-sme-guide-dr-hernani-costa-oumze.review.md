@@ -1,0 +1,56 @@
+# Summary Review — EU AI Act HR Software Compliance | 2026 SME Guide
+
+Article folder: 2026-01-21-eu-ai-act-hr-software-compliance-2026-sme-guide-dr-hern
+Canonical URL: https://www.linkedin.com/pulse/eu-ai-act-hr-software-compliance-2026-sme-guide-dr-hernani-costa-oumze
+Generated at: 2026-06-02
+Model: minimax (MiniMax-M2)
+
+## 50-word summary
+
+European SMEs face penalties up to €35M or 7% of global revenue under the EU AI Act, with high-risk obligations effective August 2026. A four-step framework helps companies classify whether HR software—covering recruitment, performance management, and employee monitoring—triggers compliance obligations. Remediation costs average €32,000 per system.
+
+## 200-word summary
+
+European SMEs face penalties up to €35M or 7% of global revenue under the EU AI Act, with high-risk obligations taking effect August 2026. The critical challenge: companies cannot easily determine whether their HR software—applicant tracking systems, performance management tools, and employee monitoring software—triggers regulatory obligations. The diagnostic challenge centers on distinguishing between system architecture issues and documentation gaps. Most compliance teams approach EU AI Act requirements as legal exercises requiring consultants and paperwork, but successful navigation requires understanding system architecture and data flows. Four out of five regulated SMEs discover during pre-audit reviews that their HR software contains undocumented AI components in resume screening, performance prediction, or workforce analytics modules. The framework includes: Step 1 maps AI components from vendor documentation; Step 2 applies Annex III employment criteria—checking if AI influences recruitment decisions, promotion/termination recommendations, or worker behavior monitoring; Step 3 documents prohibited uses under Article 5—including emotion recognition systems in workplace, biometric categorization based on sensitive attributes, social scoring mechanisms for employee evaluation; and Step 4 establishes governance documentation including decision logs, update procedures, and audit trails. Organizations that completed Step 2 classification reduced audit preparation time by 60%, with median remediation costs reaching €32,000 per system and implementation delays spanning 3-6 months. The framework requires 8-16 hours across 2 weeks for initial single-system classification, targeting recruitment pipelines first due to heightened regulatory scrutiny.
+
+## 500-word summary
+
+European SMEs deploying HR software face potential penalties up to €35M or 7% of global revenue under EU AI Act enforcement, with high-risk obligations taking effect in August 2026. The article addresses a critical gap: companies cannot easily determine whether their applicant tracking systems, performance management tools, and employee monitoring software trigger regulatory obligations. The diagnostic challenge centers on distinguishing between system architecture issues and documentation gaps. Most compliance teams approach EU AI Act requirements as legal exercises requiring consultants and paperwork, but successful navigation requires understanding system architecture and data flows. Four out of five regulated SMEs discover during pre-audit reviews that their HR software contains undocumented AI components in resume screening, performance prediction, or workforce analytics modules. The four-step classification framework begins with Step 1: Map AI Components—requesting technical architecture documentation from HR vendors and documenting which modules use machine learning, NLP, or automated decision-making, taking 2-3 hours of vendor coordination. Step 2: Apply Annex III Employment Criteria—verifying if AI influences recruitment decisions, checking for promotion or termination recommendation systems, and identifying worker behavior monitoring or performance evaluation AI, requiring 3-5 hours of technical review. Step 3: Document Prohibited Uses under Article 5—screening for emotion recognition systems in the workplace, checking for biometric categorization based on sensitive attributes, and identifying social scoring mechanisms for employee evaluation, taking 1-2 hours. Step 4: Establish Governance Documentation—creating decision logs with specific Article references, establishing update procedures for system changes, and creating audit trails for regulatory inquiries, budgeting 5-8 hours for initial documentation. The article provides concrete examples of how early movers discovered that workflow automation in HR platforms like Rippling triggered Article 6 obligations, enabling them to negotiate compliance features into renewal contracts before enforcement began. Companies that completed Step 2 classifications reduced audit prep time by 60%, and the framework requires 8-16 hours across 2 weeks for initial single-system classification before scaling across the organization. Organizations are advised to begin with customer-facing AI systems in recruitment pipelines as these carry the highest regulatory scrutiny, then expand inward to internal HR tools. Median remediation costs for systems discovered as non-compliant during audits run €32,000 per system, with implementation delays spanning 3-6 months. The article emphasizes that the distinction between legal documentation exercises and genuine technical compliance represents the fundamental barrier most SMEs face—without vendor cooperation on architecture documentation, even well-intentioned compliance teams cannot complete Step 1 of the framework. The practical guidance recommends that compliance teams adopt a technical-first mindset rather than treating AI Act readiness as purely a paperwork exercise, and that early engagement with vendors on architecture documentation proves essential for meeting the August 2026 enforcement deadline. Organizations should budget for the full classification timeline of 3-6 months for initial systems and plan accordingly for enterprise-wide rollout across multiple HR platforms.
+
+## Review status
+
+Status: approved
+Reviewer:
+Reviewed at:
+
+## Notes
+
+- Gate status: PASS
+- Retries used: 2
+- Corrective JSON retries used: 0
+- Fallback attempts used: 0
+- Fallback: not invoked
+- Termination: PASS
+- Estimated cost (USD): 0.008043
+- Word counts: short=46, medium=226, long=462
+
+## Verification
+
+Verification status: AUTO_APPROVE
+Deterministic gate: PASS
+Primary verifier: openai/gpt-5.4-mini — AUTO_APPROVE
+Secondary verifier: anthropic/claude-haiku-4-5-20251001 — AUTO_APPROVE
+Fallback verifier: not-used
+Single verifier: false
+Estimated verifier cost (USD): 0.003791
+Verified at: 2026-06-02
+
+### Verification notes
+
+- Merge rationale: both verifiers AUTO_APPROVE
+- openai/gpt-5.4-mini: Claims align with source and preserve key regulatory details.
+- openai/gpt-5.4-mini: Volatile facts are kept to the article's dated enforcement context.
+- openai/gpt-5.4-mini: No obvious fabricated sections, FAQs, or vendor lists beyond source examples.
+- anthropic/claude-haiku-4-5-20251001: All claims directly supported by source material; no invented details or unsupported assertions.
+- anthropic/claude-haiku-4-5-20251001: Specific regulatory dates (August 2026), penalty amounts (€35M, 7%), and cost figures (€32,000) preserved exactly as stated.
+- anthropic/claude-haiku-4-5-20251001: Time estimates (2-3 hours, 3-5 hours, etc.) and audit prep reduction (60%) accurately reflect source; no embellishment.
