@@ -1,0 +1,56 @@
+# Summary Review — How to Choose an AI Vendor: A Step-by-Step Process for European SMEs
+
+Article folder: 2026-04-24-how-to-choose-ai-vendor-european-smes-2026
+Canonical URL: https://radar.firstaimovers.com/how-to-choose-ai-vendor-european-smes-2026
+Generated at: 2026-06-02
+Model: minimax (MiniMax-M2)
+
+## 50-word summary
+
+A five-stage framework helps European SMEs select AI vendors systematically: define requirements precisely, map the market to find 5-10 candidates, evaluate through structured demos and pilots, negotiate contracts with specific data and compliance terms, and verify deliverables before signing. Poor vendor choices surface 18 months later as migration pain, compliance gaps, or price lock-in.
+
+## 200-word summary
+
+This guide presents a structured five-stage process for European SMEs choosing AI vendors, addressing a common problem where informal selection leads to costly failures 18 months later. The framework spans roughly 8-12 weeks: requirements definition (1-2 weeks) requires specifying exact use cases with measurable targets and mapping data flows, including any GDPR-protected information. Market mapping (1 week) involves building a long list of 5-10 vendors using peer recommendations, analyst reports, and SME-focused platforms, with elimination criteria targeting EU-headquartered vendors with compliant data residency. Structured evaluation (3-4 weeks) uses a demo questionnaire covering GDPR compliance, AI Act high-risk classification, and model versioning, followed by sequential pilots with defined success metrics over 2-3 weeks per vendor. Commercial negotiation (2-3 weeks) requires evaluating total cost over 36 months and negotiating minimum contract terms: no training use of data, EU data residency, 30-day sub-processor notice, and clear data deletion procedures. The final stage emphasizes verifying four written commitments before signing—DPA, model update notifications, support SLA, and exit clauses—with a 90-day review to assess whether the tool meets original requirements.
+
+## 500-word summary
+
+Most European SMEs adopt AI tools through informal channels—a founder sees a demo, a developer recommends a tool, or a peer mentions it at a conference. While this approach works for low-stakes productivity software, it consistently fails for AI systems handling personal data, influencing business decisions, or becoming embedded in core workflows. The consequences typically surface 18 months later: painful migration away from the vendor, compliance gaps that create regulatory exposure, or vendor lock-in triggered by sudden price increases. This guide provides a comprehensive five-stage vendor selection framework spanning 8-12 weeks, designed for a typical 20-person European SME. Stage 1 (1-2 weeks) focuses on precise requirements definition: establishing measurable outcomes such as reducing support agent response time from 8 minutes to under 3 minutes while maintaining a customer satisfaction score of 4.2, mapping all data flows including GDPR-protected categories, documenting integration constraints and SSO standards, and identifying non-negotiable compliance requirements including EU data residency and a GDPR-compliant Data Processing Agreement. Stage 2 (1 week) involves building a long list of 5-10 vendors through peer recommendations, analyst reports, and SME platforms like Product Hunt and G2, with deliberate prioritization of EU-headquartered vendors for timezone support and simplified compliance management. Elimination criteria include missing EU AI Act roadmaps, absence of industry references, lack of EEA data residency options, or pricing models misaligned with company scale. The target is to narrow to 4-6 vendors for a focused short list. Stage 3 (3-4 weeks) employs a structured demo questionnaire distributed 5 business days before demonstrations, covering DPO contact details, data processing locations and sub-processors, training data opt-out policies, AI Act high-risk classification with Declaration of Conformity, and model versioning policies. After narrowing to 2-3 vendors through questionnaire review and live demos, organizations should run sequential 2-3 week pilots using identical tasks and success metrics to enable fair comparison between vendors. Reference calls during this phase should probe specific failure modes rather than seeking general unbiased opinions. Stage 4 (2-3 weeks) requires evaluating total cost of ownership over a 36-month period, including per-seat fees, API charges, integration costs, and exit fees. Minimum contractual targets should include: no training use of data, EU data residency, 30-day sub-processor notice, and clear data deletion standards upon contract termination. SMEs with annual spend under EUR 50,000 can leverage multi-year commitment discounts, annual billing savings, or extended pilot periods to reduce costs. Stage 5 focuses on verifying four written commitments before signing: a DPA with explicit no-training-use clause, model update notification with at least 30-day advance notice, a relevant support SLA with defined response times, and a contract exit clause specifying data return procedures and transition support. Organizations should designate one owner for ongoing vendor relationship management, document all data flows before go-live, and schedule a formal 90-day review against the original Stage 1 requirements. If the tool fails to meet requirements at the 90-day mark, the guide recommends treating this as a signal that the initial requirement was misunderstood rather than assuming additional time will resolve the gap.
+
+## Review status
+
+Status: approved
+Reviewer:
+Reviewed at:
+
+## Notes
+
+- Gate status: PASS
+- Retries used: 1
+- Corrective JSON retries used: 0
+- Fallback attempts used: 0
+- Fallback: not invoked
+- Termination: PASS
+- Estimated cost (USD): 0.007166
+- Word counts: short=54, medium=175, long=499
+
+## Verification
+
+Verification status: AUTO_APPROVE
+Deterministic gate: PASS
+Primary verifier: openai/gpt-5.4-mini — AUTO_APPROVE
+Secondary verifier: anthropic/claude-haiku-4-5-20251001 — AUTO_APPROVE
+Fallback verifier: not-used
+Single verifier: false
+Estimated verifier cost (USD): 0.006254
+Verified at: 2026-06-02
+
+### Verification notes
+
+- Merge rationale: both verifiers AUTO_APPROVE
+- openai/gpt-5.4-mini: Covers the article’s five-stage process accurately
+- openai/gpt-5.4-mini: Preserves key compliance and contract requirements
+- openai/gpt-5.4-mini: No unsupported sections, vendors, or FAQs added
+- anthropic/claude-haiku-4-5-20251001: All claims directly supported by source material; no invented details or unsupported assertions.
+- anthropic/claude-haiku-4-5-20251001: No volatile facts embedded; durable regulatory references (GDPR, EU AI Act Annex III) preserved with exact terminology.
+- anthropic/claude-haiku-4-5-20251001: Summaries accurately reflect the five-stage framework, timelines, and specific decision gates from source.
