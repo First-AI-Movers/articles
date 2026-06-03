@@ -984,3 +984,397 @@ class TestFallbackPlumbing:
         ])
         assert rc == 0
         assert ds_calls["n"] == 0
+
+
+class TestRepairLoopPlumbing:
+    """PR L -- the runner forwards repair-loop flags into run_one_article
+    and re-runs the deterministic gate + dual verifier on repaired output.
+
+    All tests offline: the MiniMax HTTP transport is monkeypatched so
+    a repair call returns a deterministic envelope, the verifier HTTP
+    transport returns deterministic verdicts. No network calls.
+    """
+
+    # ------------------------------------------------------------------
+    # Defaults + parser
+    # ------------------------------------------------------------------
+
+    def test_repair_loop_disabled_by_default_in_argparser(self):
+        parser = rsb.build_parser()
+        args = parser.parse_args(["--limit", "3"])
+        assert args.enable_verifier_repair_loop is False
+        assert args.max_repair_cycles == 1
+        assert args.repair_provider == "minimax"
+        assert args.repair_model is None
+        assert args.repair_on == "deterministic_gate,human_review"
+
+    def test_max_repair_cycles_capped_at_two(self):
+        # The runner exposes _clamp_max_repair_cycles for the cap.
+        assert rsb._clamp_max_repair_cycles(0) == 0
+        assert rsb._clamp_max_repair_cycles(1) == 1
+        assert rsb._clamp_max_repair_cycles(2) == 2
+        assert rsb._clamp_max_repair_cycles(3) == 2
+        assert rsb._clamp_max_repair_cycles(99) == 2
+        # Negative falls to zero.
+        assert rsb._clamp_max_repair_cycles(-1) == 0
+        # None and garbage fall to default 1.
+        assert rsb._clamp_max_repair_cycles(None) == 1
+        assert rsb._clamp_max_repair_cycles("not-an-int") == 1
+
+    def test_parse_repair_on_default_when_empty(self):
+        assert rsb._parse_repair_on("") == bs.REPAIR_ON_DEFAULT
+        assert rsb._parse_repair_on(None) == bs.REPAIR_ON_DEFAULT
+
+    def test_parse_repair_on_drops_unknown_tokens(self):
+        # Unknown tokens are dropped silently; valid intersection wins.
+        parsed = rsb._parse_repair_on("deterministic_gate,nonsense,human_review")
+        assert parsed == frozenset({"deterministic_gate", "human_review"})
+
+    def test_parse_repair_on_all_known_tokens(self):
+        parsed = rsb._parse_repair_on("deterministic_gate,human_review,reject")
+        assert parsed == frozenset({"deterministic_gate", "human_review", "reject"})
+
+    def test_parse_repair_on_only_unknown_falls_to_default(self):
+        # If nothing maps to the valid set, fall back to the safe default
+        # rather than running with an empty allow-set.
+        parsed = rsb._parse_repair_on("nonsense,other")
+        assert parsed == bs.REPAIR_ON_DEFAULT
+
+    # ------------------------------------------------------------------
+    # Default-off posture: repair NEVER fires unless explicitly enabled.
+    # ------------------------------------------------------------------
+
+    def test_repair_does_not_fire_when_flag_off(
+        self, tmp_path, monkeypatch
+    ):
+        """Without --enable-verifier-repair-loop, repair must be dormant
+        even when the first pass returns HUMAN_REVIEW."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        _set_keys(monkeypatch)
+
+        minimax_call_count = {"n": 0}
+
+        def fake_minimax(url, headers, body, timeout):
+            minimax_call_count["n"] += 1
+            return 200, 10.0, _minimax_envelope()
+
+        def fake_verifier(url, headers, body, timeout):
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("HUMAN_REVIEW")
+            return 200, 10.0, _openai_verdict_envelope("HUMAN_REVIEW", "minor adds")
+
+        monkeypatch.setattr(bs, "_http_post_json", fake_minimax)
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-repair-off-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--apply-auto-approved",
+            # NOTE: no --enable-verifier-repair-loop.
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        # Only the initial generation call. No repair call.
+        assert minimax_call_count["n"] == 1
+        # No metadata write (HUMAN_REVIEW first pass).
+        meta = json.loads(
+            (tmp_path / "articles" / "f1" / "metadata.json").read_text()
+        )
+        assert "summary_short" not in meta
+
+    # ------------------------------------------------------------------
+    # When enabled, repair runs only for eligible failure modes.
+    # ------------------------------------------------------------------
+
+    def test_repair_runs_for_human_review_when_enabled(
+        self, tmp_path, monkeypatch
+    ):
+        """First pass HUMAN_REVIEW with a benign over-expansion top_issue
+        triggers one repair attempt; the repaired output passes; metadata
+        is written."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        _set_keys(monkeypatch)
+
+        minimax_calls = {"n": 0}
+        verifier_calls = {"n": 0}
+
+        def fake_minimax(url, headers, body, timeout):
+            minimax_calls["n"] += 1
+            # First call returns full-band summaries; the repair call
+            # returns the same shape (verifier verdict drives the test).
+            return 200, 10.0, _minimax_envelope(long_w=480)
+
+        def fake_verifier(url, headers, body, timeout):
+            verifier_calls["n"] += 1
+            # First two responses (one per verifier) are HUMAN_REVIEW
+            # with a benign over-expansion rationale (safe to repair).
+            # After repair, the next two responses are AUTO_APPROVE.
+            if verifier_calls["n"] <= 2:
+                if "anthropic.com" in url:
+                    return 200, 10.0, _anthropic_verdict_envelope("HUMAN_REVIEW")
+                return 200, 10.0, _openai_verdict_envelope(
+                    "HUMAN_REVIEW",
+                    top_issue="long summary adds operational implication beyond source",
+                )
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("AUTO_APPROVE")
+            return 200, 10.0, _openai_verdict_envelope("AUTO_APPROVE")
+
+        monkeypatch.setattr(bs, "_http_post_json", fake_minimax)
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-repair-on-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--apply-auto-approved",
+            "--enable-verifier-repair-loop",
+            "--max-repair-cycles", "1",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        # One initial generation + one repair generation = 2 MiniMax calls.
+        assert minimax_calls["n"] == 2
+        # Two verifier rounds × two verifiers = 4 verifier calls.
+        assert verifier_calls["n"] == 4
+        # Metadata WAS written because repair converted to AUTO_APPROVE.
+        meta = json.loads(
+            (tmp_path / "articles" / "f1" / "metadata.json").read_text()
+        )
+        assert "summary_short" in meta
+        # Report includes repair_loop_enabled and conversion metric.
+        report_text = report.read_text()
+        assert "repair_loop_enabled: true" in report_text
+        assert "repair_converted_to_auto_approve: 1" in report_text
+
+    def test_repair_does_not_apply_when_repaired_verdicts_split(
+        self, tmp_path, monkeypatch
+    ):
+        """If repair runs but the post-repair verdicts do not both
+        AUTO_APPROVE, the article stays in HUMAN_REVIEW and metadata
+        stays untouched."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        _set_keys(monkeypatch)
+
+        def fake_minimax(url, headers, body, timeout):
+            return 200, 10.0, _minimax_envelope(long_w=480)
+
+        call_count = {"n": 0}
+
+        def fake_verifier(url, headers, body, timeout):
+            call_count["n"] += 1
+            # First pass: both HUMAN_REVIEW (eligible benign rationale).
+            # Second pass (post-repair): primary AUTO_APPROVE, secondary
+            # HUMAN_REVIEW. Final dual verdict is NOT AUTO_APPROVE.
+            if call_count["n"] <= 2:
+                if "anthropic.com" in url:
+                    return 200, 10.0, _anthropic_verdict_envelope("HUMAN_REVIEW")
+                return 200, 10.0, _openai_verdict_envelope(
+                    "HUMAN_REVIEW", "adds operational implication"
+                )
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("HUMAN_REVIEW")
+            return 200, 10.0, _openai_verdict_envelope("AUTO_APPROVE")
+
+        monkeypatch.setattr(bs, "_http_post_json", fake_minimax)
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-repair-split-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--apply-auto-approved",
+            "--enable-verifier-repair-loop",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        # No metadata write — dual verifier requirement holds.
+        meta = json.loads(
+            (tmp_path / "articles" / "f1" / "metadata.json").read_text()
+        )
+        assert "summary_short" not in meta
+        # Repair was attempted but did not convert.
+        report_text = report.read_text()
+        assert "repair_loop_enabled: true" in report_text
+        assert "repair_attempts: 1" in report_text
+        assert "repair_converted_to_auto_approve: 0" in report_text
+
+    def test_repair_skipped_for_unsafe_hard_reject(
+        self, tmp_path, monkeypatch
+    ):
+        """When the verifier rationale matches an unsafe-hard-reject
+        signal (e.g. invented vendor capability), repair is skipped
+        with reason recorded."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        _set_keys(monkeypatch)
+
+        minimax_calls = {"n": 0}
+
+        def fake_minimax(url, headers, body, timeout):
+            minimax_calls["n"] += 1
+            return 200, 10.0, _minimax_envelope(long_w=480)
+
+        def fake_verifier(url, headers, body, timeout):
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("HUMAN_REVIEW")
+            return 200, 10.0, _openai_verdict_envelope(
+                "HUMAN_REVIEW",
+                top_issue=(
+                    "Invented vendor capability not in source: claims a "
+                    "feature the article does not mention"
+                ),
+            )
+
+        monkeypatch.setattr(bs, "_http_post_json", fake_minimax)
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-repair-unsafe-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--apply-auto-approved",
+            "--enable-verifier-repair-loop",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        # Only the initial generation call — no repair was attempted
+        # because the rationale matched an unsafe signal.
+        assert minimax_calls["n"] == 1
+        report_text = report.read_text()
+        assert "repair_loop_enabled: true" in report_text
+        assert "repair_skipped: 1" in report_text
+        assert "repair_attempts: 0" in report_text
+
+    def test_repair_metrics_appear_in_report_when_enabled(
+        self, tmp_path, monkeypatch
+    ):
+        """Report includes the repair-metrics block when the loop is
+        enabled, even if no article was a candidate."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        _set_keys(monkeypatch)
+        _wire_live_http(monkeypatch)  # both verifiers AUTO_APPROVE
+
+        report = Path("/tmp") / f"batch-test-repair-metrics-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--apply-auto-approved",
+            "--enable-verifier-repair-loop",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        report_text = report.read_text()
+        # The block headers appear even with zero candidates.
+        assert "repair_loop_enabled: true" in report_text
+        assert "repair_max_cycles:" in report_text
+        assert "repair_cost_usd: 0.000000" in report_text
+
+    def test_repair_metrics_absent_from_report_when_loop_off(
+        self, tmp_path, monkeypatch
+    ):
+        """Default-off behaviour: no repair block in the report at all."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        _set_keys(monkeypatch)
+        _wire_live_http(monkeypatch)
+
+        report = Path("/tmp") / f"batch-test-repair-absent-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--apply-auto-approved",
+            # NOTE: no --enable-verifier-repair-loop.
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        report_text = report.read_text()
+        assert "repair_loop_enabled" not in report_text
+        assert "repair_candidates" not in report_text
+
+    def test_repair_loop_max_cycles_two_attempts_max(
+        self, tmp_path, monkeypatch
+    ):
+        """When --max-repair-cycles 2 is set and both repaired passes
+        still produce HUMAN_REVIEW, the runner attempts twice and
+        stops. No infinite loop, no third call."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        _set_keys(monkeypatch)
+
+        minimax_calls = {"n": 0}
+
+        def fake_minimax(url, headers, body, timeout):
+            minimax_calls["n"] += 1
+            return 200, 10.0, _minimax_envelope(long_w=480)
+
+        def fake_verifier(url, headers, body, timeout):
+            # Always HUMAN_REVIEW (benign over-expansion rationale).
+            if "anthropic.com" in url:
+                return 200, 10.0, _anthropic_verdict_envelope("HUMAN_REVIEW")
+            return 200, 10.0, _openai_verdict_envelope(
+                "HUMAN_REVIEW", "adds operational implication"
+            )
+
+        monkeypatch.setattr(bs, "_http_post_json", fake_minimax)
+        monkeypatch.setattr(vs, "_http_post_json", fake_verifier)
+
+        report = Path("/tmp") / f"batch-test-repair-cap2-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "5.00",
+            "--apply-auto-approved",
+            "--enable-verifier-repair-loop",
+            "--max-repair-cycles", "2",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0
+        # 1 initial + at most 2 repair calls = at most 3 MiniMax calls.
+        assert minimax_calls["n"] <= 3
+        report_text = report.read_text()
+        assert "repair_attempts: 2" in report_text
+        assert "repair_converted_to_auto_approve: 0" in report_text
+
+    def test_repair_loop_dry_run_does_not_call_network(
+        self, tmp_path, monkeypatch
+    ):
+        """--enable-verifier-repair-loop on a dry-run must not trigger
+        any HTTP call."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+
+        def boom(*a, **kw):
+            raise AssertionError("dry-run must not call the network")
+
+        monkeypatch.setattr(bs, "_http_post_json", boom)
+        monkeypatch.setattr(vs, "_http_post_json", boom)
+
+        report = Path("/tmp") / f"batch-test-repair-dryrun-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--limit", "1",
+            "--enable-verifier-repair-loop",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 0

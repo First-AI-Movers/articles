@@ -194,12 +194,27 @@ class ArticleOutcome:
     verifier_cost_usd: float = 0.0
     final_verdict: Optional[str] = None
     top_issue: str = ""
+    # Repair loop (PR L) — populated only when --enable-verifier-repair-loop
+    # is set and the first-pass dual-verify did not auto-apply. Default
+    # zero/empty so rows with no repair consideration aggregate to clean
+    # zeros across the report.
+    repair_loop_enabled: bool = False
+    repair_cycles_used: int = 0
+    repair_reason: str = ""
+    repair_skipped_reason: str = ""
+    pre_repair_final_verdict: Optional[str] = None
+    pre_repair_top_issue: str = ""
+    repair_cost_usd: float = 0.0
+    repair_succeeded: bool = False
     # Action
     action: str = ACTION_DRAFT_ONLY
     notes: list[str] = field(default_factory=list)
 
     def total_cost_usd(self) -> float:
-        return round(self.gen_cost_usd + self.verifier_cost_usd, 6)
+        return round(
+            self.gen_cost_usd + self.verifier_cost_usd + self.repair_cost_usd,
+            6,
+        )
 
 
 # =============================================================================
@@ -327,6 +342,229 @@ def _truncate(text: str, limit: int = 240) -> str:
 # Per-article pipeline
 # =============================================================================
 
+def _clamp_max_repair_cycles(n: int) -> int:
+    """Clamp --max-repair-cycles to [0, 2]. Negative values become 0."""
+    if n is None:
+        return 1
+    try:
+        v = int(n)
+    except (TypeError, ValueError):
+        return 1
+    if v < 0:
+        return 0
+    if v > 2:
+        return 2
+    return v
+
+
+def _parse_repair_on(spec: Optional[str]) -> frozenset[str]:
+    """Parse --repair-on into a validated frozenset.
+
+    Defaults to deterministic_gate + human_review. Unknown tokens are
+    dropped silently rather than raising, so a typo doesn't break the
+    runner; the runner logs the resolved set in the report.
+    """
+    if not spec:
+        return bs.REPAIR_ON_DEFAULT
+    tokens = {t.strip() for t in spec.split(",") if t.strip()}
+    valid = tokens & bs.REPAIR_ON_VALID
+    if not valid:
+        return bs.REPAIR_ON_DEFAULT
+    return frozenset(valid)
+
+
+def _run_repair_cycle(
+    *,
+    outcome: "ArticleOutcome",
+    article: dict,
+    body: str,
+    review_path: pathlib.Path,
+    articles_dir: pathlib.Path,
+    minimax_api_key: str,
+    repair_model: str,
+    primary_spec: vs.VerifierSpec,
+    secondary_spec: Optional[vs.VerifierSpec],
+    article_budget_remaining: float,
+    apply_auto_approved: bool,
+    require_dual_verifier_for_apply: bool,
+    gen: dict,
+    last_plan_final: Optional[vs.FinalVerdict],
+) -> tuple[bool, Optional[vs.FinalVerdict], dict]:
+    """Run ONE repair cycle for a single article.
+
+    Returns ``(auto_applied_now, repaired_plan_final, repaired_gen_meta)``.
+
+    * Builds a feedback packet from the previous deterministic-gate issues
+      and the most recent dual-verifier rationale.
+    * Calls the repair generator (MiniMax with REPAIR_SYSTEM_PROMPT).
+    * Re-runs ``check_summaries`` on the repaired output for a fresh gate.
+    * Re-runs both verifiers via ``vs.verify_one``.
+    * Updates ``outcome`` in place with the new verdicts and cost.
+    * If both repaired verifier verdicts are AUTO_APPROVE and the runner
+      is in apply mode, promotes the review file and writes metadata.
+    * Returns the repaired plan.final so the caller can decide whether
+      to run another cycle.
+    """
+    from summary_quality import check_summaries  # local import — avoid cycles in tests
+
+    # Build feedback packet from the most recent verdicts. If the previous
+    # cycle was the initial pass, primary/secondary verifier values live
+    # on ``last_plan_final``; otherwise they live on ``outcome`` after a
+    # prior repair cycle updated it.
+    primary_top = ""
+    secondary_top = ""
+    if last_plan_final is not None:
+        if last_plan_final.primary is not None:
+            primary_top = last_plan_final.primary.top_issue or ""
+        if last_plan_final.secondary is not None:
+            secondary_top = last_plan_final.secondary.top_issue or ""
+
+    packet = bs._build_repair_feedback_packet(
+        previous_summaries=gen.get("summaries") or {},
+        gate_issues=gen.get("gate_issues") or [],
+        primary_verdict=outcome.primary_verdict,
+        primary_top_issue=primary_top,
+        secondary_verdict=outcome.secondary_verdict,
+        secondary_top_issue=secondary_top,
+    )
+
+    # Call repair. Bound by remaining article budget so cost cap holds.
+    if article_budget_remaining <= 0:
+        outcome.repair_skipped_reason = "budget exhausted before repair"
+        return False, last_plan_final, gen
+
+    repair_response = bs._call_repair_once(
+        article_text=body,
+        model=repair_model,
+        api_key=minimax_api_key,
+        feedback_packet=packet,
+    )
+    if repair_response.get("cost_usd"):
+        outcome.repair_cost_usd += float(repair_response["cost_usd"])
+
+    if not repair_response.get("ok"):
+        outcome.notes.append(
+            _truncate(
+                f"repair cycle {outcome.repair_cycles_used + 1} failed: "
+                f"{repair_response.get('error_kind') or repair_response.get('error', 'unknown')}",
+                200,
+            )
+        )
+        # Even a failed repair call counts as a cycle used for accounting.
+        outcome.repair_cycles_used += 1
+        return False, last_plan_final, gen
+
+    repaired_summaries = repair_response.get("summaries") or {}
+
+    # Re-run the deterministic gate on the repaired output.
+    new_gate = check_summaries(repaired_summaries, body)
+    repaired_gen = dict(gen)
+    repaired_gen["gate_status"] = new_gate.status
+    repaired_gen["gate_issues"] = list(new_gate.issues)
+    repaired_gen["summaries"] = repaired_summaries
+
+    # Rewrite the review file with the repaired summaries so the
+    # verifier reads the post-repair text.
+    bs._write_review_file(
+        review_path,
+        article,
+        repaired_summaries,
+        provider="minimax-repair",
+        model=repair_model,
+        gate_meta=repaired_gen,
+    )
+
+    # Re-run both verifiers on the repaired review file.
+    remaining_after_repair = max(
+        0.0,
+        article_budget_remaining - (repair_response.get("cost_usd") or 0.0),
+    )
+    repaired_plan = vs.verify_one(
+        review_path=review_path,
+        articles_dir=articles_dir,
+        primary_spec=primary_spec,
+        secondary_spec=secondary_spec,
+        fallback_spec=None,
+        allow_network=True,
+        single_verifier=(secondary_spec is None),
+        max_cost_usd=remaining_after_repair,
+    )
+
+    outcome.repair_cycles_used += 1
+
+    if repaired_plan.final is None:
+        outcome.notes.append(
+            f"repair cycle {outcome.repair_cycles_used} produced summaries "
+            f"but verifier did not return a verdict"
+        )
+        return False, None, repaired_gen
+
+    # Update outcome with repaired verdicts.
+    outcome.final_verdict = repaired_plan.final.final
+    outcome.single_verifier = repaired_plan.final.single_verifier
+    outcome.secondary_skipped_cost_cap = repaired_plan.final.secondary_skipped_cost_cap
+    outcome.verifier_cost_usd += float(repaired_plan.final.total_cost_usd or 0.0)
+    if repaired_plan.final.primary is not None:
+        outcome.primary_verdict = repaired_plan.final.primary.verdict
+        if repaired_plan.final.primary.top_issue:
+            outcome.top_issue = _truncate(
+                repaired_plan.final.primary.top_issue, 200
+            )
+    if repaired_plan.final.secondary is not None:
+        outcome.secondary_verdict = repaired_plan.final.secondary.verdict
+        if repaired_plan.final.secondary.top_issue and not outcome.top_issue:
+            outcome.top_issue = _truncate(
+                repaired_plan.final.secondary.top_issue, 200
+            )
+
+    # Always write a fresh verification block for the repaired output.
+    block = vs.render_verification_block(repaired_plan.final)
+    vs.write_verification_to_file(review_path, block)
+
+    # Auto-apply only if both repaired verifier verdicts are AUTO_APPROVE.
+    if repaired_plan.final.final == "AUTO_APPROVE":
+        eligible, reason = can_auto_apply(
+            repaired_plan.final,
+            require_dual_verifier=require_dual_verifier_for_apply,
+        )
+        if apply_auto_approved and eligible:
+            try:
+                _promote_draft_to_approved(review_path)
+                review_data = bs._parse_review_file(review_path)
+                bs._apply_review_to_metadata(
+                    outcome.folder, review_data, allow_partial=False
+                )
+                outcome.action = ACTION_AUTO_APPLIED
+                outcome.repair_succeeded = True
+                outcome.notes.append(
+                    f"repair cycle {outcome.repair_cycles_used} converted "
+                    f"to AUTO_APPROVE; reason: {outcome.repair_reason}"
+                )
+                return True, repaired_plan.final, repaired_gen
+            except Exception as e:  # noqa: BLE001
+                outcome.action = ACTION_HUMAN_REVIEW
+                outcome.notes.append(
+                    _truncate(f"repair apply failed: {e}", 200)
+                )
+                return False, repaired_plan.final, repaired_gen
+        elif apply_auto_approved:
+            outcome.action = ACTION_HUMAN_REVIEW
+            outcome.notes.append(reason)
+            return False, repaired_plan.final, repaired_gen
+        else:
+            outcome.action = ACTION_DRAFT_ONLY
+            return False, repaired_plan.final, repaired_gen
+
+    # Still HUMAN_REVIEW or REJECT after this cycle. Update action to
+    # match the new verdict so the caller can decide whether to keep
+    # going.
+    if repaired_plan.final.final == "REJECT":
+        outcome.action = ACTION_REJECTED
+    elif repaired_plan.final.final == "HUMAN_REVIEW":
+        outcome.action = ACTION_HUMAN_REVIEW
+    return False, repaired_plan.final, repaired_gen
+
+
 def run_one_article(
     article: dict,
     *,
@@ -349,6 +587,12 @@ def run_one_article(
     fallback_model: str = "deepseek-v4-flash",
     fallback_max_attempts: int = 1,
     fallback_api_key: Optional[str] = None,
+    # Repair loop (PR L). Defaults disable the loop entirely.
+    enable_verifier_repair_loop: bool = False,
+    max_repair_cycles: int = 1,
+    repair_provider: str = "minimax",
+    repair_model: Optional[str] = None,
+    repair_on: Optional[frozenset[str]] = None,
 ) -> ArticleOutcome:
     """Run the full pipeline for one article. Always returns an outcome."""
     outcome = ArticleOutcome(
@@ -486,6 +730,109 @@ def run_one_article(
         # No verdict (verifier did not run or failed)
         outcome.action = ACTION_DRAFT_ONLY
 
+    # ---- Verifier-feedback repair loop (PR L) ----
+    #
+    # Repair runs only when:
+    #   * --enable-verifier-repair-loop is set, AND
+    #   * the first dual-verify pass did not auto-apply, AND
+    #   * the first pass produced a HUMAN_REVIEW or soft-REJECT verdict
+    #     in an eligible failure category, AND
+    #   * the article-level budget has headroom.
+    #
+    # Repair NEVER weakens the dual-verifier AUTO_APPROVE boundary —
+    # the repaired output must clear the deterministic gate AND both
+    # repaired verifier verdicts must be AUTO_APPROVE before any
+    # metadata write.
+    repair_cap = _clamp_max_repair_cycles(max_repair_cycles)
+    if (
+        enable_verifier_repair_loop
+        and repair_cap > 0
+        and do_verify
+        and primary_spec is not None
+        and minimax_api_key is not None
+        and outcome.action in (ACTION_HUMAN_REVIEW, ACTION_REJECTED)
+        and outcome.final_verdict in ("HUMAN_REVIEW", "REJECT")
+    ):
+        outcome.repair_loop_enabled = True
+        # Snapshot the pre-repair state so the report can quantify lift.
+        outcome.pre_repair_final_verdict = outcome.final_verdict
+        outcome.pre_repair_top_issue = outcome.top_issue
+
+        active_repair_on = repair_on if repair_on is not None else bs.REPAIR_ON_DEFAULT
+
+        eligible, repair_reason = bs._is_repair_eligible(
+            gate_status=gen.get("gate_status"),
+            gate_issues=gen.get("gate_issues") or [],
+            final_verdict=outcome.final_verdict,
+            primary_verdict=outcome.primary_verdict,
+            primary_top_issue=(
+                plan.final.primary.top_issue
+                if plan.final is not None and plan.final.primary is not None
+                else ""
+            ),
+            secondary_verdict=outcome.secondary_verdict,
+            secondary_top_issue=(
+                plan.final.secondary.top_issue
+                if plan.final is not None and plan.final.secondary is not None
+                else ""
+            ),
+            repair_on=active_repair_on,
+        )
+
+        if not eligible:
+            outcome.repair_skipped_reason = repair_reason
+        else:
+            outcome.repair_reason = repair_reason
+            effective_repair_model = repair_model or minimax_model
+            last_plan_final = plan.final if plan is not None else None
+            cycles_remaining = repair_cap
+            while cycles_remaining > 0 and outcome.action != ACTION_AUTO_APPLIED:
+                budget_remaining = max(
+                    0.0,
+                    article_budget_usd
+                    - outcome.gen_cost_usd
+                    - outcome.verifier_cost_usd
+                    - outcome.repair_cost_usd,
+                )
+                if budget_remaining <= 0:
+                    outcome.repair_skipped_reason = (
+                        outcome.repair_skipped_reason
+                        or "budget exhausted before repair"
+                    )
+                    break
+
+                applied, repaired_final, repaired_gen = _run_repair_cycle(
+                    outcome=outcome,
+                    article=article,
+                    body=body,
+                    review_path=review_path,
+                    articles_dir=articles_dir,
+                    minimax_api_key=minimax_api_key,
+                    repair_model=effective_repair_model,
+                    primary_spec=primary_spec,
+                    secondary_spec=secondary_spec,
+                    article_budget_remaining=budget_remaining,
+                    apply_auto_approved=apply_auto_approved,
+                    require_dual_verifier_for_apply=require_dual_verifier_for_apply,
+                    gen=gen,
+                    last_plan_final=last_plan_final,
+                )
+
+                gen = repaired_gen
+                last_plan_final = repaired_final
+
+                if applied:
+                    break
+
+                # If the repair attempt itself failed (the cycle counter
+                # advanced but no verifier plan came back), do not keep
+                # spinning — the next cycle would use the same feedback
+                # and likely fail the same way.
+                if repaired_final is None:
+                    break
+
+                cycles_remaining -= 1
+
     return outcome
 
 
@@ -610,7 +957,22 @@ def render_report(
         "fallback_articles_invoked": 0,
         "fallback_articles_skipped": 0,
     }
+    repair_counts = {
+        "repair_loop_enabled": bool(getattr(args, "enable_verifier_repair_loop", False)),
+        "repair_max_cycles": _clamp_max_repair_cycles(
+            getattr(args, "max_repair_cycles", 1)
+        ),
+        "repair_candidates": 0,
+        "repair_attempts": 0,
+        "repair_successes": 0,
+        "repair_failures": 0,
+        "repair_skipped": 0,
+        "repair_converted_to_auto_approve": 0,
+    }
     fallback_skip_reasons: dict[str, int] = {}
+    repair_skip_reasons: dict[str, int] = {}
+    repair_reasons: dict[str, int] = {}
+    total_repair_cost = 0.0
     for o in outcomes:
         if o.gen_gate_status not in ("n/a", "DRY_RUN"):
             counts["generated"] += 1
@@ -639,6 +1001,32 @@ def render_report(
             fallback_skip_reasons[o.fallback_skipped_reason] = (
                 fallback_skip_reasons.get(o.fallback_skipped_reason, 0) + 1
             )
+        # Repair metrics. A candidate is any article where the first
+        # pass landed in HUMAN_REVIEW/REJECT and repair was enabled;
+        # attempts is the per-cycle counter; success means converted to
+        # AUTO_APPROVE during the repair loop.
+        if o.repair_loop_enabled:
+            counts_or_skip = bool(o.repair_skipped_reason) or o.repair_cycles_used > 0
+            if counts_or_skip:
+                repair_counts["repair_candidates"] += 1
+            if o.repair_skipped_reason:
+                repair_counts["repair_skipped"] += 1
+                repair_skip_reasons[o.repair_skipped_reason] = (
+                    repair_skip_reasons.get(o.repair_skipped_reason, 0) + 1
+                )
+            if o.repair_cycles_used > 0:
+                repair_counts["repair_attempts"] += o.repair_cycles_used
+                if o.repair_succeeded:
+                    repair_counts["repair_successes"] += 1
+                    repair_counts["repair_converted_to_auto_approve"] += 1
+                else:
+                    repair_counts["repair_failures"] += 1
+            if o.repair_reason:
+                repair_reasons[o.repair_reason] = (
+                    repair_reasons.get(o.repair_reason, 0) + 1
+                )
+            total_repair_cost += float(o.repair_cost_usd or 0.0)
+
     for k, v in counts.items():
         lines.append(f"- {k}: {v}")
     lines.append(f"- cumulative_cost_usd: {cumulative_cost:.6f}")
@@ -647,6 +1035,30 @@ def render_report(
         lines.append("- fallback_skipped_reasons:")
         for reason, n in sorted(fallback_skip_reasons.items(), key=lambda kv: -kv[1]):
             lines.append(f"  - {redact(reason)}: {n}")
+
+    # Repair-loop metrics block. Emitted whenever the loop is enabled so
+    # the report records both candidates considered and skips applied.
+    if repair_counts["repair_loop_enabled"]:
+        lines.append("- repair_loop_enabled: true")
+        for k in (
+            "repair_max_cycles",
+            "repair_candidates",
+            "repair_attempts",
+            "repair_successes",
+            "repair_failures",
+            "repair_skipped",
+            "repair_converted_to_auto_approve",
+        ):
+            lines.append(f"- {k}: {repair_counts[k]}")
+        lines.append(f"- repair_cost_usd: {total_repair_cost:.6f}")
+        if repair_reasons:
+            lines.append("- repair_reasons:")
+            for r, n in sorted(repair_reasons.items(), key=lambda kv: -kv[1]):
+                lines.append(f"  - {redact(r)}: {n}")
+        if repair_skip_reasons:
+            lines.append("- repair_skipped_reasons:")
+            for r, n in sorted(repair_skip_reasons.items(), key=lambda kv: -kv[1]):
+                lines.append(f"  - {redact(r)}: {n}")
     lines.append("")
 
     lines.append("## Next command suggestion")
@@ -742,6 +1154,37 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--fallback-max-attempts", type=int, default=1,
                    help="Hard cap on fallback attempts per article. "
                         "Effectively pinned to 1 by the build_summaries layer.")
+    # Verifier-feedback repair loop (PR L). Optional pass that feeds
+    # structured deterministic-gate + verifier feedback back into a
+    # bounded repair generation, then re-runs the same gate and dual
+    # verifier. Disabled by default; live activation requires the same
+    # triple gate as the generator. Repair never weakens the dual-verifier
+    # AUTO_APPROVE boundary.
+    p.add_argument("--enable-verifier-repair-loop", action="store_true",
+                   default=False,
+                   help="After a first-pass dual-verify HUMAN_REVIEW (or "
+                        "REJECT in safe categories only), run a bounded "
+                        "repair pass that feeds structured feedback into a "
+                        "regeneration. Re-runs the deterministic gate and "
+                        "BOTH verifiers; auto-apply still requires both "
+                        "repaired verdicts to be AUTO_APPROVE.")
+    p.add_argument("--max-repair-cycles", type=int, default=1,
+                   help="Cap on repair cycles per article. Default 1, "
+                        "hard cap 2. Higher values are clamped to 2.")
+    p.add_argument("--repair-provider", choices=["minimax"], default="minimax",
+                   help="Repair provider. Defaults to the primary generator "
+                        "provider. Only minimax is supported in this release.")
+    p.add_argument("--repair-model", default=None,
+                   help="Repair model id. Defaults to --model.")
+    p.add_argument("--repair-on", default="deterministic_gate,human_review",
+                   help="Comma-separated list of failure categories that "
+                        "trigger repair. Choices: deterministic_gate, "
+                        "human_review, reject. Default: "
+                        "deterministic_gate,human_review. Including "
+                        "'reject' is opt-in and only applies to soft "
+                        "rejects; hard-reject categories (invented facts, "
+                        "named entities, pricing, compliance claims) are "
+                        "always excluded.")
     p.add_argument("--dry-run", action="store_true", default=False,
                    help="Force dry-run even if --allow-network is set.")
     p.add_argument("--articles-dir", default=str(ARTICLES_DIR))
@@ -894,6 +1337,11 @@ def main(argv: Optional[list[str]] = None) -> int:
             fallback_model=args.fallback_model,
             fallback_max_attempts=args.fallback_max_attempts,
             fallback_api_key=fallback_api_key,
+            enable_verifier_repair_loop=args.enable_verifier_repair_loop,
+            max_repair_cycles=_clamp_max_repair_cycles(args.max_repair_cycles),
+            repair_provider=args.repair_provider,
+            repair_model=args.repair_model,
+            repair_on=_parse_repair_on(args.repair_on),
         )
         cumulative_cost += outcome.total_cost_usd()
         outcomes.append(outcome)
@@ -924,6 +1372,11 @@ def main(argv: Optional[list[str]] = None) -> int:
         "fallback_provider": args.fallback_provider,
         "fallback_model": args.fallback_model,
         "fallback_max_attempts": args.fallback_max_attempts,
+        "enable_verifier_repair_loop": args.enable_verifier_repair_loop,
+        "max_repair_cycles": _clamp_max_repair_cycles(args.max_repair_cycles),
+        "repair_provider": args.repair_provider,
+        "repair_model": args.repair_model or args.model,
+        "repair_on": sorted(_parse_repair_on(args.repair_on)),
         "dry_run": not live,
     }
     report = render_report(
