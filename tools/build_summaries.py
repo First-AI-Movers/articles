@@ -282,25 +282,28 @@ Word-count bands (Python str.split convention) — hard requirements:
 - summary_medium: 170-230 words inclusive.
 - summary_long: 430-570 words inclusive.
 
-Target the upper-middle of each band to leave headroom and reduce
-under-minimum failures:
-- summary_short: aim for 50-55 words.
-- summary_medium: aim for 200-220 words.
-- summary_long: aim for 500-540 words.
+Aim for targets that leave headroom against the minimum without
+encouraging over-expansion past what the source supports:
+- summary_short: aim for 50-55 words (upper-middle of band).
+- summary_medium: aim for 200-220 words (upper-middle of band).
+- summary_long: aim for 460-500 words (lower-middle of band).
 
 Before returning, count words in each summary. If any summary is below
-the minimum, expand it with additional source-grounded detail. Do not
+the minimum, expand it only with source-grounded restatement. Do not
 pad with filler.
 
 summary_long expansion strategy — hard requirements:
-- Expand the long summary by explaining the article's reasoning,
-  decision criteria, risks, and operating implications drawn from the
-  source.
-- Do not expand by adding new facts, vendor claims, statistics, named
-  examples, case studies, or any specifics that are not in the source.
-- If more depth is needed to reach the band, restate source-grounded
-  implications at a higher level of abstraction rather than inventing
-  specifics.
+- If the summary needs more depth, first restate the article's core
+  argument at greater length, using the article's own framing and
+  claims.
+- Only add implications when they are explicitly supported by the
+  article body.
+- Do not introduce new decision criteria, operational steps,
+  governance duties, workflow counts, author biography, or strategic
+  implications unless the article itself states them.
+- For thin or short articles, prefer a concise source-grounded long
+  summary near the lower end of the allowed band (430-460 words) over
+  adding unsupported framing.
 
 Source-fidelity rules — hard requirements:
 - Use only claims directly supported by the article body. Do not infer.
@@ -355,9 +358,10 @@ def _build_minimax_user_prompt(article_text):
         "MUST contain all three keys: summary_short, summary_medium, "
         "summary_long. Do not omit any key. No prose outside the JSON; "
         "no markdown fences. Count words before returning; expand any "
-        "below-minimum summary with additional source-grounded detail. "
-        "Aim for the upper-middle of each band (short ~50-55, medium "
-        "~200-220, long ~500-540 words)."
+        "below-minimum summary by restating the article's core argument "
+        "in greater depth. Aim for short ~50-55, medium ~200-220, long "
+        "~460-500 words. For thin sources, prefer a source-grounded long "
+        "summary near the lower end of the 430-570 band."
     )
 
 
@@ -398,7 +402,7 @@ def _build_minimax_corrective_prompt(
         "Regenerate the FULL JSON object with ALL three required keys:\n"
         "  - summary_short (40-60 words; aim 50-55)\n"
         "  - summary_medium (170-230 words; aim 200-220)\n"
-        "  - summary_long (430-570 words; aim 500-540)\n"
+        "  - summary_long (430-570 words; aim 460-500)\n"
         "Each value must be a non-empty string of source-grounded summary "
         "prose. No markdown fences. No prose before or after the JSON. "
         "Do not invent facts, citations, or sections that are not in the "
@@ -428,12 +432,13 @@ def _build_minimax_retry_prompt(previous_summaries, gate_issues, undersize_field
         f"{field_block}\n\n"
         "Regenerate the JSON object with ALL three keys (summary_short, "
         "summary_medium, summary_long). Keep the fields that already cleared "
-        "their minimum unchanged. Expand the listed fields with additional "
-        "source-grounded detail only. Expand by surfacing the article's "
-        "reasoning, decision criteria, risks, and operating implications. "
-        "Do not pad with filler. Do not invent new facts, vendor claims, "
-        "statistics, named examples, or case studies. Do not introduce "
-        "orphan citation IDs.\n\n"
+        "their minimum unchanged. Expand the listed fields by restating the "
+        "article's core argument and source-grounded reasoning at greater "
+        "length. Do not add new strategic criteria, operational implications, "
+        "workflow counts, governance details, author biography, or examples. "
+        "Do not invent new facts, vendor claims, statistics, or case studies. "
+        "Do not introduce orphan citation IDs. Prefer a compliant 430-500 "
+        "word summary_long over over-expansion when the source is thin.\n\n"
         f"Previous response JSON:\n{json.dumps(previous_summaries, indent=2)}\n"
     )
 
@@ -472,20 +477,24 @@ Word-count bands (Python str.split convention) — hard requirements:
 - summary_medium: 170-230 words inclusive.
 - summary_long: 430-570 words inclusive.
 
-Target the upper-middle of each band so the gate has headroom:
-- summary_short: aim for 50-55 words.
-- summary_medium: aim for 200-220 words.
-- summary_long: aim for 500-540 words.
+Aim for targets that leave headroom against the minimum without
+encouraging over-expansion past what the source supports:
+- summary_short: aim for 50-55 words (upper-middle of band).
+- summary_medium: aim for 200-220 words (upper-middle of band).
+- summary_long: aim for 460-500 words (lower-middle of band).
 
 summary_long expansion strategy — hard requirements:
-- Expand the long summary by explaining the article's reasoning,
-  decision criteria, risks, and operating implications drawn from the
-  source.
-- Do not expand by adding new facts, vendor claims, statistics, named
-  examples, case studies, or any specifics that are not in the source.
-- If more depth is needed to reach the band, restate source-grounded
-  implications at a higher level of abstraction rather than inventing
-  specifics.
+- If the summary needs more depth, first restate the article's core
+  argument at greater length, using the article's own framing and
+  claims.
+- Only add implications when they are explicitly supported by the
+  article body.
+- Do not introduce new decision criteria, operational steps,
+  governance duties, workflow counts, author biography, or strategic
+  implications unless the article itself states them.
+- For thin or short articles, prefer a concise source-grounded long
+  summary near the lower end of the allowed band (430-460 words) over
+  adding unsupported framing.
 
 Source-fidelity rules — hard requirements:
 - Use only claims directly supported by the article body. Do not infer.
@@ -551,9 +560,10 @@ def _build_deepseek_fallback_prompt(article_text: str, reason: str = "") -> str:
         "MUST contain all three keys: summary_short, summary_medium, "
         "summary_long. Do not omit any key. No prose outside the JSON; "
         "no markdown fences. Count words before returning; expand any "
-        "below-minimum summary with additional source-grounded detail. "
-        "Aim for the upper-middle of each band (short ~50-55, medium "
-        "~200-220, long ~500-540 words)."
+        "below-minimum summary by restating the article's core argument "
+        "in greater depth. Aim for short ~50-55, medium ~200-220, long "
+        "~460-500 words. For thin sources, prefer a source-grounded long "
+        "summary near the lower end of the 430-570 band."
     )
 
 

@@ -1208,18 +1208,20 @@ class TestMiniMaxJSONValidityHardening:
             or "no preamble" in prompt.lower()
         )
 
-    def test_system_prompt_includes_upper_middle_targets_alongside_hard_bands(self):
+    def test_system_prompt_includes_band_targets_alongside_hard_bands(self):
         mod = self._import_module()
         prompt = mod.MINIMAX_SYSTEM_PROMPT
         # Hard bands still present.
         assert "40-60" in prompt
         assert "170-230" in prompt
         assert "430-570" in prompt
-        # Upper-middle targets present (look for any of the documented numbers).
-        upper_middle_signals = ["50-55", "200-220", "500-540"]
-        present = [s for s in upper_middle_signals if s in prompt]
+        # Short/medium stay upper-middle; long was softened to lower-middle
+        # (PR K) to reduce over-expansion. At least two of the three
+        # targets must be present; the long target now reads 460-500.
+        target_signals = ["50-55", "200-220", "460-500"]
+        present = [s for s in target_signals if s in prompt]
         assert len(present) >= 2, (
-            "expected at least two upper-middle band targets in the prompt; "
+            "expected at least two band targets in the prompt; "
             f"found {present}"
         )
 
@@ -2097,21 +2099,36 @@ class TestSourceFidelityAndDatedClaimsHardening:
         assert "GDPR" in prompt
         assert "DORA" in prompt
 
-    def test_minimax_prompt_has_long_summary_expansion_strategy(self):
+    def test_minimax_prompt_has_softened_long_summary_expansion_strategy(self):
+        """PR K softens the expansion block to restate-core-first and
+        forbid the over-expansion categories that drove the 23% 'other'
+        exception share in Batch 008."""
         mod = self._import_module()
         prompt = mod.MINIMAX_SYSTEM_PROMPT
         normalized = " ".join(prompt.split())
         assert "summary_long expansion strategy" in prompt
-        # Expansion-via-reasoning, not via new facts.
+        # Restate-core-argument-first positive instruction is the primary
+        # expansion lever; expansion-via-reasoning is no longer prescribed.
+        assert "restate the article's core argument" in normalized
+        # Implications are now conditional on explicit source support.
+        assert (
+            "Only add implications when they are explicitly supported"
+            in normalized
+        )
+        # Forbid-list covers the Batch 008 over-expansion categories.
         for needle in [
-            "reasoning",
             "decision criteria",
-            "risks",
-            "operating implications",
+            "operational steps",
+            "governance duties",
+            "workflow counts",
+            "author biography",
+            "strategic implications",
         ]:
-            assert needle in normalized, f"missing long-summary expansion lever {needle!r}"
-        # The "do not expand by adding new facts" directive must be present.
-        assert "Do not expand by adding new facts" in normalized
+            assert needle in normalized, f"missing forbid-list entry {needle!r}"
+        # Thin-source preference for lower-band compliant summaries.
+        assert "lower end of the allowed band" in normalized
+        # The 430-460 lower-band target is named.
+        assert "430-460" in prompt
 
     # ------------------------------------------------------------------
     # DeepSeek fallback system prompt — same grounding applied
@@ -2172,14 +2189,29 @@ class TestSourceFidelityAndDatedClaimsHardening:
         for needle in ['"latest"', '"currently"', '"recently"']:
             assert needle in prompt, f"missing current-news adverb guard for {needle!r}"
 
-    def test_deepseek_prompt_has_long_summary_expansion_strategy(self):
+    def test_deepseek_prompt_has_softened_long_summary_expansion_strategy(self):
+        """PR K mirrors the softer expansion strategy into DeepSeek so
+        the fallback does not become the over-expansion path."""
         mod = self._import_module()
         prompt = mod.DEEPSEEK_SYSTEM_PROMPT
         normalized = " ".join(prompt.split())
         assert "summary_long expansion strategy" in prompt
-        for needle in ["reasoning", "decision criteria", "risks", "operating implications"]:
-            assert needle in normalized, f"missing long-summary lever {needle!r}"
-        assert "Do not expand by adding new facts" in normalized
+        assert "restate the article's core argument" in normalized
+        assert (
+            "Only add implications when they are explicitly supported"
+            in normalized
+        )
+        for needle in [
+            "decision criteria",
+            "operational steps",
+            "governance duties",
+            "workflow counts",
+            "author biography",
+            "strategic implications",
+        ]:
+            assert needle in normalized, f"missing forbid-list entry {needle!r}"
+        assert "lower end of the allowed band" in normalized
+        assert "430-460" in prompt
 
     def test_deepseek_prompt_remains_a_fallback_not_a_primary(self):
         """Fallback-only framing in the DeepSeek system prompt is preserved."""
@@ -2196,7 +2228,9 @@ class TestSourceFidelityAndDatedClaimsHardening:
     # Retry prompt picks up the same expansion-via-reasoning rule
     # ------------------------------------------------------------------
 
-    def test_minimax_retry_prompt_says_expand_via_reasoning_not_new_facts(self):
+    def test_minimax_retry_prompt_says_restate_core_argument_not_add_new_framing(self):
+        """PR K: the retry prompt restates the article's core argument
+        and refuses the over-expansion categories."""
         mod = self._import_module()
         prompt = mod._build_minimax_retry_prompt(
             previous_summaries={"short": "ok", "medium": "ok", "long": "short"},
@@ -2206,9 +2240,20 @@ class TestSourceFidelityAndDatedClaimsHardening:
         normalized = " ".join(prompt.split())
         # Existing "do not invent facts / no orphan IDs" guards stay.
         assert "orphan citation IDs" in normalized
-        # New expansion-strategy guidance is present.
-        for needle in ["reasoning", "decision criteria", "risks", "operating implications"]:
-            assert needle in normalized, f"missing retry expansion lever {needle!r}"
+        # New softened expansion guidance: restate the core argument first.
+        assert "restat" in normalized  # matches both "restate" and "restating"
+        assert "article's core argument" in normalized
+        # Forbid-list mirrors the system prompt over-expansion categories.
+        for needle in [
+            "strategic criteria",
+            "operational implications",
+            "workflow counts",
+            "governance details",
+            "author biography",
+        ]:
+            assert needle in normalized, f"missing retry forbid-list entry {needle!r}"
+        # Prefers lower-band compliant long summaries for thin sources.
+        assert "430-500" in normalized
         # Existing word-band reference for the listed field is preserved.
         assert "summary_long" in prompt
 
@@ -2238,9 +2283,10 @@ class TestSourceFidelityAndDatedClaimsHardening:
         assert "40-60" in prompt
         assert "170-230" in prompt
         assert "430-570" in prompt
-        # Upper-middle targets.
-        for needle in ["50-55", "200-220", "500-540"]:
-            assert needle in prompt, f"missing upper-middle target {needle!r}"
+        # Short/medium stay upper-middle; long target softened to 460-500
+        # (PR K).
+        for needle in ["50-55", "200-220", "460-500"]:
+            assert needle in prompt, f"missing band target {needle!r}"
 
     def test_deepseek_prompt_word_bands_preserved(self):
         mod = self._import_module()
@@ -2248,8 +2294,8 @@ class TestSourceFidelityAndDatedClaimsHardening:
         assert "40-60" in prompt
         assert "170-230" in prompt
         assert "430-570" in prompt
-        for needle in ["50-55", "200-220", "500-540"]:
-            assert needle in prompt, f"missing upper-middle target {needle!r}"
+        for needle in ["50-55", "200-220", "460-500"]:
+            assert needle in prompt, f"missing band target {needle!r}"
 
     def test_word_targets_constant_unchanged(self):
         """WORD_TARGETS drives the deterministic gate; it must not move."""
@@ -2326,3 +2372,281 @@ class TestSourceFidelityAndDatedClaimsHardening:
             gate_issues=["summary_long undersize"],
             undersize_fields=["summary_long"],
         )
+
+
+class TestLongSummaryExpansionSoftening:
+    """PR K — soften the summary_long expansion strategy.
+
+    Batch 008 saw apply rate fall to 17.7%, with the 'other' exception
+    bucket doubling because the long-summary expansion-via-reasoning
+    instruction was producing strategic criteria, operational
+    implications, workflow counts, governance details, and author bio
+    additions beyond the source. PR K replaces the positive expansion
+    instruction with restate-core-argument-first + an explicit forbid
+    list, and lowers the long target band from 500-540 to 460-500.
+    These tests pin the new behavior into both system prompts, the
+    user prompt, the corrective prompt, and the undersize retry prompt.
+    """
+
+    def _import_module(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_summaries", BUILD_SUMMARIES)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules["build_summaries"] = mod
+        spec.loader.exec_module(mod)
+        return mod
+
+    # ------------------------------------------------------------------
+    # Long target moved from 500-540 (upper-middle) to 460-500 (lower-middle)
+    # ------------------------------------------------------------------
+
+    def test_minimax_long_target_softened_to_460_500(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        assert "460-500" in prompt
+        assert "500-540" not in prompt
+
+    def test_deepseek_long_target_softened_to_460_500(self):
+        mod = self._import_module()
+        prompt = mod.DEEPSEEK_SYSTEM_PROMPT
+        assert "460-500" in prompt
+        assert "500-540" not in prompt
+
+    def test_user_prompt_long_target_softened(self):
+        mod = self._import_module()
+        user = mod._build_minimax_user_prompt("body")
+        assert "460-500" in user
+        assert "500-540" not in user
+        # Short and medium upper-middle targets remain.
+        assert "50-55" in user
+        assert "200-220" in user
+
+    def test_deepseek_user_prompt_long_target_softened(self):
+        mod = self._import_module()
+        user = mod._build_deepseek_fallback_prompt("body", reason="x")
+        assert "460-500" in user
+        assert "500-540" not in user
+
+    def test_corrective_prompt_long_target_softened(self):
+        mod = self._import_module()
+        prompt = mod._build_minimax_corrective_prompt(
+            error_kind="missing_fields",
+            missing_fields=["summary_long"],
+            raw_excerpt="",
+        )
+        assert "460-500" in prompt
+        assert "500-540" not in prompt
+        # Hard band is still named.
+        assert "430-570" in prompt
+
+    # ------------------------------------------------------------------
+    # Hard word bands remain unchanged across all prompts
+    # ------------------------------------------------------------------
+
+    def test_word_targets_constant_unchanged_after_softening(self):
+        """The deterministic gate must not move when PR K softens
+        the prompt-side targets."""
+        mod = self._import_module()
+        assert mod.WORD_TARGETS["short"] == (40, 60)
+        assert mod.WORD_TARGETS["medium"] == (170, 230)
+        assert mod.WORD_TARGETS["long"] == (430, 570)
+
+    # ------------------------------------------------------------------
+    # Restate-core-argument-first replaces expansion-via-reasoning
+    # ------------------------------------------------------------------
+
+    def test_minimax_prompt_says_restate_core_argument_first(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.MINIMAX_SYSTEM_PROMPT.split())
+        # Positive instruction: restate first, expand later.
+        assert "restate the article's core argument" in normalized
+        # Negative wording removed: no more "explain reasoning, decision
+        # criteria, risks, operating implications" as a positive prompt.
+        assert "explaining the article's reasoning" not in normalized
+
+    def test_deepseek_prompt_says_restate_core_argument_first(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.DEEPSEEK_SYSTEM_PROMPT.split())
+        assert "restate the article's core argument" in normalized
+        assert "explaining the article's reasoning" not in normalized
+
+    # ------------------------------------------------------------------
+    # Implications now gated on explicit source support
+    # ------------------------------------------------------------------
+
+    def test_minimax_prompt_gates_implications_on_explicit_source(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.MINIMAX_SYSTEM_PROMPT.split())
+        assert (
+            "Only add implications when they are explicitly supported by the article body"
+            in normalized
+        )
+
+    def test_deepseek_prompt_gates_implications_on_explicit_source(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.DEEPSEEK_SYSTEM_PROMPT.split())
+        assert (
+            "Only add implications when they are explicitly supported by the article body"
+            in normalized
+        )
+
+    # ------------------------------------------------------------------
+    # Over-expansion forbid-list covers Batch 008 failure modes
+    # ------------------------------------------------------------------
+
+    def test_minimax_prompt_forbids_over_expansion_categories(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.MINIMAX_SYSTEM_PROMPT.split())
+        # Batch 008 over-expansion categories must all be in the forbid list.
+        for needle in [
+            "decision criteria",
+            "operational steps",
+            "governance duties",
+            "workflow counts",
+            "author biography",
+            "strategic implications",
+        ]:
+            assert needle in normalized, (
+                f"missing over-expansion forbid for {needle!r}"
+            )
+
+    def test_deepseek_prompt_forbids_over_expansion_categories(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.DEEPSEEK_SYSTEM_PROMPT.split())
+        for needle in [
+            "decision criteria",
+            "operational steps",
+            "governance duties",
+            "workflow counts",
+            "author biography",
+            "strategic implications",
+        ]:
+            assert needle in normalized, (
+                f"missing over-expansion forbid for {needle!r}"
+            )
+
+    # ------------------------------------------------------------------
+    # Thin-source preference: prefer lower-band over expansion
+    # ------------------------------------------------------------------
+
+    def test_minimax_prompt_prefers_lower_band_for_thin_sources(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.MINIMAX_SYSTEM_PROMPT.split())
+        # The model should know thin sources may legitimately land near 430.
+        assert "lower end of the allowed band" in normalized
+        assert "430-460" in mod.MINIMAX_SYSTEM_PROMPT
+        # And the framing positions this as preferable to unsupported framing.
+        assert "unsupported framing" in normalized
+
+    def test_deepseek_prompt_prefers_lower_band_for_thin_sources(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.DEEPSEEK_SYSTEM_PROMPT.split())
+        assert "lower end of the allowed band" in normalized
+        assert "430-460" in mod.DEEPSEEK_SYSTEM_PROMPT
+        assert "unsupported framing" in normalized
+
+    def test_user_prompt_says_prefer_lower_end_for_thin_sources(self):
+        mod = self._import_module()
+        user = mod._build_minimax_user_prompt("body")
+        assert "thin sources" in user
+        assert "lower end" in user
+
+    # ------------------------------------------------------------------
+    # Retry prompt softening
+    # ------------------------------------------------------------------
+
+    def test_retry_prompt_forbids_over_expansion_categories(self):
+        mod = self._import_module()
+        prompt = mod._build_minimax_retry_prompt(
+            previous_summaries={"short": "a", "medium": "b", "long": "c"},
+            gate_issues=["summary_long undersize"],
+            undersize_fields=["summary_long"],
+        )
+        normalized = " ".join(prompt.split())
+        for needle in [
+            "strategic criteria",
+            "operational implications",
+            "workflow counts",
+            "governance details",
+            "author biography",
+        ]:
+            assert needle in normalized, (
+                f"retry prompt missing over-expansion forbid for {needle!r}"
+            )
+
+    def test_retry_prompt_prefers_compliant_lower_band(self):
+        mod = self._import_module()
+        prompt = mod._build_minimax_retry_prompt(
+            previous_summaries={"short": "a", "medium": "b", "long": "c"},
+            gate_issues=["summary_long undersize"],
+            undersize_fields=["summary_long"],
+        )
+        normalized = " ".join(prompt.split())
+        assert "430-500" in normalized
+        assert "over-expansion" in normalized
+
+    # ------------------------------------------------------------------
+    # PR J grounding rules preserved unchanged
+    # ------------------------------------------------------------------
+
+    def test_pr_j_source_fidelity_rules_still_present_after_pr_k(self):
+        mod = self._import_module()
+        normalized = " ".join(mod.MINIMAX_SYSTEM_PROMPT.split())
+        # PR J's source-fidelity block must remain intact.
+        assert "Source-fidelity rules" in mod.MINIMAX_SYSTEM_PROMPT
+        for needle in [
+            "company size",
+            "product capability",
+            "vendor roadmap",
+            "directly supported by the article body",
+        ]:
+            assert needle in normalized, (
+                f"PR J rule {needle!r} disappeared after PR K"
+            )
+
+    def test_pr_j_dated_material_rules_still_present_after_pr_k(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        assert "Dated and time-sensitive material" in prompt
+        for needle in ['"latest"', '"currently"', '"recently"']:
+            assert needle in prompt, (
+                f"PR J adverb-guard {needle!r} disappeared after PR K"
+            )
+        assert "leaders should evaluate" in normalized
+
+    # ------------------------------------------------------------------
+    # Safety boundaries: fallback activation and JSON envelope unchanged
+    # ------------------------------------------------------------------
+
+    def test_fallback_activation_predicate_unchanged_by_pr_k(self):
+        mod = self._import_module()
+        assert mod._is_long_undersize_only(
+            gate_issues=["summary_long word_count=380 BELOW minimum 430"],
+            undersize_fields=["summary_long"],
+        ) is True
+        assert mod._is_long_undersize_only(
+            gate_issues=[
+                "summary_long word_count=380 BELOW minimum 430",
+                "summary_medium word_count=150 BELOW minimum 170",
+            ],
+            undersize_fields=["summary_long", "summary_medium"],
+        ) is False
+
+    def test_json_envelope_rules_unchanged_by_pr_k(self):
+        mod = self._import_module()
+        prompt = mod.MINIMAX_SYSTEM_PROMPT
+        low = prompt.lower()
+        assert "OUTPUT ENVELOPE" in prompt
+        assert "Return ONE JSON object" in prompt
+        assert "No key may be omitted" in prompt
+        assert "markdown fences" in low or "no ```" in low
+        assert "no prose" in low or "no commentary" in low or "no preamble" in low
+
+    def test_deepseek_remains_a_fallback_not_a_primary_after_pr_k(self):
+        mod = self._import_module()
+        prompt = mod.DEEPSEEK_SYSTEM_PROMPT
+        normalized = " ".join(prompt.split())
+        assert "FALLBACK" in prompt
+        assert "MiniMax-M2" in prompt
+        assert "below its 430-word minimum" in normalized
