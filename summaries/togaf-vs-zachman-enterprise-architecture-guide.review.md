@@ -1,0 +1,56 @@
+# Summary Review — TOGAF vs. Zachman for Beginners: Same Goal, Different Jobs
+
+Article folder: 2026-02-26-togaf-vs-zachman-enterprise-architecture-guide
+Canonical URL: https://radar.firstaimovers.com/togaf-vs-zachman-enterprise-architecture-guide
+Generated at: 2026-06-03
+Model: minimax (MiniMax-M2)
+
+## 50-word summary
+
+TOGAF and Zachman are often confused as competing frameworks, but they solve different problems. TOGAF is a method that guides how you design, deliver, and govern enterprise architecture through its iterative ADM process. Zachman is a classification schema—a 6×6 matrix that helps organize and ensure completeness of architecture artifacts. They work better together than apart.
+
+## 200-word summary
+
+TOGAF and Zachman are frequently misunderstood as rival enterprise architecture frameworks, yet they address fundamentally distinct needs. TOGAF functions as a methodology—it provides a repeatable process for conducting enterprise architecture work, including governance structures, decision-making frameworks, and deliverable templates. At its core lies the Architecture Development Method (ADM), an iterative cycle guiding practitioners from establishing business context through implementation and change management. The framework answers how organizations design, deliver, and govern architecture across business, data, applications, and technology domains without duplicating effort. Zachman, conversely, operates as a taxonomy or classification system. It offers a 6×6 matrix framework organizing architecture artifacts by asking six fundamental questions—What, How, Where, Who, When, Why—across six stakeholder perspectives from executive planning to implementation detail. Rather than prescribing how to execute architecture work, Zachman ensures comprehensive coverage of all necessary artifacts and perspectives. It answers whether organizations possess the right architectural descriptions at appropriate detail levels for each stakeholder. The most effective approach combines both: TOGAF drives the architecture program through its phases and governance mechanisms while Zachman validates artifact completeness and identifies gaps. This pairing prevents the common failure modes of either method without structure (producing chaotic deliverables) or structure without method (creating unused taxonomies). The article provides a concrete example of a GenAI customer support platform to illustrate how each framework would approach the same initiative differently.
+
+## 500-word summary
+
+Enterprise architecture frameworks TOGAF and Zachman are frequently perceived as competing options, but they actually address fundamentally different aspects of architecture practice. Understanding this distinction is essential for practitioners and organizations seeking to implement effective EA capabilities. TOGAF, developed by The Open Group, functions as a comprehensive methodology for conducting enterprise architecture work. Its primary contribution is the Architecture Development Method (ADM), an iterative cycle that guides organizations through the complete architecture lifecycle—from establishing preliminary context and defining an architecture vision, through detailed domain-specific architecture design (business, data, application, and technology), into migration planning and implementation governance, and finally into ongoing architecture change management. TOGAF provides organizations with repeatable processes, governance structures, decision-making frameworks, and standardized deliverables. It answers the practical question of how to design, deliver, and govern architecture across business, data, application, and technology domains without repeatedly inventing new approaches. The Zachman Framework takes a different approach entirely. Rather than prescribing a methodology or process, Zachman offers a classification schema or ontology for organizing architecture artifacts. The framework uses a 6×6 matrix structure where columns represent fundamental questions (What, How, Where, Who, When, Why) and rows represent stakeholder perspectives ranging from high-level planning to detailed implementation. This structure serves as a completeness checklist, helping organizations ensure they have appropriate architectural descriptions at the right level of detail for each stakeholder group. Zachman answers whether an organization has the right artifacts covering the right perspectives, making gaps visible and ensuring comprehensive documentation. The practical relationship between these frameworks is complementary rather than competitive. Organizations benefit from using TOGAF to drive their architecture programs—leveraging its phases, decision points, governance mechanisms, and roadmaps—while simultaneously using Zachman to classify artifacts and check for completeness. This combination addresses two common failure modes: method without structure results in chaotic, untrustworthy documentation, while structure without method produces elegant taxonomies that never lead to actual delivery. The article illustrates this distinction through a concrete example of building an enterprise GenAI customer support assistant. Through the TOGAF lens, the work progresses through ADM phases: defining architecture vision with outcomes like reduced handle time and compliance; designing business architecture for support journeys and escalation paths; creating data architecture for knowledge sources and PII handling; designing application architecture for LLM gateways and RAG services; planning technology architecture for cloud and vector databases; developing migration plans from pilot to full rollout; and establishing implementation governance with reviews and release gates. Through the Zachman lens, the same project would be analyzed by column (such as examining What from the owner view—key business objects like customer and ticket—through designer view—logical data models—and builder view—physical schema) or by row (examining the owner perspective across all six fundamental questions to map business objects, processes, channels, roles, SLAs, and goals). For beginners targeting enterprise architecture roles, the recommended learning path begins with understanding TOGAF's ADM story and governance integration, followed by grasping Zachman's fundamental nature as a schema rather than methodology, then practicing explanation of how the two frameworks complement each other in practice.
+
+## Review status
+
+Status: approved
+Reviewer:
+Reviewed at:
+
+## Notes
+
+- Gate status: PASS
+- Retries used: 0
+- Corrective JSON retries used: 0
+- Fallback attempts used: 0
+- Fallback: not invoked
+- Termination: PASS
+- Estimated cost (USD): 0.005062
+- Word counts: short=55, medium=223, long=499
+
+## Verification
+
+Verification status: AUTO_APPROVE
+Deterministic gate: PASS
+Primary verifier: openai/gpt-5.4-mini — AUTO_APPROVE
+Secondary verifier: anthropic/claude-haiku-4-5-20251001 — AUTO_APPROVE
+Fallback verifier: not-used
+Single verifier: false
+Estimated verifier cost (USD): 0.005647
+Verified at: 2026-06-03
+
+### Verification notes
+
+- Merge rationale: both verifiers AUTO_APPROVE
+- openai/gpt-5.4-mini: Accurately distinguishes TOGAF as method and Zachman as taxonomy.
+- openai/gpt-5.4-mini: No unsupported sections, vendor claims, or invented details.
+- openai/gpt-5.4-mini: Keeps the practical comparison and beginner guidance aligned with source.
+- anthropic/claude-haiku-4-5-20251001: All three summaries accurately represent source content without invention or omission
+- anthropic/claude-haiku-4-5-20251001: No volatile facts (prices, rankings, versions) embedded; regulatory/framework names preserved exactly
+- anthropic/claude-haiku-4-5-20251001: Summaries maintain source's practical, direct, leadership-oriented voice throughout

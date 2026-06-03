@@ -594,7 +594,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-pmo-playbook-for-smes
 - Archive: https://articles.firstaimovers.com/articles/2026-04-20-ai-pmo-playbook-for-smes/article.md
 - Topics: AI Governance, European SME AI, AI Vendor Evaluation
-- Summary: How growing companies build a lightweight AI programme function: pilot visibility, clear ownership, and measurable business results.
+- Summary: Growing companies need a lightweight AI programme management function once they have multiple pilots across departments. Without coordination, ownership drifts and decisions stall. A simple operating structure creates visibility and ownership through a pilot…
 
 ## Claude Code Enterprise Rollout: A Playbook for Dutch and DACH Engineering Teams
 - Date: 2026-04-19
@@ -958,7 +958,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/claude-ai-vs-claude-code-api-anthropic-products-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-16-claude-ai-vs-claude-code-api-anthropic-products-2026/article.md
 - Topics: European SME AI, Claude Code, AI Governance, Claude Models, France and Benelux AI
-- Summary: Claude.ai, Claude Code, and Claude API compared for European SMEs. Decision guide for teams choosing the right Anthropic product.
+- Summary: Anthropic provides three separate Claude products: Claude.ai as a chat interface for knowledge workers, Claude Code as a CLI coding assistant for developers, and Claude API for programmatic application building. The selection hinges on whether team members…
 
 ## Claude Managed Agents for Business Automation: What European Teams Need to Know
 - Date: 2026-04-16
@@ -1105,14 +1105,14 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/claude-code-one-person-dev-shop-guide-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-one-person-dev-shop-guide-2026/article.md
 - Topics: Claude Code, AI Productivity Tools
-- Summary: How solo developers use Claude Code as a force multiplier. Productivity patterns, billing, and practical setup for independent developers.
+- Summary: This guide explains how solo developers can use Claude Code as a force multiplier. It covers effective session patterns like specification-first development and test generation, billing options from $20 to $200/month, and the critical oversight gap when…
 
 ## Claude Routines Explained: What SME Operators and Technical Teams Need to Know
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/claude-routines-sme-guide-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-routines-sme-guide-2026/article.md
 - Topics: Claude Models, AI Workflow Automation, European SME AI, EU AI Act, AI Governance
-- Summary: What Claude Routines are, how they work, and what SME operators and technical teams should know before building workflows around them.
+- Summary: Claude Routines are reusable instruction sets that automate context-setting in Claude sessions. Released in April 2026 by Anthropic, they help small and mid-sized teams achieve consistent AI outputs without re-explaining context each time. Routines address…
 
 ## Copilot Studio Agents Take Actions: Here Is the Governance Layer You Need Before They Do
 - Date: 2026-04-15
@@ -1567,7 +1567,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/what-ctos-should-standardize-first-in-ai-dev-stack
 - Archive: https://articles.firstaimovers.com/articles/2026-04-04-what-ctos-should-standardize-first-in-ai-dev-stack/article.md
 - Topics: Context Engineering
-- Summary: Most CTOs try to standardize the wrong thing first. They start with the vendor. Should we standardize on Copilot? Claude Code? Codex? Cursor?
+- Summary: CTOs should standardize the operating model before choosing AI coding tools. This means defining workflow classes, review and approval processes, shared instructions, permission boundaries, and context scopes first. Standardizing tools too early scales…
 
 ## Where AI Dev Tool Spend Actually Leaks in 2026
 - Date: 2026-04-04
@@ -1581,7 +1581,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/why-ai-coding-rollouts-fail-1
 - Archive: https://articles.firstaimovers.com/articles/2026-04-04-why-ai-coding-rollouts-fail-1/article.md
 - Topics: AI Governance, European SME AI, AI Strategy, AI Coding Tools
-- Summary: The biggest risk in 2026 is not weak AI coding models. It is weak rollout design, unclear review logic, unmanaged context access, and teams scaling autonomy before they can govern it.
+- Summary: Most AI coding rollouts fail not because models are weak, but because teams scale capability faster than control design. Common failures include unclear boundaries between advisory and executable work, uncontrolled context access, informal review processes…
 
 ## What an AI Architecture Review Should Cover Before You Scale
 - Date: 2026-04-03
@@ -1672,7 +1672,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/real-rag-architecture-decisions-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-03-real-rag-architecture-decisions-2026/article.md
 - Topics: RAG Architecture, Vector Databases, AI Governance, AI Strategy
-- Summary: By 2026, retrieval quality depends less on brand choice and more on chunking, metadata, hybrid search, reranking, freshness, and governance.
+- Summary: By 2026, retrieval quality in RAG systems depends less on vector database choice and more on upstream architecture decisions: chunking strategy, metadata design, hybrid retrieval, reranking, freshness requirements, and deployment governance. Technical leaders…
 
 ## OpenAI Just Made Coding Agents More Practical. Most Companies Still Need Help Turning That Into Results
 - Date: 2026-04-01
@@ -1728,7 +1728,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-agents-for-business-workflow-redesign
 - Archive: https://articles.firstaimovers.com/articles/2026-03-26-ai-agents-for-business-workflow-redesign/article.md
 - Topics: AI Agents, AI Governance, European SME AI, AI Consulting, AI Strategy
-- Summary: Interest in **AI agents for business** is high, but enterprise maturity is low. McKinsey’s 2025 global survey found that **62% of organizations are at least experimenting with AI agents**, yet only **23%** say they are scaling an agentic AI system somewhere…
+- Summary: Most companies are experimenting with AI agents (62%) but few are scaling them (23%). The real problem is "task-level automation theater" - automating isolated tasks without redesigning workflows. The solution: identify painful workflows, redesign them…
 
 ## AI Consulting in Amsterdam for European SMEs
 - Date: 2026-03-26
@@ -1777,7 +1777,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/claude-code-teams-ai-delivery-system
 - Archive: https://articles.firstaimovers.com/articles/2026-03-26-claude-code-teams-ai-delivery-system/article.md
 - Topics: Claude Code, AI Workflow Automation, Model Context Protocol, European SME AI, AI Governance, Agentic Workflows
-- Summary: **Claude Code for teams** creates real value only when it sits inside an **AI delivery system**. You can feel the market pulling people toward the wrong conclusion. A team tries Claude Code, gets one impressive result, and assumes the tool itself is the…
+- Summary: Claude Code creates real value only when integrated into an AI delivery system, not as a standalone tool. Leaders should focus on persistent memory through CLAUDE.md, a repeatable workflow loop, thoughtful model routing, and structured tool access through MCP…
 
 ## Claude Desktop vs CLI vs OpenRouter: The Decision Framework Teams Need
 - Date: 2026-03-26
@@ -1819,7 +1819,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/europes-ai-operating-shift-executive-guide
 - Archive: https://articles.firstaimovers.com/articles/2026-03-26-europes-ai-operating-shift-executive-guide/article.md
 - Topics: Sovereign AI Infrastructure, AI Governance, European SME AI, AI Strategy
-- Summary: The real story of **Europe's AI operating shift** is happening underneath the tools. Europe is moving on infrastructure, regulation, data access, skills, and adoption at the same time. The European Commission’s AI Continent Action Plan is built around…
+- Summary: Europe's AI shift is moving beyond product launches to infrastructure, regulation, data access, and organizational redesign. The European Commission’s AI Continent Action Plan targets computing infrastructure, data, skills, and sector adoption, while the AI…
 
 ## From Figma to Production: How AI-Native Teams Compress the Frontend Cycle
 - Date: 2026-03-26
@@ -2085,14 +2085,14 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-copilots-playbook-fractional-cto-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-03-08-ai-copilots-playbook-fractional-cto-2026/article.md
 - Topics: GitHub Copilot, B2B SaaS Growth, AI Strategy, European SME AI, AI Readiness, AI Governance
-- Summary: Here’s the 12‑month plan I’d use as fractional CTO in a real mid‑size B2B SaaS, with constraints, phases, architecture, governance, and trade‑offs spelled out so your team can actually ship. Let me give you the context first, because the constraints are the…
+- Summary: A pragmatic 12-month playbook for fractional CTOs implementing AI copilots in mid-size B2B SaaS companies. The roadmap progresses through three phases: foundations and prototyping (months 0-3), shipping the first copilot and hardening data pipelines (months…
 
 ## The 90-Day AI Platform Transformation Framework for Technical Leaders
 - Date: 2026-02-27
 - Canonical: https://radar.firstaimovers.com/90-day-ai-platform-transformation-framework-fractional-cto
 - Archive: https://articles.firstaimovers.com/articles/2026-02-27-90-day-ai-platform-transformation-framework-fractional-/article.md
 - Topics: AI Strategy, AI Governance, European SME AI, Fractional CTO
-- Summary: The market is repricing technical capability faster than traditional roadmaps allow. When a business decides its SaaS platform needs to go from "AI-augmented" to "AI-native," the executive expectation is now measured in quarters, not years.
+- Summary: The article presents a 90-day framework for AI platform transformation on microservices SaaS platforms. Days 1-30 audit architecture, APIs, data flows, DevOps, and test coverage. Days 31-60 refactor services for AI compatibility with guardrails. Days 61-90…
 
 ## Pinecone vs Weaviate: A 2026 Vector Database Comparison
 - Date: 2026-02-26
@@ -2106,7 +2106,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/togaf-vs-zachman-enterprise-architecture-guide
 - Archive: https://articles.firstaimovers.com/articles/2026-02-26-togaf-vs-zachman-enterprise-architecture-guide/article.md
 - Topics: France and Benelux AI, European SME AI, AI Governance
-- Summary: If you’re new to enterprise architecture (EA), the TOGAF vs. Zachman debate can be confusing. While they look like competing “big frameworks,” in practice, they solve different problems.
+- Summary: TOGAF and Zachman are often confused as competing frameworks, but they solve different problems. TOGAF is a method that guides how you design, deliver, and govern enterprise architecture through its iterative ADM process. Zachman is a classification schema—a…
 
 ## 10 MCP Servers to 10x Your Claude Desktop Workflow
 - Date: 2026-02-22
@@ -2155,7 +2155,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/fine-tuning-llms-vs-rag-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-02-14-fine-tuning-llms-vs-rag-2026/article.md
 - Topics: Fine-Tuning, RAG Architecture, AI Cost Optimization, European SME AI, Small Language Models, AI Strategy
-- Summary: The big shift in AI for 2026 isn't just about bigger models; it's about the strategic advantage of **fine-tuning large language models** to create smaller, specialized ones. Open-weight models like Llama 3.2/4 and Mistral get you close to frontier…
+- Summary: Fine-tuning small open-weight models is a strategic advantage for specialized tasks. RAG is best for changing knowledge; fine-tuning wins for consistent behavior, latency, and cost. Parameter-efficient methods like LoRA/QLoRA and tools like Unsloth enable…
 
 ## Building a Health Wearable LLM: When Fine‑Tuning Beats RAG
 - Date: 2026-02-14
@@ -2281,7 +2281,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/hire-ai-architect-vetting-framework-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-02-11-hire-ai-architect-vetting-framework-2026/article.md
 - Topics: AI PMO, EU AI Act, AI Governance, European SME AI, AI Strategy
-- Summary: Here is a number that should make you pause before posting that AI architect job listing: 42% of companies abandoned most of their AI initiatives in 2025, up from just 17% in 2024, according to S&P Global Market Intelligence's survey of over 1,000 enterprises…
+- Summary: Companies hiring AI architects often confuse the role with machine learning engineering, leading to failed projects. The distinction matters: architects design ecosystems for business value while engineers build models. Five key skills—strategic…
 
 ## First AI Movers: Tjerrie Smit, Chief Analytics Officer at NN Group
 - Date: 2026-02-11
@@ -2561,7 +2561,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://www.linkedin.com/pulse/ai-revolution-its-toolsits-people-dr-hernani-costa-rijze
 - Archive: https://articles.firstaimovers.com/articles/2026-01-21-ai-revolution-its-toolsits-people-dr-hernani-costa-rijz/article.md
 - Topics: European SME AI, AI Strategy, AI Readiness, AI Training
-- Summary: In today's fast-changing world, many people see AI as the ultimate way to boost productivity. However, the real opportunity isn't just about the technology; it's about how we support and empower the people who use it.
+- Summary: The article argues that AI adoption success depends less on acquiring the latest tools and more on empowering the people who use them. Organizations must focus on upskilling employees, encouraging experimentation, and fostering curiosity. The author warns…
 
 ## The AI Revolution: Jobs, Voices, and New Possibilities
 - Date: 2026-01-21
@@ -2645,14 +2645,14 @@ short summary. Articles are listed newest-first.
 - Canonical: https://www.linkedin.com/pulse/build-vs-buy-ai-models-30b-parameter-decision-2026-dr-hernani-costa-dzvte
 - Archive: https://articles.firstaimovers.com/articles/2026-01-21-build-vs-buy-ai-models-30b-parameter-decision-2026-dr-h/article.md
 - Topics: Sovereign AI Infrastructure, Fintech AI, AI Workflow Automation
-- Summary: Dr. Hernani Costa's LinkedIn article examines the economic shift in AI infrastructure decisions, arguing that product teams should evaluate building custom model infrastructure versus renting API capacity based on specific business metrics.
+- Summary: Dr. Hernani Costa's article argues that product teams should consider building custom 30B parameter models instead of relying on APIs, citing evidence that 73% overspend on API costs. It provides a diagnostic framework with five decision signals—token volume…
 
 ## Build vs Buy AI Systems: The €120K Decision Framework 2026
 - Date: 2026-01-21
 - Canonical: https://www.linkedin.com/pulse/build-vs-buy-ai-systems-120k-decision-framework-2026-dr-hernani-costa-kbr3e
 - Archive: https://articles.firstaimovers.com/articles/2026-01-21-build-vs-buy-ai-systems-120k-decision-framework-2026-dr/article.md
 - Topics: AI Build vs Buy, European SME AI, AI Strategy, AI Cost Optimization
-- Summary: More than half of custom AI systems fail within 18 months because teams prioritize capability over data architecture. Product teams waste €120K+ making incorrect build/buy decisions, then encounter vendor lock-in or maintenance challenges.
+- Summary: The article presents a 2026 decision framework for AI systems, arguing that teams must assess whether building creates competitive advantage. It introduces five signals—data residency, workflow complexity, differentiation layer, scaling economics, and vendor…
 
 ## Building Apps at Lightning Speed: How Lovable.dev Empowers Developers
 - Date: 2026-01-21
