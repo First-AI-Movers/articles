@@ -636,7 +636,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/how-to-choose-ai-consultant-netherlands
 - Archive: https://articles.firstaimovers.com/articles/2026-04-19-how-to-choose-ai-consultant-netherlands/article.md
 - Topics: AI Readiness, European SME AI, Netherlands AI, AI Strategy, AI Governance
-- Summary: Choosing an AI consultant in the Netherlands is about whether the engagement improves your decisions, not credentials. Evaluate on decision quality and scope discipline, not AI claims.
+- Summary: This guide provides Dutch SME leaders with a practical framework for evaluating AI consultants. It emphasizes defining the internal decision your business needs to make before engaging any provider, comparing consultants on decision quality rather than AI…
 
 ## AI Agents vs Workflow Automation: What European SME Operators Need to Know in 2026
 - Date: 2026-04-18
@@ -1042,7 +1042,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-consulting-braga-manufacturing-smes-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-consulting-braga-manufacturing-smes-2026/article.md
 - Topics: Manufacturing AI, AI Strategy, European SME AI, Iberia AI, Fractional CTO, EU AI Act
-- Summary: AI consulting for Braga manufacturing SMEs in Portugal. Practical AI for industrial operations, quality control, and supply chain management.
+- Summary: This article examines AI adoption for manufacturing SMEs in Braga, Portugal, focusing on practical applications for quality control documentation, multilingual supplier communication, and production scheduling analysis. It recommends a fractional CTO model…
 
 ## AI Consulting for Cascais Tech Startups and Scale-Ups in 2026
 - Date: 2026-04-15
@@ -1266,7 +1266,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/fractional-cto-claude-code-advisory-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-14-fractional-cto-claude-code-advisory-2026/article.md
 - Topics: Claude Code, AI Coding Tools, European SME AI, AI Strategy, Fractional CTO, AI Productivity Tools
-- Summary: When a fractional CTO is brought in to advise on Claude Code adoption, the same questions come up in every engagement. Here is what they are and how exper…
+- Summary: When a fractional CTO advises on Claude Code adoption, recurrent questions emerge: assessing readiness via review culture, governance ownership, and budget visibility; choosing between Claude Code (agent) and GitHub Copilot (completion); setting up CLAUDE.md…
 
 ## MCP Server Selection Framework for European SME CTOs: Cut Through the Noise in 2026
 - Date: 2026-04-14
@@ -1448,7 +1448,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/a2a-2026-what-technical-leaders-should-watch
 - Archive: https://articles.firstaimovers.com/articles/2026-04-06-a2a-2026-what-technical-leaders-should-watch/article.md
 - Topics: AI Governance, AI Strategy
-- Summary: A practical guide for CTOs on what to monitor before standardizing A2A in 2026, from preview risk and governance to enterprise readiness.
+- Summary: A2A protocol is maturing with Google Cloud support and version 0.3, but technical leaders should not standardize yet. The article advises watching for a real interoperability problem, protocol stability, enterprise hardening, governance readiness, and…
 
 ## Claude Skills Are More Than a Feature: They Are a New Workflow Layer
 - Date: 2026-04-06
@@ -1588,7 +1588,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-architecture-review-before-you-scale
 - Archive: https://articles.firstaimovers.com/articles/2026-04-03-ai-architecture-review-before-you-scale/article.md
 - Topics: European SME AI, AI Governance, AI Agents, AI Strategy
-- Summary: By April 2026, the category has moved well beyond lightweight assistant usage. OpenAI’s Codex app is built around supervising multiple agents, parallel work, and isolated worktrees. GitHub Copilot coding agent can work independently in the background and then…
+- Summary: An AI architecture review asks whether a team can scale AI-enabled delivery without losing control of quality, security, cost, and workflow coherence. It should cover use-case boundaries, control plane location, context and tool access, execution isolation…
 
 ## AI Consulting in Amsterdam for European SMEs (April 2026)
 - Date: 2026-04-03
@@ -2029,7 +2029,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://radar.firstaimovers.com/ai-transformation-roadmap-mid-market-teams-90-days
 - Archive: https://articles.firstaimovers.com/articles/2026-03-17-ai-transformation-roadmap-mid-market-teams-90-days/article.md
 - Topics: AI Roadmap, AI Change Management, AI Strategy, AI Governance, European SME AI, AI Training
-- Summary: For example, in the Netherlands, AI adoption is no longer just an enterprise story. CBS reported that the biggest jump in adoption has come from companies with **50 to 250 employees**, rising from **20% in 2023 to 45% in 2025**. At the same time, the European…
+- Summary: This article proposes a practical 90-day AI roadmap for mid-market companies. Rather than pursuing grand strategy, teams should focus on one high-value use case, build adoption pathways alongside it, and establish minimal governance. The roadmap progresses…
 
 ## The Hybrid AI Workbench: A Reference Architecture for Enterprise Value Creation
 - Date: 2026-03-17
@@ -2764,7 +2764,7 @@ short summary. Articles are listed newest-first.
 - Canonical: https://www.linkedin.com/pulse/day-710-multimodal-prompting-bridging-text-code-images-costa-nez0e
 - Archive: https://articles.firstaimovers.com/articles/2026-01-21-day-710-multimodal-prompting-bridging-text-code-images-/article.md
 - Topics: Frontier Models, Healthcare AI
-- Summary: Multimodal prompting extends beyond traditional text-only interactions by incorporating different types of data:
+- Summary: Multimodal prompting extends AI interactions beyond text to incorporate images, code, audio, and video. The health domain is inherently multimodal, requiring visual analysis, verbal communication, and numerical data. The article outlines three pillars…
 
 ## (Day 8/10) Prompt Automation & Templates in Production Pipelines
 - Date: 2026-01-21
