@@ -1,0 +1,76 @@
+# Summary Review — Build vs Buy AI Systems: The €120K Decision Framework 2026
+
+Article folder: 2026-01-21-build-vs-buy-ai-systems-120k-decision-framework-2026-dr
+Canonical URL: https://www.linkedin.com/pulse/build-vs-buy-ai-systems-120k-decision-framework-2026-dr-hernani-costa-kbr3e
+Generated at: 2026-06-03
+Model: minimax (MiniMax-M2)
+
+## 50-word summary
+
+The article presents a 2026 decision framework for AI systems, arguing that teams must assess whether building creates competitive advantage. It introduces five signals—data residency, workflow complexity, differentiation layer, scaling economics, and vendor lock-in risk—to guide build vs buy decisions. Proper upfront assessment can prevent costly replatforming taxes of €80K or more.
+
+## 200-word summary
+
+This article provides a decision framework for AI system build versus buy decisions, noting that over half of custom AI systems fail within 18 months due to prioritizing capability over data architecture. The author argues that the critical question is whether building creates competitive advantage, and suggests analyzing three layers: model, data, and workflow. Five signals are proposed: data residency requirements (making self-hosted solutions mandatory despite higher costs), workflow complexity (over 10 decision branches or 5 integrations suggest building), differentiation layer (data or workflow differentiation favors building), volume and scaling economics (over 1M API calls monthly warrants self-hosted evaluation), and vendor lock-in risk (core logic depending on vendor features indicates high risk). A case study of an HRtech client that incurred a €95K migration due to unassessed GDPR requirements illustrates the replatforming tax. The author also presents a counter-intuitive truth: teams assessing data complexity upfront and building custom solutions for data-sensitive use cases spend less overall than those migrating later, citing a logistics company that spent €60K on commercial routing AI then €140K for a custom rebuild that could have cost €90K initially. The article concludes with a 4-step assessment process: map data flow and sensitivity (7 days), score differentiation layer (3 days), model 3-year TCO (5 days), and create escape hatches (3 days). Key takeaway: decision discipline, not technical expertise, determines success.
+
+## 500-word summary
+
+The article, titled 'Build vs Buy AI Systems: The €120K Decision Framework 2026,' addresses the common failure of custom AI systems, noting that more than half fail within 18 months due to prioritizing capability over data architecture. The author argues that product teams waste over €120K on incorrect build/buy decisions, then encounter vendor lock-in or maintenance challenges. The landscape in 2026 has shifted with cheaper model APIs, improved open-source frameworks, and stricter data regulations, yet many teams rely on outdated decision criteria.
+
+The core diagnostic question is 'Does building this create competitive advantage?' The author identifies three layers where value may reside: the model layer, the data layer, or workflow orchestration. Correctly identifying the differentiation layer avoids both over-engineering and under-engineering.
+
+The article highlights a pattern: three of five product teams experience an €80K+ replatforming tax within the first year due to ignored factors like data residency, API rate limits, or custom workflow needs. A case study illustrates an HRtech client that chose an API solution and later discovered GDPR requirements necessitating a rebuild with self-hosted models, costing €95K in migration that proper assessment would have prevented.
+
+Five decision signals are presented:
+
+1. Data Residency Requirements: Regulatory restrictions preventing data movement make self-hosted solutions mandatory, despite 3-5x higher infrastructure costs compared to compliance penalties. Architecture recommendations include LlamaIndex + Ollama for on-premise or Azure OpenAI Service for sovereign cloud.
+
+2. Workflow Complexity Score: Measuring conditional branches, system integrations, and custom business rules. Over 10 decision branches or 5+ integrations suggest building. Complex workflows hit customization walls around €40K in SaaS platforms. LangChain with modular agent architecture is recommended.
+
+3. Differentiation Layer Analysis: Identify competitive advantage location: model performance, proprietary data, or unique workflows. Data or workflow differentiation indicates building; speed-to-market favors purchasing. Correct identification saves €100K in avoided vendor migration. Claude API or GPT API for model layers; custom RAG for data differentiation.
+
+4. Volume and Scaling Economics: Calculate API calls, data processing volume, and growth trajectory. Over 1M API calls monthly or 100GB processed monthly warrant self-hosted evaluation. API costs exceed self-hosted TCO around 500K calls monthly. Start with usage-based APIs and plan migration pathways.
+
+5. Vendor Lock-In Risk Assessment: Evaluate migration difficulty if vendor changes pricing or features. Core business logic depending on vendor-specific features indicates high risk. Escaping lock-in typically costs 2-3x original implementation. Use abstraction layers like LiteLLM or LangChain even with vendor APIs.
+
+The article presents a counter-intuitive truth: teams assessing data complexity upfront avoid replatforming taxes. Data from 10+ implementations shows building custom solutions first for data-sensitive use cases results in lower overall spend than migrating later. A logistics company spent €60K on commercial routing AI, then discovered their competitive advantage was proprietary traffic data; the €140K custom rebuild could have cost €90K initially with proper assessment.
+
+The 4-step assessment process is outlined: Step 1 (7 days) map data flow and sensitivity; Step 2 (3 days) score differentiation layer; Step 3 (5 days) model 3-year TCO including licenses, infrastructure, and migration costs; Step 4 (3 days) create escape hatches with abstraction layers and migration pathways. The key takeaway is that decision discipline, not technical expertise, determines success.
+
+## Review status
+
+Status: approved
+Reviewer:
+Reviewed at:
+
+## Notes
+
+- Gate status: PASS
+- Retries used: 2
+- Corrective JSON retries used: 0
+- Fallback attempts used: 1
+- Fallback provider: deepseek/deepseek-v4-flash
+- Termination: PASS_via_fallback
+- Estimated cost (USD): 0.010570
+- Word counts: short=52, medium=223, long=523
+
+## Verification
+
+Verification status: AUTO_APPROVE
+Deterministic gate: PASS
+Primary verifier: openai/gpt-5.4-mini — AUTO_APPROVE
+Secondary verifier: anthropic/claude-haiku-4-5-20251001 — AUTO_APPROVE
+Fallback verifier: not-used
+Single verifier: false
+Estimated verifier cost (USD): 0.004866
+Verified at: 2026-06-03
+
+### Verification notes
+
+- Merge rationale: both verifiers AUTO_APPROVE
+- openai/gpt-5.4-mini: All major claims are supported by the source.
+- openai/gpt-5.4-mini: Volatile figures and named recommendations are preserved accurately.
+- openai/gpt-5.4-mini: No invented sections, FAQs, or vendor mentions added.
+- anthropic/claude-haiku-4-5-20251001: All three summaries accurately reflect source claims, case studies, and the five decision signals without invention.
+- anthropic/claude-haiku-4-5-20251001: Cost figures (€120K, €80K, €95K, €140K, €60K, €40K, €100K) are preserved exactly as stated in source.
+- anthropic/claude-haiku-4-5-20251001: Architecture recommendations (LlamaIndex, Ollama, LangChain, Claude API, GPT API, LiteLLM) match source precisely.
