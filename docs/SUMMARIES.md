@@ -1,5 +1,7 @@
 # Article Summaries
 
+> **CI automation:** for the plan to automatically generate summaries for fresh (recently published) articles via a reviewed pull request — and its safety guardrails — see [`SUMMARY_CI_AUTOMATION_PRD.md`](./SUMMARY_CI_AUTOMATION_PRD.md).
+
 ## Overview
 
 Each article can have three optional summaries of different lengths:
