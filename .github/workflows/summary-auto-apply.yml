@@ -84,7 +84,7 @@ jobs:
           MAX_BUDGET_USD: ${{ inputs.max_budget_usd }}
         run: |
           python3 - <<'PY'
-          import os, sys, datetime
+          import os, sys, math, datetime
           RESIDUE_EDGE = datetime.date(2026, 4, 25)
           errs = []
           try:
@@ -105,8 +105,12 @@ jobs:
           except ValueError:
               errs.append("limit must be an integer")
           try:
-              if float(os.environ.get("MAX_BUDGET_USD", "")) <= 0:
-                  errs.append("max_budget_usd must be a positive decimal")
+              mb = float(os.environ.get("MAX_BUDGET_USD", ""))
+              # Reject inf / -inf / nan / overflow (e.g. 1e309 -> inf): a
+              # non-finite budget passes float()>0 but bypasses the cost ceiling
+              # because the runner treats any max_budget_usd > 0 as live.
+              if not math.isfinite(mb) or mb <= 0:
+                  errs.append("max_budget_usd must be a positive finite decimal")
           except ValueError:
               errs.append("max_budget_usd must be a decimal")
           if errs:
@@ -168,6 +172,18 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
+          # DeepSeek is an OPTIONAL fallback (D7). The runner requires
+          # DEEPSEEK_API_KEY only when --enable-fallback-on-undersize is set, so
+          # enable the long-undersize fallback ONLY when the key is actually
+          # present. The check is presence-only ([ -n ]); the value is never
+          # printed. With only the three required keys, the live run proceeds
+          # without the fallback rather than failing closed on an optional key.
+          fallback_flag=""
+          if [ -n "${DEEPSEEK_API_KEY:-}" ]; then
+            fallback_flag="--enable-fallback-on-undersize"
+          else
+            echo "[apply] DEEPSEEK_API_KEY absent; long-undersize fallback disabled (DeepSeek is optional)."
+          fi
           python3 tools/run_summary_batch.py \
             --batch \
             --allow-network \
@@ -177,7 +193,7 @@ jobs:
             --limit "${LIMIT}" \
             --max-budget-usd "${MAX_BUDGET_USD}" \
             --apply-auto-approved \
-            --enable-fallback-on-undersize \
+            ${fallback_flag} \
             --enable-verifier-repair-loop \
             --max-repair-cycles 1 \
             --report-path "${RUNNER_TEMP}/summary-apply-report.md" \
@@ -239,6 +255,9 @@ jobs:
           print("\n### Safety")
           print("- branch + PR only; no direct push to main; no auto-merge")
           print("- dual-verifier AUTO_APPROVE is the only metadata-write gate")
+          print("\n> If the required CI checks (test / e2e / generated-artifacts) are "
+                "absent on this PR, it was opened with the default token; close and "
+                "reopen the PR to trigger them before merging.")
           PY
           count=$(grep -cEI 'Authorization:[[:space:]]|Bearer[[:space:]]+[A-Za-z0-9._-]{20,}|AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9-]{20,}|BEGIN[[:space:]][A-Z ]*PRIVATE KEY' "${body}" || true)
           if [ "${count:-0}" -gt 0 ]; then
@@ -255,6 +274,12 @@ jobs:
         if: ${{ inputs.apply && steps.applied.outputs.count != '0' }}
         uses: peter-evans/create-pull-request@v8
         with:
+          # Prefer ARTICLE_INGESTION_PR_TOKEN so the PR triggers the repo's
+          # pull_request-gated CI (test / e2e / generated-artifacts). GitHub
+          # suppresses workflow runs on PRs created with the default GITHUB_TOKEN,
+          # so in the fallback the PR opens WITHOUT those checks and must be
+          # closed/reopened to trigger them (the PR body surfaces this). Same
+          # token fallback + caveat as .github/workflows/ingest-airtable.yml.
           token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
           branch: summaries/auto-apply
           title: "summaries(auto): apply dual-verifier-approved fresh summaries"

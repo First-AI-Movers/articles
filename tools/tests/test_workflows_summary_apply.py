@@ -316,6 +316,37 @@ def test_public_surface_scan_is_count_only():
 
 
 # --------------------------------------------------------------------------
+# Codex review hardening (PR #253): optional fallback, finite budget, PR token
+# --------------------------------------------------------------------------
+
+def test_fallback_gated_on_deepseek_presence():
+    # DeepSeek is optional (D7); --enable-fallback-on-undersize must be enabled
+    # only when DEEPSEEK_API_KEY is present (a presence test), never forced --
+    # otherwise the runner fails closed on an optional key.
+    run = _step_by_name(_wf(), "Generate + apply")["run"]
+    assert "--enable-fallback-on-undersize" in run
+    assert "DEEPSEEK_API_KEY" in run and "-n " in run, (
+        "fallback flag must be gated on a presence test of DEEPSEEK_API_KEY"
+    )
+
+
+def test_validation_rejects_non_finite_budget():
+    body = _step_by_name(_wf(), "Validate inputs")["run"]
+    assert "isfinite" in body, (
+        "budget validation must reject non-finite values (inf/nan/overflow) that "
+        "would bypass the cost ceiling"
+    )
+
+
+def test_pr_token_caveat_surfaced():
+    body = _step_by_name(_wf(), "Compose and scan PR body")["run"]
+    low = body.lower()
+    assert "reopen" in low and "close" in low, (
+        "PR body must surface the close/reopen caveat for the default-token CI gap"
+    )
+
+
+# --------------------------------------------------------------------------
 # Action pins
 # --------------------------------------------------------------------------
 
