@@ -83,8 +83,11 @@ jobs:
         run: |
           report="${RUNNER_TEMP}/articles-summary-smoke.md"
           if [ -f "$report" ]; then
-            if grep -nEI 'Authorization:[[:space:]]|Bearer[[:space:]]+[A-Za-z0-9._-]{20,}|AKIA[0-9A-Z]{16}|BEGIN[[:space:]][A-Z ]*PRIVATE KEY' "$report"; then
-              echo "::error::public-surface scan: sensitive pattern detected in smoke report"
+            # Count matches WITHOUT printing any matching line: the failure path
+            # must never become the leak path. Only a count is ever emitted.
+            count=$(grep -cEI 'Authorization:[[:space:]]|Bearer[[:space:]]+[A-Za-z0-9._-]{20,}|AKIA[0-9A-Z]{16}|BEGIN[[:space:]][A-Z ]*PRIVATE KEY' "$report" || true)
+            if [ "${count:-0}" -gt 0 ]; then
+              echo "::error::public-surface scan: ${count} line(s) matched a sensitive pattern (content withheld)"
               exit 1
             fi
             echo "public-surface scan: report clean"

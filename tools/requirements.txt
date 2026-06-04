@@ -7,3 +7,4 @@ fastembed>=0.8.0
 pyarrow>=24.0.0
 numpy>=2.4.6
 Pillow>=12.2.0
+PyYAML>=6.0  # workflow-shape tests (tools/tests/test_workflows_*.py) parse .github/workflows/*.yml; pin so importorskip never silently skips the safety rail
