@@ -1,0 +1,228 @@
+name: Summary Fresh-Candidate Monitor
+
+# Envelope A13 of the summary-CI-automation rollout: a NOTIFY-ONLY monitor.
+#
+# It detects whether genuinely fresh missing-summary articles exist -- using the
+# SAME no-network selector path proven in the apply=false proof -- and, when
+# selected > 0, opens or updates ONE deduplicated GitHub issue telling the
+# operator to run the manual Summary Auto-Apply workflow. It does NOT generate
+# summaries, call any provider, need any provider secret, write metadata, open a
+# summary PR, spend budget, or auto-merge anything. selected=0 is a clean no-op
+# (no issue). This is the "monitor-first" rung; scheduled apply=true stays
+# deferred.
+
+on:
+  workflow_dispatch:
+    inputs:
+      fresh_days:
+        description: "Relative lookback window in days (positive integer)"
+        required: true
+        default: "14"
+      published_after:
+        description: "Absolute hard floor, ISO YYYY-MM-DD (must be after 2026-04-25)"
+        required: true
+        default: "2026-05-01"
+      limit:
+        description: "Max fresh candidates to report (positive integer, <= 50)"
+        required: true
+        default: "50"
+  schedule:
+    # 14:00 UTC daily -- clear of the 06:00-06:30 UTC ingest/e2e busy window
+    # (e2e cron 0 6, ingest cron 17 6). GitHub Actions cron is UTC.
+    - cron: "0 14 * * *"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: summary-fresh-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r tools/requirements.txt
+          pip install pytest
+
+      # Detect fresh candidates with the no-network selector (--dry-run, no
+      # --batch / --allow-network / --apply-auto-approved, no provider env).
+      # Validates inputs fail-closed first (positive fresh_days; ISO
+      # published_after strictly after the residue edge 2026-04-25; positive
+      # limit <= 50). Emits only the value-safe selected count + cutoff.
+      - name: Detect fresh candidates (no network, no writes)
+        id: detect
+        env:
+          FRESH_DAYS: ${{ inputs.fresh_days || '14' }}
+          PUBLISHED_AFTER: ${{ inputs.published_after || '2026-05-01' }}
+          LIMIT: ${{ inputs.limit || '50' }}
+        run: |
+          set -eo pipefail
+          python3 - <<'PY'
+          import os, sys, datetime
+          RESIDUE_EDGE = datetime.date(2026, 4, 25)
+          errs = []
+          try:
+              if int(os.environ.get("FRESH_DAYS", "")) <= 0:
+                  errs.append("fresh_days must be a positive integer")
+          except ValueError:
+              errs.append("fresh_days must be an integer")
+          try:
+              d = datetime.date.fromisoformat(os.environ.get("PUBLISHED_AFTER", ""))
+              if d <= RESIDUE_EDGE:
+                  errs.append("published_after must be after 2026-04-25 (the residue edge)")
+          except ValueError:
+              errs.append("published_after must be an ISO date YYYY-MM-DD")
+          try:
+              n = int(os.environ.get("LIMIT", ""))
+              if n <= 0 or n > 50:
+                  errs.append("limit must be a positive integer <= 50")
+          except ValueError:
+              errs.append("limit must be an integer")
+          if errs:
+              for e in errs:
+                  print(f"[monitor] input error: {e}", file=sys.stderr)
+              sys.exit(1)
+          print("[monitor] inputs valid")
+          PY
+          # Capture the selector's exit code explicitly (no `tee` pipe that could
+          # mask a failure): redirect to a file, then fail the step on a non-zero
+          # selector exit so a crash becomes an incident issue rather than a
+          # silent "selected=0". Independent of the default shell's pipefail.
+          out="${RUNNER_TEMP}/monitor-out.txt"
+          rc=0
+          python3 tools/run_summary_batch.py \
+            --missing-only \
+            --fresh-days "${FRESH_DAYS}" \
+            --published-after "${PUBLISHED_AFTER}" \
+            --limit "${LIMIT}" \
+            --dry-run \
+            --candidate-report "${RUNNER_TEMP}/summary-fresh-candidates.md" \
+            --report-path "${RUNNER_TEMP}/summary-fresh-monitor.md" > "${out}" 2>&1 || rc=$?
+          cat "${out}"
+          if [ "${rc}" -ne 0 ]; then
+            echo "::error::selector failed (rc=${rc}); refusing to infer selected=0 from a failed run"
+            exit "${rc}"
+          fi
+          # grep -m1 stops after the first match (no SIGPIPE) and `|| true` keeps a
+          # no-match from tripping errexit/pipefail; ${:-0} then makes "no token
+          # found" infer selected=0 (fail-safe: no false notification).
+          selected=$(grep -m1 -oE 'selected=[0-9]+' "${out}" | cut -d= -f2 || true)
+          selected=${selected:-0}
+          cutoff=$(grep -m1 -oE 'cutoff=[0-9-]+' "${out}" | cut -d= -f2 || true)
+          echo "selected=${selected}" >> "$GITHUB_OUTPUT"
+          echo "cutoff=${cutoff:-unknown}" >> "$GITHUB_OUTPUT"
+          echo "[monitor] selected=${selected} cutoff=${cutoff:-unknown}"
+
+      # selected=0: clean no-op. No issue is opened (avoid issue churn).
+      - name: No fresh candidates (no-op)
+        if: ${{ steps.detect.outputs.selected == '0' }}
+        run: |
+          echo "Summary fresh-candidate monitor: **selected=0** — no fresh missing-summary articles within the window. No issue opened." >> "$GITHUB_STEP_SUMMARY"
+
+      # selected>0: compose a VALUE-SAFE issue body (counts + cutoff + inputs +
+      # folder/slug identifiers + run URL only), scan it count-only, then
+      # open OR update ONE deduplicated issue (by exact title). Never a summary PR.
+      - name: Notify via deduplicated issue (selected>0)
+        if: ${{ steps.detect.outputs.selected != '0' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SELECTED: ${{ steps.detect.outputs.selected }}
+          CUTOFF: ${{ steps.detect.outputs.cutoff }}
+          FRESH_DAYS: ${{ inputs.fresh_days || '14' }}
+          PUBLISHED_AFTER: ${{ inputs.published_after || '2026-05-01' }}
+          LIMIT: ${{ inputs.limit || '50' }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          body="${RUNNER_TEMP}/monitor-issue.md"
+          python3 - <<'PY' > "${body}"
+          import os
+          cand = os.path.join(os.environ["RUNNER_TEMP"], "summary-fresh-candidates.md")
+          print("## Fresh article summaries ready\n")
+          print(f"The summary fresh-candidate monitor found **{os.environ['SELECTED']}** fresh "
+                "missing-summary article(s) within the freshness window.\n")
+          print(f"- selected: {os.environ['SELECTED']}")
+          print(f"- effective cutoff: {os.environ.get('CUTOFF', '?')}")
+          print(f"- fresh_days: {os.environ['FRESH_DAYS']}")
+          print(f"- published_after: {os.environ['PUBLISHED_AFTER']}")
+          print(f"- limit: {os.environ['LIMIT']}")
+          print(f"- run: {os.environ['RUN_URL']}")
+          # Value-safe candidate identifiers (folder/slug only) from the dry-run report.
+          try:
+              picks = [l for l in open(cand, encoding="utf-8").read().splitlines()
+                       if l.strip().startswith("- ") and "(slug:" in l]
+              if picks:
+                  print("\n### Candidates (folder / slug)\n")
+                  for l in picks[:50]:
+                      print(l)
+          except OSError:
+              pass
+          print("\n### Operator next step\n")
+          print("Review, then run the **Summary Auto-Apply** workflow manually with "
+                "`apply=true` (locked inputs) after authorization. This monitor never "
+                "generates, applies, or opens a summary PR.")
+          PY
+          count=$(grep -cEI 'Authorization:[[:space:]]|Bearer[[:space:]]+[A-Za-z0-9._-]{20,}|AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9-]{20,}|BEGIN[[:space:]][A-Z ]*PRIVATE KEY' "${body}" || true)
+          if [ "${count:-0}" -gt 0 ]; then
+            echo "::error::public-surface scan: ${count} line(s) matched a sensitive pattern (content withheld)"
+            exit 1
+          fi
+          title="Fresh article summaries ready"
+          # Dedup by EXACT title (the --jq == filter; --search alone is fuzzy). The
+          # list/create window is not atomic, but the static concurrency group
+          # (summary-fresh-monitor, cancel-in-progress: false) serializes monitor
+          # runs so two runs cannot race here. Do NOT loosen that concurrency
+          # without adding a stronger dedup key (e.g. a stable label).
+          mapfile -t NUMS < <(gh issue list --repo "${GITHUB_REPOSITORY}" --state open \
+            --search "in:title \"${title}\"" --json number,title \
+            --jq ".[] | select(.title==\"${title}\") | .number")
+          if [ "${#NUMS[@]}" -gt 0 ]; then
+            n="${NUMS[0]}"
+            # Refresh the single open issue's body in place -- no daily comment
+            # churn; the first creation already notified the operator.
+            gh issue edit "${n}" --repo "${GITHUB_REPOSITORY}" --body-file "${body}"
+            echo "[monitor] refreshed existing issue #${n}"
+            if [ "${#NUMS[@]}" -gt 1 ]; then
+              echo "::warning::multiple open monitor issues (${#NUMS[@]}); commented on #${n}"
+            fi
+          else
+            num=$(gh issue create --repo "${GITHUB_REPOSITORY}" --title "${title}" \
+              --body-file "${body}" | grep -oE '[0-9]+$' || true)
+            if [ -n "${num}" ]; then
+              # Best-effort labels; never fail the job if the labels do not exist.
+              gh issue edit "${num}" --repo "${GITHUB_REPOSITORY}" \
+                --add-label automation --add-label summary-monitor 2>/dev/null || true
+              echo "[monitor] opened issue #${num}"
+            else
+              echo "::error::failed to open monitor issue"
+              exit 1
+            fi
+          fi
+
+      # Operator-visible signal on monitor failure (dedup; run URL only, no logs).
+      - name: Incident issue on monitor failure
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          title="Summary fresh-candidate monitor failed"
+          body="The summary fresh-candidate monitor run failed. Run: ${RUN_URL}. No raw logs are recorded here; investigate via the run URL. This monitor uses no providers, no provider secrets, and writes no metadata."
+          existing=$(gh issue list --repo "${GITHUB_REPOSITORY}" --state open \
+            --search "in:title \"${title}\"" --json number --jq '.[0].number // empty')
+          if [ -n "${existing}" ]; then
+            gh issue comment "${existing}" --repo "${GITHUB_REPOSITORY}" --body "${body}"
+          else
+            gh issue create --repo "${GITHUB_REPOSITORY}" --title "${title}" --body "${body}"
+          fi
+          exit 0
