@@ -136,10 +136,18 @@ def freshness_cutoff(
     ``--fresh-days N`` yields ``today - N days``; ``--published-after DATE``
     yields that absolute date. When both are set the **stricter (more recent)**
     floor wins, so a wide relative window can never undercut the absolute floor.
-    Raises ``ValueError`` if ``published_after`` is set but not a valid ISO date.
+    Raises ``ValueError`` if ``published_after`` is set but not a valid ISO date,
+    or if ``fresh_days`` is set to a non-positive value (which would silently
+    disable freshness and sweep the old backlog — rejected fail-closed).
     """
     floors: list[datetime.date] = []
-    if fresh_days is not None and fresh_days > 0:
+    if fresh_days is not None:
+        if fresh_days <= 0:
+            raise ValueError(
+                "--fresh-days must be a positive integer (number of days to "
+                f"look back); got {fresh_days!r}. A non-positive window would "
+                "disable freshness and sweep the old backlog."
+            )
         floors.append(today - datetime.timedelta(days=fresh_days))
     if published_after:
         floor = _parse_iso_date(published_after)
@@ -1452,6 +1460,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         except ValueError as e:
             print(f"[batch] ERROR: {e}", file=sys.stderr)
             return 2
+        cr_path.parent.mkdir(parents=True, exist_ok=True)
         cr_path.write_text(
             build_candidate_report(selected, selection_stats), encoding="utf-8"
         )

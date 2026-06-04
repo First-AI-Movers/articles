@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import datetime
 import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -250,3 +251,79 @@ def test_bad_published_after_errors(tmp_path, capsys):
         assert "published-after" in capsys.readouterr().err
     finally:
         report.unlink(missing_ok=True)
+
+
+# ---------------------------------------------------------------------------
+# Fail-closed on misconfiguration (Codex P1) + report dir creation (Codex P2)
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("bad", [0, -1, -30])
+def test_non_positive_fresh_days_rejected(tmp_path, bad):
+    # A non-positive --fresh-days must NOT silently disable freshness (which
+    # would sweep the old backlog). It is rejected fail-closed.
+    _stage(tmp_path, [
+        {"folder": "old", "index_date": "2025-03-01"},
+        {"folder": "fresh", "index_date": "2026-06-01"},
+    ])
+    with pytest.raises(ValueError, match="fresh-days"):
+        _select(tmp_path, fresh_days=bad)
+
+
+def test_non_positive_fresh_days_does_not_disable_floor(tmp_path):
+    # Guard against the regression directly: even combined with a valid
+    # absolute floor, a non-positive relative window is rejected rather than
+    # ignored, so the operator must fix the misconfiguration explicitly.
+    _stage(tmp_path, [{"folder": "old", "index_date": "2025-03-01"}])
+    with pytest.raises(ValueError, match="fresh-days"):
+        _select(tmp_path, fresh_days=0, published_after="2026-05-01")
+
+
+def test_main_non_positive_fresh_days_errors(tmp_path, capsys):
+    _stage(tmp_path, [{"folder": "old", "index_date": "2025-03-01"}])
+    report = Path("/tmp") / f"nonpos-fd-{tmp_path.name}.md"
+    try:
+        rc = rsb.main([
+            "--missing-only", "--fresh-days", "0", "--limit", "5",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 2
+        err = capsys.readouterr().err
+        assert "fresh-days" in err
+        # The backlog article was never selected (process exited before plan).
+        assert "old" not in err or "ERROR" in err
+    finally:
+        report.unlink(missing_ok=True)
+
+
+def test_candidate_report_creates_missing_parent_dirs(tmp_path):
+    # --candidate-report under a not-yet-existing scratch dir must succeed
+    # (parent created), matching the batch report writer — not crash with
+    # FileNotFoundError after selection.
+    _stage(tmp_path, [
+        {"folder": "fresh", "slug": "s-fresh", "index_date": "2026-06-01"},
+        {"folder": "old", "index_date": "2025-03-01"},
+    ])
+    report = Path("/tmp") / f"cr-parent-report-{tmp_path.name}.md"
+    cand = Path("/tmp") / f"cr-parent-{tmp_path.name}" / "nested" / "deeper" / "cand.md"
+    assert not cand.parent.exists()
+    try:
+        rc = rsb.main([
+            "--missing-only", "--fresh-days", "14", "--limit", "50", "--dry-run",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+            "--candidate-report", str(cand),
+        ])
+        assert rc == 0
+        assert cand.exists()
+        text = cand.read_text(encoding="utf-8")
+        assert "- fresh (slug: s-fresh)" in text
+        assert "- old (slug" not in text
+    finally:
+        report.unlink(missing_ok=True)
+        # Clean the scratch tree created under /tmp.
+        shutil.rmtree(Path("/tmp") / f"cr-parent-{tmp_path.name}", ignore_errors=True)
