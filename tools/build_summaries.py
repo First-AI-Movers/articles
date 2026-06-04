@@ -16,7 +16,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -115,6 +115,15 @@ def _build_argparser():
     parser.add_argument("--batch-offset", type=int, default=0,
                         help="After candidate filtering, skip the first N candidates. "
                              "Applied before --limit so pagination is deterministic.")
+    parser.add_argument("--fresh-days", type=int, default=None, metavar="N",
+                        help="Freshness window (parity with run_summary_batch.py): keep "
+                             "only candidates whose published_date is within the last N "
+                             "days (UTC). Must be a positive integer; non-positive is "
+                             "rejected fail-closed. Default OFF (behaviour unchanged).")
+    parser.add_argument("--published-after", default=None, metavar="YYYY-MM-DD",
+                        help="Absolute freshness floor (ISO date). Combines with "
+                             "--fresh-days; the stricter (more recent) floor wins, so a "
+                             "wide window can never reach the old backlog. Default OFF.")
     return parser
 
 
@@ -1891,6 +1900,91 @@ def _cmd_apply(args, articles):
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Freshness selector (parity with tools/run_summary_batch.py)
+# ---------------------------------------------------------------------------
+# These mirror run_summary_batch.py's canonical freshness helpers. That module
+# imports build_summaries, so importing it back here would be circular; the
+# contract is small and identical, and the parity is locked by
+# tools/tests/test_build_summaries_freshness_parity.py (which asserts the two
+# implementations agree). Keep the two copies in sync.
+
+def _today_fresh():
+    """Reference 'today' for relative freshness windows (UTC date).
+
+    Isolated as a seam so tests can pin a deterministic date by monkeypatching
+    this function and avoid wall-clock dependence.
+    """
+    return datetime.now(timezone.utc).date()
+
+
+def _parse_iso_date(value):
+    """Parse an ISO calendar date (YYYY-MM-DD) defensively.
+
+    Returns None for anything that is not a non-empty string parseable as an ISO
+    date. The [:10] slice tolerates a datetime-suffixed value.
+    """
+    if not isinstance(value, str):
+        return None
+    text = value.strip()
+    if not text:
+        return None
+    try:
+        return date.fromisoformat(text[:10])
+    except ValueError:
+        return None
+
+
+def freshness_cutoff(fresh_days, published_after, today):
+    """Compute the effective freshness floor, or None if no flag is active.
+
+    --fresh-days N yields today - N days; --published-after DATE yields that
+    absolute date. When both are set the stricter (more recent) floor wins.
+    Raises ValueError if published_after is not a valid ISO date, or if
+    fresh_days is non-positive (which would silently disable freshness and sweep
+    the old backlog — rejected fail-closed).
+    """
+    floors = []
+    if fresh_days is not None:
+        if fresh_days <= 0:
+            raise ValueError(
+                "--fresh-days must be a positive integer (number of days to "
+                f"look back); got {fresh_days!r}. A non-positive window would "
+                "disable freshness and sweep the old backlog."
+            )
+        floors.append(today - timedelta(days=fresh_days))
+    if published_after:
+        floor = _parse_iso_date(published_after)
+        if floor is None:
+            raise ValueError(
+                "--published-after must be an ISO date (YYYY-MM-DD); got "
+                f"{published_after!r}"
+            )
+        floors.append(floor)
+    if not floors:
+        return None
+    return max(floors)
+
+
+def _article_published_date(entry, folder):
+    """Resolve an article's published date: index entry primary, metadata fallback.
+
+    Returns None when the date is missing/invalid in every available source (the
+    fail-closed-fresh signal — such an article is dropped while a freshness flag
+    is active).
+    """
+    d = _parse_iso_date(entry.get("published_date"))
+    if d is not None:
+        return d
+    try:
+        loaded = json.loads(
+            (ARTICLES_DIR / folder / "metadata.json").read_text(encoding="utf-8")
+        )
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return None
+    return _parse_iso_date(loaded.get("published_date"))
+
+
 def main(argv=None):
     parser = _build_argparser()
     args = parser.parse_args(argv)
@@ -1976,6 +2070,43 @@ def main(argv=None):
                 f"--missing-only to target the backlog.",
                 file=sys.stderr,
             )
+
+    # Freshness window (parity with run_summary_batch.py). Applies AFTER
+    # --missing-only and BEFORE --batch-offset/--limit. Default OFF: when neither
+    # --fresh-days nor --published-after is set, behaviour is unchanged. When a
+    # freshness flag is active, a candidate must be both missing a summary AND
+    # within the window; a candidate with a missing/invalid published_date is
+    # excluded (fail-closed-fresh), order-preserving (no re-sort).
+    try:
+        cutoff = freshness_cutoff(args.fresh_days, args.published_after, _today_fresh())
+    except ValueError as exc:
+        print(f"[summaries] ERROR: {exc}", file=sys.stderr)
+        return 2
+    if cutoff is not None:
+        fresh = []
+        excluded_stale = 0
+        excluded_undateable = 0
+        for a in candidates:
+            folder = a.get("folder") or ""
+            pub = _article_published_date(a, folder) if folder else None
+            if pub is None:
+                excluded_undateable += 1
+                continue
+            if pub < cutoff:
+                excluded_stale += 1
+                continue
+            fresh.append(a)
+        print(
+            f"[summaries] freshness: cutoff={cutoff.isoformat()} "
+            f"fresh_days={args.fresh_days} "
+            f"published_after={args.published_after or '-'} "
+            f"missing_before={len(candidates)} "
+            f"excluded_stale={excluded_stale} "
+            f"excluded_undateable={excluded_undateable} "
+            f"selected={len(fresh)}",
+            file=sys.stderr,
+        )
+        candidates = fresh
 
     # --batch-offset before --limit so pagination is deterministic.
     if args.batch_offset and args.batch_offset > 0:
