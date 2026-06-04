@@ -100,6 +100,87 @@ except ImportError:  # pragma: no cover - defensive
 # Article selection
 # =============================================================================
 
+def _today() -> datetime.date:
+    """Reference 'today' for relative freshness windows (UTC date).
+
+    Isolated as a seam so tests can pin a deterministic date via the ``today``
+    argument to :func:`select_articles` and avoid wall-clock dependence.
+    """
+    return datetime.datetime.now(datetime.timezone.utc).date()
+
+
+def _parse_iso_date(value: object) -> Optional[datetime.date]:
+    """Parse an ISO calendar date (YYYY-MM-DD) defensively.
+
+    Returns ``None`` for anything that is not a non-empty string parseable as an
+    ISO date. The ``[:10]`` slice tolerates a future datetime-suffixed value.
+    """
+    if not isinstance(value, str):
+        return None
+    text = value.strip()
+    if not text:
+        return None
+    try:
+        return datetime.date.fromisoformat(text[:10])
+    except ValueError:
+        return None
+
+
+def freshness_cutoff(
+    fresh_days: Optional[int],
+    published_after: Optional[str],
+    today: datetime.date,
+) -> Optional[datetime.date]:
+    """Compute the effective freshness floor, or ``None`` if no flag is active.
+
+    ``--fresh-days N`` yields ``today - N days``; ``--published-after DATE``
+    yields that absolute date. When both are set the **stricter (more recent)**
+    floor wins, so a wide relative window can never undercut the absolute floor.
+    Raises ``ValueError`` if ``published_after`` is set but not a valid ISO date.
+    """
+    floors: list[datetime.date] = []
+    if fresh_days is not None and fresh_days > 0:
+        floors.append(today - datetime.timedelta(days=fresh_days))
+    if published_after:
+        floor = _parse_iso_date(published_after)
+        if floor is None:
+            raise ValueError(
+                "--published-after must be an ISO date (YYYY-MM-DD); got "
+                f"{published_after!r}"
+            )
+        floors.append(floor)
+    if not floors:
+        return None
+    return max(floors)
+
+
+def _article_published_date(
+    entry: dict,
+    articles_dir: pathlib.Path,
+    folder: str,
+    meta: Optional[dict],
+) -> Optional[datetime.date]:
+    """Resolve an article's published date: index entry primary, metadata fallback.
+
+    Returns ``None`` when the date is missing/invalid in every available source
+    (the fail-closed-fresh signal — such an article is dropped while a freshness
+    flag is active). ``meta`` is the already-loaded metadata (missing-only path);
+    when it is ``None`` the metadata file is read once as a fallback.
+    """
+    date = _parse_iso_date(entry.get("published_date"))
+    if date is not None:
+        return date
+    if meta is not None:
+        return _parse_iso_date(meta.get("published_date"))
+    try:
+        loaded = json.loads(
+            (articles_dir / folder / "metadata.json").read_text(encoding="utf-8")
+        )
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return None
+    return _parse_iso_date(loaded.get("published_date"))
+
+
 def select_articles(
     index_path: pathlib.Path,
     articles_dir: pathlib.Path,
@@ -107,6 +188,10 @@ def select_articles(
     missing_only: bool,
     slug: Optional[str],
     limit: int,
+    fresh_days: Optional[int] = None,
+    published_after: Optional[str] = None,
+    today: Optional[datetime.date] = None,
+    stats: Optional[dict] = None,
 ) -> list[dict]:
     """Pick the article candidates for this batch.
 
@@ -117,8 +202,33 @@ def select_articles(
     1. If ``slug`` is supplied, restrict to that one folder/slug.
     2. If ``missing_only`` is True, drop articles whose
        ``metadata.json::summary_short`` is already populated.
-    3. Apply ``limit``.
+    3. **Freshness** — when ``fresh_days`` and/or ``published_after`` is set,
+       keep only articles whose ``published_date`` is on/after the effective
+       floor (the stricter of the relative window and the absolute floor).
+       Articles with a missing/invalid ``published_date`` are **excluded**
+       (fail-closed-fresh) so budget is never spent on an undateable article.
+       With NO freshness flag, behaviour is unchanged (no exclusion, no extra
+       I/O) — existing manual/historical runs are untouched.
+    4. Apply ``limit`` (last; top-N most-recent fresh).
+
+    ``today`` overrides the reference date for ``--fresh-days`` (UTC date by
+    default) so tests are deterministic. If ``stats`` is a dict it is populated
+    with value-safe selection counts (counts + the effective cutoff only) for a
+    candidate report.
     """
+    cutoff = freshness_cutoff(fresh_days, published_after, today or _today())
+    if stats is not None:
+        stats.update({
+            "fresh_days": fresh_days,
+            "published_after": published_after,
+            "cutoff": cutoff.isoformat() if cutoff is not None else None,
+            "limit": limit,
+            "missing_candidates": 0,
+            "excluded_stale": 0,
+            "excluded_undateable": 0,
+            "selected_fresh": 0,
+            "selected_after_limit": 0,
+        })
     if not index_path.exists():
         return []
     try:
@@ -133,6 +243,7 @@ def select_articles(
             continue
         if slug and not (entry.get("slug") == slug or folder == slug):
             continue
+        meta: Optional[dict] = None
         if missing_only:
             meta_path = articles_dir / folder / "metadata.json"
             try:
@@ -143,6 +254,21 @@ def select_articles(
             ss = meta.get("summary_short")
             if isinstance(ss, str) and ss.strip():
                 continue
+        if stats is not None:
+            stats["missing_candidates"] += 1
+        if cutoff is not None:
+            pub = _article_published_date(entry, articles_dir, folder, meta)
+            if pub is None:
+                # Fail-closed-fresh: drop undateable articles.
+                if stats is not None:
+                    stats["excluded_undateable"] += 1
+                continue
+            if pub < cutoff:
+                if stats is not None:
+                    stats["excluded_stale"] += 1
+                continue
+        if stats is not None:
+            stats["selected_fresh"] += 1
         candidates.append({
             "slug": entry.get("slug", folder),
             "folder": folder,
@@ -152,7 +278,43 @@ def select_articles(
 
     if limit is not None and limit > 0:
         candidates = candidates[:limit]
+    if stats is not None:
+        stats["selected_after_limit"] = len(candidates)
     return candidates
+
+
+def build_candidate_report(candidates: list[dict], stats: dict) -> str:
+    """Render a value-safe fresh-candidate report (counts + identifiers only).
+
+    Contains NO article body text, NO provider output, NO secrets, NO env data —
+    only selection counts, the effective freshness cutoff, and folder/slug
+    identifiers. Safe to upload as a CI artifact or print to logs.
+    """
+    lines = [
+        "# Fresh-candidate selection report",
+        "",
+        f"- fresh_days: {stats.get('fresh_days')}",
+        f"- published_after: {stats.get('published_after')}",
+        f"- effective_cutoff: {stats.get('cutoff') or '(none - freshness inactive)'}",
+        f"- limit: {stats.get('limit')}",
+        "",
+        f"- missing-summary candidates (before freshness): {stats.get('missing_candidates', 0)}",
+        f"- excluded (older than floor): {stats.get('excluded_stale', 0)}",
+        f"- excluded (missing/invalid date): {stats.get('excluded_undateable', 0)}",
+        f"- selected fresh (before limit): {stats.get('selected_fresh', 0)}",
+        f"- selected (after limit): {stats.get('selected_after_limit', len(candidates))}",
+        "",
+        "## Selected candidates",
+        "",
+    ]
+    if candidates:
+        lines.extend(
+            f"- {c['folder']} (slug: {c.get('slug', '')})" for c in candidates
+        )
+    else:
+        lines.append("_(none - clean no-op)_")
+    lines.append("")
+    return "\n".join(lines)
 
 
 # =============================================================================
@@ -1113,6 +1275,24 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--no-missing-only", dest="missing_only", action="store_false",
                    help="Override default --missing-only.")
     p.add_argument("--slug", default=None)
+    p.add_argument("--fresh-days", type=int, default=None, metavar="N",
+                   help="Freshness window: keep only missing-summary articles "
+                        "published within the last N days (published_date >= "
+                        "today - N, UTC). Default: off (no freshness filtering). "
+                        "When this or --published-after is set, articles with a "
+                        "missing/invalid published_date are excluded "
+                        "(fail-closed-fresh).")
+    p.add_argument("--published-after", default=None, metavar="YYYY-MM-DD",
+                   help="Absolute freshness floor: keep only articles with "
+                        "published_date on/after this ISO date. Combine with "
+                        "--fresh-days; the stricter (more recent) floor wins, so "
+                        "a wide window can never reach the old backlog. "
+                        "Default: off.")
+    p.add_argument("--candidate-report", default=None, metavar="PATH",
+                   help="Write a value-safe fresh-candidate selection report "
+                        "(counts + folder/slug identifiers only; no body text, "
+                        "no network, no metadata writes) to PATH. PATH must "
+                        "resolve outside the repository.")
     p.add_argument("--summaries-dir", default=str(DEFAULT_SUMMARIES_DIR))
     p.add_argument("--report-path", default=None,
                    help="Default: /tmp/articles-summary-batch-<stamp>.md. "
@@ -1237,13 +1417,45 @@ def main(argv: Optional[list[str]] = None) -> int:
     summaries_dir = pathlib.Path(args.summaries_dir)
     index_path = pathlib.Path(args.index_path)
 
-    selected = select_articles(
-        index_path=index_path,
-        articles_dir=articles_dir,
-        missing_only=args.missing_only,
-        slug=args.slug,
-        limit=args.limit,
-    )
+    selection_stats: dict = {}
+    try:
+        selected = select_articles(
+            index_path=index_path,
+            articles_dir=articles_dir,
+            missing_only=args.missing_only,
+            slug=args.slug,
+            limit=args.limit,
+            fresh_days=args.fresh_days,
+            published_after=args.published_after,
+            stats=selection_stats,
+        )
+    except ValueError as e:
+        print(f"[batch] ERROR: {e}", file=sys.stderr)
+        return 2
+
+    # Value-safe freshness summary (counts + cutoff only) — visible in CI logs.
+    if args.fresh_days is not None or args.published_after:
+        print(
+            f"[batch] freshness: cutoff={selection_stats.get('cutoff') or '-'} "
+            f"fresh_days={args.fresh_days} "
+            f"published_after={args.published_after or '-'} "
+            f"missing_before={selection_stats.get('missing_candidates', 0)} "
+            f"excluded_stale={selection_stats.get('excluded_stale', 0)} "
+            f"excluded_undateable={selection_stats.get('excluded_undateable', 0)} "
+            f"selected={len(selected)}"
+        )
+
+    # Optional value-safe candidate report (outside the repo; no metadata writes).
+    if args.candidate_report:
+        try:
+            cr_path = resolve_report_path(args.candidate_report)
+        except ValueError as e:
+            print(f"[batch] ERROR: {e}", file=sys.stderr)
+            return 2
+        cr_path.write_text(
+            build_candidate_report(selected, selection_stats), encoding="utf-8"
+        )
+        print(f"[batch] candidate report: {cr_path}")
 
     live = _is_live(args)
     _print_plan_header(args, selected, live)
