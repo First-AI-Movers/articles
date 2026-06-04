@@ -23,7 +23,7 @@ that a human has not had the chance to review.
 
 | Piece | Status |
 |---|---|
-| Manual presence smoke (`.github/workflows/summary-automation-smoke.yml`) + `tools/check_provider_keys_present.py` | **Proposed in a pull request — not yet merged.** A `workflow_dispatch`-only, no-network smoke that checks provider-key presence and exercises the runner's dry-run command shape. It makes no provider calls, writes nothing, and is not a required check. |
+| Manual presence smoke (`.github/workflows/summary-automation-smoke.yml`) + `tools/check_provider_keys_present.py` | **Merged — available on `main`.** A `workflow_dispatch`-only, no-network smoke that checks provider-key presence and exercises the runner's dry-run command shape. It makes no provider calls, writes nothing, and is not a required check. |
 | Fresh-candidate selector | **Not built.** This is the precondition for everything below. |
 | Summary apply workflow (generate → verify → apply → open PR) | **Not built.** Planned; gated on the selector. |
 | Scheduled / unattended runs | **Not built and not approved.** |
