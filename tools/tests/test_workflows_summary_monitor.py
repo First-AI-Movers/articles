@@ -157,6 +157,16 @@ def test_validation_enforces_residue_floor():
     assert "fresh_days" in body and "published_after" in body and "limit" in body
 
 
+def test_selector_failure_is_preserved_not_masked():
+    # A selector crash must fail the step (-> incident issue), never be masked
+    # into a silent selected=0. The step captures the exit code explicitly and
+    # sets pipefail; it must not pipe the selector into `tee`.
+    body = _step_by_name(_wf(), "Detect fresh candidates")["run"]
+    assert "set -eo pipefail" in body
+    assert "|| rc=$?" in body and 'exit "${rc}"' in body
+    assert "run_summary_batch.py" in body and "| tee" not in body
+
+
 def test_input_defaults():
     inp = _on(_wf())["workflow_dispatch"]["inputs"]
     assert inp["fresh_days"]["default"] == "14"

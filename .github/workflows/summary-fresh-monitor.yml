@@ -66,6 +66,7 @@ jobs:
           PUBLISHED_AFTER: ${{ inputs.published_after || '2026-05-01' }}
           LIMIT: ${{ inputs.limit || '50' }}
         run: |
+          set -eo pipefail
           python3 - <<'PY'
           import os, sys, datetime
           RESIDUE_EDGE = datetime.date(2026, 4, 25)
@@ -93,7 +94,12 @@ jobs:
               sys.exit(1)
           print("[monitor] inputs valid")
           PY
+          # Capture the selector's exit code explicitly (no `tee` pipe that could
+          # mask a failure): redirect to a file, then fail the step on a non-zero
+          # selector exit so a crash becomes an incident issue rather than a
+          # silent "selected=0". Independent of the default shell's pipefail.
           out="${RUNNER_TEMP}/monitor-out.txt"
+          rc=0
           python3 tools/run_summary_batch.py \
             --missing-only \
             --fresh-days "${FRESH_DAYS}" \
@@ -101,7 +107,12 @@ jobs:
             --limit "${LIMIT}" \
             --dry-run \
             --candidate-report "${RUNNER_TEMP}/summary-fresh-candidates.md" \
-            --report-path "${RUNNER_TEMP}/summary-fresh-monitor.md" | tee "${out}"
+            --report-path "${RUNNER_TEMP}/summary-fresh-monitor.md" > "${out}" 2>&1 || rc=$?
+          cat "${out}"
+          if [ "${rc}" -ne 0 ]; then
+            echo "::error::selector failed (rc=${rc}); refusing to infer selected=0 from a failed run"
+            exit "${rc}"
+          fi
           # grep -m1 stops after the first match (no SIGPIPE) and `|| true` keeps a
           # no-match from tripping errexit/pipefail; ${:-0} then makes "no token
           # found" infer selected=0 (fail-safe: no false notification).
