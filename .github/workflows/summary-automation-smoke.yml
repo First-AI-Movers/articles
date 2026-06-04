@@ -1,0 +1,93 @@
+name: Summary Automation Smoke
+
+# Envelope 2 of the summary-CI-automation rollout: a MANUAL, presence-only +
+# no-network dry-run smoke for the future fresh-article summary automation.
+#
+# This workflow proves the rails exist. It makes ZERO outbound provider calls,
+# writes NOTHING into the repository, never touches metadata.json, never applies
+# summaries, opens no PR, and is NOT a required branch-protection check. It runs
+# only when an operator dispatches it.
+#
+# Decision D1 (accepted for A2) is "no keys in CI": this workflow declares no
+# GitHub Actions secrets at all. With no keys injected, the fail-closed presence
+# gate reports `absent` and fails the job — that is the correct, intended gate
+# behavior, not a defect. The later steps use `if: always()` so the no-network
+# dry-run shape, the shape tests, and the public-surface scan still run and
+# report even when the gate has failed. How (and whether) the four provider keys
+# are ever injected into CI is a later, separately gated decision; nothing here
+# weakens the gate to pass with absent keys.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: summary-automation-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r tools/requirements.txt
+          pip install pytest
+
+      # Step A — fail-closed provider-key presence gate. Emits present/absent
+      # only; makes zero outbound calls. Required: the generator + dual-verifier
+      # keys. Optional (reported, never enforced): DEEPSEEK_API_KEY (D7).
+      - name: Provider-key presence gate (no network, fail-closed)
+        run: |
+          python3 tools/check_provider_keys_present.py \
+            --required MINIMAX_API_KEY OPENAI_API_KEY ANTHROPIC_API_KEY \
+            --optional DEEPSEEK_API_KEY
+
+      # Step B — no-network summary dry-run command-shape check. Omits
+      # --allow-network and passes --dry-run, so _is_live() stays false and the
+      # runner short-circuits before any generation/verification/HTTP/write. The
+      # report is forced outside the repo (runner temp). Never passes
+      # --apply-auto-approved or --max-budget-usd.
+      - name: Summary runner dry-run shape (no network, no writes)
+        if: always()
+        run: |
+          python3 tools/run_summary_batch.py \
+            --batch \
+            --missing-only \
+            --limit 1 \
+            --dry-run \
+            --report-path "${RUNNER_TEMP}/articles-summary-smoke.md"
+
+      # Step C — run the new shape + helper tests as a self-check (they also run
+      # in the `test` job on every PR). Network-free; needs no provider keys.
+      - name: Workflow-shape and helper self-check
+        if: always()
+        run: |
+          python3 -m pytest -q \
+            tools/tests/test_workflows_summary_smoke.py \
+            tools/tests/test_check_provider_keys_present.py
+
+      # Step D — public-surface scan over the emitted dry-run report. Defense in
+      # depth on top of the tools' own value-safety: fail on any secret-shaped
+      # token, auth header, or private-key block in the report.
+      - name: Public-surface scan of smoke output
+        if: always()
+        run: |
+          report="${RUNNER_TEMP}/articles-summary-smoke.md"
+          if [ -f "$report" ]; then
+            if grep -nEI 'Authorization:[[:space:]]|Bearer[[:space:]]+[A-Za-z0-9._-]{20,}|AKIA[0-9A-Z]{16}|BEGIN[[:space:]][A-Z ]*PRIVATE KEY' "$report"; then
+              echo "::error::public-surface scan: sensitive pattern detected in smoke report"
+              exit 1
+            fi
+            echo "public-surface scan: report clean"
+          else
+            echo "public-surface scan: no report produced (presence gate likely failed first)"
+          fi
