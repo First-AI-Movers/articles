@@ -1,0 +1,275 @@
+name: Summary Auto-Apply
+
+# Envelope A8 of the summary-CI-automation rollout: a MANUAL, fresh-article-only
+# summary apply path. It generates summaries for recently-published
+# missing-summary articles, applies ONLY dual-verifier AUTO_APPROVE metadata,
+# rebuilds the deterministic artifacts in-job, and opens a PULL REQUEST for human
+# review.
+#
+# Hard rails:
+#   * workflow_dispatch only -- no schedule, no workflow_run, no push, no PR
+#     trigger, no repository_dispatch.
+#   * Default dispatch (apply=false) is a NO-NETWORK candidate-report PROOF run:
+#     it selects fresh candidates and writes a value-safe report, makes zero
+#     provider calls, writes no metadata, and opens no PR. It never passes
+#     --batch / --allow-network / --apply-auto-approved.
+#   * apply=true is the only path that goes live. It requires --batch
+#     --allow-network --apply-auto-approved with an explicit --max-budget-usd,
+#     and applies metadata ONLY through the existing dual-verifier AUTO_APPROVE
+#     gate (never single-verifier, never a relaxed band).
+#   * Freshness is mandatory on every run: both --fresh-days and --published-after
+#     are always passed; published_after is validated to be strictly after the
+#     residue edge 2026-04-25, so a run can never sweep the old backlog.
+#   * Branch + PR only. Never a direct push to main. No auto-merge step exists.
+#   * Provider keys are bound via step env: only -- never interpolated into a
+#     run: body, never echoed, never measured (no length/hash/prefix/suffix).
+
+on:
+  workflow_dispatch:
+    inputs:
+      fresh_days:
+        description: "Relative lookback window in days (positive integer)"
+        required: true
+        default: "14"
+      published_after:
+        description: "Absolute hard floor, ISO YYYY-MM-DD (must be after 2026-04-25)"
+        required: true
+        default: "2026-05-01"
+      limit:
+        description: "Max fresh candidates to process (positive integer, <= 50)"
+        required: true
+        default: "50"
+      max_budget_usd:
+        description: "Per-run cost ceiling in USD (positive decimal)"
+        required: true
+        default: "5.00"
+      apply:
+        description: "false = no-network candidate proof run (default); true = generate + apply dual-verifier-approved"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: summary-auto-apply
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r tools/requirements.txt
+          pip install pytest
+
+      # Validate dispatch inputs fail-closed BEFORE any selection or provider
+      # work. Enforces: fresh_days positive int; published_after ISO and strictly
+      # after the residue edge 2026-04-25; limit positive int <= 50;
+      # max_budget_usd positive decimal. Inputs are read from env (no expression
+      # splicing into the shell body).
+      - name: Validate inputs (fail-closed)
+        env:
+          FRESH_DAYS: ${{ inputs.fresh_days }}
+          PUBLISHED_AFTER: ${{ inputs.published_after }}
+          LIMIT: ${{ inputs.limit }}
+          MAX_BUDGET_USD: ${{ inputs.max_budget_usd }}
+        run: |
+          python3 - <<'PY'
+          import os, sys, datetime
+          RESIDUE_EDGE = datetime.date(2026, 4, 25)
+          errs = []
+          try:
+              if int(os.environ.get("FRESH_DAYS", "")) <= 0:
+                  errs.append("fresh_days must be a positive integer")
+          except ValueError:
+              errs.append("fresh_days must be an integer")
+          try:
+              d = datetime.date.fromisoformat(os.environ.get("PUBLISHED_AFTER", ""))
+              if d <= RESIDUE_EDGE:
+                  errs.append("published_after must be after 2026-04-25 (the residue edge)")
+          except ValueError:
+              errs.append("published_after must be an ISO date YYYY-MM-DD")
+          try:
+              n = int(os.environ.get("LIMIT", ""))
+              if n <= 0 or n > 50:
+                  errs.append("limit must be a positive integer <= 50")
+          except ValueError:
+              errs.append("limit must be an integer")
+          try:
+              if float(os.environ.get("MAX_BUDGET_USD", "")) <= 0:
+                  errs.append("max_budget_usd must be a positive decimal")
+          except ValueError:
+              errs.append("max_budget_usd must be a decimal")
+          if errs:
+              for e in errs:
+                  print(f"[apply] input error: {e}", file=sys.stderr)
+              sys.exit(1)
+          print("[apply] inputs valid")
+          PY
+
+      # apply=false (default): no-network candidate-report PROOF run. Selects
+      # fresh candidates, writes a value-safe report (counts + folder/slug),
+      # makes zero provider calls, writes no metadata, opens no PR. No --batch /
+      # --allow-network / --apply-auto-approved.
+      - name: Candidate proof run (apply=false, no network, no writes)
+        if: ${{ ! inputs.apply }}
+        env:
+          FRESH_DAYS: ${{ inputs.fresh_days }}
+          PUBLISHED_AFTER: ${{ inputs.published_after }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          python3 tools/run_summary_batch.py \
+            --missing-only \
+            --fresh-days "${FRESH_DAYS}" \
+            --published-after "${PUBLISHED_AFTER}" \
+            --limit "${LIMIT}" \
+            --dry-run \
+            --report-path "${RUNNER_TEMP}/summary-apply-report.md" \
+            --candidate-report "${RUNNER_TEMP}/summary-candidates.md"
+          echo "----- candidate report (value-safe: counts + folder/slug only) -----"
+          cat "${RUNNER_TEMP}/summary-candidates.md"
+
+      # apply=true: fail-closed provider-key presence gate (present/absent only,
+      # no network). Required = generator + dual verifier; DeepSeek optional (D7).
+      - name: Provider-key presence gate (apply=true, fail-closed)
+        if: ${{ inputs.apply }}
+        env:
+          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: |
+          python3 tools/check_provider_keys_present.py \
+            --required MINIMAX_API_KEY OPENAI_API_KEY ANTHROPIC_API_KEY \
+            --optional DEEPSEEK_API_KEY
+
+      # apply=true: LIVE generate + verify + apply. Applies metadata ONLY through
+      # the dual-verifier AUTO_APPROVE gate. Bounded by --max-budget-usd and
+      # --limit. Freshness mandatory. Keys bound via env: only. This path is
+      # operator-triggered; it is never auto-dispatched.
+      - name: Generate + apply (apply=true, dual-verifier AUTO_APPROVE only)
+        if: ${{ inputs.apply }}
+        env:
+          FRESH_DAYS: ${{ inputs.fresh_days }}
+          PUBLISHED_AFTER: ${{ inputs.published_after }}
+          LIMIT: ${{ inputs.limit }}
+          MAX_BUDGET_USD: ${{ inputs.max_budget_usd }}
+          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: |
+          python3 tools/run_summary_batch.py \
+            --batch \
+            --allow-network \
+            --missing-only \
+            --fresh-days "${FRESH_DAYS}" \
+            --published-after "${PUBLISHED_AFTER}" \
+            --limit "${LIMIT}" \
+            --max-budget-usd "${MAX_BUDGET_USD}" \
+            --apply-auto-approved \
+            --enable-fallback-on-undersize \
+            --enable-verifier-repair-loop \
+            --max-repair-cycles 1 \
+            --report-path "${RUNNER_TEMP}/summary-apply-report.md" \
+            --candidate-report "${RUNNER_TEMP}/summary-candidates.md"
+
+      # Applied-count gate: count changed article metadata.json files. Zero
+      # changes => clean no-op, no rebuild, no PR. Live path only.
+      - name: Compute applied count
+        if: ${{ inputs.apply }}
+        id: applied
+        run: |
+          count=$(git diff --name-only --diff-filter=d -- 'articles/*/metadata.json' | wc -l | tr -d ' ')
+          count=${count:-0}
+          echo "count=${count}" >> "$GITHUB_OUTPUT"
+          echo "[apply] changed metadata.json files: ${count}"
+
+      # In-job deterministic rebuild chain (only when something was applied) so the
+      # generated-artifacts drift check stays green on the PR.
+      - name: Rebuild deterministic artifacts
+        if: ${{ inputs.apply && steps.applied.outputs.count != '0' }}
+        run: |
+          python3 tools/rebuild_local.py
+          python3 tools/update_docs.py
+          python3 tools/export_mcp_data.py
+          python3 tools/check_generated_artifacts.py
+
+      # Compose the value-safe PR body to a file (counts + identifiers only), then
+      # scan it BEFORE opening the PR. No secrets, no provider logs, no body text.
+      - name: Compose and scan PR body (count-only public-surface scan)
+        if: ${{ inputs.apply && steps.applied.outputs.count != '0' }}
+        env:
+          FRESH_DAYS: ${{ inputs.fresh_days }}
+          PUBLISHED_AFTER: ${{ inputs.published_after }}
+          LIMIT: ${{ inputs.limit }}
+          MAX_BUDGET_USD: ${{ inputs.max_budget_usd }}
+          APPLIED_COUNT: ${{ steps.applied.outputs.count }}
+        run: |
+          body="${RUNNER_TEMP}/summary-apply-pr-body.md"
+          python3 - <<'PY' > "${body}"
+          import os, datetime
+          fd = int(os.environ["FRESH_DAYS"])
+          pa = os.environ["PUBLISHED_AFTER"]
+          today = datetime.datetime.now(datetime.timezone.utc).date()
+          rel = today - datetime.timedelta(days=fd)
+          cutoff = max(rel, datetime.date.fromisoformat(pa))
+          print("## Automated fresh-article summaries\n")
+          print("Auto-generated by the manual summary auto-apply workflow. Applies "
+                "only dual-verifier AUTO_APPROVE summaries. Do not merge until CI is "
+                "green and the diff is reviewed.\n")
+          print(f"- applied summaries (changed metadata.json): {os.environ['APPLIED_COUNT']}")
+          print(f"- effective freshness cutoff: {cutoff.isoformat()}")
+          print(f"- fresh_days: {fd}")
+          print(f"- published_after: {pa}")
+          print(f"- limit: {os.environ['LIMIT']}")
+          print(f"- max_budget_usd: {os.environ['MAX_BUDGET_USD']}")
+          print("\n### Validation")
+          print("- `python3 tools/check_generated_artifacts.py`")
+          print("- `python3 -m pytest tools/tests -q`")
+          print("\n### Safety")
+          print("- branch + PR only; no direct push to main; no auto-merge")
+          print("- dual-verifier AUTO_APPROVE is the only metadata-write gate")
+          PY
+          count=$(grep -cEI 'Authorization:[[:space:]]|Bearer[[:space:]]+[A-Za-z0-9._-]{20,}|AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9-]{20,}|BEGIN[[:space:]][A-Z ]*PRIVATE KEY' "${body}" || true)
+          if [ "${count:-0}" -gt 0 ]; then
+            echo "::error::public-surface scan: ${count} line(s) matched a sensitive pattern (content withheld)"
+            exit 1
+          fi
+          echo "public-surface scan: PR body clean"
+
+      # Open the summaries PR on a stable branch (a re-run updates the same PR,
+      # never opens a duplicate). Scoped add-paths: article metadata.json + the
+      # deterministic artifacts ONLY -- never bare articles/* (article bodies stay
+      # out). There is deliberately NO auto-merge step.
+      - name: Open summaries PR
+        if: ${{ inputs.apply && steps.applied.outputs.count != '0' }}
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: summaries/auto-apply
+          title: "summaries(auto): apply dual-verifier-approved fresh summaries"
+          body-path: ${{ runner.temp }}/summary-apply-pr-body.md
+          commit-message: "summaries(auto): apply dual-verifier-approved fresh summaries"
+          add-paths: |
+            articles/*/metadata.json
+            index.json
+            sitemap.xml
+            feed.xml
+            feed.json
+            llms.txt
+            llms-index.txt
+            llms-full.txt
+            llms-recent.txt
+            README.md
+            ROADMAP.md
+            mcp-server/src/generated/archive-data.json
