@@ -461,6 +461,57 @@
     <summary type="text">Four terminal-based AI coding agents now support multi-agent orchestration, and the differences between them, in cost, extensibility, data residency, and governance features, will shape how engineering teams work for the next two years. If your developers are already using one…</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-framework-by-industry-european-smes</id>
+    <title>How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes"/>
+    <published>2026-05-02T00:00:00Z</published>
+    <updated>2026-05-02T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-governance"/>
+    <category term="company-tech-strategy"/>
+    <category term="digital-transformation"/>
+    <category term="business-automation"/>
+    <category term="ai-automation"/>
+    <summary type="text">A practical EU SME guide to AI governance that fits your industry. Covers financial services, healthcare, legal, manufacturing, and energy sectors.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-manufacturing-industrial-smes-eu-2026</id>
+    <title>AI Governance for Manufacturing and Industrial SMEs: What the Machinery Directive, EU AI Act, and ISO 9001 Mean for Your AI Rollout</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-governance-manufacturing-industrial-smes-eu-2026"/>
+    <published>2026-05-02T00:00:00Z</published>
+    <updated>2026-05-02T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-governance"/>
+    <category term="company-tech-strategy"/>
+    <category term="digital-transformation"/>
+    <category term="business-automation"/>
+    <category term="ai-automation"/>
+    <summary type="text">How EU manufacturing SMEs should govern AI in production, predictive maintenance, and QMS under the Machinery Regulation and EU AI Act.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-01:2026-05-01-eu-ai-act-august-2026-what-european-smes-must-do-now</id>
+    <title>EU AI Act: What European SMEs Must Do Before August 2, 2026</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now"/>
+    <published>2026-05-01T00:00:00Z</published>
+    <updated>2026-05-01T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-governance"/>
+    <category term="eu-ai-act"/>
+    <category term="company-tech-strategy"/>
+    <category term="digital-transformation"/>
+    <category term="business-automation"/>
+    <summary type="text">EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026</id>
     <title>AI Consulting for Bratislava Tech SMEs in 2026</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-bratislava-tech-smes-2026"/>
@@ -743,56 +794,5 @@
     <category term="AI Strategy"/>
     <category term="EU AI Act"/>
     <summary type="text">Geneva life sciences SMEs face nDSG, FINMA, and Swissmedic compliance. How AI consulting delivers compliant AI adoption for pharma and biotech firms.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-hamburg-tech-logistics-smes-2026</id>
-    <title>AI Consulting for Hamburg Tech and Logistics SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-hamburg-tech-logistics-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="EU AI Act"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <summary type="text">AI consulting for Hamburg tech, logistics, and maritime SMEs. HmbDSB-aware GDPR compliance, EU AI Act readiness, and AI rollout support.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-krakow-it-services-smes-2026</id>
-    <title>AI Consulting for Krakow IT Services SMEs: A Dual-Market Guide</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-krakow-it-services-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="DACH AI"/>
-    <category term="AI Strategy"/>
-    <summary type="text">How Krakow IT services and software SMEs can structure AI adoption: UODO compliance, dual-market challenges with German clients, and Polish funding access.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-lyon-tech-biotech-smes-2026</id>
-    <title>AI Consulting for Lyon Tech and Biotech SMEs: A Practical Engagement Guide</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-lyon-tech-biotech-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="AI Regulation"/>
-    <category term="AI Governance"/>
-    <category term="France and Benelux AI"/>
-    <summary type="text">How Lyon SMEs in tech, biotech, and logistics can structure an AI adoption engagement: French regulation, CIR tax credit, and three-phase roadmap.</summary>
   </entry>
 </feed>

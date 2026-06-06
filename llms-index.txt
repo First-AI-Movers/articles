@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 860
+- Articles: 863
 - Date range: 2025-02-17 to 2026-05-24
 - Topic count: 103
-- Generated: 2026-06-04
+- Generated: 2026-06-06
 
 ## Companion files
 
@@ -238,6 +238,27 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-05-02-ai-coding-agent-cli-comparison-april-2026/article.md
 - Topics: ai-automation, company-tech-strategy, ai-governance, digital-transformation, developer-tools
 - Summary: This article compares four terminal-based AI coding agents: Claude Code (Opus 4.7), Kimi K2.6, Codex CLI (GPT-5.4), and Gemini CLI. Each offers multi-agent orchestration, with Claude leading on code quality (87.6% SWE-bench) and Kimi offering the most…
+
+## How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)
+- Date: 2026-05-02
+- Canonical: https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes
+- Archive: https://articles.firstaimovers.com/articles/2026-05-02-ai-governance-framework-by-industry-european-smes/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, business-automation, ai-automation
+- Summary: A practical EU SME guide to AI governance that fits your industry. Covers financial services, healthcare, legal, manufacturing, and energy sectors.
+
+## AI Governance for Manufacturing and Industrial SMEs: What the Machinery Directive, EU AI Act, and ISO 9001 Mean for Your AI Rollout
+- Date: 2026-05-02
+- Canonical: https://radar.firstaimovers.com/ai-governance-manufacturing-industrial-smes-eu-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-05-02-ai-governance-manufacturing-industrial-smes-eu-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, business-automation, ai-automation
+- Summary: How EU manufacturing SMEs should govern AI in production, predictive maintenance, and QMS under the Machinery Regulation and EU AI Act.
+
+## EU AI Act: What European SMEs Must Do Before August 2, 2026
+- Date: 2026-05-01
+- Canonical: https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now
+- Archive: https://articles.firstaimovers.com/articles/2026-05-01-eu-ai-act-august-2026-what-european-smes-must-do-now/article.md
+- Topics: ai-governance, eu-ai-act, company-tech-strategy, digital-transformation, business-automation
+- Summary: EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps.
 
 ## AI Consulting for Bratislava Tech SMEs in 2026
 - Date: 2026-04-25

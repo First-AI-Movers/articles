@@ -370,6 +370,48 @@
       "content_text": "Four terminal-based AI coding agents now support multi-agent orchestration, and the differences between them, in cost, extensibility, data residency, and governance features, will shape how engineering teams work for the next two years. If your developers are already using one…"
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-framework-by-industry-european-smes",
+      "url": "https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes",
+      "title": "How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)",
+      "date_published": "2026-05-02T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation",
+        "ai-automation"
+      ],
+      "content_text": "A practical EU SME guide to AI governance that fits your industry. Covers financial services, healthcare, legal, manufacturing, and energy sectors."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-manufacturing-industrial-smes-eu-2026",
+      "url": "https://radar.firstaimovers.com/ai-governance-manufacturing-industrial-smes-eu-2026",
+      "title": "AI Governance for Manufacturing and Industrial SMEs: What the Machinery Directive, EU AI Act, and ISO 9001 Mean for Your AI Rollout",
+      "date_published": "2026-05-02T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation",
+        "ai-automation"
+      ],
+      "content_text": "How EU manufacturing SMEs should govern AI in production, predictive maintenance, and QMS under the Machinery Regulation and EU AI Act."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-01:2026-05-01-eu-ai-act-august-2026-what-european-smes-must-do-now",
+      "url": "https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now",
+      "title": "EU AI Act: What European SMEs Must Do Before August 2, 2026",
+      "date_published": "2026-05-01T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "eu-ai-act",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation"
+      ],
+      "content_text": "EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026",
       "url": "https://radar.firstaimovers.com/ai-consulting-bratislava-tech-smes-2026",
       "title": "AI Consulting for Bratislava Tech SMEs in 2026",
@@ -601,48 +643,6 @@
         "EU AI Act"
       ],
       "content_text": "Geneva life sciences SMEs face nDSG, FINMA, and Swissmedic compliance. How AI consulting delivers compliant AI adoption for pharma and biotech firms."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-hamburg-tech-logistics-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-hamburg-tech-logistics-smes-2026",
-      "title": "AI Consulting for Hamburg Tech and Logistics SMEs",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Consulting",
-        "EU AI Act",
-        "GDPR & Data Privacy",
-        "AI Governance"
-      ],
-      "content_text": "AI consulting for Hamburg tech, logistics, and maritime SMEs. HmbDSB-aware GDPR compliance, EU AI Act readiness, and AI rollout support."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-krakow-it-services-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-krakow-it-services-smes-2026",
-      "title": "AI Consulting for Krakow IT Services SMEs: A Dual-Market Guide",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "AI Governance",
-        "European SME AI",
-        "GDPR & Data Privacy",
-        "DACH AI",
-        "AI Strategy"
-      ],
-      "content_text": "How Krakow IT services and software SMEs can structure AI adoption: UODO compliance, dual-market challenges with German clients, and Polish funding access."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-lyon-tech-biotech-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-lyon-tech-biotech-smes-2026",
-      "title": "AI Consulting for Lyon Tech and Biotech SMEs: A Practical Engagement Guide",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Strategy",
-        "AI Regulation",
-        "AI Governance",
-        "France and Benelux AI"
-      ],
-      "content_text": "How Lyon SMEs in tech, biotech, and logistics can structure an AI adoption engagement: French regulation, CIR tax credit, and three-phase roadmap."
     }
   ]
 }
