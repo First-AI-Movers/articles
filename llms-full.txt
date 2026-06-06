@@ -17,9 +17,9 @@ Please preserve article titles, canonical URLs, publication dates, and attributi
 - Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)
 - Publication: First AI Movers — https://firstaimovers.com
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-- Articles: 860
+- Articles: 863
 - Date range: 2025-02-17 to 2026-05-24
-- Generated: 2026-06-04
+- Generated: 2026-06-06
 
 Machine-readable catalog: https://articles.firstaimovers.com/index.json  
 Atom feed (recent only): https://articles.firstaimovers.com/feed.xml
@@ -7786,6 +7786,760 @@ If your engineering team is already experimenting with AI coding agents, and sta
 Start with an [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) to understand whether your organisation's governance, data, and process maturity can support agent adoption at scale.
 
 If your team needs help choosing a platform, scoping an acceptable use policy, or building the security posture for coding agent rollout, start with [AI Consulting](https://radar.firstaimovers.com/page/ai-consulting).
+
+
+---
+
+# How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)
+
+- **Published:** 2026-05-02
+- **URL:** https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes
+- **Topics:** 
+
+> **TL;DR:** A practical EU SME guide to AI governance that fits your industry. Covers financial services, healthcare, legal, manufacturing, and energy sectors.
+
+AI governance for a Belgian fintech and AI governance for a Portuguese logistics operator are not the same problem. They share a regulatory base layer (GDPR + EU AI Act), but the sector-specific rules, risk classifications, and operational constraints diverge sharply. A governance framework that ignores your industry context is a compliance gap waiting to surface, and the gap closes hard on 2 August 2026 when most EU AI Act obligations begin to apply.
+
+For mid-market executives in regulated sectors, the practical question is no longer whether to govern AI but whose framework you copy. The wrong answer here is "the IT department's", because the controls that actually keep you compliant live in compliance, in clinical, in plant, in trading, and in operations. An industry-fit AI governance framework is a three-layer stack: the EU-wide base (GDPR + EU AI Act), your sector-specific regulatory overlay, and your operational controls tailored to how AI actually touches your workflows. Most companies build the first layer and stop. The second and third layers are where governance either protects you or fails you.
+
+---
+
+## Why Generic AI Governance Fails in Regulated Industries
+
+The standard advice for AI governance is to write an [acceptable use policy](https://radar.firstaimovers.com/ai-acceptable-use-policy-engineering-teams), set up review gates, and log what your AI tools do. That advice is correct but incomplete for any company operating under sector-specific regulation.
+
+A fintech using AI for credit scoring faces [FSMA/MiFID II obligations](https://radar.firstaimovers.com/ai-governance-financial-services-european-smes-2026) that a gaming studio does not. A hospital deploying AI for clinical decision support faces [MDR classification requirements](https://radar.firstaimovers.com/ai-governance-healthcare-smes-eu-ai-act-2026) that a law firm does not. A manufacturer using AI for predictive maintenance faces machinery directive and ICS/OT security requirements that an e-commerce company does not.
+
+Generic governance frameworks miss these sector layers. The result: companies believe they are compliant because they have a policy, but their actual regulatory exposure is unaddressed.
+
+## The Three-Layer Governance Stack
+
+Every industry-fit governance framework follows the same architecture. The layers are cumulative, not alternative.
+
+### Layer 1: EU-Wide Base (Universal)
+
+This layer applies to every European company using AI, regardless of industry:
+
+- **GDPR** (data protection): lawful basis for processing, data minimisation, data subject rights, cross-border transfer rules, breach notification (72 hours)
+- **EU AI Act**: risk classification (prohibited, high-risk, limited, minimal), transparency obligations, conformity assessment for high-risk systems, incident reporting. Most rules apply from [2 August 2026](https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now); high-risk AI embedded in products covered by Annex I sectoral legislation has obligations that apply from 2 August 2027
+- **Product safety**: General Product Safety Regulation for AI-enabled products
+
+Every company needs this layer. It is not optional and it is not sufficient on its own.
+
+### Layer 2: Sector-Specific Regulatory Overlay
+
+This is the layer most companies miss. Each regulated industry has rules that modify, extend, or constrain how AI can be used in that specific context.
+
+| Industry | Sector-Specific Rules | Key AI Constraint |
+|---|---|---|
+| **Financial services** | MiFID II, PSD2, DORA (in force since 17 January 2025), FSMA (Belgium), BaFin (Germany), AFM (Netherlands) | Algorithmic trading explainability, credit scoring fairness, operational resilience |
+| **Healthcare** | MDR, IVDR, clinical decision support classification | AI as medical device if it influences clinical decisions |
+| **Legal** | Bar association rules, professional privilege, court admissibility | AI-generated legal advice vs AI-assisted research distinction |
+| **Manufacturing** | Machinery Directive 2006/42/EC (in force today), Machinery Regulation (EU) 2023/1230 (general application from 20 January 2027, with some provisions applying earlier), ICS/OT security, quality management (ISO 9001) | Safety-critical AI in production lines, predictive maintenance reliability |
+| **Energy** | NIS2 (EU-level obligations; national transposition and supervisory detail vary by Member State), DORA, critical infrastructure designation | AI in grid management and energy trading under stricter cyber obligations |
+| **Veterinary** | MDR-adjacent, GDPR for owner PII, CE marking as quality signal | MDR does not apply to vet-only devices, but quality expectations transfer |
+
+### Layer 3: Operational Controls (Your Implementation)
+
+This layer translates the regulatory requirements into daily operating procedures:
+
+- **Data handling rules** specific to your industry's data types (patient records, financial transactions, legal case files, production telemetry)
+- **Model validation protocols** appropriate for your risk level (clinical validation for healthcare, backtesting for financial models, safety certification for manufacturing)
+- **Audit trail requirements** that satisfy your sector regulator, not just GDPR
+- **Incident response procedures** that account for your industry's reporting obligations (financial regulators expect different timelines than health authorities)
+- **Human oversight requirements** calibrated to the decision's impact (a credit denial requires different oversight than a marketing recommendation)
+
+## How to Build Your Industry-Fit Framework
+
+### Step 1: Map your regulatory surface
+
+Identify every regulation that applies to your AI usage. Start with the Layer 1 base, then add your sector-specific rules from Layer 2. If you are unsure which sector rules apply, that uncertainty is the first gap to close.
+
+### Step 2: Classify your AI use cases by risk
+
+Not every AI use case carries the same regulatory weight. A coding assistant used by your engineering team is minimal risk. An AI system that influences clinical decisions or credit approvals is high risk. Map each use case to the [EU AI Act risk classification](https://radar.firstaimovers.com/eu-ai-act-questions-before-scaling-agentic-workflows) and your sector-specific risk framework.
+
+### Step 3: Build controls per risk tier
+
+Design your operational controls to match the risk tier, not the technology. High-risk use cases need conformity assessment, ongoing monitoring, and human oversight. Minimal-risk use cases need transparency and logging. Do not apply high-risk controls to minimal-risk use cases; you will create governance fatigue for the operations team and the compliance lead without reducing actual risk. A worked example: a German Mittelstand machine builder using AI for visual quality inspection on a single welded seam needs Layer 3 model validation against its own production data, but does not need the full conformity assessment a safety-critical hazard-detection camera would attract under the EU AI Act.
+
+### Step 4: Designate ownership by function
+
+AI governance cannot live exclusively in IT. In a Belgian fintech, the compliance lead owns the explainability requirement; in a Spanish hospital, the clinical director owns the validation protocol; in a Dutch utility, the operations director and the CISO jointly own the NIS2 control set. Map each governance responsibility to the function that already owns the underlying domain risk, and write the owner's name into the policy.
+
+### Step 5: Set a review cadence
+
+Regulations change. Your AI usage evolves. Build a review cycle:
+- **Quarterly**: review AI use case register and risk classifications
+- **Annually**: full regulatory mapping refresh (new guidance, enforcement actions, sector-specific updates)
+- **Per incident**: update controls based on what failed
+
+## Frequently Asked Questions
+
+### Do I need separate governance for each AI tool?
+
+No. Govern by use case and risk tier, not by tool. A coding assistant and a customer service chatbot may use the same underlying model but have very different risk profiles. Your governance should reflect the use case risk, not the vendor name.
+
+### How do I know which EU AI Act risk category applies to my industry?
+
+The EU AI Act defines high-risk categories explicitly in Annex III. If your AI system is used for credit scoring, employee recruitment, law enforcement, medical devices, or critical infrastructure management, it is likely high risk. If it is used for content recommendation, code generation, or internal analytics, it is likely minimal risk. When in doubt, treat it as high risk until you have confirmed otherwise.
+
+### Can I use the same governance framework across multiple European countries?
+
+Yes, with adjustments. The EU-wide base (GDPR + EU AI Act) is harmonised across Member States. Sector-specific rules vary: Belgian financial services face FSMA, German firms face BaFin, Dutch firms face AFM. Your governance framework should have a common core with country-specific appendices for sector regulation, owned by the local compliance lead and reviewed by the CTO and Head of Operations.
+
+### What happens if I operate in multiple industries?
+
+Build the framework once with a shared Layer 1 and Layer 2 overlays for each industry you operate in. A mid-market business that provides AI solutions to both healthcare and financial services clients needs both the MDR overlay and the MiFID II overlay, but the base layer and many operational controls can be shared. The CTO typically owns the shared core; the per-vertical compliance owner extends it.
+
+## Industry Deep Dives
+
+Each of these articles covers the three-layer governance stack for a specific industry:
+
+- [AI Governance for Manufacturing and Industrial SMEs](https://radar.firstaimovers.com/ai-governance-manufacturing-industrial-smes-eu-2026)
+- [AI Governance for Energy and Utilities](https://radar.firstaimovers.com/ai-governance-energy-utilities-smes-eu-2026)
+- [AI Governance for Financial Services SMEs](https://radar.firstaimovers.com/ai-governance-financial-services-european-smes-2026)
+- [AI Governance for Healthcare SMEs](https://radar.firstaimovers.com/ai-governance-healthcare-smes-eu-ai-act-2026)
+- [AI Governance for Legal SMEs](https://radar.firstaimovers.com/ai-governance-legal-smes-eu-ai-act-2026)
+- [AI Governance for Veterinary and Animal Health](https://radar.firstaimovers.com/ai-governance-veterinary-animal-health-smes-eu-2026)
+
+## Get Governance That Fits Your Industry
+
+If your AI governance is built on generic templates that do not account for your sector's regulatory requirements, you have a compliance gap, not a governance framework.
+
+Our [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) evaluates your current AI governance against the specific regulatory stack for your industry. It identifies gaps in your Layer 2 and Layer 3 controls before a regulator does.
+
+If you already know the gaps and need help building the sector-specific controls, our [AI Consulting](https://radar.firstaimovers.com/page/ai-consulting) services design governance frameworks that satisfy both the EU-wide base and your industry-specific obligations.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)",
+  "description": "A practical EU SME guide to AI governance that fits your industry. Covers financial services, healthcare, legal, manufacturing, and energy sectors.",
+  "datePublished": "2026-05-02T18:29:35.930655+00:00",
+  "dateModified": "2026-05-02T18:29:35.930655+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes"
+  },
+  "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need separate governance for each AI tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Govern by use case and risk tier, not by tool. A coding assistant and a customer service chatbot may use the same underlying model but have very different risk profiles. Your governance should reflect the use case risk, not the vendor name."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I know which EU AI Act risk category applies to my industry?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The EU AI Act defines high-risk categories explicitly in Annex III. If your AI system is used for credit scoring, employee recruitment, law enforcement, medical devices, or critical infrastructure management, it is likely high risk. If it is used for content recommendation, code generation, or in..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the same governance framework across multiple European countries?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, with adjustments. The EU-wide base (GDPR + EU AI Act) is harmonised across Member States. Sector-specific rules vary: Belgian financial services face FSMA, German firms face BaFin, Dutch firms face AFM. Your governance framework should have a common core with country-specific appendices for ..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if I operate in multiple industries?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Build the framework once with a shared Layer 1 and Layer 2 overlays for each industry you operate in. A mid-market business that provides AI solutions to both healthcare and financial services clients needs both the MDR overlay and the MiFID II overlay, but the base layer and many operational con..."
+      }
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# AI Governance for Manufacturing and Industrial SMEs: What the Machinery Directive, EU AI Act, and ISO 9001 Mean for Your AI Rollout
+
+- **Published:** 2026-05-02
+- **URL:** https://radar.firstaimovers.com/ai-governance-manufacturing-industrial-smes-eu-2026
+- **Topics:** 
+
+> **TL;DR:** How EU manufacturing SMEs should govern AI in production, predictive maintenance, and QMS under the Machinery Regulation and EU AI Act.
+
+If your manufacturing company is using AI for predictive maintenance, quality inspection, or production optimisation, you are operating under a regulatory stack that most generic AI governance guides ignore entirely. The three-layer stack for manufacturing is GDPR + EU AI Act + the current Machinery Directive 2006/42/EC (with the new Machinery Regulation (EU) 2023/1230 generally applying from 20 January 2027, with some provisions applying earlier), and ISO 9001 quality management as the operational backbone. For an Italian pharma packaging line or a Czech automotive supplier, the stack is the same; only the notified body and the language on the CE marking change.
+
+The stakes for plant managers, quality leads, and operations directors are concrete. AI in a manufacturing environment touches safety-critical systems. An AI model that predicts when a machine will fail and recommends shutting it down is making a decision that affects worker safety, production output, and equipment integrity. Governing that decision is not a compliance exercise; it is an operational necessity, and it is also the difference between a clean audit on 2 August 2026 (when most EU AI Act obligations begin to apply) and a remediation project under regulator pressure.
+
+---
+
+## The Manufacturing-Specific Regulatory Stack
+
+### Layer 1: EU-Wide Base
+
+- **GDPR**: applies when AI processes employee data (biometric access, shift scheduling, performance monitoring) or supplier/customer data
+- **EU AI Act**: safety components of machinery are addressed in the high-risk path. Most rules apply from [2 August 2026](https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now); for high-risk AI embedded in products covered by Annex I sectoral legislation (which includes machinery), Article 6(1) and the corresponding obligations apply from 2 August 2027
+
+### Layer 2: Machinery Directive (today) and Machinery Regulation (from 2027)
+
+The Machinery Directive 2006/42/EC remains the legal baseline for machinery placed on the EU market today. The Machinery Regulation (EU) 2023/1230 replaces it with general application from 20 January 2027; some provisions apply earlier. The new regulation explicitly addresses AI and machine learning in safety-critical applications:
+
+- **Safety function classification**: if an AI system performs or influences a safety function (emergency stop logic, hazard detection, load calculation), it falls under the machinery safety requirements
+- **Conformity assessment**: AI-enabled safety components require CE marking and may require notified body involvement depending on the risk category
+- **Documentation**: technical documentation must describe the AI system's behaviour, training data characteristics, performance limits, and failure modes
+- **Human oversight**: the new regulation requires that AI-enabled safety functions maintain appropriate human oversight, especially for systems that can modify their behaviour through learning
+
+Practical read for an EU mid-market manufacturer: do not assume every Machinery Regulation obligation is in force today. Plan the 2027 transition explicitly, and make sure your CE marking process for new equipment placed on the market in 2026 still anchors to Directive 2006/42/EC.
+
+### Layer 3: Quality and Operational Controls
+
+- **ISO 9001** quality management: AI systems that affect product quality must be integrated into your QMS, including validation, calibration, and change management procedures
+- **ICS/OT security**: AI connected to industrial control systems (PLCs, SCADA, DCS) inherits the cybersecurity requirements of the OT environment, including network segmentation, access control, and incident response
+- **Functional safety (IEC 61508 / ISO 13849)**: AI components in safety-related control systems may need to meet Safety Integrity Level (SIL) requirements
+
+## Five AI Use Cases in Manufacturing and Their Governance Requirements
+
+| Use Case | Risk Level | Key Governance Requirements |
+|---|---|---|
+| **Predictive maintenance** | Medium | Model validation against historical failure data, false-positive/negative rate monitoring, human approval before automated shutdowns |
+| **Visual quality inspection** | Medium-High | Training data representativeness, defect classification accuracy thresholds, fallback to human inspection when confidence is low |
+| **Production scheduling** | Low-Medium | Transparency of scheduling logic, override capability for floor managers, audit trail of schedule changes |
+| **Safety monitoring** (camera-based hazard detection) | High | EU AI Act high-risk classification, conformity assessment, continuous performance monitoring, mandatory human oversight |
+| **Energy optimisation** | Low | Transparency and logging sufficient, no safety-critical implications unless connected to critical infrastructure |
+
+## Building Manufacturing-Specific Controls
+
+### Model Validation Protocol
+
+Manufacturing AI models must be validated against real-world operating conditions, not just test datasets. This means:
+
+1. **Commissioning validation**: test the model against historical production data from your specific facility, not generic industry benchmarks
+2. **Seasonal and shift variation**: validate that the model performs consistently across different shifts, seasons, and production volumes
+3. **Degradation monitoring**: establish performance baselines and alert thresholds. A predictive maintenance model that was 95% accurate at deployment may degrade to 80% as equipment ages or operating conditions change
+4. **Revalidation triggers**: define when the model must be revalidated (after equipment changes, process modifications, or after a configurable number of false predictions)
+
+### Human-in-the-Loop Design for Production
+
+In manufacturing, "human oversight" means something different than in software engineering. The human is typically a floor operator, shift supervisor, plant manager, or EHS lead, not a data scientist:
+
+- **Decision support, not decision replacement**: present the AI recommendation with the confidence level and the key factors. Let the operator confirm or override.
+- **Override logging**: every human override of an AI recommendation must be logged, reviewed, and used to improve the model
+- **Escalation path**: define when a floor operator should escalate an AI recommendation to a supervisor or engineer (low confidence, safety-adjacent, first-time situation)
+
+A worked example: a Spanish food processing plant deploys an AI vision system to flag foreign-object contamination on a conveyor. The shift supervisor sees the AI's flag and confidence score, and the system stops the line automatically only when confidence exceeds a written threshold; below it, the line slows and the supervisor inspects. Every override is logged, and the quality manager reviews override patterns weekly as part of the QMS.
+
+### OT/IT Boundary Management
+
+AI systems in manufacturing often bridge the IT/OT divide. Governance must address both environments:
+
+- **Network segmentation**: AI inference engines connected to PLCs or SCADA systems should run in a DMZ between the IT and OT networks, not directly on the OT network
+- **Update management**: AI model updates must go through the same change management process as any other OT system modification, including testing in a staging environment before production deployment
+- **Incident response**: an AI failure in a manufacturing environment may require both IT incident response (model rollback, data investigation) and OT incident response (machine shutdown, safety inspection)
+
+## Frequently Asked Questions
+
+### Does the EU AI Act classify all manufacturing AI as high risk?
+
+No. Only AI systems that serve as safety components of machinery or that are covered by specific Annex I legislation are classified as high risk. A scheduling optimiser or energy management system is typically minimal risk. A vision system that detects safety hazards or an AI that controls safety-critical machine functions is high risk.
+
+### Do we need CE marking for AI-enabled machines?
+
+If the AI is integrated into a machine that requires CE marking under the Machinery Regulation, then yes, the AI component must be included in the conformity assessment. This applies to new machines and to significant modifications of existing machines where AI is added to a safety function.
+
+### How do we integrate AI governance into our existing ISO 9001 QMS?
+
+Add AI systems to your QMS as controlled processes. This means: documenting the AI system's scope and performance criteria, including it in your internal audit programme, tracking model performance as a quality metric, and applying your change management procedure to model updates. Most QMS frameworks already have the structure for this; the gap is usually awareness, not capability.
+
+### What training do floor operators need for AI-governed production systems?
+
+Operators need to understand three things: what the AI is recommending, why (in plain language, not model internals), and how to override it. They do not need to understand machine learning. They need a clear decision protocol that the plant manager and the EHS lead have signed off on: "When the system says X, do Y. When the confidence is below Z, escalate to your shift supervisor." On day one a half-hour walk-through is enough; the muscle memory builds in the first week of supervised operation, and the quality manager reviews the override log every Friday.
+
+## Further Reading
+
+- [How to Build an AI Governance Framework That Fits Your Industry](https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes)
+- [AI Governance for Healthcare SMEs](https://radar.firstaimovers.com/ai-governance-healthcare-smes-eu-ai-act-2026)
+- [AI Governance for Financial Services SMEs](https://radar.firstaimovers.com/ai-governance-financial-services-european-smes-2026)
+- [How to Build an AI Security Posture for Your Engineering Organisation](https://radar.firstaimovers.com/ai-security-posture-engineering-organisation)
+
+## Get Manufacturing-Specific AI Governance Right
+
+If your company is deploying AI in production environments without a governance framework that accounts for the Machinery Regulation, functional safety requirements, and your existing QMS, the gap between what you are doing and what compliance requires is growing with every deployment.
+
+Our [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) evaluates your current AI governance against the three-layer stack for manufacturing, identifies gaps in safety classification, model validation, and OT security controls, and gives you a prioritised remediation plan.
+
+If you need help designing the governance operating model for AI in your production environment, our [AI Consulting](https://radar.firstaimovers.com/page/ai-consulting) services can build a framework that satisfies both the Machinery Regulation and your quality management system.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AI Governance for Manufacturing and Industrial SMEs: What the Machinery Directive, EU AI Act, and ISO 9001 Mean for Your AI Rollout",
+  "description": "How EU manufacturing SMEs should govern AI in production, predictive maintenance, and QMS under the Machinery Regulation and EU AI Act.",
+  "datePublished": "2026-05-02T18:33:29.931202+00:00",
+  "dateModified": "2026-05-02T18:33:29.931202+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/ai-governance-manufacturing-industrial-smes-eu-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does the EU AI Act classify all manufacturing AI as high risk?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Only AI systems that serve as safety components of machinery or that are covered by specific Annex I legislation are classified as high risk. A scheduling optimiser or energy management system is typically minimal risk. A vision system that detects safety hazards or an AI that controls safety..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do we need CE marking for AI-enabled machines?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If the AI is integrated into a machine that requires CE marking under the Machinery Regulation, then yes, the AI component must be included in the conformity assessment. This applies to new machines and to significant modifications of existing machines where AI is added to a safety function."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do we integrate AI governance into our existing ISO 9001 QMS?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add AI systems to your QMS as controlled processes. This means: documenting the AI system's scope and performance criteria, including it in your internal audit programme, tracking model performance as a quality metric, and applying your change management procedure to model updates. Most QMS frame..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What training do floor operators need for AI-governed production systems?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Operators need to understand three things: what the AI is recommending, why (in plain language, not model internals), and how to override it. They do not need to understand machine learning. They need a clear decision protocol that the plant manager and the EHS lead have signed off on: "When the ..."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "AI Governance for Manufacturing and Industrial SMEs: What the Machinery Directive, EU AI Act, and ISO 9001 Mean for Your AI Rollout",
+  "description": "How EU manufacturing SMEs should govern AI in production, predictive maintenance, and QMS under the Machinery Regulation and EU AI Act.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Commissioning validation",
+      "text": "test the model against historical production data from your specific facility, not generic industry benchmarks"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Seasonal and shift variation",
+      "text": "validate that the model performs consistently across different shifts, seasons, and production volumes"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Degradation monitoring",
+      "text": "establish performance baselines and alert thresholds. A predictive maintenance model that was 95% accurate at deployment may degrade to 80% as equipment ages or operating conditions change"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Revalidation triggers",
+      "text": "define when the model must be revalidated (after equipment changes, process modifications, or after a configurable number of false predictions)"
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# EU AI Act: What European SMEs Must Do Before August 2, 2026
+
+- **Published:** 2026-05-01
+- **URL:** https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now
+- **Topics:** 
+
+> **TL;DR:** EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps.
+
+The EU AI Act's main application date is August 2, 2026. If your company uses AI in hiring decisions, credit assessments, employee performance scoring, or another Annex III category, you are now inside the compliance window, not looking at it from the outside. Why this matters now: founders, CTOs, operations leaders, and compliance owners need enough time to inventory systems, classify risk, request vendor evidence, and decide whether a tool must be paused before it becomes a regulatory problem.
+
+The EU AI Act (Regulation 2024/1689) entered into force on August 1, 2024. The first enforcement wave, covering prohibited AI practices and AI literacy obligations, applied from February 2, 2025. General-purpose AI model obligations applied from August 2, 2025. The most operationally significant deadline for many small businesses is the one arriving now: **August 2, 2026**, when most remaining AI Act rules apply, including many obligations affecting Annex III high-risk AI systems. The European Commission notes that some high-risk systems embedded in regulated products follow the later August 2, 2027 date, and that Digital Omnibus negotiations may affect implementation timing.
+
+Source basis: the European Commission's [AI Act implementation timeline](https://ai-act-service-desk.ec.europa.eu/en/ai-act/eu-ai-act-implementation-timeline) and [AI Act FAQ](https://ai-act-service-desk.ec.europa.eu/en/faq) are the reference points for the dates and scope used here.
+
+This is not a theoretical future obligation. National market surveillance authorities will have enforcement power, and penalties for the most serious non-compliance categories can reach up to EUR 35 million or 7% of global annual turnover, whichever is higher.
+
+---
+
+## What Changes on August 2, 2026
+
+Three things matter most for operators:
+
+### 1. High-Risk AI System Requirements (Articles 8-15)
+
+If your company deploys, develops, or procures an AI system that falls under Annex III's high-risk categories, the compliance file should address requirements covering:
+
+- **Risk management**: a documented risk management system for the AI system's lifecycle
+- **Data governance**: training data must be relevant, representative, and appropriately checked for bias
+- **Technical documentation**: documentation of the system's purpose, capabilities, limitations, and intended use
+- **Record-keeping**: logging that enables traceability of relevant operations
+- **Transparency**: clear instructions and information for users and deployers
+- **Human oversight**: human review capability designed into the system
+- **Accuracy, robustness, and cybersecurity**: defined performance and resilience standards
+
+### 2. National Market Surveillance Authorities Go Live
+
+Every EU Member State must designate national competent authorities. These authorities are expected to supervise AI Act compliance and may have the power to:
+
+- Request documentation from deployers and providers
+- Conduct audits and inspections
+- Order the withdrawal of non-compliant systems from the market
+- Issue fines
+
+### 3. Regulatory Sandboxes Must Be Established
+
+Every Member State must establish at least one AI regulatory sandbox under the Act's rollout. These sandboxes are intended to let companies test AI systems under regulatory supervision before full deployment.
+
+---
+
+## Which AI Systems Are High-Risk? (Annex III Categories)
+
+The most relevant Annex III categories for smaller European companies and mid-sized companies:
+
+| Category | What It Covers | SME Example |
+|---|---|---|
+| **Employment and workers management** | AI used in recruitment, candidate filtering, interview evaluation, promotion decisions, task allocation, performance monitoring, termination decisions | Using AI to screen CVs, score interviews, or monitor employee productivity |
+| **Creditworthiness assessment** | AI used to evaluate credit risk for natural persons | Using AI to assess customer payment risk or loan eligibility |
+| **Access to essential services** | AI that determines access to or pricing of essential private or public services | Using AI to set insurance premiums or prioritise service requests |
+| **Education and vocational training** | AI used to determine access to educational institutions or evaluate students | Using AI to score applications or assess learning outcomes |
+| **Law enforcement** | AI used for risk assessment, polygraphing, evidence evaluation | Relevant for security companies or compliance service providers |
+| **Safety components** | AI that is a safety component of a product covered by EU harmonisation legislation | AI in manufacturing safety systems, medical devices, machinery. Check the later 2027 timing for many Annex I product cases |
+
+### The Classification Test
+
+Ask these three questions about each AI system your company uses:
+
+1. **Does the system make or materially influence decisions about natural persons?** (hiring, credit, access to services)
+2. **Does the system fall under any Annex III category?** (check the table above)
+3. **Is the system a component of a product already regulated by EU harmonisation legislation?** (Annex I: machinery, medical devices, toys, etc.)
+
+If the answer to the first two questions is yes, the system may be high-risk under Annex III and should be assessed before the August 2, 2026 application date. If the third question is yes, check whether the later August 2, 2027 timing for regulated product safety components applies.
+
+### What Is NOT High-Risk (Common Relief)
+
+- AI used internally for content generation (marketing copy, blog posts, reports): usually not high-risk
+- AI coding assistants (GitHub Copilot, Claude Code): usually not high-risk unless they make decisions about people
+- AI used for data analysis and reporting without automated decision-making: usually not high-risk
+- AI chatbots for customer service: often limited-risk, with transparency obligations, rather than high-risk
+- AI used for process optimisation (logistics, scheduling, inventory): generally not high-risk unless it affects workers' terms or access to essential services
+
+---
+
+## The 90-Day Compliance Checklist for European Companies
+
+### Days 1-30: Assess and Classify
+
+- [ ] **Inventory all AI systems** in use across the organisation, including shadow AI tools employees adopted without IT approval
+- [ ] **Classify each system** against Annex III categories using the three-question test above
+- [ ] **Identify your role** for each system: are you a provider (you built or trained it), a deployer (you use it in your operations), or a distributor?
+- [ ] **Document your assessment**. Even if no systems are high-risk, the documented assessment itself is evidence of due diligence
+
+### Days 30-60: Address High-Risk Systems
+
+If you have high-risk AI systems:
+
+- [ ] **Establish a risk management system**: document the risks, mitigation measures, and monitoring procedures for each high-risk system
+- [ ] **Verify data governance**: confirm training data quality, representativeness, and bias assessment for systems you developed or fine-tuned
+- [ ] **Prepare technical documentation**: system purpose, capabilities, limitations, intended use, prohibited use, and performance metrics
+- [ ] **Implement logging**: ensure the system produces logs that enable traceability of relevant decisions
+- [ ] **Design human oversight**: identify who reviews AI decisions, how they can override them, and under what conditions
+- [ ] **Conduct a fundamental rights impact assessment**: Article 27 requires this for deployers of high-risk systems in specified cases
+
+### Days 60-90: Operationalise and Verify
+
+- [ ] **Assign a responsible person**: someone in the organisation must own AI Act compliance. This can be your DPO, a dedicated AI compliance officer, or an external advisor
+- [ ] **Brief your team**: anyone using or overseeing a high-risk AI system must understand their obligations
+- [ ] **Check database registration duties**: Article 49 creates EU database registration duties for certain high-risk AI systems, but the exact obligation depends on your role and system category
+- [ ] **Establish an incident reporting procedure**: serious incidents involving high-risk AI systems must be reportable through an internal process
+- [ ] **Review vendor contracts**: if you procure high-risk AI systems from vendors, verify that contracts include compliance obligations and documentation access
+
+---
+
+## What Happens If You Do Nothing
+
+### Penalties
+
+| Violation | Maximum Fine |
+|---|---|
+| Deploying a prohibited AI practice | €35M or 7% of global turnover |
+| Non-compliance with high-risk requirements | €15M or 3% of global turnover |
+| Providing incorrect information to authorities | €7.5M or 1.5% of global turnover |
+
+For smaller companies and start-ups, the Act requires that administrative fines take account of the smaller undertaking's economic viability. That does not make non-compliance safe: even proportionate fines and remediation orders can be material for a 20-person company.
+
+### Practical Risks Beyond Fines
+
+- National authorities can order you to stop using the system
+- Customers and employees can challenge AI-assisted decisions
+- Insurance coverage for AI-related incidents may require compliance evidence
+- B2B customers (especially enterprises and public sector) will increasingly require AI Act compliance as a procurement condition
+
+---
+
+## What Most Small Businesses Get Wrong
+
+**Mistake 1: "We don't develop AI, so the Act doesn't apply to us."**
+Wrong. The Act applies to **deployers** (organisations that use AI systems), not just providers (organisations that develop them). If you use an AI hiring tool from a vendor, you have deployer obligations.
+
+**Mistake 2: "Our AI is just a chatbot, so it's not high-risk."**
+Correct in most cases, but if that chatbot makes decisions that affect people's access to services, employment, or credit, it may cross the threshold. Classification is based on function, not technology.
+
+**Mistake 3: "We'll wait and see how enforcement plays out."**
+The first market surveillance authorities are being prepared. Waiting for the first enforcement action is waiting for the cautionary tale to be someone else. By then, retroactive compliance is more expensive than proactive compliance.
+
+---
+
+## The SME Advantage
+
+Smaller European businesses actually have an advantage in AI Act compliance: smaller scale means simpler classification. Many founder-led companies and professional services firms will find that:
+
+- They deploy 2-5 AI tools (not hundreds)
+- Most of those tools are minimal-risk or limited-risk (transparency obligation only)
+- Only 0-2 systems might be high-risk, and those are often vendor-provided tools where the vendor carries the provider obligations
+
+The assessment takes a day. The documentation takes a week. The ongoing compliance monitoring takes an hour a month. This is not the multi-year enterprise programme that larger companies face.
+
+---
+
+## Frequently Asked Questions
+
+### Does the EU AI Act apply to companies with fewer than 50 employees?
+
+Yes. The Act does not have an SME exemption for high-risk system obligations. However, SMEs benefit from reduced fine ceilings, access to regulatory sandboxes, and simplified documentation requirements where proportionality applies.
+
+### Do I need to classify AI tools I use but did not build?
+
+Yes. As a deployer, you must assess whether the AI systems you use fall under high-risk categories and comply with deployer-specific obligations (human oversight, fundamental rights assessment, incident reporting).
+
+### What if my vendor says their AI tool is compliant?
+
+Vendor claims are a starting point, not a compliance strategy. As a deployer, you have independent obligations. Request the vendor's conformity assessment documentation, technical documentation, and EU declaration of conformity. If they cannot provide these for a high-risk system, that is a red flag.
+
+### Can I use the regulatory sandbox to test compliance?
+
+Yes. Regulatory sandboxes are designed for exactly this purpose. Contact your national AI authority to apply. Sandboxes provide a supervised environment to test AI systems against regulatory requirements before full deployment.
+
+### What is the cheapest way for a smaller company to comply?
+
+Start with the inventory and classification (Day 1 of the checklist above). Many companies discover they have zero high-risk systems; in that case, the documented classification itself becomes your compliance evidence. If you do have high-risk systems, prioritise the deployer obligations: human oversight, logging, and incident reporting. An AI readiness assessment can identify gaps in under an hour.
+
+---
+
+## Further Reading
+
+- [The Agentic AI Adoption Framework European SMEs Need in 2026](https://radar.firstaimovers.com/agentic-ai-adoption-framework-european-smes-2026)
+- [How to Run an Internal AI Pilot Without Creating Governance Debt](https://radar.firstaimovers.com/how-to-run-internal-ai-pilot-without-governance-debt)
+- [What Your AI Acceptable Use Policy Should Actually Cover](https://radar.firstaimovers.com/ai-acceptable-use-policy-engineering-teams)
+- [Shadow AI in Engineering Teams: How to Detect It and Decide What to Do](https://radar.firstaimovers.com/shadow-ai-engineering-teams-detect-measure-decide)
+
+---
+
+## Start Your Compliance Assessment Today
+
+If you are unsure whether your AI systems are high-risk, start with our [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment). The governance dimension specifically evaluates your EU AI Act awareness, AI use policy maturity, and incident response readiness.
+
+If you need structured support for classification, documentation, and compliance planning, explore our [Fractional CAIO retainer](https://radar.firstaimovers.com/page/ai-consulting): ongoing governance advisory that includes monthly EU AI Act compliance monitoring.
+
+The remaining window is enough time to classify systems, request vendor evidence, and close obvious gaps. It is not enough time to procrastinate and then comply.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "EU AI Act: What European SMEs Must Do Before August 2, 2026",
+  "description": "EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps.",
+  "datePublished": "2026-05-01T20:21:19.891532+00:00",
+  "dateModified": "2026-05-01T20:21:19.891532+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now"
+  },
+  "image": "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does the EU AI Act apply to companies with fewer than 50 employees?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The Act does not have an SME exemption for high-risk system obligations. However, SMEs benefit from reduced fine ceilings, access to regulatory sandboxes, and simplified documentation requirements where proportionality applies."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to classify AI tools I use but did not build?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. As a deployer, you must assess whether the AI systems you use fall under high-risk categories and comply with deployer-specific obligations (human oversight, fundamental rights assessment, incident reporting)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my vendor says their AI tool is compliant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Vendor claims are a starting point, not a compliance strategy. As a deployer, you have independent obligations. Request the vendor's conformity assessment documentation, technical documentation, and EU declaration of conformity. If they cannot provide these for a high-risk system, that is a red f..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the regulatory sandbox to test compliance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Regulatory sandboxes are designed for exactly this purpose. Contact your national AI authority to apply. Sandboxes provide a supervised environment to test AI systems against regulatory requirements before full deployment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the cheapest way for a smaller company to comply?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with the inventory and classification (Day 1 of the checklist above). Many companies discover they have zero high-risk systems; in that case, the documented classification itself becomes your compliance evidence. If you do have high-risk systems, prioritise the deployer obligations: human o..."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "EU AI Act: What European SMEs Must Do Before August 2, 2026",
+  "description": "EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Does the system make or materially influence decisions about natural persons?",
+      "text": "(hiring, credit, access to services)"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Does the system fall under any Annex III category?",
+      "text": "(check the table above)"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Is the system a component of a product already regulated by EU harmonisation legislation?",
+      "text": "(Annex I: machinery, medical devices, toys, etc.)"
+    }
+  ]
+}
+</script>
+-->
 
 
 ---
