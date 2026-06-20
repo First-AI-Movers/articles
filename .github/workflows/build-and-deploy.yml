@@ -28,6 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          persist-credentials: false
           fetch-depth: 1
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -71,6 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          persist-credentials: false
           fetch-depth: 1
 
       - uses: actions/setup-python@v6

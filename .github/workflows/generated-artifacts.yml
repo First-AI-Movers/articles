@@ -15,6 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          persist-credentials: false
           # Need the merge-base so the changed-files classifier can diff the
           # PR head against the base ref on a fresh checkout.
           fetch-depth: 0
