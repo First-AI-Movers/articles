@@ -24,6 +24,8 @@ If you discover a security vulnerability in this repository or its deployment pi
 
 We aim to acknowledge reports within 48 hours and provide a timeline for resolution within 7 days.
 
+Once a report is triaged, the team responds per the [Incident-Response Runbook](docs/INCIDENT_RESPONSE_RUNBOOK.md) (triage, secret-leak rotation, publishing/content incidents, the errata/retraction correction path, LLM/provider + CI/workflow + gitleaks response, evidence capture, and tabletop drills).
+
 ## No secrets policy
 
 This repository must never contain:

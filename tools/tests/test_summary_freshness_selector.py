@@ -302,8 +302,13 @@ def test_candidate_report_creates_missing_parent_dirs(tmp_path):
     # --candidate-report under a not-yet-existing scratch dir must succeed
     # (parent created), matching the batch report writer — not crash with
     # FileNotFoundError after selection.
+    # This test drives the CLI (rsb.main), whose --fresh-days floor is computed
+    # from the real UTC `date.today()` (the pinned TODAY hook only applies to the
+    # select_articles() helper the other tests use). A fixed fresh date rots out
+    # of the 14-day window over time, so derive it relative to today.
+    fresh_date = (datetime.date.today() - datetime.timedelta(days=3)).isoformat()
     _stage(tmp_path, [
-        {"folder": "fresh", "slug": "s-fresh", "index_date": "2026-06-01"},
+        {"folder": "fresh", "slug": "s-fresh", "index_date": fresh_date},
         {"folder": "old", "index_date": "2025-03-01"},
     ])
     report = Path("/tmp") / f"cr-parent-report-{tmp_path.name}.md"
