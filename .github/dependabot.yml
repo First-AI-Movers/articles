@@ -23,3 +23,19 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
+
+  # npm — close the gap: 3 lockfiles (root, mcp-server, og-worker) were uncovered.
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/mcp-server"
+      - "/og-worker"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Lisbon"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "javascript"
