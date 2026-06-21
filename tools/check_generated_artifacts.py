@@ -9,9 +9,52 @@ Does not commit, push, or auto-fix drift.
 """
 
 import argparse
+import re
 import subprocess
 import sys
 from pathlib import Path
+
+# --- generation-timestamp normalization ---------------------------------------
+# rebuild_local.py stamps a *generation date* (`date.today()`) into a few fields:
+# index.json `last_updated`, README.md `dateModified`, the llms-*.txt `- Generated:`
+# footer, and the sitemap `<lastmod>` of the STATIC aggregate pages (homepage,
+# /about/, /topics/ — see build_sitemap()). These drift on every rebuild that lands
+# on a different calendar day, even with zero content change, which made the
+# advisory drift check a recurring false failure for docs/maintenance PRs.
+#
+# The comparison normalizes ONLY those generation timestamps. It must NOT touch
+# content dates: per-article / per-topic sitemap `<lastmod>` (the topic hub's
+# newest-article date), feed `feed_updated`/`pubDate`/`date_published` (the newest
+# article's published date), or any human-authored/source date — a real
+# content-freshness change must still fail the check.
+_DATE = rb"\d{4}-\d{2}-\d{2}"
+_DATE_PLACEHOLDER = b"<GENERATION-DATE>"
+# Sitemap loc paths whose <lastmod> is the build date (NOT a content date), per
+# rebuild_local.build_sitemap(). Keep in sync with that function.
+_SITEMAP_STATIC_LOCS = (
+    b"https://articles.firstaimovers.com/",
+    b"https://articles.firstaimovers.com/about/",
+    b"https://articles.firstaimovers.com/topics/",
+)
+
+
+def _normalize_generation_dates(name: str, data: bytes) -> bytes:
+    """Replace generation-time date stamps with a placeholder so a build-date-only
+    diff does not register as drift. Content dates are left untouched."""
+    if name == "index.json":
+        data = re.sub(rb'("last_updated":\s*")' + _DATE + rb'(")', rb"\1" + _DATE_PLACEHOLDER + rb"\2", data)
+    elif name == "README.md":
+        data = re.sub(rb'("dateModified":\s*")' + _DATE + rb'(")', rb"\1" + _DATE_PLACEHOLDER + rb"\2", data)
+    elif name in ("llms.txt", "llms-index.txt", "llms-full.txt", "llms-recent.txt"):
+        data = re.sub(rb"(?m)^(- Generated: )" + _DATE + rb"[ \t]*$", rb"\1" + _DATE_PLACEHOLDER, data)
+    elif name == "sitemap.xml":
+        for loc in _SITEMAP_STATIC_LOCS:
+            data = re.sub(
+                rb"(<loc>" + re.escape(loc) + rb"</loc>\s*<lastmod>)" + _DATE + rb"(</lastmod>)",
+                rb"\1" + _DATE_PLACEHOLDER + rb"\2",
+                data,
+            )
+    return data
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -133,7 +176,9 @@ def check_artifacts(repo_root: Path, rebuild_cmd: list[str] | None = None) -> tu
                 drift.append(f"{name} (deleted)")
                 continue
             current = path.read_bytes()
-            if current != backups[name]:
+            # Compare with generation-date stamps normalized so a build-date-only
+            # difference is not reported as drift (content dates stay exact).
+            if _normalize_generation_dates(name, current) != _normalize_generation_dates(name, backups[name]):
                 drift.append(f"{name} (changed)")
 
         if drift:

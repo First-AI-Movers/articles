@@ -138,3 +138,48 @@ class TestCheckGeneratedArtifacts:
         assert len(messages) == 2
         assert any("index.json" in m for m in messages)
         assert any("feed.xml" in m for m in messages)
+
+
+from check_generated_artifacts import _normalize_generation_dates as _n  # noqa: E402
+
+
+class TestNormalizeGenerationDates:
+    """Generation-date stamps are normalized; content dates are NOT.
+
+    Locks ARTICLES-GENERATED-ARTIFACT-DRIFT-REFRESH-A: a build-date-only diff must
+    not register as drift, but a real content-date change must still fail.
+    """
+
+    def test_index_last_updated_is_normalized(self):
+        a = b'{\n  "last_updated": "2026-06-06",\n  "n": 1\n}'
+        b = b'{\n  "last_updated": "2026-06-21",\n  "n": 1\n}'
+        assert _n("index.json", a) == _n("index.json", b)
+
+    def test_readme_datemodified_is_normalized(self):
+        a = b'"dateModified": "2026-06-06"'
+        b = b'"dateModified": "2026-06-21"'
+        assert _n("README.md", a) == _n("README.md", b)
+
+    def test_llms_generated_footer_is_normalized(self):
+        a = b"# llms\n\n- Generated: 2026-06-06\n\nbody\n"
+        b = b"# llms\n\n- Generated: 2026-06-21\n\nbody\n"
+        for fname in ("llms.txt", "llms-index.txt", "llms-full.txt", "llms-recent.txt"):
+            assert _n(fname, a) == _n(fname, b), fname
+
+    def test_sitemap_static_page_lastmod_is_normalized(self):
+        tmpl = (b"<url>\n  <loc>https://articles.firstaimovers.com/</loc>\n"
+                b"  <lastmod>%s</lastmod>\n  <changefreq>weekly</changefreq>\n</url>")
+        assert _n("sitemap.xml", tmpl % b"2026-06-06") == _n("sitemap.xml", tmpl % b"2026-06-21")
+
+    # --- content dates MUST NOT be normalized (real freshness changes still fail) ---
+
+    def test_sitemap_topic_hub_lastmod_is_NOT_normalized(self):
+        # a topic hub page's <lastmod> is the newest-article (content) date.
+        tmpl = (b"<url>\n  <loc>https://articles.firstaimovers.com/topics/ai-agents/</loc>\n"
+                b"  <lastmod>%s</lastmod>\n</url>")
+        assert _n("sitemap.xml", tmpl % b"2026-04-24") != _n("sitemap.xml", tmpl % b"2026-06-21")
+
+    def test_index_article_published_date_is_NOT_normalized(self):
+        a = b'{"articles": [{"published_date": "2026-06-06"}]}'
+        b = b'{"articles": [{"published_date": "2026-06-21"}]}'
+        assert _n("index.json", a) != _n("index.json", b)
