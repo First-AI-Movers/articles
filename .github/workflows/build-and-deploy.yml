@@ -14,9 +14,9 @@ on:
   workflow_dispatch:
 
 permissions:
+  # Minimal at workflow level; pages:write + id-token:write are scoped to the deploy job
+  # only (zizmor excessive-permissions hardening). build + indexnow inherit read-only.
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -56,6 +56,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write      # actions/deploy-pages
+      id-token: write   # actions/deploy-pages OIDC attestation
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -34,11 +34,17 @@ jobs:
           pip install -r tools/requirements.txt
 
       - name: Dry-run snapshot list
-        run: python3 tools/wayback_snapshot.py --dry-run --limit ${{ github.event.inputs.limit || '8' }}
+        env:
+          # workflow_dispatch inputs via env (not inline ${{ }}) — zizmor template-injection hardening.
+          LIMIT: ${{ github.event.inputs.limit || '8' }}
+        run: python3 tools/wayback_snapshot.py --dry-run --limit "$LIMIT"
 
       - name: Submit to Wayback Machine
+        env:
+          LIMIT: ${{ github.event.inputs.limit || '8' }}
+          SLEEP: ${{ github.event.inputs.sleep || '2' }}
         run: |
           python3 tools/wayback_snapshot.py \
             --submit \
-            --limit ${{ github.event.inputs.limit || '8' }} \
-            --sleep ${{ github.event.inputs.sleep || '2' }}
+            --limit "$LIMIT" \
+            --sleep "$SLEEP"

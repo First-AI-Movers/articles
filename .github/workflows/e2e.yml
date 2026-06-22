@@ -49,24 +49,31 @@ jobs:
       - id: classify_change
         name: Classify change scope (heavy vs pure-docs)
         shell: bash
+        env:
+          # Pass GitHub-context values via env (not inline ${{ }} in the run
+          # block) to avoid template-injection — zizmor hardening.
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
 
           # Non-PR triggers (schedule, push to main, workflow_dispatch if
           # later added) always run heavy. Skipping on those would silently
           # weaken the canary.
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
+          if [ "$EVENT_NAME" != "pull_request" ]; then
             echo "kind=heavy" >> "$GITHUB_OUTPUT"
-            echo "::notice::Trigger=${{ github.event_name }}; running full E2E suite."
+            echo "::notice::Trigger=$EVENT_NAME; running full E2E suite."
             exit 0
           fi
 
           # PR path. Fetch the base ref so the diff resolves on a fresh
           # checkout; depth was already set to 0 above so the merge-base
           # is available.
-          base_ref="${{ github.event.pull_request.base.ref }}"
-          base_sha="${{ github.event.pull_request.base.sha }}"
-          head_sha="${{ github.event.pull_request.head.sha }}"
+          base_ref="$PR_BASE_REF"
+          base_sha="$PR_BASE_SHA"
+          head_sha="$PR_HEAD_SHA"
           git fetch --no-tags --quiet origin "${base_ref}" || true
 
           # Three-dot diff yields the files changed on the PR side

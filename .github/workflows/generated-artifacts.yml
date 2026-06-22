@@ -28,11 +28,16 @@ jobs:
         # main. Only `pull_request` events take this classifier path.
         if: github.event_name == 'pull_request'
         shell: bash
+        env:
+          # GitHub-context values via env (not inline ${{ }}) — zizmor template-injection hardening.
+          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          base_sha="${{ github.event.pull_request.base.sha }}"
-          head_sha="${{ github.event.pull_request.head.sha }}"
-          git fetch --no-tags --quiet origin "${{ github.event.pull_request.base.ref }}" || true
+          base_sha="$PR_BASE_SHA"
+          head_sha="$PR_HEAD_SHA"
+          git fetch --no-tags --quiet origin "$PR_BASE_REF" || true
           changed_files=$(git diff --name-only "${base_sha}...${head_sha}")
 
           if [ -z "${changed_files}" ]; then

@@ -278,8 +278,14 @@ def test_e2e_workflow_runs_heavy_on_schedule_and_push():
         s for s in wf["jobs"]["e2e"]["steps"] if s.get("id") == "classify_change"
     )
     run = classify_step.get("run") or ""
-    # The non-PR branch of the classifier must short-circuit to heavy.
-    assert 'github.event_name' in run and "pull_request" in run, (
+    env = classify_step.get("env") or {}
+    env_values = " ".join(str(v) for v in env.values())
+    # The non-PR branch of the classifier must short-circuit to heavy. `github.event_name`
+    # may be referenced inline in the run block OR passed via an env mapping (zizmor
+    # template-injection hardening: `EVENT_NAME: ${{ github.event_name }}` + `$EVENT_NAME`);
+    # accept either form.
+    references_event_name = "github.event_name" in run or "github.event_name" in env_values
+    assert references_event_name and "pull_request" in run, (
         "classify_change must distinguish pull_request from other events"
     )
 

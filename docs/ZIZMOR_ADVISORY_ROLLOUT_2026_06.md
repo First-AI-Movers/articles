@@ -25,13 +25,22 @@ Baseline (no config): **87 surfaced** — `unpinned-uses` 68, `template-injectio
 | `dependabot-cooldown` | 3 | Medium | `.github/dependabot.yml` | **FOLLOW-UP (low).** Add a `cooldown:` to the 3 ecosystems (zizmor default expects ≥7 days). Touching `dependabot.yml` while many Dependabot PRs are open is best done deliberately. |
 | `artipacked` | 2 | Medium | cookiecutter template `build-and-deploy.yml` + `tests.yml` | **FOLLOW-UP.** `persist-credentials: false` on the template's checkouts (generated-repo hardening). |
 
-**0 findings introduced by this PR.** All 19 are pre-existing Articles workflow hardening opportunities; this PR only *adds the scanner* + accepts the governed `@vN` policy.
+**0 findings introduced by PR #279.** All 19 were pre-existing Articles workflow hardening opportunities; #279 only *added the scanner* + accepted the governed `@vN` policy.
 
-## Recommended follow-up (separate)
-**`ARTICLES-WORKFLOW-SECURITY-HARDENING-A`** — work the 19 advisory findings: `template-injection` (env-mapping pattern, the proven fix from radar.engine #477), `excessive-permissions` (explicit minimal `permissions:`), `dependabot-cooldown` (cooldown block), `artipacked` (template `persist-credentials: false`). A focused hardening pass, kept out of this scanner-add PR (and out of any "broad workflow refactor").
+## Hardening update — ARTICLES-WORKFLOW-SECURITY-HARDENING-A (2026-06-22)
+The 19 actionable findings above are now **resolved**: re-scan with the same `.github/zizmor.yml` config = **0 findings** (98 governed `@vN` still suppressed by the `ref-pin` policy). **No `@vN`→SHA conversion.**
+
+| Class | Before | After | How |
+|---|---:|---:|---|
+| `template-injection` | 9 | **0** | GitHub-context / dispatch-input expressions moved from inline `${{ … }}` in `run:` blocks to step-level **`env:` mappings** (`e2e.yml`, `generated-artifacts.yml`, `ingest-airtable-dispatch.yml`, `wayback-snapshot.yml`). |
+| `excessive-permissions` | 5 | **0** | `pages: write` + `id-token: write` scoped to the **deploy job only**; workflow-level dropped to `contents: read` (`build-and-deploy.yml` + cookiecutter template). |
+| `dependabot-cooldown` | 3 | **0** | `cooldown:` (`default-days: 7`, `semver-major-days: 14`) added to all 3 ecosystems in `.github/dependabot.yml`. |
+| `artipacked` | 2 | **0** | `persist-credentials: false` on the cookiecutter template checkouts (`build-and-deploy.yml`, `tests.yml`). |
+
+One test (`test_workflows_ci_audit.py::test_e2e_workflow_runs_heavy_on_schedule_and_push`) was updated to recognize the env-mapped `github.event_name` form (intent unchanged: classify_change still distinguishes `pull_request`).
 
 ## Promotion decision
-- Runs observed: 1 (local dogfood) + CI runs to accrue. · Findings introduced: **0**. · Accepted-by-policy: 68 `unpinned-uses`. · Open hardening follow-ups: 19.
+- Standing findings (post-hardening): **0**. · Accepted-by-policy: governed `@vN` (`unpinned-uses` via `ref-pin`). · Open hardening follow-ups: **0**.
 - **Verdict: KEEP_ADVISORY_MORE_DATA_NEEDED.** Advisory/non-required; folds into the cross-repo scanner evidence-window ledger. Promotion is a separate governed decision.
 
 ## Safety

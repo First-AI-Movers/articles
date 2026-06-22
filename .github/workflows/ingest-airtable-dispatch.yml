@@ -44,11 +44,18 @@ jobs:
 
       - name: Determine record ID
         id: record
+        env:
+          # GitHub-context / dispatch-payload values via env (not inline ${{ }}) — zizmor
+          # template-injection hardening. client_payload is attacker-influenceable; the
+          # shape is still validated below before use.
+          EVENT_NAME: ${{ github.event_name }}
+          CLIENT_PAYLOAD_RECORD_ID: ${{ github.event.client_payload.record_id }}
+          INPUT_RECORD_ID: ${{ inputs.record_id }}
         run: |
-          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
-            RECORD_ID="${{ github.event.client_payload.record_id }}"
+          if [ "$EVENT_NAME" = "repository_dispatch" ]; then
+            RECORD_ID="$CLIENT_PAYLOAD_RECORD_ID"
           else
-            RECORD_ID="${{ inputs.record_id }}"
+            RECORD_ID="$INPUT_RECORD_ID"
           fi
 
           if [ -z "$RECORD_ID" ]; then
@@ -72,10 +79,11 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
           AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+          RECORD_ID: ${{ steps.record.outputs.record_id }}
         run: |
           python3 tools/ingest_airtable.py \
             --dry-run \
-            --record-id "${{ steps.record.outputs.record_id }}" \
+            --record-id "$RECORD_ID" \
             --allow-no-status-gate
 
       - name: Ingest from Airtable (write)
@@ -85,10 +93,11 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
           AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+          RECORD_ID: ${{ steps.record.outputs.record_id }}
         run: |
           python3 tools/ingest_airtable.py \
             --write \
-            --record-id "${{ steps.record.outputs.record_id }}"
+            --record-id "$RECORD_ID"
 
       - name: Normalize tags to canonical topics
         if: env.INGEST_DRY_RUN != '1'
