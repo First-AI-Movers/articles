@@ -9,6 +9,17 @@
 
 title = "FAM Article Archive Gitleaks Config"
 
+# Extend the gitleaks DEFAULT ruleset — every built-in secret rule stays active.
+# REQUIRED: without this, `gitleaks detect --config .gitleaks.toml` loads ONLY the rules defined
+# in this file (zero), so it detects NOTHING and the allowlist below has no ruleset to act on
+# (the gate is a silent no-op that always passes). Verified with the pinned gitleaks 8.18.2:
+# WITHOUT useDefault a planted `ghp_…`/Slack token is NOT flagged (0 rules); WITH useDefault the
+# default rules fire and a full-history scan of this repo is clean (0 findings — the allowlist
+# below covers the only two known public/third-party values). Matches agent-toolkit + radar.
+# (GITLEAKS-ALLOWLIST-CONSISTENCY-AUDIT-A, 2026-06-22.)
+[extend]
+useDefault = true
+
 [allowlist]
 description = "Known public tokens and documented placeholders"
 
