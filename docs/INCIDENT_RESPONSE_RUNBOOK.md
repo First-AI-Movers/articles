@@ -77,15 +77,28 @@ The summary/embedding/translation tooling (`tools/`) calls multiple LLM provider
 
 1. **Rotate the affected token** (esp. `ARTICLE_INGESTION_PR_TOKEN` — the elevated PAT) and any provider secret the workflow could read.
 2. **Inspect the workflow runs + artifacts** (`gh run list`, `gh run view --log`) for unexpected steps/egress/artifact contents.
-3. **Supply chain — tag-retargeting is a live risk here.** This repo's actions are currently **mutable tag refs** (e.g. `actions/checkout@v6`, `actions/deploy-pages@v5`, `peter-evans/create-pull-request@v8`), **not** SHA-pinned. A compromised upstream that re-points a tag would be pulled silently — diff against a known-good commit and pin to a SHA during response. (Repo-wide SHA-pinning is a tracked hardening follow-up.)
+3. **Supply chain — governed `@vN` policy (not a gap).** This repo **deliberately** pins actions to **major-version tags** (`actions/checkout@v6`, `actions/deploy-pages@v5`, `peter-evans/create-pull-request@v8`, …), **Dependabot-managed** (weekly version-updates + a cooldown) per [`SECURITY.md`](../SECURITY.md); the `zizmor` `unpinned-uses` audit is set to **`ref-pin`** in `.github/zizmor.yml` to honor this. So `@vN` is the **policy, not a finding** — do **NOT** SHA-pin during response (it would violate the governed convention). Tag-retargeting risk is mitigated by Dependabot + the cooldown; during response, verify the `@vN` tag resolves to the **expected** release and check for an unexpected re-point, rather than converting to a SHA.
 4. **Scope.** No workflow uses `pull_request_target`; none run on self-hosted runners; the Pages deploy uses short-lived OIDC (`id-token: write`). Confirm no workflow gained write/secret scope it should not have.
 
-## 8. Scanner (gitleaks) finding response
+## 8. Scanner finding response (full stack)
 
-1. `gitleaks.yml` runs on **pull_request + push + a weekly schedule + dispatch**; a finding on a PR blocks via review, on `main`/schedule it is an incident.
-2. **A true positive → §2** (rotate; the commit'd value is burned).
-3. **A false positive →** add a scoped entry to `.gitleaks.toml` with a rationale (see the allowlist-rationale section in [`SECURITY.md`](../SECURITY.md)); do not broaden the allowlist beyond the specific match.
-4. Record the finding + disposition (§9).
+**This is a PUBLIC repo, so the FREE GitHub-native protections ARE available and enabled** (the public free tier — **not** paid GHAS): **secret scanning + push protection**, **Dependabot alerts + security updates**, and **CodeQL** code scanning. (Private-repo native scanning would need paid GHAS, which the org does not buy — that constraint does **not** apply to this public repo.) Reports live in the repo **Security** tab + each workflow's Actions run.
+
+| Scanner | Detects | Posture |
+|---|---|---|
+| **gitleaks** (`gitleaks.yml`) | committed secrets | **required gate** (PR review; push/schedule hit = incident) |
+| GitHub **secret scanning + push protection** | secrets (native, pre-receive) | **enabled** (free public) |
+| **Dependabot** (alerts + security updates) | dependency vulns (npm + pip) | **enabled** (free public) |
+| **CodeQL** | code-level weaknesses | **enabled** (free public) |
+| **zizmor** (`zizmor-advisory.yml`) | Actions workflow-security | advisory (0 standing; governed `@vN` accepted via `ref-pin`) |
+
+Triage:
+1. **gitleaks** runs on **pull_request + push + weekly + dispatch**; a finding on a PR blocks via review, on `main`/schedule it is an incident.
+2. **True positive → §2** (rotate; the committed value is burned).
+3. **False positive →** add a scoped entry to `.gitleaks.toml` with a rationale (see the allowlist-rationale section in [`SECURITY.md`](../SECURITY.md)); do not broaden the allowlist beyond the specific match.
+4. **Dependabot security alert →** triage by severity (critical/high first); prefer the auto-fix PR. Note `@cloudflare/vitest-pool-workers` pins mcp-server's vitest to v3 — a vitest semver-major ignore is configured for `/mcp-server` in `.github/dependabot.yml` with a documented lift condition.
+5. **zizmor / CodeQL finding →** advisory/native triage; escalate by content (secret → §2; CI/supply-chain → §7).
+6. Record the finding + disposition (§9).
 
 ## 9. Evidence-capture checklist
 
