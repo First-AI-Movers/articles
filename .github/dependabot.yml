@@ -7,6 +7,11 @@ updates:
       day: "monday"
       time: "09:00"
       timezone: "Europe/Lisbon"
+    cooldown:
+      # Delay updates after a release so a malicious/broken version has time to
+      # be flagged before Dependabot opens a PR (zizmor dependabot-cooldown).
+      default-days: 7
+      semver-major-days: 14
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
@@ -19,6 +24,9 @@ updates:
       day: "monday"
       time: "09:00"
       timezone: "Europe/Lisbon"
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
@@ -35,6 +43,9 @@ updates:
       day: "monday"
       time: "09:00"
       timezone: "Europe/Lisbon"
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
