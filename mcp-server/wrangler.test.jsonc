@@ -1,0 +1,22 @@
+{
+  // Test-only Worker config for the Vitest pool.
+  // Mirrors wrangler.jsonc but OMITS the `ai` binding: under
+  // @cloudflare/vitest-pool-workers >=0.16, Workers AI bindings always run
+  // remotely (no local simulation) and would require Cloudflare credentials,
+  // breaking offline/CI tests. The suite is designed to exercise the
+  // AI-binding-missing lexical fallback (SEMANTIC_SEARCH_ENABLED="false"),
+  // so dropping the binding here keeps tests fully offline and credential-free.
+  // Production wrangler.jsonc is unchanged.
+  "name": "faim-mcp-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-28",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ARCHIVE_SITE_URL": "https://articles.firstaimovers.com",
+    "GITHUB_RAW_URL": "https://raw.githubusercontent.com/First-AI-Movers/articles/main",
+    "SEMANTIC_SEARCH_ENABLED": "false"
+  }
+}
