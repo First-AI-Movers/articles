@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@resvg/resvg-wasm": "^2.6.2",
-    "hono": "^4.8.0"
+    "hono": "^4.12.25"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.8.0",
