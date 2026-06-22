@@ -32,10 +32,14 @@ updates:
       - "dependencies"
       - "github-actions"
 
-  # npm — root + og-worker. (og-worker tolerates vitest v4 — no vitest ignore here.)
+  # npm — root + mcp-server + og-worker. (The /mcp-server-scoped vitest semver-major ignore was
+  # LIFTED 2026-06-22: its documented lift condition is met — mcp-server migrated to
+  # @cloudflare/vitest-pool-workers 0.16 + vitest 4 in #289 (pool-workers now peers vitest ^4), so
+  # vitest-major updates flow normally again and the separate /mcp-server entry is no longer needed.)
   - package-ecosystem: "npm"
     directories:
       - "/"
+      - "/mcp-server"
       - "/og-worker"
     schedule:
       interval: "weekly"
@@ -49,26 +53,3 @@ updates:
     labels:
       - "dependencies"
       - "javascript"
-
-  # npm — mcp-server (split out to scope a vitest major-version ignore to THIS directory only).
-  # vitest is pinned to v3 here because `@cloudflare/vitest-pool-workers@^0.8` peers to vitest 3.x;
-  # a vitest v4 major bump breaks the workers test pool (verified: PR #274 `test` FAILURE). Security
-  # patches WITHIN v3 still flow (only semver-major is ignored). LIFT CONDITION: remove this ignore
-  # once @cloudflare/vitest-pool-workers supports vitest 4.x, then let Dependabot bump vitest major.
-  - package-ecosystem: "npm"
-    directory: "/mcp-server"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "Europe/Lisbon"
-    cooldown:
-      default-days: 7
-      semver-major-days: 14
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "javascript"
-    ignore:
-      - dependency-name: "vitest"
-        update-types: ["version-update:semver-major"]
