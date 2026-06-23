@@ -31,5 +31,21 @@ jobs:
           curl -sSL https://github.com/zricethezav/gitleaks/releases/download/v8.18.2/gitleaks_8.18.2_linux_x64.tar.gz | tar -xz -C /usr/local/bin gitleaks
           gitleaks version
 
+      # Config effectiveness guard (no-op prevention; SCANNER-EFFECTIVENESS-GUARD-MULTIREPO-ADOPTION-A).
+      # `--config` REPLACES gitleaks' default ruleset, so a .gitleaks.toml lacking both
+      # `[extend] useDefault = true` and `[[rules]]` loads ZERO rules → the scan detects nothing and
+      # always passes (the #293 no-op this gate already hit once). Fail fast before scanning.
+      - name: Assert gitleaks config loads rules (no-op guard)
+        run: |
+          CFG=.gitleaks.toml
+          if [ -f "$CFG" ]; then
+            if grep -Eq '^[[:space:]]*useDefault[[:space:]]*=[[:space:]]*true' "$CFG" || grep -Eq '^\[\[rules\]\]' "$CFG"; then
+              echo "config effectiveness: OK (default ruleset extended, or custom [[rules]] present)"
+            else
+              echo "ERROR: $CFG loads ZERO rules — no '[extend] useDefault = true' and no [[rules]] (no-op gate, #293 class)." >&2
+              exit 1
+            fi
+          fi
+
       - name: Run gitleaks
         run: gitleaks detect --source . --config .gitleaks.toml --verbose
