@@ -37,19 +37,17 @@ regexes = [
     '''AKIAQCMHTQSE2JGAGXHJ''',
 ]
 
+# Path allowlist — NARROWED 2026-06-23 (ARTICLES-GITLEAKS-ALLOWLIST-PATH-TIGHTEN-A). Now that the
+# default ruleset actually runs (the [extend] above, #293), a full-history scan with default rules
+# but NO path allowlist surfaces `generic-api-key` findings in EXACTLY three files — all
+# IndexNow-key-shaped test fixtures / the monitoring doc, verified non-secret. The prior blanket
+# entries (site/.*, docs/.*, .github/workflows/.*, tools/tests/.*, CONTRIBUTING/SECURITY/ROADMAP/
+# README.md, .gitleaks.toml, the Beehiiv article) were dropped: the scan proves they suppress
+# NOTHING — the two known third-party/public values are covered by the exact `regexes` above, which
+# apply everywhere and so need no path exemption. These are exact FILE paths, not directories, so
+# every OTHER file under docs/, tools/tests/, .github/workflows/, site/, etc. is now fully scanned.
 paths = [
-    # Generated artifacts and docs where public keys are documented
-    '''site\/.*\.txt$''',
-    '''docs\/.*''',
-    '''CONTRIBUTING\.md$''',
-    '''SECURITY\.md$''',
-    '''ROADMAP\.md$''',
-    '''README\.md$''',
-    '''\.gitleaks\.toml$''',
-    # Test fixtures that exercise key handling
-    '''tools\/tests\/.*''',
-    # GitHub workflow files that reference the env var name
-    '''\.github\/workflows\/.*''',
-    # Article containing the Beehiiv presigned URL
-    '''articles\/2025-09-28-llm-limits-solved-ai-workarounds-guide-2025\/article\.md$''',
+    '''tools/tests/test_submit_indexnow\.py$''',  # writes a synthetic .indexnow-key fixture
+    '''tools/tests/test_tools\.py$''',            # historical IndexNow test fixture (git history; CI scans history)
+    '''docs/search-visibility-monitoring\.md$''', # documents the public IndexNow key
 ]
