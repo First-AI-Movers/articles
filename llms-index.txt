@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 863
-- Date range: 2025-02-17 to 2026-05-24
+- Articles: 865
+- Date range: 2025-02-17 to 2026-06-18
 - Topic count: 103
-- Generated: 2026-06-21
+- Generated: 2026-06-24
 
 ## Companion files
 
@@ -28,6 +28,13 @@ archive URL, publication date, topics, optional DOI/series, and a
 short summary. Articles are listed newest-first.
 
 ---
+
+## OWASP GenAI Agentic Security Summit Signals Formal Guidance for European CISOs
+- Date: 2026-06-18
+- Canonical: https://radar.firstaimovers.com/owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa
+- Archive: https://articles.firstaimovers.com/articles/2026-06-18-owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa/article.md
+- Topics: AI Strategy, Agentic Workflows
+- Summary: OWASP GenAI Project hosts a half-day summit on June 4, 2026, in London, covering agentic AI risks and European regulatory strategy for CISOs and AI
 
 ## Claude Code Across Every Device: Remote Control, Dispatch, and Agent View Explained
 - Date: 2026-05-24
@@ -539,6 +546,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-23-ai-spend-audit-checklist-european-smes-2026/article.md
 - Topics: European SME AI, AI Cost Optimization, GDPR & Data Privacy, AI Governance, AI Productivity Tools
 - Summary: This is a practical checklist for European SMEs (20-50 employees) to audit their AI tool spending. The 90-120 minute process identifies duplicate subscriptions, unused seats, and GDPR compliance gaps. A Netherlands agency case study shows how consolidating…
+
+## AI Spend Is Now an Operations Problem. Here Is How to Manage It.
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/ai-spend-management-framework-sme-operations-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-ai-spend-management-framework-sme-operations-2026/article.md
+- Topics: European SME AI
+- Summary: Managing AI costs across your whole organisation: a practical spend taxonomy, 5 control levers, and ROI measurement for 20-50 person European firms.
 
 ## Retail AI Is a Different Category: What European SMEs Need to Evaluate in 2026
 - Date: 2026-04-23

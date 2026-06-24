@@ -3,7 +3,7 @@
   <id>tag:articles.firstaimovers.com,2025-02-17:feed</id>
   <title>First AI Movers — Article Archive</title>
   <subtitle>Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act compliance, governance, and agentic systems for European SMEs.</subtitle>
-  <updated>2026-05-24T00:00:00Z</updated>
+  <updated>2026-06-18T00:00:00Z</updated>
   <link rel="self" type="application/atom+xml" href="https://articles.firstaimovers.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://firstaimovers.com"/>
   <author>
@@ -13,6 +13,20 @@
   </author>
   <rights>Creative Commons Attribution 4.0 International (CC BY 4.0)</rights>
   <generator uri="https://github.com/First-AI-Movers/articles" version="1.0">rebuild_local.py</generator>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-18:2026-06-18-owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa</id>
+    <title>OWASP GenAI Agentic Security Summit Signals Formal Guidance for European CISOs</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa"/>
+    <published>2026-06-18T00:00:00Z</published>
+    <updated>2026-06-18T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI Strategy"/>
+    <category term="Agentic Workflows"/>
+    <summary type="text">OWASP GenAI Project hosts a half-day summit on June 4, 2026, in London, covering agentic AI risks and European regulatory strategy for CISOs and AI</summary>
+  </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-24:2026-05-24-claude-code-remote-control-dispatch-multi-device-guide-2026-v2</id>
     <title>Claude Code Across Every Device: Remote Control, Dispatch, and Agent View Explained</title>
@@ -777,22 +791,5 @@
     <category term="B2B SaaS Growth"/>
     <category term="AI Consulting"/>
     <summary type="text">Budapest tech SMEs navigate NAIH and EU AI Act obligations. What AI consulting delivers for Hungarian software firms and SaaS teams in 2026.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-geneva-life-sciences-smes-2026</id>
-    <title>AI Consulting for Geneva Life Sciences and Pharma SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-geneva-life-sciences-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="AI Consulting"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="EU AI Act"/>
-    <summary type="text">Geneva life sciences SMEs face nDSG, FINMA, and Swissmedic compliance. How AI consulting delivers compliant AI adoption for pharma and biotech firms.</summary>
   </entry>
 </feed>
