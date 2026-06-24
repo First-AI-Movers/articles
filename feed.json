@@ -13,6 +13,17 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-06-18:2026-06-18-owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",
+      "url": "https://radar.firstaimovers.com/owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",
+      "title": "OWASP GenAI Agentic Security Summit Signals Formal Guidance for European CISOs",
+      "date_published": "2026-06-18T00:00:00Z",
+      "tags": [
+        "AI Strategy",
+        "Agentic Workflows"
+      ],
+      "content_text": "OWASP GenAI Project hosts a half-day summit on June 4, 2026, in London, covering agentic AI risks and European regulatory strategy for CISOs and AI"
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-24:2026-05-24-claude-code-remote-control-dispatch-multi-device-guide-2026-v2",
       "url": "https://radar.firstaimovers.com/claude-code-remote-control-dispatch-multi-device-guide-2026-v2",
       "title": "Claude Code Across Every Device: Remote Control, Dispatch, and Agent View Explained",
@@ -629,20 +640,6 @@
         "AI Consulting"
       ],
       "content_text": "Budapest tech SMEs navigate NAIH and EU AI Act obligations. What AI consulting delivers for Hungarian software firms and SaaS teams in 2026."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-geneva-life-sciences-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-geneva-life-sciences-smes-2026",
-      "title": "AI Consulting for Geneva Life Sciences and Pharma SMEs in 2026",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "AI Consulting",
-        "AI Governance",
-        "European SME AI",
-        "AI Strategy",
-        "EU AI Act"
-      ],
-      "content_text": "Geneva life sciences SMEs face nDSG, FINMA, and Swissmedic compliance. How AI consulting delivers compliant AI adoption for pharma and biotech firms."
     }
   ]
 }
