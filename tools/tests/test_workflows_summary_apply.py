@@ -351,7 +351,7 @@ def test_pr_token_caveat_surfaced():
 # --------------------------------------------------------------------------
 
 @pytest.mark.parametrize("prefix,pin", [
-    ("actions/checkout", "@v6"),
+    ("actions/checkout", "@v7"),
     ("actions/setup-python", "@v6"),
     ("peter-evans/create-pull-request", "@v8"),
 ])

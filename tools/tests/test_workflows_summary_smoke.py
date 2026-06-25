@@ -170,7 +170,7 @@ def test_no_artifact_upload():
 
 
 @pytest.mark.parametrize("prefix,pin", [
-    ("actions/checkout", "@v6"),
+    ("actions/checkout", "@v7"),
     ("actions/setup-python", "@v6"),
     ("actions/upload-artifact", "@v7"),  # vacuously true if absent (it is, per above)
 ])
