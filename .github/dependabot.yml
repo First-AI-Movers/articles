@@ -12,6 +12,13 @@ updates:
       # be flagged before Dependabot opens a PR (zizmor dependabot-cooldown).
       default-days: 7
       semver-major-days: 14
+    # Group minor+patch into one PR to cut noise; majors stay individual PRs so a
+    # breaking bump (e.g. numpy 2.x) is reviewed on its own and never silently batched.
+    groups:
+      pip-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
@@ -27,6 +34,13 @@ updates:
     cooldown:
       default-days: 7
       semver-major-days: 14
+    # Minor+patch grouped; major @vN tag bumps (e.g. actions/checkout 6→7) stay individual,
+    # preserving the governed @vN + Dependabot pin policy and per-bump review.
+    groups:
+      actions-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
@@ -49,6 +63,12 @@ updates:
     cooldown:
       default-days: 7
       semver-major-days: 14
+    # Minor+patch grouped; a major like zod 3→4 stays its own PR for review.
+    groups:
+      npm-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
