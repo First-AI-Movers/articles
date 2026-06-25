@@ -228,7 +228,7 @@ def test_incident_issue_gated_on_failure():
 # --------------------------------------------------------------------------
 
 @pytest.mark.parametrize("prefix,pin", [
-    ("actions/checkout", "@v6"),
+    ("actions/checkout", "@v7"),
     ("actions/setup-python", "@v6"),
 ])
 def test_action_pins(prefix, pin):
