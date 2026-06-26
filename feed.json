@@ -13,6 +13,19 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-06-20:2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
+      "url": "https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
+      "title": "How MicroVMs Change the Trust Model for Running Untrusted Agent Code",
+      "date_published": "2026-06-20T00:00:00Z",
+      "tags": [
+        "microvm-trust-model",
+        "untrusted-agent-code",
+        "sandboxing",
+        "isolation-boundary"
+      ],
+      "content_text": "Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent"
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-06-18:2026-06-18-owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",
       "url": "https://radar.firstaimovers.com/owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",
       "title": "OWASP GenAI Agentic Security Summit Signals Formal Guidance for European CISOs",
@@ -626,20 +639,6 @@
         "Multi-Agent Systems"
       ],
       "content_text": "Multi-agent AI systems are reshaping business workflows. What EU SME operators need to know about AI swarms, use cases, and compliance."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-consulting-budapest-tech-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-budapest-tech-smes-2026",
-      "title": "AI Consulting for Budapest Tech and SaaS SMEs in 2026",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "European SME AI",
-        "B2B SaaS Growth",
-        "AI Consulting"
-      ],
-      "content_text": "Budapest tech SMEs navigate NAIH and EU AI Act obligations. What AI consulting delivers for Hungarian software firms and SaaS teams in 2026."
     }
   ]
 }

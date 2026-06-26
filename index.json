@@ -1,11 +1,26 @@
 {
-  "last_updated": "2026-06-24",
-  "total_articles": 865,
+  "last_updated": "2026-06-26",
+  "total_articles": 866,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
+      "slug": "how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
+      "title": "How MicroVMs Change the Trust Model for Running Untrusted Agent Code",
+      "published_date": "2026-06-20",
+      "tags": [
+        "microvm-trust-model",
+        "untrusted-agent-code",
+        "sandboxing",
+        "isolation-boundary"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s"
+    },
     {
       "folder": "2026-06-18-owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",
       "slug": "owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",
