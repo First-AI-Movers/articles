@@ -1,0 +1,21 @@
+{
+  "id": "recDmFcWgYWGcoNMb",
+  "title": "How MicroVMs Change the Trust Model for Running Untrusted Agent Code",
+  "slug": "how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
+  "folder": "2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
+  "published_date": "2026-06-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
+  "tags": [
+    "microvm-trust-model",
+    "untrusted-agent-code",
+    "sandboxing",
+    "isolation-boundary"
+  ],
+  "first_ai_movers_services": [],
+  "status": "posted",
+  "topics": []
+}

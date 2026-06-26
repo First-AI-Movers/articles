@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 865
-- Date range: 2025-02-17 to 2026-06-18
+- Articles: 866
+- Date range: 2025-02-17 to 2026-06-20
 - Topic count: 103
-- Generated: 2026-06-24
+- Generated: 2026-06-26
 
 ## Companion files
 
@@ -28,6 +28,13 @@ archive URL, publication date, topics, optional DOI/series, and a
 short summary. Articles are listed newest-first.
 
 ---
+
+## How MicroVMs Change the Trust Model for Running Untrusted Agent Code
+- Date: 2026-06-20
+- Canonical: https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s
+- Archive: https://articles.firstaimovers.com/articles/2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s/article.md
+- Topics: microvm-trust-model, untrusted-agent-code, sandboxing, isolation-boundary
+- Summary: Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent
 
 ## OWASP GenAI Agentic Security Summit Signals Formal Guidance for European CISOs
 - Date: 2026-06-18
