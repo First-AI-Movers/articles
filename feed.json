@@ -13,6 +13,16 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-06-21:2026-06-21-secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci",
+      "url": "https://radar.firstaimovers.com/secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci",
+      "title": "Secure by Design: Safe Defaults for Teams Building AI Agents",
+      "date_published": "2026-06-21T00:00:00Z",
+      "tags": [
+        "Executive AI Literacy"
+      ],
+      "content_text": "Apply CISA Secure by Design to AI agents: make safe configurations the out-of-the-box default, so teams ship agents that are secure before anyone touches"
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-06-20:2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
       "url": "https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
       "title": "How MicroVMs Change the Trust Model for Running Untrusted Agent Code",
@@ -625,20 +635,6 @@
         "Multi-Agent Systems"
       ],
       "content_text": "When EU SMEs should use multi-agent AI frameworks: decision guide, governance rules, and EU AI Act classification."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-agent-swarms-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-agent-swarms-european-smes-2026",
-      "title": "AI Agent Swarms: What European SMEs Need to Know in 2026",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "European SME AI",
-        "AI Agents",
-        "Multi-Agent Systems"
-      ],
-      "content_text": "Multi-agent AI systems are reshaping business workflows. What EU SME operators need to know about AI swarms, use cases, and compliance."
     }
   ]
 }
