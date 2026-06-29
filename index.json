@@ -1,11 +1,29 @@
 {
-  "last_updated": "2026-06-26",
-  "total_articles": 866,
+  "last_updated": "2026-06-29",
+  "total_articles": 867,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-06-21-secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci",
+      "slug": "secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci",
+      "title": "Secure by Design: Safe Defaults for Teams Building AI Agents",
+      "published_date": "2026-06-21",
+      "tags": [
+        "secure-by-design",
+        "ai-agents",
+        "safe-defaults",
+        "cisa",
+        "engineering-leadership"
+      ],
+      "topics": [
+        "Executive AI Literacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci"
+    },
     {
       "folder": "2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
       "slug": "how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",

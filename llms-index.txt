@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 866
-- Date range: 2025-02-17 to 2026-06-20
+- Articles: 867
+- Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-06-26
+- Generated: 2026-06-29
 
 ## Companion files
 
@@ -28,6 +28,13 @@ archive URL, publication date, topics, optional DOI/series, and a
 short summary. Articles are listed newest-first.
 
 ---
+
+## Secure by Design: Safe Defaults for Teams Building AI Agents
+- Date: 2026-06-21
+- Canonical: https://radar.firstaimovers.com/secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci
+- Archive: https://articles.firstaimovers.com/articles/2026-06-21-secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci/article.md
+- Topics: Executive AI Literacy
+- Summary: Apply CISA Secure by Design to AI agents: make safe configurations the out-of-the-box default, so teams ship agents that are secure before anyone touches
 
 ## How MicroVMs Change the Trust Model for Running Untrusted Agent Code
 - Date: 2026-06-20
