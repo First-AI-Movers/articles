@@ -1,11 +1,27 @@
 {
-  "last_updated": "2026-06-29",
-  "total_articles": 867,
+  "last_updated": "2026-06-30",
+  "total_articles": 868,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-06-21-how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
+      "slug": "how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
+      "title": "How the Sentry Intercepts System Calls to Contain Untrusted Agent Code",
+      "published_date": "2026-06-21",
+      "tags": [
+        "gvisor",
+        "sentry",
+        "system-calls",
+        "sandboxing",
+        "defense-in-depth"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code"
+    },
     {
       "folder": "2026-06-21-secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci",
       "slug": "secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci",

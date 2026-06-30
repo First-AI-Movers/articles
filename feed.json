@@ -13,6 +13,20 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-06-21:2026-06-21-how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
+      "url": "https://radar.firstaimovers.com/how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
+      "title": "How the Sentry Intercepts System Calls to Contain Untrusted Agent Code",
+      "date_published": "2026-06-21T00:00:00Z",
+      "tags": [
+        "gvisor",
+        "sentry",
+        "system-calls",
+        "sandboxing",
+        "defense-in-depth"
+      ],
+      "content_text": "The Sentry in gVisor mediates every system call from untrusted code, reducing the host attack surface. Learn how interception works and why it matters for"
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-06-21:2026-06-21-secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci",
       "url": "https://radar.firstaimovers.com/secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci",
       "title": "Secure by Design: Safe Defaults for Teams Building AI Agents",
@@ -621,20 +635,6 @@
         "AI Risk Management"
       ],
       "content_text": "A decision framework for EU manufacturing SMEs: when AI adoption makes sense under NIS2, EU AI Act Annex IV, and process compliance requirements."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-agent-orchestration-guide-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-agent-orchestration-guide-european-smes-2026",
-      "title": "AI Agent Orchestration for European SMEs: A Decision and Governance Guide",
-      "date_published": "2026-04-24T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "European SME AI",
-        "AI Agents",
-        "Multi-Agent Systems"
-      ],
-      "content_text": "When EU SMEs should use multi-agent AI frameworks: decision guide, governance rules, and EU AI Act classification."
     }
   ]
 }
