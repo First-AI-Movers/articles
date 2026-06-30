@@ -14,6 +14,23 @@
   <rights>Creative Commons Attribution 4.0 International (CC BY 4.0)</rights>
   <generator uri="https://github.com/First-AI-Movers/articles" version="1.0">rebuild_local.py</generator>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-21:2026-06-21-how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code</id>
+    <title>How the Sentry Intercepts System Calls to Contain Untrusted Agent Code</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code"/>
+    <published>2026-06-21T00:00:00Z</published>
+    <updated>2026-06-21T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="gvisor"/>
+    <category term="sentry"/>
+    <category term="system-calls"/>
+    <category term="sandboxing"/>
+    <category term="defense-in-depth"/>
+    <summary type="text">The Sentry in gVisor mediates every system call from untrusted code, reducing the host attack surface. Learn how interception works and why it matters for</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-06-21:2026-06-21-secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci</id>
     <title>Secure by Design: Safe Defaults for Teams Building AI Agents</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci"/>
@@ -769,22 +786,5 @@
     <category term="AI Strategy"/>
     <category term="AI Risk Management"/>
     <summary type="text">A decision framework for EU manufacturing SMEs: when AI adoption makes sense under NIS2, EU AI Act Annex IV, and process compliance requirements.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-24:2026-04-24-ai-agent-orchestration-guide-european-smes-2026</id>
-    <title>AI Agent Orchestration for European SMEs: A Decision and Governance Guide</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-agent-orchestration-guide-european-smes-2026"/>
-    <published>2026-04-24T00:00:00Z</published>
-    <updated>2026-04-24T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI Agents"/>
-    <category term="Multi-Agent Systems"/>
-    <summary type="text">When EU SMEs should use multi-agent AI frameworks: decision guide, governance rules, and EU AI Act classification.</summary>
   </entry>
 </feed>

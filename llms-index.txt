@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 867
+- Articles: 868
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-06-29
+- Generated: 2026-06-30
 
 ## Companion files
 
@@ -28,6 +28,13 @@ archive URL, publication date, topics, optional DOI/series, and a
 short summary. Articles are listed newest-first.
 
 ---
+
+## How the Sentry Intercepts System Calls to Contain Untrusted Agent Code
+- Date: 2026-06-21
+- Canonical: https://radar.firstaimovers.com/how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code
+- Archive: https://articles.firstaimovers.com/articles/2026-06-21-how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code/article.md
+- Topics: gvisor, sentry, system-calls, sandboxing, defense-in-depth
+- Summary: The Sentry in gVisor mediates every system call from untrusted code, reducing the host attack surface. Learn how interception works and why it matters for
 
 ## Secure by Design: Safe Defaults for Teams Building AI Agents
 - Date: 2026-06-21

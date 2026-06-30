@@ -1,0 +1,22 @@
+{
+  "id": "recTfDBZf9mP4ohHH",
+  "title": "How the Sentry Intercepts System Calls to Contain Untrusted Agent Code",
+  "slug": "how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
+  "folder": "2026-06-21-how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
+  "published_date": "2026-06-21",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
+  "tags": [
+    "gvisor",
+    "sentry",
+    "system-calls",
+    "sandboxing",
+    "defense-in-depth"
+  ],
+  "first_ai_movers_services": [],
+  "status": "posted",
+  "topics": []
+}
