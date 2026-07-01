@@ -60,6 +60,22 @@
     <summary type="text">Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-18:2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish</id>
+    <title>OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/openai-pre-release-behavior-simulation-research-summary-openai-publish"/>
+    <published>2026-06-18T00:00:00Z</published>
+    <updated>2026-06-18T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="openai"/>
+    <category term="ai-safety"/>
+    <category term="simulation"/>
+    <category term="pre-release-testing"/>
+    <summary type="text">OpenAI's recent research suggests simulation based pre release testing could weaken manual review gates. Engineering leaders must scrutinize these signals.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-06-18:2026-06-18-owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa</id>
     <title>OWASP GenAI Agentic Security Summit Signals Formal Guidance for European CISOs</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa"/>
@@ -769,22 +785,5 @@
     <category term="AI Governance"/>
     <category term="European SME AI"/>
     <summary type="text">NIS2 is live and EU SMEs in covered sectors face new mandatory cybersecurity obligations. Learn who is in scope and what the five starting steps are.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-should-you-adopt-ai-in-regulated-manufacturing-2026</id>
-    <title>Should You Adopt AI in EU Regulated Manufacturing in 2026?</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/should-you-adopt-ai-in-regulated-manufacturing-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="Manufacturing AI"/>
-    <category term="AI Strategy"/>
-    <category term="AI Risk Management"/>
-    <summary type="text">A decision framework for EU manufacturing SMEs: when AI adoption makes sense under NIS2, EU AI Act Annex IV, and process compliance requirements.</summary>
   </entry>
 </feed>

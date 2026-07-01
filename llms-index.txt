@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 868
+- Articles: 869
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-06-30
+- Generated: 2026-07-01
 
 ## Companion files
 
@@ -49,6 +49,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s/article.md
 - Topics: microvm-trust-model, untrusted-agent-code, sandboxing, isolation-boundary
 - Summary: Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent
+
+## OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks
+- Date: 2026-06-18
+- Canonical: https://radar.firstaimovers.com/openai-pre-release-behavior-simulation-research-summary-openai-publish
+- Archive: https://articles.firstaimovers.com/articles/2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish/article.md
+- Topics: openai, ai-safety, simulation, pre-release-testing
+- Summary: OpenAI's recent research suggests simulation based pre release testing could weaken manual review gates. Engineering leaders must scrutinize these signals.
 
 ## OWASP GenAI Agentic Security Summit Signals Formal Guidance for European CISOs
 - Date: 2026-06-18

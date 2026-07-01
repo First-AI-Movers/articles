@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-06-30",
-  "total_articles": 868,
+  "last_updated": "2026-07-01",
+  "total_articles": 869,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -54,6 +54,21 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s"
+    },
+    {
+      "folder": "2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish",
+      "slug": "openai-pre-release-behavior-simulation-research-summary-openai-publish",
+      "title": "OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks",
+      "published_date": "2026-06-18",
+      "tags": [
+        "openai",
+        "ai-safety",
+        "simulation",
+        "pre-release-testing"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/openai-pre-release-behavior-simulation-research-summary-openai-publish"
     },
     {
       "folder": "2026-06-18-owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",

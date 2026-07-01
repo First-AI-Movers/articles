@@ -50,6 +50,19 @@
       "content_text": "Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent"
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-06-18:2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish",
+      "url": "https://radar.firstaimovers.com/openai-pre-release-behavior-simulation-research-summary-openai-publish",
+      "title": "OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks",
+      "date_published": "2026-06-18T00:00:00Z",
+      "tags": [
+        "openai",
+        "ai-safety",
+        "simulation",
+        "pre-release-testing"
+      ],
+      "content_text": "OpenAI's recent research suggests simulation based pre release testing could weaken manual review gates. Engineering leaders must scrutinize these signals."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-06-18:2026-06-18-owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",
       "url": "https://radar.firstaimovers.com/owasp-genai-agentic-security-summit-at-infosecurity-europe-summary-owa",
       "title": "OWASP GenAI Agentic Security Summit Signals Formal Guidance for European CISOs",
@@ -621,20 +634,6 @@
         "European SME AI"
       ],
       "content_text": "NIS2 is live and EU SMEs in covered sectors face new mandatory cybersecurity obligations. Learn who is in scope and what the five starting steps are."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-should-you-adopt-ai-in-regulated-manufacturing-2026",
-      "url": "https://radar.firstaimovers.com/should-you-adopt-ai-in-regulated-manufacturing-2026",
-      "title": "Should You Adopt AI in EU Regulated Manufacturing in 2026?",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "Manufacturing AI",
-        "AI Strategy",
-        "AI Risk Management"
-      ],
-      "content_text": "A decision framework for EU manufacturing SMEs: when AI adoption makes sense under NIS2, EU AI Act Annex IV, and process compliance requirements."
     }
   ]
 }
