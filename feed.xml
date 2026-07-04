@@ -60,6 +60,23 @@
     <summary type="text">Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-20:2026-06-20-why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod</id>
+    <title>Why MicroVM Isolation Changes the Blast Radius for Untrusted Agent Code</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod"/>
+    <published>2026-06-20T00:00:00Z</published>
+    <updated>2026-06-20T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="microvm-isolation"/>
+    <category term="blast-radius"/>
+    <category term="untrusted-code"/>
+    <category term="agent-security"/>
+    <category term="firecracker"/>
+    <summary type="text">When agents run untrusted code, isolation controls spread. Compare shared-kernel containers, userspace sandboxes, microVMs to limit blast radius.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-06-18:2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish</id>
     <title>OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/openai-pre-release-behavior-simulation-research-summary-openai-publish"/>
@@ -771,19 +788,5 @@
     <category term="Professional Services AI"/>
     <category term="AI for Finance Teams"/>
     <summary type="text">Accounting firms face EU AI Act obligations for AI tools in 2026. Covers risk classification, deployer duties, and a 6-step compliance checklist.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-nis2-cybersecurity-compliance-guide-european-smes-2026</id>
-    <title>NIS2 Compliance Guide for European SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/nis2-cybersecurity-compliance-guide-european-smes-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <summary type="text">NIS2 is live and EU SMEs in covered sectors face new mandatory cybersecurity obligations. Learn who is in scope and what the five starting steps are.</summary>
   </entry>
 </feed>

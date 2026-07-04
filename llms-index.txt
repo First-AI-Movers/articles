@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 869
+- Articles: 870
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-07-01
+- Generated: 2026-07-04
 
 ## Companion files
 
@@ -49,6 +49,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s/article.md
 - Topics: microvm-trust-model, untrusted-agent-code, sandboxing, isolation-boundary
 - Summary: Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent
+
+## Why MicroVM Isolation Changes the Blast Radius for Untrusted Agent Code
+- Date: 2026-06-20
+- Canonical: https://radar.firstaimovers.com/why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod
+- Archive: https://articles.firstaimovers.com/articles/2026-06-20-why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod/article.md
+- Topics: microvm-isolation, blast-radius, untrusted-code, agent-security, firecracker
+- Summary: When agents run untrusted code, isolation controls spread. Compare shared-kernel containers, userspace sandboxes, microVMs to limit blast radius.
 
 ## OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks
 - Date: 2026-06-18

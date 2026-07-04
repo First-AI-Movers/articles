@@ -50,6 +50,20 @@
       "content_text": "Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent"
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-06-20:2026-06-20-why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod",
+      "url": "https://radar.firstaimovers.com/why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod",
+      "title": "Why MicroVM Isolation Changes the Blast Radius for Untrusted Agent Code",
+      "date_published": "2026-06-20T00:00:00Z",
+      "tags": [
+        "microvm-isolation",
+        "blast-radius",
+        "untrusted-code",
+        "agent-security",
+        "firecracker"
+      ],
+      "content_text": "When agents run untrusted code, isolation controls spread. Compare shared-kernel containers, userspace sandboxes, microVMs to limit blast radius."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-06-18:2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish",
       "url": "https://radar.firstaimovers.com/openai-pre-release-behavior-simulation-research-summary-openai-publish",
       "title": "OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks",
@@ -623,17 +637,6 @@
         "AI for Finance Teams"
       ],
       "content_text": "Accounting firms face EU AI Act obligations for AI tools in 2026. Covers risk classification, deployer duties, and a 6-step compliance checklist."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-nis2-cybersecurity-compliance-guide-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/nis2-cybersecurity-compliance-guide-european-smes-2026",
-      "title": "NIS2 Compliance Guide for European SMEs in 2026",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "AI Governance",
-        "European SME AI"
-      ],
-      "content_text": "NIS2 is live and EU SMEs in covered sectors face new mandatory cybersecurity obligations. Learn who is in scope and what the five starting steps are."
     }
   ]
 }
