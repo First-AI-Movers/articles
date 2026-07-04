@@ -1,0 +1,22 @@
+{
+  "id": "rechHtvaaoXJzP88l",
+  "title": "Why MicroVM Isolation Changes the Blast Radius for Untrusted Agent Code",
+  "slug": "why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod",
+  "folder": "2026-06-20-why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod",
+  "published_date": "2026-06-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod",
+  "tags": [
+    "microvm-isolation",
+    "blast-radius",
+    "untrusted-code",
+    "agent-security",
+    "firecracker"
+  ],
+  "first_ai_movers_services": [],
+  "status": "posted",
+  "topics": []
+}

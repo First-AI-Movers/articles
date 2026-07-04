@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-07-01",
-  "total_articles": 869,
+  "last_updated": "2026-07-04",
+  "total_articles": 870,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -54,6 +54,22 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s"
+    },
+    {
+      "folder": "2026-06-20-why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod",
+      "slug": "why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod",
+      "title": "Why MicroVM Isolation Changes the Blast Radius for Untrusted Agent Code",
+      "published_date": "2026-06-20",
+      "tags": [
+        "microvm-isolation",
+        "blast-radius",
+        "untrusted-code",
+        "agent-security",
+        "firecracker"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod"
     },
     {
       "folder": "2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish",
