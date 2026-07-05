@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 870
+- Articles: 871
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-07-04
+- Generated: 2026-07-05
 
 ## Companion files
 
@@ -49,6 +49,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s/article.md
 - Topics: microvm-trust-model, untrusted-agent-code, sandboxing, isolation-boundary
 - Summary: Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent
+
+## The OWASP Top 10 for LLM Applications: A Threat Checklist for Agent Builders
+- Date: 2026-06-20
+- Canonical: https://radar.firstaimovers.com/the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui
+- Archive: https://articles.firstaimovers.com/articles/2026-06-20-the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui/article.md
+- Topics: owasp-top-10, llm-security, agent-building, threat-checklist, prompt-injection
+- Summary: OWASP Top 10 for LLM Applications v1.1: A threat checklist for agent builders covering prompt injection, insecure output, and more.
 
 ## Why MicroVM Isolation Changes the Blast Radius for Untrusted Agent Code
 - Date: 2026-06-20

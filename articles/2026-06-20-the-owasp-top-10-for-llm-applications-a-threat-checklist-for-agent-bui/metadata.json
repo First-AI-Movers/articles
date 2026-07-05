@@ -1,0 +1,22 @@
+{
+  "id": "recvpq7xHRAigY8yQ",
+  "title": "The OWASP Top 10 for LLM Applications: A Threat Checklist for Agent Builders",
+  "slug": "the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui",
+  "folder": "2026-06-20-the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui",
+  "published_date": "2026-06-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui",
+  "tags": [
+    "owasp-top-10",
+    "llm-security",
+    "agent-building",
+    "threat-checklist",
+    "prompt-injection"
+  ],
+  "first_ai_movers_services": [],
+  "status": "posted",
+  "topics": []
+}
