@@ -60,6 +60,23 @@
     <summary type="text">Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-20:2026-06-20-the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui</id>
+    <title>The OWASP Top 10 for LLM Applications: A Threat Checklist for Agent Builders</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui"/>
+    <published>2026-06-20T00:00:00Z</published>
+    <updated>2026-06-20T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="owasp-top-10"/>
+    <category term="llm-security"/>
+    <category term="agent-building"/>
+    <category term="threat-checklist"/>
+    <category term="prompt-injection"/>
+    <summary type="text">OWASP Top 10 for LLM Applications v1.1: A threat checklist for agent builders covering prompt injection, insecure output, and more.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-06-20:2026-06-20-why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod</id>
     <title>Why MicroVM Isolation Changes the Blast Radius for Untrusted Agent Code</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod"/>
@@ -771,22 +788,5 @@
     <category term="AI Governance"/>
     <category term="AI Observability"/>
     <summary type="text">How to manage AI vendors after selection: SLA monitoring, quarterly reviews, contract renewal, and governance cadence for growing EU businesses.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-eu-ai-act-professional-services-accounting-compliance-2</id>
-    <title>EU AI Act for Accounting and Professional Services Firms: A 2026 Guide</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/eu-ai-act-professional-services-accounting-compliance-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="Professional Services AI"/>
-    <category term="AI for Finance Teams"/>
-    <summary type="text">Accounting firms face EU AI Act obligations for AI tools in 2026. Covers risk classification, deployer duties, and a 6-step compliance checklist.</summary>
   </entry>
 </feed>
