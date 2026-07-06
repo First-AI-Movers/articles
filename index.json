@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-07-05",
-  "total_articles": 871,
+  "last_updated": "2026-07-06",
+  "total_articles": 874,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -4714,6 +4714,51 @@
       "summary_short": "This framework helps engineering leaders decide whether to deploy Claude Code across their entire team. Key readiness factors include AI maturity, codebase complexity, governance ownership, budget visibility, and team composition. Four or more \"Deploy now\" factors justify rollout; three or more \"Wait\" factors mean prerequisites should be completed first.",
       "summary_medium": "This decision framework guides European SME engineering leaders through evaluating whether to move from Claude Code pilot to full team deployment. The framework identifies four critical readiness factors: team AI maturity (ability to critically evaluate AI output), codebase characteristics (complexity and sensitivity), governance capacity (having a named owner for CLAUDE.md configuration and billing), and budget visibility (centralized provisioning). Deployment is appropriate when teams already distinguish between AI-assisted and AI-authored code, when codebases are complex enough that context navigation costs are meaningful, and when a specific individual—typically the CTO or engineering lead—can own the governance layer. Warning signs include mixed IDE environments that resist the terminal-first workflow, junior-heavy teams without senior pairing plans, high-security codebases requiring data residency evaluation, and budgets managed through invisible individual subscriptions. The framework provides a decision matrix scoring seven factors. Teams scoring four or more \"Deploy now\" signals should proceed; those with three or more \"Wait\" signals should complete prerequisites first. Key governance requirements include version-controlled CLAUDE.md configuration, updated code review standards that evaluate architectural consistency, and quarterly usage pattern reviews. EU-specific considerations include GDPR data residency (Anthropic uses US-based infrastructure by default) and vendor dependency risk under the EU AI Act.",
       "summary_long": "This article provides a comprehensive decision framework for European SME engineering leaders evaluating whether to move from Claude Code pilot usage to full team deployment. The framework centers on four key readiness dimensions: team AI maturity, codebase characteristics, governance capacity, and budget visibility. The core argument is that team-wide deployment is fundamentally a governance decision, not merely a tooling choice, and organizations must establish proper governance structures before scaling AI coding assistance. The framework identifies clear signals that indicate readiness for team-wide deployment. Teams with established AI maturity—those that already distinguish between AI-assisted and AI-authored code and maintain consistent output review practices—are positioned to integrate Claude Code effectively. Codebase complexity matters significantly; Claude Code's agentic capabilities in navigating multi-file codebases, running tests, and making coordinated changes deliver the most value when context navigation represents a genuine time cost for engineers. Architecture discussions conducted through text-based channels like pull requests or documentation can be migrated into Claude Code sessions where the AI participates with actual codebase visibility, representing a qualitatively different use case from simple code completion. Perhaps most critically, successful team deployments require a named governance owner—typically the CTO or engineering lead—who owns the CLAUDE.md configuration file, review standards, and billing account. Conversely, the article outlines scenarios where deployment may be premature. Mixed IDE environments create friction since Claude Code is terminal-native and does not integrate as a panel into VS Code or JetBrains the way completion tools do. Junior-heavy teams require additional scaffolding because autonomous agents make decisions that engineers must evaluate for correctness and architectural fit; without strong code review instincts, junior engineers risk accepting inadequate AI output. High-security codebases containing proprietary algorithms, biometric data, or financial logic require explicit evaluation of Claude Code's data handling posture, since Anthropic processes API requests through US-based infrastructure by default. Budget without visibility through centralized provisioning creates financial risk; for a 15-person team, the approximate cost of €1,350-1,500 per month represents a meaningful line item that requires active management. The governance layer is presented as non-negotiable. System prompt ownership through a version-controlled CLAUDE.md file that defines directory access, autonomous command permissions, and code conventions must be treated as a first-class configuration artifact. Code review standards must adapt to evaluate whether AI-generated implementations fit established architectural patterns, not just whether they pass tests. Usage pattern visibility through quarterly reviews of which engineers use the tool, for what task types, and with what output quality ensures accountability. For European teams, two additional considerations apply. GDPR data residency means code touching personal data must be evaluated carefully—most sessions involve code referencing personal data rather than transmitting it, but verification is essential. Vendor dependency risk under the EU AI Act applies to AI systems deployed in products, not tools in the engineering stack, though concentration risk deserves acknowledgment. The decision matrix scores seven factors. Teams scoring four or more \"Deploy now\" signals should proceed; those with three or more \"Wait\" signals should complete prerequisites. An eight-to-twelve week rollout timeline is recommended: weeks one through two establish configuration and billing, weeks three through six run a pilot with a subset of engineers, and weeks seven through twelve extend to full team adoption."
+    },
+    {
+      "folder": "2026-04-13-ai-consulting-amsterdam-accounting-firms-2026",
+      "slug": "ai-consulting-amsterdam-accounting-firms-2026",
+      "title": "Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-amsterdam-accounting-firms-2026"
+    },
+    {
+      "folder": "2026-04-13-ai-consulting-porto-manufacturing-smes-2026",
+      "slug": "ai-consulting-porto-manufacturing-smes-2026",
+      "title": "Why Porto's Industrial SMEs Can't Afford to Wait on AI — and What to Actually Do About It",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-porto-manufacturing-smes-2026"
+    },
+    {
+      "folder": "2026-04-13-ai-consulting-rotterdam-logistics-companies-2026",
+      "slug": "ai-consulting-rotterdam-logistics-companies-2026",
+      "title": "How Rotterdam Logistics SMEs Can Use AI to Compete on Margin — Without Transformation Theatre",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-rotterdam-logistics-companies-2026"
     },
     {
       "folder": "2026-04-10-build-sovereign-ai-product-europe-without-overengineeri",

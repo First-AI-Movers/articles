@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 871
+- Articles: 874
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-07-05
+- Generated: 2026-07-06
 
 ## Companion files
 
@@ -1365,6 +1365,27 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-14-should-you-deploy-claude-code-entire-dev-team-2026/article.md
 - Topics: AI Governance, European SME AI, Claude Code, AI Code Review
 - Summary: This framework helps engineering leaders decide whether to deploy Claude Code across their entire team. Key readiness factors include AI maturity, codebase complexity, governance ownership, budget visibility, and team composition. Four or more "Deploy now"…
+
+## Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-consulting-amsterdam-accounting-firms-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-amsterdam-accounting-firms-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: Amsterdam accounting firms face DNB, AFM, and EU AI Act pressure in 2026. Learn how to build a compliant AI strategy that prioritises governance over spee…
+
+## Why Porto's Industrial SMEs Can't Afford to Wait on AI — and What to Actually Do About It
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-consulting-porto-manufacturing-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-porto-manufacturing-smes-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: Porto's industrial SMEs face export pressure and supply chain automation threats. Here's how AI consulting delivers real operational gains for manufacture…
+
+## How Rotterdam Logistics SMEs Can Use AI to Compete on Margin — Without Transformation Theatre
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-consulting-rotterdam-logistics-companies-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-rotterdam-logistics-companies-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: Rotterdam logistics SMEs face margin pressure from port automation and EU customs reform. Learn how AI can improve document processing, routing, and excep…
 
 ## How to Build a Sovereign AI Product in Europe Without Overengineering the Infrastructure
 - Date: 2026-04-10
