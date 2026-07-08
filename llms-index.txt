@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 874
+- Articles: 875
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-07-06
+- Generated: 2026-07-08
 
 ## Companion files
 
@@ -1386,6 +1386,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-rotterdam-logistics-companies-2026/article.md
 - Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
 - Summary: Rotterdam logistics SMEs face margin pressure from port automation and EU customs reform. Learn how AI can improve document processing, routing, and excep…
+
+## The Microsoft 365 Copilot Buying Decision No One Explains Clearly
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/microsoft-365-copilot-sme-evaluation-guide-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-microsoft-365-copilot-sme-evaluation-guide-2026/article.md
+- Topics: company-tech-strategy, digital-transformation, artificial-intelligence, ai-governance
+- Summary: Is Microsoft 365 Copilot worth £25–30/user/month for your European SME? This guide covers data prerequisites, ROI at 15–50 seats, and what the vendor won'…
 
 ## How to Build a Sovereign AI Product in Europe Without Overengineering the Infrastructure
 - Date: 2026-04-10

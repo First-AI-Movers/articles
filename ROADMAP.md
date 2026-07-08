@@ -12,7 +12,7 @@ The archive is at **v1 stable** (frozen 2026-05-03) and is in a maintenance + gr
 - The `Generated artifacts` drift check skips PRs whose only changed files are `tools/requirements.txt`, `.github/workflows/<name>.yml`, or `.github/dependabot.yml`. Any other path still runs the full drift check, and every push to `main` runs it unconditionally.
 
 <!-- BEGIN auto:operational-state -->
-Operational state today: **874 articles**, **103 canonical topics**, **77 rendered topic hubs**, **874 local noindex article pages**, sitemap limited to **80 first-party indexable URLs**, and the current test suite split across Python unit/integration tests plus Playwright E2E.
+Operational state today: **875 articles**, **103 canonical topics**, **77 rendered topic hubs**, **875 local noindex article pages**, sitemap limited to **80 first-party indexable URLs**, and the current test suite split across Python unit/integration tests plus Playwright E2E.
 <!-- END auto:operational-state -->
 
 ## Tag legend
