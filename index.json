@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-07-06",
-  "total_articles": 874,
+  "last_updated": "2026-07-08",
+  "total_articles": 875,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -4759,6 +4759,21 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-rotterdam-logistics-companies-2026"
+    },
+    {
+      "folder": "2026-04-13-microsoft-365-copilot-sme-evaluation-guide-2026",
+      "slug": "microsoft-365-copilot-sme-evaluation-guide-2026",
+      "title": "The Microsoft 365 Copilot Buying Decision No One Explains Clearly",
+      "published_date": "2026-04-13",
+      "tags": [
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence",
+        "ai-governance"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/microsoft-365-copilot-sme-evaluation-guide-2026"
     },
     {
       "folder": "2026-04-10-build-sovereign-ai-product-europe-without-overengineeri",
