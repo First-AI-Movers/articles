@@ -1,0 +1,52 @@
+name: OG Worker
+
+# Real CI for the og-worker Cloudflare Worker package. Mirrors the established
+# per-worker pattern in mcp-server.yml so a change under og-worker/ actually runs
+# the package's own typecheck / tests / build. Before this workflow, no CI
+# referenced og-worker, so its Dependabot green (e.g. #312) was vacuous with
+# respect to TypeScript — tsc/vitest/wrangler never executed. Advisory (not a
+# branch-protection required check); no deploy, no secrets.
+
+on:
+  pull_request:
+    paths:
+      - 'og-worker/**'
+      - '.github/workflows/og-worker.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'og-worker/**'
+      - '.github/workflows/og-worker.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  og-worker:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: og-worker
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: og-worker/package-lock.json
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build (dry-run)
+        run: npm run build
