@@ -1,0 +1,64 @@
+name: TypeScript Lifecycle Advisory
+
+# Advisory, NON-REQUIRED check: runs the vendored Agent Toolkit TypeScript
+# lifecycle drift detector over the mcp-server and og-worker surfaces to catch
+# TypeScript-lifecycle drift after a Dependabot rebase (a removed compiler option,
+# a registry/lockfile mismatch, a preview/stable channel surprise, a stale entry).
+# Read-only, stdlib-only Python; no npm, no secrets, no deploy. Findings surface in
+# the job summary + an uploaded artifact; the job stays green (advisory) — it must
+# NOT be promoted to a branch-protection required check.
+
+on:
+  pull_request:
+    paths:
+      - 'mcp-server/**'
+      - 'og-worker/**'
+      - '.github/typescript-lifecycle/**'
+      - '.github/workflows/typescript-lifecycle-advisory.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'mcp-server/**'
+      - 'og-worker/**'
+      - '.github/typescript-lifecycle/**'
+      - '.github/workflows/typescript-lifecycle-advisory.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  typescript-lifecycle-advisory:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .github/typescript-lifecycle
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Detector self-test (vendored copy integrity)
+        run: python3 typescript_lifecycle_drift.py --self-test
+
+      - name: TypeScript lifecycle drift (advisory)
+        run: |
+          echo "## TypeScript lifecycle advisory" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          python3 typescript_lifecycle_drift.py --scan scan.json --registry registry.json \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          python3 typescript_lifecycle_drift.py --scan scan.json --registry registry.json \
+            --json > drift-report.json
+
+      - name: Upload drift report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: typescript-lifecycle-drift-report
+          path: .github/typescript-lifecycle/drift-report.json
+          if-no-files-found: warn
