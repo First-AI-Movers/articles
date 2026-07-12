@@ -1,0 +1,71 @@
+{
+  "schema": "typescript-lifecycle-registry/v1",
+  "canonical": false,
+  "generated_note": "Generated operational state, not canon. A green entry is only as strong as its evidence + certainty. Live repo state, lockfiles, and the upstream npm dist-tag remain the source of truth wherever they disagree.",
+  "org": "First-AI-Movers",
+  "support_matrix": [
+    {
+      "target_version": "7.0.2",
+      "supported_node_range": ">=20.0.0",
+      "supported_ts_range": "^7.0.0",
+      "note": "TypeScript 7 GA 2026-07-08 (npm latest dist-tag); the Cloudflare Worker packages build/test on Node 22 in CI."
+    }
+  ],
+  "packages": [
+    {
+      "repository": "First-AI-Movers/articles",
+      "package_path": "mcp-server",
+      "default_branch_sha": "03a47a35055e9a744775c7f39222705a2c950fa0",
+      "typescript_status": "direct",
+      "declared_version": "^7.0.2",
+      "resolved_version": "7.0.2",
+      "target_version": "7.0.2",
+      "release_channel": "stable",
+      "node_version": "22",
+      "package_manager": "npm",
+      "framework": null,
+      "build_tool": "wrangler",
+      "test_runner": "vitest",
+      "migration_class": "A-direct-upgrade",
+      "baseline_status": "pass",
+      "compatibility_status": "compatible",
+      "blocking_dependencies": [],
+      "last_verified_at": "2026-07-12T01:48:24Z",
+      "evidence": [
+        "mcp-server/package.json",
+        "mcp-server/tsconfig.json",
+        ".github/workflows/mcp-server.yml",
+        "https://github.com/First-AI-Movers/articles/pull/308"
+      ],
+      "certainty": "verified"
+    },
+    {
+      "repository": "First-AI-Movers/articles",
+      "package_path": "og-worker",
+      "default_branch_sha": "03a47a35055e9a744775c7f39222705a2c950fa0",
+      "typescript_status": "direct",
+      "declared_version": "^7.0.2",
+      "resolved_version": "7.0.2",
+      "target_version": "7.0.2",
+      "release_channel": "stable",
+      "node_version": "22",
+      "package_manager": "npm",
+      "framework": null,
+      "build_tool": "wrangler",
+      "test_runner": "vitest",
+      "migration_class": "A-direct-upgrade",
+      "baseline_status": "pass",
+      "compatibility_status": "compatible",
+      "blocking_dependencies": [],
+      "last_verified_at": "2026-07-12T01:48:24Z",
+      "evidence": [
+        "og-worker/package.json",
+        "og-worker/tsconfig.json",
+        ".github/workflows/og-worker.yml",
+        "https://github.com/First-AI-Movers/articles/pull/312",
+        "https://github.com/First-AI-Movers/articles/pull/326"
+      ],
+      "certainty": "verified"
+    }
+  ]
+}

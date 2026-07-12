@@ -1,0 +1,51 @@
+{
+  "schema": "typescript-workspace-scan/v1",
+  "canonical": false,
+  "generated_note": "Observed TypeScript surfaces for the articles Cloudflare Worker packages. Facts only (versions, tsconfig option values, boolean CI signals) — no source. Regenerate when a manifest / lockfile / tsconfig / CI workflow changes on a tracked surface.",
+  "surfaces": [
+    {
+      "repository": "First-AI-Movers/articles",
+      "package_path": "mcp-server",
+      "typescript_ref": "direct",
+      "compiler_invocation": true,
+      "declared_version": "^7.0.2",
+      "resolved_version": "7.0.2",
+      "target_version": "7.0.2",
+      "node_version": "22",
+      "tsconfig_options": {
+        "target": "es2022",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "esModuleInterop": true
+      },
+      "ci": {
+        "typecheck_job": true,
+        "build_job": true,
+        "test_job": true,
+        "references_package": true
+      }
+    },
+    {
+      "repository": "First-AI-Movers/articles",
+      "package_path": "og-worker",
+      "typescript_ref": "direct",
+      "compiler_invocation": true,
+      "declared_version": "^7.0.2",
+      "resolved_version": "7.0.2",
+      "target_version": "7.0.2",
+      "node_version": "22",
+      "tsconfig_options": {
+        "target": "es2022",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "esModuleInterop": true
+      },
+      "ci": {
+        "typecheck_job": true,
+        "build_job": true,
+        "test_job": true,
+        "references_package": true
+      }
+    }
+  ]
+}
