@@ -116,6 +116,34 @@
       "content_text": "Claude Code now runs across your terminal, desktop app, phone, and browser, and sessions stay in sync across all of them. If you have been managing multiple Claude Code sessions by switching terminal tabs and losing track of which agent is doing what, there are three features…"
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-18:2026-05-18-codex-github-connector-automated-pr-review-2026",
+      "url": "https://radar.firstaimovers.com/codex-github-connector-automated-pr-review-2026",
+      "title": "Codex GitHub Connector: How to Set Up Automated PR Reviews That Follow Your Team's Rules",
+      "date_published": "2026-05-18T00:00:00Z",
+      "tags": [
+        "developer-tools",
+        "ai-automation",
+        "company-tech-strategy",
+        "ai-governance",
+        "digital-transformation"
+      ],
+      "content_text": "How to set up the Codex GitHub App for automated PR reviews, auto-fix, and AGENTS.md-driven code standards. The setup top engineering teams use in 2026."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-05-18:2026-05-18-opencode-minimax-m25-claude-code-alternative-2026",
+      "url": "https://radar.firstaimovers.com/opencode-minimax-m25-claude-code-alternative-2026",
+      "title": "OpenCode + MiniMax M2.5: 80% of Claude Code Quality at 1/15th the Cost: An Honest Setup Guide",
+      "date_published": "2026-05-18T00:00:00Z",
+      "tags": [
+        "developer-tools",
+        "ai-automation",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation"
+      ],
+      "content_text": "OpenCode with MiniMax M2.5 delivers 80.2% SWE-Bench at 1/15 the cost of Claude Opus. Setup guide, routing strategy, and honest comparison for power users."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-11:2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026",
       "url": "https://radar.firstaimovers.com/evaluate-mcp-servers-enterprise-workflows-2026",
       "title": "How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows",
@@ -459,6 +487,20 @@
       "content_text": "Four terminal-based AI coding agents now support multi-agent orchestration, and the differences between them, in cost, extensibility, data residency, and governance features, will shape how engineering teams work for the next two years. If your developers are already using one…"
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-energy-utilities-smes-eu-2026",
+      "url": "https://radar.firstaimovers.com/ai-governance-energy-utilities-smes-eu-2026",
+      "title": "AI Governance for Energy and Utilities: What NIS2, DORA, and the EU AI Act Mean for Your AI Deployments",
+      "date_published": "2026-05-02T00:00:00Z",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation",
+        "ai-automation"
+      ],
+      "content_text": "How EU energy and utility SMEs should govern AI under NIS2, DORA, and the EU AI Act. Covers grid management, trading, and critical infrastructure."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-framework-by-industry-european-smes",
       "url": "https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes",
       "title": "How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)",
@@ -596,47 +638,6 @@
         "AI Strategy"
       ],
       "content_text": "Discover which AI tools fit your customer service team in 2026. Four tool categories, GDPR compliance notes, and a 5-step evaluation checklist for EU SMEs."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-tools-for-legal-operations-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-tools-for-legal-operations-european-smes-2026",
-      "title": "AI Tools for Legal Operations: An EU SME Guide for 2026",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "EU AI Act",
-        "AI Governance",
-        "GDPR & Data Privacy",
-        "AI Regulation",
-        "AI Observability"
-      ],
-      "content_text": "AI tools for in-house legal teams at EU SMEs: contract review, compliance tracking, and EU AI Act obligations under Annex III for legal software."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-tools-for-marketing-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-tools-for-marketing-european-smes-2026",
-      "title": "AI Marketing Tools for European SMEs in 2026",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Industry News",
-        "GDPR & Data Privacy",
-        "AI Governance",
-        "AI Content Strategy"
-      ],
-      "content_text": "A practical guide to AI marketing tools for EU SMEs: content creation, SEO, social media, email, and GDPR compliance for 20-50 person teams."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-vendor-management-playbook-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-vendor-management-playbook-european-smes-2026",
-      "title": "AI Vendor Management Playbook for EU SMEs",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "EU AI Act",
-        "AI Governance",
-        "AI Observability"
-      ],
-      "content_text": "How to manage AI vendors after selection: SLA monitoring, quarterly reviews, contract renewal, and governance cadence for growing EU businesses."
     }
   ]
 }

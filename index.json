@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-07-13",
-  "total_articles": 897,
+  "total_articles": 902,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -138,6 +138,38 @@
       "summary_short": "Claude Code now spans CLI, desktop, mobile, and browser through three coordinated features: Remote Control continues local sessions from a phone, Dispatch fires new tasks from mobile that spawn desktop sessions, and Agent View provides a TUI dashboard for parallel agents. Teams running three or more concurrent sessions need all three to stay coherent.",
       "summary_medium": "Claude Code now runs across the terminal, desktop app, phone, and browser, with three coordinated features that change how engineering teams manage parallel agents. Remote Control turns the phone into a remote terminal for an already-running local Claude Code session; the work stays on the laptop, the phone is just a window. Dispatch is different — it fires new tasks from the phone, and Claude spawns the right session on the desktop to handle them. Agent View, shipped May 11, 2026, is a TUI dashboard showing every session, its last response, and whether it needs input. The guide distinguishes two environments: cold or cloud sessions on Anthropic's servers (no local file access) versus local or warm sessions on the user's machine (full filesystem, git, MCP servers). Multi-device coordination only works for the latter. Requirements include Claude Code v2.1.51 or later on Pro, Max, Team, or Enterprise plans; the feature is in research preview. For CTOs and engineering managers running three to five parallel sessions on the Max plan, the combination of Agent View as the command centre, Remote Control as the away-from-desk path, and Dispatch as the fire-and-forget channel is the difference between a sustainable parallel-agent operating model and a Friday-evening firefight.",
       "summary_long": "Claude Code now spans the terminal, desktop app, phone, and browser, with sessions that stay in sync across all surfaces. Three features in combination — not in isolation — make parallel agent management sustainable for CTOs and engineering managers running three or more concurrent sessions: Remote Control, Dispatch, and Agent View.\n\nRemote Control turns the phone into a remote terminal for an already-running local Claude Code session. The session stays local; the phone is a window into it. Setup is simple: enable Remote Control by default in configuration or turn it on per session using the documented remote-control command forms. A URL and QR code appear; the mobile Code tab shows the session with a green dot when online. Real-time sync runs in both directions: phone input streams to the terminal, terminal output streams to the phone. The session survives laptop sleep and reconnects automatically.\n\nDispatch is a different mode. Where Remote Control continues an existing session, Dispatch fires new tasks from the phone, and Claude decides whether to spawn a Code session or a Cowork session on the desktop to handle them. The desktop app must be running and paired; push notifications signal when a Dispatch task finishes or needs input. Simple rule: Remote Control equals continue, Dispatch equals create.\n\nAgent View, shipped May 11, 2026, is the dashboard that makes parallel work tractable. Open it from any terminal, or by pressing the left arrow inside any session. The TUI table shows session name, last response, timestamp, and whether the agent is waiting, working, or done. Reply, jump in, peek, or background-start new sessions without leaving the dashboard.\n\nTwo environments underlie everything. Cold or cloud sessions run on Anthropic's servers — they survive laptop sleep but cannot reach local files, git, MCP servers, or terminal tools. Local or warm sessions run on the user's machine with full access. Multi-device coordination only applies to local or warm sessions; the entire architecture exists to give phone-side access to the local environment without moving code to the cloud.\n\nThe article recommends a daily workflow. Morning: start three or four named background sessions, open Agent View. Midday: walk away from the desk, monitor on phone, approve edits, fire a new task via Dispatch. Afternoon: back at the laptop, the Dispatch task is done, the morning sessions report results, new sessions start.\n\nRequirements are Claude Code v2.1.51 or later on Pro, Max, Team, or Enterprise plans; the feature is in research preview. Practical capacity sits at three to five parallel sessions on the Max plan before rate limits become a constraint, because each session draws from the same plan pool. Common pitfalls: a sleeping laptop shows sessions offline; Dispatch needs the desktop app paired; cloud sessions cannot access local files unless pulled local via teleport.\n\nFor teams structuring agent workflows, the article frames the multi-device layer not as a nice-to-have but as the operating model that distinguishes a sustainable parallel-agent practice from a chaotic one."
+    },
+    {
+      "folder": "2026-05-18-codex-github-connector-automated-pr-review-2026",
+      "slug": "codex-github-connector-automated-pr-review-2026",
+      "title": "Codex GitHub Connector: How to Set Up Automated PR Reviews That Follow Your Team's Rules",
+      "published_date": "2026-05-18",
+      "tags": [
+        "developer-tools",
+        "ai-automation",
+        "company-tech-strategy",
+        "ai-governance",
+        "digital-transformation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/codex-github-connector-automated-pr-review-2026"
+    },
+    {
+      "folder": "2026-05-18-opencode-minimax-m25-claude-code-alternative-2026",
+      "slug": "opencode-minimax-m25-claude-code-alternative-2026",
+      "title": "OpenCode + MiniMax M2.5: 80% of Claude Code Quality at 1/15th the Cost: An Honest Setup Guide",
+      "published_date": "2026-05-18",
+      "tags": [
+        "developer-tools",
+        "ai-automation",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/opencode-minimax-m25-claude-code-alternative-2026"
     },
     {
       "folder": "2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026",
@@ -726,6 +758,22 @@
       "summary_short": "This article compares four terminal-based AI coding agents: Claude Code (Opus 4.7), Kimi K2.6, Codex CLI (GPT-5.4), and Gemini CLI. Each offers multi-agent orchestration, with Claude leading on code quality (87.6% SWE-bench) and Kimi offering the most aggressive scaling (300 agents) at 10× lower cost. Pricing ranges from free (Gemini, Codex) to ~$1,000-2,000/month for Claude teams.",
       "summary_medium": "The April 2026 market for terminal-based AI coding agents has consolidated around four primary platforms: Claude Code, Kimi K2.6, Codex CLI, and Gemini CLI. Each has evolved beyond simple code completion into orchestration platforms capable of managing multi-agent workflows. Claude Code leads on code quality with Opus 4.7 achieving 87.6% on SWE-bench Verified, while its experimental Agent Teams feature enables multiple AI agents to collaborate on complex tasks. Kimi K2.6 stands out with its aggressive 300-agent swarm capability at approximately $0.60 per million input tokens—roughly 10× cheaper than Claude. However, data residency concerns exist for European teams due to Moonshot AI's Chinese base. Codex CLI benefits from OpenAI's GPT-5.4 model and broad ecosystem (90+ integrations), offered free to ChatGPT subscribers but lacks native multi-agent features. Gemini CLI provides the lowest barrier to entry with 1,000 free daily requests and 1M-token context, though its 3.1 Pro model trails Opus and GPT-5.4 on benchmarks. For teams of 10 developers, monthly costs range from $0 (Gemini, Codex with existing subscriptions) to $1,000-2,000 (Claude Max). The article recommends standardizing on one primary platform, establishing governance policies, and reviewing quarterly as capabilities evolve rapidly.",
       "summary_long": "The AI coding agent CLI market has matured significantly by April 2026, with four terminal-based platforms now offering sophisticated multi-agent orchestration capabilities. Claude Code (Anthropic), Kimi K2.6 (Moonshot AI), Codex CLI (OpenAI), and Gemini CLI (Google) have each evolved beyond code completion into full-fledged orchestration platforms capable of planning, executing, and coordinating multiple independent agent sessions. This convergence marks a pivotal moment for engineering teams, as the choice between these platforms will fundamentally shape workflow efficiency, security posture, and cost structure for the next two years. Claude Code emerges as the premium option, defaulting to Opus 4.7 with a 1M-token context window and achieving the highest code quality score on SWE-bench Verified at 87.6%. Its experimental Agent Teams feature allows one session to serve as team lead, spawning independent teammate agents that communicate through a mailbox system. The platform integrates deeply with software engineering workflows through SKILL.md files, hooks, slash commands, MCP servers, and IDE extensions for VS Code and JetBrains. However, this power comes at a cost: usage-based pricing runs approximately $1,000-2,000 monthly for a team of 10 developers, and the experimental status means limitations like no session resumption mid-team and no nested team support. Kimi K2.6 represents the cost-conscious alternative, with its open-source CLI (Apache 2.0) supporting up to 300 sub-agents coordinated through the Agent Client Protocol. Priced at roughly $0.60 per million input tokens—approximately 10× cheaper than Claude—it's particularly attractive for teams prioritizing budget. However, European teams face GDPR compliance challenges since Moonshot AI is a Chinese company, and the 300-agent swarm quality remains unverified on production codebases. The model is also less proven on complex refactoring tasks compared to Claude and GPT-5.4. Codex CLI offers the broadest ecosystem with over 90 integrations including JIRA, CircleCI, and GitLab, leveraging GPT-5.4 for strong code generation capabilities. It's free for existing ChatGPT subscribers and has accumulated 75,000+ GitHub stars with 3 million weekly active users. The trade-off is a lack of native multi-agent orchestration—teams must manually configure MCP server orchestration for swarm-like behavior. Additionally, the Rust codebase presents a higher barrier to customization compared to Python-based alternatives. Gemini CLI provides the lowest barrier to entry with 1,000 free daily requests and 1M-token context, making it ideal for teams evaluating coding agents without committing budget. Its subagent architecture is clean and well-documented, though Gemini 3.1 Pro scores below Opus 4.7 and GPT-5.4 on SWE-bench benchmarks, and the subagent feature is the newest among the four platforms. For enterprise teams, data residency presents distinct considerations: Claude and Codex are US-hosted with EU data processing agreements available, Kimi requires explicit GDPR verification, and Gemini offers EU region options through Vertex AI. The article recommends standardizing on one primary platform while allowing one secondary for evaluation, with quarterly reviews to adapt as these rapidly evolving tools mature."
+    },
+    {
+      "folder": "2026-05-02-ai-governance-energy-utilities-smes-eu-2026",
+      "slug": "ai-governance-energy-utilities-smes-eu-2026",
+      "title": "AI Governance for Energy and Utilities: What NIS2, DORA, and the EU AI Act Mean for Your AI Deployments",
+      "published_date": "2026-05-02",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation",
+        "ai-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-governance-energy-utilities-smes-eu-2026"
     },
     {
       "folder": "2026-05-02-ai-governance-framework-by-industry-european-smes",
@@ -3904,6 +3952,26 @@
       "summary_long": "Malmö's logistics sector operates at the intersection of Scandinavian efficiency and European cross-border complexity. The city connects to Copenhagen in 12 minutes via the Öresund Bridge and handles cargo through the Port of Malmö serving Baltic and North Sea routes. A typical logistics company or freight broker based in Malmö manages operations across Swedish and EU regulatory environments while serving customers in multiple languages, often running lean with just 15 to 50 people handling volumes that larger competitors manage with five times the headcount.\n\nFor these companies, AI implementation is fundamentally about improving margins rather than wholesale transformation. A 30-person freight forwarding company that reduces manual data entry in customs documentation by 60% can redirect one more staff member toward customer relationship management. A warehousing operation that predicts demand fluctuations two weeks in advance avoids costly emergency overtime. The question is not whether AI delivers value in logistics—it demonstrably does—but rather where to start without disrupting existing operations that are already functioning.\n\nThree use cases consistently deliver measurable results within the first 90 days of implementation. First, document processing and customs data extraction addresses the high volume of semi-structured documents including bills of lading, packing lists, customs declarations, and freight invoices. AI document processing reduces the time to extract, validate, and route these documents from 10-15 minutes per document to under 2 minutes, with error rates typically lower than manual entry. Second, route and load optimisation for operators running 10-30 vehicles or container slots reduces fuel and transit costs by 8-15% on typical runs through cloud-based tools that no longer require custom software development. Third, customer communication automation handles shipment status updates, delay notifications, and proof-of-delivery confirmations, freeing account managers to focus on exception handling and new business development.\n\nRegulatory compliance involves two distinct layers. GDPR applies to customer addresses, contact details, and shipment routing information as personal data, requiring lawful basis for processing and restrictions on data transfers outside the EEA. The EU AI Act classifies logistics AI systems affecting employment decisions or critical infrastructure as high-risk, though most document processing and route optimisation tools fall outside these categories.\n\nA practical consulting engagement runs eight to twelve weeks across four phases. Phase one maps the three to five highest-volume manual workflows and estimates staff hours per week. Phase two identifies AI tools fitting assessed workflows, prioritizing EU-hosted options for GDPR compliance. Phase three runs controlled pilots on real workflows with human oversight, measuring accuracy and integration friction. Phase four presents findings with full deployment plans and ROI cases—if pilots show 40% or more time reduction, tools typically pay for themselves within six months.\n\nLocal presence matters because logistics operations anchor in physical reality: warehouses, port schedules, carrier relationships, and customs procedures that vary by route. Consultants who understand both AI implementation pathways and European logistics operating environments reduce the gap between pilot recommendations and operational deployment."
     },
     {
+      "folder": "2026-04-15-ai-governance-healthcare-smes-eu-ai-act-2026",
+      "slug": "ai-governance-healthcare-smes-eu-ai-act-2026",
+      "title": "AI Governance for Healthcare SMEs: A Practical EU AI Act Playbook",
+      "published_date": "2026-04-15",
+      "tags": [
+        "eu-ai-act",
+        "healthcare-compliance",
+        "ai-governance",
+        "gdpr",
+        "clinical-ai"
+      ],
+      "topics": [
+        "AI Governance",
+        "Healthcare AI",
+        "GDPR & Data Privacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-governance-healthcare-smes-eu-ai-act-2026"
+    },
+    {
       "folder": "2026-04-15-ai-governance-legal-smes-eu-ai-act-2026",
       "slug": "ai-governance-legal-smes-eu-ai-act-2026",
       "title": "AI Governance for Legal SMEs: EU AI Act Compliance for Law Firms",
@@ -3979,6 +4047,26 @@
       ],
       "funnel_stage": "middle",
       "canonical_url": "https://radar.firstaimovers.com/ai-procurement-checklist-healthcare-buyers-eu-2026"
+    },
+    {
+      "folder": "2026-04-15-claude-api-guide-european-tech-teams-2026",
+      "slug": "claude-api-guide-european-tech-teams-2026",
+      "title": "Claude API Guide for European Tech Teams: Integration, Pricing, and GDPR in 2026",
+      "published_date": "2026-04-15",
+      "tags": [
+        "claude-api",
+        "anthropic-api",
+        "gdpr-compliance",
+        "european-tech",
+        "ai-integration"
+      ],
+      "topics": [
+        "Claude Models",
+        "GDPR & Data Privacy",
+        "AI Governance"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/claude-api-guide-european-tech-teams-2026"
     },
     {
       "folder": "2026-04-15-claude-code-agent-skills-plugins-european-teams-2026",
