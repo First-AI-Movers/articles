@@ -5,8 +5,20 @@ on:
   schedule:
     - cron: "17 3 * * 0"   # Weekly on Sunday 03:17 UTC
 
+# create-pull-request needs write on contents (to push the branch) and
+# pull-requests (to open the PR). The prior `contents: read` made every
+# scheduled run's "Open PR if changed" step fail on token scope — the
+# refresh never landed. issues:write scopes the failure-incident step.
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
+  issues: write
+
+# Serialize scheduled + manual runs: both write the same
+# `chore/refresh-embeddings` branch and the same embeddings.parquet.
+concurrency:
+  group: build-embeddings
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -46,13 +58,63 @@ jobs:
       - name: Open PR if changed
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Prefer ARTICLE_INGESTION_PR_TOKEN so the PR triggers downstream CI;
+          # GitHub suppresses workflow runs on PRs created with the default
+          # GITHUB_TOKEN. Falls back to GITHUB_TOKEN when the PAT is absent
+          # (the PR then needs a close/reopen to trigger CI).
+          token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
           branch: chore/refresh-embeddings
           title: "chore(embeddings): refresh article embedding index"
           body: |
             Automated weekly refresh of `embeddings.parquet`.
             - Model: `BAAI/bge-small-en-v1.5`
             - Trigger: scheduled workflow
-            - If no semantic changes, this PR may be empty.
+            - If no semantic changes, this PR may be empty (peter-evans skips it).
+
+            _If no checks appear, the PR was created with the default `GITHUB_TOKEN`;
+            close and reopen it to trigger CI, or provision `ARTICLE_INGESTION_PR_TOKEN`._
           commit-message: "chore(embeddings): refresh article embedding index"
+          add-paths: |
+            embeddings.parquet
           delete-branch: true
+
+      - name: Open incident issue on scheduled failure
+        # Fires only when a scheduled run fails, so a silent weekly breakage
+        # (the prior under-permissioned state ran red 11/11 with no signal)
+        # becomes operator-visible. Deduplicated: skips if an open incident
+        # already tracks it. workflow_dispatch failures are left for the
+        # operator who triggered them. Never echoes secret values; always
+        # exits 0 so incident bookkeeping cannot re-fail the run.
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          TITLE_PREFIX="Embeddings refresh failed"
+          existing=$(gh issue list \
+            --repo "${GITHUB_REPOSITORY}" \
+            --state open \
+            --search "in:title \"${TITLE_PREFIX}\"" \
+            --limit 1 \
+            --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "Open incident #${existing} already tracks embeddings failures; not duplicating."
+            exit 0
+          fi
+          gh issue create \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "${TITLE_PREFIX}: weekly embeddings workflow run failed" \
+            --body "$(cat <<EOF
+          ## Weekly embeddings refresh failed
+
+          - **Workflow run:** ${RUN_URL}
+          - **Commit:** \`${GITHUB_SHA}\`
+          - **Trigger:** \`${GITHUB_EVENT_NAME}\`
+
+          \`embeddings.parquet\` was not refreshed this cycle. Investigate via the
+          run URL above. No secret values are recorded in this issue. Close once
+          the root cause is resolved and a refresh has landed.
+          EOF
+          )"
+          exit 0
