@@ -9,6 +9,7 @@ Covers:
 """
 
 import importlib
+import json
 import sys
 from pathlib import Path
 
@@ -499,3 +500,156 @@ class TestMainHappyPath:
             "signal; the cron itself stays in success()."
         )
         assert "timed out" in issued["r"]
+
+
+class TestMergeStateGate:
+    """F2: the merge must gate on mergeStateStatus == CLEAN, not just mergeable.
+
+    Regression for run 29186004190 / PR #328: the required checks flipped
+    SUCCESS while mergeStateStatus was still BLOCKED (GitHub recomputes it
+    asynchronously); the merge attempt then failed with "base branch policy
+    prohibits the merge" and double-filed incidents.
+    """
+
+    def _pr(self, merge_state, **overrides):
+        pr = {
+            "number": 328,
+            "url": "https://github.com/o/r/pull/328",
+            "title": "ingest(articles): add articles from Airtable",
+            "headRefName": "ingest/airtable-articles",
+            "baseRefName": "main",
+            "mergeable": "MERGEABLE",
+            "mergeStateStatus": merge_state,
+            "files": [{"path": "README.md"}],
+            "statusCheckRollup": [
+                {"name": n, "conclusion": "SUCCESS"}
+                for n in ("check", "e2e", "geo-audit", "gitleaks",
+                          "lychee", "readability", "test", "vale")
+            ],
+        }
+        pr.update(overrides)
+        return pr
+
+    def test_green_but_blocked_waits_until_clean_then_merges(self, mod, monkeypatch, capsys):
+        monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")
+        monkeypatch.setenv("AUTO_MERGE_TIMEOUT_SECONDS", "5")
+        monkeypatch.setenv("AUTO_MERGE_POLL_INTERVAL", "0")
+        responses = iter([self._pr("BLOCKED"), self._pr("CLEAN")])
+        calls = {"n": 0}
+
+        def _find(*a, **kw):
+            calls["n"] += 1
+            return next(responses)
+
+        monkeypatch.setattr(mod, "find_open_pr", _find)
+        merged = {}
+        monkeypatch.setattr(mod, "squash_merge", lambda n, repo=None: merged.setdefault("n", n))
+        monkeypatch.setattr(mod.time, "sleep", lambda _s: None)
+        rc = mod.main()
+        assert rc == 0
+        assert merged.get("n") == 328, "must merge only after mergeStateStatus becomes mergeable"
+        assert calls["n"] >= 2, "must poll past the BLOCKED state, not merge on the first green poll"
+        assert "awaiting a mergeable state" in capsys.readouterr().out
+
+    def test_unstable_merges_when_required_checks_green(self, mod, monkeypatch):
+        """UNSTABLE (only a non-required/advisory check is red or pending — e.g.
+        the mcp-server context an ingest PR triggers via archive-data.json) is
+        mergeable and must NOT block auto-merge; gh pr merge accepts it."""
+        monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")
+        monkeypatch.setattr(mod, "find_open_pr", lambda *a, **kw: self._pr("UNSTABLE"))
+        merged = {}
+        monkeypatch.setattr(mod, "squash_merge", lambda n, repo=None: merged.setdefault("n", n))
+        rc = mod.main()
+        assert rc == 0
+        assert merged.get("n") == 328, "UNSTABLE (advisory check red/pending) must still auto-merge"
+
+    def test_green_but_permanently_blocked_times_out_without_merge(self, mod, monkeypatch):
+        monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")
+        monkeypatch.setenv("AUTO_MERGE_TIMEOUT_SECONDS", "0")  # immediate timeout
+        monkeypatch.setenv("AUTO_MERGE_POLL_INTERVAL", "0")
+        monkeypatch.setattr(mod, "find_open_pr", lambda *a, **kw: self._pr("BLOCKED"))
+        merged = {}
+        monkeypatch.setattr(mod, "squash_merge", lambda n, repo=None: merged.setdefault("n", n))
+        issued = {}
+        monkeypatch.setattr(
+            mod, "open_incident_issue",
+            lambda reason, pr=None, repo=None: issued.setdefault("r", reason),
+        )
+        rc = mod.main()
+        assert rc == 0
+        assert "n" not in merged, "must not attempt a merge while mergeStateStatus is BLOCKED"
+        assert "timed out" in issued["r"]
+
+
+class TestMergeRejectionAndDedup:
+    def _clean_pr(self, num=328):
+        return {
+            "number": num,
+            "url": f"https://github.com/o/r/pull/{num}",
+            "title": "ingest(articles): add articles from Airtable",
+            "headRefName": "ingest/airtable-articles",
+            "baseRefName": "main",
+            "mergeable": "MERGEABLE",
+            "mergeStateStatus": "CLEAN",
+            "files": [{"path": "README.md"}],
+            "statusCheckRollup": [
+                {"name": n, "conclusion": "SUCCESS"}
+                for n in ("check", "e2e", "geo-audit", "gitleaks",
+                          "lychee", "readability", "test", "vale")
+            ],
+        }
+
+    def test_merge_rejection_returns_zero_and_files_issue(self, mod, monkeypatch):
+        """F3a: a squash_merge GhError files the blocked issue and returns 0
+        (not 1), so the cron does not fail and double-file a cron incident."""
+        monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")
+        monkeypatch.setattr(mod, "find_open_pr", lambda *a, **kw: self._clean_pr())
+
+        def _boom(n, repo=None):
+            raise mod.GhError(
+                "gh pr merge 328 --squash --delete-branch exited 1: "
+                "base branch policy prohibits the merge"
+            )
+
+        monkeypatch.setattr(mod, "squash_merge", _boom)
+        issued = {}
+        monkeypatch.setattr(
+            mod, "open_incident_issue",
+            lambda reason, pr=None, repo=None: issued.setdefault("r", reason),
+        )
+        rc = mod.main()
+        assert rc == 0
+        assert "gh pr merge failed" in issued["r"]
+
+    def test_incident_deduped_when_open_issue_exists(self, mod, monkeypatch, capsys):
+        """F3b: open_incident_issue skips creation when an open blocked issue
+        already references the PR number."""
+        gh_calls = []
+
+        def _fake_gh(args, repo=None):
+            gh_calls.append(args)
+            if args[:2] == ["issue", "list"]:
+                return json.dumps([{"number": 329, "body": "- **PR number:** 328\n"}])
+            return ""
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod.open_incident_issue("some reason", pr={"number": 328, "url": "u"}, repo="o/r")
+        assert not any(a[:2] == ["issue", "create"] for a in gh_calls), (
+            "must not create a new issue when an open one already tracks the PR"
+        )
+        assert "[skip]" in capsys.readouterr().out
+
+    def test_incident_created_when_no_existing_issue(self, mod, monkeypatch):
+        gh_calls = []
+
+        def _fake_gh(args, repo=None):
+            gh_calls.append(args)
+            if args[:2] == ["issue", "list"]:
+                return json.dumps([])  # none existing
+            return ""
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod.open_incident_issue("some reason", pr={"number": 999, "url": "u"}, repo="o/r")
+        assert any(a[:2] == ["issue", "create"] for a in gh_calls), (
+            "must create an issue when none exists for the PR"
+        )

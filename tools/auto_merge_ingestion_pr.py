@@ -92,6 +92,14 @@ REQUIRED_CHECKS = (
 DEFAULT_TIMEOUT_SECONDS = 900   # 15 min — generous for e2e flake.
 DEFAULT_POLL_INTERVAL = 30
 
+# mergeStateStatus values `gh pr merge` can actually squash once the eight
+# REQUIRED_CHECKS are all SUCCESS: CLEAN (everything green) and UNSTABLE (only
+# a non-required / advisory check is red or pending — those never block a
+# merge; e.g. the `mcp-server` context an ingest PR triggers via
+# archive-data.json). HAS_HOOKS is likewise mergeable. BLOCKED / BEHIND /
+# DIRTY / UNKNOWN are NOT mergeable and must keep polling until they settle.
+MERGEABLE_MERGE_STATES = ("CLEAN", "UNSTABLE", "HAS_HOOKS")
+
 
 # --------------------------------------------------------------------------
 # Pure functions — unit-testable without the gh CLI.
@@ -212,11 +220,48 @@ def find_open_pr(head_branch, repo=None):
     return data[0] if data else None
 
 
-def open_incident_issue(reason, pr=None, repo=None):
-    """File an `E41 auto-merge blocked` issue. Idempotent-ish: if the
-    same PR + reason combination already has an open issue, this opens
-    a new one — that's acceptable; downstream the operator triages.
+def _has_open_blocked_issue(pr_num, repo=None):
+    """Whether an open `E41 auto-merge blocked` issue already references PR #pr_num.
+
+    Best-effort: a `gh issue list` failure returns False so a transient list
+    error can never suppress a genuinely-needed incident.
     """
+    if not pr_num:
+        return False
+    try:
+        out = _run_gh(
+            [
+                "issue", "list", "--state", "open",
+                "--search", 'in:title "E41 auto-merge blocked"',
+                "--limit", "50", "--json", "number,body",
+            ],
+            repo=repo,
+        )
+    except GhError:
+        return False
+    try:
+        needle = f"**PR number:** {pr_num}"
+        return any(needle in (i.get("body") or "") for i in json.loads(out))
+    except (ValueError, TypeError):
+        return False
+
+
+def open_incident_issue(reason, pr=None, repo=None):
+    """File an `E41 auto-merge blocked` issue, deduplicated by PR number.
+
+    The cron ingest PR uses a fixed head branch, so the same PR persists
+    across cron runs until it merges. Without dedup, every run that finds the
+    same stuck PR files a new issue. Skip creation when an open
+    `E41 auto-merge blocked` issue already references this PR number; the
+    operator triages the existing one.
+    """
+    pr_num = (pr or {}).get("number", "")
+    if pr_num and _has_open_blocked_issue(pr_num, repo=repo):
+        print(
+            f"[skip] an open 'E41 auto-merge blocked' issue already tracks "
+            f"PR #{pr_num}; not duplicating."
+        )
+        return
     run_url = (
         f"{os.environ.get('GITHUB_SERVER_URL', 'https://github.com')}/"
         f"{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/"
@@ -375,8 +420,38 @@ def main():
             open_incident_issue(reason, pr=pr, repo=repo)
             return 0
 
-        if state == "complete-success" and mergeable == "MERGEABLE":
+        # Gate on a mergeable mergeStateStatus, not just mergeable == MERGEABLE.
+        # `mergeable` (GraphQL) only reports the absence of merge conflicts;
+        # branch-protection readiness lives in `mergeStateStatus`. GitHub
+        # recomputes it asynchronously, so for a beat after the last required
+        # check flips SUCCESS it can still read BLOCKED. Merging in that window
+        # fails with "base branch policy prohibits the merge" (observed on run
+        # 29186004190, PR #328).
+        #
+        # Accept every state gh can actually merge (MERGEABLE_MERGE_STATES:
+        # CLEAN, UNSTABLE, HAS_HOOKS) — UNSTABLE means only a non-required /
+        # advisory check is red or pending, which never blocks a merge (the
+        # eight REQUIRED_CHECKS are already all SUCCESS here). Requiring exactly
+        # CLEAN would hang an ingest PR whose advisory `mcp-server` context
+        # (triggered via archive-data.json) is red or pending. Only keep polling
+        # for the not-yet-mergeable states (BLOCKED / BEHIND / UNKNOWN / …).
+        if (
+            state == "complete-success"
+            and mergeable == "MERGEABLE"
+            and merge_state in MERGEABLE_MERGE_STATES
+        ):
             break
+
+        if state == "complete-success":
+            # Required checks green but the merge state is not yet mergeable
+            # (typically a transient BLOCKED/UNKNOWN while GitHub recomputes).
+            # Fall through to the poll/timeout loop rather than attempt a merge
+            # that branch protection would reject.
+            print(
+                f"[wait] required checks green but mergeStateStatus="
+                f"{merge_state or 'UNKNOWN'}; awaiting a mergeable state "
+                f"{MERGEABLE_MERGE_STATES}"
+            )
 
         if time.monotonic() >= deadline:
             # Same rationale as the complete-failure branch above:
@@ -406,10 +481,16 @@ def main():
     try:
         squash_merge(pr_number, repo=repo)
     except GhError as e:
+        # Same rationale as the complete-failure / timeout branches: a merge
+        # rejection (e.g. a late mergeStateStatus flip back to BLOCKED) is
+        # operator-review signal, captured by the single (deduplicated)
+        # `E41 auto-merge blocked` issue. Return 0 so the cron itself stays in
+        # success() and its failure-path step does not double-file an
+        # `E41 cron ingestion incident:` issue for the same event.
         reason = f"gh pr merge failed: {e}"
         print(f"[block] {reason}")
         open_incident_issue(reason, pr=pr, repo=repo)
-        return 1
+        return 0
     print(f"[done] PR #{pr_number} squash-merged.")
     return 0
 
