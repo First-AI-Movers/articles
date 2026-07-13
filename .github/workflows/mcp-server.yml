@@ -18,7 +18,12 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  # Job id is `mcp-server` (not `test`) so its check-run context does NOT
+  # collide with tests.yml's branch-protection-required `test` context.
+  # GitHub resolves duplicate same-named required contexts ambiguously
+  # (last reporter wins), which can mask a red producer behind a green one.
+  # Mirrors og-worker.yml's `og-worker` per-worker job-id convention.
+  mcp-server:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -69,7 +74,7 @@ jobs:
           python3 tools/export_mcp_data.py --check
 
   deploy:
-    needs: [test, export-data]
+    needs: [mcp-server, export-data]
     runs-on: ubuntu-latest
     # Gate at the job level so no runner spins up unless deployment is
     # actually intended. The Cloudflare credential check stays inside the

@@ -102,14 +102,16 @@ def test_mcp_deploy_job_gated_by_deploy_enabled_var():
 
 
 def test_mcp_deploy_still_depends_on_test_and_export_data():
-    """The deploy job must still wait for `test` + `export-data` to pass.
+    """The deploy job must still wait for the build + `export-data` jobs to pass.
     Hoisting MCP_DEPLOY_ENABLED to `if:` must not have collapsed `needs:`.
+    The build job id is `mcp-server` (renamed from `test` to disambiguate its
+    check-run context from tests.yml's required `test` context).
     """
     wf = _load("mcp-server.yml")
     needs = wf["jobs"]["deploy"].get("needs") or []
     if isinstance(needs, str):
         needs = [needs]
-    assert "test" in needs and "export-data" in needs, (
-        f"mcp-server.yml `deploy` job must still need both `test` and "
-        f"`export-data` jobs, got needs={needs!r}"
+    assert "mcp-server" in needs and "export-data" in needs, (
+        f"mcp-server.yml `deploy` job must still need both the `mcp-server` build "
+        f"job and `export-data` job, got needs={needs!r}"
     )
