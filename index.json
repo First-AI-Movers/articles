@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-07-08",
-  "total_articles": 875,
+  "last_updated": "2026-07-13",
+  "total_articles": 877,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -4284,6 +4284,21 @@
       "summary_long": "Stavanger, Norway's energy capital, hosts a cluster of energy service companies—subsea engineering consultancies, oil and gas service providers, and energy transition specialists—that face AI adoption decisions fundamentally different from those confronting generic European tech companies. These organizations operate within a distinctive context shaped by safety culture, client-dictated data governance, ISO and NORSOK standards, and HSE-first decision making. Understanding this context is essential before committing to AI in 2026.\n\nThe EU AI Act's implementation in January 2026 adds a compliance layer that energy sector companies cannot ignore. Several common AI applications brush against high-risk classifications: AI systems used in safety component roles for critical infrastructure, AI-assisted HR tools in recruitment or performance management, and AI systems making recommendations that affect working conditions or safety procedures. Companies deploying such applications must complete conformity assessments, maintain technical documentation, and implement ongoing monitoring. The regulation defines high-risk AI systems as those used in safety components of products subject to third-party conformity assessment, or operating in areas with significant potential harm to health, safety, or fundamental rights.\n\nThree use cases emerge as both safe and high-value for 15-30 person energy service SMEs. First, document intelligence for engineering specifications and manuals enables reliable retrieval, summarization, and cross-referencing of technical documentation. For a 15-20 person consultancy, this typically reduces time engineers spend searching for information by 30-50%. Second, AI-assisted coding for internal simulation scripts, data processing pipelines, and visualization tools addresses code quality and maintainability pain points without entering safety-critical loops. Third, internal knowledge bases for technical procedures capture institutional knowledge that would otherwise depart with retiring senior engineers.\n\nThe boundaries are equally important. AI tools should not enter safety-critical decision loops without certified oversight and explicit risk assessment. This includes automated anomaly detection systems triggering operational responses without human review, AI-generated recommendations in well integrity or structural assessment without qualified engineer sign-off, and any autonomous system capable of taking actions in operational technology environments. The Stavanger cluster operates within a mature HSE framework where accountability trails must remain clear and auditable.\n\nClient data restrictions represent the most common adoption blocker. Operators in the Stavanger basin impose contractual restrictions on where proprietary data—well data, reservoir models, engineering specifications—can be processed. AI tools must operate within permitted data perimeters, whether on-premises or through approved cloud configurations, or be configured so that restricted data never enters scope. This requires upfront technical architecture work before any pilot begins.\n\nA 25-person subsea engineering consultancy that engaged First AI Movers in late 2025 illustrates the art of the possible. Engineers were spending 15-20 hours per proposal gathering technical references and drafting standard sections. After a focused pilot with strict data handling controls, proposal preparation time dropped by 40%. The use case was correctly scoped: document-heavy, non-safety-critical, with human review at every decision point. The pilot demonstrated that value realization in this sector requires disciplined use case selection rather than wholesale transformation."
     },
     {
+      "folder": "2026-04-14-ai-governance-framework-european-sme-2026",
+      "slug": "ai-governance-framework-european-sme-2026",
+      "title": "How to Build an AI Governance Framework for Your European SME in 2026",
+      "published_date": "2026-04-14",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-governance-framework-european-sme-2026"
+    },
+    {
       "folder": "2026-04-14-ai-readiness-amsterdam-software-agencies-2026",
       "slug": "ai-readiness-amsterdam-software-agencies-2026",
       "title": "AI Readiness for Amsterdam Software Agencies 2026",
@@ -4689,6 +4704,21 @@
       "summary_short": "MCP servers provide a standardized protocol for connecting AI tools to external data sources, while custom API integrations offer direct, tool-specific connections. Choose MCP when multiple AI tools need access, when teams are large, or when AI discoverability matters. Choose custom APIs for single-tool, short-term, or highly bespoke integrations.",
       "summary_medium": "The Model Context Protocol (MCP) has emerged as the standard for connecting AI tools like Claude to external data sources, but it is not always the right choice. MCP serves as a standardized communication layer that can be reused across multiple AI tools, making it ideal when different AI systems need access to the same data source. Custom API integrations, by contrast, are direct connections built for a specific tool and use case.\n\nChoose MCP when integrating multiple AI tools with the same data source, when the integration will be maintained by multiple teams requiring a shared contract, when you need AI tools to discover and reason about available capabilities, or when building infrastructure that will scale across your tool ecosystem over 12-18 months. Choose custom API integrations when you have one AI tool and one data source, when the integration involves complex bespoke business logic, when you need an integration immediately and lack MCP infrastructure, or when your team has not yet built MCP expertise.\n\nThe decision matrix shows MCP favors multiple tools, long lifespans, multiple engineers, standard operations, and AI discoverability. Custom APIs win for single-tool scenarios, short-term needs, simple operations, and urgent timelines.",
       "summary_long": "The Model Context Protocol (MCP) has become the standard way to connect AI tools like Claude to external data sources and services, but standard does not always mean right. Understanding when MCP servers are the better choice and when a direct API integration is simpler and faster is a practical decision that engineering teams and technical leaders face right now.\n\nMCP is a protocol: a standardized communication layer between an AI model and external tools or data sources. When you build an MCP server for your CRM, for example, Claude Code can query customer data, create records, and update fields using a defined schema, without requiring a custom prompt-engineering layer for each AI tool that needs CRM access. A custom API integration is direct: your AI tool makes REST or GraphQL calls to your API, using custom code you write and maintain.\n\nChoose MCP when you are integrating multiple AI tools with the same data source, when the integration will be maintained by multiple people or teams, when you want AI tools to reason about integration capabilities through inspectable schemas, and when building infrastructure that needs to scale to your full tool ecosystem over the next 12-18 months. Choose a custom API integration when you have one AI tool and one data source, when the integration is highly bespoke with complex multi-step business logic, when you need integration immediately and MCP infrastructure is not in place, or when your team does not yet have MCP expertise.\n\nFor teams adopting Claude Code specifically, the pragmatic approach is to start with standard Claude Code use and add MCP servers for tools that provide the most direct value to engineering workflows. The GitHub MCP server and an internal documentation MCP server cover most of the daily integration surface area for most software teams.\n\nMigration from custom API to MCP is straightforward: define the MCP schema, build the server, test, switch the AI tool, and deprecate the custom code. This typically takes two to four days. MCP servers handle authentication via API keys or OAuth tokens, with the advantage that credentials live in the MCP server configuration rather than in AI tool sessions, improving secrets hygiene. Many teams run MCP servers as lightweight processes alongside existing development infrastructure, and hosted options exist for common tools like GitHub and Slack.\n\nThe decision between MCP and custom APIs ultimately comes down to your specific context. If you are building for a single AI tool with a focused use case and need it working tomorrow, a custom API integration gets you there faster. If you are building infrastructure that will serve multiple AI tools over the coming year, investing in MCP now pays dividends in reduced integration duplication, better discoverability, and a more maintainable architecture. Most mid-sized engineering teams find they need both: custom integrations for urgent short-term needs and MCP servers for their core data sources that multiple tools will query."
+    },
+    {
+      "folder": "2026-04-14-monthly-ai-governance-review-template-smes-2026",
+      "slug": "monthly-ai-governance-review-template-smes-2026",
+      "title": "The Monthly AI Governance Review: A 90-Minute Template for European SME Leaders",
+      "published_date": "2026-04-14",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/monthly-ai-governance-review-template-smes-2026"
     },
     {
       "folder": "2026-04-14-should-you-deploy-claude-code-entire-dev-team-2026",

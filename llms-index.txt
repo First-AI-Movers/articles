@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 875
+- Articles: 877
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-07-08
+- Generated: 2026-07-13
 
 ## Companion files
 
@@ -1247,6 +1247,13 @@ short summary. Articles are listed newest-first.
 - Topics: Energy AI, AI Strategy, EU AI Act, European SME AI, AI Productivity Tools, Nordics AI
 - Summary: Stavanger energy service companies face unique AI adoption constraints due to safety culture, client data restrictions, and regulatory compliance. Safe, high-value AI use cases include document intelligence, AI-assisted coding, and internal knowledge bases…
 
+## How to Build an AI Governance Framework for Your European SME in 2026
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-governance-framework-european-sme-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-governance-framework-european-sme-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: How to build a practical AI governance framework for your European SME in 2026. Covers policy structure, EU AI Act compliance, oversight roles, and a 90-d…
+
 ## AI Readiness for Amsterdam Software Agencies 2026
 - Date: 2026-04-14
 - Canonical: https://radar.firstaimovers.com/ai-readiness-amsterdam-software-agencies-2026
@@ -1358,6 +1365,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-14-mcp-vs-custom-api-integrations-2026/article.md
 - Topics: Model Context Protocol, European SME AI
 - Summary: MCP servers provide a standardized protocol for connecting AI tools to external data sources, while custom API integrations offer direct, tool-specific connections. Choose MCP when multiple AI tools need access, when teams are large, or when AI…
+
+## The Monthly AI Governance Review: A 90-Minute Template for European SME Leaders
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/monthly-ai-governance-review-template-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-monthly-ai-governance-review-template-smes-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: A 90-minute monthly AI governance review template for European SME operations leaders. Covers tool owner checks, incident logging, and leadership escalati…
 
 ## Should You Deploy Claude Code Across Your Entire Dev Team?
 - Date: 2026-04-14
