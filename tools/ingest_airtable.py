@@ -604,11 +604,16 @@ def main(argv=None):
                               "archive, so a Posted record can never age out of the "
                               "72h window permanently. Requires --max-created; no-op "
                               "without it. Recent-window records keep priority."))
-    parser.add_argument("--backfill-scan-limit", type=int, default=200,
-                        help=("Max oldest records to scan for the backlog top-up "
-                              "(bounds the top-up fetch). Already-present records are "
-                              "skipped by the idempotent writer; only missing ones "
-                              "count toward --max-created."))
+    parser.add_argument("--backfill-scan-limit", type=int, default=None,
+                        help=("Optional raw-row cap on the backlog top-up scan. "
+                              "DEFAULT: unset = scan the full view oldest-first. The "
+                              "aged-out missing records are NOT the oldest by Date "
+                              "Added (many long-present records precede them), and the "
+                              "top-up stops once it has CREATED --max-created articles, "
+                              "so a full scan reaches the missing records while the cap "
+                              "still bounds work. A positive value is for testing only "
+                              "and can leave backlog unreached if present records fill "
+                              "the capped slice."))
     args = parser.parse_args(argv)
 
     if args.dry_run and args.write:
@@ -636,16 +641,21 @@ def main(argv=None):
         # Recurrence prevention (E41): after the recent-window pass, fill any
         # UNUSED daily capacity from the OLDEST valid Posted backlog, so a
         # Posted record that aged out of the 72h window is not missed forever.
-        # Recent-window records above keep priority; the idempotent writer skips
-        # already-present records so only genuinely-missing ones consume the cap.
-        # Guarded: requires the --max-created bound, is off unless requested, and
-        # is skipped on the single-record (--record-id) path.
+        # Recent-window records above keep priority. The scan pages oldest-first
+        # and the idempotent writer SKIPS already-present records; because
+        # skips do not consume the cap, the scan keeps paging PAST long-present
+        # records until it CREATES --max-created genuinely-missing ones (or the
+        # view is exhausted). This is why the default scan is the full view: the
+        # aged-out records are not the oldest by Date Added, so a small raw cap
+        # could stop before ever reaching them. Guarded: requires the
+        # --max-created bound, is off unless requested, and is skipped on the
+        # single-record (--record-id) path.
         if (args.backfill_oldest and not cap_reached
                 and args.max_created is not None and args.record_id is None):
             remaining = args.max_created - counters["created"]
+            scope = args.backfill_scan_limit if args.backfill_scan_limit else "full view"
             print(f"[backfill] recent window created {counters['created']}; "
-                  f"topping up oldest backlog (up to {remaining} more, "
-                  f"scan limit {args.backfill_scan_limit})")
+                  f"topping up oldest backlog (up to {remaining} more, scan: {scope})")
             oldest = _fetch_records(pat, base_id, table_name, view_name,
                                     since_hours=None, record_id=None,
                                     limit=args.backfill_scan_limit,

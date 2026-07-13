@@ -103,6 +103,20 @@ def test_recent_fills_cap_skips_backlog(ing, monkeypatch):
     assert calls["oldest"] == 0        # backlog fetch never happened
 
 
+def test_topup_pages_past_present_to_reach_missing(ing, monkeypatch):
+    # Codex P2: aged-out missing records are NOT the oldest by Date Added — many
+    # already-present records precede them. The top-up must page PAST the present
+    # ones (skips don't consume the cap) and still create the missing ones.
+    present = [_rec(f"recP{i}", n=200 + i) for i in range(1, 4)]
+    missing = [_rec("recM1", n=301), _rec("recM2", n=302)]
+    schema = ing._load_schema()
+    for rec in present:  # pre-populate the archive with the present records
+        ing._write_article(ing._record_to_payload(rec), rec["id"], False)
+    _install_fetch(ing, monkeypatch, [], present + missing)
+    ing.main(["--write", "--max-created", "5", "--backfill-oldest", "--since-hours", "72"])
+    assert _created(ing) == 2   # only the 2 missing, after paging past 3 present
+
+
 def test_topup_respects_status_gate(ing, monkeypatch):
     recent = []
     # Only 2 of 4 oldest are Posted; the other 2 are Draft and must be skipped.
