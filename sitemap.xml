@@ -439,6 +439,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://articles.firstaimovers.com/topics/nordics-ai/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://articles.firstaimovers.com/topics/openai-codex/</loc>
     <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>

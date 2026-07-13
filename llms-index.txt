@@ -10,7 +10,7 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 887
+- Articles: 892
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
 - Generated: 2026-07-13
@@ -1233,12 +1233,33 @@ short summary. Articles are listed newest-first.
 - Topics: AI Coding Tools, Netherlands AI, European SME AI
 - Summary: Amsterdam software agencies adopting AI coding tools face unique challenges unlike product companies. They must address client contracts, IP ownership, data handling, and disclosure requirements. An advisory engagement covers five areas: tool selection…
 
+## AI Coding Tools for Nordic Engineering Teams: A 2026 Evaluation and Rollout Guide
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-coding-tools-nordic-dev-teams-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-coding-tools-nordic-dev-teams-2026/article.md
+- Topics: AI Coding Tools, Nordics AI, European SME AI, AI for Engineering Teams, GDPR & Data Privacy
+- Summary: A practical 2026 guide for Nordic CTOs evaluating AI coding tools across 5-20 person engineering teams — covering GDPR, IP protection, and a 5-day team ro…
+
+## 12 AI Compliance Checks Every European SME Should Run Each Quarter
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-compliance-monitoring-checklist-european-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-compliance-monitoring-checklist-european-smes-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: A 12-point quarterly AI compliance monitoring checklist for European SMEs. Covers GDPR, EU AI Act deployer obligations, vendor review, and staff oversight…
+
 ## AI Consulting for Bergen Maritime SMEs: Practical AI for Shipping and Offshore Operations
 - Date: 2026-04-14
 - Canonical: https://radar.firstaimovers.com/ai-consulting-bergen-maritime-smes-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-consulting-bergen-maritime-smes-2026/article.md
 - Topics: Maritime AI, European SME AI, AI Strategy, Data Sovereignty, Sovereign AI Infrastructure, AI Regulation
 - Summary: Bergen maritime SMEs face immediate AI decisions driven by FuelEU Maritime and CBAM regulations. AI applications include emissions reporting automation, vessel performance optimization, and predictive maintenance. Data sovereignty is critical because…
+
+## AI Consulting for Oslo Tech Startups: Closing the Governance Gap in 2026
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-consulting-oslo-tech-startups-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-consulting-oslo-tech-startups-2026/article.md
+- Topics: AI Consulting, Nordics AI, European SME AI, AI Governance
+- Summary: Oslo tech SMEs have strong engineering but weak AI governance. Here's how to close the gap without over-hiring or over-spending in Norway's expensive tale…
 
 ## AI Consulting Stavanger Energy SMEs 2026
 - Date: 2026-04-14
@@ -1247,12 +1268,26 @@ short summary. Articles are listed newest-first.
 - Topics: Energy AI, AI Strategy, EU AI Act, European SME AI, AI Productivity Tools, Nordics AI
 - Summary: Stavanger energy service companies face unique AI adoption constraints due to safety culture, client data restrictions, and regulatory compliance. Safe, high-value AI use cases include document intelligence, AI-assisted coding, and internal knowledge bases…
 
+## AI Consulting for Stockholm Tech SMEs: Build In-House or Bring in a Specialist?
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-consulting-stockholm-tech-startups-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-consulting-stockholm-tech-startups-2026/article.md
+- Topics: AI Consulting, Nordics AI, European SME AI, AI Strategy
+- Summary: Stockholm tech SMEs at growth inflection need operational AI, not R&D AI. Here is how a 20-50 person tech company evaluates build vs. hire for AI capabili…
+
 ## How to Build an AI Governance Framework for Your European SME in 2026
 - Date: 2026-04-14
 - Canonical: https://radar.firstaimovers.com/ai-governance-framework-european-sme-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-governance-framework-european-sme-2026/article.md
 - Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
 - Summary: How to build a practical AI governance framework for your European SME in 2026. Covers policy structure, EU AI Act compliance, oversight roles, and a 90-d…
+
+## AI Incident Response Playbook for European SMEs: A Step-by-Step Guide to GDPR and EU AI Act Obligations
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-incident-response-playbook-european-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-incident-response-playbook-european-smes-2026/article.md
+- Topics: EU AI Act, GDPR & Data Privacy, European SME AI, AI Governance
+- Summary: When AI causes harm, most European SMEs have no response procedure. This step-by-step playbook maps incident types to GDPR and EU AI Act notification time…
 
 ## AI Readiness for Amsterdam Software Agencies 2026
 - Date: 2026-04-14
