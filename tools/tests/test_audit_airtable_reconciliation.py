@@ -63,7 +63,7 @@ class TestBuildArchiveIndex:
 
     def test_missing_dir_is_empty(self, mod, tmp_path):
         idx = mod.build_archive_index(tmp_path / "does-not-exist")
-        assert idx == {"ids": set(), "urls": set()}
+        assert idx == {"ids": set(), "urls": set(), "titles": set()}
 
     def test_malformed_metadata_skipped(self, mod, tmp_path):
         good = tmp_path / "2026-01-01-a"
@@ -101,6 +101,18 @@ class TestReconcile:
         assert counts["eligible_missing"] == 1
         assert missing == ["rec2"]
 
+    def test_present_by_title_when_id_and_url_drifted(self, mod, schema):
+        """Re-created record: new id AND drifted canonical URL, but the title is
+        already published -> present, NOT missing (identity-drift false-missing)."""
+        recs = [_rec("recNEW", title="Drifted Title", url="https://x.com/new-slug")]
+        archive = {"ids": {"recOLD"}, "urls": {"https://x.com/old-slug"},
+                   "titles": {mod.ing._normalize_title("Drifted Title")}}
+        counts, missing = mod.reconcile(recs, archive, schema)
+        assert counts["eligible_present"] == 1
+        assert counts["eligible_missing"] == 0
+        assert counts["present_by_title_drift"] == 1  # reclassified by title, surfaced
+        assert missing == []
+
     def test_non_posted_status_skipped(self, mod, schema):
         recs = [_rec("rec3", url="https://x.com/c", status="Draft")]
         counts, _ = mod.reconcile(recs, {"ids": set(), "urls": set()}, schema)
@@ -134,6 +146,7 @@ class TestReconcile:
         assert counts == {
             "fetched": 4, "invalid": 1, "status_skipped": 1,
             "eligible": 2, "eligible_present": 1, "eligible_missing": 1,
+            "present_by_title_drift": 0,
         }
         assert missing == ["rec2"]
         # No Airtable writes / backfill: reconcile returns data only.
