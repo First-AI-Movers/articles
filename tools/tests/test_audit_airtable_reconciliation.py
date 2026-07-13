@@ -110,6 +110,7 @@ class TestReconcile:
         counts, missing = mod.reconcile(recs, archive, schema)
         assert counts["eligible_present"] == 1
         assert counts["eligible_missing"] == 0
+        assert counts["present_by_title_drift"] == 1  # reclassified by title, surfaced
         assert missing == []
 
     def test_non_posted_status_skipped(self, mod, schema):
@@ -145,6 +146,7 @@ class TestReconcile:
         assert counts == {
             "fetched": 4, "invalid": 1, "status_skipped": 1,
             "eligible": 2, "eligible_present": 1, "eligible_missing": 1,
+            "present_by_title_drift": 0,
         }
         assert missing == ["rec2"]
         # No Airtable writes / backfill: reconcile returns data only.

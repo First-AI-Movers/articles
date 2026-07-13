@@ -103,6 +103,11 @@ def reconcile(records, archive, schema, *, allow_no_status_gate=False):
         "eligible": 0,
         "eligible_present": 0,
         "eligible_missing": 0,
+        # Of the present records, how many matched ONLY by normalized title
+        # (record id AND canonical URL both drifted). Surfaced explicitly because
+        # titles are NOT globally unique in the archive, so a title-only match is
+        # a heuristic reclassification the reader should be able to audit.
+        "present_by_title_drift": 0,
     }
     missing_ids: list[str] = []
     for rec in records:
@@ -124,14 +129,20 @@ def reconcile(records, archive, schema, *, allow_no_status_gate=False):
         url = ing._normalize_canonical_url(payload.get("canonical_url", ""))
         title = ing._normalize_title(payload.get("title", ""))
         archive_titles = archive.get("titles", set())
-        # Present if the archive already has this record by ANY stable identity:
-        # record id, normalized canonical URL, OR normalized title. The title
-        # check catches re-created records whose id AND canonical URL drifted
-        # but whose article is already published (identity-drift false-missing).
-        if ((rid and rid in archive["ids"])
-                or (url and url in archive["urls"])
-                or (title and title in archive_titles)):
+        by_id_or_url = (rid and rid in archive["ids"]) or (url and url in archive["urls"])
+        by_title = bool(title and title in archive_titles)
+        if by_id_or_url:
             counts["eligible_present"] += 1
+        elif by_title:
+            # Present ONLY by normalized title: a re-created record whose id AND
+            # canonical URL both drifted, but whose article is already published.
+            # Counted present because the ingestion writer (_write_article) refuses
+            # to create a duplicate title, so such a record is UN-INGESTABLE — not a
+            # recoverable backlog item. Titles are not globally unique, so this
+            # heuristic reclassification is surfaced separately for auditability
+            # rather than treated as a first-class identity.
+            counts["eligible_present"] += 1
+            counts["present_by_title_drift"] += 1
         else:
             counts["eligible_missing"] += 1
             if rid:
@@ -148,6 +159,7 @@ def _render_summary(counts: dict, *, since_hours) -> str:
         f"- Airtable records fetched: {counts['fetched']}\n"
         f"- Eligible (Posted + valid): {counts['eligible']}\n"
         f"- Eligible present in archive: {counts['eligible_present']}\n"
+        f"  - of which present only by title (id+URL drifted): {counts.get('present_by_title_drift', 0)}\n"
         f"- **Eligible MISSING from archive: {counts['eligible_missing']}**\n"
         f"- Status-skipped: {counts['status_skipped']}\n"
         f"- Invalid (schema): {counts['invalid']}\n"
