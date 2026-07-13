@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-07-13",
-  "total_articles": 877,
+  "total_articles": 882,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -4746,6 +4746,21 @@
       "summary_long": "This article provides a comprehensive decision framework for European SME engineering leaders evaluating whether to move from Claude Code pilot usage to full team deployment. The framework centers on four key readiness dimensions: team AI maturity, codebase characteristics, governance capacity, and budget visibility. The core argument is that team-wide deployment is fundamentally a governance decision, not merely a tooling choice, and organizations must establish proper governance structures before scaling AI coding assistance. The framework identifies clear signals that indicate readiness for team-wide deployment. Teams with established AI maturity—those that already distinguish between AI-assisted and AI-authored code and maintain consistent output review practices—are positioned to integrate Claude Code effectively. Codebase complexity matters significantly; Claude Code's agentic capabilities in navigating multi-file codebases, running tests, and making coordinated changes deliver the most value when context navigation represents a genuine time cost for engineers. Architecture discussions conducted through text-based channels like pull requests or documentation can be migrated into Claude Code sessions where the AI participates with actual codebase visibility, representing a qualitatively different use case from simple code completion. Perhaps most critically, successful team deployments require a named governance owner—typically the CTO or engineering lead—who owns the CLAUDE.md configuration file, review standards, and billing account. Conversely, the article outlines scenarios where deployment may be premature. Mixed IDE environments create friction since Claude Code is terminal-native and does not integrate as a panel into VS Code or JetBrains the way completion tools do. Junior-heavy teams require additional scaffolding because autonomous agents make decisions that engineers must evaluate for correctness and architectural fit; without strong code review instincts, junior engineers risk accepting inadequate AI output. High-security codebases containing proprietary algorithms, biometric data, or financial logic require explicit evaluation of Claude Code's data handling posture, since Anthropic processes API requests through US-based infrastructure by default. Budget without visibility through centralized provisioning creates financial risk; for a 15-person team, the approximate cost of €1,350-1,500 per month represents a meaningful line item that requires active management. The governance layer is presented as non-negotiable. System prompt ownership through a version-controlled CLAUDE.md file that defines directory access, autonomous command permissions, and code conventions must be treated as a first-class configuration artifact. Code review standards must adapt to evaluate whether AI-generated implementations fit established architectural patterns, not just whether they pass tests. Usage pattern visibility through quarterly reviews of which engineers use the tool, for what task types, and with what output quality ensures accountability. For European teams, two additional considerations apply. GDPR data residency means code touching personal data must be evaluated carefully—most sessions involve code referencing personal data rather than transmitting it, but verification is essential. Vendor dependency risk under the EU AI Act applies to AI systems deployed in products, not tools in the engineering stack, though concentration risk deserves acknowledgment. The decision matrix scores seven factors. Teams scoring four or more \"Deploy now\" signals should proceed; those with three or more \"Wait\" signals should complete prerequisites. An eight-to-twelve week rollout timeline is recommended: weeks one through two establish configuration and billing, weeks three through six run a pilot with a subset of engineers, and weeks seven through twelve extend to full team adoption."
     },
     {
+      "folder": "2026-04-13-90-day-ai-adoption-brussels-cross-border-firms",
+      "slug": "90-day-ai-adoption-brussels-cross-border-firms",
+      "title": "The Brussels Cross-Border AI Playbook: 90 Days to Compliant, Multilingual AI Operations",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "digital-transformation",
+        "company-tech-strategy",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/90-day-ai-adoption-brussels-cross-border-firms"
+    },
+    {
       "folder": "2026-04-13-ai-consulting-amsterdam-accounting-firms-2026",
       "slug": "ai-consulting-amsterdam-accounting-firms-2026",
       "title": "Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else",
@@ -4759,6 +4774,21 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-amsterdam-accounting-firms-2026"
+    },
+    {
+      "folder": "2026-04-13-ai-consulting-lisbon-tech-startups-2026",
+      "slug": "ai-consulting-lisbon-tech-startups-2026",
+      "title": "Why Lisbon Tech Startups Need a Different AI Playbook in 2026",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-lisbon-tech-startups-2026"
     },
     {
       "folder": "2026-04-13-ai-consulting-porto-manufacturing-smes-2026",
@@ -4789,6 +4819,36 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-rotterdam-logistics-companies-2026"
+    },
+    {
+      "folder": "2026-04-13-ai-strategy-belgian-financial-services-2026",
+      "slug": "ai-strategy-belgian-financial-services-2026",
+      "title": "The Belgian Financial Services AI Compliance Stack Nobody Talks About",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "digital-transformation",
+        "company-tech-strategy",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-strategy-belgian-financial-services-2026"
+    },
+    {
+      "folder": "2026-04-13-eu-ai-act-operational-checklist-belgian-smes-2026",
+      "slug": "eu-ai-act-operational-checklist-belgian-smes-2026",
+      "title": "EU AI Act Compliance for Belgian SMEs: A 12-Step Operational Checklist",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "digital-transformation",
+        "company-tech-strategy",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-operational-checklist-belgian-smes-2026"
     },
     {
       "folder": "2026-04-13-microsoft-365-copilot-sme-evaluation-guide-2026",
@@ -6324,6 +6384,35 @@
       "summary_short": "B2B AI products should separate billing owner, workspace, and legal entity early to avoid rework. Treating them as one creates permission and billing debt. The article recommends a three-layer model: commercial owner, operational workspace, and canonical legal entity, with concentrated accountability at the top and layered collaboration underneath.",
       "summary_medium": "Designing B2B AI products requires separating the roles of billing owner, workspace, and legal entity to prevent costly rework. The article argues that early teams often collapse these into a single 'organization' table, leading to muddy billing, messy permissions, and enterprise compliance risks. Instead, the author proposes a three-layer model: commercial owner (who pays and owns the billing relationship), operational workspace (where teams collaborate on projects, notes, and shared context), and canonical legal entity (the verified real-world business identity). Market leaders like OpenAI and Anthropic concentrate accountability at the top with Owner roles for billing, then layer collaboration underneath. In European contexts, legal identity (e.g., KVK number) is distinct from workflow identity; two users from the same legal company may need separate workspaces. Premature deduplication is easy to justify but painful to reverse. The v1 model includes: user as billing root, separate user profiles, workspace as operational object, explicit membership/roles, canonical legal entity as separate layer, and projects scoped to workspace with user-attributed actions. This architecture gives flexibility for future compliance and scaling while avoiding permission debt.",
       "summary_long": "Building B2B AI products with multi-user capabilities often leads teams to conflate the user, workspace, and company into a single 'organization' table for initial simplicity. However, as the product scales, this design creates significant rework because it forces one record to simultaneously handle billing ownership, operational collaboration, and legal identity. The article argues that these are fundamentally different jobs: the billing owner is the person or entity responsible for payment and commercial accountability; the workspace is the collaborative environment where teams share projects, notes, and state; and the legal entity is the verified real-world business identity required for compliance, invoicing, and enrichment. Merging them prematurely results in what the author calls 'product debt turning into commercial debt'—billing becomes unclear, permissions become overly complex, and enterprise buyers perceive risk because the product lacks clear lines of accountability.\n\nThe market leaders—OpenAI (ChatGPT Business/Enterprise) and Anthropic (Claude Team/Enterprise)—demonstrate the correct architectural principle: concentrate accountability at the top with a single Owner role that controls billing and key settings, then layer collaboration and operational permissions underneath. This avoids fragmentation of control and provides a clean security model. The article emphasizes that this is not about copying features but about adopting the right shape for v1 and v2 products.\n\nIn European contexts, legal identity is especially distinct. For example, in the Netherlands, businesses have unique KVK numbers and RSIN (for legal entities) that are immutable identifiers. A real-world business identity is not the same as an operational workspace; two users from the same legal company may require separate workspaces with different projects, saved opportunities, notes, and internal workflows. Hard-merging these creates 'permission debt'—state leaks across workflows that should stay separate, hurting user trust and slowing iteration. Premature deduplication using registry data (KVK, address) feels efficient but is difficult to reverse and creates constraints when collaboration semantics are still evolving.\n\nThe article's recommended v1 model consists of six components: (1) user as the billing root, owning the subscription and invoice notifications; (2) user profiles separate from authentication identity to allow mutable business details without coupling; (3) a workspace company object that owns operational state such as projects, notes, and shared context; (4) explicit membership and roles between user and workspace to handle permissions without rewriting the data model; (5) a canonical legal entity layer for registry-backed identity that supports verification and deduplication without forcing workspace merging; and (6) projects scoped to the workspace while actions remain user-attributed to preserve accountability.\n\nThis architecture translates into a three-layer model: Layer 1—commercial owner (who pays); Layer 2—operational workspace (where the team works); Layer 3—canonical legal entity (verified business identity). If a single table attempts all three jobs, the product likely faces future problems with permissions, billing, and enterprise compliance. The article provides a clear decision framework for founders and product leaders: keep accountability concentrated at the top, separate mutable operational state from immutable legal identity, and avoid premature deduplication until collaboration patterns are mature. This approach allows B2B AI products to scale without expensive rework while maintaining clarity for both users and enterprise buyers."
+    },
+    {
+      "folder": "2026-03-29-firecrawl-explained-ai-data-agents",
+      "slug": "firecrawl-explained-ai-data-agents",
+      "title": "Firecrawl Explained: The Eyes and Hands Your AI Need to Build Real Products",
+      "published_date": "2026-03-29",
+      "tags": [
+        "Firecrawl",
+        "AI Agents",
+        "Multi-Agent Systems",
+        "MAS",
+        "AI Tools",
+        "Automations",
+        "Innovation",
+        "Programming",
+        "Coding",
+        "Development",
+        "Prompting",
+        "Leadership",
+        "Web Scraping"
+      ],
+      "topics": [
+        "AI Agents",
+        "Multi-Agent Systems",
+        "Prompt Engineering",
+        "Executive AI Literacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/firecrawl-explained-ai-data-agents"
     },
     {
       "folder": "2026-03-29-firecrawl-web-data-layer-ai-builders-2026",
