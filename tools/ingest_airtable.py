@@ -489,8 +489,13 @@ def _write_article(payload, record_id, dry_run):
     return folder, True
 
 
-def _fetch_records(pat, base_id, table_name, view_name=None, since_hours=None, record_id=None, limit=None):
-    """Yield Airtable record dicts."""
+def _fetch_records(pat, base_id, table_name, view_name=None, since_hours=None, record_id=None, limit=None, sort_direction=None):
+    """Yield Airtable record dicts.
+
+    `sort_direction` overrides the default list sort ("desc", newest-first);
+    the oldest-first backlog top-up passes "asc" so it drains the oldest
+    aged-out Posted records first.
+    """
     headers = {"Authorization": f"Bearer {pat}"}
 
     if record_id:
@@ -512,7 +517,7 @@ def _fetch_records(pat, base_id, table_name, view_name=None, since_hours=None, r
     # path; the --record-id path above returns a single record by ID and
     # does not need (or accept) sort parameters.
     params["sort[0][field]"] = LIST_SORT_FIELD
-    params["sort[0][direction]"] = LIST_SORT_DIRECTION
+    params["sort[0][direction]"] = sort_direction or LIST_SORT_DIRECTION
 
     url = f"{AIRTABLE_API_URL}/{base_id}/{table_name}"
     while True:
@@ -527,6 +532,49 @@ def _fetch_records(pat, base_id, table_name, view_name=None, since_hours=None, r
         if not offset:
             break
         params["offset"] = offset
+
+
+def _ingest_from(records, schema, *, dry_run, allow_no_status_gate, max_created, counters):
+    """Process a record iterator, updating `counters` in place.
+
+    `counters` carries {seen, created, skipped, invalid}. Returns True when the
+    `max_created` cap is reached (the caller should stop). This is the exact
+    per-record logic the recent-window pass and the oldest-backlog top-up share,
+    so both classify and write identically.
+    """
+    for record in records:
+        counters["seen"] += 1
+        record_id = record.get("id", "unknown")
+        payload = _record_to_payload(record)
+        errors, warnings = _validate_payload(payload, schema)
+
+        if errors:
+            print(f"[INVALID] {record_id}: {'; '.join(errors)}", file=sys.stderr)
+            counters["invalid"] += 1
+            continue
+
+        status = payload.get("status", "").lower()
+        if not status and not allow_no_status_gate:
+            print(f"[SKIP] {record_id}: no Status field and --allow-no-status-gate not set", file=sys.stderr)
+            counters["skipped"] += 1
+            continue
+        if status and status not in ALLOWED_STATUSES:
+            print(f"[SKIP] {record_id}: status '{status}' not in {ALLOWED_STATUSES}", file=sys.stderr)
+            counters["skipped"] += 1
+            continue
+
+        folder, was_created = _write_article(payload, record_id, dry_run)
+        if was_created:
+            action = "[CREATE]" if not dry_run else "[WOULD CREATE]"
+            print(f"{action} {folder}")
+            counters["created"] += 1
+            if max_created is not None and counters["created"] >= max_created:
+                print(f"[stop] reached --max-created={max_created}")
+                return True
+        else:
+            print(f"[SKIP] {record_id}: folder '{folder}' already exists or title duplicate")
+            counters["skipped"] += 1
+    return False
 
 
 def main(argv=None):
@@ -549,6 +597,23 @@ def main(argv=None):
                               "count toward this cap; only successful creates do."))
     parser.add_argument("--allow-no-status-gate", action="store_true",
                         help="Allow ingestion when no Status field is present")
+    parser.add_argument("--backfill-oldest", action="store_true",
+                        help=("Recurrence prevention: after the recent-window pass, "
+                              "fill any UNUSED daily capacity (up to --max-created) "
+                              "from the OLDEST valid Posted records missing from the "
+                              "archive, so a Posted record can never age out of the "
+                              "72h window permanently. Requires --max-created; no-op "
+                              "without it. Recent-window records keep priority."))
+    parser.add_argument("--backfill-scan-limit", type=int, default=None,
+                        help=("Optional raw-row cap on the backlog top-up scan. "
+                              "DEFAULT: unset = scan the full view oldest-first. The "
+                              "aged-out missing records are NOT the oldest by Date "
+                              "Added (many long-present records precede them), and the "
+                              "top-up stops once it has CREATED --max-created articles, "
+                              "so a full scan reaches the missing records while the cap "
+                              "still bounds work. A positive value is for testing only "
+                              "and can leave backlog unreached if present records fill "
+                              "the capped slice."))
     args = parser.parse_args(argv)
 
     if args.dry_run and args.write:
@@ -562,45 +627,44 @@ def main(argv=None):
     table_name = _env_required("AIRTABLE_TABLE_NAME")
     view_name = os.environ.get("AIRTABLE_VIEW_NAME", "").strip() or None
 
-    created = 0
-    skipped = 0
-    invalid = 0
-    seen = 0
+    counters = {"seen": 0, "created": 0, "skipped": 0, "invalid": 0}
 
     try:
-        for record in _fetch_records(pat, base_id, table_name, view_name, args.since_hours, args.record_id, args.limit):
-            seen += 1
-            record_id = record.get("id", "unknown")
-            payload = _record_to_payload(record)
-            errors, warnings = _validate_payload(payload, schema)
+        recent = _fetch_records(pat, base_id, table_name, view_name,
+                                args.since_hours, args.record_id, args.limit)
+        cap_reached = _ingest_from(
+            recent, schema, dry_run=dry_run,
+            allow_no_status_gate=args.allow_no_status_gate,
+            max_created=args.max_created, counters=counters,
+        )
 
-            if errors:
-                print(f"[INVALID] {record_id}: {'; '.join(errors)}", file=sys.stderr)
-                invalid += 1
-                continue
-
-            # Status gate
-            status = payload.get("status", "").lower()
-            if not status and not args.allow_no_status_gate:
-                print(f"[SKIP] {record_id}: no Status field and --allow-no-status-gate not set", file=sys.stderr)
-                skipped += 1
-                continue
-            if status and status not in ALLOWED_STATUSES:
-                print(f"[SKIP] {record_id}: status '{status}' not in {ALLOWED_STATUSES}", file=sys.stderr)
-                skipped += 1
-                continue
-
-            folder, was_created = _write_article(payload, record_id, dry_run)
-            if was_created:
-                action = "[CREATE]" if not dry_run else "[WOULD CREATE]"
-                print(f"{action} {folder}")
-                created += 1
-                if args.max_created is not None and created >= args.max_created:
-                    print(f"[stop] reached --max-created={args.max_created}")
-                    break
-            else:
-                print(f"[SKIP] {record_id}: folder '{folder}' already exists or title duplicate")
-                skipped += 1
+        # Recurrence prevention (E41): after the recent-window pass, fill any
+        # UNUSED daily capacity from the OLDEST valid Posted backlog, so a
+        # Posted record that aged out of the 72h window is not missed forever.
+        # Recent-window records above keep priority. The scan pages oldest-first
+        # and the idempotent writer SKIPS already-present records; because
+        # skips do not consume the cap, the scan keeps paging PAST long-present
+        # records until it CREATES --max-created genuinely-missing ones (or the
+        # view is exhausted). This is why the default scan is the full view: the
+        # aged-out records are not the oldest by Date Added, so a small raw cap
+        # could stop before ever reaching them. Guarded: requires the
+        # --max-created bound, is off unless requested, and is skipped on the
+        # single-record (--record-id) path.
+        if (args.backfill_oldest and not cap_reached
+                and args.max_created is not None and args.record_id is None):
+            remaining = args.max_created - counters["created"]
+            scope = args.backfill_scan_limit if args.backfill_scan_limit else "full view"
+            print(f"[backfill] recent window created {counters['created']}; "
+                  f"topping up oldest backlog (up to {remaining} more, scan: {scope})")
+            oldest = _fetch_records(pat, base_id, table_name, view_name,
+                                    since_hours=None, record_id=None,
+                                    limit=args.backfill_scan_limit,
+                                    sort_direction="asc")
+            _ingest_from(
+                oldest, schema, dry_run=dry_run,
+                allow_no_status_gate=args.allow_no_status_gate,
+                max_created=args.max_created, counters=counters,
+            )
 
     except requests.HTTPError as e:
         print(f"[ERROR] Airtable API failed: {e.response.status_code} {e.response.reason}", file=sys.stderr)
@@ -615,11 +679,12 @@ def main(argv=None):
         return 1
 
     mode = "(dry-run)" if dry_run else ""
-    print(f"\nIngested {created} article(s) {mode}")
-    print(f"Skipped {skipped} record(s)")
-    print(f"Invalid {invalid} record(s)")
-    print(f"Total seen {seen} record(s)")
-    _write_summary(seen=seen, created=created, skipped=skipped, invalid=invalid, dry_run=dry_run)
+    print(f"\nIngested {counters['created']} article(s) {mode}")
+    print(f"Skipped {counters['skipped']} record(s)")
+    print(f"Invalid {counters['invalid']} record(s)")
+    print(f"Total seen {counters['seen']} record(s)")
+    _write_summary(seen=counters["seen"], created=counters["created"],
+                   skipped=counters["skipped"], invalid=counters["invalid"], dry_run=dry_run)
     return 0
 
 

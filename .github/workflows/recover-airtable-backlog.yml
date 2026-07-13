@@ -1,0 +1,185 @@
+name: Recover Airtable backlog
+
+# Operator/AI-driven, bounded recovery of the aged-out `Posted` Airtable backlog.
+# workflow_dispatch only (no cron): each run recovers ONE deterministic batch of
+# the oldest valid missing records, rebuilds all derived artifacts, and opens a
+# `backfill/airtable-posted-batch-NN` PR. It NEVER auto-merges (the operator/AI
+# exact-head merges each batch) and NEVER writes Airtable or generates summaries.
+#
+# Drain the backlog by dispatching sequential batches: merge batch NN before
+# dispatching NN+1 so the next run sees the just-merged articles in the archive
+# and selects the next-oldest missing set.
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch_number:
+        description: "Batch label NN for the branch/title (e.g. 01, 02)."
+        required: true
+        default: "01"
+        type: string
+      batch_size:
+        description: "Records to recover this batch (1..5; hard max 5)."
+        required: true
+        default: "5"
+        type: string
+      apply:
+        description: "false = dry-run (report only); true = write + open PR."
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Serialize recovery runs: they share the rebuild artifacts and must not race
+# create-pull-request. Never cancel a half-written run in progress.
+concurrency:
+  group: recover-airtable-backlog
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r tools/requirements.txt
+          pip install pytest
+
+      - name: Recover backlog (dry-run)
+        if: inputs.apply != 'true'
+        env:
+          # GitHub-context input via env (not inline ${{ }}) — template-injection
+          # hardening (zizmor), matching e2e.yml / generated-artifacts.yml.
+          BATCH_SIZE: ${{ inputs.batch_size }}
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
+          AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+        run: |
+          python3 tools/recover_airtable_backlog.py \
+            --batch-size "$BATCH_SIZE" \
+            --manifest-file recover-manifest.json \
+            --summary-file "$GITHUB_STEP_SUMMARY"
+
+      - name: Recover backlog (apply)
+        if: inputs.apply == 'true'
+        env:
+          BATCH_SIZE: ${{ inputs.batch_size }}
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
+          AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+        run: |
+          python3 tools/recover_airtable_backlog.py \
+            --batch-size "$BATCH_SIZE" \
+            --apply \
+            --manifest-file recover-manifest.json \
+            --summary-file "$GITHUB_STEP_SUMMARY"
+
+      - name: Read recovery summary
+        # Parse `created` so the rebuild/PR tail only runs on an apply that
+        # actually wrote articles. Missing manifest -> created=0 (open no PR).
+        id: rec
+        run: |
+          if [ -f recover-manifest.json ]; then
+            created=$(python3 -c 'import json; print(json.load(open("recover-manifest.json"))["counts"]["created"])')
+          else
+            created=0
+            echo "::warning::recover-manifest.json not found; treating created=0"
+          fi
+          echo "created=${created}" >> "$GITHUB_OUTPUT"
+          echo "recovery summary: created=${created}"
+
+      - name: Normalize tags to canonical topics
+        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
+        run: python3 tools/normalize_tags.py
+
+      - name: Check for duplicate article titles
+        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
+        run: python3 tools/check_duplicate_titles.py
+
+      - name: Rebuild index, sitemap, feed, corpus, docs, and static site
+        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
+        env:
+          INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
+        run: python3 tools/rebuild_local.py
+
+      - name: Patch ROADMAP operational-state marker
+        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
+        run: python3 tools/update_docs.py
+
+      - name: Export MCP archive data
+        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
+        run: python3 tools/export_mcp_data.py
+
+      - name: Run pytest
+        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
+        run: python3 -m pytest tools/tests -v
+
+      - name: Public-surface safety scan
+        # Defense in depth (gitleaks is the deeper net on the PR): fail if any
+        # Airtable secret value leaked into the generated content. `-q` never
+        # prints the match, so a positive result cannot echo the secret.
+        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+        run: |
+          set -euo pipefail
+          scan_paths="articles index.json sitemap.xml feed.xml feed.json llms.txt llms-index.txt llms-full.txt llms-recent.txt README.md ROADMAP.md mcp-server/src/generated/archive-data.json"
+          if [ -n "${AIRTABLE_BASE_ID:-}" ] && grep -rqIF -- "$AIRTABLE_BASE_ID" $scan_paths 2>/dev/null; then
+            echo "::error::Airtable base id found in generated content"; exit 1
+          fi
+          if [ -n "${AIRTABLE_PAT:-}" ] && grep -rqIF -- "$AIRTABLE_PAT" $scan_paths 2>/dev/null; then
+            echo "::error::Airtable PAT found in generated content"; exit 1
+          fi
+          echo "public-surface scan: clean"
+
+      - name: Open backlog batch PR
+        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          # Prefer ARTICLE_INGESTION_PR_TOKEN so PR-create triggers downstream CI
+          # (GitHub suppresses runs on PRs opened with the default GITHUB_TOKEN).
+          token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: backfill/airtable-posted-batch-${{ inputs.batch_number }}
+          title: "ingest(articles): recover missed Airtable batch ${{ inputs.batch_number }}"
+          commit-message: "ingest(articles): recover missed Airtable batch ${{ inputs.batch_number }}"
+          body: |
+            Bounded recovery of the aged-out Airtable `Posted` backlog
+            (batch ${{ inputs.batch_number }}). Auto-generated by
+            `recover-airtable-backlog.yml`; do NOT auto-merge — review the diff,
+            confirm CI is green, then exact-head merge.
+
+            - Recovered the oldest valid missing `Posted` records (deterministic,
+              hard-capped at 5/batch)
+            - Tags normalized; derived artifacts rebuilt (index/sitemap/feeds/LLMS
+              corpus/MCP archive); tests passing
+            - Counts only; no article bodies or private source data in this PR body
+          add-paths: |
+            articles/*
+            index.json
+            sitemap.xml
+            feed.xml
+            feed.json
+            llms.txt
+            llms-index.txt
+            llms-full.txt
+            llms-recent.txt
+            README.md
+            ROADMAP.md
+            mcp-server/src/generated/archive-data.json

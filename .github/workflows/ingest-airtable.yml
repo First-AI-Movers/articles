@@ -57,7 +57,8 @@ jobs:
             --since-hours 72 \
             --limit "${INGEST_MAX_RECORDS}" \
             --max-created "${INGEST_MAX_CREATED}" \
-            --allow-no-status-gate
+            --allow-no-status-gate \
+            --backfill-oldest
 
       - name: Ingest from Airtable (write)
         if: env.INGEST_DRY_RUN != '1'
@@ -71,7 +72,8 @@ jobs:
             --write \
             --since-hours 72 \
             --limit "${INGEST_MAX_RECORDS}" \
-            --max-created "${INGEST_MAX_CREATED}"
+            --max-created "${INGEST_MAX_CREATED}" \
+            --backfill-oldest
 
       - name: Read ingest summary (E41h)
         # tools/ingest_airtable.py emits ingest-summary.json with the
