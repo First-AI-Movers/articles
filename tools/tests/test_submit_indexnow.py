@@ -213,34 +213,45 @@ class TestIndexNow:
         result = submit_indexnow._submit([], key, "https://api.indexnow.org/indexnow", "articles.firstaimovers.com")
         assert result is False
 
-    def test_sitemap_contains_only_curated_urls(self):
-        """The sitemap advertises ONLY owned, curated pages on
+    def test_sitemap_advertises_exactly_the_curated_urls(self):
+        """The sitemap must advertise EXACTLY the curated set on
         articles.firstaimovers.com: the homepage, /about/, the /topics/ index,
         and one hub per pageable topic (>= MIN_ARTICLES_FOR_TOPIC_PAGE articles).
-        Cross-host canonical article URLs must NEVER leak in (that was the
-        original regression this guard caught). The count is structural
-        (3 fixed + N topic hubs), not a magic number, so legitimately adding a
-        topic hub page (e.g. via backlog recovery) does not require editing a
-        hardcoded total — while a leaked article/cross-host URL still fails.
+
+        The expected topic slugs are derived from index.json via the SHARED
+        builder logic (rebuild_local._topics_with_page / _slugify), not from the
+        sitemap itself — so this fails both if a cross-host/article URL LEAKS in
+        (the original regression) AND if the sitemap DROPS a topic hub it should
+        advertise. No magic total: it grows correctly with owned content.
         """
+        import json
         import re
+        import sys
         from pathlib import Path as P
-        sitemap = P(__file__).resolve().parents[2] / "sitemap.xml"
+
+        repo = P(__file__).resolve().parents[2]
+        sys.path.insert(0, str(repo / "tools"))
+        import rebuild_local as rl
+
+        index = json.loads((repo / "index.json").read_text(encoding="utf-8"))
+        _, pageable_topics, _ = rl._topics_with_page(index)
+        base = rl.SITE_BASE
+        expected = {f"{base}/", f"{base}/about/", f"{base}/topics/"} | {
+            f"{base}/topics/{rl._slugify(t)}/" for t in pageable_topics
+        }
+
+        sitemap = repo / "sitemap.xml"
         assert sitemap.exists()
         xml = sitemap.read_text(encoding="utf-8")
-        locs = re.findall(r"<loc>([^<]+)</loc>", xml)
-        base = "https://articles.firstaimovers.com"
-        fixed = {f"{base}/", f"{base}/about/", f"{base}/topics/"}
-        topic_re = re.compile(rf"^{re.escape(base)}/topics/[^/]+/$")
-        topic_hubs = [u for u in locs if topic_re.match(u)]
-        other = [u for u in locs if u not in fixed and not topic_re.match(u)]
-        assert not other, f"Sitemap must contain only curated URLs; leaked: {other[:5]}"
-        assert fixed.issubset(set(locs)), (
-            f"Sitemap missing a fixed curated page; got {sorted(set(locs) & fixed)}"
+        locs = set(re.findall(r"<loc>([^<]+)</loc>", xml))
+
+        assert locs == expected, (
+            f"Sitemap URL set diverges from the curated expectation. "
+            f"Leaked (in sitemap, not expected): {sorted(locs - expected)[:5]}; "
+            f"Missing (expected, not in sitemap): {sorted(expected - locs)[:5]}"
         )
-        # Self-consistent: every <url> is a fixed page or a topic hub.
-        assert xml.count("<url>") == len(fixed) + len(topic_hubs)
-        assert len(topic_hubs) >= 1, "expected at least one topic hub page"
+        # No duplicate <url> entries inflating the file.
+        assert xml.count("<url>") == len(expected)
 
     def test_cli_key_overrides_env(self, monkeypatch, tmp_path):
         import submit_indexnow
