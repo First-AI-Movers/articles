@@ -10,7 +10,7 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 892
+- Articles: 897
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
 - Generated: 2026-07-13
@@ -1163,6 +1163,13 @@ short summary. Articles are listed newest-first.
 - Topics: EU AI Act, AI Governance, Healthcare AI, GDPR & Data Privacy
 - Summary: 15-point vendor questionnaire for healthcare SMEs buying AI systems in Europe. Covers MDR, EU AI Act, GDPR, and clinical validation requirements.
 
+## Claude Code Skills and Agent Plugins: A European Dev Team Evaluation Guide for 2026
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-code-agent-skills-plugins-european-teams-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-agent-skills-plugins-european-teams-2026/article.md
+- Topics: claude-code, ai-coding-tools, developer-tools, agent-plugins, european-tech
+- Summary: 10 Claude Code skills and agent plugins European dev teams adopt in 2026. A guide for technical leads evaluating AI coding extensions.
+
 ## Claude Code for Data Science Teams: Python, pandas, and Analytics Workflows in 2026
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/claude-code-data-science-analytics-teams-2026
@@ -1183,6 +1190,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-one-person-dev-shop-guide-2026/article.md
 - Topics: Claude Code, AI Productivity Tools
 - Summary: This guide explains how solo developers can use Claude Code as a force multiplier. It covers effective session patterns like specification-first development and test generation, billing options from $20 to $200/month, and the critical oversight gap when…
+
+## How to Measure Claude Code ROI for Your Engineering Team
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-code-roi-measurement-sme-engineering-teams-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-roi-measurement-sme-engineering-teams-2026/article.md
+- Topics: AI ROI, AI Productivity Tools
+- Summary: Measure Claude Code ROI for your engineering team: time saved, quality metrics, and cost per developer. A practical 30-day framework.
 
 ## Claude Routines Explained: What SME Operators and Technical Teams Need to Know
 - Date: 2026-04-15
@@ -1254,6 +1268,20 @@ short summary. Articles are listed newest-first.
 - Topics: Maritime AI, European SME AI, AI Strategy, Data Sovereignty, Sovereign AI Infrastructure, AI Regulation
 - Summary: Bergen maritime SMEs face immediate AI decisions driven by FuelEU Maritime and CBAM regulations. AI applications include emissions reporting automation, vessel performance optimization, and predictive maintenance. Data sovereignty is critical because…
 
+## AI Consulting for Copenhagen Fintech and Maritime SMEs: Two Industries, One Compliance Stack
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-consulting-copenhagen-fintech-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-consulting-copenhagen-fintech-smes-2026/article.md
+- Topics: AI Consulting, European SME AI, Nordics AI, Fintech AI, AI Governance, Maritime AI
+- Summary: Copenhagen fintech and maritime SMEs face MiFID II, GDPR, and EU AI Act compliance. Here is how to adopt AI under regulatory constraint without stalling o…
+
+## AI Consulting for Helsinki Manufacturing SMEs: From AI Interest to Deployed Operations
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-consulting-helsinki-manufacturing-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-consulting-helsinki-manufacturing-smes-2026/article.md
+- Topics: AI Consulting, Manufacturing AI, Nordics AI, European SME AI
+- Summary: Finnish manufacturing SMEs have the process discipline to deploy AI well. Here is how Helsinki operations teams translate AI interest into production-read…
+
 ## AI Consulting for Oslo Tech Startups: Closing the Governance Gap in 2026
 - Date: 2026-04-14
 - Canonical: https://radar.firstaimovers.com/ai-consulting-oslo-tech-startups-2026
@@ -1274,6 +1302,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-consulting-stockholm-tech-startups-2026/article.md
 - Topics: AI Consulting, Nordics AI, European SME AI, AI Strategy
 - Summary: Stockholm tech SMEs at growth inflection need operational AI, not R&D AI. Here is how a 20-50 person tech company evaluates build vs. hire for AI capabili…
+
+## AI Governance for Financial Services European SMEs: Navigating the Triple Compliance Stack in 2026
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-governance-financial-services-european-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-governance-financial-services-european-smes-2026/article.md
+- Topics: AI Governance, Fintech AI, EU AI Act, European SME AI
+- Summary: Financial services SMEs face a triple compliance stack: GDPR, EU AI Act, and MiFID II. This deep-dive gives workflow-level guidance for each layer.
 
 ## How to Build an AI Governance Framework for Your European SME in 2026
 - Date: 2026-04-14
