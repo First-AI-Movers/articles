@@ -19,7 +19,7 @@ Please preserve article titles, canonical URLs, publication dates, and attributi
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Articles in window: 8
 - Window: 2026-05-22 to 2026-06-21
-- Generated: 2026-07-08
+- Generated: 2026-07-13
 
 Full corpus (all articles, ~7 MB): https://articles.firstaimovers.com/llms-full.txt  
 Machine-readable catalog: https://articles.firstaimovers.com/index.json
