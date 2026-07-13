@@ -141,6 +141,20 @@
     <summary type="text">Claude Code now runs across your terminal, desktop app, phone, and browser, and sessions stay in sync across all of them. If you have been managing multiple Claude Code sessions by switching terminal tabs and losing track of which agent is doing what, there are three features…</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-18:2026-05-18-cfo-agentic-ai-cost-roi-diagnostic-2026</id>
+    <title>CFO Agentic AI Cost and ROI Diagnostic: 7 Questions That Reveal Where AI Spend Is Leaking</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/cfo-agentic-ai-cost-roi-diagnostic-2026"/>
+    <published>2026-05-18T00:00:00Z</published>
+    <updated>2026-05-18T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="Agentic Workflows"/>
+    <category term="AI ROI"/>
+    <summary type="text">Seven questions every CFO should ask about agentic AI spend to find leaks, measure real ROI, and decide whether to extend, cut, or restructure investment.</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-05-18:2026-05-18-codex-github-connector-automated-pr-review-2026</id>
     <title>Codex GitHub Connector: How to Set Up Automated PR Reviews That Follow Your Team's Rules</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/codex-github-connector-automated-pr-review-2026"/>
@@ -173,6 +187,20 @@
     <category term="digital-transformation"/>
     <category term="business-automation"/>
     <summary type="text">OpenCode with MiniMax M2.5 delivers 80.2% SWE-Bench at 1/15 the cost of Claude Opus. Setup guide, routing strategy, and honest comparison for power users.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-05-18:2026-05-18-why-agentic-ai-pilots-die-at-production-2026</id>
+    <title>Why Agentic AI Pilots Die at Production: The Implementation Layer No Vendor Replaces</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/why-agentic-ai-pilots-die-at-production-2026"/>
+    <published>2026-05-18T00:00:00Z</published>
+    <updated>2026-05-18T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="Agentic Workflows"/>
+    <category term="AI ROI"/>
+    <summary type="text">Most agentic AI pilots never reach production. Here is why the implementation layer matters more than the tool, and how to fix it.</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-05-11:2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026</id>
@@ -756,38 +784,5 @@
     <category term="AI Strategy"/>
     <category term="AI PMO"/>
     <summary type="text">Poor data quality causes AI projects to fail at growing companies. Covers assessment, GDPR mapping, cleaning pipelines, and a go/no-go checklist.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-for-operations-managers-european-smes-2026</id>
-    <title>AI Adoption for Operations Managers: A Practical Playbook for EU SMEs</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-for-operations-managers-european-smes-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <summary type="text">Operations managers at EU SMEs face AI adoption without technical support. This 4-phase playbook covers process selection, vendor checks, and team rollout.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-tools-customer-service-helpdesk-european-smes-2026</id>
-    <title>AI Tools for Customer Service: What European SMEs Need to Know in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-tools-customer-service-helpdesk-european-smes-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI for Operations"/>
-    <category term="AI Strategy"/>
-    <summary type="text">Discover which AI tools fit your customer service team in 2026. Four tool categories, GDPR compliance notes, and a 5-step evaluation checklist for EU SMEs.</summary>
   </entry>
 </feed>
