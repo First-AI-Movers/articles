@@ -1,0 +1,95 @@
+name: Airtable ingestion reconciliation
+
+# Read-only audit: compares eligible `Posted` Airtable records against the
+# repository archive and surfaces the silent acquisition backlog the daily
+# 72-hour cron window can permanently miss. Never writes to Airtable, opens no
+# PR, performs no backfill. Emits value-safe counts to the job summary and, on a
+# discrepancy, a deduplicated counts-only issue.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 4 * * 1"   # Weekly, Monday 04:23 UTC (offset from other crons)
+
+# contents: read to read the archive; issues: write only for the counts-only
+# discrepancy notification. No pull-requests / contents write — this workflow
+# cannot mutate the repo or Airtable.
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: airtable-reconciliation
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r tools/requirements.txt
+
+      - name: Reconcile Airtable against archive (read-only)
+        id: recon
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
+          AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+        run: |
+          python3 tools/audit_airtable_reconciliation.py \
+            --summary-file "$GITHUB_STEP_SUMMARY" --json > recon.json
+          missing=$(python3 -c 'import json; print(json.load(open("recon.json"))["eligible_missing"])')
+          echo "missing=${missing}" >> "$GITHUB_OUTPUT"
+          echo "eligible_missing=${missing}"
+
+      - name: Open deduplicated discrepancy issue (counts only)
+        # Only when eligible Posted records are missing from the archive. The
+        # issue body carries counts + the run URL only — no titles, URLs, or
+        # record ids. Deduplicated by title so a persistent backlog does not
+        # spawn a new issue every week. Always exits 0.
+        if: steps.recon.outputs.missing != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MISSING: ${{ steps.recon.outputs.missing }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          TITLE="Airtable reconciliation: eligible records missing from archive"
+          existing=$(gh issue list \
+            --repo "${GITHUB_REPOSITORY}" \
+            --state open \
+            --search "in:title \"${TITLE}\"" \
+            --limit 1 --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "${GITHUB_REPOSITORY}" \
+              --body "Latest reconciliation: **${MISSING}** eligible Posted record(s) missing from the archive. Run: ${RUN_URL}"
+            echo "Commented on existing issue #${existing}."
+            exit 0
+          fi
+          gh issue create --repo "${GITHUB_REPOSITORY}" \
+            --title "${TITLE}" \
+            --body "$(cat <<EOF
+          ## Airtable ingestion reconciliation — discrepancy
+
+          **${MISSING}** eligible \`Posted\` Airtable record(s) are not represented
+          in the repository archive (by record id and canonical URL). These may be
+          records that aged out of the daily 72-hour cron window.
+
+          - **Run (full counts):** ${RUN_URL}
+
+          This is a read-only audit signal (no Airtable writes, no backfill). Counts
+          only — no titles, URLs, or record ids are recorded here. Triage by
+          re-running the reconciliation with \`--emit-missing-ids\` locally against
+          the configured credentials.
+          EOF
+          )"
+          exit 0
