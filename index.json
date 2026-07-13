@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-07-13",
-  "total_articles": 882,
+  "total_articles": 887,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -4323,6 +4323,21 @@
       "summary_long": "Amsterdam software agencies face three converging pressures in 2026 that require immediate action from founders and CTOs at 15-30 person digital product studios. The city hosts one of Europe's strongest concentrations of independent software agencies, many serving heavily EU-regulated client bases in financial services, logistics, healthcare administration, and public sector work. The three pressures arrived simultaneously in early 2026: clients began asking about EU AI Act compliance before signing contracts, developers started requesting AI coding tools without any internal policy governing their use, and competing studios began advertising AI-augmented delivery as a default capability. These are not abstract concerns for a 15-30 person studio—they directly affect which contracts you win, whether senior developers stay, and how fast your team can deliver. The EU AI Act came into force in January 2026, and high-risk AI system classifications now apply to many products Amsterdam agencies build, particularly anything touching credit scoring, HR decision support, or public services. When a client's legal team asks whether the AI-assisted features you built are compliant, you need a defensible answer—and most agencies currently lack one. Alongside compliance, the talent question matters: developers at Amsterdam professional services firms benchmark their tooling against peers, and a coherent AI tools policy has become a retention signal in a tight talent market. Three specific changes are needed. First, an internal AI tool policy answering four questions: which AI tools are approved for client work, what data is prohibited from entering those tools, what review requirement exists for AI-generated code before shipping, and who owns policy updates. A one-page document addressing these points puts your agency ahead of most Amsterdam competitors. Second, developer onboarding for AI-augmented workflows—this means a hands-on session covering the permission model and data handling rules, a documented workflow for code review, and an escalation path for uncertain use cases. A half-day structured session plus two weeks of paired practice covers the baseline. Third, client contract language for AI-assisted work: disclosure that AI tooling may be used in delivery, confirmation that client-confidential and personal data are excluded from AI tool inputs, and a statement about pre-delivery code review. Proactively including this language builds client trust and signals professionalism. For agencies building products rather than just delivering code, the EU AI Act creates direct obligations when products fall under high-risk classification, requiring traceability of AI-assisted decisions, human oversight mechanisms in architecture, and documentation that quality management covers AI-generated components. A First AI Movers assessment covers five areas: current tool usage and policy gaps, developer workflow analysis, client contract review, EU AI Act project exposure mapping, and a 90-day prioritised action plan. One concrete example demonstrates the impact: a 20-person Amsterdam agency had no formal AI tool policy and three senior developers independently using AI coding tools on client projects. Within 30 days, they established an approved tool list, a one-page data handling policy, updated boilerplate contract language, and completed a structured Claude Code onboarding session with the full development team. Client feedback in the subsequent quarter included two unprompted comments about the agency's professional approach to AI tooling, and one client extended their retainer. The work requires clarity and a half-day of structured effort, not a six-month transformation programme."
     },
     {
+      "folder": "2026-04-14-ai-tool-selection-scorecard-european-smes-2026",
+      "slug": "ai-tool-selection-scorecard-european-smes-2026",
+      "title": "The Five-Dimension AI Tool Scorecard Every European SME Needs Before Signing a Contract",
+      "published_date": "2026-04-14",
+      "tags": [
+        "company-tech-strategy",
+        "ai-governance",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-tool-selection-scorecard-european-smes-2026"
+    },
+    {
       "folder": "2026-04-14-ai-use-policy-template-european-employees-2026",
       "slug": "ai-use-policy-template-european-employees-2026",
       "title": "How to Write an AI Use Policy European Employees Will Actually Follow",
@@ -4339,6 +4354,21 @@
       "summary_short": "This guide provides a practical AI use policy template for European SMEs that aligns with EU AI Act and GDPR requirements. It covers approved tools, data handling rules, employee obligations, transparency requirements, incident reporting, and rollout strategies. The plain-language structure is designed so employees can understand and follow it without legal expertise.",
       "summary_medium": "This article addresses the common failure of AI use policies being written for legal teams rather than the employees who must follow them daily. The template structures compliance with the EU AI Act and GDPR into six practical sections: Purpose and Scope, Approved Tools and Request Process, Data Handling Rules, AI-Generated Content and Transparency, Incidents and Escalation, and Employee Responsibilities. Key requirements include transparency obligations under Article 50, restrictions on processing personal data through AI tools without Data Processing Agreements, mandatory human review for consequential decisions, and clear incident reporting procedures. The guide emphasizes that approved tool lists must be specific enough for new hires to quickly determine what's permitted, and it addresses whether employees can use personal AI subscriptions for work—establishing that personal accounts without organizational DPAs are not approved. Policy rollout recommendations include launch briefings, employee acknowledgments, quarterly tool list reviews, and integration into new hire onboarding. The article stresses that policies must explain the reasoning behind rules so employees understand why restrictions exist, not just what is prohibited.",
       "summary_long": "The core problem this article addresses is that most AI use policies fail not because they are incorrect but because they are written for lawyers rather than for the employees who must live with them daily. The guide provides a practical AI use policy template specifically designed for European SMEs that addresses EU AI Act and GDPR requirements while remaining accessible to non-legal staff. The policy structure covers six essential sections: Purpose and Scope establishes who the policy applies to and why it exists, providing organizational context that helps employees understand the policy's intent beyond mere compliance language. Approved Tools and Request Process provides a clear list of permitted tools with specific use cases and a formal request procedure for new tools, addressing the common confusion employees face when trying to determine what is permissible. Data Handling Rules defines which data categories may and may not be processed through AI tools, explaining that personal data entered into tools without a Data Processing Agreement creates GDPR compliance exposure for the organization. This section addresses the practical reality that employees may not understand the distinction between internal data processing and third-party AI service processing, making clear explanations essential. AI-Generated Content and Transparency establishes human review requirements for consequential outputs and disclosure obligations under EU AI Act Article 50, recognizing that while AI can assist productivity, final decisions affecting business outcomes require human judgment. Incidents and Escalation defines what constitutes an AI-related incident and provides a clear reporting pathway, ensuring employees know exactly how to act when something goes wrong rather than hesitating due to uncertainty. Employee Responsibilities Summary provides a one-page checklist for easy reference, acknowledging that policies are only effective if employees can quickly refresh their understanding. The article emphasizes that policies must explain the reasoning behind rules so employees understand why restrictions exist, not just what is prohibited—this principle of explaining the why rather than just the what represents a fundamental shift from traditional compliance documentation. For approved tool lists, the guidance states clarity is the primary design goal—lists should be detailed enough that a new employee can determine within 60 seconds whether a tool is approved and for what purpose, recognizing that overly complex approval systems simply encourage shadow IT usage. The article also addresses personal AI subscriptions, recommending that personal accounts without Data Processing Agreements are not approved tools regardless of who pays for them, addressing the increasingly common scenario of employees using personal ChatGPT or Claude subscriptions for work tasks. Effective rollout requires launch briefings connecting policy to real scenarios that employees recognize from their daily work, employee acknowledgments creating an evidence trail for compliance demonstration, periodic quarterly reviews of approved tool lists to account for the rapidly changing AI tool landscape, and integration into new hire onboarding processes to establish expectations from day one rather than treating policy review as an afterthought."
+    },
+    {
+      "folder": "2026-04-14-ai-vendor-pilot-cadence-template-smes-2026",
+      "slug": "ai-vendor-pilot-cadence-template-smes-2026",
+      "title": "The 6-Week AI Vendor Pilot Cadence: A Reusable Template for European SMEs",
+      "published_date": "2026-04-14",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-vendor-pilot-cadence-template-smes-2026"
     },
     {
       "folder": "2026-04-14-claude-code-agent-mode-autonomous-workflows-2026",
@@ -4628,6 +4658,21 @@
       "summary_long": "CLAUDE.md is a configuration document that sits in a repository's root and instructs Claude Code how to behave within that project. It defines what conventions to follow, what directories to avoid, what commands require human review, and what testing requirements apply before any change is considered complete. Without a CLAUDE.md file, Claude Code operates on defaults that know nothing about a team's stack, standards, or client commitments.\n\nThe practical consequence of a missing CLAUDE.md is output variance at scale. Each engineer on a 15-person team running Claude Code without shared configuration is effectively setting their own rules through ad hoc prompts and personal habits. The same refactoring task produces different results in different styles. A project-level CLAUDE.md eliminates that variance by establishing a consistent floor of behavior across every session, every machine, and every engineer on the project.\n\nClaude Code reads instruction files from three locations with different scopes. The repository root is where the primary CLAUDE.md should live, committed to version control like any other configuration file. Subdirectory files can override or extend the root file for specific parts of a monorepo with different conventions. The user home directory (~/.claude/CLAUDE.md) holds personal preferences that apply across all repos on a developer's machine.\n\nA practical CLAUDE.md should contain four core categories. Project context covers what the codebase is, its structure, and architecture. Coding conventions are the rules already enforced through code review—naming conventions, file structure expectations, patterns for async handling, and formatting standards. Testing approach tells Claude which framework to use, whether tests are written alongside implementation or after, and naming conventions for test files. Prohibited actions are explicit constraints like not modifying database migration files directly, not adding new third-party dependencies without flagging them, or not removing error logging.\n\nFor a 10-20 person engineering team, the file should stay under 300 lines. Use bullet points rather than prose for rules, as Claude Code parses structured lists more reliably. Open with a two to three sentence description of the project and its stack, follow with bulleted coding conventions grouped by area, add a short testing section, and close with hard constraints under a \"Prohibited Actions\" heading.\n\nCommon mistakes reduce effectiveness significantly. Writing \"follow best practices\" gives Claude nothing actionable—specify what best practice means in your context. A CLAUDE.md describing a stack the team moved away from six months ago becomes a liability. Personal preferences belong in the global file, not the project file. And if teams use Claude Code in agentic mode for longer tasks, the CLAUDE.md should explicitly state what Claude is and is not allowed to do without human confirmation.\n\nThe clearest mental model is this: the global file at ~/.claude/CLAUDE.md tells Claude about you as a developer, while the project file at the repo root tells Claude about the codebase. Both are read and merged, with project-level rules taking precedence when there is a conflict. A 15-person engineering team that invests two hours in a well-structured CLAUDE.md will recoup that time within a week in reduced review corrections and fewer sessions where Claude drifts from team conventions."
     },
     {
+      "folder": "2026-04-14-fractional-ai-governance-consultant-vs-in-house-ai-lead-2026",
+      "slug": "fractional-ai-governance-consultant-vs-in-house-ai-lead-2026",
+      "title": "Fractional AI Governance Consultant vs In-House AI Lead: What European SMEs Should Choose in 2026",
+      "published_date": "2026-04-14",
+      "tags": [
+        "company-tech-strategy",
+        "ai-governance",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/fractional-ai-governance-consultant-vs-in-house-ai-lead-2026"
+    },
+    {
       "folder": "2026-04-14-fractional-cto-claude-code-advisory-2026",
       "slug": "fractional-cto-claude-code-advisory-2026",
       "title": "What Fractional CTOs Get Asked About Claude Code Rollouts",
@@ -4761,6 +4806,21 @@
       "canonical_url": "https://radar.firstaimovers.com/90-day-ai-adoption-brussels-cross-border-firms"
     },
     {
+      "folder": "2026-04-13-ai-advisory-antwerp-logistics-smes-2026",
+      "slug": "ai-advisory-antwerp-logistics-smes-2026",
+      "title": "AI in the Port: What Antwerp Logistics SMEs Need to Get Right Before They Scale",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "digital-transformation",
+        "company-tech-strategy",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-advisory-antwerp-logistics-smes-2026"
+    },
+    {
       "folder": "2026-04-13-ai-consulting-amsterdam-accounting-firms-2026",
       "slug": "ai-consulting-amsterdam-accounting-firms-2026",
       "title": "Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else",
@@ -4819,6 +4879,21 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-rotterdam-logistics-companies-2026"
+    },
+    {
+      "folder": "2026-04-13-ai-readiness-ghent-manufacturing-smes-2026",
+      "slug": "ai-readiness-ghent-manufacturing-smes-2026",
+      "title": "Why Flemish Manufacturers Are AI-Ready in Culture but Not in Data Infrastructure",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "digital-transformation",
+        "company-tech-strategy",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-readiness-ghent-manufacturing-smes-2026"
     },
     {
       "folder": "2026-04-13-ai-strategy-belgian-financial-services-2026",
