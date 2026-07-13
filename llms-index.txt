@@ -10,7 +10,7 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 882
+- Articles: 887
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
 - Generated: 2026-07-13
@@ -1261,12 +1261,26 @@ short summary. Articles are listed newest-first.
 - Topics: EU AI Act, AI Governance, European SME AI
 - Summary: Amsterdam software agencies face three converging pressures in 2026: EU AI Act compliance requests from clients, developer demands for AI coding tools without internal policies, and competitors marketing AI-augmented delivery. For 15-30 person studios, these…
 
+## The Five-Dimension AI Tool Scorecard Every European SME Needs Before Signing a Contract
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-tool-selection-scorecard-european-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-tool-selection-scorecard-european-smes-2026/article.md
+- Topics: company-tech-strategy, ai-governance, digital-transformation, artificial-intelligence
+- Summary: A structured 5-dimension scorecard for European SMEs evaluating AI tools — covering EU data compliance, TCO, workflow fit, vendor risk, and EU AI Act clas…
+
 ## How to Write an AI Use Policy European Employees Will Actually Follow
 - Date: 2026-04-14
 - Canonical: https://radar.firstaimovers.com/ai-use-policy-template-european-employees-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-use-policy-template-european-employees-2026/article.md
 - Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
 - Summary: This guide provides a practical AI use policy template for European SMEs that aligns with EU AI Act and GDPR requirements. It covers approved tools, data handling rules, employee obligations, transparency requirements, incident reporting, and rollout…
+
+## The 6-Week AI Vendor Pilot Cadence: A Reusable Template for European SMEs
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-vendor-pilot-cadence-template-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-vendor-pilot-cadence-template-smes-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: A 6-week AI vendor pilot cadence template for European SMEs. Week-by-week tasks, success criteria, and a go/no-go decision framework to run a rigorous too…
 
 ## Claude Code Agent Mode: From Single Tasks to Autonomous Dev Workflows
 - Date: 2026-04-14
@@ -1345,6 +1359,13 @@ short summary. Articles are listed newest-first.
 - Topics: Claude Code, AI Coding Tools, Coding Agent Architecture, AI for Engineering Teams, AI Team Building
 - Summary: CLAUDE.md is a configuration file in repository roots that instructs Claude Code how to behave in a project. It defines conventions, directories to avoid, commands requiring human review, and testing requirements. Without it, Claude operates on generic…
 
+## Fractional AI Governance Consultant vs In-House AI Lead: What European SMEs Should Choose in 2026
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/fractional-ai-governance-consultant-vs-in-house-ai-lead-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-fractional-ai-governance-consultant-vs-in-house-ai-lead-2026/article.md
+- Topics: company-tech-strategy, ai-governance, digital-transformation, artificial-intelligence
+- Summary: Should your European SME hire an in-house AI lead or use a fractional AI governance consultant? A structured decision guide with cost, risk, and coverage…
+
 ## What Fractional CTOs Get Asked About Claude Code Rollouts
 - Date: 2026-04-14
 - Canonical: https://radar.firstaimovers.com/fractional-cto-claude-code-advisory-2026
@@ -1387,6 +1408,13 @@ short summary. Articles are listed newest-first.
 - Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
 - Summary: A structured 90-day AI adoption playbook for Brussels cross-border professional services firms — covering data sovereignty, EU AI Act compliance, and mult…
 
+## AI in the Port: What Antwerp Logistics SMEs Need to Get Right Before They Scale
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-advisory-antwerp-logistics-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-advisory-antwerp-logistics-smes-2026/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: Antwerp logistics SMEs face real AI opportunity in route optimisation and customs automation — and real governance complexity. Here is how to move forward…
+
 ## Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else
 - Date: 2026-04-13
 - Canonical: https://radar.firstaimovers.com/ai-consulting-amsterdam-accounting-firms-2026
@@ -1414,6 +1442,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-rotterdam-logistics-companies-2026/article.md
 - Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
 - Summary: Rotterdam logistics SMEs face margin pressure from port automation and EU customs reform. Learn how AI can improve document processing, routing, and excep…
+
+## Why Flemish Manufacturers Are AI-Ready in Culture but Not in Data Infrastructure
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-readiness-ghent-manufacturing-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-readiness-ghent-manufacturing-smes-2026/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: Ghent and Antwerp manufacturing SMEs have strong operational discipline — but the real AI readiness gap is data pipeline maturity, not AI literacy. Here i…
 
 ## The Belgian Financial Services AI Compliance Stack Nobody Talks About
 - Date: 2026-04-13
