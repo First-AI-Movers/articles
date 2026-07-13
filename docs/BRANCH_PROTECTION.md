@@ -18,7 +18,7 @@ This model prioritises velocity while keeping `main` safe from direct pushes, fo
 | Rule | Setting | Rationale |
 |---|---|---|
 | **Require a pull request before merging** | ✅ Enabled | No direct pushes to `main`. All changes must go through a PR so checks run. |
-| **Require status checks to pass** | `check`, `e2e`, `geo-audit`, `gitleaks`, `lychee`, `readability`, `test`, `vale` | All eight required checks must pass before merge. The auto-merger uses this exact set (`tools/auto_merge_ingestion_pr.py` → `REQUIRED_CHECKS`). See "Required check inventory" below. |
+| **Require status checks to pass** | `test`, `e2e`, `gitleaks`, `check` | The four **universal** checks — they report on every PR class (docs-only, workflow-only, Dependabot, ingestion, worker), so requiring them never deadlocks a PR. The four path-conditional checks (`geo-audit`, `readability`, `vale`, `lychee`) are intentionally NOT branch-protection required — see "Required check inventory" below. |
 | **Require approving review** | ❌ Disabled | Green CI is the merge gate. Manual reviews are encouraged but not required for trusted-owner automation. |
 | **Require review from CODEOWNERS** | ❌ Disabled | CODEOWNERS is a documented ownership signal, not a hard merge blocker. |
 | **Require linear history** | ✅ Enabled | Keeps history clean and bisectable. Use squash-merge or rebase-merge. |
@@ -28,31 +28,46 @@ This model prioritises velocity while keeping `main` safe from direct pushes, fo
 
 ## Required check inventory
 
-The eight checks named above map to specific workflow jobs. Each is its own
-workflow file so a failure pinpoints the cause quickly.
+There are **two tiers**:
 
-| Check name | Workflow file | What it gates |
-|---|---|---|
-| `test` | `.github/workflows/tests.yml` | Python unit tests (`pytest tools/tests`), changelog freshness on PRs, duplicate-title gate, errata validation. |
-| `e2e` | `.github/workflows/e2e.yml` | Playwright browser tests against the freshly built static site. Skipped for docs-only PRs via `paths-ignore`. |
-| `gitleaks` | `.github/workflows/gitleaks.yml` | Secret scanning across the full repo (no `paths-ignore` — secrets can land anywhere). |
-| `check` | `.github/workflows/generated-artifacts.yml` | Runs `tools/check_generated_artifacts.py`: rebuild + diff against committed `index.json`, `sitemap.xml`, `feed.xml`, `feed.json`, `llms.txt`, `llms-full.txt`, `llms-recent.txt`, `README.md`, `ROADMAP.md`. |
-| `geo-audit` | `.github/workflows/geo-audit.yml` | GEO score per article. Skipped for docs-only PRs. |
-| `readability` | `.github/workflows/article-quality.yml` (job: `readability`) | Flesch / Flesch-Kincaid scoring. |
-| `vale` | `.github/workflows/article-quality.yml` (job: `vale`) | Prose linting via Vale. Soft gate (`continue-on-error: true`). |
-| `lychee` | `.github/workflows/article-quality.yml` (job: `lychee`) | Dead-link scanning. Soft gate. |
+- **Branch-protection required** — the four *universal* checks that report on
+  **every** PR class (docs-only, workflow-only, Dependabot, ingestion, worker).
+  These are enforced by `main` branch protection. A required context that is
+  *absent* for a PR class blocks that class forever, so only universal checks
+  may live here.
+- **Auto-merger additional** — four more checks that are path-conditional
+  (`paths-ignore: [ROADMAP.md, docs/**]`), so they are absent on docs-only PRs
+  and therefore CANNOT be branch-protection required. The ingestion auto-merger
+  (`tools/auto_merge_ingestion_pr.py` → `REQUIRED_CHECKS`) additionally waits for
+  all eight, which is safe because every ingestion PR touches `articles/` and so
+  triggers all eight.
 
-If you add or remove a required check, update **three** places in lockstep so
-the auto-merger, the docs, and the GitHub Settings stay in sync:
+Each check is its own workflow file so a failure pinpoints the cause quickly.
 
-1. `tools/auto_merge_ingestion_pr.py` → `REQUIRED_CHECKS`
-2. This table (`docs/BRANCH_PROTECTION.md`)
-3. **Settings → Branches → main → Required status checks** (manual; only an
-   admin can change it)
+| Check name | Tier | Workflow file | What it gates |
+|---|---|---|---|
+| `test` | branch-protection required | `.github/workflows/tests.yml` | Python unit tests (`pytest tools/tests`), changelog freshness on PRs, duplicate-title gate, errata validation. Runs on every PR. |
+| `e2e` | branch-protection required | `.github/workflows/e2e.yml` | Playwright browser tests against the freshly built static site. Single-workflow design (N6-H): the `e2e` job always reports — on pure-docs PRs it skips the Playwright run internally but still reports SUCCESS. |
+| `gitleaks` | branch-protection required | `.github/workflows/gitleaks.yml` | Secret scanning across the full repo (no `paths-ignore` — secrets can land anywhere). |
+| `check` | branch-protection required | `.github/workflows/generated-artifacts.yml` | Runs `tools/check_generated_artifacts.py`: rebuild + diff against committed `index.json`, `sitemap.xml`, `feed.xml`, `feed.json`, `llms.txt`, `llms-full.txt`, `llms-recent.txt`, `README.md`, `ROADMAP.md`. The `check` job runs on every PR (heavy drift check, or a no-op skip step for the safe-maintenance allowlist) and always reports. |
+| `geo-audit` | auto-merger additional | `.github/workflows/geo-audit.yml` | GEO score per article. `paths-ignore: [ROADMAP.md, docs/**]` — absent on docs-only PRs, so NOT branch-protection required. |
+| `readability` | auto-merger additional | `.github/workflows/article-quality.yml` (job: `readability`) | Flesch / Flesch-Kincaid scoring. Path-conditional (`paths-ignore`), so NOT branch-protection required. |
+| `vale` | auto-merger additional | `.github/workflows/article-quality.yml` (job: `vale`) | Prose linting via Vale. Soft gate (`continue-on-error: true`) + path-conditional. |
+| `lychee` | auto-merger additional | `.github/workflows/article-quality.yml` (job: `lychee`) | Dead-link scanning. Soft gate + path-conditional. |
+
+If you add or remove a check, keep these in sync:
+
+1. `tools/auto_merge_ingestion_pr.py` → `REQUIRED_CHECKS` — all eight (the
+   ingestion-PR wait-set).
+2. This document (both tables above).
+3. **Settings → Branches → main → Required status checks** — the four
+   *universal* checks only (`test`, `e2e`, `gitleaks`, `check`). Never add a
+   path-conditional check here; it would deadlock the PR classes that skip it.
+   (Manual; only an admin can change it.)
 
 The check `test_branch_protection_lists_all_required_checks` in
-`tools/tests/test_workflows_ci_audit_followup.py` enforces (1) ↔ (2)
-consistency. (3) is enforced manually.
+`tools/tests/test_workflows_ci_audit_followup.py` asserts (2) lists every name
+in (1). (3) is enforced manually.
 
 ## Forbidden actions
 
