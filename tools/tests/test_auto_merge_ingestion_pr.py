@@ -547,9 +547,21 @@ class TestMergeStateGate:
         monkeypatch.setattr(mod.time, "sleep", lambda _s: None)
         rc = mod.main()
         assert rc == 0
-        assert merged.get("n") == 328, "must merge only after mergeStateStatus becomes CLEAN"
+        assert merged.get("n") == 328, "must merge only after mergeStateStatus becomes mergeable"
         assert calls["n"] >= 2, "must poll past the BLOCKED state, not merge on the first green poll"
-        assert "awaiting CLEAN" in capsys.readouterr().out
+        assert "awaiting a mergeable state" in capsys.readouterr().out
+
+    def test_unstable_merges_when_required_checks_green(self, mod, monkeypatch):
+        """UNSTABLE (only a non-required/advisory check is red or pending — e.g.
+        the mcp-server context an ingest PR triggers via archive-data.json) is
+        mergeable and must NOT block auto-merge; gh pr merge accepts it."""
+        monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")
+        monkeypatch.setattr(mod, "find_open_pr", lambda *a, **kw: self._pr("UNSTABLE"))
+        merged = {}
+        monkeypatch.setattr(mod, "squash_merge", lambda n, repo=None: merged.setdefault("n", n))
+        rc = mod.main()
+        assert rc == 0
+        assert merged.get("n") == 328, "UNSTABLE (advisory check red/pending) must still auto-merge"
 
     def test_green_but_permanently_blocked_times_out_without_merge(self, mod, monkeypatch):
         monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")

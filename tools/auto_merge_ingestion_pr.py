@@ -92,6 +92,14 @@ REQUIRED_CHECKS = (
 DEFAULT_TIMEOUT_SECONDS = 900   # 15 min — generous for e2e flake.
 DEFAULT_POLL_INTERVAL = 30
 
+# mergeStateStatus values `gh pr merge` can actually squash once the eight
+# REQUIRED_CHECKS are all SUCCESS: CLEAN (everything green) and UNSTABLE (only
+# a non-required / advisory check is red or pending — those never block a
+# merge; e.g. the `mcp-server` context an ingest PR triggers via
+# archive-data.json). HAS_HOOKS is likewise mergeable. BLOCKED / BEHIND /
+# DIRTY / UNKNOWN are NOT mergeable and must keep polling until they settle.
+MERGEABLE_MERGE_STATES = ("CLEAN", "UNSTABLE", "HAS_HOOKS")
+
 
 # --------------------------------------------------------------------------
 # Pure functions — unit-testable without the gh CLI.
@@ -412,25 +420,37 @@ def main():
             open_incident_issue(reason, pr=pr, repo=repo)
             return 0
 
-        # Require mergeStateStatus == CLEAN, not just mergeable == MERGEABLE.
+        # Gate on a mergeable mergeStateStatus, not just mergeable == MERGEABLE.
         # `mergeable` (GraphQL) only reports the absence of merge conflicts;
         # branch-protection readiness lives in `mergeStateStatus`. GitHub
         # recomputes it asynchronously, so for a beat after the last required
         # check flips SUCCESS it can still read BLOCKED. Merging in that window
         # fails with "base branch policy prohibits the merge" (observed on run
-        # 29186004190, PR #328). Keep polling until GitHub agrees the PR is
-        # CLEAN, so the merge only fires when it can actually succeed.
-        if state == "complete-success" and mergeable == "MERGEABLE" and merge_state == "CLEAN":
+        # 29186004190, PR #328).
+        #
+        # Accept every state gh can actually merge (MERGEABLE_MERGE_STATES:
+        # CLEAN, UNSTABLE, HAS_HOOKS) — UNSTABLE means only a non-required /
+        # advisory check is red or pending, which never blocks a merge (the
+        # eight REQUIRED_CHECKS are already all SUCCESS here). Requiring exactly
+        # CLEAN would hang an ingest PR whose advisory `mcp-server` context
+        # (triggered via archive-data.json) is red or pending. Only keep polling
+        # for the not-yet-mergeable states (BLOCKED / BEHIND / UNKNOWN / …).
+        if (
+            state == "complete-success"
+            and mergeable == "MERGEABLE"
+            and merge_state in MERGEABLE_MERGE_STATES
+        ):
             break
 
         if state == "complete-success":
-            # Checks are green but the merge state is not yet CLEAN (typically
-            # a transient BLOCKED/UNKNOWN while GitHub recomputes). Fall through
-            # to the poll/timeout loop rather than attempt a merge that would
-            # be rejected by branch protection.
+            # Required checks green but the merge state is not yet mergeable
+            # (typically a transient BLOCKED/UNKNOWN while GitHub recomputes).
+            # Fall through to the poll/timeout loop rather than attempt a merge
+            # that branch protection would reject.
             print(
                 f"[wait] required checks green but mergeStateStatus="
-                f"{merge_state or 'UNKNOWN'}; awaiting CLEAN"
+                f"{merge_state or 'UNKNOWN'}; awaiting a mergeable state "
+                f"{MERGEABLE_MERGE_STATES}"
             )
 
         if time.monotonic() >= deadline:
