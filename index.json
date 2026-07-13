@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-07-13",
-  "total_articles": 902,
+  "total_articles": 904,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -140,6 +140,25 @@
       "summary_long": "Claude Code now spans the terminal, desktop app, phone, and browser, with sessions that stay in sync across all surfaces. Three features in combination — not in isolation — make parallel agent management sustainable for CTOs and engineering managers running three or more concurrent sessions: Remote Control, Dispatch, and Agent View.\n\nRemote Control turns the phone into a remote terminal for an already-running local Claude Code session. The session stays local; the phone is a window into it. Setup is simple: enable Remote Control by default in configuration or turn it on per session using the documented remote-control command forms. A URL and QR code appear; the mobile Code tab shows the session with a green dot when online. Real-time sync runs in both directions: phone input streams to the terminal, terminal output streams to the phone. The session survives laptop sleep and reconnects automatically.\n\nDispatch is a different mode. Where Remote Control continues an existing session, Dispatch fires new tasks from the phone, and Claude decides whether to spawn a Code session or a Cowork session on the desktop to handle them. The desktop app must be running and paired; push notifications signal when a Dispatch task finishes or needs input. Simple rule: Remote Control equals continue, Dispatch equals create.\n\nAgent View, shipped May 11, 2026, is the dashboard that makes parallel work tractable. Open it from any terminal, or by pressing the left arrow inside any session. The TUI table shows session name, last response, timestamp, and whether the agent is waiting, working, or done. Reply, jump in, peek, or background-start new sessions without leaving the dashboard.\n\nTwo environments underlie everything. Cold or cloud sessions run on Anthropic's servers — they survive laptop sleep but cannot reach local files, git, MCP servers, or terminal tools. Local or warm sessions run on the user's machine with full access. Multi-device coordination only applies to local or warm sessions; the entire architecture exists to give phone-side access to the local environment without moving code to the cloud.\n\nThe article recommends a daily workflow. Morning: start three or four named background sessions, open Agent View. Midday: walk away from the desk, monitor on phone, approve edits, fire a new task via Dispatch. Afternoon: back at the laptop, the Dispatch task is done, the morning sessions report results, new sessions start.\n\nRequirements are Claude Code v2.1.51 or later on Pro, Max, Team, or Enterprise plans; the feature is in research preview. Practical capacity sits at three to five parallel sessions on the Max plan before rate limits become a constraint, because each session draws from the same plan pool. Common pitfalls: a sleeping laptop shows sessions offline; Dispatch needs the desktop app paired; cloud sessions cannot access local files unless pulled local via teleport.\n\nFor teams structuring agent workflows, the article frames the multi-device layer not as a nice-to-have but as the operating model that distinguishes a sustainable parallel-agent practice from a chaotic one."
     },
     {
+      "folder": "2026-05-18-cfo-agentic-ai-cost-roi-diagnostic-2026",
+      "slug": "cfo-agentic-ai-cost-roi-diagnostic-2026",
+      "title": "CFO Agentic AI Cost and ROI Diagnostic: 7 Questions That Reveal Where AI Spend Is Leaking",
+      "published_date": "2026-05-18",
+      "tags": [
+        "agentic-ai-roi",
+        "ai-cost-diagnostic",
+        "ai-finops",
+        "ai-budget-governance",
+        "ai-implementation"
+      ],
+      "topics": [
+        "Agentic Workflows",
+        "AI ROI"
+      ],
+      "funnel_stage": "BOFU",
+      "canonical_url": "https://radar.firstaimovers.com/cfo-agentic-ai-cost-roi-diagnostic-2026"
+    },
+    {
       "folder": "2026-05-18-codex-github-connector-automated-pr-review-2026",
       "slug": "codex-github-connector-automated-pr-review-2026",
       "title": "Codex GitHub Connector: How to Set Up Automated PR Reviews That Follow Your Team's Rules",
@@ -170,6 +189,25 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/opencode-minimax-m25-claude-code-alternative-2026"
+    },
+    {
+      "folder": "2026-05-18-why-agentic-ai-pilots-die-at-production-2026",
+      "slug": "why-agentic-ai-pilots-die-at-production-2026",
+      "title": "Why Agentic AI Pilots Die at Production: The Implementation Layer No Vendor Replaces",
+      "published_date": "2026-05-18",
+      "tags": [
+        "agentic-ai-pilot",
+        "ai-production-failure",
+        "ai-implementation-layer",
+        "ai-roi-model",
+        "eu-ai-act-agent"
+      ],
+      "topics": [
+        "Agentic Workflows",
+        "AI ROI"
+      ],
+      "funnel_stage": "MOFU",
+      "canonical_url": "https://radar.firstaimovers.com/why-agentic-ai-pilots-die-at-production-2026"
     },
     {
       "folder": "2026-05-11-evaluate-mcp-servers-enterprise-workflows-2026",

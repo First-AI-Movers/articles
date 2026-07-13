@@ -10,7 +10,7 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 902
+- Articles: 904
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
 - Generated: 2026-07-13
@@ -85,6 +85,13 @@ short summary. Articles are listed newest-first.
 - Topics: developer-tools, ai-automation, company-tech-strategy, digital-transformation, business-automation
 - Summary: Claude Code now spans CLI, desktop, mobile, and browser through three coordinated features: Remote Control continues local sessions from a phone, Dispatch fires new tasks from mobile that spawn desktop sessions, and Agent View provides a TUI dashboard for…
 
+## CFO Agentic AI Cost and ROI Diagnostic: 7 Questions That Reveal Where AI Spend Is Leaking
+- Date: 2026-05-18
+- Canonical: https://radar.firstaimovers.com/cfo-agentic-ai-cost-roi-diagnostic-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-05-18-cfo-agentic-ai-cost-roi-diagnostic-2026/article.md
+- Topics: Agentic Workflows, AI ROI
+- Summary: Seven questions every CFO should ask about agentic AI spend to find leaks, measure real ROI, and decide whether to extend, cut, or restructure investment.
+
 ## Codex GitHub Connector: How to Set Up Automated PR Reviews That Follow Your Team's Rules
 - Date: 2026-05-18
 - Canonical: https://radar.firstaimovers.com/codex-github-connector-automated-pr-review-2026
@@ -98,6 +105,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-05-18-opencode-minimax-m25-claude-code-alternative-2026/article.md
 - Topics: developer-tools, ai-automation, company-tech-strategy, digital-transformation, business-automation
 - Summary: OpenCode with MiniMax M2.5 delivers 80.2% SWE-Bench at 1/15 the cost of Claude Opus. Setup guide, routing strategy, and honest comparison for power users.
+
+## Why Agentic AI Pilots Die at Production: The Implementation Layer No Vendor Replaces
+- Date: 2026-05-18
+- Canonical: https://radar.firstaimovers.com/why-agentic-ai-pilots-die-at-production-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-05-18-why-agentic-ai-pilots-die-at-production-2026/article.md
+- Topics: Agentic Workflows, AI ROI
+- Summary: Most agentic AI pilots never reach production. Here is why the implementation layer matters more than the tool, and how to fix it.
 
 ## How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows
 - Date: 2026-05-11
