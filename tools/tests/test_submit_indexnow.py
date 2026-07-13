@@ -213,13 +213,45 @@ class TestIndexNow:
         result = submit_indexnow._submit([], key, "https://api.indexnow.org/indexnow", "articles.firstaimovers.com")
         assert result is False
 
-    def test_sitemap_count_stays_at_80(self):
+    def test_sitemap_advertises_exactly_the_curated_urls(self):
+        """The sitemap must advertise EXACTLY the curated set on
+        articles.firstaimovers.com: the homepage, /about/, the /topics/ index,
+        and one hub per pageable topic (>= MIN_ARTICLES_FOR_TOPIC_PAGE articles).
+
+        The expected topic slugs are derived from index.json via the SHARED
+        builder logic (rebuild_local._topics_with_page / _slugify), not from the
+        sitemap itself — so this fails both if a cross-host/article URL LEAKS in
+        (the original regression) AND if the sitemap DROPS a topic hub it should
+        advertise. No magic total: it grows correctly with owned content.
+        """
+        import json
+        import re
+        import sys
         from pathlib import Path as P
-        sitemap = P(__file__).resolve().parents[2] / "sitemap.xml"
+
+        repo = P(__file__).resolve().parents[2]
+        sys.path.insert(0, str(repo / "tools"))
+        import rebuild_local as rl
+
+        index = json.loads((repo / "index.json").read_text(encoding="utf-8"))
+        _, pageable_topics, _ = rl._topics_with_page(index)
+        base = rl.SITE_BASE
+        expected = {f"{base}/", f"{base}/about/", f"{base}/topics/"} | {
+            f"{base}/topics/{rl._slugify(t)}/" for t in pageable_topics
+        }
+
+        sitemap = repo / "sitemap.xml"
         assert sitemap.exists()
         xml = sitemap.read_text(encoding="utf-8")
-        count = xml.count("<url>")
-        assert count == 80, f"Sitemap must contain exactly 80 URLs, got {count}"
+        locs = set(re.findall(r"<loc>([^<]+)</loc>", xml))
+
+        assert locs == expected, (
+            f"Sitemap URL set diverges from the curated expectation. "
+            f"Leaked (in sitemap, not expected): {sorted(locs - expected)[:5]}; "
+            f"Missing (expected, not in sitemap): {sorted(expected - locs)[:5]}"
+        )
+        # No duplicate <url> entries inflating the file.
+        assert xml.count("<url>") == len(expected)
 
     def test_cli_key_overrides_env(self, monkeypatch, tmp_path):
         import submit_indexnow
