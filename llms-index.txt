@@ -10,7 +10,7 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 877
+- Articles: 882
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
 - Generated: 2026-07-13
@@ -1380,12 +1380,26 @@ short summary. Articles are listed newest-first.
 - Topics: AI Governance, European SME AI, Claude Code, AI Code Review
 - Summary: This framework helps engineering leaders decide whether to deploy Claude Code across their entire team. Key readiness factors include AI maturity, codebase complexity, governance ownership, budget visibility, and team composition. Four or more "Deploy now"…
 
+## The Brussels Cross-Border AI Playbook: 90 Days to Compliant, Multilingual AI Operations
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/90-day-ai-adoption-brussels-cross-border-firms
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-90-day-ai-adoption-brussels-cross-border-firms/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: A structured 90-day AI adoption playbook for Brussels cross-border professional services firms — covering data sovereignty, EU AI Act compliance, and mult…
+
 ## Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else
 - Date: 2026-04-13
 - Canonical: https://radar.firstaimovers.com/ai-consulting-amsterdam-accounting-firms-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-amsterdam-accounting-firms-2026/article.md
 - Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
 - Summary: Amsterdam accounting firms face DNB, AFM, and EU AI Act pressure in 2026. Learn how to build a compliant AI strategy that prioritises governance over spee…
+
+## Why Lisbon Tech Startups Need a Different AI Playbook in 2026
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-consulting-lisbon-tech-startups-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-lisbon-tech-startups-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: Lisbon's tech startups face unique AI adoption pressures — lean teams, GDPR obligations, and international clients. Here's how to navigate them strategica…
 
 ## Why Porto's Industrial SMEs Can't Afford to Wait on AI — and What to Actually Do About It
 - Date: 2026-04-13
@@ -1400,6 +1414,20 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-rotterdam-logistics-companies-2026/article.md
 - Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
 - Summary: Rotterdam logistics SMEs face margin pressure from port automation and EU customs reform. Learn how AI can improve document processing, routing, and excep…
+
+## The Belgian Financial Services AI Compliance Stack Nobody Talks About
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-strategy-belgian-financial-services-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-strategy-belgian-financial-services-2026/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: Belgian financial services SMEs face a triple compliance stack — GDPR, EU AI Act, and FSMA. Firms that navigate it correctly turn compliance into a compet…
+
+## EU AI Act Compliance for Belgian SMEs: A 12-Step Operational Checklist
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/eu-ai-act-operational-checklist-belgian-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-eu-ai-act-operational-checklist-belgian-smes-2026/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: A practical 12-step EU AI Act compliance checklist for Belgian SMEs, mapped to Belgian authorities: DPA, FSMA, SPF Économie, and bilingual documentation r…
 
 ## The Microsoft 365 Copilot Buying Decision No One Explains Clearly
 - Date: 2026-04-13
@@ -1827,6 +1855,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-03-29-b2b-ai-product-architecture-billing-owner-workspace-202/article.md
 - Topics: B2B SaaS Growth, AI Governance, European SME AI
 - Summary: B2B AI products should separate billing owner, workspace, and legal entity early to avoid rework. Treating them as one creates permission and billing debt. The article recommends a three-layer model: commercial owner, operational workspace, and canonical…
+
+## Firecrawl Explained: The Eyes and Hands Your AI Need to Build Real Products
+- Date: 2026-03-29
+- Canonical: https://radar.firstaimovers.com/firecrawl-explained-ai-data-agents
+- Archive: https://articles.firstaimovers.com/articles/2026-03-29-firecrawl-explained-ai-data-agents/article.md
+- Topics: AI Agents, Multi-Agent Systems, Prompt Engineering, Executive AI Literacy
+- Summary: Firecrawl explained: Learn how this web data API gives AI agents eyes and hands to turn messy websites into structured, actionable data for products.
 
 ## Firecrawl Is the Web Data Layer. That Makes It a Bigger Deal Than Most Builders Realize
 - Date: 2026-03-29
