@@ -45,7 +45,7 @@ def _rec(rid, *, url, title="A Title", status="Posted", date="2026-05-01"):
     }
 
 
-EMPTY_ARCHIVE = {"ids": set(), "urls": set()}
+EMPTY_ARCHIVE = {"ids": set(), "urls": set(), "titles": set()}
 
 
 class TestFindRecoverable:
@@ -63,6 +63,14 @@ class TestFindRecoverable:
         # Re-created record (new id, same URL) must NOT be recovered again.
         recs = [_rec("recNEW", url="https://x.com/a")]
         archive = {"ids": {"recOLD"}, "urls": {"https://x.com/a"}}
+        assert mod.find_recoverable(recs, archive, schema) == []
+
+    def test_present_by_title_excluded(self, mod, schema):
+        # Identity drift: new record id + new canonical URL, but the title is
+        # already published -> NOT recoverable (would duplicate an article).
+        recs = [_rec("recNEW", url="https://x.com/new-slug", title="Already Published")]
+        archive = {"ids": set(), "urls": set(),
+                   "titles": {mod.ing._normalize_title("Already Published")}}
         assert mod.find_recoverable(recs, archive, schema) == []
 
     def test_non_posted_excluded(self, mod, schema):

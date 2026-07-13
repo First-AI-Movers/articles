@@ -82,7 +82,17 @@ def find_recoverable(records, archive, schema, *, allow_no_status_gate=False):
         if status and status not in ing.ALLOWED_STATUSES:
             continue
         url = ing._normalize_canonical_url(payload.get("canonical_url", ""))
-        present = (rid and rid in archive["ids"]) or (url and url in archive["urls"])
+        title = ing._normalize_title(payload.get("title", ""))
+        archive_titles = archive.get("titles", set())
+        # Present (not recoverable) if the archive already has this content by
+        # record id, normalized canonical URL, OR normalized title. The title
+        # check mirrors _write_article's own dedup, so selection advances PAST
+        # identity-drifted records that are already published — without it the
+        # oldest-first slice can get stuck re-selecting records the idempotent
+        # writer always skips (created=0 forever).
+        present = ((rid and rid in archive["ids"])
+                   or (url and url in archive["urls"])
+                   or (title and title in archive_titles))
         if present:
             continue
         candidates.append(

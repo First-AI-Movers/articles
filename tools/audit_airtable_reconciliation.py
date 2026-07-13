@@ -47,12 +47,23 @@ import ingest_airtable as ing  # noqa: E402
 
 
 def build_archive_index(articles_dir: Path) -> dict:
-    """Return {'ids': set, 'urls': set} of ingested Airtable record ids and
-    normalized canonical URLs from every articles/*/metadata.json."""
+    """Return {'ids': set, 'urls': set, 'titles': set} of ingested Airtable
+    record ids, normalized canonical URLs, and normalized titles from every
+    articles/*/metadata.json.
+
+    Titles are included because an upstream record can be re-created with a NEW
+    Airtable id AND a drifted canonical URL (e.g. a beehiiv slug that gained or
+    lost its hash suffix) while the article is ALREADY published. Matching on id
+    or canonical URL alone then mis-reports such a record as MISSING even though
+    its content is present. The normalized title is a stable content key here
+    (archive titles are unique and ingestion's own writer already refuses to
+    create a duplicate title), so it closes that identity-drift gap.
+    """
     ids: set[str] = set()
     urls: set[str] = set()
+    titles: set[str] = set()
     if not articles_dir.exists():
-        return {"ids": ids, "urls": urls}
+        return {"ids": ids, "urls": urls, "titles": titles}
     for p in articles_dir.iterdir():
         if not p.is_dir():
             continue
@@ -69,7 +80,10 @@ def build_archive_index(articles_dir: Path) -> dict:
         cu = data.get("canonical_url", "")
         if cu:
             urls.add(ing._normalize_canonical_url(cu))
-    return {"ids": ids, "urls": urls}
+        t = ing._normalize_title(data.get("title", ""))
+        if t:
+            titles.add(t)
+    return {"ids": ids, "urls": urls, "titles": titles}
 
 
 def reconcile(records, archive, schema, *, allow_no_status_gate=False):
@@ -108,7 +122,15 @@ def reconcile(records, archive, schema, *, allow_no_status_gate=False):
             continue
         counts["eligible"] += 1
         url = ing._normalize_canonical_url(payload.get("canonical_url", ""))
-        if (rid and rid in archive["ids"]) or (url and url in archive["urls"]):
+        title = ing._normalize_title(payload.get("title", ""))
+        archive_titles = archive.get("titles", set())
+        # Present if the archive already has this record by ANY stable identity:
+        # record id, normalized canonical URL, OR normalized title. The title
+        # check catches re-created records whose id AND canonical URL drifted
+        # but whose article is already published (identity-drift false-missing).
+        if ((rid and rid in archive["ids"])
+                or (url and url in archive["urls"])
+                or (title and title in archive_titles)):
             counts["eligible_present"] += 1
         else:
             counts["eligible_missing"] += 1
