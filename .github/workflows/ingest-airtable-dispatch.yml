@@ -121,6 +121,16 @@ jobs:
         if: env.INGEST_DRY_RUN != '1'
         run: python3 tools/update_docs.py
 
+      - name: Export MCP archive data
+        # Parity with ingest-airtable.yml: check_generated_artifacts.py rebuilds
+        # mcp-server/src/generated/archive-data.json via export_mcp_data.py and
+        # compares it against the committed copy. Without this step (and the
+        # matching add-paths entry below) a dispatch PR that adds an article
+        # would drift the bundled MCP snapshot and fail the Generated artifacts
+        # `check` job.
+        if: env.INGEST_DRY_RUN != '1'
+        run: python3 tools/export_mcp_data.py
+
       - name: Run pytest
         if: env.INGEST_DRY_RUN != '1'
         run: python3 -m pytest tools/tests -v
@@ -151,7 +161,9 @@ jobs:
             feed.xml
             feed.json
             llms.txt
+            llms-index.txt
             llms-full.txt
             llms-recent.txt
             README.md
             ROADMAP.md
+            mcp-server/src/generated/archive-data.json
