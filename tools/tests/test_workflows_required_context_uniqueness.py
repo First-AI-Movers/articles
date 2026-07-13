@@ -9,17 +9,24 @@ required check).
 
 `e2e.yml` was already consolidated to a single `e2e` producer for exactly this
 reason (see its header). This guard extends the same invariant to every
-branch-protection required context so the `test` collision that this test was
-added to fix (mcp-server.yml's Node `test` job vs tests.yml's pytest `test`
-job) cannot regress or recur for `test`, `e2e`, or `gitleaks`.
+required context so the `test` collision that this test was added to fix
+(mcp-server.yml's Node `test` job vs tests.yml's pytest `test` job) cannot
+regress or recur for ANY required context.
 
-The set of required contexts is authoritative in branch protection:
-`gh api repos/First-AI-Movers/articles/branches/main/protection` →
-required_status_checks.contexts == ["test", "e2e", "gitleaks"].
+"Required" here is the full set a gate blocks on — not only the three GitHub
+branch-protection contexts (`test`, `e2e`, `gitleaks`), but every name in
+`auto_merge_ingestion_pr.py:REQUIRED_CHECKS`
+(`check`, `e2e`, `geo-audit`, `gitleaks`, `lychee`, `readability`, `test`,
+`vale`). The auto-merger is equally vulnerable: it resolves each required
+context via a `by_name` dict (`{c["name"]: c for c in rollup}`), so a second
+producer of e.g. `check` or `vale` would let it evaluate the wrong (possibly
+green) check and merge over a red one. Deriving the set from that module keeps
+this guard aligned with the real contract instead of a hardcoded subset.
 """
 
 from __future__ import annotations
 
+import importlib.util
 from pathlib import Path
 
 import pytest
@@ -29,8 +36,20 @@ yaml = pytest.importorskip("yaml")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = REPO_ROOT / ".github" / "workflows"
 
-# Branch-protection required status-check contexts (see module docstring).
-REQUIRED_CONTEXTS = {"test", "e2e", "gitleaks"}
+
+def _required_contexts() -> set[str]:
+    """The authoritative required-context set = auto_merge_ingestion_pr.REQUIRED_CHECKS
+    (a superset of branch protection's [test, e2e, gitleaks])."""
+    spec = importlib.util.spec_from_file_location(
+        "auto_merge_ingestion_pr", REPO_ROOT / "tools" / "auto_merge_ingestion_pr.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return set(module.REQUIRED_CHECKS)
+
+
+# Every context any gate (branch protection AND the auto-merger) blocks on.
+REQUIRED_CONTEXTS = _required_contexts()
 
 
 def _context_producers() -> dict[str, list[str]]:
