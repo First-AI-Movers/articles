@@ -213,13 +213,34 @@ class TestIndexNow:
         result = submit_indexnow._submit([], key, "https://api.indexnow.org/indexnow", "articles.firstaimovers.com")
         assert result is False
 
-    def test_sitemap_count_stays_at_80(self):
+    def test_sitemap_contains_only_curated_urls(self):
+        """The sitemap advertises ONLY owned, curated pages on
+        articles.firstaimovers.com: the homepage, /about/, the /topics/ index,
+        and one hub per pageable topic (>= MIN_ARTICLES_FOR_TOPIC_PAGE articles).
+        Cross-host canonical article URLs must NEVER leak in (that was the
+        original regression this guard caught). The count is structural
+        (3 fixed + N topic hubs), not a magic number, so legitimately adding a
+        topic hub page (e.g. via backlog recovery) does not require editing a
+        hardcoded total — while a leaked article/cross-host URL still fails.
+        """
+        import re
         from pathlib import Path as P
         sitemap = P(__file__).resolve().parents[2] / "sitemap.xml"
         assert sitemap.exists()
         xml = sitemap.read_text(encoding="utf-8")
-        count = xml.count("<url>")
-        assert count == 80, f"Sitemap must contain exactly 80 URLs, got {count}"
+        locs = re.findall(r"<loc>([^<]+)</loc>", xml)
+        base = "https://articles.firstaimovers.com"
+        fixed = {f"{base}/", f"{base}/about/", f"{base}/topics/"}
+        topic_re = re.compile(rf"^{re.escape(base)}/topics/[^/]+/$")
+        topic_hubs = [u for u in locs if topic_re.match(u)]
+        other = [u for u in locs if u not in fixed and not topic_re.match(u)]
+        assert not other, f"Sitemap must contain only curated URLs; leaked: {other[:5]}"
+        assert fixed.issubset(set(locs)), (
+            f"Sitemap missing a fixed curated page; got {sorted(set(locs) & fixed)}"
+        )
+        # Self-consistent: every <url> is a fixed page or a topic hub.
+        assert xml.count("<url>") == len(fixed) + len(topic_hubs)
+        assert len(topic_hubs) >= 1, "expected at least one topic hub page"
 
     def test_cli_key_overrides_env(self, monkeypatch, tmp_path):
         import submit_indexnow
