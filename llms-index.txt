@@ -10,7 +10,7 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 897
+- Articles: 902
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
 - Generated: 2026-07-13
@@ -84,6 +84,20 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-05-24-claude-code-remote-control-dispatch-multi-device-guide-2026-v2/article.md
 - Topics: developer-tools, ai-automation, company-tech-strategy, digital-transformation, business-automation
 - Summary: Claude Code now spans CLI, desktop, mobile, and browser through three coordinated features: Remote Control continues local sessions from a phone, Dispatch fires new tasks from mobile that spawn desktop sessions, and Agent View provides a TUI dashboard for…
+
+## Codex GitHub Connector: How to Set Up Automated PR Reviews That Follow Your Team's Rules
+- Date: 2026-05-18
+- Canonical: https://radar.firstaimovers.com/codex-github-connector-automated-pr-review-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-05-18-codex-github-connector-automated-pr-review-2026/article.md
+- Topics: developer-tools, ai-automation, company-tech-strategy, ai-governance, digital-transformation
+- Summary: How to set up the Codex GitHub App for automated PR reviews, auto-fix, and AGENTS.md-driven code standards. The setup top engineering teams use in 2026.
+
+## OpenCode + MiniMax M2.5: 80% of Claude Code Quality at 1/15th the Cost: An Honest Setup Guide
+- Date: 2026-05-18
+- Canonical: https://radar.firstaimovers.com/opencode-minimax-m25-claude-code-alternative-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-05-18-opencode-minimax-m25-claude-code-alternative-2026/article.md
+- Topics: developer-tools, ai-automation, company-tech-strategy, digital-transformation, business-automation
+- Summary: OpenCode with MiniMax M2.5 delivers 80.2% SWE-Bench at 1/15 the cost of Claude Opus. Setup guide, routing strategy, and honest comparison for power users.
 
 ## How to Evaluate MCP Servers Before You Connect Them to Enterprise Workflows
 - Date: 2026-05-11
@@ -287,6 +301,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-05-02-ai-coding-agent-cli-comparison-april-2026/article.md
 - Topics: ai-automation, company-tech-strategy, ai-governance, digital-transformation, developer-tools
 - Summary: This article compares four terminal-based AI coding agents: Claude Code (Opus 4.7), Kimi K2.6, Codex CLI (GPT-5.4), and Gemini CLI. Each offers multi-agent orchestration, with Claude leading on code quality (87.6% SWE-bench) and Kimi offering the most…
+
+## AI Governance for Energy and Utilities: What NIS2, DORA, and the EU AI Act Mean for Your AI Deployments
+- Date: 2026-05-02
+- Canonical: https://radar.firstaimovers.com/ai-governance-energy-utilities-smes-eu-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-05-02-ai-governance-energy-utilities-smes-eu-2026/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, business-automation, ai-automation
+- Summary: How EU energy and utility SMEs should govern AI under NIS2, DORA, and the EU AI Act. Covers grid management, trading, and critical infrastructure.
 
 ## How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)
 - Date: 2026-05-02
@@ -1142,6 +1163,13 @@ short summary. Articles are listed newest-first.
 - Topics: European SME AI, AI Consulting, Document Automation, AI Regulation, AI Governance
 - Summary: Malmö's logistics SMEs face unique challenges operating across Swedish and EU regulatory environments with lean teams of 15-50 people. AI offers practical margin improvements through document processing automation, route optimisation, and customer…
 
+## AI Governance for Healthcare SMEs: A Practical EU AI Act Playbook
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/ai-governance-healthcare-smes-eu-ai-act-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-governance-healthcare-smes-eu-ai-act-2026/article.md
+- Topics: AI Governance, Healthcare AI, GDPR & Data Privacy
+- Summary: How European healthcare SMEs navigate EU AI Act compliance: risk classification, patient data, and clinical AI governance structures.
+
 ## AI Governance for Legal SMEs: EU AI Act Compliance for Law Firms
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/ai-governance-legal-smes-eu-ai-act-2026
@@ -1162,6 +1190,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-procurement-checklist-healthcare-buyers-eu-2026/article.md
 - Topics: EU AI Act, AI Governance, Healthcare AI, GDPR & Data Privacy
 - Summary: 15-point vendor questionnaire for healthcare SMEs buying AI systems in Europe. Covers MDR, EU AI Act, GDPR, and clinical validation requirements.
+
+## Claude API Guide for European Tech Teams: Integration, Pricing, and GDPR in 2026
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-api-guide-european-tech-teams-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-api-guide-european-tech-teams-2026/article.md
+- Topics: Claude Models, GDPR & Data Privacy, AI Governance
+- Summary: How European tech teams integrate the Claude API. Covers GDPR, pricing tiers, rate limits, and integration patterns for mid-sized companies.
 
 ## Claude Code Skills and Agent Plugins: A European Dev Team Evaluation Guide for 2026
 - Date: 2026-04-15
