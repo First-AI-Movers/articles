@@ -74,7 +74,7 @@ jobs:
             printf '%s\n' "${non_safe}" | sed 's/^/  /'
           fi
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         if: github.event_name != 'pull_request' || steps.classify_change.outputs.kind == 'heavy'
         with:
           python-version: '3.11'
