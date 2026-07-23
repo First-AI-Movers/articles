@@ -1,0 +1,250 @@
+# identifier-namespaces.yaml — repository-local identifier-namespace manifest
+# for First-AI-Movers/articles. CANONICAL policy (not generated state):
+# the SOLE policy source for this repository's identifier namespaces.
+#
+# Enforced repo-locally by tools/tests/test_identifier_namespaces.py, which needs
+# no external tooling. The portfolio scanner lives in First-AI-Movers/agent-toolkit
+# and reads this file as-is; see docs/IDENTIFIER_INTEGRITY.md for the adoption
+# evidence, the scan denominator, and the detection-power attestation.
+#
+# Invariant: identity != ordering != display number. A primary identity is
+# semantic/deterministic and unbounded; a numeric alias is display-only (minimum
+# width 5, unbounded shape [0-9]{5,}, never a primary identity / foreign key /
+# filename / dependency link / uniqueness check / branch-local reservation target).
+#
+# Adopted under root commission First-AI-Movers/agent-toolkit#1848 (Wave 3).
+# Discovery at head 61adcb85468d7f6a3fdbe22534ac06eb3a5ee5d6 found ZERO allocation-class
+# findings at ANY confidence on the tracked surface. This repository is adopted
+# manifest-only: no migration child is warranted. That is a measured no-op, not an
+# absence of looking — docs/IDENTIFIER_INTEGRITY.md records what was walked, what was
+# excluded, and the seeded allocators that prove the detector fires.
+schema: identifier-namespace-manifest/v1
+schema_version: 1
+repository: First-AI-Movers/articles
+owner: editorial
+namespaces:
+  - namespace_id: NS:articles:article-identity
+    title: Archived article identity (folder + slug)
+    description: >-
+      An article's primary identity is its directory name YYYY-MM-DD-<slug>,
+      chosen once at ingest from the publication date plus the publishing
+      platform's slug. It is never derived from a maximum: a collision is
+      handled by IDEMPOTENT SKIP (the ingester returns the existing folder
+      rather than incrementing), so two branches ingesting concurrently cannot
+      mint the same identity by reading the same counter. The slug is
+      externally constrained by already-published canonical URLs and feed
+      GUIDs, which must stay byte-stable; external_contract records that
+      preservation duty. Article text is immutable once published.
+    owner: editorial
+    producer_paths:
+      - tools/ingest_airtable.py
+      - tools/ingest_article.py
+      - tools/recover_airtable_backlog.py
+    consumer_paths:
+      - tools/
+      - mcp-server/src/
+      - og-worker/src/
+    identity_class: semantic-self-contained
+    ordering_semantics:
+      has_ordering: true
+      ordering_basis: published_date then folder (display sort only)
+      ordering_is_identity: false
+    legacy_policy:
+      legacy_alias_family: null
+      immutable: true
+      examples: ["2026-06-21-secure-by-design"]
+    target_policy:
+      target_identity_form: already-safe
+      notes: >-
+        Date-anchored semantic slug, unbounded, idempotent-skip on collision.
+        Published URLs and Atom/JSON feed GUIDs are derived from it, so the
+        real risk here is RENAME (identity stability), not allocation.
+    alias_policy:
+      has_numeric_alias: false
+    safety: safe
+    blast_radius: external-contract
+    external_contract: true
+    production_sensitivity: low
+    proof_refs:
+      - tools/ingest_airtable.py
+      - tools/rebuild_local.py
+
+  - namespace_id: NS:articles:canonical-topic-vocabulary
+    title: Canonical topic vocabulary and topic-hub slugs
+    description: >-
+      A topic's identity is its display-name string in a single hand-curated
+      vocabulary file; the URL slug is derived at render time. No allocator
+      exists: two branches adding the same topic produce a textual merge
+      conflict, not a silent duplicate. Advisory residual recorded in
+      proof_refs: renaming a topic re-mints its indexed hub URL, and no
+      redirect surface was evidenced.
+    owner: editorial
+    producer_paths:
+      - tools/canonical_topics.json
+      - tools/tag_aliases.json
+      - tools/normalize_tags.py
+    consumer_paths:
+      - tools/rebuild_local.py
+      - mcp-server/src/
+      - og-worker/src/
+    identity_class: semantic-self-contained
+    ordering_semantics:
+      has_ordering: true
+      ordering_basis: topic frequency then name (display sort only)
+      ordering_is_identity: false
+    legacy_policy:
+      legacy_alias_family: null
+      immutable: false
+    target_policy:
+      target_identity_form: already-safe
+      notes: Hand-curated vocabulary; collisions surface as merge conflicts.
+    alias_policy:
+      has_numeric_alias: false
+    safety: safe
+    blast_radius: external-contract
+    external_contract: true
+    production_sensitivity: low
+    proof_refs:
+      - tools/canonical_topics.json
+      - tools/rebuild_local.py
+
+  - namespace_id: NS:articles:series-order
+    title: Series membership and reading order
+    description: >-
+      A series is identified by a kebab-case slug key in the series registry;
+      series_order is a within-series display ordinal that is editorially
+      determined by the content ("Day 3" is Day 3), never allocated from a
+      maximum, and never a filename, foreign key, or URL component. Duplicate
+      ordinals are rejected fail-closed by the series checker.
+    owner: editorial
+    producer_paths:
+      - tools/series_registry.json
+      - docs/SERIES.md
+    consumer_paths:
+      - tools/check_series.py
+      - tools/article_schema.json
+    identity_class: semantic-self-contained
+    ordering_semantics:
+      has_ordering: true
+      ordering_basis: editorially prescribed reading sequence
+      ordering_is_identity: false
+    legacy_policy:
+      legacy_alias_family: null
+      immutable: false
+    target_policy:
+      target_identity_form: already-safe
+    alias_policy:
+      has_numeric_alias: false
+    safety: safe
+    blast_radius: repo
+    external_contract: false
+    production_sensitivity: none
+    proof_refs:
+      - docs/SERIES.md
+      - tools/check_series.py
+
+  - namespace_id: NS:articles:decision-record
+    title: Architecture decision records
+    description: >-
+      One legacy record exists (adr-001), cited from four docs and pinned in
+      five tests; it stays byte/path stable forever. NEW decision records use
+      an immutable semantic slug docs/decisions/<kebab-slug>.md and allocate NO
+      number, mirroring the portfolio ADR exemplar. No allocator, ledger, or
+      index row is edited, so two authors can add records concurrently.
+    owner: editorial
+    producer_paths:
+      - docs/decisions/
+    consumer_paths:
+      - docs/
+      - CONTRIBUTING.md
+    identity_class: semantic-self-contained
+    ordering_semantics:
+      has_ordering: false
+      ordering_basis: none
+      ordering_is_identity: false
+    legacy_policy:
+      legacy_alias_family: adr-NNN
+      immutable: true
+      examples: ["adr-001"]
+    target_policy:
+      target_identity_form: semantic-slug
+      primary_id_pattern: "^[a-z0-9][a-z0-9-]*$"
+      notes: >-
+        Legacy adr-001 is preserved unchanged at its current path. Only the
+        authoring convention for FUTURE records changes.
+    alias_policy:
+      has_numeric_alias: false
+    safety: safe
+    blast_radius: repo
+    external_contract: false
+    production_sensitivity: none
+    proof_refs:
+      - docs/decisions/adr-001-c2pa-content-credentials.md
+
+  - namespace_id: NS:articles:ingest-batch-label
+    title: Backlog recovery batch label
+    description: >-
+      A display-only human dispatch label supplied as a workflow input. It is
+      never persisted into any article, index, or generated artifact, and no
+      downstream consumer references it; a reused label collides visibly at
+      branch creation, not silently at merge. Serialized by a workflow
+      concurrency group.
+    owner: operations
+    producer_paths:
+      - .github/workflows/recover-airtable-backlog.yml
+    consumer_paths:
+      - .github/workflows/recover-airtable-backlog.yml
+    identity_class: legacy-frozen
+    ordering_semantics:
+      has_ordering: true
+      ordering_basis: operator dispatch order
+      ordering_is_identity: false
+    legacy_policy:
+      legacy_alias_family: batch-NN
+      immutable: true
+      examples: ["06"]
+    target_policy:
+      target_identity_form: already-safe
+      notes: Display-only label; reaches no persisted artifact.
+    alias_policy:
+      has_numeric_alias: false
+    safety: safe
+    blast_radius: local
+    external_contract: false
+    production_sensitivity: none
+    proof_refs:
+      - .github/workflows/recover-airtable-backlog.yml
+
+  - namespace_id: NS:articles:roadmap-track-label
+    title: Roadmap epic / track labels
+    description: >-
+      Hand-written planning labels in Markdown tables. Not the primary identity
+      of any artifact; no tool, test, or gate reads them. Two branches
+      appending a row collide as a textual merge conflict. The archive is in
+      maintenance, so allocation pressure is near zero.
+    owner: editorial
+    producer_paths:
+      - ROADMAP.md
+      - docs/ROADMAP_HISTORY.md
+    consumer_paths:
+      - docs/
+    identity_class: legacy-frozen
+    ordering_semantics:
+      has_ordering: true
+      ordering_basis: planning sequence
+      ordering_is_identity: false
+    legacy_policy:
+      legacy_alias_family: E-NN
+      immutable: true
+      examples: ["E39c", "N3"]
+    target_policy:
+      target_identity_form: already-safe
+      notes: Planning labels, never an artifact's primary identity.
+    alias_policy:
+      has_numeric_alias: false
+    safety: safe
+    blast_radius: local
+    external_contract: false
+    production_sensitivity: none
+    proof_refs:
+      - ROADMAP.md
