@@ -122,13 +122,15 @@ def test_immutable_legacy_examples_are_still_resolvable(manifest):
 # repository during this campaign and produced 111 false positives, which would make the
 # guard useless by making it unpassable. Narrow-and-true beats broad-and-ignored.
 #
-# The `next-free` boundaries are not the obvious `\b...\b`. A plain trailing `\b` misses
-# `next_free_number` and `nextFreeSlot` — the two most natural ways to actually NAME this
-# allocator in Python — because `_` and a following letter are both word characters. The
-# leading `\b` likewise misses `allocate_next_free_number`. Both boundaries are therefore
-# spelled out: any non-alphanumeric neighbour, or a camelCase hump. `(?-i:...)` keeps the
-# case-sensitive parts case-sensitive under the outer `(?i)`, which is what stops
-# `next freedom` and `next availability` from matching.
+# The `next-free` boundaries are not the obvious `\b...\b`, because `_` and a following
+# letter are both word characters. A plain trailing `\b` misses
+# `next_free_number` and `nextFreeSlot`,   # identifier-integrity-allow: named, not used
+# and a leading `\b` misses
+# `allocate_next_free_number`,              # identifier-integrity-allow: named, not used
+# which are the three most natural ways to actually NAME this allocator. Both boundaries
+# are therefore spelled out: any non-alphanumeric neighbour, or a camelCase hump.
+# `(?-i:...)` keeps the case-sensitive parts case-sensitive under the outer `(?i)`, which
+# is what stops `next freedom` and `next availability` from matching.
 _PRE = r"(?:(?<![A-Za-z0-9])|(?-i:(?<=[a-z])(?=[A-Z])))"
 _SUF = r"(?:\b|(?-i:[_A-Z0-9]))"
 
