@@ -47,18 +47,18 @@ Do this while the **old** site is still live. Every later verification compares 
 - [ ] Regenerate the archive's own derived list of required-to-survive URLs and keep it with the migration record:
 
 ```bash
-# From the repository root. Lists every www URL this archive declares canonical.
-python3 - <<'PY'
+# From the repository root. Writes every www URL this archive declares canonical
+# to urls.txt — §8 consumes that exact file after cutover. Keep it with the
+# migration record; do not commit it (it is a working file, not an artifact).
+python3 - > urls.txt <<'PY'
 import glob, json
 from urllib.parse import urlparse
-urls = []
 for p in sorted(glob.glob('articles/*/metadata.json')):
     u = json.load(open(p)).get('canonical_url') or ''
     if urlparse(u).netloc == 'www.firstaimovers.com':
-        urls.append(u)
-print(len(urls))
-print('\n'.join(urls))
+        print(u)
 PY
+printf 'Required www URLs: %s\n' "$(wc -l < urls.txt)"
 ```
 
 - [ ] Record the current Google Search Console and Bing Webmaster indexed counts for the www property, so post-migration recovery can be measured rather than asserted.
@@ -100,9 +100,9 @@ The archive's own `robots.txt` is a useful reference model: it explicitly `Allow
 
 ---
 
-## 6. Phase 4 — Cloudflare / WAF bot allowlisting (closes the recorded defect)
+## 6. Phase 4 — Cloudflare / WAF bot allowlisting (remediation path for the recorded defect)
 
-This is the item that makes the migration worth doing from the archive's point of view.
+This is the item that makes the migration worth doing from the archive's point of view. Note the tense: this section **documents the steps** that would resolve the Bingbot 403. The defect stays open, and the "Allowlist Bingbot on www" row in [`docs/search-visibility-monitoring.md`](search-visibility-monitoring.md) §8 stays paused, until the migration runs and §10 confirms a 200.
 
 **Recorded baseline:** during the Search Visibility Sprint, `www.firstaimovers.com` returned **403 to Bingbot** while Googlebot received 200. Beehiiv exposes no low-level WAF rules, so the defect is unfixable on the current host. Sources: [`docs/search-visibility-monitoring.md`](search-visibility-monitoring.md) §9 and §8 (the "Allowlist Bingbot on www" row, status "Paused — external platform"), and `ROADMAP.md`.
 
@@ -134,18 +134,17 @@ The archive already runs IndexNow for `articles.firstaimovers.com`: a key file g
 - [ ] Verify the archive's stored canonicals still resolve after cutover, using the Phase-0 inventory. This is the single check that proves §3 worked:
 
 ```bash
-# From the repository root. Expect: 200 (or a 301 that lands on 200). Any 404 is a blocker.
-python3 - <<'PY'
-import glob, json
-from urllib.parse import urlparse
-for p in sorted(glob.glob('articles/*/metadata.json')):
-    u = json.load(open(p)).get('canonical_url') or ''
-    if urlparse(u).netloc == 'www.firstaimovers.com':
-        print(u)
-PY
-# …then, for the emitted list:
-#   while read -r u; do printf '%s %s\n' "$(curl -s -o /dev/null -w '%{http_code}' -L "$u")" "$u"; done < urls.txt
+# Consumes urls.txt from Phase 0 (§2). Follows redirects, so a 301 that lands on
+# 200 reports 200. Any 404 is a blocker. Prints only the failures.
+UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+while read -r u; do
+  code=$(curl -s -o /dev/null -w '%{http_code}' -L -A "$UA" "$u")
+  [ "$code" = "200" ] || printf '%s %s\n' "$code" "$u"
+done < urls.txt
+echo "checked $(wc -l < urls.txt) URLs — any lines above are failures"
 ```
+
+> **Set a realistic user agent, and re-run per crawler.** Measured 2026-07-23 against the *current* Beehiiv host: a default-user-agent `curl` receives **403** for these URLs. A run without `-A` would therefore report every URL as failing regardless of whether the migration succeeded. After cutover, run this loop once with a browser user agent (above) and again with the Googlebot and Bingbot user agents from [`docs/search-visibility-monitoring.md`](search-visibility-monitoring.md) §7 — the crawler runs are what prove §6.
 
 - [ ] Re-check the citation graph after cutover. `citation_graph.json` matches link targets by canonical-URL prefix, by local archive URL, and by slug for "Beehiiv `/p/<slug>` paths and similar patterns" — see [`docs/CITATION_GRAPH.md`](CITATION_GRAPH.md). A www path change therefore affects graph edge resolution, and `www.firstaimovers.com` is one of the hosts whose links count as edges.
 - [ ] If the path shape changes despite §3, raise it as a repository issue **before** regenerating `citation_graph.json`. The file is a generated artifact ([`CONTRIBUTING.md`](../CONTRIBUTING.md) invariant 3); a silent edge-count drop on the next rebuild would be the first visible symptom, long after the cause.
