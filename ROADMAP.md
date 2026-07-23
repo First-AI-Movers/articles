@@ -34,7 +34,7 @@ These are not committed epics yet — they are the highest-value next tracks. Pi
 | # | Track | Why now | Size |
 |---|---|---|---|
 | **N3** | Topic hub CTR optimization | After 2–4 weeks of GSC data, tune titles/meta for hubs with impressions but low CTR. Data-driven, not speculative. | S |
-| **N4** | WordPress/Hetzner migration SEO checklist | Prepare launch checklist for `www.firstaimovers.com` migration: robots.txt, sitemap, Cloudflare bot allowlisting, IndexNow, canonical redirects. | S |
+| **N4** | WordPress/Hetzner migration SEO checklist | Checklist **shipped** — [`docs/WWW_MIGRATION_SEO_CHECKLIST.md`](docs/WWW_MIGRATION_SEO_CHECKLIST.md) covers robots.txt, sitemap, Cloudflare bot allowlisting, IndexNow, and canonical redirects, and records that **306** archived articles hold `canonical_url` on `www.firstaimovers.com` in the Beehiiv `/p/<slug>` shape. Remaining work is the migration itself; blocker is owner timeline. | S |
 | **N5** | Archive analytics / reporting | Add simple weekly visibility snapshot artifact generated from GSC/Bing exports if data access becomes available. | M |
 
 Completed "Next" candidates (N1, N2, N6) are recorded in [`docs/ROADMAP_HISTORY.md`](docs/ROADMAP_HISTORY.md#completed-next-candidates).
