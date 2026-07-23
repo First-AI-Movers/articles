@@ -142,26 +142,85 @@ ALLOCATOR_PATTERNS = (
     ("next-free", re.compile(rf"(?i){_PRE}next[\s_-]*(free|available|unused){_SUF}")),
 )
 
-# The Python tooling directory. The allocator scan walks ALL of it rather than a
-# hand-maintained producer list, for two reasons an audit surfaced:
+# The scan set is the UNION of two sources, and is strictly more scanning than either
+# alone — never less:
 #
-#   * a fixed list drifts — the first version named `check_series.py` and
-#     `rebuild_local.py`, which the manifest classifies as CONSUMERS, and guarded each
-#     with `assert path.exists()`, so an ordinary refactor that renamed a consumer would
-#     redden this test even though no identity producer changed;
-#   * a fixed list has a silent escape — a brand-new `tools/*.py` that mints an identity
-#     would never be scanned until someone remembered to add it.
+#   * every non-test `tools/*.py` (`_tool_sources`) — self-updating, so a brand-new tool
+#     file is covered the moment it lands, with no producer/consumer bookkeeping. A fixed
+#     list drifts (the first version named CONSUMERS like `check_series.py` and reddened on
+#     an ordinary rename) and has a silent escape (a new `tools/*.py` minting an identity
+#     goes unscanned until someone remembers it);
+#   * every CODE file the manifest DECLARES as a producer (`_declared_code_producers`). A
+#     `tools/*.py`-only walk omits declared producers that live elsewhere or under another
+#     extension — an audit (agent-toolkit#1848) named the clearest case,
+#     `.github/workflows/recover-airtable-backlog.yml`: a declared producer that could grow
+#     a `next_free`-style allocator and never be scanned. Deriving the code-producer set
+#     from the manifest closes that escape and ties coverage to what the repo declares.
 #
-# Walking the whole directory is the strictly safer polarity (more scanning, never less),
-# is self-updating, and needs no producer/consumer bookkeeping: an allocator is a defect
-# wherever it appears, not only in a file we predeclared. `tools/tests/` is excluded —
-# that is where this file's own inert fixtures live, allowances and all.
+# `tools/tests/` is excluded from both — that is where this file's own inert fixtures live,
+# allowances and all.
 TOOLS_DIR = REPO_ROOT / "tools"
 TESTS_DIR = REPO_ROOT / "tools" / "tests"
+
+# File types that can host an EXECUTED allocator. The allocator regex is a *code* detector,
+# so the manifest-derived scan is defined over code surfaces only: Python, workflow YAML,
+# and shell. Data (`.json`) and prose (`.md`) producers are deliberately NOT run through it
+# — a JSON registry cannot execute an allocator, and a roadmap's numbering is human-authored
+# rather than branch-local code, so a code detector over that content only manufactures the
+# false positives that (per the negative control below) get a guard suppressed. Those
+# producers are still held to `test_every_declared_path_exists`; their identifier discipline
+# is the numeric-alias / ordering-is-never-identity invariants, not this regex.
+CODE_SUFFIXES = {".py", ".yml", ".yaml", ".sh", ".bash"}
+# Data/prose producer types: declared and existence-checked, but deliberately NOT run
+# through the code allocator regex (see above). Together with CODE_SUFFIXES this must
+# classify EVERY declared producer file — `test_every_declared_producer_type_is_classified`
+# fails on an unclassified type, so a new executable language (a `.js`/`.ts`/`.cjs`
+# producer, or a suffixless `Makefile`) cannot slip in scanned-by-nobody. An enumeration of
+# types is only safe when the enumeration is forced to stay total.
+DATA_PROSE_SUFFIXES = {".json", ".md", ".markdown", ".txt", ".rst", ".csv"}
 
 
 def _tool_sources() -> list[Path]:
     return [p for p in sorted(TOOLS_DIR.rglob("*.py")) if TESTS_DIR not in p.parents]
+
+
+def _all_declared_producer_files() -> list[Path]:
+    """Every existing FILE any namespace declares as a producer, directories expanded —
+    code and data/prose alike, `tools/tests/` excluded.
+
+    The single manifest walk that both the code-producer set and the type-classification
+    guard derive from. A declared path that does not exist is left to
+    `test_every_declared_path_exists`, which owns that failure rather than having it
+    swallowed here.
+    """
+    manifest = yaml.safe_load(MANIFEST_PATH.read_text(encoding="utf-8"))
+    found: set[Path] = set()
+    for ns in manifest["namespaces"]:
+        for rel in ns.get("producer_paths") or []:
+            declared = REPO_ROOT / rel
+            if not declared.exists():
+                continue
+            candidates = sorted(declared.rglob("*")) if declared.is_dir() else [declared]
+            for path in candidates:
+                if path.is_file() and TESTS_DIR not in path.parents:
+                    found.add(path)
+    return sorted(found)
+
+
+def _declared_code_producers() -> list[Path]:
+    """Every CODE file the manifest declares as a producer, directories expanded.
+
+    Directly closes the audit finding (agent-toolkit#1848) that the guard scanned a
+    filesystem glob rather than the declared producer surface: any producer this repo
+    DECLARES, of a type that can run an allocator, is now scanned wherever it sits.
+    """
+    return [p for p in _all_declared_producer_files() if p.suffix in CODE_SUFFIXES]
+
+
+def _scanned_code_sources() -> list[Path]:
+    """The union both guards scan: the self-updating `tools/*.py` walk PLUS every declared
+    code producer. Strictly more scanning than either source alone."""
+    return sorted(set(_tool_sources()) | set(_declared_code_producers()))
 
 
 def _find_allocators(text: str) -> list[str]:
@@ -179,11 +238,13 @@ def _find_allocators(text: str) -> list[str]:
 def test_no_tool_allocates_from_a_maximum():
     """The claim the manifest makes, checked against the code rather than believed.
 
-    Scans every non-test `tools/*.py`, so an allocator is caught wherever it lands — in a
-    declared producer, a consumer, or a file added after this test was written.
+    Scans the union of every non-test `tools/*.py` and every declared CODE producer, so an
+    allocator is caught wherever it lands — in a declared producer (including ones outside
+    `tools/`, such as the recover-airtable workflow), a consumer, or a file added after
+    this test was written.
     """
-    sources = _tool_sources()
-    assert sources, "no tool sources found — the tools/ layout changed under the test"
+    sources = _scanned_code_sources()
+    assert sources, "no code sources found — the tools/ layout or manifest changed under the test"
     offenders = {}
     for path in sources:
         hits = _find_allocators(path.read_text(encoding="utf-8"))
@@ -247,19 +308,66 @@ def test_no_tool_source_carries_a_scanner_allowance():
 
     `identifier-integrity-allow:` tells the portfolio scanner to ignore a line. That is
     correct on the inert fixtures in `tools/tests/` and indefensible in tool code, where
-    it would silence a live allocator with a comment. Walks the same non-test set as the
-    allocator scan, so the guard cannot be dodged by hiding the allowance in a file the
-    scan does not cover.
+    it would silence a live allocator with a comment. Walks the same union as the allocator
+    scan — every declared CODE producer, not only `tools/*.py` — so the guard cannot be
+    dodged by hiding the allowance in a comment-bearing producer the old walk did not cover
+    (a workflow YAML uses `#` comments just as Python does).
     """
     token = "identifier-integrity" + "-allow:"   # split so this line is not itself one
     offenders = [
         str(path.relative_to(REPO_ROOT))
-        for path in _tool_sources()
+        for path in _scanned_code_sources()
         if token in path.read_text(encoding="utf-8")
     ]
     assert not offenders, (
         "tool code suppressed the identifier-integrity scanner; an allocator can hide "
         f"behind that comment: {offenders}"
+    )
+
+
+def test_every_declared_code_producer_is_scanned():
+    """The scanned set is derived from the manifest, not a hand-maintained glob.
+
+    Directly closes the audit finding (agent-toolkit#1848): a `max + 1` / `next_free`
+    allocator — or a scanner allowance hiding one — added to ANY declared CODE producer,
+    including producers outside `tools/` such as the recover-airtable workflow, must fall
+    inside the scanned union. This regresses the moment a declared code producer is omitted,
+    which is what keeps the coverage tied to the manifest instead of to `tools/*.py`.
+    """
+    scanned = set(_scanned_code_sources())
+    declared_code = _declared_code_producers()
+    assert declared_code, "manifest declares no code producers — expected at least the workflow"
+    missing = sorted(str(p.relative_to(REPO_ROOT)) for p in declared_code if p not in scanned)
+    assert not missing, f"declared code producers absent from the scan set: {missing}"
+    # Coverage must reach OUTSIDE tools/ — the exact gap the audit named. Prove the workflow
+    # producer is present, not merely the tools/*.py the base walk already had.
+    workflow = REPO_ROOT / ".github/workflows/recover-airtable-backlog.yml"
+    assert workflow in scanned, (
+        "the declared workflow producer is not scanned; manifest-derived coverage "
+        "regressed to a tools/*.py-only walk"
+    )
+
+
+def test_every_declared_producer_type_is_classified():
+    """No declared producer may be of a type the guard neither scans nor consciously excludes.
+
+    CODE_SUFFIXES (scanned) and DATA_PROSE_SUFFIXES (documented-excluded) must together
+    classify EVERY declared producer file. This is the "an enumeration silently misses one"
+    backstop for the split above: add a `.js` / `.ts` / `.cjs` producer, or a suffixless
+    `Makefile`, and this test reddens — forcing a conscious decision to scan it or record
+    why not — rather than the file being executable and scanned by nobody. A guard that
+    enumerates its subjects is only safe when the enumeration is forced to stay total.
+    """
+    classified = CODE_SUFFIXES | DATA_PROSE_SUFFIXES
+    unclassified = sorted(
+        str(p.relative_to(REPO_ROOT))
+        for p in _all_declared_producer_files()
+        if p.suffix not in classified
+    )
+    assert not unclassified, (
+        "declared producer(s) of an unclassified type. Add each extension to CODE_SUFFIXES "
+        "(to scan it for allocators) or DATA_PROSE_SUFFIXES (to record it as non-executable "
+        "and existence-checked only):\n  " + "\n  ".join(unclassified)
     )
 
 
