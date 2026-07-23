@@ -142,16 +142,26 @@ ALLOCATOR_PATTERNS = (
     ("next-free", re.compile(rf"(?i){_PRE}next[\s_-]*(free|available|unused){_SUF}")),
 )
 
-# Producers of a repo-minted identity. Consumers that only READ an identity cannot mint a
-# colliding one, so they are out of scope by construction rather than by omission.
-PRODUCER_FILES = (
-    "tools/ingest_airtable.py",
-    "tools/ingest_article.py",
-    "tools/recover_airtable_backlog.py",
-    "tools/rebuild_local.py",
-    "tools/normalize_tags.py",
-    "tools/check_series.py",
-)
+# The Python tooling directory. The allocator scan walks ALL of it rather than a
+# hand-maintained producer list, for two reasons an audit surfaced:
+#
+#   * a fixed list drifts — the first version named `check_series.py` and
+#     `rebuild_local.py`, which the manifest classifies as CONSUMERS, and guarded each
+#     with `assert path.exists()`, so an ordinary refactor that renamed a consumer would
+#     redden this test even though no identity producer changed;
+#   * a fixed list has a silent escape — a brand-new `tools/*.py` that mints an identity
+#     would never be scanned until someone remembered to add it.
+#
+# Walking the whole directory is the strictly safer polarity (more scanning, never less),
+# is self-updating, and needs no producer/consumer bookkeeping: an allocator is a defect
+# wherever it appears, not only in a file we predeclared. `tools/tests/` is excluded —
+# that is where this file's own inert fixtures live, allowances and all.
+TOOLS_DIR = REPO_ROOT / "tools"
+TESTS_DIR = REPO_ROOT / "tools" / "tests"
+
+
+def _tool_sources() -> list[Path]:
+    return [p for p in sorted(TOOLS_DIR.rglob("*.py")) if TESTS_DIR not in p.parents]
 
 
 def _find_allocators(text: str) -> list[str]:
@@ -166,17 +176,21 @@ def _find_allocators(text: str) -> list[str]:
     return hits
 
 
-def test_no_producer_allocates_from_a_maximum():
-    """The claim the manifest makes, checked against the code rather than believed."""
+def test_no_tool_allocates_from_a_maximum():
+    """The claim the manifest makes, checked against the code rather than believed.
+
+    Scans every non-test `tools/*.py`, so an allocator is caught wherever it lands — in a
+    declared producer, a consumer, or a file added after this test was written.
+    """
+    sources = _tool_sources()
+    assert sources, "no tool sources found — the tools/ layout changed under the test"
     offenders = {}
-    for rel in PRODUCER_FILES:
-        path = REPO_ROOT / rel
-        assert path.exists(), f"declared producer vanished: {rel}"
+    for path in sources:
         hits = _find_allocators(path.read_text(encoding="utf-8"))
         if hits:
-            offenders[rel] = hits
+            offenders[str(path.relative_to(REPO_ROOT))] = hits
     assert not offenders, (
-        "branch-local identifier allocation appeared in a producer. Article identity is "
+        "branch-local identifier allocation appeared in tool code. Article identity is "
         "YYYY-MM-DD-<slug> with idempotent-skip on collision; minting from a maximum "
         "reintroduces the merge-collision class this repo was adopted as free of:\n"
         + "\n".join(f"  {k}: {v}" for k, v in offenders.items())
@@ -228,20 +242,23 @@ def test_allocator_guard_stays_quiet_on_benign_arithmetic(benign):
     assert not _find_allocators(benign), f"false positive on benign code: {benign!r}"
 
 
-def test_no_producer_carries_a_scanner_allowance():
+def test_no_tool_source_carries_a_scanner_allowance():
     """The suppression mechanism must not become the hole.
 
     `identifier-integrity-allow:` tells the portfolio scanner to ignore a line. That is
-    correct on the inert fixtures above and indefensible on a producer, where it would
-    silence a live allocator with a comment. Allowances are legal here only in tests.
+    correct on the inert fixtures in `tools/tests/` and indefensible in tool code, where
+    it would silence a live allocator with a comment. Walks the same non-test set as the
+    allocator scan, so the guard cannot be dodged by hiding the allowance in a file the
+    scan does not cover.
     """
     token = "identifier-integrity" + "-allow:"   # split so this line is not itself one
     offenders = [
-        rel for rel in PRODUCER_FILES
-        if token in (REPO_ROOT / rel).read_text(encoding="utf-8")
+        str(path.relative_to(REPO_ROOT))
+        for path in _tool_sources()
+        if token in path.read_text(encoding="utf-8")
     ]
     assert not offenders, (
-        "a producer suppressed the identifier-integrity scanner; an allocator can hide "
+        "tool code suppressed the identifier-integrity scanner; an allocator can hide "
         f"behind that comment: {offenders}"
     )
 
