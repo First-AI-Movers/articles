@@ -228,6 +228,8 @@ These are not repo blockers. They depend on external platform capabilities.
 
 `www.firstaimovers.com` is currently hosted on Beehiiv. During sprint QA, www returned **403 to Bingbot** (Googlebot returns 200). Beehiiv does not expose low-level WAF rules. This will be addressed during the future WordPress/Hetzner migration where Cloudflare rules and a custom `robots.txt` can be configured.
 
+The migration pre-flight is written up in [`docs/WWW_MIGRATION_SEO_CHECKLIST.md`](WWW_MIGRATION_SEO_CHECKLIST.md) (ROADMAP N4) — it closes this defect at §6 and covers the 306 archived articles whose `canonical_url` lives on www.
+
 ---
 
 *Last updated: 2026-04-28. Search Visibility Sprint closed for `articles.firstaimovers.com`.*
