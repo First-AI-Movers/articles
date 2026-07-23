@@ -68,7 +68,7 @@ PY
 
 ## 3. Phase 1 — URL and redirect map (**blocking**)
 
-- [ ] Decide the WordPress permalink structure **before** content import. WordPress defaults (`/%postname%/`, `/%year%/%monthnum%/%postname%/`) do **not** match the Beehiiv `/p/<slug>` shape that all 306 archived canonicals use.
+- [ ] Decide the WordPress permalink structure **before** content import. None of the stock permalink presets — "Post name" (`/<slug>/`), "Day and name" (`/YYYY/MM/DD/<slug>/`), "Month and name" (`/YYYY/MM/<slug>/`) — matches the Beehiiv `/p/<slug>` shape that all 306 archived canonicals use. A custom structure is required to preserve it.
 - [ ] Either (a) configure the permalink structure as `/p/%postname%/` so the existing paths survive unchanged, **or** (b) publish a permanent **301** from `/p/<slug>` to the new path for every URL in the Phase-0 inventory. Option (a) is lower risk: it needs no redirect table to be maintained, and it cannot drift.
 - [ ] If redirecting, use **301** (permanent), not 302 — a temporary redirect does not transfer indexing signals, and these URLs are the canonical targets of `noindex` pages.
 - [ ] Verify the redirect map is **total** over the Phase-0 inventory. A partial map is the failure mode that is easy to miss: the archive has 306 entries and the Beehiiv export may have more.
