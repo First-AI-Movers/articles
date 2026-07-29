@@ -132,7 +132,17 @@ def _exempt(lines: list[str], index: int, today: dt.date) -> tuple[bool, str | N
     for candidate in window:
         rollback = ROLLBACK_PRAGMA.search(candidate)
         if rollback:
-            expiry = dt.date.fromisoformat(rollback.group("expiry"))
+            raw = rollback.group("expiry")
+            try:
+                expiry = dt.date.fromisoformat(raw)
+            except ValueError:
+                # The pattern only proves the shape NNNN-NN-NN, not that it is a
+                # real calendar date. Report it rather than crashing the gate, and
+                # never treat an unreadable expiry as an exemption.
+                return False, (
+                    f"rollback lane has a malformed expiry {raw!r} — "
+                    "use a real calendar date, YYYY-MM-DD"
+                )
             if expiry < today:
                 return False, (
                     f"rollback lane expired {expiry.isoformat()} "

@@ -339,6 +339,27 @@ def test_control_j_expired_rollback_is_a_violation(tmp_path: Path) -> None:
     assert any("expired" in f.detail for f in findings), findings
 
 
+def test_control_j2_malformed_rollback_expiry_is_reported_not_crashed(
+    tmp_path: Path,
+) -> None:
+    """The pragma proves the shape NNNN-NN-NN, not that it is a real date.
+
+    A calendar-invalid expiry must become a finding, never an exemption and never
+    a traceback out of a CI gate.
+    """
+    _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
+    tools = tmp_path / "tools"
+    tools.mkdir()
+    (tools / "rollback.txt").write_text(
+        "python3.12 fallback  # py-runtime-rollback: owner=archive-maintainers "
+        "expiry=2026-13-45\n",
+        encoding="utf-8",
+    )
+    findings = guard.check(tmp_path)
+    assert findings, "a malformed expiry must be reported"
+    assert any("malformed expiry" in f.detail for f in findings), findings
+
+
 def test_control_k_guard_fails_without_pyyaml(tmp_path: Path, monkeypatch) -> None:
     """Missing PyYAML must fail closed, never pass vacuously."""
     _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
