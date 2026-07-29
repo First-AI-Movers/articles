@@ -55,8 +55,11 @@ WORKFLOW_GLOBS = (
 )
 LITERAL_GLOBS = (
     ".github/*.yml",
+    ".github/*.yaml",
     ".github/workflows/*.yml",
+    ".github/workflows/*.yaml",
     "cookiecutter-archive-template/*/.github/workflows/*.yml",
+    "cookiecutter-archive-template/*/.github/workflows/*.yaml",
     "tools/*.py",
     "tools/*.txt",
     "tools/*.cfg",
@@ -181,6 +184,37 @@ def check(repo_root: Path, today: dt.date | None = None) -> list[Finding]:
         return findings
 
     declared = declaration.read_text(encoding="utf-8").strip()
+
+    # The declaration is the one input every migrated workflow trusts, so editing
+    # it is the most direct way to restore a retired default everywhere at once.
+    # Validate it before scanning anything that reads it. Deliberately expressed
+    # as "not retired" rather than "== 3.14" so a future series bump stays legal
+    # without touching this guard.
+    if not declared:
+        findings.append(
+            Finding(
+                "declaration",
+                CANONICAL_DECLARATION,
+                1,
+                "",
+                "the canonical Python declaration is empty",
+            )
+        )
+    elif any(
+        declared == series or declared.startswith(f"{series}.")
+        for series in RETIRED_SERIES
+    ):
+        findings.append(
+            Finding(
+                "declaration",
+                CANONICAL_DECLARATION,
+                1,
+                declared,
+                f"the canonical declaration itself names retired Python {declared}; "
+                "every migrated selector reads this file, so this one edit would "
+                "restore the retired default across the whole repository",
+            )
+        )
 
     # Lane 1: workflow selectors must read the declaration.
     try:

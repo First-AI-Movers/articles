@@ -155,6 +155,66 @@ def test_control_b_missing_declaration_is_caught(tmp_path: Path) -> None:
     assert "declaration" in lanes
 
 
+@pytest.mark.parametrize("retired", ["3.11", "3.12", "3.13", "3.12.7"])
+def test_control_b2_retired_declaration_is_caught(tmp_path: Path, retired: str) -> None:
+    """Editing the declaration itself is the most direct way to restore a default.
+
+    Every migrated selector reads this one file, so a guard that validates only
+    the selectors would report clean while the whole repository had regressed.
+    """
+    _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
+    (tmp_path / ".python-version").write_text(f"{retired}\n", encoding="utf-8")
+    findings = guard.check(tmp_path)
+    assert any(f.lane == "declaration" for f in findings), findings
+
+
+def test_control_b3_a_future_series_is_still_legal(tmp_path: Path) -> None:
+    """The predicate must be "not retired", not "== 3.14".
+
+    Otherwise the guard itself blocks the next interpreter bump.
+    """
+    _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
+    (tmp_path / ".python-version").write_text("3.15\n", encoding="utf-8")
+    assert guard.check(tmp_path) == []
+
+
+def test_control_b4_empty_declaration_is_caught(tmp_path: Path) -> None:
+    _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
+    (tmp_path / ".python-version").write_text("\n", encoding="utf-8")
+    findings = guard.check(tmp_path)
+    assert any(f.lane == "declaration" for f in findings), findings
+
+
+@pytest.mark.parametrize("suffix", ["yml", "yaml"])
+def test_control_c0_retired_literal_in_either_yaml_extension(
+    tmp_path: Path, suffix: str
+) -> None:
+    """`.yaml` is as valid a workflow extension as `.yml`.
+
+    A workflow with no `setup-python` step at all but a `run: python3.11 ...`
+    escapes lane 1 entirely, so lane 2 must scan both extensions.
+    """
+    _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
+    (tmp_path / ".github" / "workflows" / f"extra.{suffix}").write_text(
+        textwrap.dedent(
+            """\
+            name: extra
+            on: [push]
+            jobs:
+              run:
+                runs-on: ubuntu-latest
+                steps:
+                  - run: python3.11 -m pytest
+            """
+        ),
+        encoding="utf-8",
+    )
+    findings = guard.check(tmp_path)
+    assert any(f.lane == "retired-literal" for f in findings), (
+        f"a retired interpreter in a .{suffix} workflow must be caught: {findings}"
+    )
+
+
 @pytest.mark.parametrize("retired", ["3.11", "3.12", "3.13"])
 def test_control_c_inline_pin_is_caught(tmp_path: Path, retired: str) -> None:
     """A workflow that bypasses the declaration must fail, for every retired series."""
