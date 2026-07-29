@@ -71,7 +71,12 @@ DIRECTIVE_GLOBS = ("docs/*.md", "docs/*/*.md")
 # Historical-evidence surfaces: they legitimately name the retired default.
 EVIDENCE_PREFIXES = ("docs/CHANGELOG.md", "docs/decisions/")
 
-SETUP_PYTHON_USES = re.compile(r"uses:\s*actions/setup-python@")
+SETUP_PYTHON_PREFIX = "actions/setup-python@"
+
+# A declaration naming a retired series, in any form `setup-python` accepts:
+# `3.13`, `3.13.7`, the free-threaded `3.13t`, a `cpython-` prefix. The trailing
+# `(?:\D|$)` is what stops `3.130` from being misread as `3.13`.
+RETIRED_DECLARATION = re.compile(r"^(?:cpython-)?3\.(?:11|12|13)(?:\D|$)")
 
 ALLOW_PRAGMA = re.compile(r"py-runtime-allow:\s*(?P<reason>\S.*?)\s*(?:-->|$)")
 ROLLBACK_PRAGMA = re.compile(
@@ -157,6 +162,48 @@ def _exempt(lines: list[str], index: int, today: dt.date) -> tuple[bool, str | N
     return False, None
 
 
+def _setup_python_step_lines(yaml_module, text: str) -> list[int]:
+    """1-based line of every real `actions/setup-python` step, in document order.
+
+    Derived from the composed YAML node tree, not from a raw-text scan. A raw scan
+    also counts a commented-out `# uses: actions/setup-python@v6` and a block
+    scalar that merely mentions the string — neither of which produces a step —
+    which shifts every later ordinal onto the wrong line. It equally misses a
+    quoted `uses: "actions/setup-python@v7"`, which *is* a step.
+
+    Returns an empty list if the document cannot be composed; the caller then
+    falls back to line 0 rather than citing a wrong line.
+    """
+    try:
+        root = yaml_module.compose(text)
+    except yaml_module.YAMLError:
+        return []
+    if root is None:
+        return []
+
+    lines: list[int] = []
+
+    def walk(node) -> None:
+        if isinstance(node, yaml_module.MappingNode):
+            for key, value in node.value:
+                if (
+                    isinstance(key, yaml_module.ScalarNode)
+                    and key.value == "uses"
+                    and isinstance(value, yaml_module.ScalarNode)
+                    and value.value.startswith(SETUP_PYTHON_PREFIX)
+                ):
+                    lines.append(node.start_mark.line + 1)
+            for key, value in node.value:
+                walk(key)
+                walk(value)
+        elif isinstance(node, yaml_module.SequenceNode):
+            for item in node.value:
+                walk(item)
+
+    walk(root)
+    return lines
+
+
 def _iter(repo_root: Path, globs: tuple[str, ...]):
     seen: set[Path] = set()
     for pattern in globs:
@@ -200,10 +247,7 @@ def check(repo_root: Path, today: dt.date | None = None) -> list[Finding]:
                 "the canonical Python declaration is empty",
             )
         )
-    elif any(
-        declared == series or declared.startswith(f"{series}.")
-        for series in RETIRED_SERIES
-    ):
+    elif RETIRED_DECLARATION.match(declared):
         findings.append(
             Finding(
                 "declaration",
@@ -242,12 +286,10 @@ def check(repo_root: Path, today: dt.date | None = None) -> list[Finding]:
 
         # Document-order line numbers of each setup-python step, so a finding in a
         # workflow with several such steps cites the step that actually offended
-        # rather than the first one in the file.
-        step_lines = [
-            index + 1
-            for index, text in enumerate(lines)
-            if SETUP_PYTHON_USES.search(text)
-        ]
+        # rather than the first one in the file. Taken from YAML syntax, so
+        # comments and block scalars that merely mention the action are not
+        # counted and a quoted `uses:` value is not missed.
+        step_lines = _setup_python_step_lines(yaml, "\n".join(lines))
         step_ordinal = 0
 
         for job in (document.get("jobs") or {}).values():

@@ -298,6 +298,134 @@ def test_control_d2_finding_cites_the_step_that_offended(tmp_path: Path) -> None
     )
 
 
+@pytest.mark.parametrize(
+    "declared", ["3.13t", "3.12t", "3.11t", "cpython-3.13", "3.13.7"]
+)
+def test_control_b5_retired_declaration_in_any_selector_form(
+    tmp_path: Path, declared: str
+) -> None:
+    """`setup-python` accepts more than `X.Y`.
+
+    `3.13t` is the supported free-threaded selector for the retired 3.13 series.
+    A predicate built only from equality and a dotted prefix misses it, so the
+    declaration lane would report clean while every workflow selected 3.13.
+    """
+    _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
+    (tmp_path / ".python-version").write_text(f"{declared}\n", encoding="utf-8")
+    findings = guard.check(tmp_path)
+    assert any(f.lane == "declaration" for f in findings), findings
+
+
+@pytest.mark.parametrize("declared", ["3.14", "3.14t", "3.14.2", "3.15", "3.130"])
+def test_control_b6_current_and_future_forms_stay_legal(
+    tmp_path: Path, declared: str
+) -> None:
+    """Widening the retired match must not start rejecting legal declarations.
+
+    `3.130` is the prefix trap: it must not be read as `3.13`.
+    """
+    _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
+    (tmp_path / ".python-version").write_text(f"{declared}\n", encoding="utf-8")
+    assert guard.check(tmp_path) == []
+
+
+def test_control_d3_commented_out_uses_does_not_shift_the_line(
+    tmp_path: Path,
+) -> None:
+    """A raw-text scan counts a commented `uses:` that produces no step.
+
+    The ordinal mapping then attributes the finding to the comment instead of the
+    step, so line numbers must come from YAML syntax.
+    """
+    _synthetic_repo(
+        tmp_path,
+        """\
+        name: ci
+        on: [push]
+        jobs:
+          a:
+            runs-on: ubuntu-latest
+            steps:
+              # uses: actions/setup-python@v6
+              - uses: actions/setup-python@v7
+                with:
+                  python-version: '3.11'
+        """,
+    )
+    lines = (tmp_path / ".github" / "workflows" / "ci.yml").read_text(
+        encoding="utf-8"
+    ).splitlines()
+    real_step = next(
+        i + 1
+        for i, text in enumerate(lines)
+        if "uses: actions/setup-python@" in text and not text.lstrip().startswith("#")
+    )
+    findings = [f for f in guard.check(tmp_path) if f.lane == "workflow-selector"]
+    assert findings
+    assert all(f.line == real_step for f in findings), (
+        f"expected the step at line {real_step}, got {[f.line for f in findings]}"
+    )
+
+
+def test_control_d4_quoted_uses_value_is_still_located(tmp_path: Path) -> None:
+    """`uses: "actions/setup-python@v7"` is a valid step and must not fall to 0."""
+    _synthetic_repo(
+        tmp_path,
+        """\
+        name: ci
+        on: [push]
+        jobs:
+          a:
+            runs-on: ubuntu-latest
+            steps:
+              - uses: "actions/setup-python@v7"
+                with:
+                  python-version: '3.12'
+        """,
+    )
+    findings = [f for f in guard.check(tmp_path) if f.lane == "workflow-selector"]
+    assert findings, "a quoted uses value is still a setup-python step"
+    assert all(f.line > 0 for f in findings), (
+        f"quoted step should be located, got {[f.line for f in findings]}"
+    )
+
+
+def test_control_d5_block_scalar_mentioning_the_action_is_not_a_step(
+    tmp_path: Path,
+) -> None:
+    """Prose inside a `run:` block must not be counted as a step."""
+    _synthetic_repo(
+        tmp_path,
+        """\
+        name: ci
+        on: [push]
+        jobs:
+          a:
+            runs-on: ubuntu-latest
+            steps:
+              - name: note
+                run: |
+                  echo "uses: actions/setup-python@v6 is the old way"
+              - uses: actions/setup-python@v7
+                with:
+                  python-version: '3.13'
+        """,
+    )
+    lines = (tmp_path / ".github" / "workflows" / "ci.yml").read_text(
+        encoding="utf-8"
+    ).splitlines()
+    real_step = next(
+        i + 1
+        for i, text in enumerate(lines)
+        if text.lstrip().startswith("- uses: actions/setup-python@")
+    )
+    findings = [f for f in guard.check(tmp_path) if f.lane == "workflow-selector"]
+    assert findings
+    assert all(f.line == real_step for f in findings), (
+        f"expected line {real_step}, got {[f.line for f in findings]}"
+    )
+
+
 def test_control_e_retired_literal_in_tooling_is_caught(tmp_path: Path) -> None:
     _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
     tools = tmp_path / "tools"
