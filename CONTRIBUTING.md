@@ -39,10 +39,18 @@ These rules must never be broken by any contribution:
 
 ## Local setup
 
+Python 3.14 is the canonical tooling runtime. The repository-level
+`.python-version` is the source of truth for compatible version managers and
+CI. Before creating the environment, confirm that `python3 --version` reports a
+3.14 patch release; do not fall back to the macOS system interpreter.
+
 ```bash
 # Clone
 git clone https://github.com/First-AI-Movers/articles.git
 cd articles
+
+# Confirm the declared runtime is active
+python3 --version
 
 # Create virtual environment
 python3 -m venv .venv

@@ -171,7 +171,7 @@ def test_no_artifact_upload():
 
 @pytest.mark.parametrize("prefix,pin", [
     ("actions/checkout", "@v7"),
-    ("actions/setup-python", "@v6"),
+    ("actions/setup-python", "@v7"),
     ("actions/upload-artifact", "@v7"),  # vacuously true if absent (it is, per above)
 ])
 def test_action_pins_are_repo_consistent(prefix, pin):
@@ -181,11 +181,12 @@ def test_action_pins_are_repo_consistent(prefix, pin):
             assert uses.endswith(pin), f"{prefix} must be pinned {pin}; got {uses}"
 
 
-def test_setup_python_uses_311():
+def test_setup_python_reads_canonical_declaration():
     for step in _steps(_wf()):
         if str(step.get("uses", "")).startswith("actions/setup-python"):
-            version = (step.get("with") or {}).get("python-version")
-            assert str(version) == "3.11", f"setup-python must use 3.11; got {version!r}"
+            selector = step.get("with") or {}
+            assert selector.get("python-version-file") == ".python-version"
+            assert "python-version" not in selector
             return
     pytest.fail("no actions/setup-python step found")
 

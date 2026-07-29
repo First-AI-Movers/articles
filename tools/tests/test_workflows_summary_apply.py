@@ -352,7 +352,7 @@ def test_pr_token_caveat_surfaced():
 
 @pytest.mark.parametrize("prefix,pin", [
     ("actions/checkout", "@v7"),
-    ("actions/setup-python", "@v6"),
+    ("actions/setup-python", "@v7"),
     ("peter-evans/create-pull-request", "@v8"),
 ])
 def test_action_pins_repo_consistent(prefix, pin):
@@ -362,9 +362,11 @@ def test_action_pins_repo_consistent(prefix, pin):
             assert uses.endswith(pin), f"{prefix} must be pinned {pin}; got {uses}"
 
 
-def test_setup_python_311():
+def test_setup_python_reads_canonical_declaration():
     for s in _steps(_wf()):
         if str(s.get("uses", "")).startswith("actions/setup-python"):
-            assert str((s.get("with") or {}).get("python-version")) == "3.11"
+            selector = s.get("with") or {}
+            assert selector.get("python-version-file") == ".python-version"
+            assert "python-version" not in selector
             return
     pytest.fail("no setup-python step")
