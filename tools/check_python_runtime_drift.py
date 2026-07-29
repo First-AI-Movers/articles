@@ -68,6 +68,8 @@ DIRECTIVE_GLOBS = ("docs/*.md", "docs/*/*.md")
 # Historical-evidence surfaces: they legitimately name the retired default.
 EVIDENCE_PREFIXES = ("docs/CHANGELOG.md", "docs/decisions/")
 
+SETUP_PYTHON_USES = re.compile(r"uses:\s*actions/setup-python@")
+
 ALLOW_PRAGMA = re.compile(r"py-runtime-allow:\s*(?P<reason>\S.*?)\s*(?:-->|$)")
 ROLLBACK_PRAGMA = re.compile(
     r"py-runtime-rollback:\s*owner=(?P<owner>[^\s]+)\s+expiry=(?P<expiry>\d{4}-\d{2}-\d{2})"
@@ -194,17 +196,27 @@ def check(repo_root: Path, today: dt.date | None = None) -> list[Finding]:
             findings.append(Finding("workflow-selector", rel, 0, "", f"unparseable: {exc}"))
             continue
 
+        # Document-order line numbers of each setup-python step, so a finding in a
+        # workflow with several such steps cites the step that actually offended
+        # rather than the first one in the file.
+        step_lines = [
+            index + 1
+            for index, text in enumerate(lines)
+            if SETUP_PYTHON_USES.search(text)
+        ]
+        step_ordinal = 0
+
         for job in (document.get("jobs") or {}).values():
             for step in job.get("steps") or []:
                 uses = str(step.get("uses", ""))
                 if not uses.startswith("actions/setup-python"):
                     continue
+                line = (
+                    step_lines[step_ordinal] if step_ordinal < len(step_lines) else 0
+                )
+                step_ordinal += 1
                 selector = step.get("with") or {}
                 if "python-version" in selector:
-                    line = next(
-                        (i + 1 for i, l in enumerate(lines) if "python-version:" in l),
-                        0,
-                    )
                     findings.append(
                         Finding(
                             "workflow-selector",
@@ -220,7 +232,7 @@ def check(repo_root: Path, today: dt.date | None = None) -> list[Finding]:
                         Finding(
                             "workflow-selector",
                             rel,
-                            0,
+                            line,
                             f"{uses}",
                             "does not read "
                             f"python-version-file: {CANONICAL_DECLARATION} "

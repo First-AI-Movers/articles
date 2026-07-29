@@ -196,6 +196,48 @@ def test_control_d_setup_python_v6_cannot_silently_return(tmp_path: Path) -> Non
     assert any(f.lane == "workflow-selector" for f in findings), findings
 
 
+def test_control_d2_finding_cites_the_step_that_offended(tmp_path: Path) -> None:
+    """In a multi-step workflow the finding must point at the offending step.
+
+    `build-and-deploy.yml` really does carry two setup-python steps, so a guard
+    that always reported the first `python-version:` line would send a
+    contributor to the wrong place.
+    """
+    _synthetic_repo(
+        tmp_path,
+        """\
+        name: ci
+        on: [push]
+        jobs:
+          first:
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/setup-python@v7
+                with:
+                  python-version-file: .python-version
+          second:
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/setup-python@v7
+                with:
+                  python-version: '3.12'
+        """,
+    )
+    workflow = tmp_path / ".github" / "workflows" / "ci.yml"
+    lines = workflow.read_text(encoding="utf-8").splitlines()
+    second_step_line = [
+        index + 1
+        for index, text in enumerate(lines)
+        if "uses: actions/setup-python@" in text
+    ][1]
+
+    findings = [f for f in guard.check(tmp_path) if f.lane == "workflow-selector"]
+    assert findings, "the second step's inline pin must be reported"
+    assert all(f.line == second_step_line for f in findings), (
+        f"expected line {second_step_line}, got {[f.line for f in findings]}"
+    )
+
+
 def test_control_e_retired_literal_in_tooling_is_caught(tmp_path: Path) -> None:
     _synthetic_repo(tmp_path, _CLEAN_WORKFLOW)
     tools = tmp_path / "tools"
