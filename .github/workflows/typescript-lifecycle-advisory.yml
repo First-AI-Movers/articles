@@ -38,9 +38,9 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
+          python-version-file: .python-version
 
       - name: Detector self-test (vendored copy integrity)
         run: python3 typescript_lifecycle_drift.py --self-test

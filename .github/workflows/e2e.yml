@@ -110,9 +110,9 @@ jobs:
           fi
 
       - if: steps.classify_change.outputs.kind == 'heavy'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.11'
+          python-version-file: .python-version
 
       - if: steps.classify_change.outputs.kind == 'heavy'
         name: Install Python dependencies

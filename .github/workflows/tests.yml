@@ -17,9 +17,9 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
-          python-version: '3.11'
+          python-version-file: .python-version
 
       - name: Install dependencies
         run: |
@@ -42,3 +42,9 @@ jobs:
 
       - name: Validate errata files
         run: python3 tools/check_errata.py
+
+      - name: Check active-default Python drift
+        # Fails if an active selector re-introduces a retired default (3.11/3.12/
+        # 3.13) or bypasses .python-version. The pytest suite proves this guard
+        # actually fires; this step is what a contributor sees when it does.
+        run: python3 tools/check_python_runtime_drift.py

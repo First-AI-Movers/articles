@@ -19,13 +19,6 @@ updates:
         update-types:
           - "minor"
           - "patch"
-    # numpy held below 2.5: numpy>=2.5 requires Python>=3.12, but the tooling/CI baseline
-    # is Python 3.11 (articles #278 — numpy>=2.5.0 is uninstallable on 3.11). LIFT when a
-    # Python-3.12 baseline is adopted for tools/ (drop this ignore + the <2.5 cap in
-    # tools/requirements.txt together).
-    ignore:
-      - dependency-name: "numpy"
-        versions: [">=2.5.0"]
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
