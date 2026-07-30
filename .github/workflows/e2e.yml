@@ -125,7 +125,7 @@ jobs:
         run: python3 tools/rebuild_local.py
 
       - if: steps.classify_change.outputs.kind == 'heavy'
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '20'
           cache: 'npm'
