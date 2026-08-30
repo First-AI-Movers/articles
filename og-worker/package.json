@@ -15,13 +15,13 @@
   },
   "dependencies": {
     "@resvg/resvg-wasm": "^2.6.2",
-    "hono": "^4.12.25"
+    "hono": "^4.13.3"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.16.0",
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
     "@cloudflare/workers-types": "^5.20260830.1",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.9",
+    "vitest": "^4.1.11",
     "wrangler": "^4.103.0"
   }
 }
