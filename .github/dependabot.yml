@@ -33,7 +33,6 @@ updates:
       timezone: "Europe/Lisbon"
     cooldown:
       default-days: 7
-      semver-major-days: 14
     # Minor+patch grouped; major @vN tag bumps (e.g. actions/checkout 6→7) stay individual,
     # preserving the governed @vN + Dependabot pin policy and per-bump review.
     groups:
