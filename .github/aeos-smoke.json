@@ -1,0 +1,26 @@
+{
+  "schema_version": "1",
+  "timeout_seconds": 300,
+  "commands": [
+    {
+      "name": "python-syntax",
+      "run": "python3 -m compileall -q ."
+    },
+    {
+      "name": "article-corpus",
+      "run": "python3 - <<'PY'\nimport json, pathlib, sys\n\nREQUIRED = (\"id\", \"title\", \"slug\", \"folder\", \"published_date\")\nroot = pathlib.Path(\"articles\")\nproblems, seen = [], 0\nfor folder in sorted(p for p in root.iterdir() if p.is_dir()):\n    meta = folder / \"metadata.json\"\n    if not meta.is_file():\n        problems.append(f\"{folder}: no metadata.json\")\n        continue\n    if not (folder / \"article.md\").is_file():\n        problems.append(f\"{folder}: no article.md beside metadata.json\")\n    try:\n        record = json.loads(meta.read_text(encoding=\"utf-8\"))\n    except Exception as exc:\n        problems.append(f\"{meta}: not valid JSON: {exc}\")\n        continue\n    seen += 1\n    if not isinstance(record, dict):\n        problems.append(f\"{meta}: top level is not a JSON object\")\n        continue\n    for key in REQUIRED:\n        value = record.get(key)\n        if not isinstance(value, str) or not value.strip():\n            problems.append(f\"{meta}: {key!r} is missing or not a non-empty string\")\nfor line in problems:\n    print(line, file=sys.stderr)\nif problems:\n    print(f\"{len(problems)} corpus problem(s)\", file=sys.stderr)\n    sys.exit(1)\nprint(f\"corpus OK: {seen} article(s), each with a parseable metadata.json and an article.md\")\nPY"
+    },
+    {
+      "name": "duplicate-titles",
+      "run": "python3 tools/check_duplicate_titles.py"
+    },
+    {
+      "name": "series-registry",
+      "run": "python3 tools/check_series.py"
+    },
+    {
+      "name": "translations",
+      "run": "python3 tools/check_translations.py"
+    }
+  ]
+}
