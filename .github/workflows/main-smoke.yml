@@ -1,0 +1,26 @@
+# AEOS post-main rail (AUTONOMOUS-MAIN-2031) — SMOKE ONLY.
+#
+# Every decision lives in the organization-owned reusable workflow on
+# First-AI-Movers/.github@main; this caller is the whole integration.
+#
+# The `secrets:` block is DELIBERATELY ABSENT. Passing
+# AEOS_REVERT_APP_PRIVATE_KEY would arm the automatic revert, and a revert is
+# another push to main — which in this repository takes a production action.
+# The reusable declares that secret `required: false`: with it absent the smoke
+# still runs and still reports PASS / CODE_FAILURE / INFRA_UNAVAILABLE, and only
+# the revert leg stands down, with a typed AUTOREVERT_AUTH_UNAVAILABLE.
+#
+# Arming the revert later is a one-line operator change; do not add it casually.
+name: main-smoke
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    uses: First-AI-Movers/.github/.github/workflows/aeos-main-smoke.yml@main
