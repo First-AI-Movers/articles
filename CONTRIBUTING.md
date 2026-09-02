@@ -162,6 +162,7 @@ Comments are powered by Giscus and stored in GitHub Discussions. Moderation (hid
 The repository expects the following branch protection rules on `main`:
 - **Pull request required** — no direct pushes.
 - **Status checks required** — `test` and `e2e` workflows must pass.
+- **Incoming org gate** — the organization is converging on one deterministic pre-merge gate, a required workflow producing the check `aeos-merge-ready` (org-owned, sourced from `First-AI-Movers/.github`); not yet effective on this repo.
 - **No force push** — history must remain linear and recoverable.
 - **Linear history preferred** — squash-merge or rebase-merge.
 - **Green CI is the merge gate** — manual reviews are encouraged for risky changes but not required for every trusted-owner PR.
