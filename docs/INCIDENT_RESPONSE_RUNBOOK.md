@@ -75,7 +75,7 @@ The summary/embedding/translation tooling (`tools/`) calls multiple LLM provider
 
 ## 7. CI / workflow compromise
 
-1. **Rotate the affected token** (esp. `ARTICLE_INGESTION_PR_TOKEN` — the elevated PAT) and any provider secret the workflow could read.
+1. **Revoke or rotate the affected credential.** Publishing workflows no longer hold a long-lived PAT (#388): they mint a short-lived, repository-scoped GitHub App installation token that expires in about an hour, so containment for that path is *revoking the App installation or rotating `AEOS_REVERT_APP_PRIVATE_KEY`* — an organization-owned action — not rotating a repository secret. Rotate any provider secret the workflow could read (`AIRTABLE_PAT`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `DEEPL_API_KEY`, `INDEXNOW_API_KEY_ARTICLES_FAIM`) as normal.
 2. **Inspect the workflow runs + artifacts** (`gh run list`, `gh run view --log`) for unexpected steps/egress/artifact contents.
 3. **Supply chain — governed `@vN` policy (not a gap).** This repo **deliberately** pins actions to **major-version tags** (`actions/checkout@v6`, `actions/deploy-pages@v5`, `peter-evans/create-pull-request@v8`, …), **Dependabot-managed** (weekly version-updates + a cooldown) per [`SECURITY.md`](../SECURITY.md); the `zizmor` `unpinned-uses` audit is set to **`ref-pin`** in `.github/zizmor.yml` to honor this. So `@vN` is the **policy, not a finding** — do **NOT** SHA-pin during response (it would violate the governed convention). Tag-retargeting risk is mitigated by Dependabot + the cooldown; during response, verify the `@vN` tag resolves to the **expected** release and check for an unexpected re-point, rather than converting to a SHA.
 4. **Scope.** No workflow uses `pull_request_target`; none run on self-hosted runners; the Pages deploy uses short-lived OIDC (`id-token: write`). Confirm no workflow gained write/secret scope it should not have.
@@ -115,7 +115,7 @@ Captured by the Scribe, as you go:
 
 Run a tabletop periodically (e.g. quarterly) so the runbook stays exercised:
 
-- [ ] Pick a scenario (leaked `ARTICLE_INGESTION_PR_TOKEN`; a bad article auto-deployed to Pages; a provider key in a CI log; a poisoned ingestion PR from Airtable; a gitleaks hit on `main`).
+- [ ] Pick a scenario (a leaked App installation token; a bad article auto-deployed to Pages; a provider key in a CI log; a poisoned ingestion PR from Airtable; a gitleaks hit on `main`).
 - [ ] Walk the relevant section **without** rotating real secrets or touching the live site — verify each referenced workflow/doc still exists + is accurate (e.g. `ERRATA.md` is still the correction path; `build-and-deploy.yml` is still the deploy).
 - [ ] Time-box detection → containment (rotate / revert / erratum); note any unclear step or missing access.
 - [ ] File runbook fixes as the output (this document is the artifact under test).

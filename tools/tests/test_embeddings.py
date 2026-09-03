@@ -315,9 +315,19 @@ class TestWorkflowAndDocs:
         assert wf.exists()
 
     def test_workflow_not_required_branch_protection(self):
+        """The workflow must not present itself as a required check.
+
+        Scanned over ACTIVE lines only. A raw-text search cannot tell a workflow's behaviour
+        from its prose: #388's comments explain that a GITHUB_TOKEN-created PR would never run
+        `aeos-merge-ready`, "the organization's only required check" — and reading that
+        explanation as a self-declaration is a false positive on a warning.
+        """
         wf = REPO_ROOT / ".github" / "workflows" / "build-embeddings.yml"
-        text = wf.read_text(encoding="utf-8")
-        assert "required" not in text.lower() or "not required" in text.lower()
+        active = "\n".join(
+            line for line in wf.read_text(encoding="utf-8").splitlines()
+            if not line.strip().startswith("#")
+        ).lower()
+        assert "required" not in active or "not required" in active
 
     def test_docs_exist(self):
         assert (REPO_ROOT / "docs" / "EMBEDDINGS.md").exists()

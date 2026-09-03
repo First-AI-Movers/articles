@@ -575,7 +575,13 @@ class TestAirtableIngestion:
         from pathlib import Path
         text = (Path(__file__).resolve().parents[2] / ".github" / "workflows" / "ingest-airtable.yml").read_text(encoding="utf-8")
         assert "create-pull-request" in text.lower() or "peter-evans/create-pull-request" in text
-        assert "git push" not in text.lower()
+        active = "\n".join(
+            line for line in text.splitlines() if not line.strip().startswith("#")
+        ).lower()
+        # ACTIVE LINES ONLY. #388's comments quote the failure they prevent
+        # (`fatal: could not read Username` on `git push`), and a raw-text
+        # search reads that warning as the behaviour it warns about.
+        assert "git push" not in active
 
 
 class TestAirtableFaimStatusGate:

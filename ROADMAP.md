@@ -65,7 +65,7 @@ E18 is **merged and active**. The following are documented expectations, not nec
 | Item | Status | Notes |
 |---|---|---|
 | Branch protection on `main` | **documented expectation** | `docs/BRANCH_PROTECTION.md` lists required rules. Owner must enable in Settings → Branches. |
-| `ARTICLE_INGESTION_PR_TOKEN` | **optional** | If set, `ingest-article.yml` uses it for PR creation so downstream CI triggers automatically. If absent, falls back to `GITHUB_TOKEN`; ingestion PRs may need manual close/reopen to get checks. |
+| `AEOS_REVERT_APP_PRIVATE_KEY` + `AEOS_REVERT_APP_ID` | **required** | Publishing workflows mint a short-lived, repository-scoped App installation token for branch push and PR creation. Required because a `GITHUB_TOKEN`-created PR does not trigger workflows and so can never satisfy the required `aeos-merge-ready` check. The secret's visibility is *selected repositories*; this repository must be in that scope. Replaces the retired `ARTICLE_INGESTION_PR_TOKEN` PAT (#388). |
 | `workflow_dispatch` on `ingest-article.yml` | **uses fixture payload** | Intentional test path. Running manually opens a PR with the synthetic fixture article. Close without merging. |
 | External publishing sender token | **not yet configured** | Sender needs a fine-grained PAT with `actions:write` scoped to this repo only. Documented in `docs/EXTERNAL_PUBLISHING.md`. |
 

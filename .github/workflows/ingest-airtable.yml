@@ -5,9 +5,19 @@ on:
   schedule:
     - cron: "17 6 * * *"
 
+# GITHUB_TOKEN's scope, which is now the ALERT path and checkout, nothing more.
+#
+# `contents: read` suffices because nothing pushes with this token: checkout runs with
+# `persist-credentials: false`, and the branch push, PR creation and PR merge all use the
+# short-lived App token minted below.
+#
+# `issues: write` is REQUIRED, not housekeeping. The incident and cleanup steps moved off
+# ARTICLE_INGESTION_PR_TOKEN onto GITHUB_TOKEN -- the whole point of #388 -- and GITHUB_TOKEN
+# cannot file or close an issue without it.
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  pull-requests: read
+  issues: write
 
 # Serialize ingestion runs. The cron and manual dispatches share the same
 # rebuild artifacts (index.json, sitemap.xml, llms-*.txt) and PR branch
@@ -34,6 +44,57 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+
+      - name: Assert the App credentials are visible
+        # FAIL FAST, AND FAIL WHERE THE CAUSE IS NAMED (#388).
+        #
+        # The root cause was not simply an expired credential. It was that
+        # `${{ secrets.PAT || secrets.GITHUB_TOKEN }}` falls back on EMPTY and never on
+        # INVALID: an expired PAT stays truthy, so the fallback never fired and the job died
+        # much later inside a third-party action with `fatal: could not read Username`.
+        #
+        # UNCONDITIONAL ON PURPOSE. Checking only on the branch that publishes would repeat the
+        # exact way this hid: `ingest-airtable` reported green for three weeks after the
+        # credential died, because on days with no new records it never reached the step that
+        # needed it. A publication workflow that cannot publish should say so on the first run,
+        # not on the first run that had something to say.
+        env:
+          APP_ID_PRESENT: ${{ vars.AEOS_REVERT_APP_ID != '' }}
+          APP_KEY_PRESENT: ${{ secrets.AEOS_REVERT_APP_PRIVATE_KEY != '' }}
+        run: |
+          set -euo pipefail
+          if [ "$APP_ID_PRESENT" != "true" ] || [ "$APP_KEY_PRESENT" != "true" ]; then
+            echo "::error::AEOS_REVERT_APP_ID (org variable) or AEOS_REVERT_APP_PRIVATE_KEY (org secret) is not visible to this repository, so no PR can be published. The secret's visibility is 'selected repositories'; First-AI-Movers/articles must be added to it."
+            exit 1
+          fi
+          echo "App id and private key are both visible to this repository."
+
+      - name: Mint a short-lived App token for branch and PR publication
+        # SHORT-LIVED, REPOSITORY-SCOPED, NOT A PAT (#388). This installation token expires in
+        # about an hour and is scoped to this repository by default -- `owner` and
+        # `repositories` are deliberately omitted. It replaces ARTICLE_INGESTION_PR_TOKEN, a
+        # personal access token stored 2026-05-03 that went invalid around 2026-08-02 and broke
+        # every publishing workflow in this repository without raising an alert.
+        #
+        # AN APP TOKEN RATHER THAN GITHUB_TOKEN, for a mechanical reason: GitHub suppresses
+        # workflow runs on a PR created with the default GITHUB_TOKEN, to prevent recursion. A
+        # PR opened that way would never run `aeos-merge-ready` -- the organization's only
+        # required check -- and so could never merge. Working around that is exactly why a PAT
+        # was here; an App token has the same property with none of the lifetime.
+        #
+        # Same App, action and pin the organization already trusts for the post-main automatic
+        # revert rail (First-AI-Movers/.github `aeos-main-smoke.yml`).
+        id: app_token
+        # PINNED BY MAJOR-VERSION TAG, matching this repository's governed convention
+        # (SECURITY.md "Dependencies", .github/zizmor.yml `unpinned-uses: ref-pin`,
+        # Dependabot version-updates with a cooldown). The organization's own rail
+        # SHA-pins this same action; that is First-AI-Movers/.github's policy, not this
+        # repository's, and importing it here would leave one SHA pin among sixty-odd
+        # tag pins and silently sit outside the Dependabot flow that maintains them.
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.AEOS_REVERT_APP_ID }}
+          private-key: ${{ secrets.AEOS_REVERT_APP_PRIVATE_KEY }}
 
       - uses: actions/setup-python@v7
         with:
@@ -137,11 +198,10 @@ jobs:
         if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         uses: peter-evans/create-pull-request@v8
         with:
-          # Prefer ARTICLE_INGESTION_PR_TOKEN so PR-create triggers downstream
-          # CI; GitHub suppresses workflow runs on PRs created with the default
-          # GITHUB_TOKEN to prevent recursion. Falls back to GITHUB_TOKEN when
-          # the PAT is not provisioned (PR will need close/reopen for CI).
-          token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          # The App token minted above, not GITHUB_TOKEN: GitHub suppresses workflow runs on a
+          # PR created with the default token, so the required `aeos-merge-ready` check would
+          # never run and the PR could never merge. No fallback -- see the mint step (#388).
+          token: ${{ steps.app_token.outputs.token }}
           branch: ingest/airtable-articles
           title: "ingest(articles): add articles from Airtable"
           body: |
@@ -178,7 +238,9 @@ jobs:
         # created so there is nothing for this step to merge.
         if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
         env:
-          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          # The App token, because this is a PR OPERATION and not an alert. It merges the PR
+          # the step above opened, so it belongs to the publication credential.
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
           AUTO_MERGE_INGESTION_PRS: ${{ vars.AUTO_MERGE_INGESTION_PRS || '0' }}
         run: python3 tools/auto_merge_ingestion_pr.py
 
@@ -189,7 +251,13 @@ jobs:
         # parsing logs. Never echoes secret values.
         if: failure() && env.INGEST_DRY_RUN != '1'
         env:
-          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          # DELIBERATELY GITHUB_TOKEN, NOT THE APP TOKEN (#388). This step reports that the
+          # work above failed. Sharing a credential with the work it watches is what silenced
+          # it: the publish died at `git push` and this step died at `HTTP 401 Bad
+          # credentials`, so consecutive daily failures produced no issue and nobody was told.
+          # An alarm must not depend on the subject it alarms about. GITHUB_TOKEN is minted per
+          # run and cannot expire.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set +e
@@ -238,7 +306,13 @@ jobs:
         # spawn the doom loop this step exists to break.
         if: success() && env.INGEST_DRY_RUN != '1' && github.event_name == 'schedule'
         env:
-          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          # DELIBERATELY GITHUB_TOKEN, NOT THE APP TOKEN (#388). This step reports that the
+          # work above failed. Sharing a credential with the work it watches is what silenced
+          # it: the publish died at `git push` and this step died at `HTTP 401 Bad
+          # credentials`, so consecutive daily failures produced no issue and nobody was told.
+          # An alarm must not depend on the subject it alarms about. GITHUB_TOKEN is minted per
+          # run and cannot expire.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set +e
