@@ -433,13 +433,45 @@ def test_ingest_airtable_has_success_path_incident_cleanup():
         "Got trailing: " + repr(run_body.rstrip()[-80:])
     )
 
-    # Workflow permissions remain narrow. The cleanup step uses gh CLI with
-    # the same PAT-or-GITHUB_TOKEN fallback as the failure-path step; we do
-    # NOT widen workflow permissions to grant issues:write to GITHUB_TOKEN
-    # — the operator owns the PAT scope decision separately.
+    # Workflow permissions stay narrow, and an `issues:` grant must be the one
+    # that was paid for rather than a quiet widening.
+    #
+    # 2026-05-31 (run 26708845288): the cleanup step lacked `addComment` scope
+    # and the proposed fix was `issues: write`. That was REFUSED — the cleanup
+    # must tolerate missing comment scope, and the operator owns the PAT scope
+    # decision separately. That refusal still stands, and it is the bare-close
+    # fallback, the WARN markers and the trailing `exit 0` asserted above that
+    # enforce it, not the absence of a permissions key.
+    #
+    # 2026-09-03 (#388): a different question reached the same field. The daily
+    # ingest failed on eleven consecutive days and reported none of them, because
+    # the step that exists to announce the failure authenticated with the same
+    # PAT whose expiry caused it — the alarm died of the fault it was built to
+    # announce. Moving the incident lane onto `github.token` needs `issues:
+    # write`, and it takes a long-lived cross-repo PAT OUT of that lane in
+    # exchange. The grant is admitted on that basis and bound to it: if the
+    # permission is present, the incident steps must be the ones using it.
     wf_perms = wf.get("permissions") or {}
-    assert "issues" not in wf_perms, (
-        "Workflow `permissions:` must not gain an `issues:` entry as part of "
-        "the cleanup-step token-scope hardening; the fix is to tolerate "
-        f"missing comment scope, not to widen workflow permissions. Got: {wf_perms!r}"
-    )
+    if "issues" in wf_perms:
+        assert wf_perms["issues"] == "write", (
+            f"unexpected `issues:` permission value {wf_perms['issues']!r}; the "
+            "only grant this workflow has a reason for is `write`"
+        )
+        incident_steps = [
+            step for step in steps if "incident issue" in str(step.get("name", ""))
+        ]
+        assert incident_steps, (
+            "`issues: write` is granted but the workflow declares no incident "
+            "step to use it — the permission has lost its justification"
+        )
+        still_on_the_pat = [
+            step.get("name", "<unnamed>")
+            for step in incident_steps
+            if "ARTICLE_INGESTION_PR_TOKEN" in str(step.get("env") or {})
+        ]
+        assert not still_on_the_pat, (
+            f"`issues: write` is granted, but {still_on_the_pat} still authenticate "
+            "with the ingestion PAT. A permission widened without the decoupling it "
+            "was granted for is the 2026-05-31 refusal in new clothes: drop the "
+            "permission or finish the decoupling."
+        )

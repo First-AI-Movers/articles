@@ -8,6 +8,11 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # The failure-reporting steps below run on `github.token`, not on the
+  # ingestion PAT, so an expired PAT cannot silence the report about itself.
+  # `issues: write` is what lets them do that; it is strictly narrower than
+  # the PAT it replaces there.
+  issues: write
 
 # Serialize ingestion runs. The cron and manual dispatches share the same
 # rebuild artifacts (index.json, sitemap.xml, llms-*.txt) and PR branch
@@ -141,6 +146,11 @@ jobs:
           # CI; GitHub suppresses workflow runs on PRs created with the default
           # GITHUB_TOKEN to prevent recursion. Falls back to GITHUB_TOKEN when
           # the PAT is not provisioned (PR will need close/reopen for CI).
+          # `||` in Actions falls back on an EMPTY value, not an invalid one.
+          # A present-but-expired PAT is truthy, so this fallback does not fire
+          # when it is most needed — an expired PAT is worse here than a deleted
+          # one. The work path still wants the PAT (a GITHUB_TOKEN push creates
+          # no downstream events); what must not depend on it is the reporting.
           token: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
           branch: ingest/airtable-articles
           title: "ingest(articles): add articles from Airtable"
@@ -189,7 +199,13 @@ jobs:
         # parsing logs. Never echoes secret values.
         if: failure() && env.INGEST_DRY_RUN != '1'
         env:
-          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          # NOT the ingestion PAT. This step exists to report that the write
+          # path failed, and the most likely reason the write path fails is
+          # that the PAT is gone. Sharing the credential made the alarm die
+          # of the fault it was built to announce, which is how this ran
+          # unreported for eleven days (#388). `github.token` is minted for
+          # this run and cannot expire between runs.
+          GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set +e
@@ -238,7 +254,10 @@ jobs:
         # spawn the doom loop this step exists to break.
         if: success() && env.INGEST_DRY_RUN != '1' && github.event_name == 'schedule'
         env:
-          GH_TOKEN: ${{ secrets.ARTICLE_INGESTION_PR_TOKEN || secrets.GITHUB_TOKEN }}
+          # Same credential as the step that opens these issues, for the same
+          # reason: the incident lane is independent of the ingestion PAT in
+          # both directions, so a rotation cannot strand open incidents.
+          GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set +e

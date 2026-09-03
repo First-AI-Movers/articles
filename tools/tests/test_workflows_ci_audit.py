@@ -308,3 +308,63 @@ def test_gitleaks_remains_no_paths_ignore():
             f"gitleaks.yml must not have paths-ignore on {trigger_name} — "
             f"secrets can land anywhere; full coverage required"
         )
+
+
+# ----------------------------------------------------------------------------
+# T10 — an alarm must not share a credential with the thing it watches (#388)
+# ----------------------------------------------------------------------------
+# The daily Airtable ingest failed on 11 consecutive days without reporting it.
+# The publishing step died because `ARTICLE_INGESTION_PR_TOKEN` had expired, and
+# the step that exists to announce that failure authenticated with the same
+# secret, so it died of the same fault: HTTP 401 on the report about the 401.
+#
+# The `|| secrets.GITHUB_TOKEN` fallback did not save it. Actions `||` falls
+# back on an EMPTY value, not an invalid one; a present-but-expired secret is
+# truthy. An expired PAT is therefore strictly worse here than a deleted one.
+#
+# The general rule this pins: a step that only runs when something failed must
+# not depend on a credential the failing path also depends on.
+
+INGEST_WORKFLOW = "ingest-airtable.yml"
+SUBJECT_SECRET = "ARTICLE_INGESTION_PR_TOKEN"
+
+
+def _reporting_steps(workflow: dict) -> list[dict]:
+    """Steps gated on failure(), plus the cleanup that closes what they open."""
+    found = []
+    for job in (workflow.get("jobs") or {}).values():
+        for step in job.get("steps") or []:
+            condition = str(step.get("if", ""))
+            name = str(step.get("name", ""))
+            if "failure()" in condition or "incident issue" in name:
+                found.append(step)
+    return found
+
+
+def test_ingest_failure_reporting_does_not_use_the_subject_credential():
+    workflow = _load(INGEST_WORKFLOW)
+    steps = _reporting_steps(workflow)
+    assert steps, f"{INGEST_WORKFLOW} declares no failure-reporting step to check"
+
+    offenders = [
+        step.get("name", "<unnamed>")
+        for step in steps
+        if SUBJECT_SECRET in str(step.get("env") or {})
+    ]
+    assert not offenders, (
+        f"{INGEST_WORKFLOW}: {offenders} report failure using {SUBJECT_SECRET}, the "
+        "same credential the write path uses. When that secret expires the report "
+        "dies of the fault it exists to announce (#388). Use github.token."
+    )
+
+
+def test_ingest_failure_reporting_can_actually_write_an_issue():
+    """Switching the reporting steps to `github.token` is only a fix if the
+    workflow grants that token permission to open an issue. Without this the
+    change would trade a silent 401 for a silent 403."""
+    workflow = _load(INGEST_WORKFLOW)
+    permissions = workflow.get("permissions") or {}
+    assert permissions.get("issues") == "write", (
+        f"{INGEST_WORKFLOW} routes failure reporting through github.token but does "
+        "not grant `issues: write`; the incident issue would fail to be created."
+    )
