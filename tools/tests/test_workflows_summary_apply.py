@@ -21,6 +21,7 @@ apply-workflow safety contract by pure YAML parsing (no execution):
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import pytest
@@ -353,13 +354,19 @@ def test_pr_token_caveat_surfaced():
 @pytest.mark.parametrize("prefix,pin", [
     ("actions/checkout", "@v7"),
     ("actions/setup-python", "@v7"),
-    ("peter-evans/create-pull-request", "@v8"),
+    # Third-party action: pinned by commit, not by a moving tag (PR #390).
+    ("peter-evans/create-pull-request", None),
 ])
 def test_action_pins_repo_consistent(prefix, pin):
     for s in _steps(_wf()):
         uses = str(s.get("uses", ""))
         if uses.startswith(prefix):
-            assert uses.endswith(pin), f"{prefix} must be pinned {pin}; got {uses}"
+            if pin is None:
+                assert re.fullmatch(r"[^@]+@[0-9a-f]{40}", uses), (
+                    f"{prefix} must be pinned to a 40-hex commit SHA; got {uses}"
+                )
+            else:
+                assert uses.endswith(pin), f"{prefix} must be pinned {pin}; got {uses}"
 
 
 def test_setup_python_reads_canonical_declaration():
