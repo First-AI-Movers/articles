@@ -135,7 +135,7 @@ jobs:
 
       - name: Open PR for new articles
         if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           # Prefer ARTICLE_INGESTION_PR_TOKEN so PR-create triggers downstream
           # CI; GitHub suppresses workflow runs on PRs created with the default
