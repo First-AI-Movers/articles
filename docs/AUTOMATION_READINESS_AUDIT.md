@@ -3,7 +3,7 @@
 **Status:** Planning artifact — no implementation, no workflow changes, no production behavior modified.  
 **Date:** 2026-05-01  
 **Scope:** Audit every automation surface in the First AI Movers article archive to identify gaps before final closeout.  
-**Source of truth:** `docs/ROADMAP_CLOSEOUT_TRACKS.md` (merged PR #131).
+**Source of truth:** the closeout-track decisions merged in PR #131.
 
 ---
 
@@ -218,7 +218,7 @@ Track A may proceed with E39c Batch 2–4 in parallel with B3/B4/B6/B8.
 
 ## 8. E39c safe defaults (for Track A reference)
 
-Per `docs/ROADMAP_CLOSEOUT_TRACKS.md` owner decisions, the fastest safe defaults for E39c continuation are:
+Per the owner decisions recorded in PR #131, the fastest safe defaults for E39c continuation are:
 
 | Decision | Default |
 |---|---|

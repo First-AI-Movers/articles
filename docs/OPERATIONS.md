@@ -67,6 +67,28 @@ Use this when an article needs to land outside the normal ingestion flows.
 
 ## Rotating Secrets
 
+### Branch/PR publication credential (GitHub App)
+
+Publishing workflows — `ingest-airtable`, `ingest-article`, `ingest-airtable-dispatch`,
+`build-embeddings`, `recover-airtable-backlog`, `summary-auto-apply` — do **not** hold a
+long-lived token. Each mints a short-lived, repository-scoped GitHub App installation token
+(`actions/create-github-app-token`) that expires in about an hour, from the organization
+variable `AEOS_REVERT_APP_ID` and the organization secret `AEOS_REVERT_APP_PRIVATE_KEY`.
+
+- **There is nothing to rotate per repository.** Containment for a suspected leak is
+  revoking the App installation or rotating the organization key — an organization-owned
+  action, not a repository secret update.
+- **Visibility matters.** `AEOS_REVERT_APP_PRIVATE_KEY` has *selected repositories*
+  visibility. If this repository is dropped from that scope, every publishing workflow fails
+  at a step named `Assert the App credentials are visible`, which says exactly that.
+- **Why not `GITHUB_TOKEN`.** GitHub suppresses workflow runs on PRs created with the
+  default token, so such a PR never runs `aeos-merge-ready` — the only required check — and
+  can never merge.
+- **The alert path is deliberately separate.** Incident and cleanup steps run on
+  `github.token`, never the publication credential, so an expired credential cannot silence
+  the report about itself. This replaced `ARTICLE_INGESTION_PR_TOKEN`, a PAT whose expiry
+  went unreported for weeks (#388).
+
 ### Airtable ingestion secrets
 
 1. Go to Repository Settings → Secrets and variables → Actions.

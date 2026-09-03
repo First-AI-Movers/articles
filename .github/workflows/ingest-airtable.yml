@@ -85,13 +85,10 @@ jobs:
         # Same App, action and pin the organization already trusts for the post-main automatic
         # revert rail (First-AI-Movers/.github `aeos-main-smoke.yml`).
         id: app_token
-        # PINNED BY MAJOR-VERSION TAG, matching this repository's governed convention
-        # (SECURITY.md "Dependencies", .github/zizmor.yml `unpinned-uses: ref-pin`,
-        # Dependabot version-updates with a cooldown). The organization's own rail
-        # SHA-pins this same action; that is First-AI-Movers/.github's policy, not this
-        # repository's, and importing it here would leave one SHA pin among sixty-odd
-        # tag pins and silently sit outside the Dependabot flow that maintains them.
-        uses: actions/create-github-app-token@v3
+        # SHA-PINNED per AGENTS.md: a `.github/workflows/**` change must "pin every
+        # non-local `uses:` to a 40-hex commit SHA". Same pin the organization's own
+        # post-main revert rail uses for this action.
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ vars.AEOS_REVERT_APP_ID }}
           private-key: ${{ secrets.AEOS_REVERT_APP_PRIVATE_KEY }}
@@ -169,14 +166,6 @@ jobs:
           INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/rebuild_local.py
 
-      - name: Patch ROADMAP operational-state marker
-        # rebuild_local.py only patches README.md and llms.txt; ROADMAP.md's
-        # auto:operational-state block is patched by update_docs.py. Without
-        # this step, test_check_mode_exits_zero_when_unchanged would fail
-        # whenever ingestion changes the article count.
-        if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
-        run: python3 tools/update_docs.py
-
       - name: Export MCP archive data
         # tools/check_generated_artifacts.py also rebuilds
         # mcp-server/src/generated/archive-data.json via export_mcp_data.py
@@ -196,7 +185,7 @@ jobs:
 
       - name: Open PR for new articles
         if: env.INGEST_DRY_RUN != '1' && steps.ingest_summary.outputs.created != '0'
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           # The App token minted above, not GITHUB_TOKEN: GitHub suppresses workflow runs on a
           # PR created with the default token, so the required `aeos-merge-ready` check would
@@ -225,7 +214,6 @@ jobs:
             llms-full.txt
             llms-recent.txt
             README.md
-            ROADMAP.md
             mcp-server/src/generated/archive-data.json
 
       - name: Auto-merge clean ingestion PR (E41f)

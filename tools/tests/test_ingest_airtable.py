@@ -1174,11 +1174,6 @@ class TestWorkflowGateOnCreatedCount:
         section = text.split("Rebuild index, sitemap, feed, corpus", 1)[1].split("\n\n", 1)[0]
         assert "steps.ingest_summary.outputs.created != '0'" in section
 
-    def test_update_docs_gated(self):
-        text = self._workflow_text()
-        section = text.split("Patch ROADMAP operational-state marker", 1)[1].split("\n\n", 1)[0]
-        assert "steps.ingest_summary.outputs.created != '0'" in section
-
     def test_pytest_gated(self):
         text = self._workflow_text()
         section = text.split("- name: Run pytest", 1)[1].split("\n\n", 1)[0]

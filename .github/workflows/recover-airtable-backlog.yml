@@ -90,13 +90,10 @@ jobs:
         # Same App, action and pin the organization already trusts for the post-main automatic
         # revert rail (First-AI-Movers/.github `aeos-main-smoke.yml`).
         id: app_token
-        # PINNED BY MAJOR-VERSION TAG, matching this repository's governed convention
-        # (SECURITY.md "Dependencies", .github/zizmor.yml `unpinned-uses: ref-pin`,
-        # Dependabot version-updates with a cooldown). The organization's own rail
-        # SHA-pins this same action; that is First-AI-Movers/.github's policy, not this
-        # repository's, and importing it here would leave one SHA pin among sixty-odd
-        # tag pins and silently sit outside the Dependabot flow that maintains them.
-        uses: actions/create-github-app-token@v3
+        # SHA-PINNED per AGENTS.md: a `.github/workflows/**` change must "pin every
+        # non-local `uses:` to a 40-hex commit SHA". Same pin the organization's own
+        # post-main revert rail uses for this action.
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ vars.AEOS_REVERT_APP_ID }}
           private-key: ${{ secrets.AEOS_REVERT_APP_PRIVATE_KEY }}
@@ -169,10 +166,6 @@ jobs:
           INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/rebuild_local.py
 
-      - name: Patch ROADMAP operational-state marker
-        if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
-        run: python3 tools/update_docs.py
-
       - name: Export MCP archive data
         if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
         run: python3 tools/export_mcp_data.py
@@ -191,7 +184,7 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
         run: |
           set -euo pipefail
-          scan_paths="articles index.json sitemap.xml feed.xml feed.json llms.txt llms-index.txt llms-full.txt llms-recent.txt README.md ROADMAP.md mcp-server/src/generated/archive-data.json"
+          scan_paths="articles index.json sitemap.xml feed.xml feed.json llms.txt llms-index.txt llms-full.txt llms-recent.txt README.md mcp-server/src/generated/archive-data.json"
           if [ -n "${AIRTABLE_BASE_ID:-}" ] && grep -rqIF -- "$AIRTABLE_BASE_ID" $scan_paths 2>/dev/null; then
             echo "::error::Airtable base id found in generated content"; exit 1
           fi
@@ -202,7 +195,7 @@ jobs:
 
       - name: Open backlog batch PR
         if: inputs.apply == 'true' && steps.rec.outputs.created != '0'
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           # The App token minted above, not GITHUB_TOKEN: GitHub suppresses workflow runs on a
           # PR created with the default token, so the required `aeos-merge-ready` check would
@@ -233,5 +226,4 @@ jobs:
             llms-full.txt
             llms-recent.txt
             README.md
-            ROADMAP.md
             mcp-server/src/generated/archive-data.json

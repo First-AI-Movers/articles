@@ -59,9 +59,8 @@ ALLOWED_PATHS = [
     # Articles: only the two canonical files per folder.
     ("articles/", "/article.md"),
     ("articles/", "/metadata.json"),
-    # Generated artifacts (touched by rebuild_local + update_docs).
+    # Generated artifacts (rebuilt by rebuild_local.py).
     ("README.md", None),
-    ("ROADMAP.md", None),
     ("index.json", None),
     ("sitemap.xml", None),
     ("feed.xml", None),

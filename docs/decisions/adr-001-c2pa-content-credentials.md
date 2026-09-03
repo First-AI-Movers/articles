@@ -90,6 +90,5 @@ This ADR does **not** constitute legal advice. The assessment that Article 50 li
 ## Links
 
 - Research note: [`docs/C2PA_RESEARCH.md`](../C2PA_RESEARCH.md)
-- Epic tracking: `ROADMAP.md` — E32
 - EU AI Act Article 50: <https://artificialintelligenceact.eu/article/50/>
 - C2PA Specification 2.4: <https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html>

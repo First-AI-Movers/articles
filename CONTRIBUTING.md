@@ -133,9 +133,9 @@ See [`docs/search-visibility-monitoring.md`](docs/search-visibility-monitoring.m
    - `test(...)` — test additions/changes
    - `refactor(...)` — code refactoring
    - `chore(...)` — tooling, dependencies, cleanup
-5. **Push** and open a PR.
+5. **Push** and open a PR — ready, not draft.
 6. **Fill out the PR template.** Every PR must declare proof levels (code-reviewed, test-proven, CI-proven, etc.).
-7. **Do not merge your own PR** unless explicitly authorized.
+7. **Arm squash auto-merge in the same step**, while the gate is still pending. Then move on: the gate decides, and there is nothing to wait for.
 
 ### Analytics changes
 
@@ -157,17 +157,16 @@ Comments are powered by Giscus and stored in GitHub Discussions. Moderation (hid
 - `/tools/check_series.py` — series metadata validator (diagnostic; does not edit articles)
 - `/package.json` and `/package-lock.json`
 
-### Branch protection expectations
+### What actually gates a merge
 
-The repository expects the following branch protection rules on `main`:
-- **Pull request required** — no direct pushes.
-- **Status checks required** — `test` and `e2e` workflows must pass.
-- **Incoming org gate** — the organization is converging on one deterministic pre-merge gate, a required workflow producing the check `aeos-merge-ready` (org-owned, sourced from `First-AI-Movers/.github`); not yet effective on this repo.
-- **No force push** — history must remain linear and recoverable.
-- **Linear history preferred** — squash-merge or rebase-merge.
-- **Green CI is the merge gate** — manual reviews are encouraged for risky changes but not required for every trusted-owner PR.
+`main` is protected by an organization ruleset: pull request required, no direct
+pushes, no force push, squash-merge only, zero required approvals, and one required
+check — `aeos-merge-ready`, produced by an org-owned workflow the pull request cannot
+edit. Green gate is the merge condition. Review is encouraged for risky changes and
+required for none.
 
-These are documented expectations; verify in repository Settings → Branches.
+Verify the live configuration in repository Settings → Rules rather than trusting this
+paragraph.
 
 ## Commit conventions
 

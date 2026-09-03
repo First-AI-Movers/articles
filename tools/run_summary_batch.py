@@ -1238,7 +1238,7 @@ def render_report(
             "Rebuild generated artifacts before opening a content PR:"
         )
         lines.append("  ```")
-        lines.append("  python3 tools/rebuild_local.py && python3 tools/update_docs.py")
+        lines.append("  python3 tools/rebuild_local.py")
         lines.append("  python3 tools/check_generated_artifacts.py")
         lines.append("  ```")
     elif counts["human_review"] > 0 or counts["reject"] > 0:
@@ -1619,7 +1619,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             "[batch] --rebuild-artifacts is flag-only in this release; run the "
             "rebuild manually after inspecting the report:"
         )
-        print("  python3 tools/rebuild_local.py && python3 tools/update_docs.py")
+        print("  python3 tools/rebuild_local.py")
         print("  python3 tools/check_generated_artifacts.py")
 
     return 0
