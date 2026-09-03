@@ -2,8 +2,8 @@
 
 After the prior 3 audit PRs (#178/#179/#180), every PR that touches a
 workflow file has needed a follow-up commit to clear stale generated
-artifacts. PR #178 cleared rebuild_local outputs. PR #179 added ROADMAP.md
-to the drift detector. PR #180 surfaced that mcp-server/src/generated/
+artifacts. PR #178 cleared rebuild_local outputs. PR #180 surfaced that
+mcp-server/src/generated/
 archive-data.json was ALSO drifting and not caught by the existing check.
 
 This file pins the fix: the drift detector must invoke the MCP data
@@ -45,8 +45,8 @@ def test_drift_check_invokes_mcp_export():
     on a PR — which it usually does not, since most PRs don't touch
     mcp-server/** or tools/export_mcp_data.py.
 
-    The detector already invokes tools/update_docs.py (added in PR #179)
-    for the same reason. Same pattern; add export_mcp_data.py.
+    The detector runs the rebuild chain for exactly this reason; the MCP
+    export belongs in it too.
     """
     text = (REPO_ROOT / "tools" / "check_generated_artifacts.py").read_text(encoding="utf-8")
     assert "tools/export_mcp_data.py" in text or "export_mcp_data.py" in text, (

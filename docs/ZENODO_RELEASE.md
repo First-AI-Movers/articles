@@ -2,7 +2,7 @@
 
 This document describes how to connect the First AI Movers Article Archive to Zenodo so that every GitHub release mints a corpus-level DOI.
 
-> **Scope:** Corpus-level DOI only. Per-article DOIs are [E34](../ROADMAP.md) and out of scope for this document.
+> **Scope:** Corpus-level DOI only. Per-article DOIs are out of scope for this document.
 
 ## User-side setup (one-time)
 

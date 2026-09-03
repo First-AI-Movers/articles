@@ -33,7 +33,6 @@ class TestPathAllowlist:
             "articles/2026-05-04-x/metadata.json",
             "articles/2026-05-04-some-long-slug-2026/article.md",
             "README.md",
-            "ROADMAP.md",
             "index.json",
             "sitemap.xml",
             "feed.xml",
@@ -72,7 +71,6 @@ class TestPathAllowlist:
             "articles/2026-05-04-x/article.md/",
             # Top-level files with the wrong path or case.
             "Readme.md",
-            "ROADMAP.md.bak",
             "tools/ingest_airtable.py",
             "docs/airtable-ingestion.md",
             ".github/workflows/ingest-airtable.yml",
@@ -103,7 +101,6 @@ class TestPathAllowlist:
             "articles/2026-05-04-x/article.md",
             "articles/2026-05-04-x/metadata.json",
             "README.md",
-            "ROADMAP.md",
         ]
         assert mod.first_disallowed_path(paths) is None
 
@@ -390,7 +387,6 @@ class TestMainHappyPath:
                 {"path": "articles/2026-05-04-x/article.md"},
                 {"path": "articles/2026-05-04-x/metadata.json"},
                 {"path": "README.md"},
-                {"path": "ROADMAP.md"},
                 {"path": "index.json"},
                 {"path": "sitemap.xml"},
                 {"path": "feed.xml"},

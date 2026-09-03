@@ -232,7 +232,6 @@ These are documented, pre-existing conditions. They are tracked as post-v1 growt
 |-------|----------|----------|
 | Automated harness exists | Code-reviewed, test-proven | `tools/final_audit.py` |
 | Harness tests exist | pytest green (9/9) | `tools/tests/test_final_audit.py` |
-| Audit design documented | Planning artifact | `docs/ROADMAP_CLOSEOUT_TRACKS.md` §6 |
 | Required checks all pass | Run on 2026-05-03 | This document §2.1 |
 | Optional check behavior documented | Known-issue table | This document §4 |
 | Manual checklist defined | Human-verifiable steps | This document §3 |

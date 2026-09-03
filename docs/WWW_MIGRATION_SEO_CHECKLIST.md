@@ -1,8 +1,8 @@
 # www.firstaimovers.com Migration — SEO Pre-Flight Checklist
 
-Launch checklist for moving `www.firstaimovers.com` from **Beehiiv** to **WordPress on Hetzner**, covering the surfaces named in [`ROADMAP.md`](../ROADMAP.md) N4: robots.txt, sitemap, Cloudflare bot allowlisting, IndexNow, and canonical redirects.
+Launch checklist for moving `www.firstaimovers.com` from **Beehiiv** to **WordPress on Hetzner**, covering these surfaces: robots.txt, sitemap, Cloudflare bot allowlisting, IndexNow, and canonical redirects.
 
-**This document does not authorize, schedule, or perform the migration.** The migration's blocker is recorded as "Owner timeline" in [`docs/ROADMAP_CLOSEOUT_TRACKS.md`](ROADMAP_CLOSEOUT_TRACKS.md). This is the written pre-flight that has to exist *before* a cutover date is picked, not a claim that one has been picked.
+**This document does not authorize, schedule, or perform the migration.** The migration's blocker is owner timeline. This is the written pre-flight that has to exist *before* a cutover date is picked, not a claim that one has been picked.
 
 Sibling document: [`docs/search-visibility-monitoring.md`](search-visibility-monitoring.md) — the ongoing weekly/monthly monitoring process for `articles.firstaimovers.com`. This checklist is one-shot and migration-scoped; that one is recurring.
 
@@ -204,15 +204,15 @@ These need account access and cannot be performed by repository tooling, matchin
 ## 13. What this checklist does not claim
 
 - It does **not** claim an SEO outcome. No migration has taken place; nothing here has been executed or verified against a live WordPress/Hetzner host.
-- It does **not** set a migration date. The blocker remains "Owner timeline" ([`docs/ROADMAP_CLOSEOUT_TRACKS.md`](ROADMAP_CLOSEOUT_TRACKS.md)).
+- It does **not** set a migration date. The blocker remains owner timeline.
 - It does **not** assert the current www URL inventory. The 306 figure counts only posts archived in this repository and is a lower bound on what must keep resolving; Phase 0 exists to get the true number from the platform.
 - It does **not** cover the `radar.firstaimovers.com` / Hashnode 429 defect, which is separately parked ([`docs/search-visibility-monitoring.md`](search-visibility-monitoring.md) §9).
 - It does **not** cover non-SEO migration concerns — content fidelity, subscriber/email list continuity, analytics continuity, or billing.
 
 ## 14. Retirement condition
 
-This document is migration-scoped and should be retired, not maintained indefinitely. When the migration completes and Phase 8 passes, fold the durable outcome into [`docs/search-visibility-monitoring.md`](search-visibility-monitoring.md) — resolve its §8 "Allowlist Bingbot on www" row and its §9 www paragraph — and move the N4 entry to [`docs/ROADMAP_HISTORY.md`](ROADMAP_HISTORY.md). If the migration is abandoned, retire this file in the same PR that records that decision.
+This document is migration-scoped and should be retired, not maintained indefinitely. When the migration completes and Phase 8 passes, fold the durable outcome into [`docs/search-visibility-monitoring.md`](search-visibility-monitoring.md) — resolve its §8 "Allowlist Bingbot on www" row and its §9 www paragraph. If the migration is abandoned, retire this file in the same PR that records that decision.
 
 ---
 
-*Created 2026-07-23 against `main` `c08b8a52`, for `ROADMAP.md` N4. Not executed — see §13.*
+*Created 2026-07-23 against `main` `c08b8a52`. Not executed — see §13.*

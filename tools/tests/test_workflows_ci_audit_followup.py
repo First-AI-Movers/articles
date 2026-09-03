@@ -5,9 +5,6 @@ Epic A — clean up ingest-article.yml:
 - No misleading dry-run-then-write redundancy
 
 Epic B — close drift / branch-protection / auto-merge gaps:
-- check_generated_artifacts.py must track ROADMAP.md (the cron ingestion
-  patches it via update_docs.py — drift here is the same class of bug that
-  required commit 75ca5fa in PR #178)
 - BRANCH_PROTECTION.md required-checks list must match the auto-merge
   script's REQUIRED_CHECKS (source of truth)
 - auto_merge_ingestion_pr.py:HEAD_BRANCH_PREFIX must be specific enough
@@ -186,20 +183,6 @@ def _auto_merge_module():
     return mod
 
 
-def test_drift_check_tracks_roadmap():
-    """ROADMAP.md is patched by tools/update_docs.py during ingestion.
-
-    Without tracking it in ARTIFACTS, a desync between the article count
-    and ROADMAP's auto:operational-state block can land silently — exactly
-    the failure mode that produced commit 75ca5fa in PR #178.
-    """
-    mod = _check_artifacts_module()
-    assert "ROADMAP.md" in mod.ARTIFACTS, (
-        "check_generated_artifacts.py ARTIFACTS must include 'ROADMAP.md' so the "
-        "drift check catches stale auto:operational-state blocks"
-    )
-
-
 def test_branch_protection_lists_all_required_checks():
     """docs/BRANCH_PROTECTION.md must match auto_merge_ingestion_pr.py:REQUIRED_CHECKS.
 
@@ -282,9 +265,9 @@ def test_ingest_airtable_exports_mcp_archive_data_before_pr():
         "got if: " + repr(condition)
     )
 
-    # 3. Ordering: the export step must come AFTER rebuild_local.py and
-    #    update_docs.py (which feed it transitively via index.json) and
-    #    BEFORE the `peter-evans/create-pull-request` PR-create step.
+    # 3. Ordering: the export step must come AFTER rebuild_local.py (which
+    #    feeds it transitively via index.json) and BEFORE the
+    #    `peter-evans/create-pull-request` PR-create step.
     step_names = [s.get("name") or s.get("uses") or "" for s in steps]
 
     def _index(predicate):
@@ -296,29 +279,20 @@ def test_ingest_airtable_exports_mcp_archive_data_before_pr():
     rebuild_idx = _index(
         lambda s: "tools/rebuild_local.py" in (s.get("run") or "")
     )
-    update_docs_idx = _index(
-        lambda s: "tools/update_docs.py" in (s.get("run") or "")
-    )
     export_idx = steps.index(export_step)
     pr_idx = _index(
         lambda s: "peter-evans/create-pull-request" in (s.get("uses") or "")
     )
 
-    assert rebuild_idx >= 0 and update_docs_idx >= 0 and pr_idx >= 0, (
-        "ingest-airtable.yml must still contain rebuild_local.py, "
-        "update_docs.py, and the peter-evans/create-pull-request step. "
+    assert rebuild_idx >= 0 and pr_idx >= 0, (
+        "ingest-airtable.yml must still contain rebuild_local.py and the "
+        "peter-evans/create-pull-request step. "
         f"step names: {step_names}"
     )
     assert rebuild_idx < export_idx < pr_idx, (
         "Export-MCP step must run AFTER rebuild_local.py and BEFORE "
         f"peter-evans/create-pull-request. Got indices: rebuild={rebuild_idx}, "
-        f"update_docs={update_docs_idx}, export_mcp={export_idx}, "
-        f"create_pr={pr_idx}."
-    )
-    assert update_docs_idx < export_idx, (
-        "Export-MCP step must run AFTER update_docs.py so the auto-state "
-        "block in ROADMAP.md is current before the snapshot is taken. "
-        f"Got indices: update_docs={update_docs_idx}, export_mcp={export_idx}."
+        f"export_mcp={export_idx}, create_pr={pr_idx}."
     )
 
     # 4. The PR's add-paths list must include the generated archive-data.json

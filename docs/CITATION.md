@@ -80,7 +80,7 @@ No DOI = no citation block. This is infrastructure-only until DOIs are explicitl
 ## What this citation covers
 
 - **Corpus-level archive snapshot** — the entire collection of articles, metadata, and generated artifacts at a given point in time.
-- **Not per-article DOIs** — individual articles do not yet have separate DOIs. Per-article DOIs are planned as [E34](ROADMAP.md).
+- **Not per-article DOIs** — individual articles do not yet have separate DOIs.
 
 ## License split
 

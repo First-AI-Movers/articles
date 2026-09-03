@@ -64,7 +64,6 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 #
 # rebuild_local.py owns: index.json, sitemap.xml, feed.xml, feed.json,
 #   llms.txt, llms-full.txt, llms-recent.txt, README.md
-# update_docs.py owns:   ROADMAP.md's `auto:operational-state` block
 # export_mcp_data.py owns: mcp-server/src/generated/archive-data.json
 #
 # Each of those rebuild tools is invoked by check_artifacts() in turn so the
@@ -81,7 +80,6 @@ ARTIFACTS = [
     "llms-full.txt",
     "llms-recent.txt",
     "README.md",
-    "ROADMAP.md",
     "mcp-server/src/generated/archive-data.json",
 ]
 
@@ -112,21 +110,6 @@ def check_artifacts(repo_root: Path, rebuild_cmd: list[str] | None = None) -> tu
         )
         if result.returncode != 0:
             return 1, [f"rebuild_local.py failed: {result.stderr.strip()}"]
-
-        # Run update_docs.py to patch ROADMAP.md's auto:operational-state block.
-        # rebuild_local.py covers README/llms.txt; update_docs.py owns ROADMAP.
-        # Mirrors the ingestion workflows' two-step pattern. Skipped if the
-        # script is missing (older trees without E16 dynamic docs).
-        update_docs = repo_root / "tools" / "update_docs.py"
-        if update_docs.exists():
-            result = subprocess.run(
-                [sys.executable, str(update_docs)],
-                cwd=repo_root,
-                capture_output=True,
-                text=True,
-            )
-            if result.returncode != 0:
-                return 1, [f"update_docs.py failed: {result.stderr.strip()}"]
 
         # Run export_mcp_data.py to refresh mcp-server/src/generated/archive-data.json.
         # The MCP server's bundled data is fed from index.json + article markdown,

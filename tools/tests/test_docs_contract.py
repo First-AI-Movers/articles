@@ -22,16 +22,8 @@ class TestDocsContract:
         assert "reviewed snapshot generated manually" in text
         assert "not deployment-generated" in text
 
-    def test_update_docs_py_exists(self):
-        assert (REPO_ROOT / "tools" / "update_docs.py").exists()
-
     def test_build_changelog_py_exists(self):
         assert (REPO_ROOT / "tools" / "build_changelog.py").exists()
-
-    def test_roadmap_has_operational_state_marker(self):
-        text = (REPO_ROOT / "ROADMAP.md").read_text(encoding="utf-8")
-        assert "<!-- BEGIN auto:operational-state -->" in text
-        assert "<!-- END auto:operational-state -->" in text
 
     def test_architecture_md_has_mermaid(self):
         text = (REPO_ROOT / "docs" / "ARCHITECTURE.md").read_text(encoding="utf-8")
