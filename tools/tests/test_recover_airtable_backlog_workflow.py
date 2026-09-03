@@ -7,6 +7,7 @@ add-paths, a public-surface secret scan, and — critically — NO auto-merge an
 NO summary generation.
 """
 
+import re
 from pathlib import Path
 
 import pytest
@@ -80,7 +81,12 @@ def test_add_paths_cover_tracked_artifacts(text):
 
 
 def test_opens_pr_with_token_fallback(text):
-    assert "peter-evans/create-pull-request@v8" in text
+    # Pinned by commit, not by a moving tag (PR #390). Assert the shape the
+    # merge gate requires, so a re-pin is not a test failure.
+    assert re.search(r"peter-evans/create-pull-request@[0-9a-f]{40}\b", text), (
+        "recover-airtable-backlog.yml must use peter-evans/create-pull-request "
+        "pinned to a 40-hex commit SHA"
+    )
     assert "ARTICLE_INGESTION_PR_TOKEN" in text and "GITHUB_TOKEN" in text
 
 
