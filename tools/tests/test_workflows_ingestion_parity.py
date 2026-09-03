@@ -6,10 +6,10 @@ open a PR that adds an article and must therefore run the SAME deterministic
 rebuild chain and ship the SAME tracked generated artifacts — otherwise the
 Generated artifacts `check` job fails on drift for whichever path skipped a step.
 
-`check_generated_artifacts.ARTIFACTS` tracks `ROADMAP.md`, `llms-index.txt`, and
-`mcp-server/src/generated/archive-data.json` (among others); those are produced
-by `update_docs.py` (ROADMAP) and `export_mcp_data.py` (archive-data.json), so
-every ingestion path must run both and list all three in `add-paths`.
+`check_generated_artifacts.ARTIFACTS` tracks `llms-index.txt` and
+`mcp-server/src/generated/archive-data.json` (among others); the latter is
+produced by `export_mcp_data.py`, so every ingestion path must run the rebuild
+chain and list both in `add-paths`.
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ def _add_paths(wf: dict) -> str:
 @pytest.mark.parametrize("wf_name", INGESTION_WORKFLOWS)
 def test_ingestion_runs_full_rebuild_chain(wf_name):
     blob = _run_blob(_wf(wf_name))
-    for tool in ("rebuild_local.py", "update_docs.py", "export_mcp_data.py"):
+    for tool in ("rebuild_local.py", "export_mcp_data.py"):
         assert tool in blob, (
             f"{wf_name}'s ingest job must run {tool} so its PR's generated "
             f"artifacts stay in lockstep with check_generated_artifacts.py "
@@ -63,7 +63,7 @@ def test_ingestion_runs_full_rebuild_chain(wf_name):
 @pytest.mark.parametrize("wf_name", INGESTION_WORKFLOWS)
 def test_ingestion_add_paths_cover_tracked_artifacts(wf_name):
     add_paths = _add_paths(_wf(wf_name))
-    for path in ("ROADMAP.md", "llms-index.txt", "mcp-server/src/generated/archive-data.json"):
+    for path in ("llms-index.txt", "mcp-server/src/generated/archive-data.json"):
         assert path in add_paths, (
             f"{wf_name}'s create-pull-request `add-paths:` must include {path}; "
             f"it is tracked by check_generated_artifacts.ARTIFACTS, so omitting "

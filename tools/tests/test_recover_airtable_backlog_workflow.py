@@ -63,7 +63,6 @@ def test_full_rebuild_chain_present(text):
         "tools/normalize_tags.py",
         "tools/check_duplicate_titles.py",
         "tools/rebuild_local.py",
-        "tools/update_docs.py",
         "tools/export_mcp_data.py",
     ):
         assert tool in text, f"rebuild chain missing {tool}"
@@ -75,7 +74,6 @@ def test_add_paths_cover_tracked_artifacts(text):
         "index.json",
         "sitemap.xml",
         "llms-index.txt",
-        "ROADMAP.md",
         "mcp-server/src/generated/archive-data.json",
     ):
         assert art in text, f"add-paths missing {art}"

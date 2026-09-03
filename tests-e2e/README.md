@@ -105,7 +105,7 @@ npx playwright test tests-e2e/specs/visual.spec.ts --update-snapshots
 
 ## Axe accessibility testing
 
-Axe-core via `axe-playwright` is documented as a follow-up in ROADMAP.md.
+Axe-core via `axe-playwright` is a possible follow-up, tracked in GitHub Issues.
 The current suite covers semantic a11y checks (landmarks, labels, focus,
 heading order). Automated axe scanning will be added once the Playwright
 foundation is proven stable.

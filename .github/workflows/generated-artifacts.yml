@@ -50,7 +50,7 @@ jobs:
           # narrow set for the PR to skip the drift check. The set is
           # restricted to paths that cannot affect any committed generated
           # artifact (index.json, sitemap.xml, feed.xml, feed.json, llms.txt,
-          # llms-full.txt, llms-recent.txt, README.md, ROADMAP.md auto block,
+          # llms-full.txt, llms-recent.txt, README.md,
           # mcp-server/src/generated/archive-data.json):
           #   - tools/requirements.txt   → pip range pins only
           #   - .github/workflows/*.yml  → CI/workflow shape only

@@ -86,14 +86,6 @@ jobs:
           INDEXNOW_API_KEY_ARTICLES_FAIM: ${{ secrets.INDEXNOW_API_KEY_ARTICLES_FAIM }}
         run: python3 tools/rebuild_local.py
 
-      - name: Patch ROADMAP operational-state marker
-        # Parity with the cron + dispatch ingestion workflows: rebuild_local.py
-        # patches README.md and llms.txt; ROADMAP.md's auto:operational-state
-        # block is patched by update_docs.py. Without this, the Generated
-        # artifacts `check` job fails on ROADMAP drift when the article count
-        # changes.
-        run: python3 tools/update_docs.py
-
       - name: Export MCP archive data
         # Parity with the cron + dispatch ingestion workflows: refreshes
         # mcp-server/src/generated/archive-data.json so a new article does not
@@ -140,5 +132,4 @@ jobs:
             llms-full.txt
             llms-recent.txt
             README.md
-            ROADMAP.md
             mcp-server/src/generated/archive-data.json

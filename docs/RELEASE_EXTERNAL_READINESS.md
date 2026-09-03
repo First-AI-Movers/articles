@@ -175,7 +175,6 @@ To freeze archive v1 without expanding scope:
 
 | Document | What it covers | This doc adds |
 |---|---|---|
-| `docs/ROADMAP_CLOSEOUT_TRACKS.md` | Two-track execution model, dependency graph, final audit design | Per-surface readiness classification, owner decisions, "do not do" rules |
 | `docs/AUTOMATION_READINESS_AUDIT.md` | Workflow-by-workflow automation proof | External surface consolidation, credential inventory, v1 blocker assessment |
 | `docs/GENERATED_ARTIFACTS.md` | Source-vs-generated artifact policy | Which generated artifacts feed external surfaces (embeddings, MCP data) |
 | `docs/OPERATIONS.md` | Runbooks for common tasks | Cross-reference to readiness matrix for gated operations |
@@ -193,7 +192,7 @@ python3 tools/check_translation_quality.py
 python3 tools/check_generated_artifacts.py
 python3 tools/normalize_tags.py --dry-run
 python3 tools/build_citation_graph.py --check
-git diff -- docs/RELEASE_EXTERNAL_READINESS.md docs/ROADMAP_CLOSEOUT_TRACKS.md docs/OPERATIONS.md
+git diff -- docs/RELEASE_EXTERNAL_READINESS.md docs/OPERATIONS.md
 git status --short
 ```
 

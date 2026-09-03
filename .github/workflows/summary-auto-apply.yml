@@ -218,7 +218,6 @@ jobs:
         if: ${{ inputs.apply && steps.applied.outputs.count != '0' }}
         run: |
           python3 tools/rebuild_local.py
-          python3 tools/update_docs.py
           python3 tools/export_mcp_data.py
           python3 tools/check_generated_artifacts.py
 
@@ -298,5 +297,4 @@ jobs:
             llms-full.txt
             llms-recent.txt
             README.md
-            ROADMAP.md
             mcp-server/src/generated/archive-data.json
