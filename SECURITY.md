@@ -105,7 +105,8 @@ The archive accepts articles from external platforms via `repository_dispatch`:
 - **Payload validation** — Every incoming payload is validated against `tools/article_schema.json` before any file is written.
 - **No secrets in payload** — Authentication tokens, API keys, and PATs must live in **GitHub Encrypted Secrets** only. Never pass secrets in `client_payload` text.
 - **PR-only path** — The ingestion workflow never pushes directly to `main`. It always opens a PR via `peter-evans/create-pull-request` for owner review.
-- **Token behavior** — PRs created with the default `GITHUB_TOKEN` do not trigger downstream CI workflows. Configure `ARTICLE_INGESTION_PR_TOKEN` if automatic CI on ingestion PRs is required.
+- **Token behavior** — PRs created with the default `GITHUB_TOKEN` do not trigger downstream CI workflows, so such a PR would never run `aeos-merge-ready` and could never merge. Publishing workflows therefore mint a short-lived GitHub App installation token (`actions/create-github-app-token`, `ARTICLES_AUTOMATION_APP_ID` + `ARTICLES_AUTOMATION_APP_PRIVATE_KEY`) lasting about an hour. That App is dedicated to this repository and holds only *Contents* and *Pull requests* read/write — deliberately not the organization's recovery App, whose private key must not be projected into a repository workflow merely because the token it mints can be repository-scoped. The long-lived `ARTICLE_INGESTION_PR_TOKEN` PAT this replaced went invalid silently and broke every publishing workflow for weeks (#388).
+- **Alert independence** — the incident/cleanup steps deliberately run on `secrets.GITHUB_TOKEN`, never the publication credential. An alarm must not share a credential with the work it watches; that is exactly how #388 stayed invisible.
 - **Dry-run by default** — Local testing of `tools/ingest_article.py` defaults to `--dry-run`. Use `--write` only when you intend to create files.
 
 ## Airtable push-trigger security (E20b)

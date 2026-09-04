@@ -308,3 +308,94 @@ def test_gitleaks_remains_no_paths_ignore():
             f"gitleaks.yml must not have paths-ignore on {trigger_name} — "
             f"secrets can land anywhere; full coverage required"
         )
+
+
+# ----------------------------------------------------------------------------
+# T10 — an alarm must not share a credential with the thing it watches (#388)
+# ----------------------------------------------------------------------------
+# Generalised from PR #389, which established this rule on `ingest-airtable.yml`. The
+# publishing credential was replaced repository-wide, so the guard is stated over every
+# workflow that publishes, not over the one where the failure happened to be noticed.
+#
+# The failure it pins: the daily ingest died because its credential had expired, and the
+# step that exists to announce that failure authenticated with the SAME secret, so it died
+# of the same fault -- HTTP 401 on the report about the 401. Eleven consecutive daily
+# failures produced no issue.
+#
+# The `|| secrets.GITHUB_TOKEN` fallback did not save it. Actions `||` falls back on an
+# EMPTY value, never an invalid one, and a present-but-expired secret is truthy. An expired
+# credential is therefore strictly worse than a deleted one.
+#
+# The general rule: a step that only runs when something failed must not depend on a
+# credential the failing path also depends on.
+
+_PUBLISHING_WORKFLOWS = (
+    "ingest-airtable.yml",
+    "ingest-article.yml",
+    "ingest-airtable-dispatch.yml",
+    "build-embeddings.yml",
+    "recover-airtable-backlog.yml",
+    "summary-auto-apply.yml",
+)
+
+
+def _publication_token_exprs(workflow: dict) -> set[str]:
+    """Every token expression used by a step that publishes (pushes a branch, opens or
+    merges a PR). These are the credentials a reporting step must NOT share."""
+    exprs = set()
+    for job in (workflow.get("jobs") or {}).values():
+        for step in job.get("steps") or []:
+            uses = str(step.get("uses") or "")
+            name = str(step.get("name") or "")
+            if "create-pull-request" in uses or "Auto-merge" in name:
+                token = str((step.get("with") or {}).get("token") or "")
+                gh_token = str((step.get("env") or {}).get("GH_TOKEN") or "")
+                exprs.update(t for t in (token, gh_token) if t.strip())
+    return exprs
+
+
+def _reporting_steps(workflow: dict) -> list[dict]:
+    """Steps gated on failure(), plus the cleanup that closes what they open."""
+    found = []
+    for job in (workflow.get("jobs") or {}).values():
+        for step in job.get("steps") or []:
+            condition = str(step.get("if", ""))
+            name = str(step.get("name", ""))
+            if "failure()" in condition or "incident issue" in name.lower():
+                found.append(step)
+    return found
+
+
+@pytest.mark.parametrize("workflow_name", _PUBLISHING_WORKFLOWS)
+def test_failure_reporting_does_not_share_the_publication_credential(workflow_name):
+    workflow = _load(workflow_name)
+    reporting = _reporting_steps(workflow)
+    if not reporting:
+        pytest.skip(f"{workflow_name} declares no failure-reporting step")
+    publication = _publication_token_exprs(workflow)
+    assert publication, f"{workflow_name} has no publishing step to compare against"
+
+    offenders = []
+    for step in reporting:
+        used = str((step.get("env") or {}).get("GH_TOKEN") or "")
+        if used and used in publication:
+            offenders.append((step.get("name", "<unnamed>"), used))
+    assert not offenders, (
+        f"{workflow_name}: {offenders} report failure using the same credential the "
+        "publishing path uses. When it expires the report dies of the fault it exists to "
+        "announce (#388). Use github.token."
+    )
+
+
+@pytest.mark.parametrize("workflow_name", _PUBLISHING_WORKFLOWS)
+def test_failure_reporting_can_actually_write_an_issue(workflow_name):
+    """Routing reporting through `github.token` is only a fix if the workflow grants that
+    token permission to open an issue -- otherwise it trades a silent 401 for a silent 403."""
+    workflow = _load(workflow_name)
+    if not _reporting_steps(workflow):
+        pytest.skip(f"{workflow_name} declares no failure-reporting step")
+    permissions = workflow.get("permissions") or {}
+    assert permissions.get("issues") == "write", (
+        f"{workflow_name} routes failure reporting through github.token but does not grant "
+        "`issues: write`; the incident issue would fail to be created."
+    )
