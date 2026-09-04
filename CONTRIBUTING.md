@@ -219,7 +219,7 @@ In both cases:
 - Do not commit `.env`, API keys, or tokens.
 - Do not commit unfinished article drafts. Every `articles/*/article.md` is public the moment it is pushed.
 - The CI workflow has `contents: write` permission only to commit regenerated artifacts. It does not push to external APIs.
-- Ingestion workflows use `secrets.GITHUB_TOKEN` by default. PRs created with this token do **not** trigger downstream `push`/`pull_request` workflows (GitHub recursion prevention). An optional `ARTICLE_INGESTION_PR_TOKEN` secret can be configured to enable automatic CI on ingestion PRs.
+- Ingestion workflows mint a short-lived GitHub App installation token (`actions/create-github-app-token`, `ARTICLES_AUTOMATION_APP_ID` + `ARTICLES_AUTOMATION_APP_PRIVATE_KEY`) to push the branch and open the PR. This is required, not optional: PRs created with the default `GITHUB_TOKEN` do **not** trigger downstream workflows (GitHub recursion prevention), so they would never run the required `aeos-merge-ready` check and could never merge. The incident-issue steps stay on `GITHUB_TOKEN` on purpose, so the alert path cannot fail with the publication credential (#388).
 
 ## Reporting proof levels
 

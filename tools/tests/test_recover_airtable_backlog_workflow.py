@@ -42,9 +42,16 @@ def test_dispatch_only_no_schedule(wf):
 
 
 def test_permissions(wf):
+    """GITHUB_TOKEN is checkout-only here; the branch push and PR use the App token (#388)."""
     perms = wf.get("permissions", {})
-    assert perms.get("contents") == "write"
-    assert perms.get("pull-requests") == "write"
+    assert perms.get("contents") == "read", (
+        f"GITHUB_TOKEN needs only `contents: read` — checkout runs with "
+        f"`persist-credentials: false` and create-pull-request uses the App token. Got {perms!r}"
+    )
+    assert perms.get("pull-requests") != "write", (
+        f"GITHUB_TOKEN must not hold `pull-requests: write`; the App token opens the PR. "
+        f"Got {perms!r}"
+    )
 
 
 def test_concurrency_serialized(wf):

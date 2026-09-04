@@ -407,13 +407,25 @@ def test_ingest_airtable_has_success_path_incident_cleanup():
         "Got trailing: " + repr(run_body.rstrip()[-80:])
     )
 
-    # Workflow permissions remain narrow. The cleanup step uses gh CLI with
-    # the same PAT-or-GITHUB_TOKEN fallback as the failure-path step; we do
-    # NOT widen workflow permissions to grant issues:write to GITHUB_TOKEN
-    # — the operator owns the PAT scope decision separately.
+    # `issues: write` is now REQUIRED, and the reason this test previously forbade it is gone.
+    #
+    # It read: "we do NOT widen workflow permissions to grant issues:write to GITHUB_TOKEN —
+    # the operator owns the PAT scope decision separately." That was right while the alert
+    # path ran on ARTICLE_INGESTION_PR_TOKEN. The operator has since made that decision
+    # (2026-09-03, #388): prefer short-lived App authentication for branch/PR publication and
+    # an INDEPENDENT GITHUB_TOKEN issue-alert path.
+    #
+    # The independence is the point. Sharing one credential between the publishing step and
+    # the step that reports its failure is what hid the outage: the publish died at `git push`
+    # and the incident step died at `HTTP 401`, so eleven consecutive daily failures produced
+    # no issue. GITHUB_TOKEN is minted per run and cannot expire — but it cannot file an issue
+    # without this scope, so refusing the scope refuses the alarm.
     wf_perms = wf.get("permissions") or {}
-    assert "issues" not in wf_perms, (
-        "Workflow `permissions:` must not gain an `issues:` entry as part of "
-        "the cleanup-step token-scope hardening; the fix is to tolerate "
-        f"missing comment scope, not to widen workflow permissions. Got: {wf_perms!r}"
+    assert wf_perms.get("issues") == "write", (
+        "the incident and cleanup steps run on GITHUB_TOKEN and cannot file or close an issue "
+        f"without `issues: write`. Got: {wf_perms!r}"
+    )
+    assert wf_perms.get("contents") == "read", (
+        "granting `issues: write` must not come with a broader content scope: the App token "
+        f"performs every write. Got: {wf_perms!r}"
     )

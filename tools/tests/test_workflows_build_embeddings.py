@@ -27,14 +27,25 @@ def _steps() -> list[dict]:
 
 
 def test_permissions_allow_pr_creation():
+    """GITHUB_TOKEN neither pushes the branch nor opens the PR, so it needs no write there.
+
+    Rewritten for #388. Both operations now use a short-lived App installation token, so the
+    default token's job is checkout plus the incident-issue path. Asserting `contents: write`
+    here would re-require a scope nothing uses — the workflow would still pass while carrying
+    a permission it does not need, which is the shape of finding this suite exists to catch.
+    """
     perms = _load().get("permissions") or {}
-    assert perms.get("contents") == "write", (
-        f"build-embeddings.yml must grant `contents: write` for "
-        f"create-pull-request to push a branch; got {perms!r}"
+    assert perms.get("contents") == "read", (
+        f"build-embeddings.yml must grant GITHUB_TOKEN only `contents: read`; the branch push "
+        f"and PR use the App token minted in-workflow. Got {perms!r}"
     )
-    assert perms.get("pull-requests") == "write", (
-        f"build-embeddings.yml must grant `pull-requests: write` for "
-        f"create-pull-request to open the PR; got {perms!r}"
+    assert perms.get("pull-requests") != "write", (
+        f"GITHUB_TOKEN must not hold `pull-requests: write`; create-pull-request uses the App "
+        f"token. Got {perms!r}"
+    )
+    assert perms.get("issues") == "write", (
+        f"the incident-issue step runs on GITHUB_TOKEN and cannot file without `issues: write`; "
+        f"got {perms!r}"
     )
 
 
@@ -47,17 +58,32 @@ def test_has_concurrency_group():
 
 
 def test_pr_step_uses_ci_triggering_token():
-    """The create-pull-request step must prefer ARTICLE_INGESTION_PR_TOKEN so
-    the opened PR triggers downstream CI (the default GITHUB_TOKEN suppresses it)."""
+    """The PR must be opened with a token that lets CI run on it — stated as a property.
+
+    Rewritten for #388. This used to require the literal `ARTICLE_INGESTION_PR_TOKEN`, which
+    pinned an INSTANCE rather than the requirement, so replacing that long-lived PAT with a
+    short-lived App token failed a test whose actual concern was fully satisfied.
+
+    The requirement is mechanical: GitHub suppresses workflow runs on a PR created with the
+    default GITHUB_TOKEN, to prevent recursion. Such a PR would never run `aeos-merge-ready`,
+    the organization's only required check, and so could never merge. Any non-GITHUB_TOKEN
+    identity satisfies it; the App token does, with an hour-long lifetime instead of a year's.
+    """
     pr_steps = [
         s for s in _steps()
         if isinstance(s.get("uses"), str) and s["uses"].startswith("peter-evans/create-pull-request")
     ]
     assert len(pr_steps) == 1, f"expected exactly one create-pull-request step, got {len(pr_steps)}"
     token = str(pr_steps[0].get("with", {}).get("token", ""))
-    assert "ARTICLE_INGESTION_PR_TOKEN" in token, (
-        f"create-pull-request token must prefer ARTICLE_INGESTION_PR_TOKEN so "
-        f"the PR triggers CI; got {token!r}"
+    assert token.strip(), "create-pull-request must be given an explicit token"
+    assert "secrets.GITHUB_TOKEN" not in token, (
+        f"create-pull-request must NOT use the default GITHUB_TOKEN: PRs it creates do not "
+        f"trigger workflow runs, so `aeos-merge-ready` would never run and the PR could never "
+        f"merge. Got {token!r}"
+    )
+    assert "app_token" in token, (
+        f"the PR token should be the short-lived App installation token minted in-workflow "
+        f"(#388 replaced a long-lived PAT); got {token!r}"
     )
 
 

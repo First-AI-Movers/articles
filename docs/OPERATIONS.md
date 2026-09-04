@@ -67,6 +67,33 @@ Use this when an article needs to land outside the normal ingestion flows.
 
 ## Rotating Secrets
 
+### Branch/PR publication credential (GitHub App)
+
+Publishing workflows — `ingest-airtable`, `ingest-article`, `ingest-airtable-dispatch`,
+`build-embeddings`, `recover-airtable-backlog`, `summary-auto-apply` — do **not** hold a
+long-lived token. Each mints a short-lived GitHub App installation token
+(`actions/create-github-app-token`) that expires in about an hour, from
+`ARTICLES_AUTOMATION_APP_ID` and `ARTICLES_AUTOMATION_APP_PRIVATE_KEY`.
+
+- **A dedicated App, installed on this repository only.** The **Articles Automation** App
+  holds *Contents: read/write* and *Pull requests: read/write* and nothing else. It is
+  deliberately **not** the organization's AEOS recovery App: referencing that App's private
+  key here would project organization-wide recovery authority — the identity that can push
+  reverts to `main` across every repository — into this repository's workflow surface.
+  Scoping the *generated token* does not scope the *key*.
+- **Containment for a suspected leak** is revoking this App's installation or rotating
+  `ARTICLES_AUTOMATION_APP_PRIVATE_KEY`. Because the App is installed only here, that
+  affects only this repository.
+- **If the credentials are missing** every publishing workflow fails at a step named
+  `Assert the App credentials are visible`, which says exactly which one is absent.
+- **Why not `GITHUB_TOKEN`.** GitHub suppresses workflow runs on PRs created with the
+  default token, so such a PR never runs `aeos-merge-ready` — the only required check — and
+  can never merge.
+- **The alert path is deliberately separate.** Incident and cleanup steps run on
+  `github.token`, never the publication credential, so an expired credential cannot silence
+  the report about itself. This replaced `ARTICLE_INGESTION_PR_TOKEN`, a PAT whose expiry
+  went unreported for weeks (#388).
+
 ### Airtable ingestion secrets
 
 1. Go to Repository Settings → Secrets and variables → Actions.

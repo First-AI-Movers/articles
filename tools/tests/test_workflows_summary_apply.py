@@ -84,9 +84,16 @@ def test_trigger_is_workflow_dispatch_only():
 
 
 def test_permissions_exact_minimal():
+    """Exact and minimal — and after #388 the minimum is smaller, not the same.
+
+    The branch push and PR creation moved to a short-lived App installation token, so
+    GITHUB_TOKEN's remaining job is checkout. Keeping the old assertion would have required a
+    write scope nothing in this workflow uses.
+    """
     perms = _wf().get("permissions") or {}
-    assert perms == {"contents": "write", "pull-requests": "write"}, (
-        f"permissions must be exactly contents:write + pull-requests:write; got {perms!r}"
+    assert perms == {"contents": "read", "pull-requests": "read"}, (
+        f"permissions must be exactly contents:read + pull-requests:read; the App token "
+        f"performs every write. Got {perms!r}"
     )
 
 
