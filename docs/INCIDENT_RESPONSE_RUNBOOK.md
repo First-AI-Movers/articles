@@ -77,7 +77,7 @@ The summary/embedding/translation tooling (`tools/`) calls multiple LLM provider
 
 1. **Revoke or rotate the affected credential.** Publishing workflows no longer hold a long-lived PAT (#388): they mint a short-lived, repository-scoped GitHub App installation token that expires in about an hour, so containment for that path is *revoking the **Articles Automation** App's installation or rotating `ARTICLES_AUTOMATION_APP_PRIVATE_KEY`*. That App is installed on this repository only and holds Contents + Pull requests read/write, so containment is bounded here — it is deliberately not the organization's recovery App, whose key must never be projected into a repository workflow. Rotate any provider secret the workflow could read (`AIRTABLE_PAT`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `DEEPL_API_KEY`, `INDEXNOW_API_KEY_ARTICLES_FAIM`) as normal.
 2. **Inspect the workflow runs + artifacts** (`gh run list`, `gh run view --log`) for unexpected steps/egress/artifact contents.
-3. **Supply chain — governed `@vN` policy (not a gap).** This repo **deliberately** pins actions to **major-version tags** (`actions/checkout@v6`, `actions/deploy-pages@v5`, `peter-evans/create-pull-request@v8`, …), **Dependabot-managed** (weekly version-updates + a cooldown) per [`SECURITY.md`](../SECURITY.md); the `zizmor` `unpinned-uses` audit is set to **`ref-pin`** in `.github/zizmor.yml` to honor this. So `@vN` is the **policy, not a finding** — do **NOT** SHA-pin during response (it would violate the governed convention). Tag-retargeting risk is mitigated by Dependabot + the cooldown; during response, verify the `@vN` tag resolves to the **expected** release and check for an unexpected re-point, rather than converting to a SHA.
+3. **Supply chain — governed `@vN` policy (not a gap).** This repo **deliberately** pins actions to **major-version tags** (`actions/checkout@v6`, `actions/deploy-pages@v5`, `peter-evans/create-pull-request@v8`, …), **Dependabot-managed** (weekly version-updates + a cooldown) per [`SECURITY.md`](../SECURITY.md). (The zizmor advisory workflow and its `ref-pin` configuration were retired 2026-09-05 under agent-toolkit#3460; the organization merge gate accepts `@vN` tags for GitHub-owned actions and requires 40-hex pins only for third-party ones.) So `@vN` is the **policy, not a finding** — do **NOT** SHA-pin during response (it would violate the governed convention). Tag-retargeting risk is mitigated by Dependabot + the cooldown; during response, verify the `@vN` tag resolves to the **expected** release and check for an unexpected re-point, rather than converting to a SHA.
 4. **Scope.** No workflow uses `pull_request_target`; none run on self-hosted runners; the Pages deploy uses short-lived OIDC (`id-token: write`). Confirm no workflow gained write/secret scope it should not have.
 
 ## 8. Scanner finding response (full stack)
@@ -90,14 +90,13 @@ The summary/embedding/translation tooling (`tools/`) calls multiple LLM provider
 | GitHub **secret scanning + push protection** | secrets (native, pre-receive) | **enabled** (free public) |
 | **Dependabot** (alerts + security updates) | dependency vulns (npm + pip) | **enabled** (free public) |
 | **CodeQL** | code-level weaknesses | **enabled** (free public) |
-| **zizmor** (`zizmor-advisory.yml`) | Actions workflow-security | advisory (0 standing; governed `@vN` accepted via `ref-pin`) |
 
 Triage:
 1. **gitleaks** runs on **pull_request + push + weekly + dispatch**; a finding on a PR blocks via review, on `main`/schedule it is an incident.
 2. **True positive → §2** (rotate; the committed value is burned).
 3. **False positive →** add a scoped entry to `.gitleaks.toml` with a rationale (see the allowlist-rationale section in [`SECURITY.md`](../SECURITY.md)); do not broaden the allowlist beyond the specific match.
 4. **Dependabot security alert →** triage by severity (critical/high first); prefer the auto-fix PR. Note `@cloudflare/vitest-pool-workers` pins mcp-server's vitest to v3 — a vitest semver-major ignore is configured for `/mcp-server` in `.github/dependabot.yml` with a documented lift condition.
-5. **zizmor / CodeQL finding →** advisory/native triage; escalate by content (secret → §2; CI/supply-chain → §7).
+5. **CodeQL finding →** native triage; escalate by content (secret → §2; CI/supply-chain → §7). (The zizmor advisory workflow was retired 2026-09-05 under agent-toolkit#3460: it had not fired in 30 days and the organization merge gate enforces the workflow-security class — `pull_request_target`, permissions, third-party pinning, template injection — on every PR.)
 6. Record the finding + disposition (§9).
 
 ## 9. Evidence-capture checklist
