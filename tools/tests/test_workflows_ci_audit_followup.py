@@ -429,3 +429,58 @@ def test_ingest_airtable_has_success_path_incident_cleanup():
         "granting `issues: write` must not come with a broader content scope: the App token "
         f"performs every write. Got: {wf_perms!r}"
     )
+
+
+def test_ingest_airtable_failure_path_deduplicates_incidents():
+    """One open `E41 cron ingestion incident:` issue, one comment per further failed run.
+
+    Thirteen consecutive daily failures (#398-#422) each opened their own issue; the alarm
+    was correct but its volume trained the operator to skim past it (#423). The failure
+    step must therefore look for an already-open incident (exact title prefix, re-filtered
+    locally because GitHub search is fuzzy), append the run to it as a comment, and open a
+    new issue only when none is open -- or when the comment could not be written, so a
+    failed dedupe can never become a lost alarm.
+    """
+    wf = _load_yaml("ingest-airtable.yml")
+    steps = wf["jobs"]["ingest"]["steps"]
+    failure_steps = [
+        s for s in steps
+        if "Open incident issue" in s.get("name", "") and "failure()" in str(s.get("if", ""))
+    ]
+    assert len(failure_steps) == 1, (
+        "ingest-airtable.yml must contain exactly one failure-path incident step; "
+        f"found {len(failure_steps)}"
+    )
+    body = failure_steps[0].get("run") or ""
+    # Order is judged on commands only: the step's own comments name these commands too.
+    body = "\n".join(
+        line for line in body.splitlines() if not line.lstrip().startswith("#")
+    )
+
+    lookup = body.find("gh issue list")
+    comment = body.find("gh issue comment")
+    create = body.find("gh issue create")
+    assert 0 <= lookup < comment < create, (
+        "the failure step must look up an open incident, then comment on it, and only then "
+        "fall through to `gh issue create` (lookup -> comment -> create order); got offsets "
+        f"list={lookup} comment={comment} create={create}"
+    )
+    assert "--state open" in body[lookup:comment], (
+        "the incident lookup must consider only OPEN issues; a closed incident is not a "
+        "reason to stay silent"
+    )
+    assert 'startswith("E41 cron ingestion incident:")' in body[lookup:comment], (
+        "the lookup must re-filter on the exact title prefix locally (GitHub search is fuzzy) "
+        "so an unrelated issue mentioning the phrase can never absorb an incident"
+    )
+    assert "WARN:" in body[comment:create], (
+        "a failed comment must be logged as a WARN and fall through to `gh issue create`, "
+        "never swallowed"
+    )
+    assert (
+        '--title "E41 cron ingestion incident: workflow run ${{ github.run_id }} failed"' in body
+    ), "the create path must keep the exact title the cleanup step and #213 tooling match on"
+    assert (failure_steps[0].get("env") or {}).get("GH_TOKEN") == "${{ secrets.GITHUB_TOKEN }}", (
+        "the incident step must stay on GITHUB_TOKEN -- the alarm must not share the "
+        "publication credential (#388)"
+    )

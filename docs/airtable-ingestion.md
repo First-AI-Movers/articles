@@ -136,7 +136,10 @@ If a record is missing `slug` but has `GUID`:
 - **Incident logging:** A final workflow step opens a GitHub issue if any
   prior step in a write-mode run fails. Title format:
   `E41 cron ingestion incident: workflow run <id> failed`. Skipped on
-  dry-run and on success. No secret values are recorded.
+  dry-run and on success. No secret values are recorded. Deduplicated:
+  while an incident with that title prefix is open, each further failed
+  run is appended to it as a comment rather than filed as a new issue; a
+  successful scheduled run closes it.
 - **No-content suppression (E41h):** `tools/ingest_airtable.py` writes
   `ingest-summary.json` at the repo root with the run's
   `seen/created/skipped/invalid` counts. The workflow's
