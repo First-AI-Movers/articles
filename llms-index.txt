@@ -10,8 +10,8 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 929
-- Date range: 2025-02-17 to 2026-07-17
+- Articles: 932
+- Date range: 2025-02-17 to 2026-07-25
 - Topic count: 103
 - Generated: 2026-09-18
 
@@ -29,6 +29,20 @@ short summary. Articles are listed newest-first.
 
 ---
 
+## July 2026 Momentum Across Open Agent Platforms
+- Date: 2026-07-25
+- Canonical: https://radar.firstaimovers.com/agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar
+- Archive: https://articles.firstaimovers.com/articles/2026-07-25-agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar/article.md
+- Topics: Multi-Agent Systems
+- Summary: Visible momentum across open agent platforms in July 2026, with new releases from Dify and LangChain. What this means for European engineering teams.
+
+## Open-Source Coding Assistants and Autonomous Agents: The New State of Software Development
+- Date: 2026-07-21
+- Canonical: https://radar.firstaimovers.com/open-source-coding-assistants-and-autonomous-software-development-summ
+- Archive: https://articles.firstaimovers.com/articles/2026-07-21-open-source-coding-assistants-and-autonomous-software-development-summ/article.md
+- Topics: open source, Coding Assistants, autonomous agents, llm, software development
+- Summary: Open-source coding tools surge: AI editors and autonomous agents from independent maintainers. A guide for European engineering leaders.
+
 ## We Built the Engine But Not the Chassis: What AI-Accelerated Teams Are Not Telling You
 - Date: 2026-07-17
 - Canonical: https://radar.firstaimovers.com/ai-accelerated-teams-velocity-stabilization-2026
@@ -42,6 +56,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-07-17-ai-adoption-fears-european-sme-leaders-honest-guide-2026/article.md
 - Topics: company-tech-strategy, ai-governance, digital-transformation, ai-automation, business-automation
 - Summary: You are busy, sceptical, and worried about wasting money on AI. This guide addresses every real fear European SME leaders have about AI adoption, honestly.
+
+## AI Engineering for European SMEs: If You Can Describe It, We Can Build It
+- Date: 2026-07-17
+- Canonical: https://radar.firstaimovers.com/ai-engineering-services-european-smes-build-anything-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-07-17-ai-engineering-services-european-smes-build-anything-2026/article.md
+- Topics: ai-automation, company-tech-strategy, digital-transformation, business-automation, ai-governance
+- Summary: First AI Movers builds custom AI platforms, SaaS products, and automation systems for European SMEs, from idea to production on any cloud or model, with no vendor lock-in.
 
 ## A Two-Person Team Out-Built 300 Rivals in 12 Hours, Because They Mapped First
 - Date: 2026-07-17

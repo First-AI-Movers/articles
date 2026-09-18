@@ -13,6 +13,30 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-07-25:2026-07-25-agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar",
+      "url": "https://radar.firstaimovers.com/agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar",
+      "title": "July 2026 Momentum Across Open Agent Platforms",
+      "date_published": "2026-07-25T00:00:00Z",
+      "tags": [
+        "Multi-Agent Systems"
+      ],
+      "content_text": "Visible momentum across open agent platforms in July 2026, with new releases from Dify and LangChain. What this means for European engineering teams."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-07-21:2026-07-21-open-source-coding-assistants-and-autonomous-software-development-summ",
+      "url": "https://radar.firstaimovers.com/open-source-coding-assistants-and-autonomous-software-development-summ",
+      "title": "Open-Source Coding Assistants and Autonomous Agents: The New State of Software Development",
+      "date_published": "2026-07-21T00:00:00Z",
+      "tags": [
+        "open source",
+        "Coding Assistants",
+        "autonomous agents",
+        "llm",
+        "software development"
+      ],
+      "content_text": "Open-source coding tools surge: AI editors and autonomous agents from independent maintainers. A guide for European engineering leaders."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-07-17:2026-07-17-ai-accelerated-teams-velocity-stabilization-2026",
       "url": "https://radar.firstaimovers.com/ai-accelerated-teams-velocity-stabilization-2026",
       "title": "We Built the Engine But Not the Chassis: What AI-Accelerated Teams Are Not Telling You",
@@ -36,6 +60,20 @@
         "business-automation"
       ],
       "content_text": "You are busy, sceptical, and worried about wasting money on AI. This guide addresses every real fear European SME leaders have about AI adoption, honestly."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-07-17:2026-07-17-ai-engineering-services-european-smes-build-anything-2026",
+      "url": "https://radar.firstaimovers.com/ai-engineering-services-european-smes-build-anything-2026",
+      "title": "AI Engineering for European SMEs: If You Can Describe It, We Can Build It",
+      "date_published": "2026-07-17T00:00:00Z",
+      "tags": [
+        "ai-automation",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation",
+        "ai-governance"
+      ],
+      "content_text": "First AI Movers builds custom AI platforms, SaaS products, and automation systems for European SMEs, from idea to production on any cloud or model, with no vendor lock-in."
     },
     {
       "id": "tag:articles.firstaimovers.com,2026-07-17:2026-07-17-map-before-you-build-ai-project-planning-sme-2026",
@@ -583,44 +621,6 @@
         "business-automation"
       ],
       "content_text": "Seven security controls every CTO should verify before expanding coding agent access: access model, secrets, review gates, sandboxing, and audit trail."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-github-2026-history-evolution-agent-runtime",
-      "url": "https://radar.firstaimovers.com/github-2026-history-evolution-agent-runtime",
-      "title": "GitHub in 2026: From a Weekend Project to the Runtime for AI Agents",
-      "date_published": "2026-05-03T00:00:00Z",
-      "tags": [
-        "company-tech-strategy",
-        "developer-tools",
-        "ai-automation",
-        "digital-transformation",
-        "ai-governance"
-      ],
-      "content_text": "The complete story of GitHub, from its 2008 founding to AI agent runtime in 2026, with GitLab comparison and what engineering leaders need now."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-github-automation-stack-engineering-teams-2026",
-      "url": "https://radar.firstaimovers.com/github-automation-stack-engineering-teams-2026",
-      "title": "The GitHub Automation Stack Most Engineering Teams Are Still Underusing",
-      "date_published": "2026-05-03T00:00:00Z",
-      "tags": [
-        "Executive AI Literacy"
-      ],
-      "content_text": "GitHub is no longer just a repo. Enterprise guide to rulesets, merge queue, environments, OIDC, attestations, Copilot review, and what to pay for."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-shadow-ai-engineering-teams-detect-measure-decide",
-      "url": "https://radar.firstaimovers.com/shadow-ai-engineering-teams-detect-measure-decide",
-      "title": "Shadow AI in Engineering Teams: How to Detect It, Measure It, and Decide What to Do About It",
-      "date_published": "2026-05-03T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "company-tech-strategy",
-        "digital-transformation",
-        "ai-automation",
-        "business-automation"
-      ],
-      "content_text": "Detect unsanctioned AI tool usage in engineering teams, classify the risk, and decide what to govern, adopt, or block as a CTO or engineering leader."
     }
   ]
 }
