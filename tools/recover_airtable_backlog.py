@@ -79,10 +79,6 @@ def find_recoverable(records, archive, schema, *, allow_no_status_gate=False, ga
         errors, _ = ing._validate_payload(payload, schema)
         if errors:
             continue
-        elig = ing.eligibility(payload, rec, allow_no_status_gate=allow_no_status_gate,
-                               gate=gate, verifier=verifier)
-        if not elig.admitted:
-            continue
         url = ing._normalize_canonical_url(payload.get("canonical_url", ""))
         title = ing._normalize_title(payload.get("title", ""))
         archive_titles = archive.get("titles", set())
@@ -96,6 +92,12 @@ def find_recoverable(records, archive, schema, *, allow_no_status_gate=False, ga
                    or (url and url in archive["urls"])
                    or (title and title in archive_titles))
         if present:
+            continue
+        # Presence first, receipt second: only a genuinely missing record pays for
+        # the page lookup (one sitemap per run, one page per candidate).
+        elig = ing.eligibility(payload, rec, allow_no_status_gate=allow_no_status_gate,
+                               gate=gate, verifier=verifier)
+        if not elig.admitted:
             continue
         candidates.append(
             {

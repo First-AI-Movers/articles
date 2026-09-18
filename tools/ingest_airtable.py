@@ -130,12 +130,14 @@ def build_receipt_verifier():
     return pr.Verifier(pr.build_http_fetcher(), normalize_url=_normalize_canonical_url)
 
 
-def eligibility(payload, record, *, allow_no_status_gate, gate=None, verifier=None):
+def eligibility(payload, record, *, allow_no_status_gate, gate=None, verifier=None, cheap=False):
     """Admission decision for one record under the configured gate.
 
     Under `status` this is exactly the historical check. Under `receipt` the raw
     Airtable fields are handed to the verifier; the editorial status is carried in
-    the reason for the log line but never decides.
+    the reason for the log line but never decides. `cheap=True` asks the verifier
+    for sitemap/host evidence only (no page fetch, no receipt) -- for records that
+    are already in the archive, where only a classification is needed.
     """
     gate = gate or eligibility_gate()
     status = (payload.get("status") or "").lower()
@@ -149,7 +151,8 @@ def eligibility(payload, record, *, allow_no_status_gate, gate=None, verifier=No
         return Eligibility(True, CLASS_ELIGIBLE, "status gate", None)
     if verifier is None:
         raise ValueError("the receipt gate requires a verifier (see build_receipt_verifier)")
-    decision = verifier.decide(
+    judge = verifier.listed if cheap else verifier.decide
+    decision = judge(
         (record or {}).get("fields", {}) or {},
         canonical_url=payload.get("canonical_url", "") or "",
         slug=payload.get("slug", "") or "",
@@ -488,6 +491,20 @@ def _validate_payload(payload, schema):
     return errors, warnings
 
 
+def _already_present(payload):
+    """Whether the archive already holds this payload's article: by folder name,
+    by normalized title, or (E41e, issue #156) by normalized canonical URL even
+    when the title drifted post-publication. This is the writer's own idempotency
+    check, exposed so callers can ask it BEFORE paying for a receipt lookup."""
+    folder = _build_folder_name(payload["published_date"], payload["slug"])
+    if _folder_exists(folder):
+        return True
+    if _title_exists(payload["title"]):
+        return True
+    canonical = payload.get("canonical_url")
+    return bool(canonical and _canonical_url_exists(canonical))
+
+
 def _write_article(payload, record_id, dry_run, receipt=None):
     """Write article.md and metadata.json for a validated payload.
 
@@ -500,18 +517,10 @@ def _write_article(payload, record_id, dry_run, receipt=None):
     folder = _build_folder_name(published_date, slug)
     article_dir = ARTICLES_DIR / folder
 
-    if _folder_exists(folder):
-        return folder, False  # already exists — idempotent skip
+    if _already_present(payload):
+        return folder, False  # idempotent skip: folder, title or canonical URL exists
 
     title = payload["title"]
-    if _title_exists(title):
-        return folder, False  # duplicate title — skip
-
-    # Defense in depth (E41e issue #156): catch duplicates even when the
-    # title drifted post-publication but the canonical URL is still the same.
-    canonical = payload.get("canonical_url")
-    if canonical and _canonical_url_exists(canonical):
-        return folder, False  # duplicate canonical URL — skip
 
     if dry_run:
         return folder, True  # would create
@@ -637,6 +646,15 @@ def _ingest_from(records, schema, *, dry_run, allow_no_status_gate, max_created,
         if errors:
             print(f"[INVALID] {record_id}: {'; '.join(errors)}", file=sys.stderr)
             counters["invalid"] += 1
+            continue
+
+        # Presence BEFORE eligibility: a record the archive already holds is skipped
+        # without paying for a receipt lookup, so the full-view backfill scan costs
+        # one sitemap read plus one page per genuinely missing candidate.
+        if _already_present(payload):
+            folder = _build_folder_name(payload["published_date"], payload["slug"])
+            print(f"[SKIP] {record_id}: folder '{folder}' already exists or title duplicate")
+            counters["skipped"] += 1
             continue
 
         elig = eligibility(payload, record, allow_no_status_gate=allow_no_status_gate,

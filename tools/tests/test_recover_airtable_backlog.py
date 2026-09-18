@@ -168,8 +168,13 @@ class TestCounts:
 class _StubVerifier:
     def __init__(self, admit):
         self.admit = set(admit)
+        self.calls = []
+
+    def listed(self, fields, *, canonical_url, slug, license_value=""):
+        raise AssertionError("recovery never needs the cheap check: present rows are skipped first")
 
     def decide(self, fields, *, canonical_url, slug, license_value=""):
+        self.calls.append(canonical_url)
         class D:
             pass
         d = D()
@@ -205,3 +210,16 @@ class TestReceiptGateRecovery:
         archive = {"ids": set(), "urls": set(), "titles": set()}
         cands = mod.find_recoverable([_rec("rec1", url="https://x/p/a", status="Posted")], archive, schema)
         assert len(cands) == 1 and cands[0]["receipt"] is None
+
+
+    def test_present_rows_never_reach_the_verifier(self, mod, monkeypatch):
+        monkeypatch.delenv(mod.ing.ELIGIBILITY_GATE_ENV, raising=False)
+        schema = mod.ing._load_schema()
+        archive = {"ids": {"rec1"}, "urls": set(), "titles": set()}
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/missing"})
+        cands = mod.find_recoverable(
+            [_rec("rec1", url="https://www.firstaimovers.com/p/present", status="Posted"),
+             _rec("rec2", url="https://www.firstaimovers.com/p/missing", title="Other", status="Posted")],
+            archive, schema, gate="receipt", verifier=v)
+        assert [c["record_id"] for c in cands] == ["rec2"]
+        assert v.calls == ["https://www.firstaimovers.com/p/missing"]
