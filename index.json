@@ -1,11 +1,45 @@
 {
   "last_updated": "2026-09-18",
-  "total_articles": 929,
+  "total_articles": 932,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-07-25-agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar",
+      "slug": "agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar",
+      "title": "July 2026 Momentum Across Open Agent Platforms",
+      "published_date": "2026-07-25",
+      "tags": [
+        "open-agent-frameworks",
+        "multi-agent systems",
+        "no code ai",
+        "Agent-Orchestration",
+        "July 2026"
+      ],
+      "topics": [
+        "Multi-Agent Systems"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar"
+    },
+    {
+      "folder": "2026-07-21-open-source-coding-assistants-and-autonomous-software-development-summ",
+      "slug": "open-source-coding-assistants-and-autonomous-software-development-summ",
+      "title": "Open-Source Coding Assistants and Autonomous Agents: The New State of Software Development",
+      "published_date": "2026-07-21",
+      "tags": [
+        "open source",
+        "Coding Assistants",
+        "autonomous agents",
+        "llm",
+        "software development"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/open-source-coding-assistants-and-autonomous-software-development-summ"
+    },
     {
       "folder": "2026-07-17-ai-accelerated-teams-velocity-stabilization-2026",
       "slug": "ai-accelerated-teams-velocity-stabilization-2026",
@@ -40,6 +74,22 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/ai-adoption-fears-european-sme-leaders-honest-guide-2026"
+    },
+    {
+      "folder": "2026-07-17-ai-engineering-services-european-smes-build-anything-2026",
+      "slug": "ai-engineering-services-european-smes-build-anything-2026",
+      "title": "AI Engineering for European SMEs: If You Can Describe It, We Can Build It",
+      "published_date": "2026-07-17",
+      "tags": [
+        "ai-automation",
+        "company-tech-strategy",
+        "digital-transformation",
+        "business-automation",
+        "ai-governance"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-engineering-services-european-smes-build-anything-2026"
     },
     {
       "folder": "2026-07-17-map-before-you-build-ai-project-planning-sme-2026",

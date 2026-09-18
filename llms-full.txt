@@ -17,14 +17,132 @@ Please preserve article titles, canonical URLs, publication dates, and attributi
 - Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)
 - Publication: First AI Movers — https://firstaimovers.com
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-- Articles: 929
-- Date range: 2025-02-17 to 2026-07-17
+- Articles: 932
+- Date range: 2025-02-17 to 2026-07-25
 - Generated: 2026-09-18
 
 Machine-readable catalog: https://articles.firstaimovers.com/index.json  
 Atom feed (recent only): https://articles.firstaimovers.com/feed.xml
 
 Each article below is prefixed with title, date, URL, and topics, separated by `---` lines.
+
+
+---
+
+# July 2026 Momentum Across Open Agent Platforms
+
+- **Published:** 2026-07-25
+- **URL:** https://radar.firstaimovers.com/agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar
+- **Topics:** Multi-Agent Systems
+
+> **TL;DR:** Visible momentum across open agent platforms in July 2026, with new releases from Dify and LangChain. What this means for European engineering teams.
+
+July 2026 brought a wave of updates across open agent platforms that European engineering leaders cannot afford to ignore. New releases and guides from projects like Dify and LangChain's Open Agent Platform signal a maturing ecosystem where agents can be built with visual canvases, orchestrated in multi-agent systems, and deployed on self-hosted infrastructure. The evidence from public sources, including DailyAIWorld, MarkTechPost, and KDnuggets, is not an endorsement of any single tool. It is corroborating evidence of a broader trend: open agent frameworks are moving from experimental projects to practical building blocks for small and mid-sized teams.
+
+## The Rise of Visual Agent Builders
+
+This review highlighted how a class of tools now exposes retrieval, agents, and workflows through visual canvases, web UIs, and plain-English prompts. Among them, Dify released an agent beta (https://dailyaiworld.com/blogs/dify-agent-beta-guide-2026) that allows users to construct tools, agents, and multi-agent workflows without manual coding. Dify's approach is particularly noteworthy because it argues that agent frameworks often exclude non-programmers, and it reports strong open-source results on the GAIA benchmark.
+
+Another platform, the LangChain Open Agent Platform (OAP) (https://github.com/langchain-ai/open-agent-platform), provides a no-code, web-based interface for building and managing LangGraph agents. Its core features include first-class RAG through LangConnect, tool access via MCP servers, and multi-agent orchestration through an Agent Supervisor. Users assemble chatbots, RAG pipelines, and multi-agent systems on a canvas, with integrations for observability tools like LangSmith and LangFuse. AutoAgent, mentioned in the KDnuggets review (https://www.kdnuggets.com/10-agentic-ai-frameworks-you-should-know-in-2026), also functions as an open alternative to hosted Deep Research products, further illustrating the shift toward stand-alone, self-hosted agent builders.
+
+These visual platforms are not merely toys. They address a real pain point for small and mid-sized European companies: the need to automate complex workflows without a large AI engineering team. By self-hosting these platforms, teams retain data control within their own environment, a critical requirement under European data regulations. However, licenses differ. While AutoAgent, AnythingLLM, Open Agent Platform, and Langflow use permissive MIT licenses, others like n8n employ a fair-code Sustainable Use License with commercial restrictions. For European SMBs evaluating long-term viability, understanding these license terms is essential before integrating any platform into production pipelines.
+
+## Code-First Frameworks That Reward Deep Control
+
+While no-code platforms lower the barrier, code-first frameworks remain the choice for teams that need fine-grained control over agent behavior, durability, and state management. KDnuggets' July 2026 roundup (https://www.kdnuggets.com/10-agentic-ai-frameworks-you-should-know-in-2026) profiled ten agentic AI frameworks that developers should watch. LangGraph stands out for its explicit control over agent workflows and durable execution, making it suitable for long-running agents, customer-support systems, research assistants, and coding workflows. CrewAI, with its role-based approach, excels at fast multi-agent prototyping for research, reporting, and business automation, though role-based systems can become overly complex.
+
+The OpenAI Agents SDK offers a lightweight, clean toolkit for building tool-using agents with straightforward handoffs, especially for teams already using OpenAI APIs. Google ADK and Mastra were noted as production-grade tooling for defining agents, tools, sessions, memory, evaluations, and deployment workflows. PydanticAI focuses more on reliable software engineering than role-playing multi-agent teams. These frameworks are not mutually exclusive; teams often start with a higher-level framework like CrewAI for prototyping and later adopt LangGraph for production durability.
+
+What matters for European engineering leaders is the ability to self-host these frameworks under open licenses. LangGraph, CrewAI, and the OpenAI Agents SDK all permit local deployment, aligning with data sovereignty requirements. The code-first path does demand more engineering effort, but it rewards teams with the flexibility to customize every layer of the agent stack.
+
+## Multi-Agent Systems Become the Default Pattern
+
+The July 2026 waves share a common thread: multi-agent systems are no longer an advanced niche. From visual builders to code frameworks, the ability to orchestrate multiple agents is now a standard feature. LangChain's Open Agent Platform uses an Agent Supervisor for multi-agent orchestration. Dify's agent beta supports multi-agent workflows without manual coding. AutoAgent automatically constructs multi-agent setups from plain English descriptions. Even TradingAgents (https://github.com/TauricResearch/TradingAgents), a specialized project for financial agents, reflects the broader industry trend toward agent collaboration.
+
+One agent might handle customer inquiries, another manage inventory, and a supervisor agent coordinate the flow. Observability becomes critical at this scale, and the integration of tools like LangSmith and LangFuse across platforms shows that the ecosystem is maturing in operational readiness. The ability to self-host these multi-agent systems means that sensitive business data never leaves the company's infrastructure, addressing both compliance and performance concerns.
+
+## Choosing a Platform: Plain English or Code
+
+How should an engineering leader at a European SMB choose? The answer depends on two factors: the team's coding proficiency and the need for deep customization. For pure agent building from plain English, the recommendations point to AutoAgent or LangChain Open Agent Platform. These platforms can convert natural language descriptions into functional agents and workflows. For teams with development resources who need durable, long-running agents, LangGraph or the OpenAI Agents SDK provide more control. No-code is a spectrum; several platforms reward custom code and are better called low-code. Licenses also matter: permissive MIT or Apache-2.0 licenses from AutoAgent, AnythingLLM, and Langflow offer the most flexibility, while fair-code licenses from n8n and FastGPT require careful review.
+
+The July 2026 momentum is clear: open agent platforms are converging on a set of capabilities that make agent building accessible, scalable, and controllable. For European engineering leaders, this is the moment to evaluate how these platforms can translate into internal automation, customer-facing assistants, or data analysis workflows. The evidence from public projects and community activity is not a recommendation to adopt any single tool. It is a signal that the infrastructure is ready, and the time to experiment is now.
+
+## Frequently Asked Questions
+
+### Q: What is the difference between no-code and low-code agent platforms?
+A: No-code platforms allow building agents through visual interfaces and plain-English prompts without writing code. Low-code platforms expose a visual builder but often reward custom code for advanced features, making them suitable for teams with some development capacity.
+
+### Q: Which open agent frameworks are best for multi-agent workflows?
+A: LangChain Open Agent Platform, CrewAI, and LangGraph all provide robust multi-agent orchestration. AutoAgent also constructs multi-agent systems automatically from natural language descriptions.
+
+### Q: Are these open agent platforms production-ready?
+A: Many have reached production maturity, with observability integrations and community battle-testing. The ability to self-host them under permissive licenses like MIT and Apache-2.0 further supports production deployment for European companies.
+
+### Q: How do licenses affect adoption for European SMBs?
+A: Permissive licenses allow unrestricted commercial use and private modifications, which is essential for data control. Restrictive fair-code licenses, like the one used by n8n, impose conditions on commercial redistribution that may limit flexibility.
+
+## Further Reading
+
+- [AI Agent Orchestration for European Companies: A Decision and Governance Guide](https://radar.firstaimovers.com/ai-agent-orchestration-guide-european-smes-2026)
+- [How to Run a 30-Day Pilot for an Open-Source AI Coding Agent](https://radar.firstaimovers.com/30-day-pilot-open-source-ai-coding-agent-2026)
+- [Claude Code Across Every Device: Remote Control, Dispatch, and Agent View Explained](https://radar.firstaimovers.com/claude-code-remote-control-dispatch-multi-device-guide-2026)
+
+
+---
+
+# Open-Source Coding Assistants and Autonomous Agents: The New State of Software Development
+
+- **Published:** 2026-07-21
+- **URL:** https://radar.firstaimovers.com/open-source-coding-assistants-and-autonomous-software-development-summ
+- **Topics:** 
+
+> **TL;DR:** Open-source coding tools surge: AI editors and autonomous agents from independent maintainers. A guide for European engineering leaders.
+
+In 2026, the way developers build software is being reshaped by a wave of open-source projects that go far beyond autocomplete. Tools like Claude Code, Cursor, and Aider, and frameworks such as the software periodic table with its 115 reusable software elements, allow small and mid-sized European companies to adopt AI-assisted development with more control and lower cost. This matters because engineering leaders can now choose from an array of transparent, community-driven alternatives that their teams can inspect, customize, and integrate without vendor lock-in. The breadth of independent maintainers entering the space signals a shift toward decentralized innovation in AI coding.
+
+## The Landscape of Open-Source Coding Assistants
+
+Open-source coding assistants have evolved from simple line completion to full-fledged development partners. Cursor, an AI-native code editor, keeps the entire project in context and excels at inline editing, codebase-aware chat, and multi-file changes (https://www.turingpost.com/p/code-assistants). Aider, a terminal-based pair-programming tool, works directly with Git to edit files, commit changes, and handle refactoring tasks (https://www.turingpost.com/p/code-assistants). Cline is an open-source coding agent that operates inside the IDE; it can edit files, run terminal commands, and perform multi-step tasks with user approval (https://www.turingpost.com/p/code-assistants). These tools share a common trait: they are developed and maintained by independent contributors or small teams, not by large platform vendors. For small engineering outfits, this means the ability to fork, extend, or even self-host the tooling without waiting for a product roadmap.
+
+## Autonomous Agents and the Move Beyond Autocomplete
+
+The category of autonomous agents goes deeper. A comprehensive survey on LLM-based autonomous agents (https://arxiv.org/abs/2308.11432) proposes a unified framework for constructing such agents, covering their application across social science, natural science, and engineering. These agents can plan, execute multi-step workflows, and evaluate their own output. In practice, Claude Code (https://github.com/anthropics/claude-code) can inspect large codebases, edit multiple files, run commands, and debug issues with minimal supervision. OpenAI Codex, built on the GPT-5.5 architecture, provides repository-level refactoring and debugging through a desktop app and CLI (https://www.turingpost.com/p/code-assistants). Even platforms like Replit have evolved into autonomous app builders that generate code, install dependencies, fix errors, and deploy without leaving the environment (https://www.turingpost.com/p/code-assistants). The shift is clear: from tools that suggest the next line to agents that own a task from specification to pull request.
+
+## Composition Frameworks: Building with Reusable Elements
+
+A notable innovation from the independent maintainer community is the software periodic table (https://github.com/NullLabTests/software-periodic-table). It defines a machine-readable ontology of 115 recurring software elements, organized into six families: Objects, Properties, Actions, Interfaces, Intelligence, and Rules. Coding agents can consume this ontology to retrieve relevant atoms and emit a composition plan along with minimal code. This approach treats application features not as monolithic scripts but as structured assemblies of proven patterns. It aligns with the broader trend in open-source AI toward composability and transparency (https://en.wikipedia.org/wiki/Open-source_artificial_intelligence). For teams evaluating whether to adopt these tools, the presence of such frameworks signals that the underlying models and their prompts are becoming more predictable and auditable, a critical factor when security or compliance is at stake.
+
+## Open-Source AI: A Brief History and the Promise of Transparency
+
+Open-source artificial intelligence has roots that predate the current LLM boom. The concept gained traction with early shared implementations like ELIZA in 1977 and the Free Software Foundation in 1985 (https://en.wikipedia.org/wiki/Open-source_artificial_intelligence). The 1990s saw the CMU Artificial Intelligence Repository, and in the 2000s, frameworks like Torch (released in 2002) laid the groundwork. OpenAI itself was founded in 2015 with a mission to create open-source AI (https://en.wikipedia.org/wiki/Open-source_artificial_intelligence). Today, open-source AI projects include large language models, machine translation tools, and chatbots. The key advantage for engineering leaders is transparency: with access to model weights, training data, and source code, teams can audit for biases, tailor to domain-specific needs, and avoid the "openwashing" criticized in some commercial offerings (https://en.wikipedia.org/wiki/Open-source_artificial_intelligence).
+
+## What This Means for Small and Mid-Sized Companies
+
+The combination of open-source coding assistants, autonomous agents, and composable frameworks creates a new procurement calculus. Instead of a per-seat SaaS license from a single vendor, a ten-person team can run Aider alongside a self-hosted model, use Cline for complex refactoring inside VS Code, and reference the software periodic table to standardize how features are expressed. This composability reduces the risk of tooling stagnation and aligns costs with actual usage. It also shortens the feedback loop between developer intent and agent action, because maintainers often respond directly to community issues rather than routing through enterprise support queues.
+
+## Frequently Asked Questions
+
+### Q: How do open-source coding assistants compare with proprietary tools like GitHub Copilot?
+
+Open-source alternatives such as Cursor, Aider, and Cline offer similar capabilities, including inline completions and multi-file edits, but give teams full visibility into the code and the option to self-host. They are often developed by independent maintainers and can be customized to internal workflows (https://www.turingpost.com/p/code-assistants).
+
+### Q: Are autonomous coding agents ready for production use?
+
+Tools like Claude Code and OpenAI Codex are already handling repository-level refactors and debugging. The survey on LLM-based autonomous agents (https://arxiv.org/abs/2308.11432) notes growing adoption across engineering fields, though evaluation strategies are still maturing. Many teams start with supervised use, where the agent proposes changes and a developer approves them.
+
+### Q: What is the software periodic table and why does it matter?
+
+It is a finite ontology of 115 software elements designed for LLM-based coding agents (https://github.com/NullLabTests/software-periodic-table). By breaking features into Objects, Actions, Interfaces, and other families, it helps agents compose solutions from known patterns, making output more predictable and auditable.
+
+### Q: What are the risks of using open-source AI coding tools?
+
+The main risks relate to model performance, security of self-hosted deployments, and the overhead of evaluating community-maintained projects. The open-source AI movement emphasizes transparency, but teams should still audit model training data and update practices (https://en.wikipedia.org/wiki/Open-source_artificial_intelligence).
+
+## Further Reading
+
+- [The Open-Source AI Stack Engineering Leaders Should Watch in 2026](https://radar.firstaimovers.com/open-source-ai-stack-engineering-leaders-2026)
+- [Coding Agents Are Splitting Into Two Camps: Terminal-Native vs Workflow-Native](https://radar.firstaimovers.com/terminal-native-vs-workflow-native-coding-agents-2026)
+- [Harness Engineering: How to Build Quality Gates from PR to Production for AI Coding Agents](https://radar.firstaimovers.com/harness-engineering-pr-quality-gates-european-companies-2026)
 
 
 ---
@@ -545,6 +663,321 @@ Follow First AI Movers on LinkedIn for practical AI frameworks and decision guid
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "You do not need one. You need a short readiness assessment, a one-page acceptable use policy, and one focused conversation about your top use case. That is about an hour of your time, not a stack of slides. ---"
+      }
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# AI Engineering for European SMEs: If You Can Describe It, We Can Build It
+
+- **Published:** 2026-07-17
+- **URL:** https://radar.firstaimovers.com/ai-engineering-services-european-smes-build-anything-2026
+- **Topics:** 
+
+> **TL;DR:** First AI Movers builds custom AI platforms, SaaS products, and automation systems for European SMEs, from idea to production on any cloud or model, with no vendor lock-in.
+
+You do not need a large in-house engineering department to build an AI-powered product. You do not need to hire a CTO who understands both your business and the AI landscape. You do not need to choose between a generic SaaS that almost fits and a custom build that drags on for a year and a half. You need a team that has built autonomous AI systems in production, understands European compliance, and can turn your description into a working product, on any cloud, with any model, on your timeline.
+
+That is what First AI Movers does. We are not a consulting firm that writes reports. We are the engineering team that builds the system the report recommends.
+
+---
+
+## What We Build: Custom AI Platform Development
+
+### Custom AI Platforms
+
+This is custom AI platform development European businesses can trust: full-stack AI applications tailored to your business. Not a wrapper around ChatGPT, a purpose-built system with your data, your workflows, your compliance requirements.
+
+**Examples from our portfolio:**
+- **Autonomous content engines**, signal-driven topic selection, multi-model content generation, multi-surface publishing, performance tracking, self-improvement loops. Our own engine publishes at scale behind thousands of automated tests.
+- **Multi-tenant SaaS platforms**, isolated tenants, configurable publishing surfaces, per-tenant analytics, role-based access. We run multiple tenants on one substrate.
+- **Grant and tender intelligence systems**, EU funding databases, automated relevance scoring, deadline tracking, application support content generation.
+
+### SaaS Products
+
+Want to build AI SaaS European company founders can scale on? From idea to production, we handle architecture, development, deployment, and ongoing operations.
+
+**What we deliver:**
+- Working MVP in 4-8 weeks (not many months)
+- EU-hosted infrastructure (Hetzner, AWS EU, Azure EU, GCP EU, your choice)
+- GDPR-compliant by design, not as an afterthought
+- EU AI Act awareness built into every AI component
+- Multi-language support (EN, NL, DE, PT, FR, ES)
+
+### Automation Systems
+
+AI automation services SME teams actually adopt: replace manual workflows with intelligent automation. We connect your existing tools (CRM, ERP, CMS, email, Slack) with AI that understands your business context.
+
+**What we automate:**
+- Content generation and distribution pipelines
+- Customer communication (email sequences, chatbots, support triage)
+- Data processing and reporting
+- Document analysis and extraction
+- Vendor evaluation and procurement support
+
+---
+
+## How We Work
+
+### Step 1: You Describe It
+
+Tell us what you want to build. A product idea, a workflow problem, a competitive advantage you need. You do not need technical specifications, you need a clear description of the business outcome.
+
+### Step 2: We Design the Architecture
+
+Within one week, you receive:
+- A system architecture document with component diagrams
+- A technology selection rationale (why this model, this database, this hosting)
+- A compliance assessment (GDPR, EU AI Act applicability)
+- A cost estimate (development + monthly operating)
+- A timeline with milestones
+
+### Step 3: We Build in Sprints
+
+2-week sprints with working deliverables at each milestone. You see progress, provide feedback, and steer direction. No disappearing for 6 months.
+
+### Step 4: We Deploy and Operate
+
+Your choice of deployment:
+- **Sovereign**, on your own infrastructure, you own everything
+- **Managed**, we deploy and operate it for you on EU-hosted cloud
+- **Hybrid**, you own the infrastructure, we manage the application
+
+### Step 5: We Stay or We Leave
+
+After deployment:
+- **Handoff**, full documentation, knowledge transfer, your team takes over
+- **Retainer**, ongoing maintenance, updates, monitoring (Fractional CAIO model)
+- **Growth**, continued feature development as your needs evolve
+
+---
+
+## Why European SMEs Choose Our Fractional AI Engineering Team
+
+### We Are Not a Body Shop
+
+Unlike the typical AI development team for hire Europe is used to, we do not rent developers by the hour and hope for the best. We are an engineering team that has built and operates production AI systems. Our own content engine runs autonomously with a large automated test suite, multi-tenant isolation, and multiple signal sources. We apply the same engineering discipline to your project.
+
+### We Understand European Compliance
+
+The EU AI Act is not a future concern, it is an active regime whose obligations are phasing in through 2026 and 2027. Every system we build includes:
+- Risk classification against EU AI Act Annex III
+- Human oversight design where required
+- Data residency on EU soil
+- GDPR-compliant data handling
+- Documentation trail for regulatory audit
+
+### We Are Cloud-Agnostic
+
+No vendor lock-in. We deploy on:
+- **Hetzner** (EU-based, cost-effective, sovereign)
+- **AWS** (EU regions, Ireland and Frankfurt)
+- **Azure** (West Europe, North Europe)
+- **Google Cloud** (EU regions, Belgium and the Netherlands)
+- **Your own infrastructure** (on-premise, Coolify, Docker)
+
+The architecture is portable, the same substrate that runs sovereign AI applications EU regulators expect. If you want to move clouds later, you can.
+
+### We Work with Any AI Model
+
+No model lock-in. We integrate:
+- **Anthropic** (Claude Opus, Sonnet, Haiku)
+- **OpenAI** (GPT-5, GPT-4o)
+- **Open-source** (DeepSeek, Gemma, Llama, Qwen)
+- **Self-hosted** (Ollama, vLLM, TGI)
+
+The right model for each task. Planning requires reasoning depth (Opus). Fast execution uses cheaper models (Sonnet, DeepSeek). We route intelligently, you pay for quality where it matters and speed where it does not.
+
+---
+
+## What It Costs
+
+Transparent pricing. No surprises.
+
+| Engagement | What You Get | Investment |
+|---|---|---|
+| **Discovery + Architecture** | System design, tech selection, compliance assessment, cost estimate | €2,500 (one-time) |
+| **MVP Build** (4-8 weeks) | Working product, deployed, documented, tested | €15,000 - €40,000 |
+| **Full Product** (3-6 months) | Production-grade platform with monitoring, scaling, compliance | €40,000 - €120,000 |
+| **Managed Operations** | Hosting, monitoring, updates, support | €950 - €4,950/month |
+| **Fractional CAIO** | Ongoing AI strategy + governance advisory | €1,950 - €4,950/month |
+
+Compare: a single senior AI engineer is a six-figure annual cost once you add benefits and management overhead. Our MVP engagement delivers a working product for a fraction of that, and you get a team, not a person.
+
+---
+
+## The Technology Stack
+
+We build with production-tested tools:
+
+| Layer | Technologies |
+|---|---|
+| **AI Models** | Claude, GPT, DeepSeek, Gemma, Llama, Qwen, routed by task |
+| **Backend** | Python, Node.js, Go, chosen per project requirements |
+| **Frontend** | React, Next.js, or server-rendered (your choice) |
+| **Database** | PostgreSQL, SQLite, DuckDB, Redis, chosen per scale |
+| **Infrastructure** | Docker, Kubernetes, Coolify, Terraform |
+| **CI/CD** | GitHub Actions, self-hosted runners |
+| **Monitoring** | Custom observability + alerting |
+| **CMS** | Airtable, WordPress, Hashnode, custom |
+| **Automation** | Make.com, n8n, custom pipelines |
+| **Search** | SEO + AEO + GEO optimised content pipelines |
+
+---
+
+## Generative Engine Optimization: Built Into Everything We Publish
+
+Every piece of content we create, for ourselves and for clients, is optimised for three search paradigms simultaneously:
+
+| Paradigm | What It Means | How We Optimise |
+|---|---|---|
+| **SEO** | Traditional search engine ranking | Meta titles, descriptions, H2 structure, internal linking, schema markup |
+| **AEO** | Answer Engine Optimization | FAQ sections, direct answer formatting, structured data, featured snippet targeting |
+| **GEO** | Generative Engine Optimization | Front-loaded answers in the opening section, citation-friendly formatting, E-E-A-T signals, source-grounded claims |
+
+Google AI Overviews now appear across a large and growing share of searches, and content that is well structured for machines is markedly more likely to be cited in AI-generated answers. Independent research from Princeton and collaborators, [GEO: Generative Engine Optimization](https://arxiv.org/abs/2311.09735), found that optimising content for generative engines can lift its visibility in AI answers by up to 40% (S1).
+
+We do not just write about GEO, we practice it. Our content engine has SEO and AEO validation built into the publish pipeline. Every article passes through quality gates that verify meta titles, FAQ sections, internal linking, and schema markup before it goes live.
+
+---
+
+## Frequently Asked Questions
+
+### Can you build an AI product if I only have a business idea, not technical specs?
+
+Yes. That is the most common starting point. You describe the business outcome you want. We translate it into architecture, select the right technologies, and build it. The Discovery + Architecture phase exists specifically for this.
+
+### How long does it take to get a working product?
+
+MVP in 4-8 weeks. Full production platform in 3-6 months. We work in 2-week sprints with working deliverables at each milestone, you see progress from week 2, not month 6.
+
+### Do I own the code?
+
+Yes. You own everything we build. Full source code, documentation, and deployment scripts are handed over. No proprietary frameworks, no lock-in, no _you need us to run it_ traps.
+
+### What about the EU AI Act?
+
+Every system we build includes an EU AI Act risk classification. If your AI use case falls under Annex III (high-risk), we design the required human oversight, logging, and documentation from day one, not as a retrofit.
+
+### Can you work with my existing engineering team?
+
+Yes. We integrate as a fractional AI engineering team. Your developers participate in sprint reviews, learn the architecture, and can take over maintenance after handoff. We are not trying to replace your team, we are trying to accelerate it.
+
+### What if I already have a platform and need AI added to it?
+
+That is a common engagement. We assess your existing architecture, identify where AI creates the most value, and integrate it without rebuilding what works. Typical: add an AI-powered search, automate a manual workflow, or add content generation capabilities.
+
+---
+
+## Further Reading
+
+- AI Readiness Assessment for European SMEs
+- EU AI Act: What European SMEs Must Do Before August 2026
+- We Built the Engine But Not the Chassis: AI Team Velocity
+- The Agentic AI Adoption Framework European SMEs Need in 2026
+
+---
+
+## Start With a Conversation
+
+If you have an idea for an AI-powered product, a workflow that needs automation, or a platform that needs AI capabilities, start with a conversation.
+
+Take our [AI Readiness Assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) to understand where your organisation stands. Or go directly to [AI Consulting](https://radar.firstaimovers.com/page/ai-consulting) to discuss your project.
+
+We build what you describe. On any cloud. With any model. Under EU compliance. No vendor lock-in. No compromise.
+
+Follow First AI Movers on LinkedIn for practical AI frameworks and decision guides.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AI Engineering for European SMEs: If You Can Describe It, We Can Build It",
+  "description": "Custom AI platforms, SaaS products, and automation systems for European SMEs. From idea to production on any cloud. No vendor lock-in. No compromise.",
+  "datePublished": "2026-07-17T22:01:38.510278+00:00",
+  "dateModified": "2026-07-17T22:01:38.510278+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/ai-engineering-services-european-smes-build-anything-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can you build an AI product if I only have a business idea, not technical specs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. That is the most common starting point. You describe the business outcome you want. We translate it into architecture, select the right technologies, and build it. The Discovery + Architecture phase exists specifically for this."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to get a working product?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MVP in 4-8 weeks. Full production platform in 3-6 months. We work in 2-week sprints with working deliverables at each milestone, you see progress from week 2, not month 6."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I own the code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You own everything we build. Full source code, documentation, and deployment scripts are handed over. No proprietary frameworks, no lock-in, no _you need us to run it_ traps."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What about the EU AI Act?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every system we build includes an EU AI Act risk classification. If your AI use case falls under Annex III (high-risk), we design the required human oversight, logging, and documentation from day one, not as a retrofit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you work with my existing engineering team?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We integrate as a fractional AI engineering team. Your developers participate in sprint reviews, learn the architecture, and can take over maintenance after handoff. We are not trying to replace your team, we are trying to accelerate it."
       }
     }
   ]
