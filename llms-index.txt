@@ -10,8 +10,8 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 919
-- Date range: 2025-02-17 to 2026-06-21
+- Articles: 924
+- Date range: 2025-02-17 to 2026-06-24
 - Topic count: 103
 - Generated: 2026-09-18
 
@@ -29,6 +29,13 @@ short summary. Articles are listed newest-first.
 
 ---
 
+## What Makes an AI System Trustworthy: The Characteristics NIST Names
+- Date: 2026-06-24
+- Canonical: https://radar.firstaimovers.com/what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum
+- Archive: https://articles.firstaimovers.com/articles/2026-06-24-what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum/article.md
+- Topics: AI Governance, Executive AI Literacy
+- Summary: NIST's AI RMF names seven characteristics of trustworthy AI: validity, safety, security, accountability, explainability, privacy, and fairness
+
 ## How the Sentry Intercepts System Calls to Contain Untrusted Agent Code
 - Date: 2026-06-21
 - Canonical: https://radar.firstaimovers.com/how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code
@@ -43,12 +50,26 @@ short summary. Articles are listed newest-first.
 - Topics: Executive AI Literacy
 - Summary: Apply CISA Secure by Design to AI agents: make safe configurations the out-of-the-box default, so teams ship agents that are secure before anyone touches
 
+## Choosing an Isolation Model for Untrusted Code: Userspace Kernel versus MicroVM
+- Date: 2026-06-20
+- Canonical: https://radar.firstaimovers.com/choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus
+- Archive: https://articles.firstaimovers.com/articles/2026-06-20-choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus/article.md
+- Topics: isolation-models, untrusted-code, gvisor, firecracker, sandboxing
+- Summary: When exposing code execution to autonomous agents, choose between gVisor's userspace kernel sandbox and Firecracker's microVM. Compare attack surface
+
 ## How MicroVMs Change the Trust Model for Running Untrusted Agent Code
 - Date: 2026-06-20
 - Canonical: https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s
 - Archive: https://articles.firstaimovers.com/articles/2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s/article.md
 - Topics: microvm-trust-model, untrusted-agent-code, sandboxing, isolation-boundary
 - Summary: Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent
+
+## Isolating Code-Execution MCP Servers: Why the Runtime Sandbox Is the Load-Bearing Control
+- Date: 2026-06-20
+- Canonical: https://radar.firstaimovers.com/isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo
+- Archive: https://articles.firstaimovers.com/articles/2026-06-20-isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo/article.md
+- Topics: mcp-security, runtime-sandbox, gvisor, firecracker, code-execution
+- Summary: Isolate code-execution MCP servers with risk of untrusted model-directed code. Runtime sandboxes like gVisor and Firecracker are the load-bearing control
 
 ## The OWASP Top 10 for LLM Applications: A Threat Checklist for Agent Builders
 - Date: 2026-06-20
@@ -63,6 +84,20 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-06-20-why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod/article.md
 - Topics: microvm-isolation, blast-radius, untrusted-code, agent-security, firecracker
 - Summary: When agents run untrusted code, isolation controls spread. Compare shared-kernel containers, userspace sandboxes, microVMs to limit blast radius.
+
+## MCP Server Audit-Trail Schema: What Logs Regulators Will Actually Ask For
+- Date: 2026-06-19
+- Canonical: https://radar.firstaimovers.com/mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f
+- Archive: https://articles.firstaimovers.com/articles/2026-06-19-mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f/article.md
+- Topics: Model Context Protocol, AI Regulation, AI Governance
+- Summary: A field-by-field audit log shape for MCP servers: prompt, tool, arguments, result, latency, with retention and append-only storage. Vital for EU AI Act
+
+## Google I/O 2026's Antigravity Push Signals a Shift to Independent Agents
+- Date: 2026-06-18
+- Canonical: https://radar.firstaimovers.com/google-i-o-2026-independent-agents-antigravity-push-summary-google-ann
+- Archive: https://articles.firstaimovers.com/articles/2026-06-18-google-i-o-2026-independent-agents-antigravity-push-summary-google-ann/article.md
+- Topics: antigravity, google-io-2026, ai-agents, developer-platforms, autonomy-governance
+- Summary: Google I/O 2026 introduced Antigravity, an agent-first platform for autonomous coding. For SMBs, the risk is unintended auto-approval and weakened
 
 ## OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks
 - Date: 2026-06-18

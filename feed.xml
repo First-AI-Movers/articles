@@ -3,7 +3,7 @@
   <id>tag:articles.firstaimovers.com,2025-02-17:feed</id>
   <title>First AI Movers — Article Archive</title>
   <subtitle>Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act compliance, governance, and agentic systems for European SMEs.</subtitle>
-  <updated>2026-06-21T00:00:00Z</updated>
+  <updated>2026-06-24T00:00:00Z</updated>
   <link rel="self" type="application/atom+xml" href="https://articles.firstaimovers.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://firstaimovers.com"/>
   <author>
@@ -13,6 +13,20 @@
   </author>
   <rights>Creative Commons Attribution 4.0 International (CC BY 4.0)</rights>
   <generator uri="https://github.com/First-AI-Movers/articles" version="1.0">rebuild_local.py</generator>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-24:2026-06-24-what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum</id>
+    <title>What Makes an AI System Trustworthy: The Characteristics NIST Names</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum"/>
+    <published>2026-06-24T00:00:00Z</published>
+    <updated>2026-06-24T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI Governance"/>
+    <category term="Executive AI Literacy"/>
+    <summary type="text">NIST's AI RMF names seven characteristics of trustworthy AI: validity, safety, security, accountability, explainability, privacy, and fairness</summary>
+  </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-06-21:2026-06-21-how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code</id>
     <title>How the Sentry Intercepts System Calls to Contain Untrusted Agent Code</title>
@@ -44,6 +58,23 @@
     <summary type="text">Apply CISA Secure by Design to AI agents: make safe configurations the out-of-the-box default, so teams ship agents that are secure before anyone touches</summary>
   </entry>
   <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-20:2026-06-20-choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus</id>
+    <title>Choosing an Isolation Model for Untrusted Code: Userspace Kernel versus MicroVM</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus"/>
+    <published>2026-06-20T00:00:00Z</published>
+    <updated>2026-06-20T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="isolation-models"/>
+    <category term="untrusted-code"/>
+    <category term="gvisor"/>
+    <category term="firecracker"/>
+    <category term="sandboxing"/>
+    <summary type="text">When exposing code execution to autonomous agents, choose between gVisor's userspace kernel sandbox and Firecracker's microVM. Compare attack surface</summary>
+  </entry>
+  <entry>
     <id>tag:articles.firstaimovers.com,2026-06-20:2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s</id>
     <title>How MicroVMs Change the Trust Model for Running Untrusted Agent Code</title>
     <link rel="alternate" href="https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s"/>
@@ -58,6 +89,23 @@
     <category term="sandboxing"/>
     <category term="isolation-boundary"/>
     <summary type="text">Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-20:2026-06-20-isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo</id>
+    <title>Isolating Code-Execution MCP Servers: Why the Runtime Sandbox Is the Load-Bearing Control</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo"/>
+    <published>2026-06-20T00:00:00Z</published>
+    <updated>2026-06-20T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="mcp-security"/>
+    <category term="runtime-sandbox"/>
+    <category term="gvisor"/>
+    <category term="firecracker"/>
+    <category term="code-execution"/>
+    <summary type="text">Isolate code-execution MCP servers with risk of untrusted model-directed code. Runtime sandboxes like gVisor and Firecracker are the load-bearing control</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-06-20:2026-06-20-the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui</id>
@@ -92,6 +140,38 @@
     <category term="agent-security"/>
     <category term="firecracker"/>
     <summary type="text">When agents run untrusted code, isolation controls spread. Compare shared-kernel containers, userspace sandboxes, microVMs to limit blast radius.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-19:2026-06-19-mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f</id>
+    <title>MCP Server Audit-Trail Schema: What Logs Regulators Will Actually Ask For</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f"/>
+    <published>2026-06-19T00:00:00Z</published>
+    <updated>2026-06-19T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="Model Context Protocol"/>
+    <category term="AI Regulation"/>
+    <category term="AI Governance"/>
+    <summary type="text">A field-by-field audit log shape for MCP servers: prompt, tool, arguments, result, latency, with retention and append-only storage. Vital for EU AI Act</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-18:2026-06-18-google-i-o-2026-independent-agents-antigravity-push-summary-google-ann</id>
+    <title>Google I/O 2026's Antigravity Push Signals a Shift to Independent Agents</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/google-i-o-2026-independent-agents-antigravity-push-summary-google-ann"/>
+    <published>2026-06-18T00:00:00Z</published>
+    <updated>2026-06-18T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="antigravity"/>
+    <category term="google-io-2026"/>
+    <category term="ai-agents"/>
+    <category term="developer-platforms"/>
+    <category term="autonomy-governance"/>
+    <summary type="text">Google I/O 2026 introduced Antigravity, an agent-first platform for autonomous coding. For SMBs, the risk is unintended auto-approval and weakened</summary>
   </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-06-18:2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish</id>
@@ -699,90 +779,5 @@
     <category term="digital-transformation"/>
     <category term="business-automation"/>
     <summary type="text">EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026</id>
-    <title>AI Consulting for Bratislava Tech SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-bratislava-tech-smes-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="AI Change Management"/>
-    <summary type="text">AI consulting for Bratislava tech SMEs: UOOU, EU AI Act compliance, Slovakia's digital transformation funding, and the Austria-Czech cross-border market.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bucharest-tech-smes-2026</id>
-    <title>AI Consulting for Bucharest Tech SMEs in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-bucharest-tech-smes-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Consulting"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="Fintech AI"/>
-    <summary type="text">AI consulting for Bucharest tech and fintech SMEs: ANSPDCP, EU AI Act compliance, and Romania's digital transformation landscape for 20-50 person teams.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-sofia-tech-fintech-smes-2026</id>
-    <title>AI Consulting for Sofia Tech and Fintech SMEs: What You Need to Know in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-sofia-tech-fintech-smes-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="AI Governance"/>
-    <category term="Fintech AI"/>
-    <category term="EU AI Act"/>
-    <summary type="text">Sofia tech and fintech SMEs face CPDP, EU AI Act, and BNB requirements. This guide covers AI adoption for Bulgarian tech and fintech companies.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-tallinn-digital-tech-smes-2026</id>
-    <title>AI Consulting for Tallinn Digital and Tech SMEs: What You Need to Know in 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-consulting-tallinn-digital-tech-smes-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="EU AI Act"/>
-    <category term="AI Governance"/>
-    <category term="AI Consulting"/>
-    <summary type="text">Tallinn tech SMEs face AKI and EU AI Act requirements. This guide covers AI adoption for Estonian software and e-governance technology companies in 2026.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-data-quality-framework-european-smes-2026</id>
-    <title>AI Data Quality Framework for European SMEs: What to Fix Before You Deploy</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-data-quality-framework-european-smes-2026"/>
-    <published>2026-04-25T00:00:00Z</published>
-    <updated>2026-04-25T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="GDPR &amp; Data Privacy"/>
-    <category term="AI Governance"/>
-    <category term="European SME AI"/>
-    <category term="AI Strategy"/>
-    <category term="AI PMO"/>
-    <summary type="text">Poor data quality causes AI projects to fail at growing companies. Covers assessment, GDPR mapping, cleaning pipelines, and a go/no-go checklist.</summary>
   </entry>
 </feed>

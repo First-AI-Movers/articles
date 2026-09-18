@@ -13,6 +13,17 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-06-24:2026-06-24-what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum",
+      "url": "https://radar.firstaimovers.com/what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum",
+      "title": "What Makes an AI System Trustworthy: The Characteristics NIST Names",
+      "date_published": "2026-06-24T00:00:00Z",
+      "tags": [
+        "AI Governance",
+        "Executive AI Literacy"
+      ],
+      "content_text": "NIST's AI RMF names seven characteristics of trustworthy AI: validity, safety, security, accountability, explainability, privacy, and fairness"
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-06-21:2026-06-21-how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
       "url": "https://radar.firstaimovers.com/how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
       "title": "How the Sentry Intercepts System Calls to Contain Untrusted Agent Code",
@@ -37,6 +48,20 @@
       "content_text": "Apply CISA Secure by Design to AI agents: make safe configurations the out-of-the-box default, so teams ship agents that are secure before anyone touches"
     },
     {
+      "id": "tag:articles.firstaimovers.com,2026-06-20:2026-06-20-choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus",
+      "url": "https://radar.firstaimovers.com/choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus",
+      "title": "Choosing an Isolation Model for Untrusted Code: Userspace Kernel versus MicroVM",
+      "date_published": "2026-06-20T00:00:00Z",
+      "tags": [
+        "isolation-models",
+        "untrusted-code",
+        "gvisor",
+        "firecracker",
+        "sandboxing"
+      ],
+      "content_text": "When exposing code execution to autonomous agents, choose between gVisor's userspace kernel sandbox and Firecracker's microVM. Compare attack surface"
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-06-20:2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
       "url": "https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
       "title": "How MicroVMs Change the Trust Model for Running Untrusted Agent Code",
@@ -48,6 +73,20 @@
         "isolation-boundary"
       ],
       "content_text": "Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent"
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-06-20:2026-06-20-isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo",
+      "url": "https://radar.firstaimovers.com/isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo",
+      "title": "Isolating Code-Execution MCP Servers: Why the Runtime Sandbox Is the Load-Bearing Control",
+      "date_published": "2026-06-20T00:00:00Z",
+      "tags": [
+        "mcp-security",
+        "runtime-sandbox",
+        "gvisor",
+        "firecracker",
+        "code-execution"
+      ],
+      "content_text": "Isolate code-execution MCP servers with risk of untrusted model-directed code. Runtime sandboxes like gVisor and Firecracker are the load-bearing control"
     },
     {
       "id": "tag:articles.firstaimovers.com,2026-06-20:2026-06-20-the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui",
@@ -76,6 +115,32 @@
         "firecracker"
       ],
       "content_text": "When agents run untrusted code, isolation controls spread. Compare shared-kernel containers, userspace sandboxes, microVMs to limit blast radius."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-06-19:2026-06-19-mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f",
+      "url": "https://radar.firstaimovers.com/mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f",
+      "title": "MCP Server Audit-Trail Schema: What Logs Regulators Will Actually Ask For",
+      "date_published": "2026-06-19T00:00:00Z",
+      "tags": [
+        "Model Context Protocol",
+        "AI Regulation",
+        "AI Governance"
+      ],
+      "content_text": "A field-by-field audit log shape for MCP servers: prompt, tool, arguments, result, latency, with retention and append-only storage. Vital for EU AI Act"
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-06-18:2026-06-18-google-i-o-2026-independent-agents-antigravity-push-summary-google-ann",
+      "url": "https://radar.firstaimovers.com/google-i-o-2026-independent-agents-antigravity-push-summary-google-ann",
+      "title": "Google I/O 2026's Antigravity Push Signals a Shift to Independent Agents",
+      "date_published": "2026-06-18T00:00:00Z",
+      "tags": [
+        "antigravity",
+        "google-io-2026",
+        "ai-agents",
+        "developer-platforms",
+        "autonomy-governance"
+      ],
+      "content_text": "Google I/O 2026 introduced Antigravity, an agent-first platform for autonomous coding. For SMBs, the risk is unintended auto-approval and weakened"
     },
     {
       "id": "tag:articles.firstaimovers.com,2026-06-18:2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish",
@@ -563,76 +628,6 @@
         "business-automation"
       ],
       "content_text": "EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bratislava-tech-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-bratislava-tech-smes-2026",
-      "title": "AI Consulting for Bratislava Tech SMEs in 2026",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Consulting",
-        "EU AI Act",
-        "AI Governance",
-        "AI Change Management"
-      ],
-      "content_text": "AI consulting for Bratislava tech SMEs: UOOU, EU AI Act compliance, Slovakia's digital transformation funding, and the Austria-Czech cross-border market."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-bucharest-tech-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-bucharest-tech-smes-2026",
-      "title": "AI Consulting for Bucharest Tech SMEs in 2026",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Consulting",
-        "EU AI Act",
-        "AI Governance",
-        "Fintech AI"
-      ],
-      "content_text": "AI consulting for Bucharest tech and fintech SMEs: ANSPDCP, EU AI Act compliance, and Romania's digital transformation landscape for 20-50 person teams."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-sofia-tech-fintech-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-sofia-tech-fintech-smes-2026",
-      "title": "AI Consulting for Sofia Tech and Fintech SMEs: What You Need to Know in 2026",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Strategy",
-        "AI Governance",
-        "Fintech AI",
-        "EU AI Act"
-      ],
-      "content_text": "Sofia tech and fintech SMEs face CPDP, EU AI Act, and BNB requirements. This guide covers AI adoption for Bulgarian tech and fintech companies."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-consulting-tallinn-digital-tech-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-consulting-tallinn-digital-tech-smes-2026",
-      "title": "AI Consulting for Tallinn Digital and Tech SMEs: What You Need to Know in 2026",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "European SME AI",
-        "AI Strategy",
-        "EU AI Act",
-        "AI Governance",
-        "AI Consulting"
-      ],
-      "content_text": "Tallinn tech SMEs face AKI and EU AI Act requirements. This guide covers AI adoption for Estonian software and e-governance technology companies in 2026."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-04-25:2026-04-25-ai-data-quality-framework-european-smes-2026",
-      "url": "https://radar.firstaimovers.com/ai-data-quality-framework-european-smes-2026",
-      "title": "AI Data Quality Framework for European SMEs: What to Fix Before You Deploy",
-      "date_published": "2026-04-25T00:00:00Z",
-      "tags": [
-        "GDPR & Data Privacy",
-        "AI Governance",
-        "European SME AI",
-        "AI Strategy",
-        "AI PMO"
-      ],
-      "content_text": "Poor data quality causes AI projects to fail at growing companies. Covers assessment, GDPR mapping, cleaning pipelines, and a go/no-go checklist."
     }
   ]
 }
