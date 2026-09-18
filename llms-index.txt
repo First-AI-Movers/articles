@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 904
+- Articles: 909
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
-- Generated: 2026-07-13
+- Generated: 2026-09-18
 
 ## Companion files
 
@@ -589,6 +589,13 @@ short summary. Articles are listed newest-first.
 - Topics: European SME AI, DACH AI, AI Consulting, EU AI Act, AI Governance, B2B SaaS Growth
 - Summary: Berlin tech SMEs face a layered compliance environment with BfDI, BlnBDI, BSI IT-Grundschutz, and EU AI Act rules. AI consulting engagements in 2026 focus on closing governance gaps through compliance baselines, use-case prioritization, pilot-to-production…
 
+## AI Consulting for Edinburgh Tech and Fintech SMEs: What You Need to Know in 2026
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/ai-consulting-edinburgh-tech-fintech-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-ai-consulting-edinburgh-tech-fintech-smes-2026/article.md
+- Topics: AI Consulting, Fintech AI, AI Regulation, UK and Ireland AI, European SME AI, AI Strategy
+- Summary: AI consulting for Edinburgh tech and fintech SMEs. UK regulatory context, ICO compliance, and what to look for in an AI partner in 2026.
+
 ## AI Consulting for Lisbon Tech and Fintech SMEs in 2026
 - Date: 2026-04-23
 - Canonical: https://radar.firstaimovers.com/ai-consulting-lisbon-tech-fintech-smes-2026
@@ -652,6 +659,13 @@ short summary. Articles are listed newest-first.
 - Topics: Claude Code, GDPR & Data Privacy, AI Governance, AI Coding Tools, European SME AI, AI Workflow Automation
 - Summary: Claude Code is a terminal-native AI agent for backend development in Python and Node.js. It reads entire project trees rather than guessing from cursor position, suited for complex APIs, data pipelines, and async workers. Setup requires npm installation, API…
 
+## Claude Code for Frontend Teams: What It Actually Does in React and Next.js
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/claude-code-frontend-teams-react-nextjs-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-claude-code-frontend-teams-react-nextjs-2026/article.md
+- Topics: European SME AI
+- Summary: How European frontend teams use Claude Code to generate components, debug UI state, write tests, and handle GDPR-safe form patterns in React and Next.js.
+
 ## EU AI Act August 2026: What European SMEs Must Do Before the GP Systems Deadline
 - Date: 2026-04-23
 - Canonical: https://radar.firstaimovers.com/eu-ai-act-gp-systems-august-2026-compliance-checklist
@@ -666,12 +680,26 @@ short summary. Articles are listed newest-first.
 - Topics: European SME AI, EU AI Act, AI Governance, AI Strategy, AI PMO
 - Summary: Most AI pilots stall before production. This 90-day framework covers scoping, KPIs, kill criteria, and the handoff checklist for European SME teams.
 
+## How to Write Prompts That Actually Work: A Business User's Guide for European SMEs
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/prompt-engineering-guide-european-sme-business-users-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-prompt-engineering-guide-european-sme-business-users-2026/article.md
+- Topics: European SME AI, GDPR & Data Privacy
+- Summary: Practical prompt engineering guide for non-technical European SME staff. Five patterns for Claude, ChatGPT, and Gemini, with GDPR privacy rules.
+
 ## A Shared Prompt Library Saves Your Team Weeks of Trial and Error
 - Date: 2026-04-23
 - Canonical: https://radar.firstaimovers.com/prompt-library-european-sme-teams-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-23-prompt-library-european-sme-teams-2026/article.md
 - Topics: European SME AI, AI Governance
 - Summary: A prompt library is a structured, shared collection of tested AI templates that teams can copy and adapt. Organize by business function (communications, HR, finance, operations, legal). Each template needs a name, use case, prompt with placeholders, expected…
+
+## Shadow AI in European Financial Services: Why the Regulatory Stakes Are Higher Than You Think
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/shadow-ai-financial-services-governance-european-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-shadow-ai-financial-services-governance-european-smes-2026/article.md
+- Topics: Shadow AI, AI Governance, Fintech AI, European SME AI
+- Summary: MiFID II, DORA, GDPR Article 22: why financial services SMEs face higher shadow AI risk and how to govern it before your regulator finds it first.
 
 ## Shadow AI in Healthcare: A Governance Framework for European SMEs
 - Date: 2026-04-23
@@ -693,6 +721,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-23-should-you-build-internal-ai-knowledge-base-2026/article.md
 - Topics: RAG Architecture, European SME AI, GDPR & Data Privacy, AI Governance, AI Strategy
 - Summary: European SMEs (20-50 people) considering an internal AI knowledge base in 2026 have three options: plug-and-play tools (Notion AI, Copilot) for low effort, custom RAG pipelines for multi-platform flexibility, or fine-tuning for niche tasks. GDPR data…
+
+## Should You Hire a Fractional CTO to Lead Your AI Transformation?
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/should-you-hire-fractional-cto-ai-transformation-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-should-you-hire-fractional-cto-ai-transformation-2026/article.md
+- Topics: Fractional CTO, AI Change Management, European SME AI, Executive AI Literacy, AI Strategy
+- Summary: A decision framework for European SME CEOs: when a fractional CTO for AI transformation makes sense, and when it does not.
 
 ## Utrecht AI Automation Agency: What to Check Before You Hire
 - Date: 2026-04-20
