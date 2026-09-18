@@ -86,16 +86,22 @@ def build_archive_index(articles_dir: Path) -> dict:
     return {"ids": ids, "urls": urls, "titles": titles}
 
 
-def reconcile(records, archive, schema, *, allow_no_status_gate=False):
+def reconcile(records, archive, schema, *, allow_no_status_gate=False, gate=None, verifier=None):
     """Pure reconciliation. Returns (counts dict, missing_record_ids list).
 
-    Classification mirrors ingest_airtable.main():
+    Classification mirrors ingest_airtable.main() through the SAME eligibility
+    function (ingest_airtable.eligibility), so the two tools cannot disagree:
       invalid          — fails schema validation (would be skipped as invalid)
-      status_skipped   — no/other status (not in ALLOWED_STATUSES)
-      eligible         — Posted + valid (would be a create candidate)
+      status_skipped   — `status` gate: no/other status (not in ALLOWED_STATUSES)
+      excluded / rights_denied / no_receipt / receipt_unverifiable
+                       — `receipt` gate classes (tools/publication_receipt.py);
+                         `canonical_drift` counts admitted rows whose page
+                         canonical differs from the source URL (a signal only)
+      eligible         — admitted + valid (would be a create candidate)
         eligible_present — already in the archive (by record id or canonical URL)
         eligible_missing — NOT in the archive by either identity (the backlog)
     """
+    gate = gate or ing.eligibility_gate()
     counts = {
         "fetched": 0,
         "invalid": 0,
@@ -109,6 +115,9 @@ def reconcile(records, archive, schema, *, allow_no_status_gate=False):
         # a heuristic reclassification the reader should be able to audit.
         "present_by_title_drift": 0,
     }
+    if gate == ing.GATE_RECEIPT:
+        counts.update({"gate": gate, "excluded": 0, "rights_denied": 0, "no_receipt": 0,
+                       "receipt_unverifiable": 0, "canonical_drift": 0})
     missing_ids: list[str] = []
     for rec in records:
         counts["fetched"] += 1
@@ -118,13 +127,13 @@ def reconcile(records, archive, schema, *, allow_no_status_gate=False):
         if errors:
             counts["invalid"] += 1
             continue
-        status = (payload.get("status") or "").lower()
-        if not status and not allow_no_status_gate:
-            counts["status_skipped"] += 1
+        elig = ing.eligibility(payload, rec, allow_no_status_gate=allow_no_status_gate,
+                               gate=gate, verifier=verifier)
+        if not elig.admitted:
+            counts[elig.klass] = counts.get(elig.klass, 0) + 1
             continue
-        if status and status not in ing.ALLOWED_STATUSES:
-            counts["status_skipped"] += 1
-            continue
+        if elig.receipt and elig.receipt.get("canonical_match") is False:
+            counts["canonical_drift"] += 1
         counts["eligible"] += 1
         url = ing._normalize_canonical_url(payload.get("canonical_url", ""))
         title = ing._normalize_title(payload.get("title", ""))
@@ -163,6 +172,13 @@ def _render_summary(counts: dict, *, since_hours) -> str:
         f"- **Eligible MISSING from archive: {counts['eligible_missing']}**\n"
         f"- Status-skipped: {counts['status_skipped']}\n"
         f"- Invalid (schema): {counts['invalid']}\n"
+        + (
+            f"- Gate: receipt — excluded {counts.get('excluded', 0)}, rights denied "
+            f"{counts.get('rights_denied', 0)}, no receipt {counts.get('no_receipt', 0)}, "
+            f"receipt unverifiable {counts.get('receipt_unverifiable', 0)}, canonical drift "
+            f"{counts.get('canonical_drift', 0)}\n"
+            if counts.get("gate") == ing.GATE_RECEIPT else "- Gate: status\n"
+        )
     )
 
 
@@ -207,8 +223,11 @@ def main(argv=None):
         return 1
 
     archive = build_archive_index(ing.ARTICLES_DIR)
+    gate = ing.eligibility_gate()
+    verifier = ing.build_receipt_verifier() if gate == ing.GATE_RECEIPT else None
     counts, missing_ids = reconcile(
-        records, archive, schema, allow_no_status_gate=args.allow_no_status_gate
+        records, archive, schema, allow_no_status_gate=args.allow_no_status_gate,
+        gate=gate, verifier=verifier,
     )
     counts["archive_articles"] = len(archive["ids"])
 

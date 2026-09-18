@@ -25,6 +25,7 @@ import re
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import NamedTuple
 from urllib.parse import urlencode
 
 import requests
@@ -77,6 +78,86 @@ AIRTABLE_FIELD_MAP = {
 #
 # Comparison is case-insensitive (see _validate_payload / main).
 ALLOWED_STATUSES = {"posted"}
+
+# ---------------------------------------------------------------------------
+# Eligibility gate selector (ADR:archive-eligibility-by-verified-publication-receipt).
+#
+# `status`  -- the historical gate above: admitted iff `FAIM Status` is in
+#              ALLOWED_STATUSES. The rollback position; never a silent fallback.
+# `receipt` -- admitted iff the record's publication is VERIFIED on a public page
+#              (tools/publication_receipt.py): a Hashnode post id embedded on the
+#              publication page, or a first-party source page that declares itself
+#              canonical. `FAIM Status` becomes advisory. Requires a verifier, which
+#              main() builds; the three tools share this one function so a record is
+#              classified identically by ingestion, reconciliation and recovery.
+# Read from the ARCHIVE_ELIGIBILITY_GATE environment variable; the workflows pass the
+# repository variable of the same name, defaulting to `status`.
+# ---------------------------------------------------------------------------
+ELIGIBILITY_GATE_ENV = "ARCHIVE_ELIGIBILITY_GATE"
+GATE_STATUS = "status"
+GATE_RECEIPT = "receipt"
+CLASS_ELIGIBLE = "eligible"
+CLASS_STATUS_SKIPPED = "status_skipped"
+
+
+class Eligibility(NamedTuple):
+    """One record's admission decision: `klass` is `eligible`, `status_skipped`, or a
+    receipt class from tools/publication_receipt.py (`excluded`, `rights_denied`,
+    `no_receipt`, `receipt_unverifiable`); `receipt` is recorded in metadata.json."""
+
+    admitted: bool
+    klass: str
+    reason: str
+    receipt: dict | None
+
+
+def eligibility_gate():
+    """The configured gate: `status` (default) or `receipt`. Anything else is a
+    configuration error, not a fallback."""
+    value = os.environ.get(ELIGIBILITY_GATE_ENV, "").strip().lower()
+    if value in ("", GATE_STATUS):
+        return GATE_STATUS
+    if value == GATE_RECEIPT:
+        return GATE_RECEIPT
+    raise SystemExit(f"{ELIGIBILITY_GATE_ENV} must be '{GATE_STATUS}' or '{GATE_RECEIPT}', got {value!r}")
+
+
+def build_receipt_verifier():
+    """The production verifier: polite public-page fetcher + this module's canonical
+    normalizer. Imported lazily so the status gate never loads it."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import publication_receipt as pr  # noqa: E402
+    return pr.Verifier(pr.build_http_fetcher(), normalize_url=_normalize_canonical_url)
+
+
+def eligibility(payload, record, *, allow_no_status_gate, gate=None, verifier=None):
+    """Admission decision for one record under the configured gate.
+
+    Under `status` this is exactly the historical check. Under `receipt` the raw
+    Airtable fields are handed to the verifier; the editorial status is carried in
+    the reason for the log line but never decides.
+    """
+    gate = gate or eligibility_gate()
+    status = (payload.get("status") or "").lower()
+    if gate == GATE_STATUS:
+        if not status and not allow_no_status_gate:
+            return Eligibility(False, CLASS_STATUS_SKIPPED,
+                               "no Status field and --allow-no-status-gate not set", None)
+        if status and status not in ALLOWED_STATUSES:
+            return Eligibility(False, CLASS_STATUS_SKIPPED,
+                               f"status '{status}' not in {ALLOWED_STATUSES}", None)
+        return Eligibility(True, CLASS_ELIGIBLE, "status gate", None)
+    if verifier is None:
+        raise ValueError("the receipt gate requires a verifier (see build_receipt_verifier)")
+    decision = verifier.decide(
+        (record or {}).get("fields", {}) or {},
+        canonical_url=payload.get("canonical_url", "") or "",
+        slug=payload.get("slug", "") or "",
+        license_value=payload.get("license", "") or "",
+    )
+    reason = f"{decision.reason} (editorial_status='{status or '-'}')"
+    return Eligibility(decision.eligible, decision.klass, reason, decision.receipt)
+
 
 AIRTABLE_API_URL = "https://api.airtable.com/v0"
 
@@ -407,10 +488,12 @@ def _validate_payload(payload, schema):
     return errors, warnings
 
 
-def _write_article(payload, record_id, dry_run):
+def _write_article(payload, record_id, dry_run, receipt=None):
     """Write article.md and metadata.json for a validated payload.
 
-    Returns (folder_name, created_bool).
+    `receipt`, when the receipt gate admitted the record, is recorded verbatim as
+    `publication_receipt` so the archive can answer "why is this here?" without
+    re-reading the source. Returns (folder_name, created_bool).
     """
     published_date = payload["published_date"]
     slug = payload["slug"]
@@ -479,6 +562,8 @@ def _write_article(payload, record_id, dry_run):
         "status": payload.get("status", "published").lower(),
         "topics": [],  # populated by normalize_tags.py
     }
+    if receipt:
+        metadata["publication_receipt"] = dict(receipt)
     # Drop None values to keep JSON clean
     metadata = {k: v for k, v in metadata.items() if v is not None}
     text = json.dumps(metadata, indent=2, ensure_ascii=False)
@@ -534,7 +619,8 @@ def _fetch_records(pat, base_id, table_name, view_name=None, since_hours=None, r
         params["offset"] = offset
 
 
-def _ingest_from(records, schema, *, dry_run, allow_no_status_gate, max_created, counters):
+def _ingest_from(records, schema, *, dry_run, allow_no_status_gate, max_created, counters,
+                 gate=None, verifier=None):
     """Process a record iterator, updating `counters` in place.
 
     `counters` carries {seen, created, skipped, invalid}. Returns True when the
@@ -553,17 +639,16 @@ def _ingest_from(records, schema, *, dry_run, allow_no_status_gate, max_created,
             counters["invalid"] += 1
             continue
 
-        status = payload.get("status", "").lower()
-        if not status and not allow_no_status_gate:
-            print(f"[SKIP] {record_id}: no Status field and --allow-no-status-gate not set", file=sys.stderr)
+        elig = eligibility(payload, record, allow_no_status_gate=allow_no_status_gate,
+                           gate=gate, verifier=verifier)
+        if not elig.admitted:
+            print(f"[SKIP] {record_id}: {elig.reason}", file=sys.stderr)
             counters["skipped"] += 1
-            continue
-        if status and status not in ALLOWED_STATUSES:
-            print(f"[SKIP] {record_id}: status '{status}' not in {ALLOWED_STATUSES}", file=sys.stderr)
-            counters["skipped"] += 1
+            classes = counters.setdefault("classes", {})
+            classes[elig.klass] = classes.get(elig.klass, 0) + 1
             continue
 
-        folder, was_created = _write_article(payload, record_id, dry_run)
+        folder, was_created = _write_article(payload, record_id, dry_run, receipt=elig.receipt)
         if was_created:
             action = "[CREATE]" if not dry_run else "[WOULD CREATE]"
             print(f"{action} {folder}")
@@ -628,6 +713,9 @@ def main(argv=None):
     view_name = os.environ.get("AIRTABLE_VIEW_NAME", "").strip() or None
 
     counters = {"seen": 0, "created": 0, "skipped": 0, "invalid": 0}
+    gate = eligibility_gate()
+    verifier = build_receipt_verifier() if gate == GATE_RECEIPT else None
+    print(f"[gate] archive eligibility gate: {gate}")
 
     try:
         recent = _fetch_records(pat, base_id, table_name, view_name,
@@ -636,6 +724,7 @@ def main(argv=None):
             recent, schema, dry_run=dry_run,
             allow_no_status_gate=args.allow_no_status_gate,
             max_created=args.max_created, counters=counters,
+            gate=gate, verifier=verifier,
         )
 
         # Recurrence prevention (E41): after the recent-window pass, fill any
@@ -664,6 +753,7 @@ def main(argv=None):
                 oldest, schema, dry_run=dry_run,
                 allow_no_status_gate=args.allow_no_status_gate,
                 max_created=args.max_created, counters=counters,
+                gate=gate, verifier=verifier,
             )
 
     except requests.HTTPError as e:

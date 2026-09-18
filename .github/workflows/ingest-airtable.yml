@@ -36,6 +36,11 @@ env:
   # Defaults are conservative; tune via repo variables once steady-state.
   INGEST_MAX_RECORDS: ${{ vars.INGEST_MAX_RECORDS || '20' }}
   INGEST_MAX_CREATED: ${{ vars.INGEST_MAX_CREATED || '5' }}
+  # Archive eligibility gate (docs/decisions/archive-eligibility-by-verified-publication-receipt.md):
+  # `status` = the historical `FAIM Status == Posted` check; `receipt` = admitted only on a
+  # verified publication receipt. Read by the three tools through the environment; the
+  # default stays `status` until the read-only receipt delta has been produced (#423).
+  ARCHIVE_ELIGIBILITY_GATE: ${{ vars.ARCHIVE_ELIGIBILITY_GATE || 'status' }}
 
 jobs:
   ingest:

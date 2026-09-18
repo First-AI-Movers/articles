@@ -79,3 +79,27 @@ def test_ingestion_shares_concurrency_group(wf_name):
         f"three ingestion paths cannot run concurrently and race on the shared "
         f"rebuild output; got {conc!r}."
     )
+
+
+GATE_WORKFLOWS = [
+    "ingest-airtable.yml",
+    "audit-airtable-reconciliation.yml",
+    "recover-airtable-backlog.yml",
+]
+GATE_EXPR = "${{ vars.ARCHIVE_ELIGIBILITY_GATE || 'status' }}"
+
+
+@pytest.mark.parametrize("wf_name", GATE_WORKFLOWS)
+def test_eligibility_gate_is_passed_identically_to_every_tool(wf_name):
+    """The three tools decide eligibility through one shared function that reads
+    ARCHIVE_ELIGIBILITY_GATE. If one workflow forgot to pass the repository variable,
+    that tool would silently run the `status` gate while the others ran `receipt`
+    -- the reconciler and the ingestion path would disagree about the same record.
+    The default is `status` on purpose (ADR: the rollback position), so flipping the
+    repository variable is the only cut-over and unsetting it is the rollback."""
+    wf = _wf(wf_name)
+    env = wf.get("env") or {}
+    assert env.get("ARCHIVE_ELIGIBILITY_GATE") == GATE_EXPR, (
+        f"{wf_name} must pass ARCHIVE_ELIGIBILITY_GATE at workflow level as {GATE_EXPR!r}; "
+        f"got {env.get('ARCHIVE_ELIGIBILITY_GATE')!r}"
+    )
