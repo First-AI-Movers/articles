@@ -95,11 +95,13 @@ so the three tools never disagree about a record:
 - `status` (default, and the rollback position) — the status gate described below.
 - `receipt` — a record is admitted only on a **verified publication receipt**
   (`tools/publication_receipt.py`): a Hashnode post id embedded on the publication
-  page, resolved through the public sitemap, or a first-party source page that
-  declares itself canonical. `FAIM Status` becomes advisory. Rows whose receipt could
-  not be read (`429`, `5xx`, timeouts) are `receipt_unverifiable` and retried next
-  run; an admitted article records its receipt as `publication_receipt` in
-  `metadata.json`. Decision record:
+  page, resolved through the public sitemap, or — when the row has no Hashnode
+  receipt or its publication URL cannot be resolved — a first-party source page
+  that declares itself canonical. `FAIM Status` becomes advisory. Rows whose receipt
+  could not be read (`401`/`403`/`429`, `5xx`, timeouts) are `receipt_unverifiable`
+  and retried next run; an admitted article records its receipt as
+  `publication_receipt` in `metadata.json`. Presence is checked first: an archived
+  article is never re-judged. Decision record:
   [`docs/decisions/archive-eligibility-by-verified-publication-receipt.md`](decisions/archive-eligibility-by-verified-publication-receipt.md).
 
 The gate is switched to `receipt` only after the read-only reconciliation delta in

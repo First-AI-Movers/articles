@@ -12,8 +12,12 @@ public page*, never because an editorial select says ``Posted``. Two receipt kin
   page must **embed that post id**. The page's ``<link rel="canonical">`` is compared with
   the source canonical URL and recorded as ``canonical_match`` -- a drift signal, never
   a rejection, because the newsletter platform renames slugs after publication.
-* ``OWNED_SOURCE_URL`` (fallback, only when no Hashnode receipt is available) -- the
-  canonical URL is on a first-party host and its page canonical normalizes to itself.
+* ``OWNED_SOURCE_URL`` (fallback) -- the canonical URL is on a first-party host and its
+  page canonical normalizes to itself. Used when the row carries no Hashnode receipt,
+  and also when it does but the publication URL cannot be *resolved* (cross-posted
+  articles carry a hand-written publication slug the source slug cannot predict). A
+  publication page that IS found but does not embed the post id never falls through:
+  that is a disproved claim, not an unresolved one.
 
 No receipt -> not eligible. Transport failures, ``429`` and ``5xx`` are
 ``receipt_unverifiable``: counted and retried next run, never a receipt and never a
@@ -23,7 +27,9 @@ request against it requires a paid plan, and the public surfaces are sufficient.
 Read budget: the sitemap index and its pages are fetched at most once per
 ``Verifier`` (<= 21 requests) and cached, including a failed fetch so a broken
 sitemap is not hammered; post pages are fetched only for candidates of the record
-being decided (at most ``MAX_CANDIDATES``). Unit tests inject a fake ``fetch``; the
+being decided (at most ``MAX_CANDIDATES``). Callers decide archive presence BEFORE
+asking for a receipt: the gate governs admission, never retention, so a record the
+archive already holds is never looked up. Unit tests inject a fake ``fetch``; the
 real fetcher lives in ``build_http_fetcher``.
 """
 
@@ -199,7 +205,11 @@ class Verifier:
             return Decision(CLASS_UNVERIFIABLE, "publication sitemap unavailable")
         cands = self.candidates(slug_stem)
         if not cands:
-            return Decision(CLASS_NO_RECEIPT, f"no publication URL matches slug stem '{slug_stem}'")
+            # UNRESOLVABLE, not disproved: cross-posted articles carry a hand-written
+            # publication slug that the source slug cannot predict. decide() falls
+            # through to the first-party source receipt in this one case.
+            return Decision(CLASS_NO_RECEIPT, f"no publication URL matches slug stem '{slug_stem}'",
+                            receipt={"_unresolved": True})
         for url in cands:
             try:
                 status, text = self._get(url)
@@ -230,7 +240,9 @@ class Verifier:
             status, text = self._get(canonical_url)
         except FetchError as exc:
             return Decision(CLASS_UNVERIFIABLE, f"source page fetch failed: {exc}")
-        if status == 429 or status >= 500:
+        if status in (401, 403, 429) or status >= 500:
+            # A first-party host that refuses the reader (bot protection on the
+            # Medium custom domains, rate limits) has not said the article is absent.
             return Decision(CLASS_UNVERIFIABLE, f"source page returned HTTP {status}")
         if status != 200:
             return Decision(CLASS_NO_RECEIPT, f"source page returned HTTP {status}")
@@ -248,31 +260,6 @@ class Verifier:
 
     # -- the gate --------------------------------------------------------------
 
-    def listed(self, fields: dict, *, canonical_url: str, slug: str, license_value: str = "") -> Decision:
-        """The cheap form of `decide` for a record that is ALREADY in the archive:
-        exclusion and rights as usual, then evidence from the sitemap alone (R1) or
-        the host allow-list alone (R2) -- no post or source page is fetched, and no
-        receipt is produced. Used by the reconciler to keep the read budget at one
-        sitemap per run plus one page per genuinely missing candidate."""
-        fields = fields or {}
-        if bool(fields.get(FIELD_ARCHIVE_EXCLUDE)):
-            return Decision(CLASS_EXCLUDED, f"{FIELD_ARCHIVE_EXCLUDE} is set")
-        if license_value and license_value.strip().lower() in self.deny_licenses:
-            return Decision(CLASS_RIGHTS_DENIED, f"license '{license_value}' is in the deny set")
-        state = _select_name(fields.get(FIELD_HASHNODE_STATE))
-        post_id = (fields.get(FIELD_HASHNODE_POST_ID) or "").strip() if isinstance(
-            fields.get(FIELD_HASHNODE_POST_ID), str) else ""
-        if state == HASHNODE_PUBLISHED_STATE and POST_ID_RE.match(post_id):
-            if self.sitemap_urls() is None:
-                return Decision(CLASS_UNVERIFIABLE, "publication sitemap unavailable")
-            if self.candidates(slug):
-                return Decision(CLASS_ELIGIBLE, "listed on the publication sitemap (page not fetched)")
-            return Decision(CLASS_NO_RECEIPT, f"no publication URL matches slug stem '{slug}'")
-        host = _host(canonical_url or "")
-        if (canonical_url or "").lower().startswith("https://") and host in self.owned_hosts:
-            return Decision(CLASS_ELIGIBLE, "first-party canonical host (page not fetched)")
-        return Decision(CLASS_NO_RECEIPT, f"canonical host '{host or '-'}' is not a first-party property")
-
     def decide(self, fields: dict, *, canonical_url: str, slug: str, license_value: str = "") -> Decision:
         """Eligibility of one source record. ``fields`` is the raw Airtable fields dict;
         ``canonical_url`` and ``slug`` are the archive payload's values."""
@@ -286,7 +273,13 @@ class Verifier:
         post_id = (fields.get(FIELD_HASHNODE_POST_ID) or "").strip() if isinstance(
             fields.get(FIELD_HASHNODE_POST_ID), str) else ""
         if state == HASHNODE_PUBLISHED_STATE and POST_ID_RE.match(post_id):
-            return self._hashnode_receipt(post_id, slug, canonical_url or "")
+            primary = self._hashnode_receipt(post_id, slug, canonical_url or "")
+            if not (primary.receipt or {}).get("_unresolved"):
+                return primary          # verified, disproved (page without the id) or unverifiable
+            fallback = self._owned_source_receipt(canonical_url or "")
+            if fallback.klass in (CLASS_ELIGIBLE, CLASS_UNVERIFIABLE):
+                return fallback
+            return Decision(CLASS_NO_RECEIPT, f"{primary.reason}; {fallback.reason}")
         return self._owned_source_receipt(canonical_url or "")
 
 

@@ -189,16 +189,6 @@ class _StubVerifier:
         self.admit, self.drift, self.klass = set(admit), set(drift), klass
         self.calls = []
 
-    def listed(self, fields, *, canonical_url, slug, license_value=""):
-        self.calls.append(("listed", canonical_url))
-
-        class D:
-            pass
-        d = D()
-        d.eligible = canonical_url in self.admit
-        d.klass, d.reason, d.receipt = ("eligible" if d.eligible else self.klass), "stub", None
-        return d
-
     def decide(self, fields, *, canonical_url, slug, license_value=""):
         self.calls.append(("decide", canonical_url))
         class D:  # noqa: D401 - minimal decision shape
@@ -248,15 +238,22 @@ class TestReceiptGateReconcile:
         assert "Gate: receipt" in out and "no receipt 3" in out and "canonical drift 1" in out
 
 
-    def test_present_rows_use_the_cheap_check_and_only_missing_rows_fetch(self, mod, schema):
+    def test_present_rows_are_present_without_any_lookup_and_absent_rows_are_explained(self, mod, schema):
+        """The gate governs admission, never retention: an archived row is
+        `eligible_present` under the receipt gate even if no receipt could be found
+        for it today, and the verifier is consulted only for absent rows. Absent rows
+        the gate does not admit are reported with class and reason."""
         archive = {"ids": {"rec1"}, "urls": set(), "titles": {mod.ing._normalize_title("A Title")}}
         recs = [
             _rec("rec1", url="https://www.firstaimovers.com/p/present-by-id", status="Draft"),
             _rec("rec2", url="https://www.firstaimovers.com/p/missing", title="Missing One", status="Draft"),
+            _rec("rec3", url="https://www.firstaimovers.com/p/absent-no-receipt", title="Absent", status="Posted"),
         ]
-        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/present-by-id",
-                                 "https://www.firstaimovers.com/p/missing"})
-        counts, missing = mod.reconcile(recs, archive, schema, gate="receipt", verifier=v)
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/missing"})  # NOT the present row
+        detail = []
+        counts, missing = mod.reconcile(recs, archive, schema, gate="receipt", verifier=v, detail=detail)
         assert counts["eligible_present"] == 1 and counts["eligible_missing"] == 1 and missing == ["rec2"]
-        assert v.calls == [("listed", "https://www.firstaimovers.com/p/present-by-id"),
-                           ("decide", "https://www.firstaimovers.com/p/missing")]
+        assert counts["no_receipt"] == 1
+        assert v.calls == [("decide", "https://www.firstaimovers.com/p/missing"),
+                           ("decide", "https://www.firstaimovers.com/p/absent-no-receipt")]
+        assert detail == [("rec3", "no_receipt", "stub (editorial_status='posted')")]

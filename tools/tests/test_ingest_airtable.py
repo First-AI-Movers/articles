@@ -1429,10 +1429,6 @@ class _StubVerifier:
         self.klass = klass
         self.calls = []
 
-    def listed(self, fields, *, canonical_url, slug, license_value=""):
-        self.calls.append(("listed", canonical_url))
-        return _StubDecision("eligible" if canonical_url in self.admit else self.klass)
-
     def decide(self, fields, *, canonical_url, slug, license_value=""):
         self.calls.append((dict(fields), canonical_url, slug, license_value))
         if canonical_url in self.admit:

@@ -130,14 +130,13 @@ def build_receipt_verifier():
     return pr.Verifier(pr.build_http_fetcher(), normalize_url=_normalize_canonical_url)
 
 
-def eligibility(payload, record, *, allow_no_status_gate, gate=None, verifier=None, cheap=False):
+def eligibility(payload, record, *, allow_no_status_gate, gate=None, verifier=None):
     """Admission decision for one record under the configured gate.
 
     Under `status` this is exactly the historical check. Under `receipt` the raw
     Airtable fields are handed to the verifier; the editorial status is carried in
-    the reason for the log line but never decides. `cheap=True` asks the verifier
-    for sitemap/host evidence only (no page fetch, no receipt) -- for records that
-    are already in the archive, where only a classification is needed.
+    the reason for the log line but never decides. Callers ask for presence first:
+    the gate governs admission, never retention.
     """
     gate = gate or eligibility_gate()
     status = (payload.get("status") or "").lower()
@@ -151,8 +150,7 @@ def eligibility(payload, record, *, allow_no_status_gate, gate=None, verifier=No
         return Eligibility(True, CLASS_ELIGIBLE, "status gate", None)
     if verifier is None:
         raise ValueError("the receipt gate requires a verifier (see build_receipt_verifier)")
-    judge = verifier.listed if cheap else verifier.decide
-    decision = judge(
+    decision = verifier.decide(
         (record or {}).get("fields", {}) or {},
         canonical_url=payload.get("canonical_url", "") or "",
         slug=payload.get("slug", "") or "",

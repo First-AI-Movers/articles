@@ -86,7 +86,8 @@ def build_archive_index(articles_dir: Path) -> dict:
     return {"ids": ids, "urls": urls, "titles": titles}
 
 
-def reconcile(records, archive, schema, *, allow_no_status_gate=False, gate=None, verifier=None):
+def reconcile(records, archive, schema, *, allow_no_status_gate=False, gate=None, verifier=None,
+              detail=None):
     """Pure reconciliation. Returns (counts dict, missing_record_ids list).
 
     Classification mirrors ingest_airtable.main() through the SAME eligibility
@@ -100,6 +101,13 @@ def reconcile(records, archive, schema, *, allow_no_status_gate=False, gate=None
       eligible         — admitted + valid (would be a create candidate)
         eligible_present — already in the archive (by record id or canonical URL)
         eligible_missing — NOT in the archive by either identity (the backlog)
+
+    Presence is decided before eligibility. A record the archive already holds is
+    `eligible_present` under either gate without any lookup: the gate governs
+    admission, never retention (the archive is append-only). Only an ABSENT record
+    is judged, so the read budget is one sitemap per run plus one page per absent
+    candidate. `detail`, if a list, collects (record_id, class, reason) for every
+    absent record that was NOT admitted, so a gate delta can be explained row by row.
     """
     gate = gate or ing.eligibility_gate()
     counts = {
@@ -132,16 +140,17 @@ def reconcile(records, archive, schema, *, allow_no_status_gate=False, gate=None
         archive_titles = archive.get("titles", set())
         by_id_or_url = (rid and rid in archive["ids"]) or (url and url in archive["urls"])
         by_title = bool(title and title in archive_titles)
-        # Presence is decided BEFORE eligibility so the read budget stays at one
-        # sitemap per run plus one page per genuinely missing candidate: a record the
-        # archive already holds is classified from sitemap/host evidence alone
-        # (`cheap=True`, no page fetch, no receipt); only an absent record pays for
-        # the full receipt lookup.
-        elig = ing.eligibility(payload, rec, allow_no_status_gate=allow_no_status_gate,
-                               gate=gate, verifier=verifier,
-                               cheap=bool(by_id_or_url or by_title))
+        present = bool(by_id_or_url or by_title)
+        if present and gate == ing.GATE_RECEIPT:
+            # Retention is not gated: an archived record is present, full stop.
+            elig = ing.Eligibility(True, ing.CLASS_ELIGIBLE, "present in archive", None)
+        else:
+            elig = ing.eligibility(payload, rec, allow_no_status_gate=allow_no_status_gate,
+                                   gate=gate, verifier=verifier)
         if not elig.admitted:
             counts[elig.klass] = counts.get(elig.klass, 0) + 1
+            if detail is not None and not present:
+                detail.append((rid, elig.klass, elig.reason))
             continue
         if elig.receipt and elig.receipt.get("canonical_match") is False:
             counts["canonical_drift"] += 1
@@ -231,9 +240,10 @@ def main(argv=None):
     archive = build_archive_index(ing.ARTICLES_DIR)
     gate = ing.eligibility_gate()
     verifier = ing.build_receipt_verifier() if gate == ing.GATE_RECEIPT else None
+    detail: list = []
     counts, missing_ids = reconcile(
         records, archive, schema, allow_no_status_gate=args.allow_no_status_gate,
-        gate=gate, verifier=verifier,
+        gate=gate, verifier=verifier, detail=detail,
     )
     counts["archive_articles"] = len(archive["ids"])
 
@@ -245,6 +255,12 @@ def main(argv=None):
         print("missing_record_ids:")
         for rid in missing_ids:
             print(f"  {rid}")
+    if args.emit_missing_ids and detail:
+        # Absent records the gate did NOT admit, with the class and reason, so a gate
+        # delta is explainable row by row. Record ids and slug stems are public.
+        print("absent_not_admitted:")
+        for rid, klass, reason in detail:
+            print(f"  {rid}\t{klass}\t{reason}")
 
     if args.summary_file:
         try:
