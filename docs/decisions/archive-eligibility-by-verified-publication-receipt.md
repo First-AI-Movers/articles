@@ -229,3 +229,26 @@ the previous readers.
 - Runbooks: [`docs/airtable-ingestion.md`](../airtable-ingestion.md), [`docs/OPERATIONS.md`](../OPERATIONS.md) (Airtable ingestion, backlog recovery).
 - Issues: #423 (owner), #388 (credential restoration and receipt), #369 (reconciler discrepancy signal).
 - Identity: `NS:articles:decision-record` in `identifier-namespaces.yaml` — semantic slug, no number allocated.
+
+---
+
+## Correction note — 2026-09-18 (first live read-only delta)
+
+Two measured facts amend the mechanism above without changing the decision;
+recorded here rather than by rewriting the accepted text (#423):
+
+1. **Cross-posted articles carry a hand-written publication slug.** For rows whose
+   source is the newsletter, Medium or LinkedIn, the Hashnode slug is neither the
+   source slug nor the slugified title, so the sitemap resolution in R1 finds no
+   candidate for them. "No candidate" is therefore *unresolved*, not disproved:
+   `decide()` falls through to R2 in that one case. A publication page that is found
+   but does not embed the post id remains a disproved claim and never falls through.
+2. **The gate governs admission, never retention.** The first receipt-gate run
+   classified 409 already-archived rows as `no_receipt` because the reconciler asked
+   for evidence about rows the archive already holds. A present row is
+   `eligible_present` under either gate with no lookup; only absent rows are judged.
+   This also removes the sitemap-only `listed()` shortcut, which was a heuristic in
+   the wrong place.
+
+Also measured: the Medium custom domains answer the reader with `403`, so `401`/`403`
+from a first-party host is `receipt_unverifiable` (a refused read), not `no_receipt`.

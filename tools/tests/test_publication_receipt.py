@@ -144,12 +144,15 @@ class TestHashnodeReceipt:
         d = v.decide(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
         assert d.klass == mod.CLASS_NO_RECEIPT
 
-    def test_slug_absent_from_sitemap_is_no_receipt(self, mod):
+    def test_slug_absent_from_sitemap_falls_through_to_the_source_not_a_page_fetch(self, mod):
+        """No sitemap candidate = unresolved, so R2 is consulted (the source page 404s
+        here -> no receipt); no publication page is fetched."""
         pages = _sitemap_pages(f"{PUB}/something-else")
         v, fetch = _verifier(mod, pages)
         d = v.decide(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
         assert d.klass == mod.CLASS_NO_RECEIPT
-        assert not any(STEM in u for u in fetch.calls), "no page fetch without a candidate"
+        assert not any(STEM in u and PUB in u for u in fetch.calls), "no publication page fetch without a candidate"
+        assert fetch.calls[-1] == SOURCE
 
     def test_429_is_unverifiable_not_a_rejection(self, mod):
         pages = _sitemap_pages(f"{PUB}/{STEM}")
@@ -305,33 +308,51 @@ class TestPageCanonical:
         assert mod.page_canonical("<html></html>") == ""
 
 
-class TestListedCheapCheck:
-    """`listed()` is the no-fetch classification for records the archive already
-    holds: sitemap/host evidence only, never a page, never a receipt."""
 
-    def test_r1_listed_on_sitemap_is_eligible_without_a_page_fetch(self, mod):
-        pages = _sitemap_pages(f"{PUB}/{STEM}")
-        pages[f"{PUB}/{STEM}"] = (200, _page(POST_ID, SOURCE))
+class TestFallbackFromUnresolvedHashnode:
+    """A Hashnode receipt that cannot be RESOLVED (no sitemap candidate -- cross-posted
+    articles carry a hand-written publication slug) falls through to the first-party
+    source receipt. A publication page that is found but lacks the id never does."""
+
+    def test_unresolved_r1_falls_through_to_owned_source(self, mod):
+        pages = _sitemap_pages(f"{PUB}/completely-different-slug")
+        pages[SOURCE] = (200, _page(None, SOURCE))
         v, fetch = _verifier(mod, pages)
-        d = v.listed(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
-        assert d.eligible and d.receipt is None
-        assert f"{PUB}/{STEM}" not in fetch.calls, "listed() never fetches a post page"
-        assert v.requests_made == 2, "index + one sitemap page only"
+        d = v.decide(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
+        assert d.eligible and d.receipt["kind"] == "OWNED_SOURCE_URL"
+        assert SOURCE in fetch.calls
 
-    def test_r1_not_listed_is_no_receipt_and_sitemap_failure_is_unverifiable(self, mod):
-        v, _ = _verifier(mod, _sitemap_pages(f"{PUB}/other"))
-        assert v.listed(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM).klass == mod.CLASS_NO_RECEIPT
-        v, _ = _verifier(mod, {f"{PUB}/sitemap.xml": mod.FetchError("dns")})
-        assert v.listed(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM).klass == mod.CLASS_UNVERIFIABLE
+    def test_unresolved_r1_with_refused_source_is_unverifiable(self, mod):
+        pages = _sitemap_pages(f"{PUB}/completely-different-slug")
+        pages["https://insights.firstaimovers.com/x-abc123"] = (403, "forbidden")
+        v, _ = _verifier(mod, pages)
+        d = v.decide(HASHNODE_FIELDS, canonical_url="https://insights.firstaimovers.com/x-abc123", slug="x-abc123")
+        assert d.klass == mod.CLASS_UNVERIFIABLE, "a first-party host refusing the reader has not said 'absent'"
 
-    def test_r2_owned_host_is_eligible_without_any_fetch(self, mod):
-        v, fetch = _verifier(mod, {})
-        d = v.listed({"hashnode": "todo"}, canonical_url=SOURCE, slug=STEM)
-        assert d.eligible and d.receipt is None and fetch.calls == []
-        assert v.listed({}, canonical_url="https://medium.com/@x/y", slug="y").klass == mod.CLASS_NO_RECEIPT
+    def test_unresolved_r1_with_third_party_source_is_no_receipt_with_both_reasons(self, mod):
+        v, fetch = _verifier(mod, _sitemap_pages(f"{PUB}/other"))
+        d = v.decide(HASHNODE_FIELDS, canonical_url="https://medium.com/@x/y", slug="y")
+        assert d.klass == mod.CLASS_NO_RECEIPT and "slug stem" in d.reason and "first-party" in d.reason
+        assert "https://medium.com/@x/y" not in fetch.calls
 
-    def test_exclusion_and_rights_still_win(self, mod):
-        v, fetch = _verifier(mod, {}, deny_licenses={"arr"})
-        assert v.listed({**HASHNODE_FIELDS, "archive_exclude": True}, canonical_url=SOURCE, slug=STEM).klass == mod.CLASS_EXCLUDED
-        assert v.listed(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM, license_value="ARR").klass == mod.CLASS_RIGHTS_DENIED
-        assert fetch.calls == []
+    def test_disproved_r1_never_falls_through(self, mod):
+        """The page under the record's slug exists but embeds a DIFFERENT post id: a
+        disproved claim. The source page would pass R2 -- it must not be consulted."""
+        pages = _sitemap_pages(f"{PUB}/{STEM}")
+        pages[f"{PUB}/{STEM}"] = (200, _page(OTHER_ID, SOURCE))
+        pages[SOURCE] = (200, _page(None, SOURCE))
+        v, fetch = _verifier(mod, pages)
+        d = v.decide(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
+        assert d.klass == mod.CLASS_NO_RECEIPT and SOURCE not in fetch.calls
+
+    def test_owned_source_401_and_403_are_unverifiable(self, mod):
+        for code in (401, 403):
+            v, _ = _verifier(mod, {SOURCE: (code, "nope")})
+            assert v.decide({}, canonical_url=SOURCE, slug=STEM).klass == mod.CLASS_UNVERIFIABLE
+
+    def test_unresolved_marker_never_leaks_into_a_receipt(self, mod):
+        pages = _sitemap_pages(f"{PUB}/other")
+        pages[SOURCE] = (200, _page(None, SOURCE))
+        v, _ = _verifier(mod, pages)
+        d = v.decide(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
+        assert "_unresolved" not in d.receipt
