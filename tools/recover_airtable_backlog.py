@@ -57,18 +57,21 @@ import audit_airtable_reconciliation as recon  # noqa: E402
 HARD_MAX_BATCH = 5
 
 
-def find_recoverable(records, archive, schema, *, allow_no_status_gate=False):
+def find_recoverable(records, archive, schema, *, allow_no_status_gate=False, gate=None, verifier=None):
     """Return the deterministic oldest-first list of recoverable records.
 
     Each item is a dict with only public-safe identifiers plus the full payload
     (payload is consumed by the writer; it is never printed):
         {record_id, payload, published_date, slug, canonical_url}
 
-    Classification mirrors ingest_airtable.main() / reconcile(): a record is
-    recoverable iff it is Posted (or blank-status under allow_no_status_gate),
-    passes schema validation, and is ABSENT from the archive by both record id
-    and normalized canonical URL.
+    Classification mirrors ingest_airtable.main() / reconcile() through the SAME
+    eligibility function (ingest_airtable.eligibility): a record is recoverable
+    iff the configured gate admits it (status: Posted, or blank-status under
+    allow_no_status_gate; receipt: a verified publication receipt), it passes
+    schema validation, and it is ABSENT from the archive by both record id and
+    normalized canonical URL. An admitted record carries its receipt to the writer.
     """
+    gate = gate or ing.eligibility_gate()
     candidates = []
     for rec in records:
         rid = str(rec.get("id", "")).strip()
@@ -76,10 +79,9 @@ def find_recoverable(records, archive, schema, *, allow_no_status_gate=False):
         errors, _ = ing._validate_payload(payload, schema)
         if errors:
             continue
-        status = (payload.get("status") or "").lower()
-        if not status and not allow_no_status_gate:
-            continue
-        if status and status not in ing.ALLOWED_STATUSES:
+        elig = ing.eligibility(payload, rec, allow_no_status_gate=allow_no_status_gate,
+                               gate=gate, verifier=verifier)
+        if not elig.admitted:
             continue
         url = ing._normalize_canonical_url(payload.get("canonical_url", ""))
         title = ing._normalize_title(payload.get("title", ""))
@@ -97,6 +99,7 @@ def find_recoverable(records, archive, schema, *, allow_no_status_gate=False):
             continue
         candidates.append(
             {
+                "receipt": elig.receipt,
                 "record_id": rid,
                 "payload": payload,
                 "published_date": payload.get("published_date", ""),
@@ -127,7 +130,8 @@ def apply_batch(selected, *, dry_run):
     """
     results = []
     for item in selected:
-        folder, created = ing._write_article(item["payload"], item["record_id"], dry_run)
+        folder, created = ing._write_article(item["payload"], item["record_id"], dry_run,
+                                             receipt=item.get("receipt"))
         results.append(
             {
                 "record_id": item["record_id"],
@@ -219,8 +223,12 @@ def main(argv=None):
         return 1
 
     archive = recon.build_archive_index(ing.ARTICLES_DIR)
+    gate = ing.eligibility_gate()
+    verifier = ing.build_receipt_verifier() if gate == ing.GATE_RECEIPT else None
+    print(f"[gate] archive eligibility gate: {gate}", file=sys.stderr)
     candidates = find_recoverable(
-        records, archive, schema, allow_no_status_gate=args.allow_no_status_gate
+        records, archive, schema, allow_no_status_gate=args.allow_no_status_gate,
+        gate=gate, verifier=verifier,
     )
     selected = select_batch(candidates, args.batch_size)
     results = apply_batch(selected, dry_run=not args.apply)

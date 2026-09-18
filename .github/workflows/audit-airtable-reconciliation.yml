@@ -22,6 +22,13 @@ concurrency:
   group: airtable-reconciliation
   cancel-in-progress: false
 
+env:
+  # Archive eligibility gate (docs/decisions/archive-eligibility-by-verified-publication-receipt.md):
+  # `status` = the historical `FAIM Status == Posted` check; `receipt` = admitted only on a
+  # verified publication receipt. Read by the three tools through the environment; the
+  # default stays `status` until the read-only receipt delta has been produced (#423).
+  ARCHIVE_ELIGIBILITY_GATE: ${{ vars.ARCHIVE_ELIGIBILITY_GATE || 'status' }}
+
 jobs:
   reconcile:
     runs-on: ubuntu-latest

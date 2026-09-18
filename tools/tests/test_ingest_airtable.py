@@ -1404,3 +1404,122 @@ class TestCanonicalUrlDedupe:
         assert created is False
         assert not (tmp_path / "articles" / "2026-01-02-completely-different-title-now").exists()
 
+
+
+# ---------------------------------------------------------------------------
+# Eligibility gate selector + receipt wiring
+# (ADR:archive-eligibility-by-verified-publication-receipt). The verifier is a
+# stub: these tests pin how ingest_airtable USES a decision, not how one is made
+# (that is tools/tests/test_publication_receipt.py).
+# ---------------------------------------------------------------------------
+
+class _StubDecision:
+    def __init__(self, klass, receipt=None, reason="stub"):
+        self.klass = klass
+        self.receipt = receipt
+        self.reason = reason
+        self.eligible = klass == "eligible"
+
+
+class _StubVerifier:
+    """Admits records whose canonical URL is in `admit`; rejects the rest with `klass`."""
+
+    def __init__(self, admit, *, klass="no_receipt"):
+        self.admit = set(admit)
+        self.klass = klass
+        self.calls = []
+
+    def decide(self, fields, *, canonical_url, slug, license_value=""):
+        self.calls.append((dict(fields), canonical_url, slug, license_value))
+        if canonical_url in self.admit:
+            return _StubDecision("eligible", {"kind": "HASHNODE_POST", "post_id": "a" * 24,
+                                              "url": f"https://radar.firstaimovers.com/{slug}",
+                                              "canonical_match": True,
+                                              "verified_at": "2026-09-18T11:02:00Z"})
+        return _StubDecision(self.klass)
+
+
+def _gate_record(rid, url, *, status="Draft", extra=None):
+    fields = {"Title": f"Title {rid}", "GUID": url, "FAIM Status": status,
+              "Pub Date": "2026-05-01", "Content HTML": "body"}
+    fields.update(extra or {})
+    return {"id": rid, "fields": fields}
+
+
+class TestEligibilityGate:
+    def test_default_is_status_and_values_are_validated(self, monkeypatch):
+        import ingest_airtable
+        monkeypatch.delenv(ingest_airtable.ELIGIBILITY_GATE_ENV, raising=False)
+        assert ingest_airtable.eligibility_gate() == "status"
+        monkeypatch.setenv(ingest_airtable.ELIGIBILITY_GATE_ENV, " Receipt ")
+        assert ingest_airtable.eligibility_gate() == "receipt"
+        monkeypatch.setenv(ingest_airtable.ELIGIBILITY_GATE_ENV, "auto")
+        with pytest.raises(SystemExit):
+            ingest_airtable.eligibility_gate()  # a typo is an error, never a silent fallback
+
+    def test_status_gate_is_the_historical_check(self, monkeypatch):
+        import ingest_airtable
+        monkeypatch.delenv(ingest_airtable.ELIGIBILITY_GATE_ENV, raising=False)
+        posted = ingest_airtable.eligibility({"status": "Posted"}, {}, allow_no_status_gate=False)
+        draft = ingest_airtable.eligibility({"status": "Draft"}, {}, allow_no_status_gate=False)
+        blank = ingest_airtable.eligibility({}, {}, allow_no_status_gate=False)
+        blank_ok = ingest_airtable.eligibility({}, {}, allow_no_status_gate=True)
+        assert posted.admitted and posted.receipt is None
+        assert not draft.admitted and draft.klass == "status_skipped"
+        assert not blank.admitted and blank_ok.admitted
+
+    def test_receipt_gate_requires_a_verifier(self):
+        import ingest_airtable
+        with pytest.raises(ValueError):
+            ingest_airtable.eligibility({"status": "Posted"}, {}, allow_no_status_gate=False,
+                                        gate="receipt", verifier=None)
+
+    def test_receipt_gate_hands_raw_fields_to_the_verifier_and_ignores_status(self):
+        import ingest_airtable
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/live"})
+        rec = _gate_record("recA", "https://www.firstaimovers.com/p/live", status="Draft",
+                           extra={"hashnode": "published", "hashnode_post_id": "a" * 24})
+        payload = ingest_airtable._record_to_payload(rec)
+        elig = ingest_airtable.eligibility(payload, rec, allow_no_status_gate=False,
+                                           gate="receipt", verifier=v)
+        assert elig.admitted, "a Draft row with a verified receipt is eligible"
+        fields, url, slug, _ = v.calls[0]
+        assert fields["hashnode_post_id"] == "a" * 24 and url.endswith("/live") and slug == "live"
+        assert "editorial_status='draft'" in elig.reason
+        posted_no_receipt = _gate_record("recB", "https://www.firstaimovers.com/p/label-only", status="Posted")
+        elig2 = ingest_airtable.eligibility(ingest_airtable._record_to_payload(posted_no_receipt),
+                                            posted_no_receipt, allow_no_status_gate=False,
+                                            gate="receipt", verifier=v)
+        assert not elig2.admitted and elig2.klass == "no_receipt", "Posted alone admits nothing"
+
+    def test_ingest_from_under_receipt_gate_records_the_receipt(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        schema = ingest_airtable._load_schema()
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/live"})
+        records = [
+            _gate_record("recA", "https://www.firstaimovers.com/p/live", status="Draft"),
+            _gate_record("recB", "https://www.firstaimovers.com/p/label-only", status="Posted"),
+        ]
+        counters = {"seen": 0, "created": 0, "skipped": 0, "invalid": 0}
+        ingest_airtable._ingest_from(records, schema, dry_run=False, allow_no_status_gate=False,
+                                     max_created=None, counters=counters,
+                                     gate="receipt", verifier=v)
+        assert counters["created"] == 1 and counters["skipped"] == 1
+        assert counters["classes"] == {"no_receipt": 1}
+        meta = json.loads((tmp_path / "articles" / "2026-05-01-live" / "metadata.json").read_text())
+        assert meta["publication_receipt"]["kind"] == "HASHNODE_POST"
+        assert meta["publication_receipt"]["canonical_match"] is True
+        assert not (tmp_path / "articles" / "2026-05-01-label-only").exists()
+
+    def test_status_gate_writes_no_receipt_block(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        monkeypatch.delenv(ingest_airtable.ELIGIBILITY_GATE_ENV, raising=False)
+        schema = ingest_airtable._load_schema()
+        counters = {"seen": 0, "created": 0, "skipped": 0, "invalid": 0}
+        ingest_airtable._ingest_from(
+            [_gate_record("recC", "https://www.firstaimovers.com/p/posted", status="Posted")],
+            schema, dry_run=False, allow_no_status_gate=False, max_created=None, counters=counters)
+        meta = json.loads((tmp_path / "articles" / "2026-05-01-posted" / "metadata.json").read_text())
+        assert "publication_receipt" not in meta
