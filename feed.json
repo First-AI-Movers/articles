@@ -13,6 +13,69 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-07-17:2026-07-17-ai-accelerated-teams-velocity-stabilization-2026",
+      "url": "https://radar.firstaimovers.com/ai-accelerated-teams-velocity-stabilization-2026",
+      "title": "We Built the Engine But Not the Chassis: What AI-Accelerated Teams Are Not Telling You",
+      "date_published": "2026-07-17T00:00:00Z",
+      "tags": [
+        "AI Governance",
+        "AI Change Management"
+      ],
+      "content_text": "AI gave small teams infinite velocity but broke their processes. The data on cognitive debt, brain fry, and what surviving teams do differently."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-07-17:2026-07-17-ai-adoption-fears-european-sme-leaders-honest-guide-2026",
+      "url": "https://radar.firstaimovers.com/ai-adoption-fears-european-sme-leaders-honest-guide-2026",
+      "title": "The Honest AI Adoption Guide: Every Fear You Have Is Valid, Here Is What to Do About Each One",
+      "date_published": "2026-07-17T00:00:00Z",
+      "tags": [
+        "company-tech-strategy",
+        "ai-governance",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "content_text": "You are busy, sceptical, and worried about wasting money on AI. This guide addresses every real fear European SME leaders have about AI adoption, honestly."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-07-17:2026-07-17-map-before-you-build-ai-project-planning-sme-2026",
+      "url": "https://radar.firstaimovers.com/map-before-you-build-ai-project-planning-sme-2026",
+      "title": "A Two-Person Team Out-Built 300 Rivals in 12 Hours, Because They Mapped First",
+      "date_published": "2026-07-17T00:00:00Z",
+      "tags": [
+        "ai-strategy",
+        "company-tech-strategy",
+        "ai-automation",
+        "digital-transformation",
+        "project-planning"
+      ],
+      "content_text": "Most failed AI pilots die from no plan, not bad tech. Learn the map-first AI project planning method that lets small European teams ship working AI."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-06-27:2026-06-27-content-provenance-recording-how-a-piece-of-media-was-made-summary-con",
+      "url": "https://radar.firstaimovers.com/content-provenance-recording-how-a-piece-of-media-was-made-summary-con",
+      "title": "Content Provenance: A Checkable History That Travels With Every File",
+      "date_published": "2026-06-27T00:00:00Z",
+      "tags": [
+        "Content Provenance",
+        "media-authenticity",
+        "c2pa",
+        "AI Trust",
+        "verifiable-media"
+      ],
+      "content_text": "Content provenance attaches a tamper-evident record to media, so you can verify origin and edits instead of trusting appearances. C2PA and open tools make"
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-06-26:2026-06-26-confidential-computing-protecting-data-while-it-is-in-use-summary-conf",
+      "url": "https://radar.firstaimovers.com/confidential-computing-protecting-data-while-it-is-in-use-summary-conf",
+      "title": "Confidential Computing: Protecting Data While It Is In Use",
+      "date_published": "2026-06-26T00:00:00Z",
+      "tags": [
+        "GDPR & Data Privacy"
+      ],
+      "content_text": "Confidential computing protects data during processing with hardware-based trusted execution environments, closing the gap between encryption at rest and"
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-06-24:2026-06-24-what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum",
       "url": "https://radar.firstaimovers.com/what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum",
       "title": "What Makes an AI System Trustworthy: The Characteristics NIST Names",
@@ -558,76 +621,6 @@
         "business-automation"
       ],
       "content_text": "Detect unsanctioned AI tool usage in engineering teams, classify the risk, and decide what to govern, adopt, or block as a CTO or engineering leader."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-coding-agent-cli-comparison-april-2026",
-      "url": "https://radar.firstaimovers.com/ai-coding-agent-cli-comparison-april-2026",
-      "title": "AI Coding Agent CLIs in April 2026: Claude Code, Codex, Gemini, and Kimi Compared",
-      "date_published": "2026-05-02T00:00:00Z",
-      "tags": [
-        "ai-automation",
-        "company-tech-strategy",
-        "ai-governance",
-        "digital-transformation",
-        "developer-tools"
-      ],
-      "content_text": "Four terminal-based AI coding agents now support multi-agent orchestration, and the differences between them, in cost, extensibility, data residency, and governance features, will shape how engineering teams work for the next two years. If your developers are already using one…"
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-energy-utilities-smes-eu-2026",
-      "url": "https://radar.firstaimovers.com/ai-governance-energy-utilities-smes-eu-2026",
-      "title": "AI Governance for Energy and Utilities: What NIS2, DORA, and the EU AI Act Mean for Your AI Deployments",
-      "date_published": "2026-05-02T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "company-tech-strategy",
-        "digital-transformation",
-        "business-automation",
-        "ai-automation"
-      ],
-      "content_text": "How EU energy and utility SMEs should govern AI under NIS2, DORA, and the EU AI Act. Covers grid management, trading, and critical infrastructure."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-framework-by-industry-european-smes",
-      "url": "https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes",
-      "title": "How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)",
-      "date_published": "2026-05-02T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "company-tech-strategy",
-        "digital-transformation",
-        "business-automation",
-        "ai-automation"
-      ],
-      "content_text": "A practical EU SME guide to AI governance that fits your industry. Covers financial services, healthcare, legal, manufacturing, and energy sectors."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-manufacturing-industrial-smes-eu-2026",
-      "url": "https://radar.firstaimovers.com/ai-governance-manufacturing-industrial-smes-eu-2026",
-      "title": "AI Governance for Manufacturing and Industrial SMEs: What the Machinery Directive, EU AI Act, and ISO 9001 Mean for Your AI Rollout",
-      "date_published": "2026-05-02T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "company-tech-strategy",
-        "digital-transformation",
-        "business-automation",
-        "ai-automation"
-      ],
-      "content_text": "How EU manufacturing SMEs should govern AI in production, predictive maintenance, and QMS under the Machinery Regulation and EU AI Act."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-01:2026-05-01-eu-ai-act-august-2026-what-european-smes-must-do-now",
-      "url": "https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now",
-      "title": "EU AI Act: What European SMEs Must Do Before August 2, 2026",
-      "date_published": "2026-05-01T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "eu-ai-act",
-        "company-tech-strategy",
-        "digital-transformation",
-        "business-automation"
-      ],
-      "content_text": "EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps."
     }
   ]
 }

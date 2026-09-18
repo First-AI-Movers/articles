@@ -1,11 +1,96 @@
 {
   "last_updated": "2026-09-18",
-  "total_articles": 924,
+  "total_articles": 929,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-07-17-ai-accelerated-teams-velocity-stabilization-2026",
+      "slug": "ai-accelerated-teams-velocity-stabilization-2026",
+      "title": "We Built the Engine But Not the Chassis: What AI-Accelerated Teams Are Not Telling You",
+      "published_date": "2026-07-17",
+      "tags": [
+        "Company Tech Strategy",
+        "AI Governance",
+        "Digital Transformation",
+        "AI-automation",
+        "business automation"
+      ],
+      "topics": [
+        "AI Governance",
+        "AI Change Management"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-accelerated-teams-velocity-stabilization-2026"
+    },
+    {
+      "folder": "2026-07-17-ai-adoption-fears-european-sme-leaders-honest-guide-2026",
+      "slug": "ai-adoption-fears-european-sme-leaders-honest-guide-2026",
+      "title": "The Honest AI Adoption Guide: Every Fear You Have Is Valid, Here Is What to Do About Each One",
+      "published_date": "2026-07-17",
+      "tags": [
+        "company-tech-strategy",
+        "ai-governance",
+        "digital-transformation",
+        "ai-automation",
+        "business-automation"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-adoption-fears-european-sme-leaders-honest-guide-2026"
+    },
+    {
+      "folder": "2026-07-17-map-before-you-build-ai-project-planning-sme-2026",
+      "slug": "map-before-you-build-ai-project-planning-sme-2026",
+      "title": "A Two-Person Team Out-Built 300 Rivals in 12 Hours, Because They Mapped First",
+      "published_date": "2026-07-17",
+      "tags": [
+        "ai-strategy",
+        "company-tech-strategy",
+        "ai-automation",
+        "digital-transformation",
+        "project-planning"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/map-before-you-build-ai-project-planning-sme-2026"
+    },
+    {
+      "folder": "2026-06-27-content-provenance-recording-how-a-piece-of-media-was-made-summary-con",
+      "slug": "content-provenance-recording-how-a-piece-of-media-was-made-summary-con",
+      "title": "Content Provenance: A Checkable History That Travels With Every File",
+      "published_date": "2026-06-27",
+      "tags": [
+        "Content Provenance",
+        "media-authenticity",
+        "c2pa",
+        "AI Trust",
+        "verifiable-media"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/content-provenance-recording-how-a-piece-of-media-was-made-summary-con"
+    },
+    {
+      "folder": "2026-06-26-confidential-computing-protecting-data-while-it-is-in-use-summary-conf",
+      "slug": "confidential-computing-protecting-data-while-it-is-in-use-summary-conf",
+      "title": "Confidential Computing: Protecting Data While It Is In Use",
+      "published_date": "2026-06-26",
+      "tags": [
+        "Confidential Computing",
+        "Data Protection",
+        "trusted-execution-environment",
+        "hardware security",
+        "ai-workloads"
+      ],
+      "topics": [
+        "GDPR & Data Privacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/confidential-computing-protecting-data-while-it-is-in-use-summary-conf"
+    },
     {
       "folder": "2026-06-24-what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum",
       "slug": "what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum",
