@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-09-18",
-  "total_articles": 909,
+  "total_articles": 914,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
@@ -4666,6 +4666,26 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-stockholm-tech-startups-2026"
     },
     {
+      "folder": "2026-04-14-ai-governance-board-reporting-template-smes-2026",
+      "slug": "ai-governance-board-reporting-template-smes-2026",
+      "title": "The One-Page AI Governance Board Report Every SME Needs in 2026",
+      "published_date": "2026-04-14",
+      "tags": [
+        "AI governance",
+        "board reporting",
+        "EU AI Act",
+        "SME leadership"
+      ],
+      "topics": [
+        "AI Governance",
+        "EU AI Act",
+        "European SME AI",
+        "Executive AI Literacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-governance-board-reporting-template-smes-2026"
+    },
+    {
       "folder": "2026-04-14-ai-governance-financial-services-european-smes-2026",
       "slug": "ai-governance-financial-services-european-smes-2026",
       "title": "AI Governance for Financial Services European SMEs: Navigating the Triple Compliance Stack in 2026",
@@ -5245,6 +5265,21 @@
       "canonical_url": "https://radar.firstaimovers.com/ai-advisory-antwerp-logistics-smes-2026"
     },
     {
+      "folder": "2026-04-13-ai-coding-tools-for-belgian-dev-teams-2026",
+      "slug": "ai-coding-tools-for-belgian-dev-teams-2026",
+      "title": "What Belgian CTOs Get Wrong When Evaluating AI Coding Tools",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "digital-transformation",
+        "company-tech-strategy",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-coding-tools-for-belgian-dev-teams-2026"
+    },
+    {
       "folder": "2026-04-13-ai-consulting-amsterdam-accounting-firms-2026",
       "slug": "ai-consulting-amsterdam-accounting-firms-2026",
       "title": "Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else",
@@ -5258,6 +5293,21 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/ai-consulting-amsterdam-accounting-firms-2026"
+    },
+    {
+      "folder": "2026-04-13-ai-consulting-brussels-professional-services-2026",
+      "slug": "ai-consulting-brussels-professional-services-2026",
+      "title": "Why Brussels Professional Services Firms Need a Different AI Playbook",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "digital-transformation",
+        "company-tech-strategy",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/ai-consulting-brussels-professional-services-2026"
     },
     {
       "folder": "2026-04-13-ai-consulting-lisbon-tech-startups-2026",
@@ -5350,6 +5400,21 @@
       "canonical_url": "https://radar.firstaimovers.com/eu-ai-act-operational-checklist-belgian-smes-2026"
     },
     {
+      "folder": "2026-04-13-fractional-cto-vs-ai-consultant-belgian-company",
+      "slug": "fractional-cto-vs-ai-consultant-belgian-company",
+      "title": "The Belgian Decision Matrix: Fractional CTO, AI Consultant, or Boutique Agency?",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "digital-transformation",
+        "company-tech-strategy",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/fractional-cto-vs-ai-consultant-belgian-company"
+    },
+    {
       "folder": "2026-04-13-microsoft-365-copilot-sme-evaluation-guide-2026",
       "slug": "microsoft-365-copilot-sme-evaluation-guide-2026",
       "title": "The Microsoft 365 Copilot Buying Decision No One Explains Clearly",
@@ -5363,6 +5428,21 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/microsoft-365-copilot-sme-evaluation-guide-2026"
+    },
+    {
+      "folder": "2026-04-13-shadow-ai-escalation-framework-european-smes",
+      "slug": "shadow-ai-escalation-framework-european-smes",
+      "title": "A 5-Step Shadow AI Escalation Framework European Operations Leaders Can Use This Week",
+      "published_date": "2026-04-13",
+      "tags": [
+        "ai-governance",
+        "company-tech-strategy",
+        "digital-transformation",
+        "artificial-intelligence"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/shadow-ai-escalation-framework-european-smes"
     },
     {
       "folder": "2026-04-10-build-sovereign-ai-product-europe-without-overengineeri",
