@@ -1,11 +1,29 @@
 {
   "last_updated": "2026-09-18",
-  "total_articles": 919,
+  "total_articles": 924,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-06-24-what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum",
+      "slug": "what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum",
+      "title": "What Makes an AI System Trustworthy: The Characteristics NIST Names",
+      "published_date": "2026-06-24",
+      "tags": [
+        "Trustworthy AI",
+        "nist-ai-rmf",
+        "AI Governance",
+        "engineering leadership"
+      ],
+      "topics": [
+        "AI Governance",
+        "Executive AI Literacy"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum"
+    },
     {
       "folder": "2026-06-21-how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
       "slug": "how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code",
@@ -41,6 +59,22 @@
       "canonical_url": "https://radar.firstaimovers.com/secure-by-design-safe-defaults-for-teams-building-ai-agents-summary-ci"
     },
     {
+      "folder": "2026-06-20-choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus",
+      "slug": "choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus",
+      "title": "Choosing an Isolation Model for Untrusted Code: Userspace Kernel versus MicroVM",
+      "published_date": "2026-06-20",
+      "tags": [
+        "isolation-models",
+        "untrusted-code",
+        "gvisor",
+        "firecracker",
+        "sandboxing"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus"
+    },
+    {
       "folder": "2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
       "slug": "how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s",
       "title": "How MicroVMs Change the Trust Model for Running Untrusted Agent Code",
@@ -54,6 +88,22 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s"
+    },
+    {
+      "folder": "2026-06-20-isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo",
+      "slug": "isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo",
+      "title": "Isolating Code-Execution MCP Servers: Why the Runtime Sandbox Is the Load-Bearing Control",
+      "published_date": "2026-06-20",
+      "tags": [
+        "mcp-security",
+        "runtime-sandbox",
+        "gvisor",
+        "firecracker",
+        "code-execution"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo"
     },
     {
       "folder": "2026-06-20-the-owasp-top-10-for-llm-applications-a-threat-checklist-for-agent-bui",
@@ -86,6 +136,42 @@
       "topics": [],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod"
+    },
+    {
+      "folder": "2026-06-19-mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f",
+      "slug": "mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f",
+      "title": "MCP Server Audit-Trail Schema: What Logs Regulators Will Actually Ask For",
+      "published_date": "2026-06-19",
+      "tags": [
+        "mcp",
+        "audit-trail",
+        "regulatory-compliance",
+        "ai-governance",
+        "dora"
+      ],
+      "topics": [
+        "Model Context Protocol",
+        "AI Regulation",
+        "AI Governance"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f"
+    },
+    {
+      "folder": "2026-06-18-google-i-o-2026-independent-agents-antigravity-push-summary-google-ann",
+      "slug": "google-i-o-2026-independent-agents-antigravity-push-summary-google-ann",
+      "title": "Google I/O 2026's Antigravity Push Signals a Shift to Independent Agents",
+      "published_date": "2026-06-18",
+      "tags": [
+        "antigravity",
+        "google-io-2026",
+        "ai-agents",
+        "developer-platforms",
+        "autonomy-governance"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/google-i-o-2026-independent-agents-antigravity-push-summary-google-ann"
     },
     {
       "folder": "2026-06-18-openai-pre-release-behavior-simulation-research-summary-openai-publish",
