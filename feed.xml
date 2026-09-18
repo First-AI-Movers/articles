@@ -3,7 +3,7 @@
   <id>tag:articles.firstaimovers.com,2025-02-17:feed</id>
   <title>First AI Movers — Article Archive</title>
   <subtitle>Daily AI intelligence by Dr. Hernani Costa: AI strategy, EU AI Act compliance, governance, and agentic systems for European SMEs.</subtitle>
-  <updated>2026-06-24T00:00:00Z</updated>
+  <updated>2026-07-17T00:00:00Z</updated>
   <link rel="self" type="application/atom+xml" href="https://articles.firstaimovers.com/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://firstaimovers.com"/>
   <author>
@@ -13,6 +13,84 @@
   </author>
   <rights>Creative Commons Attribution 4.0 International (CC BY 4.0)</rights>
   <generator uri="https://github.com/First-AI-Movers/articles" version="1.0">rebuild_local.py</generator>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-07-17:2026-07-17-ai-accelerated-teams-velocity-stabilization-2026</id>
+    <title>We Built the Engine But Not the Chassis: What AI-Accelerated Teams Are Not Telling You</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-accelerated-teams-velocity-stabilization-2026"/>
+    <published>2026-07-17T00:00:00Z</published>
+    <updated>2026-07-17T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="AI Governance"/>
+    <category term="AI Change Management"/>
+    <summary type="text">AI gave small teams infinite velocity but broke their processes. The data on cognitive debt, brain fry, and what surviving teams do differently.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-07-17:2026-07-17-ai-adoption-fears-european-sme-leaders-honest-guide-2026</id>
+    <title>The Honest AI Adoption Guide: Every Fear You Have Is Valid, Here Is What to Do About Each One</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/ai-adoption-fears-european-sme-leaders-honest-guide-2026"/>
+    <published>2026-07-17T00:00:00Z</published>
+    <updated>2026-07-17T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="company-tech-strategy"/>
+    <category term="ai-governance"/>
+    <category term="digital-transformation"/>
+    <category term="ai-automation"/>
+    <category term="business-automation"/>
+    <summary type="text">You are busy, sceptical, and worried about wasting money on AI. This guide addresses every real fear European SME leaders have about AI adoption, honestly.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-07-17:2026-07-17-map-before-you-build-ai-project-planning-sme-2026</id>
+    <title>A Two-Person Team Out-Built 300 Rivals in 12 Hours, Because They Mapped First</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/map-before-you-build-ai-project-planning-sme-2026"/>
+    <published>2026-07-17T00:00:00Z</published>
+    <updated>2026-07-17T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="ai-strategy"/>
+    <category term="company-tech-strategy"/>
+    <category term="ai-automation"/>
+    <category term="digital-transformation"/>
+    <category term="project-planning"/>
+    <summary type="text">Most failed AI pilots die from no plan, not bad tech. Learn the map-first AI project planning method that lets small European teams ship working AI.</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-27:2026-06-27-content-provenance-recording-how-a-piece-of-media-was-made-summary-con</id>
+    <title>Content Provenance: A Checkable History That Travels With Every File</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/content-provenance-recording-how-a-piece-of-media-was-made-summary-con"/>
+    <published>2026-06-27T00:00:00Z</published>
+    <updated>2026-06-27T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="Content Provenance"/>
+    <category term="media-authenticity"/>
+    <category term="c2pa"/>
+    <category term="AI Trust"/>
+    <category term="verifiable-media"/>
+    <summary type="text">Content provenance attaches a tamper-evident record to media, so you can verify origin and edits instead of trusting appearances. C2PA and open tools make</summary>
+  </entry>
+  <entry>
+    <id>tag:articles.firstaimovers.com,2026-06-26:2026-06-26-confidential-computing-protecting-data-while-it-is-in-use-summary-conf</id>
+    <title>Confidential Computing: Protecting Data While It Is In Use</title>
+    <link rel="alternate" href="https://radar.firstaimovers.com/confidential-computing-protecting-data-while-it-is-in-use-summary-conf"/>
+    <published>2026-06-26T00:00:00Z</published>
+    <updated>2026-06-26T00:00:00Z</updated>
+    <author>
+      <name>Dr. Hernani Costa</name>
+      <uri>https://drhernanicosta.com</uri>
+    </author>
+    <category term="GDPR &amp; Data Privacy"/>
+    <summary type="text">Confidential computing protects data during processing with hardware-based trusted execution environments, closing the gap between encryption at rest and</summary>
+  </entry>
   <entry>
     <id>tag:articles.firstaimovers.com,2026-06-24:2026-06-24-what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum</id>
     <title>What Makes an AI System Trustworthy: The Characteristics NIST Names</title>
@@ -694,90 +772,5 @@
     <category term="ai-automation"/>
     <category term="business-automation"/>
     <summary type="text">Detect unsanctioned AI tool usage in engineering teams, classify the risk, and decide what to govern, adopt, or block as a CTO or engineering leader.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-coding-agent-cli-comparison-april-2026</id>
-    <title>AI Coding Agent CLIs in April 2026: Claude Code, Codex, Gemini, and Kimi Compared</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-coding-agent-cli-comparison-april-2026"/>
-    <published>2026-05-02T00:00:00Z</published>
-    <updated>2026-05-02T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="ai-automation"/>
-    <category term="company-tech-strategy"/>
-    <category term="ai-governance"/>
-    <category term="digital-transformation"/>
-    <category term="developer-tools"/>
-    <summary type="text">Four terminal-based AI coding agents now support multi-agent orchestration, and the differences between them, in cost, extensibility, data residency, and governance features, will shape how engineering teams work for the next two years. If your developers are already using one…</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-energy-utilities-smes-eu-2026</id>
-    <title>AI Governance for Energy and Utilities: What NIS2, DORA, and the EU AI Act Mean for Your AI Deployments</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-governance-energy-utilities-smes-eu-2026"/>
-    <published>2026-05-02T00:00:00Z</published>
-    <updated>2026-05-02T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="ai-governance"/>
-    <category term="company-tech-strategy"/>
-    <category term="digital-transformation"/>
-    <category term="business-automation"/>
-    <category term="ai-automation"/>
-    <summary type="text">How EU energy and utility SMEs should govern AI under NIS2, DORA, and the EU AI Act. Covers grid management, trading, and critical infrastructure.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-framework-by-industry-european-smes</id>
-    <title>How to Build an AI Governance Framework That Fits Your Industry (Not Just Your IT Department)</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-governance-framework-by-industry-european-smes"/>
-    <published>2026-05-02T00:00:00Z</published>
-    <updated>2026-05-02T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="ai-governance"/>
-    <category term="company-tech-strategy"/>
-    <category term="digital-transformation"/>
-    <category term="business-automation"/>
-    <category term="ai-automation"/>
-    <summary type="text">A practical EU SME guide to AI governance that fits your industry. Covers financial services, healthcare, legal, manufacturing, and energy sectors.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-05-02:2026-05-02-ai-governance-manufacturing-industrial-smes-eu-2026</id>
-    <title>AI Governance for Manufacturing and Industrial SMEs: What the Machinery Directive, EU AI Act, and ISO 9001 Mean for Your AI Rollout</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/ai-governance-manufacturing-industrial-smes-eu-2026"/>
-    <published>2026-05-02T00:00:00Z</published>
-    <updated>2026-05-02T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="ai-governance"/>
-    <category term="company-tech-strategy"/>
-    <category term="digital-transformation"/>
-    <category term="business-automation"/>
-    <category term="ai-automation"/>
-    <summary type="text">How EU manufacturing SMEs should govern AI in production, predictive maintenance, and QMS under the Machinery Regulation and EU AI Act.</summary>
-  </entry>
-  <entry>
-    <id>tag:articles.firstaimovers.com,2026-05-01:2026-05-01-eu-ai-act-august-2026-what-european-smes-must-do-now</id>
-    <title>EU AI Act: What European SMEs Must Do Before August 2, 2026</title>
-    <link rel="alternate" href="https://radar.firstaimovers.com/eu-ai-act-august-2026-what-european-smes-must-do-now"/>
-    <published>2026-05-01T00:00:00Z</published>
-    <updated>2026-05-01T00:00:00Z</updated>
-    <author>
-      <name>Dr. Hernani Costa</name>
-      <uri>https://drhernanicosta.com</uri>
-    </author>
-    <category term="ai-governance"/>
-    <category term="eu-ai-act"/>
-    <category term="company-tech-strategy"/>
-    <category term="digital-transformation"/>
-    <category term="business-automation"/>
-    <summary type="text">EU AI Act rules apply from August 2, 2026. European SMEs need a risk classification, compliance checklist, and practical next steps.</summary>
   </entry>
 </feed>

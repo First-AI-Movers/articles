@@ -10,8 +10,8 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 924
-- Date range: 2025-02-17 to 2026-06-24
+- Articles: 929
+- Date range: 2025-02-17 to 2026-07-17
 - Topic count: 103
 - Generated: 2026-09-18
 
@@ -28,6 +28,41 @@ archive URL, publication date, topics, optional DOI/series, and a
 short summary. Articles are listed newest-first.
 
 ---
+
+## We Built the Engine But Not the Chassis: What AI-Accelerated Teams Are Not Telling You
+- Date: 2026-07-17
+- Canonical: https://radar.firstaimovers.com/ai-accelerated-teams-velocity-stabilization-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-07-17-ai-accelerated-teams-velocity-stabilization-2026/article.md
+- Topics: AI Governance, AI Change Management
+- Summary: AI gave small teams infinite velocity but broke their processes. The data on cognitive debt, brain fry, and what surviving teams do differently.
+
+## The Honest AI Adoption Guide: Every Fear You Have Is Valid, Here Is What to Do About Each One
+- Date: 2026-07-17
+- Canonical: https://radar.firstaimovers.com/ai-adoption-fears-european-sme-leaders-honest-guide-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-07-17-ai-adoption-fears-european-sme-leaders-honest-guide-2026/article.md
+- Topics: company-tech-strategy, ai-governance, digital-transformation, ai-automation, business-automation
+- Summary: You are busy, sceptical, and worried about wasting money on AI. This guide addresses every real fear European SME leaders have about AI adoption, honestly.
+
+## A Two-Person Team Out-Built 300 Rivals in 12 Hours, Because They Mapped First
+- Date: 2026-07-17
+- Canonical: https://radar.firstaimovers.com/map-before-you-build-ai-project-planning-sme-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-07-17-map-before-you-build-ai-project-planning-sme-2026/article.md
+- Topics: ai-strategy, company-tech-strategy, ai-automation, digital-transformation, project-planning
+- Summary: Most failed AI pilots die from no plan, not bad tech. Learn the map-first AI project planning method that lets small European teams ship working AI.
+
+## Content Provenance: A Checkable History That Travels With Every File
+- Date: 2026-06-27
+- Canonical: https://radar.firstaimovers.com/content-provenance-recording-how-a-piece-of-media-was-made-summary-con
+- Archive: https://articles.firstaimovers.com/articles/2026-06-27-content-provenance-recording-how-a-piece-of-media-was-made-summary-con/article.md
+- Topics: Content Provenance, media-authenticity, c2pa, AI Trust, verifiable-media
+- Summary: Content provenance attaches a tamper-evident record to media, so you can verify origin and edits instead of trusting appearances. C2PA and open tools make
+
+## Confidential Computing: Protecting Data While It Is In Use
+- Date: 2026-06-26
+- Canonical: https://radar.firstaimovers.com/confidential-computing-protecting-data-while-it-is-in-use-summary-conf
+- Archive: https://articles.firstaimovers.com/articles/2026-06-26-confidential-computing-protecting-data-while-it-is-in-use-summary-conf/article.md
+- Topics: GDPR & Data Privacy
+- Summary: Confidential computing protects data during processing with hardware-based trusted execution environments, closing the gap between encryption at rest and
 
 ## What Makes an AI System Trustworthy: The Characteristics NIST Names
 - Date: 2026-06-24
