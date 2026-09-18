@@ -10,7 +10,7 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 909
+- Articles: 914
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
 - Generated: 2026-09-18
@@ -1387,6 +1387,13 @@ short summary. Articles are listed newest-first.
 - Topics: AI Consulting, Nordics AI, European SME AI, AI Strategy
 - Summary: Stockholm tech SMEs at growth inflection need operational AI, not R&D AI. Here is how a 20-50 person tech company evaluates build vs. hire for AI capabili…
 
+## The One-Page AI Governance Board Report Every SME Needs in 2026
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-governance-board-reporting-template-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-governance-board-reporting-template-smes-2026/article.md
+- Topics: AI Governance, EU AI Act, European SME AI, Executive AI Literacy
+- Summary: A one-page quarterly AI governance board report template for European SMEs — covering system inventory, incident tracking, EU AI Act compliance, and inves…
+
 ## AI Governance for Financial Services European SMEs: Navigating the Triple Compliance Stack in 2026
 - Date: 2026-04-14
 - Canonical: https://radar.firstaimovers.com/ai-governance-financial-services-european-smes-2026
@@ -1569,12 +1576,26 @@ short summary. Articles are listed newest-first.
 - Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
 - Summary: Antwerp logistics SMEs face real AI opportunity in route optimisation and customs automation — and real governance complexity. Here is how to move forward…
 
+## What Belgian CTOs Get Wrong When Evaluating AI Coding Tools
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-coding-tools-for-belgian-dev-teams-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-coding-tools-for-belgian-dev-teams-2026/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: A practical guide for Belgian CTOs and engineering leads on evaluating AI coding tools in 2026 — covering EU data residency, Belgian DPA compliance, and t…
+
 ## Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else
 - Date: 2026-04-13
 - Canonical: https://radar.firstaimovers.com/ai-consulting-amsterdam-accounting-firms-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-amsterdam-accounting-firms-2026/article.md
 - Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
 - Summary: Amsterdam accounting firms face DNB, AFM, and EU AI Act pressure in 2026. Learn how to build a compliant AI strategy that prioritises governance over spee…
+
+## Why Brussels Professional Services Firms Need a Different AI Playbook
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-consulting-brussels-professional-services-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-brussels-professional-services-2026/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: Brussels professional services firms face unique AI challenges: multilingual output, cross-border data governance, and EU regulatory proximity. Here is ho…
 
 ## Why Lisbon Tech Startups Need a Different AI Playbook in 2026
 - Date: 2026-04-13
@@ -1618,12 +1639,26 @@ short summary. Articles are listed newest-first.
 - Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
 - Summary: A practical 12-step EU AI Act compliance checklist for Belgian SMEs, mapped to Belgian authorities: DPA, FSMA, SPF Économie, and bilingual documentation r…
 
+## The Belgian Decision Matrix: Fractional CTO, AI Consultant, or Boutique Agency?
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/fractional-cto-vs-ai-consultant-belgian-company
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-fractional-cto-vs-ai-consultant-belgian-company/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: Belgian SME leaders face a distinct choice between fractional CTO, AI consultant, and boutique agency. Here is the decision matrix built for Belgian conte…
+
 ## The Microsoft 365 Copilot Buying Decision No One Explains Clearly
 - Date: 2026-04-13
 - Canonical: https://radar.firstaimovers.com/microsoft-365-copilot-sme-evaluation-guide-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-13-microsoft-365-copilot-sme-evaluation-guide-2026/article.md
 - Topics: company-tech-strategy, digital-transformation, artificial-intelligence, ai-governance
 - Summary: Is Microsoft 365 Copilot worth £25–30/user/month for your European SME? This guide covers data prerequisites, ROI at 15–50 seats, and what the vendor won'…
+
+## A 5-Step Shadow AI Escalation Framework European Operations Leaders Can Use This Week
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/shadow-ai-escalation-framework-european-smes
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-shadow-ai-escalation-framework-european-smes/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: A 5-step shadow AI escalation framework for European SMEs. Detect, classify, and resolve unapproved AI tool use before it becomes a GDPR or EU AI Act liab…
 
 ## How to Build a Sovereign AI Product in Europe Without Overengineering the Infrastructure
 - Date: 2026-04-10
