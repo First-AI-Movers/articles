@@ -1429,6 +1429,10 @@ class _StubVerifier:
         self.klass = klass
         self.calls = []
 
+    def listed(self, fields, *, canonical_url, slug, license_value=""):
+        self.calls.append(("listed", canonical_url))
+        return _StubDecision("eligible" if canonical_url in self.admit else self.klass)
+
     def decide(self, fields, *, canonical_url, slug, license_value=""):
         self.calls.append((dict(fields), canonical_url, slug, license_value))
         if canonical_url in self.admit:
@@ -1523,3 +1527,39 @@ class TestEligibilityGate:
             schema, dry_run=False, allow_no_status_gate=False, max_created=None, counters=counters)
         meta = json.loads((tmp_path / "articles" / "2026-05-01-posted" / "metadata.json").read_text())
         assert "publication_receipt" not in meta
+
+
+class TestPresenceBeforeReceipt:
+    """A record the archive already holds must never pay for a receipt lookup: the
+    full-view backfill scan pages past ~900 present rows to find a handful of
+    missing ones, so the read budget is one sitemap per run plus one page per
+    genuinely missing candidate."""
+
+    def test_already_present_checks_folder_title_and_canonical(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        base = {"title": "Unique Title", "slug": "unique", "published_date": "2026-05-01",
+                "canonical_url": "https://www.firstaimovers.com/p/unique", "article_markdown": "x"}
+        assert ingest_airtable._already_present(base) is False
+        ingest_airtable._write_article(base, "recP", dry_run=False)
+        assert ingest_airtable._already_present(base) is True                       # folder
+        assert ingest_airtable._already_present(dict(base, slug="other-slug",
+                                                     canonical_url="https://x/p/o")) is True   # title
+        assert ingest_airtable._already_present(dict(base, slug="other-slug", title="Other Title")) is True  # canonical
+
+    def test_ingest_from_skips_present_rows_before_consulting_the_verifier(self, monkeypatch, tmp_path):
+        import ingest_airtable
+        monkeypatch.setattr(ingest_airtable, "ARTICLES_DIR", tmp_path / "articles")
+        schema = ingest_airtable._load_schema()
+        present = _gate_record("recP", "https://www.firstaimovers.com/p/present", status="Posted")
+        ingest_airtable._write_article(ingest_airtable._record_to_payload(present), "recP", dry_run=False)
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/present",
+                                 "https://www.firstaimovers.com/p/new"})
+        counters = {"seen": 0, "created": 0, "skipped": 0, "invalid": 0}
+        ingest_airtable._ingest_from(
+            [present, _gate_record("recN", "https://www.firstaimovers.com/p/new", status="Draft")],
+            schema, dry_run=True, allow_no_status_gate=False, max_created=None,
+            counters=counters, gate="receipt", verifier=v)
+        assert counters["skipped"] == 1 and counters["created"] == 1
+        assert [c[1] for c in v.calls] == ["https://www.firstaimovers.com/p/new"], (
+            "the present row must not reach the verifier at all")

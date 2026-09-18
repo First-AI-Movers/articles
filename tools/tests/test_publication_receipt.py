@@ -303,3 +303,35 @@ class TestPageCanonical:
         assert mod.page_canonical('<link href="https://a/y" rel="canonical">') == "https://a/y"
         assert mod.page_canonical('<meta property="og:url" content="https://a/z">') == "https://a/z"
         assert mod.page_canonical("<html></html>") == ""
+
+
+class TestListedCheapCheck:
+    """`listed()` is the no-fetch classification for records the archive already
+    holds: sitemap/host evidence only, never a page, never a receipt."""
+
+    def test_r1_listed_on_sitemap_is_eligible_without_a_page_fetch(self, mod):
+        pages = _sitemap_pages(f"{PUB}/{STEM}")
+        pages[f"{PUB}/{STEM}"] = (200, _page(POST_ID, SOURCE))
+        v, fetch = _verifier(mod, pages)
+        d = v.listed(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
+        assert d.eligible and d.receipt is None
+        assert f"{PUB}/{STEM}" not in fetch.calls, "listed() never fetches a post page"
+        assert v.requests_made == 2, "index + one sitemap page only"
+
+    def test_r1_not_listed_is_no_receipt_and_sitemap_failure_is_unverifiable(self, mod):
+        v, _ = _verifier(mod, _sitemap_pages(f"{PUB}/other"))
+        assert v.listed(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM).klass == mod.CLASS_NO_RECEIPT
+        v, _ = _verifier(mod, {f"{PUB}/sitemap.xml": mod.FetchError("dns")})
+        assert v.listed(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM).klass == mod.CLASS_UNVERIFIABLE
+
+    def test_r2_owned_host_is_eligible_without_any_fetch(self, mod):
+        v, fetch = _verifier(mod, {})
+        d = v.listed({"hashnode": "todo"}, canonical_url=SOURCE, slug=STEM)
+        assert d.eligible and d.receipt is None and fetch.calls == []
+        assert v.listed({}, canonical_url="https://medium.com/@x/y", slug="y").klass == mod.CLASS_NO_RECEIPT
+
+    def test_exclusion_and_rights_still_win(self, mod):
+        v, fetch = _verifier(mod, {}, deny_licenses={"arr"})
+        assert v.listed({**HASHNODE_FIELDS, "archive_exclude": True}, canonical_url=SOURCE, slug=STEM).klass == mod.CLASS_EXCLUDED
+        assert v.listed(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM, license_value="ARR").klass == mod.CLASS_RIGHTS_DENIED
+        assert fetch.calls == []

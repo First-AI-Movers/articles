@@ -187,8 +187,20 @@ class _StubVerifier:
 
     def __init__(self, admit, *, drift=(), klass="no_receipt"):
         self.admit, self.drift, self.klass = set(admit), set(drift), klass
+        self.calls = []
+
+    def listed(self, fields, *, canonical_url, slug, license_value=""):
+        self.calls.append(("listed", canonical_url))
+
+        class D:
+            pass
+        d = D()
+        d.eligible = canonical_url in self.admit
+        d.klass, d.reason, d.receipt = ("eligible" if d.eligible else self.klass), "stub", None
+        return d
 
     def decide(self, fields, *, canonical_url, slug, license_value=""):
+        self.calls.append(("decide", canonical_url))
         class D:  # noqa: D401 - minimal decision shape
             pass
         d = D()
@@ -234,3 +246,17 @@ class TestReceiptGateReconcile:
         rec = dict(base, gate="receipt", no_receipt=3, canonical_drift=1)
         out = mod._render_summary(rec, since_hours=None)
         assert "Gate: receipt" in out and "no receipt 3" in out and "canonical drift 1" in out
+
+
+    def test_present_rows_use_the_cheap_check_and_only_missing_rows_fetch(self, mod, schema):
+        archive = {"ids": {"rec1"}, "urls": set(), "titles": {mod.ing._normalize_title("A Title")}}
+        recs = [
+            _rec("rec1", url="https://www.firstaimovers.com/p/present-by-id", status="Draft"),
+            _rec("rec2", url="https://www.firstaimovers.com/p/missing", title="Missing One", status="Draft"),
+        ]
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/present-by-id",
+                                 "https://www.firstaimovers.com/p/missing"})
+        counts, missing = mod.reconcile(recs, archive, schema, gate="receipt", verifier=v)
+        assert counts["eligible_present"] == 1 and counts["eligible_missing"] == 1 and missing == ["rec2"]
+        assert v.calls == [("listed", "https://www.firstaimovers.com/p/present-by-id"),
+                           ("decide", "https://www.firstaimovers.com/p/missing")]

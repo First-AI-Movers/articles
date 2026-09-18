@@ -127,19 +127,25 @@ def reconcile(records, archive, schema, *, allow_no_status_gate=False, gate=None
         if errors:
             counts["invalid"] += 1
             continue
+        url = ing._normalize_canonical_url(payload.get("canonical_url", ""))
+        title = ing._normalize_title(payload.get("title", ""))
+        archive_titles = archive.get("titles", set())
+        by_id_or_url = (rid and rid in archive["ids"]) or (url and url in archive["urls"])
+        by_title = bool(title and title in archive_titles)
+        # Presence is decided BEFORE eligibility so the read budget stays at one
+        # sitemap per run plus one page per genuinely missing candidate: a record the
+        # archive already holds is classified from sitemap/host evidence alone
+        # (`cheap=True`, no page fetch, no receipt); only an absent record pays for
+        # the full receipt lookup.
         elig = ing.eligibility(payload, rec, allow_no_status_gate=allow_no_status_gate,
-                               gate=gate, verifier=verifier)
+                               gate=gate, verifier=verifier,
+                               cheap=bool(by_id_or_url or by_title))
         if not elig.admitted:
             counts[elig.klass] = counts.get(elig.klass, 0) + 1
             continue
         if elig.receipt and elig.receipt.get("canonical_match") is False:
             counts["canonical_drift"] += 1
         counts["eligible"] += 1
-        url = ing._normalize_canonical_url(payload.get("canonical_url", ""))
-        title = ing._normalize_title(payload.get("title", ""))
-        archive_titles = archive.get("titles", set())
-        by_id_or_url = (rid and rid in archive["ids"]) or (url and url in archive["urls"])
-        by_title = bool(title and title in archive_titles)
         if by_id_or_url:
             counts["eligible_present"] += 1
         elif by_title:

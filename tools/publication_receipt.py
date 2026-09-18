@@ -248,6 +248,31 @@ class Verifier:
 
     # -- the gate --------------------------------------------------------------
 
+    def listed(self, fields: dict, *, canonical_url: str, slug: str, license_value: str = "") -> Decision:
+        """The cheap form of `decide` for a record that is ALREADY in the archive:
+        exclusion and rights as usual, then evidence from the sitemap alone (R1) or
+        the host allow-list alone (R2) -- no post or source page is fetched, and no
+        receipt is produced. Used by the reconciler to keep the read budget at one
+        sitemap per run plus one page per genuinely missing candidate."""
+        fields = fields or {}
+        if bool(fields.get(FIELD_ARCHIVE_EXCLUDE)):
+            return Decision(CLASS_EXCLUDED, f"{FIELD_ARCHIVE_EXCLUDE} is set")
+        if license_value and license_value.strip().lower() in self.deny_licenses:
+            return Decision(CLASS_RIGHTS_DENIED, f"license '{license_value}' is in the deny set")
+        state = _select_name(fields.get(FIELD_HASHNODE_STATE))
+        post_id = (fields.get(FIELD_HASHNODE_POST_ID) or "").strip() if isinstance(
+            fields.get(FIELD_HASHNODE_POST_ID), str) else ""
+        if state == HASHNODE_PUBLISHED_STATE and POST_ID_RE.match(post_id):
+            if self.sitemap_urls() is None:
+                return Decision(CLASS_UNVERIFIABLE, "publication sitemap unavailable")
+            if self.candidates(slug):
+                return Decision(CLASS_ELIGIBLE, "listed on the publication sitemap (page not fetched)")
+            return Decision(CLASS_NO_RECEIPT, f"no publication URL matches slug stem '{slug}'")
+        host = _host(canonical_url or "")
+        if (canonical_url or "").lower().startswith("https://") and host in self.owned_hosts:
+            return Decision(CLASS_ELIGIBLE, "first-party canonical host (page not fetched)")
+        return Decision(CLASS_NO_RECEIPT, f"canonical host '{host or '-'}' is not a first-party property")
+
     def decide(self, fields: dict, *, canonical_url: str, slug: str, license_value: str = "") -> Decision:
         """Eligibility of one source record. ``fields`` is the raw Airtable fields dict;
         ``canonical_url`` and ``slug`` are the archive payload's values."""
