@@ -10,7 +10,7 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 914
+- Articles: 919
 - Date range: 2025-02-17 to 2026-06-21
 - Topic count: 103
 - Generated: 2026-09-18
@@ -1170,6 +1170,13 @@ short summary. Articles are listed newest-first.
 - Topics: EU AI Act, AI Governance, European SME AI, Agentic Workflows, AI Workflow Automation, AI Strategy
 - Summary: This guide explains what agentic AI means for non-technical operators at European SMEs, which workflows are ready for deployment in 2026, and what governance is required under the EU AI Act before going live. It covers planning, tool use, memory, decision…
 
+## AI Coding Tools Budget Guide for European CTOs in 2026
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/ai-coding-tools-budget-guide-european-ctos-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-coding-tools-budget-guide-european-ctos-2026/article.md
+- Topics: AI Productivity Tools, European SME AI, GitHub Copilot
+- Summary: What European CTOs budget for AI coding tools in 2026. Planning guide for Claude Code, Copilot, and Cursor for small and mid-sized tech teams.
+
 ## AI Coding Tools for Product Managers and Operations Leaders
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/ai-coding-tools-product-managers-operations-leaders-2026
@@ -1204,6 +1211,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-consulting-coimbra-tech-startups-2026/article.md
 - Topics: AI Governance, Iberia AI, European SME AI, EU AI Act, AI Regulation, B2B SaaS Growth
 - Summary: Coimbra's tech ecosystem, built around University of Coimbra and IPN, produces researcher-founded deep-tech and health-tech spin-offs. These companies need governance design for MDR and EU AI Act compliance, AI strategy connecting technical output to…
+
+## AI Consulting for Gothenburg Manufacturing SMEs in 2026
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/ai-consulting-gothenburg-manufacturing-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-consulting-gothenburg-manufacturing-smes-2026/article.md
+- Topics: AI Consulting, Manufacturing AI, European SME AI
+- Summary: How Gothenburg manufacturing companies adopt AI in 2026. Readiness guide for Swedish industrial SMEs covering automation, quality, and governance.
 
 ## AI Consulting for Malmö Logistics SMEs: Practical AI for Swedish Supply Chains
 - Date: 2026-04-15
@@ -1254,6 +1268,13 @@ short summary. Articles are listed newest-first.
 - Topics: claude-code, ai-coding-tools, developer-tools, agent-plugins, european-tech
 - Summary: 10 Claude Code skills and agent plugins European dev teams adopt in 2026. A guide for technical leads evaluating AI coding extensions.
 
+## Claude Code for Python, Django, and FastAPI Teams: A Practical Field Guide
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-code-backend-teams-python-django-fastapi-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-backend-teams-python-django-fastapi-2026/article.md
+- Topics: claude-code, python, django, fastapi, ai-coding-tools
+- Summary: How backend teams using Python, Django, and FastAPI integrate Claude Code. Practical patterns for session setup, test generation, and safe production use.
+
 ## Claude Code for Data Science Teams: Python, pandas, and Analytics Workflows in 2026
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/claude-code-data-science-analytics-teams-2026
@@ -1275,12 +1296,26 @@ short summary. Articles are listed newest-first.
 - Topics: Claude Code, AI Productivity Tools
 - Summary: This guide explains how solo developers can use Claude Code as a force multiplier. It covers effective session patterns like specification-first development and test generation, billing options from $20 to $200/month, and the critical oversight gap when…
 
+## How to Set Up a Claude Code Pilot in a Regulated European Company
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-code-pilot-regulated-european-company-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-pilot-regulated-european-company-2026/article.md
+- Topics: GDPR & Data Privacy
+- Summary: How to run a Claude Code pilot in a regulated European company. GDPR, EU AI Act, and compliance guardrails for finance, healthcare, and legal.
+
 ## How to Measure Claude Code ROI for Your Engineering Team
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/claude-code-roi-measurement-sme-engineering-teams-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-roi-measurement-sme-engineering-teams-2026/article.md
 - Topics: AI ROI, AI Productivity Tools
 - Summary: Measure Claude Code ROI for your engineering team: time saved, quality metrics, and cost per developer. A practical 30-day framework.
+
+## Claude Code vs Microsoft Copilot: A Decision Framework for European Engineering Teams
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-code-vs-microsoft-copilot-european-teams-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-vs-microsoft-copilot-european-teams-2026/article.md
+- Topics: GitHub Copilot, GDPR & Data Privacy
+- Summary: How to choose between Claude Code and Microsoft Copilot for your European dev team. Covers features, pricing, GDPR fit, and integration complexity.
 
 ## Claude Routines Explained: What SME Operators and Technical Teams Need to Know
 - Date: 2026-04-15
