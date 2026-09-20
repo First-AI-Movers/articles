@@ -1,0 +1,110 @@
+# Dependabot auto-merge arming (#432).
+#
+# WHAT THIS IS. The one step of the ordinary PR lifecycle that Dependabot never
+# performs: arming squash auto-merge while `aeos-merge-ready` -- the organization's
+# only required check -- is still pending. Six green dependency bumps sat in the
+# operator's queue because nobody was that author (#432). This workflow is that
+# author for Dependabot PRs and nothing more: no second merge controller, no
+# scheduler, no test evaluation, no bypass. The gate decides; GitHub merges.
+#
+# WHY `workflow_run` AND NOT `pull_request`. A workflow_run job executes in the
+# DEFAULT-BRANCH context: this file and tools/arm_dependabot_auto_merge.py are
+# read from `main`, never from the candidate, and the repository secrets are
+# available. A Dependabot-triggered `pull_request` run gets neither -- it has no
+# repository secrets -- and auto-merge armed with the default GITHUB_TOKEN would
+# merge without firing the `push: main` workflows (deploy, main-smoke), by the
+# same recursion rule that keeps the ingestion PRs on the App token (#388). The
+# hook is `Run tests` (tests.yml) because that workflow runs on every
+# pull_request with no path filter, so it is requested for every Dependabot head
+# in every ecosystem. Renaming that workflow detaches this trigger silently;
+# tools/tests/test_workflows_dependabot_auto_merge.py pins the binding.
+#
+# `requested` AND `completed`. The gate is fast (about 30 s), so by the time this
+# job has a runner the PR is often already mergeable; `gh pr merge --squash
+# --auto` then squash-merges it at that head instead of arming, because GitHub
+# refuses to arm a PR that is already in clean status. Either outcome is the
+# ordinary lifecycle end state. `completed` is the retry for a head the first
+# attempt found not yet evaluated. Both invocations are idempotent: an armed or
+# merged PR is a SKIP.
+#
+# NOT `pull_request_target`, per AGENTS.md; `permissions` declared; the only
+# third-party action is SHA-pinned; nothing author-controlled and no secret is
+# interpolated into a `run:` body.
+name: Dependabot auto-merge
+
+on:
+  workflow_run:
+    workflows: ["Run tests"]
+    types: [requested, completed]
+
+# GITHUB_TOKEN only checks out `main`. The arming uses the App token minted below.
+permissions:
+  contents: read
+
+# One arming at a time per Dependabot head; a second event for the same head
+# queues behind the first and then finds the PR armed or merged (SKIP).
+concurrency:
+  group: dependabot-auto-merge-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  arm:
+    name: dependabot-auto-merge
+    # Only Dependabot's own pull_request heads on this repository's branches.
+    # A refresh push by another principal (the update-branch API, a maintainer)
+    # is not Dependabot's event and is not armed here.
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      startsWith(github.event.workflow_run.head_branch, 'dependabot/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Assert the App credentials are visible
+        # FAIL FAST, AND FAIL WHERE THE CAUSE IS NAMED (#388). A missing credential
+        # must read as "cannot arm", not as a later token error inside gh.
+        env:
+          APP_ID_PRESENT: ${{ vars.ARTICLES_AUTOMATION_APP_ID != '' }}
+          APP_KEY_PRESENT: ${{ secrets.ARTICLES_AUTOMATION_APP_PRIVATE_KEY != '' }}
+        run: |
+          set -euo pipefail
+          if [ "$APP_ID_PRESENT" != "true" ] || [ "$APP_KEY_PRESENT" != "true" ]; then
+            echo "::error::ARTICLES_AUTOMATION_APP_ID (variable) or ARTICLES_AUTOMATION_APP_PRIVATE_KEY (secret) is not available to this repository, so no Dependabot PR can be armed. Provision the Articles Automation App credentials before re-running."
+            exit 1
+          fi
+          echo "App id and private key are both visible to this repository."
+
+      - name: Mint a short-lived App token for the auto-merge arming
+        # The same short-lived, repository-scoped App token the ingestion workflows use
+        # for PR operations (#388): Contents RW + Pull requests RW on this repository
+        # only. An App identity, not GITHUB_TOKEN, so the merge it arms fires the
+        # `push: main` workflows. SHA-PINNED per AGENTS.md.
+        id: app_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ vars.ARTICLES_AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.ARTICLES_AUTOMATION_APP_PRIVATE_KEY }}
+          # Narrow the minted token to the two scopes the arming needs, below the
+          # App's installation grant: squash auto-merge writes contents and pull
+          # requests; the refusal comment is a pull-request write.
+          permission-contents: write
+          permission-pull-requests: write
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version-file: .python-version
+
+      - name: Arm squash auto-merge on the Dependabot PR
+        # Every event value arrives as an environment variable; nothing from the
+        # event is interpolated into the script body.
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+          DEPENDABOT_PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number || '' }}
+          DEPENDABOT_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          DEPENDABOT_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: python3 tools/arm_dependabot_auto_merge.py
