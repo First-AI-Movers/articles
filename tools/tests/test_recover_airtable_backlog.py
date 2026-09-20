@@ -163,3 +163,63 @@ class TestCounts:
         assert counts["batch_selected"] == 5
         assert counts["created"] == 5
         assert counts["remaining_after_batch"] == 2
+
+
+class _StubVerifier:
+    def __init__(self, admit):
+        self.admit = set(admit)
+        self.calls = []
+
+    def listed(self, fields, *, canonical_url, slug, license_value=""):
+        raise AssertionError("recovery never needs the cheap check: present rows are skipped first")
+
+    def decide(self, fields, *, canonical_url, slug, license_value=""):
+        self.calls.append(canonical_url)
+        class D:
+            pass
+        d = D()
+        d.eligible = canonical_url in self.admit
+        d.klass = "eligible" if d.eligible else "no_receipt"
+        d.reason = "stub"
+        d.receipt = ({"kind": "OWNED_SOURCE_URL", "url": canonical_url, "canonical_match": True,
+                      "verified_at": "2026-09-18T11:02:00Z"} if d.eligible else None)
+        return d
+
+
+class TestReceiptGateRecovery:
+    def test_receipt_gate_selects_by_receipt_and_carries_it_to_the_writer(self, mod, monkeypatch, tmp_path):
+        monkeypatch.setattr(mod.ing, "ARTICLES_DIR", tmp_path / "articles")
+        schema = mod.ing._load_schema()
+        archive = {"ids": set(), "urls": set(), "titles": set()}
+        recs = [
+            _rec("rec1", url="https://www.firstaimovers.com/p/live", status="Draft", date="2026-04-01"),
+            _rec("rec2", url="https://www.firstaimovers.com/p/label-only", status="Posted", date="2026-04-02"),
+        ]
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/live"})
+        cands = mod.find_recoverable(recs, archive, schema, gate="receipt", verifier=v)
+        assert [c["record_id"] for c in cands] == ["rec1"], "Posted without a receipt is not recoverable"
+        assert cands[0]["receipt"]["kind"] == "OWNED_SOURCE_URL"
+        results = mod.apply_batch(mod.select_batch(cands, 5), dry_run=False)
+        assert results[0]["created"] is True
+        meta = json.loads((tmp_path / "articles" / "2026-04-01-live" / "metadata.json").read_text())
+        assert meta["publication_receipt"]["kind"] == "OWNED_SOURCE_URL"
+
+    def test_status_gate_candidates_carry_no_receipt(self, mod, monkeypatch):
+        monkeypatch.delenv(mod.ing.ELIGIBILITY_GATE_ENV, raising=False)
+        schema = mod.ing._load_schema()
+        archive = {"ids": set(), "urls": set(), "titles": set()}
+        cands = mod.find_recoverable([_rec("rec1", url="https://x/p/a", status="Posted")], archive, schema)
+        assert len(cands) == 1 and cands[0]["receipt"] is None
+
+
+    def test_present_rows_never_reach_the_verifier(self, mod, monkeypatch):
+        monkeypatch.delenv(mod.ing.ELIGIBILITY_GATE_ENV, raising=False)
+        schema = mod.ing._load_schema()
+        archive = {"ids": {"rec1"}, "urls": set(), "titles": set()}
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/missing"})
+        cands = mod.find_recoverable(
+            [_rec("rec1", url="https://www.firstaimovers.com/p/present", status="Posted"),
+             _rec("rec2", url="https://www.firstaimovers.com/p/missing", title="Other", status="Posted")],
+            archive, schema, gate="receipt", verifier=v)
+        assert [c["record_id"] for c in cands] == ["rec2"]
+        assert v.calls == ["https://www.firstaimovers.com/p/missing"]

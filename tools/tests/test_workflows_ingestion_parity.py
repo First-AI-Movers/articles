@@ -79,3 +79,60 @@ def test_ingestion_shares_concurrency_group(wf_name):
         f"three ingestion paths cannot run concurrently and race on the shared "
         f"rebuild output; got {conc!r}."
     )
+
+
+GATE_WORKFLOWS = [
+    "ingest-airtable.yml",
+    "audit-airtable-reconciliation.yml",
+    "recover-airtable-backlog.yml",
+]
+GATE_EXPR = "${{ vars.ARCHIVE_ELIGIBILITY_GATE || 'status' }}"
+# A per-run dispatch override is allowed ONLY on a read-only workflow that declares the
+# input: it exists so the receipt delta can be measured without flipping the repository
+# variable, and it must never reach a workflow that can write to the archive.
+GATE_EXPR_WITH_OVERRIDE = "${{ inputs.eligibility_gate || vars.ARCHIVE_ELIGIBILITY_GATE || 'status' }}"
+
+
+def _on(wf: dict) -> dict:
+    return wf.get("on") or wf.get(True) or {}   # PyYAML reads a bare `on:` key as True
+
+
+def _is_read_only(wf: dict) -> bool:
+    perms = wf.get("permissions") or {}
+    writes_content = perms.get("contents") == "write" or perms.get("pull-requests") == "write"
+    publishes = any(
+        "create-pull-request" in str(s.get("uses") or "")
+        for job in (wf.get("jobs") or {}).values()
+        for s in (job.get("steps") or [])
+    )
+    return not writes_content and not publishes
+
+
+@pytest.mark.parametrize("wf_name", GATE_WORKFLOWS)
+def test_eligibility_gate_is_passed_identically_to_every_tool(wf_name):
+    """The three tools decide eligibility through one shared function that reads
+    ARCHIVE_ELIGIBILITY_GATE. If one workflow forgot to pass the repository variable,
+    that tool would silently run the `status` gate while the others ran `receipt`
+    -- the reconciler and the ingestion path would disagree about the same record.
+    The default is `status` on purpose (ADR: the rollback position), so flipping the
+    repository variable is the only cut-over and unsetting it is the rollback. The
+    read-only reconciliation may additionally take a per-run dispatch override; a
+    workflow that can publish may not."""
+    wf = _wf(wf_name)
+    env = wf.get("env") or {}
+    got = env.get("ARCHIVE_ELIGIBILITY_GATE")
+    inputs = ((_on(wf).get("workflow_dispatch") or {}) or {}).get("inputs") or {}
+    if "eligibility_gate" in inputs:
+        assert _is_read_only(wf), (
+            f"{wf_name} declares an eligibility_gate override but can write to the archive; "
+            "an override is only ever allowed on a read-only report"
+        )
+        assert got == GATE_EXPR_WITH_OVERRIDE, (
+            f"{wf_name} declares the override input, so it must read it first: "
+            f"expected {GATE_EXPR_WITH_OVERRIDE!r}, got {got!r}"
+        )
+    else:
+        assert got == GATE_EXPR, (
+            f"{wf_name} must pass ARCHIVE_ELIGIBILITY_GATE at workflow level as {GATE_EXPR!r}; "
+            f"got {got!r}"
+        )

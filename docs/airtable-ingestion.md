@@ -85,9 +85,33 @@ The standalone `tools/check_duplicate_titles.py` and the
 comparison to avoid breaking on a small set of legacy smart-quote pairs
 that predate the strict gate; cleanup of those is tracked separately.
 
+## Eligibility gate
+
+Which records the archive admits is selected by the repository variable
+`ARCHIVE_ELIGIBILITY_GATE`, passed to the ingestion, reconciliation and backlog
+recovery workflows and read by one shared function (`ingest_airtable.eligibility`),
+so the three tools never disagree about a record:
+
+- `status` (default, and the rollback position) — the status gate described below.
+- `receipt` — a record is admitted only on a **verified publication receipt**
+  (`tools/publication_receipt.py`): a Hashnode post id embedded on the publication
+  page, resolved through the public sitemap, or — when the row has no Hashnode
+  receipt or its publication URL cannot be resolved — a first-party source page
+  that declares itself canonical. `FAIM Status` becomes advisory. Rows whose receipt
+  could not be read (`401`/`403`/`429`, `5xx`, timeouts) are `receipt_unverifiable`
+  and retried next run; an admitted article records its receipt as
+  `publication_receipt` in `metadata.json`. Presence is checked first: an archived
+  article is never re-judged. Decision record:
+  [`docs/decisions/archive-eligibility-by-verified-publication-receipt.md`](decisions/archive-eligibility-by-verified-publication-receipt.md).
+
+The gate is switched to `receipt` only after the read-only reconciliation delta in
+that record's Validation section has been produced (#423). Any other value is a
+configuration error and the tool exits.
+
 ## Status gate
 
-Only records with `FAIM Status = Posted` are ingested.
+Under `ARCHIVE_ELIGIBILITY_GATE=status`, only records with `FAIM Status = Posted`
+are ingested.
 
 `Posted` means the article is already live in the upstream publishing system
 (Hashnode/Beehiiv/Medium/etc.) and its canonical URL resolves. Mirroring it
@@ -136,7 +160,10 @@ If a record is missing `slug` but has `GUID`:
 - **Incident logging:** A final workflow step opens a GitHub issue if any
   prior step in a write-mode run fails. Title format:
   `E41 cron ingestion incident: workflow run <id> failed`. Skipped on
-  dry-run and on success. No secret values are recorded.
+  dry-run and on success. No secret values are recorded. Deduplicated:
+  while an incident with that title prefix is open, each further failed
+  run is appended to it as a comment rather than filed as a new issue; a
+  successful scheduled run closes it.
 - **No-content suppression (E41h):** `tools/ingest_airtable.py` writes
   `ingest-summary.json` at the repo root with the run's
   `seen/created/skipped/invalid` counts. The workflow's
