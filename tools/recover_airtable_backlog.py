@@ -166,7 +166,7 @@ def _render_summary(counts) -> str:
         "## Airtable backlog recovery\n\n"
         f"- Mode: {mode}\n"
         f"- Airtable records fetched: {counts['fetched']}\n"
-        f"- Recoverable backlog (valid Posted, missing): {counts['recoverable_backlog']}\n"
+        f"- Recoverable backlog (admitted by the eligibility gate, missing): {counts['recoverable_backlog']}\n"
         f"- Batch selected: {counts['batch_selected']}\n"
         f"- **Created this batch: {counts['created']}**\n"
         f"- Skipped (already present): {counts['skipped_existing']}\n"
