@@ -88,37 +88,38 @@ class TestBuildChangelogCLI:
         # Now --check should pass because the file matches current output
         assert build_changelog.main(["--check", "--max-entries", "5"]) == 0
 
-    def test_default_writes_file(self):
-        # File already exists from generation; verify script completes
+    def test_default_writes_file(self, tmp_path):
+        """Run the real CLI, but never onto the repository's own snapshot.
+
+        These two cases used to write `docs/CHANGELOG.md` in the working tree --
+        one of them truncated to five entries -- so any full-suite run left a
+        tracked file modified and a `git add -A` could commit a mangled changelog.
+        The snapshot is a reviewed artifact; a test is not the thing that refreshes it.
+        """
+        destination = tmp_path / "CHANGELOG.md"
         result = subprocess.run(
-            [sys.executable, str(BUILD_CHANGELOG)],
+            [sys.executable, str(BUILD_CHANGELOG), "--output", str(destination)],
             capture_output=True,
             text=True,
             cwd=REPO_ROOT,
         )
         assert result.returncode == 0
         assert "wrote" in result.stdout
+        assert destination.exists()
 
-    def test_max_entries_bounds_output(self):
+    def test_max_entries_bounds_output(self, tmp_path):
+        destination = tmp_path / "CHANGELOG.md"
         result = subprocess.run(
-            [sys.executable, str(BUILD_CHANGELOG), "--max-entries", "5"],
+            [sys.executable, str(BUILD_CHANGELOG), "--max-entries", "5", "--output", str(destination)],
             capture_output=True,
             text=True,
             cwd=REPO_ROOT,
         )
         assert result.returncode == 0
         # Count PR links in output to verify bounding
-        output = (REPO_ROOT / "docs" / "CHANGELOG.md").read_text(encoding="utf-8")
-        pr_links = output.count("/pull/")
+        pr_links = destination.read_text(encoding="utf-8").count("/pull/")
         # After writing with --max-entries 5, the file should have at most 5 PR links
         assert pr_links <= 5
-
-        # Restore with full generation
-        subprocess.run(
-            [sys.executable, str(BUILD_CHANGELOG)],
-            capture_output=True,
-            cwd=REPO_ROOT,
-        )
 
     def test_check_mode_exits_one_when_file_missing(self, tmp_path, monkeypatch):
         import build_changelog

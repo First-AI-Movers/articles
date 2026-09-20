@@ -7,10 +7,11 @@
 
 - feat(ingest): one eligibility gate for ingestion, reconciliation and recovery, receipt mode behind a switch [#423 #388] ([428](https://github.com/First-AI-Movers/articles/pull/428))
 - feat(ingest): verified publication receipt verifier, unwired [#423 #388] ([427](https://github.com/First-AI-Movers/articles/pull/427))
-- feat(governance): adopt the identifier-integrity manifest (no-op, attested) ([358](https://github.com/First-AI-Movers/articles/pull/358))
 
 ## Bug Fixes
 
+- fix(ingest): eligibility is a verified receipt, not inferred freshness [#423] ([445](https://github.com/First-AI-Movers/articles/pull/445))
+- fix(template): bring the template's action pins to the root convention [#362] ([444](https://github.com/First-AI-Movers/articles/pull/444))
 - fix(recover-backlog): name the backlog by what the gate admitted [#423] ([442](https://github.com/First-AI-Movers/articles/pull/442))
 - fix(ingest): retention is not gated; unresolved Hashnode receipts fall through to the source [#423] ([431](https://github.com/First-AI-Movers/articles/pull/431))
 - fix(ingest): decide archive presence before paying for a receipt lookup [#423] ([430](https://github.com/First-AI-Movers/articles/pull/430))
@@ -33,6 +34,7 @@
 
 ## Chores
 
+- chore(dependabot): watch the cookiecutter template's workflows [#362] ([446](https://github.com/First-AI-Movers/articles/pull/446))
 - chore(deps): bump hono from 4.13.7 to 4.13.8 in /mcp-server [#432] ([443](https://github.com/First-AI-Movers/articles/pull/443))
 - chore(embeddings): refresh article embedding index ([440](https://github.com/First-AI-Movers/articles/pull/440))
 - chore(deps): update openai requirement from >=3.3.1 to >=3.8.0 in /tools ([416](https://github.com/First-AI-Movers/articles/pull/416))
@@ -55,12 +57,10 @@
 - chore(deps): update openai requirement from >=2.48.0 to >=3.3.1 in /tools ([371](https://github.com/First-AI-Movers/articles/pull/371))
 - chore(deps): update python-dotenv requirement from >=1.2.2 to >=1.2.3 in /tools ([370](https://github.com/First-AI-Movers/articles/pull/370))
 - chore(deps): update pyarrow requirement from >=25.0.0 to >=25.0.1 in /tools ([367](https://github.com/First-AI-Movers/articles/pull/367))
-- chore(deps): update numpy requirement from >=2.4.6 to >=2.5.2 in /tools ([366](https://github.com/First-AI-Movers/articles/pull/366))
-- chore(deps): update markdown requirement from >=3.10.2 to >=3.10.3 in /tools ([363](https://github.com/First-AI-Movers/articles/pull/363))
-- chore(infra): adopt Python 3.14 as the canonical runtime [PY314-ADOPTION-A] ([361](https://github.com/First-AI-Movers/articles/pull/361))
 
 ## CI/CD
 
+- ci(dependabot): arm squash auto-merge on Dependabot PRs [#432] ([441](https://github.com/First-AI-Movers/articles/pull/441))
 - ci(reconciliation): per-run eligibility-gate override for the read-only receipt delta [#423] ([429](https://github.com/First-AI-Movers/articles/pull/429))
 - ci: retire the dormant zizmor advisory [agent-toolkit#3460] ([399](https://github.com/First-AI-Movers/articles/pull/399))
 - ci(aeos): adopt the post-main smoke rail — smoke only, revert not armed ([387](https://github.com/First-AI-Movers/articles/pull/387))
