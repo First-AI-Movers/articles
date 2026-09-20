@@ -136,26 +136,36 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Generate CHANGELOG.md from git history")
     parser.add_argument("--check", action="store_true", help="Exit non-zero if CHANGELOG.md would change")
     parser.add_argument("--max-entries", type=int, default=50, help="Max PR entries to include (default: 50)")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help=(
+            "Write (or --check) this path instead of docs/CHANGELOG.md. Exists so a test "
+            "can exercise the CLI without rewriting the repository's own snapshot."
+        ),
+    )
     args = parser.parse_args(argv)
 
+    destination = args.output or CHANGELOG_PATH
     repo_url = _repo_url()
     entries = _git_log(args.max_entries)
     output = _render(entries, repo_url)
 
     if args.check:
-        if not CHANGELOG_PATH.exists():
-            print("[changelog] CHANGELOG.md does not exist")
+        if not destination.exists():
+            print(f"[changelog] {destination.name} does not exist")
             return 1
-        existing = CHANGELOG_PATH.read_text(encoding="utf-8")
+        existing = destination.read_text(encoding="utf-8")
         if existing == output:
-            print("[changelog] CHANGELOG.md is up to date")
+            print(f"[changelog] {destination.name} is up to date")
             return 0
-        print("[changelog] CHANGELOG.md would change")
+        print(f"[changelog] {destination.name} would change")
         return 1
 
-    CHANGELOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CHANGELOG_PATH.write_text(output, encoding="utf-8")
-    print(f"[changelog] wrote {CHANGELOG_PATH} ({len(entries)} entries)")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(output, encoding="utf-8")
+    print(f"[changelog] wrote {destination} ({len(entries)} entries)")
     return 0
 
 
