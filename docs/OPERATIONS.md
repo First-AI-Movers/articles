@@ -129,6 +129,7 @@ long-lived token. Each mints a short-lived GitHub App installation token
 
 - **Dry-run (default):** `INGEST_DRY_RUN` is unset or set to `1`. Workflow classifies records but does not write files.
 - **Write mode:** Set repository variable `INGEST_DRY_RUN=0`. Workflow will create article folders and open PRs.
+- **Eligibility gate:** repository variable `ARCHIVE_ELIGIBILITY_GATE` — `status` (default; `FAIM Status = Posted`) or `receipt` (verified publication receipt). Shared by ingestion, reconciliation and backlog recovery; see [`docs/airtable-ingestion.md`](airtable-ingestion.md) § Eligibility gate. Unset it to roll back.
 - **Local dry-run:** `python3 tools/ingest_airtable.py --dry-run`
 - **Local write test:** `python3 tools/ingest_airtable.py --write --record-id <id>` (test with one record first)
 
