@@ -8,6 +8,16 @@ name: Airtable ingestion reconciliation
 
 on:
   workflow_dispatch:
+    inputs:
+      eligibility_gate:
+        description: >-
+          Override ARCHIVE_ELIGIBILITY_GATE for this read-only run only: '' = the
+          repository variable (default); 'status' | 'receipt'. An override produces a
+          report (job summary + missing record ids) and never touches the discrepancy
+          issue. This is how the ADR's read-only receipt delta is produced (#423).
+        required: false
+        default: ""
+        type: string
   schedule:
     - cron: "23 4 * * 1"   # Weekly, Monday 04:23 UTC (offset from other crons)
 
@@ -21,6 +31,15 @@ permissions:
 concurrency:
   group: airtable-reconciliation
   cancel-in-progress: false
+
+env:
+  # Archive eligibility gate (docs/decisions/archive-eligibility-by-verified-publication-receipt.md):
+  # `status` = the historical `FAIM Status == Posted` check; `receipt` = admitted only on a
+  # verified publication receipt. Read by the three tools through the environment; the
+  # default stays `status` until the read-only receipt delta has been produced (#423).
+  # This read-only workflow additionally accepts a per-run dispatch override so the
+  # receipt delta can be measured without flipping the repository variable.
+  ARCHIVE_ELIGIBILITY_GATE: ${{ inputs.eligibility_gate || vars.ARCHIVE_ELIGIBILITY_GATE || 'status' }}
 
 jobs:
   reconcile:
@@ -44,19 +63,41 @@ jobs:
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
           AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
           AIRTABLE_VIEW_NAME: ${{ secrets.AIRTABLE_VIEW_NAME }}
+          GATE_OVERRIDE: ${{ inputs.eligibility_gate }}
         run: |
+          # With a dispatch override the run is a report: print the counts and the
+          # (already public) missing record ids so a delta can be explained row by row.
+          extra=""
+          if [ -n "${GATE_OVERRIDE}" ]; then
+            extra="--emit-missing-ids"
+          fi
           python3 tools/audit_airtable_reconciliation.py \
-            --summary-file "$GITHUB_STEP_SUMMARY" --json > recon.json
+            --summary-file "$GITHUB_STEP_SUMMARY" --json ${extra} > recon.out
+          # stdout is the counts JSON followed, under an override, by the id list.
+          python3 - <<'PY'
+          import json
+          text = open("recon.out", encoding="utf-8").read()
+          head, _, tail = text.partition("missing_record_ids:")
+          counts = json.loads(head)
+          json.dump(counts, open("recon.json", "w", encoding="utf-8"))
+          print(json.dumps(counts, indent=2))
+          ids = [line.strip() for line in tail.splitlines() if line.strip()]
+          if ids:
+              print(f"missing_record_ids ({len(ids)}):")
+              print("\n".join("  " + rid for rid in ids))
+          PY
           missing=$(python3 -c 'import json; print(json.load(open("recon.json"))["eligible_missing"])')
           echo "missing=${missing}" >> "$GITHUB_OUTPUT"
-          echo "eligible_missing=${missing}"
+          echo "eligible_missing=${missing} gate=${ARCHIVE_ELIGIBILITY_GATE}"
 
       - name: Open deduplicated discrepancy issue (counts only)
         # Only when eligible Posted records are missing from the archive. The
         # issue body carries counts + the run URL only — no titles, URLs, or
         # record ids. Deduplicated by title so a persistent backlog does not
         # spawn a new issue every week. Always exits 0.
-        if: steps.recon.outputs.missing != '0'
+        # Never on a gate-override run: those are reports, and their counts do not
+        # describe the backlog the discrepancy issue tracks.
+        if: steps.recon.outputs.missing != '0' && inputs.eligibility_gate == ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MISSING: ${{ steps.recon.outputs.missing }}

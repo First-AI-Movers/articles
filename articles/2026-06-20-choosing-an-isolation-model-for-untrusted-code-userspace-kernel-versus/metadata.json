@@ -1,0 +1,29 @@
+{
+  "id": "reckRcWYMJ071pGOE",
+  "title": "Choosing an Isolation Model for Untrusted Code: Userspace Kernel versus MicroVM",
+  "slug": "choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus",
+  "folder": "2026-06-20-choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus",
+  "published_date": "2026-06-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus",
+  "tags": [
+    "isolation-models",
+    "untrusted-code",
+    "gvisor",
+    "firecracker",
+    "sandboxing"
+  ],
+  "first_ai_movers_services": [],
+  "status": "error",
+  "topics": [],
+  "publication_receipt": {
+    "kind": "HASHNODE_POST",
+    "post_id": "6a364274a72a2e5039429d6c",
+    "url": "https://radar.firstaimovers.com/choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus",
+    "canonical_match": true,
+    "verified_at": "2026-09-18T13:16:13Z"
+  }
+}

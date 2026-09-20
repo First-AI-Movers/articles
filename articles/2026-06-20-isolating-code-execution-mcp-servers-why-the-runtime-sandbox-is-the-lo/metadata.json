@@ -1,0 +1,29 @@
+{
+  "id": "recu1Vy0ZTZSgcc29",
+  "title": "Isolating Code-Execution MCP Servers: Why the Runtime Sandbox Is the Load-Bearing Control",
+  "slug": "isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo",
+  "folder": "2026-06-20-isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo",
+  "published_date": "2026-06-20",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo",
+  "tags": [
+    "mcp-security",
+    "runtime-sandbox",
+    "gvisor",
+    "firecracker",
+    "code-execution"
+  ],
+  "first_ai_movers_services": [],
+  "status": "error",
+  "topics": [],
+  "publication_receipt": {
+    "kind": "HASHNODE_POST",
+    "post_id": "6a3633589207ab19ac1b9672",
+    "url": "https://radar.firstaimovers.com/isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo",
+    "canonical_match": true,
+    "verified_at": "2026-09-18T13:16:15Z"
+  }
+}

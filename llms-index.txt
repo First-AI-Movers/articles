@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 904
-- Date range: 2025-02-17 to 2026-06-21
+- Articles: 932
+- Date range: 2025-02-17 to 2026-07-25
 - Topic count: 103
-- Generated: 2026-07-13
+- Generated: 2026-09-18
 
 ## Companion files
 
@@ -29,6 +29,69 @@ short summary. Articles are listed newest-first.
 
 ---
 
+## July 2026 Momentum Across Open Agent Platforms
+- Date: 2026-07-25
+- Canonical: https://radar.firstaimovers.com/agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar
+- Archive: https://articles.firstaimovers.com/articles/2026-07-25-agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar/article.md
+- Topics: Multi-Agent Systems
+- Summary: Visible momentum across open agent platforms in July 2026, with new releases from Dify and LangChain. What this means for European engineering teams.
+
+## Open-Source Coding Assistants and Autonomous Agents: The New State of Software Development
+- Date: 2026-07-21
+- Canonical: https://radar.firstaimovers.com/open-source-coding-assistants-and-autonomous-software-development-summ
+- Archive: https://articles.firstaimovers.com/articles/2026-07-21-open-source-coding-assistants-and-autonomous-software-development-summ/article.md
+- Topics: open source, Coding Assistants, autonomous agents, llm, software development
+- Summary: Open-source coding tools surge: AI editors and autonomous agents from independent maintainers. A guide for European engineering leaders.
+
+## We Built the Engine But Not the Chassis: What AI-Accelerated Teams Are Not Telling You
+- Date: 2026-07-17
+- Canonical: https://radar.firstaimovers.com/ai-accelerated-teams-velocity-stabilization-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-07-17-ai-accelerated-teams-velocity-stabilization-2026/article.md
+- Topics: AI Governance, AI Change Management
+- Summary: AI gave small teams infinite velocity but broke their processes. The data on cognitive debt, brain fry, and what surviving teams do differently.
+
+## The Honest AI Adoption Guide: Every Fear You Have Is Valid, Here Is What to Do About Each One
+- Date: 2026-07-17
+- Canonical: https://radar.firstaimovers.com/ai-adoption-fears-european-sme-leaders-honest-guide-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-07-17-ai-adoption-fears-european-sme-leaders-honest-guide-2026/article.md
+- Topics: company-tech-strategy, ai-governance, digital-transformation, ai-automation, business-automation
+- Summary: You are busy, sceptical, and worried about wasting money on AI. This guide addresses every real fear European SME leaders have about AI adoption, honestly.
+
+## AI Engineering for European SMEs: If You Can Describe It, We Can Build It
+- Date: 2026-07-17
+- Canonical: https://radar.firstaimovers.com/ai-engineering-services-european-smes-build-anything-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-07-17-ai-engineering-services-european-smes-build-anything-2026/article.md
+- Topics: ai-automation, company-tech-strategy, digital-transformation, business-automation, ai-governance
+- Summary: First AI Movers builds custom AI platforms, SaaS products, and automation systems for European SMEs, from idea to production on any cloud or model, with no vendor lock-in.
+
+## A Two-Person Team Out-Built 300 Rivals in 12 Hours, Because They Mapped First
+- Date: 2026-07-17
+- Canonical: https://radar.firstaimovers.com/map-before-you-build-ai-project-planning-sme-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-07-17-map-before-you-build-ai-project-planning-sme-2026/article.md
+- Topics: ai-strategy, company-tech-strategy, ai-automation, digital-transformation, project-planning
+- Summary: Most failed AI pilots die from no plan, not bad tech. Learn the map-first AI project planning method that lets small European teams ship working AI.
+
+## Content Provenance: A Checkable History That Travels With Every File
+- Date: 2026-06-27
+- Canonical: https://radar.firstaimovers.com/content-provenance-recording-how-a-piece-of-media-was-made-summary-con
+- Archive: https://articles.firstaimovers.com/articles/2026-06-27-content-provenance-recording-how-a-piece-of-media-was-made-summary-con/article.md
+- Topics: Content Provenance, media-authenticity, c2pa, AI Trust, verifiable-media
+- Summary: Content provenance attaches a tamper-evident record to media, so you can verify origin and edits instead of trusting appearances. C2PA and open tools make
+
+## Confidential Computing: Protecting Data While It Is In Use
+- Date: 2026-06-26
+- Canonical: https://radar.firstaimovers.com/confidential-computing-protecting-data-while-it-is-in-use-summary-conf
+- Archive: https://articles.firstaimovers.com/articles/2026-06-26-confidential-computing-protecting-data-while-it-is-in-use-summary-conf/article.md
+- Topics: GDPR & Data Privacy
+- Summary: Confidential computing protects data during processing with hardware-based trusted execution environments, closing the gap between encryption at rest and
+
+## What Makes an AI System Trustworthy: The Characteristics NIST Names
+- Date: 2026-06-24
+- Canonical: https://radar.firstaimovers.com/what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum
+- Archive: https://articles.firstaimovers.com/articles/2026-06-24-what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum/article.md
+- Topics: AI Governance, Executive AI Literacy
+- Summary: NIST's AI RMF names seven characteristics of trustworthy AI: validity, safety, security, accountability, explainability, privacy, and fairness
+
 ## How the Sentry Intercepts System Calls to Contain Untrusted Agent Code
 - Date: 2026-06-21
 - Canonical: https://radar.firstaimovers.com/how-the-sentry-intercepts-system-calls-to-contain-untrusted-agent-code
@@ -43,12 +106,26 @@ short summary. Articles are listed newest-first.
 - Topics: Executive AI Literacy
 - Summary: Apply CISA Secure by Design to AI agents: make safe configurations the out-of-the-box default, so teams ship agents that are secure before anyone touches
 
+## Choosing an Isolation Model for Untrusted Code: Userspace Kernel versus MicroVM
+- Date: 2026-06-20
+- Canonical: https://radar.firstaimovers.com/choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus
+- Archive: https://articles.firstaimovers.com/articles/2026-06-20-choosing-an-isolation-model-for-untrusted-code-userspace-kernel-versus/article.md
+- Topics: isolation-models, untrusted-code, gvisor, firecracker, sandboxing
+- Summary: When exposing code execution to autonomous agents, choose between gVisor's userspace kernel sandbox and Firecracker's microVM. Compare attack surface
+
 ## How MicroVMs Change the Trust Model for Running Untrusted Agent Code
 - Date: 2026-06-20
 - Canonical: https://radar.firstaimovers.com/how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s
 - Archive: https://articles.firstaimovers.com/articles/2026-06-20-how-microvms-change-the-trust-model-for-running-untrusted-agent-code-s/article.md
 - Topics: microvm-trust-model, untrusted-agent-code, sandboxing, isolation-boundary
 - Summary: Framing isolation as a change in trust model clarifies why microVM or userspace kernel boundary is the load-bearing decision when running untrusted agent
+
+## Isolating Code-Execution MCP Servers: Why the Runtime Sandbox Is the Load-Bearing Control
+- Date: 2026-06-20
+- Canonical: https://radar.firstaimovers.com/isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo
+- Archive: https://articles.firstaimovers.com/articles/2026-06-20-isolating-code-execution-mcp-servers-why-the-runtime-sandbox-is-the-lo/article.md
+- Topics: mcp-security, runtime-sandbox, gvisor, firecracker, code-execution
+- Summary: Isolate code-execution MCP servers with risk of untrusted model-directed code. Runtime sandboxes like gVisor and Firecracker are the load-bearing control
 
 ## The OWASP Top 10 for LLM Applications: A Threat Checklist for Agent Builders
 - Date: 2026-06-20
@@ -63,6 +140,20 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-06-20-why-microvm-isolation-changes-the-blast-radius-for-untrusted-agent-cod/article.md
 - Topics: microvm-isolation, blast-radius, untrusted-code, agent-security, firecracker
 - Summary: When agents run untrusted code, isolation controls spread. Compare shared-kernel containers, userspace sandboxes, microVMs to limit blast radius.
+
+## MCP Server Audit-Trail Schema: What Logs Regulators Will Actually Ask For
+- Date: 2026-06-19
+- Canonical: https://radar.firstaimovers.com/mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f
+- Archive: https://articles.firstaimovers.com/articles/2026-06-19-mcp-server-audit-trail-schema-what-logs-regulators-will-actually-ask-f/article.md
+- Topics: Model Context Protocol, AI Regulation, AI Governance
+- Summary: A field-by-field audit log shape for MCP servers: prompt, tool, arguments, result, latency, with retention and append-only storage. Vital for EU AI Act
+
+## Google I/O 2026's Antigravity Push Signals a Shift to Independent Agents
+- Date: 2026-06-18
+- Canonical: https://radar.firstaimovers.com/google-i-o-2026-independent-agents-antigravity-push-summary-google-ann
+- Archive: https://articles.firstaimovers.com/articles/2026-06-18-google-i-o-2026-independent-agents-antigravity-push-summary-google-ann/article.md
+- Topics: antigravity, google-io-2026, ai-agents, developer-platforms, autonomy-governance
+- Summary: Google I/O 2026 introduced Antigravity, an agent-first platform for autonomous coding. For SMBs, the risk is unintended auto-approval and weakened
 
 ## OpenAI’s Pre-Release Research Points to Simulation-Based Testing, And New Risks
 - Date: 2026-06-18
@@ -589,6 +680,13 @@ short summary. Articles are listed newest-first.
 - Topics: European SME AI, DACH AI, AI Consulting, EU AI Act, AI Governance, B2B SaaS Growth
 - Summary: Berlin tech SMEs face a layered compliance environment with BfDI, BlnBDI, BSI IT-Grundschutz, and EU AI Act rules. AI consulting engagements in 2026 focus on closing governance gaps through compliance baselines, use-case prioritization, pilot-to-production…
 
+## AI Consulting for Edinburgh Tech and Fintech SMEs: What You Need to Know in 2026
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/ai-consulting-edinburgh-tech-fintech-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-ai-consulting-edinburgh-tech-fintech-smes-2026/article.md
+- Topics: AI Consulting, Fintech AI, AI Regulation, UK and Ireland AI, European SME AI, AI Strategy
+- Summary: AI consulting for Edinburgh tech and fintech SMEs. UK regulatory context, ICO compliance, and what to look for in an AI partner in 2026.
+
 ## AI Consulting for Lisbon Tech and Fintech SMEs in 2026
 - Date: 2026-04-23
 - Canonical: https://radar.firstaimovers.com/ai-consulting-lisbon-tech-fintech-smes-2026
@@ -652,6 +750,13 @@ short summary. Articles are listed newest-first.
 - Topics: Claude Code, GDPR & Data Privacy, AI Governance, AI Coding Tools, European SME AI, AI Workflow Automation
 - Summary: Claude Code is a terminal-native AI agent for backend development in Python and Node.js. It reads entire project trees rather than guessing from cursor position, suited for complex APIs, data pipelines, and async workers. Setup requires npm installation, API…
 
+## Claude Code for Frontend Teams: What It Actually Does in React and Next.js
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/claude-code-frontend-teams-react-nextjs-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-claude-code-frontend-teams-react-nextjs-2026/article.md
+- Topics: European SME AI
+- Summary: How European frontend teams use Claude Code to generate components, debug UI state, write tests, and handle GDPR-safe form patterns in React and Next.js.
+
 ## EU AI Act August 2026: What European SMEs Must Do Before the GP Systems Deadline
 - Date: 2026-04-23
 - Canonical: https://radar.firstaimovers.com/eu-ai-act-gp-systems-august-2026-compliance-checklist
@@ -666,12 +771,26 @@ short summary. Articles are listed newest-first.
 - Topics: European SME AI, EU AI Act, AI Governance, AI Strategy, AI PMO
 - Summary: Most AI pilots stall before production. This 90-day framework covers scoping, KPIs, kill criteria, and the handoff checklist for European SME teams.
 
+## How to Write Prompts That Actually Work: A Business User's Guide for European SMEs
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/prompt-engineering-guide-european-sme-business-users-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-prompt-engineering-guide-european-sme-business-users-2026/article.md
+- Topics: European SME AI, GDPR & Data Privacy
+- Summary: Practical prompt engineering guide for non-technical European SME staff. Five patterns for Claude, ChatGPT, and Gemini, with GDPR privacy rules.
+
 ## A Shared Prompt Library Saves Your Team Weeks of Trial and Error
 - Date: 2026-04-23
 - Canonical: https://radar.firstaimovers.com/prompt-library-european-sme-teams-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-23-prompt-library-european-sme-teams-2026/article.md
 - Topics: European SME AI, AI Governance
 - Summary: A prompt library is a structured, shared collection of tested AI templates that teams can copy and adapt. Organize by business function (communications, HR, finance, operations, legal). Each template needs a name, use case, prompt with placeholders, expected…
+
+## Shadow AI in European Financial Services: Why the Regulatory Stakes Are Higher Than You Think
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/shadow-ai-financial-services-governance-european-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-shadow-ai-financial-services-governance-european-smes-2026/article.md
+- Topics: Shadow AI, AI Governance, Fintech AI, European SME AI
+- Summary: MiFID II, DORA, GDPR Article 22: why financial services SMEs face higher shadow AI risk and how to govern it before your regulator finds it first.
 
 ## Shadow AI in Healthcare: A Governance Framework for European SMEs
 - Date: 2026-04-23
@@ -693,6 +812,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-23-should-you-build-internal-ai-knowledge-base-2026/article.md
 - Topics: RAG Architecture, European SME AI, GDPR & Data Privacy, AI Governance, AI Strategy
 - Summary: European SMEs (20-50 people) considering an internal AI knowledge base in 2026 have three options: plug-and-play tools (Notion AI, Copilot) for low effort, custom RAG pipelines for multi-platform flexibility, or fine-tuning for niche tasks. GDPR data…
+
+## Should You Hire a Fractional CTO to Lead Your AI Transformation?
+- Date: 2026-04-23
+- Canonical: https://radar.firstaimovers.com/should-you-hire-fractional-cto-ai-transformation-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-23-should-you-hire-fractional-cto-ai-transformation-2026/article.md
+- Topics: Fractional CTO, AI Change Management, European SME AI, Executive AI Literacy, AI Strategy
+- Summary: A decision framework for European SME CEOs: when a fractional CTO for AI transformation makes sense, and when it does not.
 
 ## Utrecht AI Automation Agency: What to Check Before You Hire
 - Date: 2026-04-20
@@ -1135,6 +1261,13 @@ short summary. Articles are listed newest-first.
 - Topics: EU AI Act, AI Governance, European SME AI, Agentic Workflows, AI Workflow Automation, AI Strategy
 - Summary: This guide explains what agentic AI means for non-technical operators at European SMEs, which workflows are ready for deployment in 2026, and what governance is required under the EU AI Act before going live. It covers planning, tool use, memory, decision…
 
+## AI Coding Tools Budget Guide for European CTOs in 2026
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/ai-coding-tools-budget-guide-european-ctos-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-coding-tools-budget-guide-european-ctos-2026/article.md
+- Topics: AI Productivity Tools, European SME AI, GitHub Copilot
+- Summary: What European CTOs budget for AI coding tools in 2026. Planning guide for Claude Code, Copilot, and Cursor for small and mid-sized tech teams.
+
 ## AI Coding Tools for Product Managers and Operations Leaders
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/ai-coding-tools-product-managers-operations-leaders-2026
@@ -1169,6 +1302,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-consulting-coimbra-tech-startups-2026/article.md
 - Topics: AI Governance, Iberia AI, European SME AI, EU AI Act, AI Regulation, B2B SaaS Growth
 - Summary: Coimbra's tech ecosystem, built around University of Coimbra and IPN, produces researcher-founded deep-tech and health-tech spin-offs. These companies need governance design for MDR and EU AI Act compliance, AI strategy connecting technical output to…
+
+## AI Consulting for Gothenburg Manufacturing SMEs in 2026
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/ai-consulting-gothenburg-manufacturing-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-ai-consulting-gothenburg-manufacturing-smes-2026/article.md
+- Topics: AI Consulting, Manufacturing AI, European SME AI
+- Summary: How Gothenburg manufacturing companies adopt AI in 2026. Readiness guide for Swedish industrial SMEs covering automation, quality, and governance.
 
 ## AI Consulting for Malmö Logistics SMEs: Practical AI for Swedish Supply Chains
 - Date: 2026-04-15
@@ -1219,6 +1359,13 @@ short summary. Articles are listed newest-first.
 - Topics: claude-code, ai-coding-tools, developer-tools, agent-plugins, european-tech
 - Summary: 10 Claude Code skills and agent plugins European dev teams adopt in 2026. A guide for technical leads evaluating AI coding extensions.
 
+## Claude Code for Python, Django, and FastAPI Teams: A Practical Field Guide
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-code-backend-teams-python-django-fastapi-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-backend-teams-python-django-fastapi-2026/article.md
+- Topics: claude-code, python, django, fastapi, ai-coding-tools
+- Summary: How backend teams using Python, Django, and FastAPI integrate Claude Code. Practical patterns for session setup, test generation, and safe production use.
+
 ## Claude Code for Data Science Teams: Python, pandas, and Analytics Workflows in 2026
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/claude-code-data-science-analytics-teams-2026
@@ -1240,12 +1387,26 @@ short summary. Articles are listed newest-first.
 - Topics: Claude Code, AI Productivity Tools
 - Summary: This guide explains how solo developers can use Claude Code as a force multiplier. It covers effective session patterns like specification-first development and test generation, billing options from $20 to $200/month, and the critical oversight gap when…
 
+## How to Set Up a Claude Code Pilot in a Regulated European Company
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-code-pilot-regulated-european-company-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-pilot-regulated-european-company-2026/article.md
+- Topics: GDPR & Data Privacy
+- Summary: How to run a Claude Code pilot in a regulated European company. GDPR, EU AI Act, and compliance guardrails for finance, healthcare, and legal.
+
 ## How to Measure Claude Code ROI for Your Engineering Team
 - Date: 2026-04-15
 - Canonical: https://radar.firstaimovers.com/claude-code-roi-measurement-sme-engineering-teams-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-roi-measurement-sme-engineering-teams-2026/article.md
 - Topics: AI ROI, AI Productivity Tools
 - Summary: Measure Claude Code ROI for your engineering team: time saved, quality metrics, and cost per developer. A practical 30-day framework.
+
+## Claude Code vs Microsoft Copilot: A Decision Framework for European Engineering Teams
+- Date: 2026-04-15
+- Canonical: https://radar.firstaimovers.com/claude-code-vs-microsoft-copilot-european-teams-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-15-claude-code-vs-microsoft-copilot-european-teams-2026/article.md
+- Topics: GitHub Copilot, GDPR & Data Privacy
+- Summary: How to choose between Claude Code and Microsoft Copilot for your European dev team. Covers features, pricing, GDPR fit, and integration complexity.
 
 ## Claude Routines Explained: What SME Operators and Technical Teams Need to Know
 - Date: 2026-04-15
@@ -1351,6 +1512,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-consulting-stockholm-tech-startups-2026/article.md
 - Topics: AI Consulting, Nordics AI, European SME AI, AI Strategy
 - Summary: Stockholm tech SMEs at growth inflection need operational AI, not R&D AI. Here is how a 20-50 person tech company evaluates build vs. hire for AI capabili…
+
+## The One-Page AI Governance Board Report Every SME Needs in 2026
+- Date: 2026-04-14
+- Canonical: https://radar.firstaimovers.com/ai-governance-board-reporting-template-smes-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-14-ai-governance-board-reporting-template-smes-2026/article.md
+- Topics: AI Governance, EU AI Act, European SME AI, Executive AI Literacy
+- Summary: A one-page quarterly AI governance board report template for European SMEs — covering system inventory, incident tracking, EU AI Act compliance, and inves…
 
 ## AI Governance for Financial Services European SMEs: Navigating the Triple Compliance Stack in 2026
 - Date: 2026-04-14
@@ -1534,12 +1702,26 @@ short summary. Articles are listed newest-first.
 - Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
 - Summary: Antwerp logistics SMEs face real AI opportunity in route optimisation and customs automation — and real governance complexity. Here is how to move forward…
 
+## What Belgian CTOs Get Wrong When Evaluating AI Coding Tools
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-coding-tools-for-belgian-dev-teams-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-coding-tools-for-belgian-dev-teams-2026/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: A practical guide for Belgian CTOs and engineering leads on evaluating AI coding tools in 2026 — covering EU data residency, Belgian DPA compliance, and t…
+
 ## Why Amsterdam Accounting Firms Must Build AI Governance Before Anything Else
 - Date: 2026-04-13
 - Canonical: https://radar.firstaimovers.com/ai-consulting-amsterdam-accounting-firms-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-amsterdam-accounting-firms-2026/article.md
 - Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
 - Summary: Amsterdam accounting firms face DNB, AFM, and EU AI Act pressure in 2026. Learn how to build a compliant AI strategy that prioritises governance over spee…
+
+## Why Brussels Professional Services Firms Need a Different AI Playbook
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/ai-consulting-brussels-professional-services-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-ai-consulting-brussels-professional-services-2026/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: Brussels professional services firms face unique AI challenges: multilingual output, cross-border data governance, and EU regulatory proximity. Here is ho…
 
 ## Why Lisbon Tech Startups Need a Different AI Playbook in 2026
 - Date: 2026-04-13
@@ -1583,12 +1765,26 @@ short summary. Articles are listed newest-first.
 - Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
 - Summary: A practical 12-step EU AI Act compliance checklist for Belgian SMEs, mapped to Belgian authorities: DPA, FSMA, SPF Économie, and bilingual documentation r…
 
+## The Belgian Decision Matrix: Fractional CTO, AI Consultant, or Boutique Agency?
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/fractional-cto-vs-ai-consultant-belgian-company
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-fractional-cto-vs-ai-consultant-belgian-company/article.md
+- Topics: ai-governance, digital-transformation, company-tech-strategy, artificial-intelligence
+- Summary: Belgian SME leaders face a distinct choice between fractional CTO, AI consultant, and boutique agency. Here is the decision matrix built for Belgian conte…
+
 ## The Microsoft 365 Copilot Buying Decision No One Explains Clearly
 - Date: 2026-04-13
 - Canonical: https://radar.firstaimovers.com/microsoft-365-copilot-sme-evaluation-guide-2026
 - Archive: https://articles.firstaimovers.com/articles/2026-04-13-microsoft-365-copilot-sme-evaluation-guide-2026/article.md
 - Topics: company-tech-strategy, digital-transformation, artificial-intelligence, ai-governance
 - Summary: Is Microsoft 365 Copilot worth £25–30/user/month for your European SME? This guide covers data prerequisites, ROI at 15–50 seats, and what the vendor won'…
+
+## A 5-Step Shadow AI Escalation Framework European Operations Leaders Can Use This Week
+- Date: 2026-04-13
+- Canonical: https://radar.firstaimovers.com/shadow-ai-escalation-framework-european-smes
+- Archive: https://articles.firstaimovers.com/articles/2026-04-13-shadow-ai-escalation-framework-european-smes/article.md
+- Topics: ai-governance, company-tech-strategy, digital-transformation, artificial-intelligence
+- Summary: A 5-step shadow AI escalation framework for European SMEs. Detect, classify, and resolve unapproved AI tool use before it becomes a GDPR or EU AI Act liab…
 
 ## How to Build a Sovereign AI Product in Europe Without Overengineering the Infrastructure
 - Date: 2026-04-10

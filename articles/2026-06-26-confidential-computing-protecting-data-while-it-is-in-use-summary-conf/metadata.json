@@ -1,0 +1,31 @@
+{
+  "id": "recb3fetrhZH3hJM6",
+  "title": "Confidential Computing: Protecting Data While It Is In Use",
+  "slug": "confidential-computing-protecting-data-while-it-is-in-use-summary-conf",
+  "folder": "2026-06-26-confidential-computing-protecting-data-while-it-is-in-use-summary-conf",
+  "published_date": "2026-06-26",
+  "author": "Dr. Hernani Costa",
+  "author_url": "https://drhernanicosta.com",
+  "company": "First AI Movers",
+  "company_url": "https://firstaimovers.com",
+  "canonical_url": "https://radar.firstaimovers.com/confidential-computing-protecting-data-while-it-is-in-use-summary-conf",
+  "tags": [
+    "Confidential Computing",
+    "Data Protection",
+    "trusted-execution-environment",
+    "hardware security",
+    "ai-workloads"
+  ],
+  "first_ai_movers_services": [],
+  "status": "published",
+  "topics": [
+    "GDPR & Data Privacy"
+  ],
+  "publication_receipt": {
+    "kind": "HASHNODE_POST",
+    "post_id": "6a3dddc18a0fa4e4f7349dc2",
+    "url": "https://radar.firstaimovers.com/confidential-computing-protecting-data-while-it-is-in-use-summary-conf",
+    "canonical_match": true,
+    "verified_at": "2026-09-18T13:41:40Z"
+  }
+}

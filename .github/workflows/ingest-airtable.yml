@@ -36,6 +36,11 @@ env:
   # Defaults are conservative; tune via repo variables once steady-state.
   INGEST_MAX_RECORDS: ${{ vars.INGEST_MAX_RECORDS || '20' }}
   INGEST_MAX_CREATED: ${{ vars.INGEST_MAX_CREATED || '5' }}
+  # Archive eligibility gate (docs/decisions/archive-eligibility-by-verified-publication-receipt.md):
+  # `status` = the historical `FAIM Status == Posted` check; `receipt` = admitted only on a
+  # verified publication receipt. Read by the three tools through the environment; the
+  # default stays `status` until the read-only receipt delta has been produced (#423).
+  ARCHIVE_ELIGIBILITY_GATE: ${{ vars.ARCHIVE_ELIGIBILITY_GATE || 'status' }}
 
 jobs:
   ingest:
@@ -242,7 +247,9 @@ jobs:
         # Fires only when the write-mode cron path fails. Skipped on dry-run
         # (no archive impact) and skipped on success. Logs the run URL,
         # commit, and dry-run state so the operator can investigate without
-        # parsing logs. Never echoes secret values.
+        # parsing logs. Never echoes secret values. Deduplicated: while an
+        # `E41 cron ingestion incident:` issue is open, each further failed run
+        # is a comment on it, not a new issue (#423).
         if: failure() && env.INGEST_DRY_RUN != '1'
         env:
           # DELIBERATELY GITHUB_TOKEN, NOT THE APP TOKEN (#388). This step reports that the
@@ -255,6 +262,38 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set +e
+          # ONE OPEN INCIDENT, ONE COMMENT PER FAILED RUN (#423). Thirteen consecutive
+          # failures once produced thirteen issues (#398-#422): the signal was real, but its
+          # volume trained the operator to skim past it. If an incident is already open this
+          # run is appended to it as a comment; a new issue is opened only when none is open.
+          # The exact title prefix is re-filtered locally because GitHub search is fuzzy, and
+          # the newest open incident is chosen so the appended context stays current. If the
+          # comment cannot be written the step falls through to `gh issue create`: a failed
+          # dedupe must never become a lost alarm.
+          existing=$(gh issue list \
+            --repo "${GITHUB_REPOSITORY}" \
+            --state open \
+            --search 'in:title "E41 cron ingestion incident:"' \
+            --limit 100 \
+            --json number,title \
+            --jq '.[] | select(.title | startswith("E41 cron ingestion incident:")) | .number' \
+            | sort -n | tail -n 1)
+          if [ -n "${existing}" ]; then
+            if gh issue comment "${existing}" \
+                --repo "${GITHUB_REPOSITORY}" \
+                --body "$(cat <<EOF
+          Another failed cron write-mode run: ${RUN_URL}
+
+          - **Commit:** \`${GITHUB_SHA}\`
+          - **Trigger:** \`${GITHUB_EVENT_NAME}\`
+          - **INGEST_DRY_RUN:** \`${INGEST_DRY_RUN}\`
+          EOF
+          )"; then
+              echo "Appended this run to open incident #${existing}; not opening a duplicate issue."
+              exit 0
+            fi
+            echo "WARN: could not comment on open incident #${existing}; opening a new issue so this failure is not lost."
+          fi
           gh issue create \
             --repo "${GITHUB_REPOSITORY}" \
             --title "E41 cron ingestion incident: workflow run ${{ github.run_id }} failed" \
