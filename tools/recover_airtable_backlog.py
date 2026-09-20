@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Bounded, deterministic recovery of the aged-out `Posted` Airtable backlog.
+"""Bounded, deterministic recovery of the aged-out Airtable backlog.
 
-Read-selects the OLDEST valid `Posted` records that are ABSENT from the archive
-— the backlog the daily 72-hour cron window can never re-reach (a record whose
-LAST_MODIFIED_TIME ages past 72h without a re-save drops out of the
-`IS_AFTER(LAST_MODIFIED_TIME(), now-72h)` filter permanently) — and, with
-``--apply``, writes their article folders in bounded batches.
+Read-selects the OLDEST records the eligibility gate admits that are ABSENT
+from the archive — the backlog the daily 72-hour cron window can never re-reach
+(a record whose LAST_MODIFIED_TIME ages past 72h without a re-save drops out of
+the `IS_AFTER(LAST_MODIFIED_TIME(), now-72h)` filter permanently; that window is
+a fetch bound, never the admission fact) — and, with ``--apply``, writes their
+article folders in bounded batches.
 
 This tool NEVER writes to Airtable and NEVER opens a PR. It reuses
 ``ingest_airtable``'s exact field map / schema validation / status gate / article
@@ -22,9 +23,11 @@ Determinism & safety:
     always yields the same next batch.
   * ``ingest_airtable._write_article`` is idempotent (skips on existing folder /
     duplicate title / duplicate canonical URL), so re-running never double-writes.
-  * Only ``Posted`` + schema-valid records absent from the archive by BOTH record
-    id and normalized canonical URL are recoverable. Invalid / blank-canonical /
-    status-skipped / already-present records are excluded (and never mutated).
+  * Only schema-valid records the configured gate admits (status: Posted; receipt:
+    a verified publication receipt, never inferred freshness) that are absent from
+    the archive by record id, normalized canonical URL, AND normalized title are
+    recoverable. Invalid / not-admitted / already-present records are excluded
+    (and never mutated). Batch size is hard-capped at ``HARD_MAX_BATCH``.
 
 Public-safety: stdout / summary emit value-safe COUNTS and already-public
 identifiers only (record id and canonical URL are committed in every

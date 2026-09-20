@@ -156,7 +156,11 @@ class Verifier:
 
     def sitemap_urls(self) -> list[str] | None:
         """Every post URL listed by the publication sitemap, or ``None`` when the
-        sitemap could not be read. Fetched once and cached either way."""
+        sitemap could not be read. Fetched once and cached either way.
+
+        Only ``<loc>`` is used. Sitemap ``<lastmod>`` is ignored: listing freshness
+        is not a publication receipt.
+        """
         if self._sitemap_loaded:
             return self._sitemap
         self._sitemap_loaded = True

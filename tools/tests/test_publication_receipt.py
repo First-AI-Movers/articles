@@ -138,6 +138,34 @@ class TestHashnodeReceipt:
         d = v.decide(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
         assert not d.eligible and d.klass == mod.CLASS_NO_RECEIPT
 
+    def test_sitemap_lastmod_is_not_inferred_as_publication(self, mod):
+        """A sitemap ``lastmod``, however recent, is not a receipt. Eligibility is
+        the post id embedded on the page (or a first-party source receipt), never
+        inferred freshness of the listing (#423)."""
+        fresh_listing = (
+            '<?xml version="1.0"?><urlset xmlns="x">'
+            f"<url><loc>{PUB}/{STEM}</loc><lastmod>2099-12-31</lastmod></url>"
+            "</urlset>"
+        )
+        pages = {
+            f"{PUB}/sitemap.xml": (200, _sitemap_index(f"{PUB}/sitemap.xml?page=1")),
+            f"{PUB}/sitemap.xml?page=1": (200, fresh_listing),
+            f"{PUB}/{STEM}": (200, _page(OTHER_ID, SOURCE)),
+        }
+        v, _ = _verifier(mod, pages)
+        d = v.decide(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM)
+        assert not d.eligible and d.klass == mod.CLASS_NO_RECEIPT
+
+        ancient_listing = (
+            '<?xml version="1.0"?><urlset xmlns="x">'
+            f"<url><loc>{PUB}/{STEM}</loc><lastmod>2019-01-01</lastmod></url>"
+            "</urlset>"
+        )
+        pages[f"{PUB}/sitemap.xml?page=1"] = (200, ancient_listing)
+        pages[f"{PUB}/{STEM}"] = (200, _page(POST_ID, SOURCE))
+        v, _ = _verifier(mod, pages)
+        assert v.decide(HASHNODE_FIELDS, canonical_url=SOURCE, slug=STEM).eligible
+
     def test_404_on_every_candidate_is_no_receipt(self, mod):
         pages = _sitemap_pages(f"{PUB}/{STEM}")  # listed, but the page 404s
         v, _ = _verifier(mod, pages)
