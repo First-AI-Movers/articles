@@ -237,6 +237,21 @@ class TestReceiptGateReconcile:
         out = mod._render_summary(rec, since_hours=None)
         assert "Gate: receipt" in out and "no receipt 3" in out and "canonical drift 1" in out
 
+    def test_summary_eligible_label_is_gate_neutral(self, mod):
+        """The weekly summary names what the eligibility gate admitted, whichever
+        gate is configured. Under `receipt` the eligible set is not "Posted" rows
+        (#423): admission is a verified publication receipt."""
+        counts = {
+            "fetched": 947, "eligible": 929, "eligible_present": 929,
+            "eligible_missing": 0, "status_skipped": 0, "invalid": 18,
+            "gate": "receipt", "excluded": 0, "rights_denied": 0, "no_receipt": 0,
+            "receipt_unverifiable": 0, "canonical_drift": 0,
+            "present_by_title_drift": 0, "archive_articles": 932,
+        }
+        out = mod._render_summary(counts, since_hours=None)
+        assert "- Eligible (admitted by the eligibility gate, valid): 929" in out
+        assert "Posted" not in out
+
 
     def test_present_rows_are_present_without_any_lookup_and_absent_rows_are_explained(self, mod, schema):
         """The gate governs admission, never retention: an archived row is

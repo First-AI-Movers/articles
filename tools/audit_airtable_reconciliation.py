@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Read-only Airtable <-> archive reconciliation (no writes, no backfill).
 
-Surfaces eligible `Posted` Airtable records that are ABSENT from the repository
-archive — the silent acquisition backlog that the daily 72-hour cron window can
-permanently miss (a record whose LAST_MODIFIED_TIME ages past 72h without being
-re-saved drops out of the cron's `IS_AFTER(LAST_MODIFIED_TIME(), now-72h)`
-filter forever, and nothing else surfaces it).
+Surfaces Airtable records the configured eligibility gate admits that are
+ABSENT from the repository archive — the silent acquisition backlog that the
+daily 72-hour cron window can permanently miss (a record whose LAST_MODIFIED_TIME
+ages past 72h without being re-saved drops out of the cron's
+`IS_AFTER(LAST_MODIFIED_TIME(), now-72h)` filter forever, and nothing else
+surfaces it). LAST_MODIFIED_TIME is a fetch window, never the admission fact.
 
 This tool NEVER writes to Airtable or the repo, opens no PR, and performs no
 backfill. It reuses `ingest_airtable`'s exact field mapping, schema validation,
@@ -15,7 +16,7 @@ and status gate so a record it counts as `eligible` / `invalid` /
 Identity is the strongest stable pair the archive records: the Airtable record
 id (`metadata.json.id`) and the normalized canonical URL (`metadata.json.
 canonical_url`). Both are already public (committed in this public repo), so
-comparing Posted records is public-safe.
+comparing admitted records is public-safe.
 
 Output is value-safe COUNTS by default. Raw article titles/bodies are never
 emitted. Missing record ids (already public) are printed only under
@@ -181,7 +182,7 @@ def _render_summary(counts: dict, *, since_hours) -> str:
         f"- Scope: {scope}\n"
         f"- Archive articles: {counts.get('archive_articles', 0)}\n"
         f"- Airtable records fetched: {counts['fetched']}\n"
-        f"- Eligible (Posted + valid): {counts['eligible']}\n"
+        f"- Eligible (admitted by the eligibility gate, valid): {counts['eligible']}\n"
         f"- Eligible present in archive: {counts['eligible_present']}\n"
         f"  - of which present only by title (id+URL drifted): {counts.get('present_by_title_drift', 0)}\n"
         f"- **Eligible MISSING from archive: {counts['eligible_missing']}**\n"

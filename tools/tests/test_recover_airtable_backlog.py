@@ -200,6 +200,34 @@ class _StubVerifier:
 
 
 class TestReceiptGateRecovery:
+    def test_bounded_backlog_is_receipt_admitted_absent_and_capped(self, mod, schema):
+        """#423 predicate: recover rows the eligibility gate admitted that are
+        absent (id / canonical URL / title). Pub Date recency never admits;
+        already-present rows are the dedupe; the batch is hard-capped at 5."""
+        recs = [
+            _rec("recFreshPosted", url="https://www.firstaimovers.com/p/fresh-label",
+                 status="Posted", date="2026-09-20", title="Fresh Label Only"),
+            _rec("recStaleDraft", url="https://www.firstaimovers.com/p/stale-live",
+                 status="Draft", date="2024-01-01", title="Stale But Live"),
+            _rec("recPresentTitle", url="https://www.firstaimovers.com/p/other-slug",
+                 status="Draft", date="2023-01-01", title="Already Published"),
+        ]
+        archive = {"ids": set(), "urls": set(),
+                   "titles": {mod.ing._normalize_title("Already Published")}}
+        v = _StubVerifier(admit={"https://www.firstaimovers.com/p/stale-live",
+                                 "https://www.firstaimovers.com/p/other-slug"})
+        cands = mod.find_recoverable(recs, archive, schema, gate="receipt", verifier=v)
+        assert [c["record_id"] for c in cands] == ["recStaleDraft"]
+        assert v.calls == [
+            "https://www.firstaimovers.com/p/fresh-label",
+            "https://www.firstaimovers.com/p/stale-live",
+        ], "the title-deduped row must not reach the verifier"
+        with pytest.raises(ValueError):
+            mod.select_batch(cands, mod.HARD_MAX_BATCH + 1)
+        assert [c["record_id"] for c in mod.select_batch(cands, mod.HARD_MAX_BATCH)] == [
+            "recStaleDraft"
+        ]
+
     def test_receipt_gate_selects_by_receipt_and_carries_it_to_the_writer(self, mod, monkeypatch, tmp_path):
         monkeypatch.setattr(mod.ing, "ARTICLES_DIR", tmp_path / "articles")
         schema = mod.ing._load_schema()
