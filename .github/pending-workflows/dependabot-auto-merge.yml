@@ -10,22 +10,44 @@
 # WHY `workflow_run` AND NOT `pull_request`. A workflow_run job executes in the
 # DEFAULT-BRANCH context: this file and tools/arm_dependabot_auto_merge.py are
 # read from `main`, never from the candidate, and the repository secrets are
-# available. A Dependabot-triggered `pull_request` run gets neither -- it has no
-# repository secrets -- and auto-merge armed with the default GITHUB_TOKEN would
-# merge without firing the `push: main` workflows (deploy, main-smoke), by the
-# same recursion rule that keeps the ingestion PRs on the App token (#388). The
+# available. That is the whole reason this is not the shorter `pull_request`
+# recipe, and it is documented rather than assumed:
+#
+#   * Dependabot's restriction is scoped to four events -- "workflow runs that are
+#     triggered by Dependabot from `push`, `pull_request`, `pull_request_review`, or
+#     `pull_request_review_comment` events are treated as if they were opened from a
+#     repository fork ... they receive a read-only GITHUB_TOKEN and do not have
+#     access to any secrets that are normally available"
+#     (docs.github.com, Troubleshooting Dependabot on GitHub Actions). `workflow_run`
+#     is not one of the four.
+#   * "The workflow started by the `workflow_run` event is able to access secrets and
+#     write tokens, even if the previous workflow was not."
+#     (docs.github.com, Events that trigger workflows).
+#
+# So the App token below is mintable here and would not be under `pull_request`. The
+# second reason is independent of Dependabot: auto-merge armed with the default
+# GITHUB_TOKEN would merge without firing the `push: main` workflows (deploy,
+# main-smoke), by the same recursion rule that keeps the ingestion PRs on the App
+# token (#388). The
 # hook is `Run tests` (tests.yml) because that workflow runs on every
 # pull_request with no path filter, so it is requested for every Dependabot head
 # in every ecosystem. Renaming that workflow detaches this trigger silently;
 # tools/tests/test_workflows_dependabot_auto_merge.py pins the binding.
 #
-# `requested` AND `completed`. The gate is fast (about 30 s), so by the time this
+# `requested` AND `completed`. Both, for two reasons. The gate is fast (about 30 s), so by the time this
 # job has a runner the PR is often already mergeable; `gh pr merge --squash
 # --auto` then squash-merges it at that head instead of arming, because GitHub
 # refuses to arm a PR that is already in clean status. Either outcome is the
 # ordinary lifecycle end state. `completed` is the retry for a head the first
-# attempt found not yet evaluated. Both invocations are idempotent: an armed or
-# merged PR is a SKIP.
+# attempt found not yet evaluated -- and it is the only listener that survives a
+# re-run, since "the `requested` activity type does not occur when a workflow is
+# re-run" (docs.github.com, Events that trigger workflows). Both invocations are
+# idempotent: an armed or merged PR is a SKIP.
+#
+# The pull-request shape the script matches was verified against this repository's
+# own Dependabot PRs (#416, #418, #425): `user.login` is `dependabot[bot]` with
+# `user.type` `Bot`, the head ref starts with `dependabot/`, the base is `main`, and
+# the changed-file objects carry `filename`.
 #
 # NOT `pull_request_target`, per AGENTS.md; `permissions` declared; the only
 # third-party action is SHA-pinned; nothing author-controlled and no secret is
