@@ -70,7 +70,8 @@ Use this when an article needs to land outside the normal ingestion flows.
 ### Branch/PR publication credential (GitHub App)
 
 Publishing workflows — `ingest-airtable`, `ingest-article`, `ingest-airtable-dispatch`,
-`build-embeddings`, `recover-airtable-backlog`, `summary-auto-apply` — do **not** hold a
+`build-embeddings`, `recover-airtable-backlog`, `summary-auto-apply` — and the Dependabot
+arming workflow `dependabot-auto-merge` do **not** hold a
 long-lived token. Each mints a short-lived GitHub App installation token
 (`actions/create-github-app-token`) that expires in about an hour, from
 `ARTICLES_AUTOMATION_APP_ID` and `ARTICLES_AUTOMATION_APP_PRIVATE_KEY`.
@@ -323,6 +324,28 @@ See [`docs/C2PA_RESEARCH.md`](C2PA_RESEARCH.md) for the research note on C2PA Co
 See [`docs/decisions/adr-001-c2pa-content-credentials.md`](decisions/adr-001-c2pa-content-credentials.md) for the formal decision (status: **Deferred**).
 
 > **Rule:** Do not add C2PA signing, manifests, or cryptographic credentials without a new ADR that supersedes ADR-001.
+
+## Dependency Bumps (Dependabot)
+
+Dependabot PRs are ordinary PRs under the AUTONOMOUS-MAIN lifecycle: the only required
+check is `aeos-merge-ready`, and the merge is GitHub's native squash auto-merge. Dependabot
+never arms auto-merge itself, so `.github/workflows/dependabot-auto-merge.yml` does it
+(#432): on every `Run tests` run that a Dependabot pull request requests, it verifies the
+PR is Dependabot-authored, targets `main`, is at the head the event reported, and changes
+only dependency manifests/lockfiles (`tools/arm_dependabot_auto_merge.py::ALLOWED_PATHS`),
+then runs `gh pr merge --squash --auto` with the Articles Automation App token. If the gate
+already passed, that call merges at that head; otherwise the PR merges when it passes.
+
+- **A PR it refuses** carries a `Dependabot auto-merge not armed` comment with the typed
+  reason and stays open for a person. The run is red so the refusal is visible in Actions.
+- **Nothing is merged around the gate**: the arming reads no test results and changes no
+  ruleset; `main-smoke` verifies the merged SHA afterwards.
+- **Overlapping bumps** resolve themselves: once a grouped PR lands, Dependabot closes the
+  bumps it made redundant ("up-to-date now") and rebases the rest, and each rebased head is
+  armed again by the same workflow.
+- **`@dependabot` commands must come from a user with push access** — Dependabot refuses
+  them from a bot or App identity. A machine principal refreshes a Dependabot PR with the
+  `update-branch` API instead (after which Dependabot stops rebasing that PR itself).
 
 ## Release and External Surface Readiness
 
