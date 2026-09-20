@@ -68,6 +68,7 @@ class TestPathAllowlist:
             "tools/requirements.txt",
             ".github/workflows/tests.yml",
             ".github/workflows/e2e.yaml",
+            "cookiecutter-archive-template/{{cookiecutter.repo_slug}}/.github/workflows/tests.yml",
         ],
     )
     def test_allowed(self, mod, path):
@@ -86,6 +87,8 @@ class TestPathAllowlist:
             ".github/workflows/",
             ".github/workflows/script.sh",
             ".github/actions/thing/action.yml",
+            "somewhere-else/.github/workflows/tests.yml",
+            "cookiecutter-archive-template/.github/workflows/tests.yml",
             "/package.json",
             "../package.json",
             "tools/../package.json",
@@ -112,6 +115,7 @@ class TestPathAllowlist:
             "github-actions": (),
         }
         expected: set[str] = set()
+        expected_roots: set[str] = set()
         for entry in cfg["updates"]:
             eco = entry["package-ecosystem"]
             dirs = entry.get("directories") or [entry["directory"]]
@@ -119,14 +123,25 @@ class TestPathAllowlist:
             for d in dirs:
                 prefix = d.strip("/")
                 prefix = f"{prefix}/" if prefix else ""
+                if eco == "github-actions":
+                    # A github-actions entry watches `<directory>/.github/workflows/`,
+                    # so its bumps change files there and the arming must accept them.
+                    expected_roots.add(prefix)
+                    assert mod.is_path_allowed(f"{prefix}.github/workflows/x.yml"), (
+                        f"dependabot.yml watches github-actions in {d!r}, but the arming "
+                        f"allowlist rejects {prefix}.github/workflows/x.yml"
+                    )
+                    continue
                 for m in manifests[eco]:
                     expected.add(f"{prefix}{m}")
-                if eco == "github-actions":
-                    assert d == "/", "github-actions entries are rooted at '/'"
-                    assert mod.is_path_allowed(".github/workflows/x.yml")
         assert set(mod.ALLOWED_PATHS) == expected, (
             f"ALLOWED_PATHS must equal the manifests of every pip/npm directory in "
             f".github/dependabot.yml; expected {sorted(expected)}, got {sorted(mod.ALLOWED_PATHS)}"
+        )
+        assert set(mod.WORKFLOW_ROOTS) == expected_roots, (
+            f"WORKFLOW_ROOTS must equal the github-actions directories in "
+            f".github/dependabot.yml; expected {sorted(expected_roots)}, "
+            f"got {sorted(mod.WORKFLOW_ROOTS)}"
         )
 
 
