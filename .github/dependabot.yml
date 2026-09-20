@@ -49,6 +49,34 @@ updates:
   # LIFTED 2026-06-22: its documented lift condition is met — mcp-server migrated to
   # @cloudflare/vitest-pool-workers 0.16 + vitest 4 in #289 (pool-workers now peers vitest ^4), so
   # vitest-major updates flow normally again and the separate /mcp-server entry is no longer needed.)
+  # SECOND github-actions ENTRY, NOT a `directories:` list on the one above (#362).
+  # The template's directory name is literally `{{cookiecutter.repo_slug}}`, braces and
+  # all. `directories:` is glob-matched, and brace expansion is a glob feature, so a
+  # pattern containing `{{...}}` may expand instead of matching the literal name -- the
+  # open question #362 asks to settle. Keeping this as its own entry means that if the
+  # path resolves to nothing, only this entry is affected: the root `/` coverage above
+  # is a separate update job and keeps running. If the evidence says the path cannot be
+  # expressed, this entry is removed and the limitation recorded on #362; the pin-drift
+  # guard (tools/tests/test_template_action_pins.py) covers the surface either way.
+  - package-ecosystem: "github-actions"
+    directory: "/cookiecutter-archive-template/{{cookiecutter.repo_slug}}"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Lisbon"
+    cooldown:
+      default-days: 7
+    groups:
+      actions-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+
   - package-ecosystem: "npm"
     directories:
       - "/"

@@ -31,9 +31,10 @@ Eligibility (fail-closed; every exit prints one typed result line):
      with `dependabot/`.
   3. Its head is exactly the SHA the triggering event reported.
   4. Every changed path is a manifest or lockfile of an ecosystem/directory
-     `.github/dependabot.yml` configures (ALLOWED_PATHS). A workflow file is
-     allowed only as the `github-actions` ecosystem's manifest; the
-     organization gate's workflow policy judges those bytes, not this script.
+     `.github/dependabot.yml` configures (ALLOWED_PATHS, WORKFLOW_ROOTS). A
+     workflow file is allowed only as the `github-actions` ecosystem's manifest,
+     under a directory that file configures; the organization gate's workflow
+     policy judges those bytes, not this script.
 
 Result vocabulary (stdout, one line, `DEPENDABOT_AUTO_MERGE_RESULT: ...`):
   ARMED      auto-merge is now enabled on the PR
@@ -81,6 +82,11 @@ ALLOWED_PATHS = frozenset(
         "tools/requirements.txt",
     }
 )
+# Directories whose `.github/workflows/` the `github-actions` ecosystem watches, as
+# `.github/dependabot.yml` configures them: the repository root, and the cookiecutter
+# template, whose workflows are a second copy of the same surface (#362). A github-actions
+# bump edits workflow files; the organization gate's workflow policy judges those bytes.
+WORKFLOW_ROOTS = ("", "cookiecutter-archive-template/{{cookiecutter.repo_slug}}/")
 WORKFLOW_DIR = ".github/workflows/"
 WORKFLOW_SUFFIXES = (".yml", ".yaml")
 
@@ -103,9 +109,11 @@ def is_path_allowed(path: str) -> bool:
         return False
     if path in ALLOWED_PATHS:
         return True
-    if path.startswith(WORKFLOW_DIR):
-        name = path[len(WORKFLOW_DIR):]
-        return bool(name) and "/" not in name and name.endswith(WORKFLOW_SUFFIXES)
+    for root in WORKFLOW_ROOTS:
+        prefix = f"{root}{WORKFLOW_DIR}"
+        if path.startswith(prefix):
+            name = path[len(prefix):]
+            return bool(name) and "/" not in name and name.endswith(WORKFLOW_SUFFIXES)
     return False
 
 
