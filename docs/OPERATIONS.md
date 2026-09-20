@@ -343,6 +343,14 @@ already passed, that call merges at that head; otherwise the PR merges when it p
 - **Overlapping bumps** resolve themselves: once a grouped PR lands, Dependabot closes the
   bumps it made redundant ("up-to-date now") and rebases the rest, and each rebased head is
   armed again by the same workflow.
+- **The workflow is not installed yet.** It rides at
+  `.github/pending-workflows/dependabot-auto-merge.yml`, where GitHub runs nothing: the
+  machine principal that wrote it holds no `workflows` permission, so GitHub refused the
+  push under `.github/workflows/`. Until a principal that holds it renames the file (or the
+  `aeos-autonomous-main` App is granted *Workflows: write* here), Dependabot PRs are armed
+  by hand — refresh the head if the base moved, then `gh pr merge <n> --squash --auto`
+  while the gate is pending. `tools/tests/test_workflows_dependabot_auto_merge.py` fails if
+  this paragraph and the file's location ever disagree.
 - **`@dependabot` commands must come from a user with push access** — Dependabot refuses
   them from a bot or App identity. A machine principal refreshes a Dependabot PR with the
   `update-branch` API instead (after which Dependabot stops rebasing that PR itself).

@@ -26,25 +26,43 @@ yaml = pytest.importorskip("yaml")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 WORKFLOWS = REPO_ROOT / ".github" / "workflows"
 WF = WORKFLOWS / "dependabot-auto-merge.yml"
+# Until a principal holding the `workflows` permission renames it, the workflow rides
+# beside the code it runs: the machine principal that authored it cannot write under
+# .github/workflows/ (#432). A file parked here is inert -- GitHub runs nothing outside
+# .github/workflows/ -- so every shape rule below is enforced at whichever path holds it,
+# and `test_workflow_is_installed_or_explicitly_pending` keeps the two states honest.
+PENDING = REPO_ROOT / ".github" / "pending-workflows" / "dependabot-auto-merge.yml"
+RUNBOOK = REPO_ROOT / "docs" / "OPERATIONS.md"
 SHA_PIN_RE = re.compile(r"^[0-9a-f]{40}$")
 
 
-PENDING = REPO_ROOT / ".github" / "pending-workflows" / "dependabot-auto-merge.yml"
+def _wf_path() -> Path:
+    return WF if WF.exists() else PENDING
 
 
-def _load(path: Path = WF) -> dict:
-    if path == WF and not WF.exists():
-        # The machine principal that authored this change holds no `workflows`
-        # permission, so it could not place the file under .github/workflows/
-        # itself (#432). It rides on the branch beside this test until a person
-        # with push access renames it; the rename is the whole remaining step.
-        assert not PENDING.exists(), (
-            f"{PENDING.relative_to(REPO_ROOT)} is waiting to be moved to "
-            f"{WF.relative_to(REPO_ROOT)} by a principal with the `workflows` permission "
-            f"(GitHub UI: open the file, Edit, change the path, commit to this branch)"
+def _load(path: Path | None = None) -> dict:
+    return yaml.safe_load((path or _wf_path()).read_text(encoding="utf-8"))
+
+
+def test_workflow_is_installed_or_explicitly_pending():
+    """The workflow exists at exactly one of the two paths, and the runbook says which.
+
+    While it is pending the runbook must name it, so the repository explains its own
+    half-finished state instead of carrying a silent orphan. Deliberately NOT the
+    converse: the remaining step must stay a single file rename a maintainer can do in
+    the GitHub UI without also editing prose, so the installed state asserts only that
+    no copy lingers behind. Removing the runbook's pending paragraph is the follow-up
+    the same Issue carries (#432).
+    """
+    assert WF.exists() ^ PENDING.exists(), (
+        f"expected the workflow at exactly one of {WF.relative_to(REPO_ROOT)} or "
+        f"{PENDING.relative_to(REPO_ROOT)}; installed={WF.exists()} pending={PENDING.exists()}"
+    )
+    if not WF.exists():
+        assert "pending-workflows/dependabot-auto-merge.yml" in RUNBOOK.read_text(encoding="utf-8"), (
+            "while the workflow is parked outside .github/workflows/ it does not run; "
+            "docs/OPERATIONS.md must say so and name the remaining step"
         )
-        pytest.fail(f"{WF.relative_to(REPO_ROOT)} is missing")
-    return yaml.safe_load(path.read_text(encoding="utf-8"))
 
 
 def _job() -> dict:
