@@ -165,6 +165,19 @@ class TestCounts:
         assert counts["remaining_after_batch"] == 2
 
 
+class TestRenderSummary:
+    def test_backlog_label_is_gate_neutral(self, mod):
+        """The summary names what the eligibility gate admitted, whichever gate is
+        configured. Under `receipt` the backlog is not "valid Posted" rows (#423)."""
+        counts = {
+            "fetched": 7, "recoverable_backlog": 2, "batch_selected": 2, "created": 2,
+            "skipped_existing": 0, "remaining_after_batch": 0, "dry_run": True,
+        }
+        out = mod._render_summary(counts)
+        assert "- Recoverable backlog (admitted by the eligibility gate, missing): 2" in out
+        assert "Posted" not in out
+
+
 class _StubVerifier:
     def __init__(self, admit):
         self.admit = set(admit)
