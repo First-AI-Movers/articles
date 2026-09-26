@@ -17,14 +17,581 @@ Please preserve article titles, canonical URLs, publication dates, and attributi
 - Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)
 - Publication: First AI Movers — https://firstaimovers.com
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-- Articles: 932
-- Date range: 2025-02-17 to 2026-07-25
-- Generated: 2026-09-18
+- Articles: 937
+- Date range: 2025-02-17 to 2026-09-24
+- Generated: 2026-09-26
 
 Machine-readable catalog: https://articles.firstaimovers.com/index.json  
 Atom feed (recent only): https://articles.firstaimovers.com/feed.xml
 
 Each article below is prefixed with title, date, URL, and topics, separated by `---` lines.
+
+
+---
+
+# 0.992 Was Not Replication: Why One Exciting Posterior Is Not a Causal Story
+
+- **Published:** 2026-09-24
+- **URL:** https://radar.firstaimovers.com/pp4-0992-was-not-replication
+- **Topics:** Healthcare AI
+
+> **TL;DR:** A T-cell signal reached PP4 near 0.992 in one dataset. Three independent public blood T-cell resources did not reproduce it.
+
+PP4 ≈ 0.992 looked exciting. Three independent public blood T-cell resources did not reproduce it. This case study, from our prospectively frozen analysis of public data, shows what it takes to stop one striking number from quietly becoming a causal story.
+
+It is part of our technical report, [Falsification-First AI for Biological Target Assessment](https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment). Technical report; not peer reviewed. Nothing here is a clinical or therapeutic claim.
+
+## The setup
+
+While testing a different ulcerative colitis (UC) hypothesis, our workflow surfaced an unexpected signal for the gene TTPAL at the UC 20q13 locus.
+
+**Our result (discovery).** In the discovery resource, the signal reached an apparent colocalization posterior of approximately PP4 = 0.992 in three gut-resident T-cell groups.
+
+**Source fact.** PP4 is the posterior probability, under a Bayesian colocalization test, that two association signals (here, the disease association and the gene-expression association) share a single causal variant [1]. A value near 0.992 is the kind of number that ends up on a slide.
+
+## The safeguard
+
+We treated that number as nomination evidence only, not as a finding. Before reading any independent outcome, we:
+
+- sealed the discovery dataset, so it could not be reused to "confirm" itself;
+- prospectively defined the independent confirmation: which public cohorts were admissible, in what order, at which locus and window, and what result would count as replication.
+
+## What happened
+
+**Our result (independent test).**
+
+- **Primary independent cohort.** OneK1K is a peripheral-blood single-cell eQTL resource [2], with up to approximately 954 donors in the eligible cell classes used by our frozen study. TTPAL had no usable supporting signal at the frozen locus and window. The maximum PP4 across the evaluated T-cell classes was approximately 0.031.
+- **Secondary independent resources.** CEDAR [3] did not support the nominated TTPAL effect. Kasela 2017 [4] had no usable confirming signal.
+- **No alternative winner.** No other local gene clearly won the independent confirmation analysis.
+
+## Decision
+
+`SINGLE_DATASET_ONLY`. The exciting discovery signal remained single-dataset-only.
+
+## The caveat that travels with this result
+
+The discovery cells were gut-resident T cells. The admissible independent public cohorts were peripheral blood. That difference matters:
+
+- This result does **not** prove that a tissue-resident TTPAL effect is false.
+- It does **not** say the discovery result was wrong.
+- It shows only that the discovery signal did not independently reproduce on the public data available for this test.
+
+Keeping that caveat next to the result is part of the method. Dropping it would turn an honest "not replicated here" into a misleading "disproven".
+
+## Why it matters
+
+The purpose of scientific diligence is not to make an exciting number disappear. It is to prevent one exciting number from silently becoming a causal story. An impressive posterior in one dataset is not replication, and the time to find that out is before the next expensive step, not after it.
+
+For the general version of this discipline, see [what makes an AI system trustworthy, as NIST describes it](https://radar.firstaimovers.com/what-makes-an-ai-system-trustworthy-the-characteristics-nist-names-sum). The companion case study, [Not Evaluable Is a Result](https://radar.firstaimovers.com/not-evaluable-is-a-result), shows the other outcome that matters: a causal bridge that public data simply cannot decide.
+
+## Try it on your own target
+
+We have packaged this method as the [Biodius Target Challenge](https://radar.firstaimovers.com/biodius-scientific-diligence): a fixed-scope, five-business-day adversarial review of one target or mechanism, ending in a decision memo. **Send us one target + indication + rationale.** We will tell you whether it deserves the next expensive step. You can reach us at [info@firstaimovers.com](mailto:info@firstaimovers.com?subject=Biodius%20Target%20Challenge), or learn more [about First AI Movers](https://radar.firstaimovers.com/page/about).
+
+## References
+
+1. Giambartolomei et al. Bayesian test for colocalisation between pairs of genetic association studies using summary statistics. _PLoS Genetics_ 10(5): e1004383 (2014). https://doi.org/10.1371/journal.pgen.1004383
+2. Yazar et al. Single-cell eQTL mapping identifies cell type-specific genetic control of autoimmune disease. _Science_ 376(6589): eabf3041 (2022). https://doi.org/10.1126/science.abf3041
+3. Momozawa et al. IBD risk loci are enriched in multigenic regulatory modules encompassing putative causative genes. _Nature Communications_ 9: 2427 (2018). https://doi.org/10.1038/s41467-018-04365-8
+4. Kasela et al. Pathogenic implications for autoimmune mechanisms derived by comparative eQTL analysis of CD4+ versus CD8+ T cells. _PLoS Genetics_ 13(3): e1006643 (2017). https://doi.org/10.1371/journal.pgen.1006643
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "0.992 Was Not Replication: Why One Exciting Posterior Is Not a Causal Story",
+  "description": "A T-cell signal reached PP4 near 0.992 in one dataset. Three independent public blood T-cell resources did not reproduce it.",
+  "datePublished": "2026-09-24T11:44:03.655945+00:00",
+  "dateModified": "2026-09-24T11:44:03.655945+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/pp4-0992-was-not-replication"
+  },
+  "image": "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+-->
+
+
+---
+
+# Try to kill your target before you fund the next expensive step.
+
+- **Published:** 2026-09-22
+- **URL:** https://radar.firstaimovers.com/biodius-scientific-diligence
+- **Topics:** Healthcare AI
+
+> **TL;DR:** A fixed-scope, five-business-day adversarial review of one biological target or mechanism, ending in an ADVANCE, REWORK, STOP or NOT\_EVALUABLE memo.
+
+Biodius is a falsification-first scientific diligence service for biotech teams and investors. We stress-test the evidence behind a biological target or mechanism, collapse non-independent studies, surface contradictions and failed programmes, challenge causal-gene and novelty claims, and identify the cheapest evidence that would actually change the decision.
+
+**[Send us one target + indication + rationale](mailto:info@firstaimovers.com?subject=Biodius%20Target%20Challenge)**, or ask for a 20-minute fit call at the same address.
+
+## The problem
+
+The expensive mistakes in target work rarely come from a lack of evidence. They come from evidence that looks stronger than it is: multiple papers that share one cohort, a causal chain with one link nobody measured, a striking statistic from a single dataset, a negative result nobody went looking for. By the time those show up, the next expensive step has usually been funded.
+
+## Why ordinary AI research is not enough
+
+AI research tools make it fast and cheap to assemble a convincing biological story. That is exactly the risk. Throughput is not truth: a system rewarded for producing plausible hypotheses will produce more of them, and a well-written summary can turn "plausible and not yet disproven" into confidence. What a target decision needs is the opposite job: an attempt to break the story before money is committed to it.
+
+## Biodius Target Challenge
+
+The Target Challenge is a fixed-scope adversarial review of one target, pathway or mechanism in one indication. We try to kill it. What survives, what does not, and what cannot be decided from the evidence are all reported, and the review ends in a decision memo, not a summary.
+
+### What you send
+
+- one target / pathway / mechanism;
+- one indication;
+- your current rationale;
+- the next decision you are considering.
+
+### What you receive
+
+- source/provenance map;
+- genetics/causal-gene check where relevant;
+- cohort/study independence map;
+- contradiction, null and failed-programme register;
+- causal-chain audit;
+- novelty/prior-art attack;
+- independent synthetic expert challenges where appropriate;
+- adjudicated source check;
+- cheapest discriminating next evidence;
+- concise decision memo: `ADVANCE | REWORK | STOP | NOT_EVALUABLE`.
+
+## Two cases from our own tests
+
+We tested this method on ourselves first, prospectively, on public data. Two outcomes show what it is for.
+
+### A plausible mechanism that public data could not decide
+
+An AI-generated ulcerative colitis hypothesis survived an initial evidence bar and two adversarial AI reviewers. A frozen human-genetics adjudication then found that its decisive causal link could not be evaluated from lawful public data. The hypothesis was not promoted, and it was not disproven: it was `NOT_EVALUABLE`. [Read the case study](https://radar.firstaimovers.com/not-evaluable-is-a-result).
+
+### A striking signal that did not replicate
+
+An unexpected T-cell signal reached PP4 ≈ 0.992 in three gut-resident T-cell groups in a discovery dataset. We sealed that dataset and defined an independent test in advance. The signal did not reproduce in independent public blood T-cell cohorts. Because those cohorts were blood and the discovery cells were gut-resident, this does not prove a tissue-resident effect is false; it shows the signal was single-dataset-only. [Read the case study](https://radar.firstaimovers.com/pp4-0992-was-not-replication).
+
+## How the method works
+
+We prospectively freeze analysis rules before reading decisive outcomes. We deliberately preserve negative, contradictory and not-evaluable results. We distinguish publications from independent cohorts and collapse shared lineages. Independent AI reviewers are tasked with falsifying the case, and their challenges are adjudicated against primary sources. The full method and all four of our prospective experiments are in the technical report, [Falsification-First AI for Biological Target Assessment](https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment) (technical report; not peer reviewed).
+
+## Who it is for
+
+- **Biotech teams** about to commit to a costly next step on a target or mechanism.
+- **Investors** who want an independent, adversarial read of the biology behind an asset before a funding decision.
+
+## What we do not claim
+
+Biodius does not provide clinical advice, validate safety or efficacy, perform wet-lab work, or replace legal/patent/regulatory review.
+
+It is experimental scientific diligence tooling. It does not discover drug targets or predict clinical success, it has not been externally validated, and it does not substitute for qualified scientific judgment. Our current commercial hypothesis is that this workflow is useful as scientific diligence before a costly downstream decision. More answers are in the [Target Challenge FAQ](https://radar.firstaimovers.com/biodius-target-challenge-faq).
+
+## Founding pilot
+
+- 5 business days
+- EUR 4,950 excl. VAT
+- 3 founding design-partner slots
+- fixed scope, subject to a decision-sufficient brief and final contracting route
+
+## Start with one target
+
+> **Send us one target + indication + rationale. We will tell you whether it deserves the next expensive step.**
+
+**[Send us one target + indication + rationale](mailto:info@firstaimovers.com?subject=Biodius%20Target%20Challenge)**: tell us the target, pathway or mechanism; the indication; your current rationale; and the next decision you are considering.
+
+Prefer to talk first? Ask for a 20-minute fit call at [info@firstaimovers.com](mailto:info@firstaimovers.com?subject=Biodius%20Target%20Challenge%20fit%20call). Learn more [about First AI Movers](https://radar.firstaimovers.com/page/about).
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Try to kill your target before you fund the next expensive step.",
+  "description": "A fixed-scope, five-business-day adversarial review of one biological target or mechanism, ending in an ADVANCE, REWORK, STOP or NOT\_EVALUABLE memo.",
+  "datePublished": "2026-09-22T09:38:29.523724+00:00",
+  "dateModified": "2026-09-22T09:38:29.523724+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/biodius-scientific-diligence"
+  },
+  "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+-->
+
+
+---
+
+# Biodius Target Challenge FAQ: Scope, Inputs, Price and Limits
+
+- **Published:** 2026-09-22
+- **URL:** https://radar.firstaimovers.com/biodius-target-challenge-faq
+- **Topics:** Healthcare AI
+
+> **TL;DR:** What the Biodius Target Challenge reviews, what you send, what you get back, what it costs, and what it does not claim to do.
+
+The Biodius Target Challenge is a fixed-scope scientific diligence review of one biological target or mechanism. These are the questions teams usually need answered before they send one. For the offer itself, see the [Biodius Target Challenge](https://radar.firstaimovers.com/biodius-scientific-diligence).
+
+## What is the Biodius Target Challenge?
+
+It is an adversarial evidence review of one target, pathway or mechanism in one indication. Instead of building the strongest case for your target, we try to kill it: we collapse non-independent studies, surface contradictions and failed programs, challenge causal-gene and novelty claims, and identify the cheapest evidence that would actually change your decision.
+
+Biodius is experimental scientific diligence and falsification tooling. It is not a clinical system, a therapeutic recommendation engine or a validated drug-discovery platform.
+
+## Who is it for?
+
+Biotech teams and investors who are about to commit to an expensive next step on a biological target or mechanism, and who want the evidence stress-tested before they do. It is most useful when an interesting biological story is about to become a costly decision.
+
+## What do I need to send?
+
+- one target, pathway or mechanism;
+- one indication;
+- your current rationale;
+- the next decision you are considering.
+
+The review is fixed-scope, so a clear rationale and a clear decision matter more than volume.
+
+## What do I get back?
+
+- a source and provenance map;
+- a genetics and causal-gene check where relevant;
+- a cohort and study independence map;
+- a contradiction, null and failed-program register;
+- a causal-chain audit;
+- a novelty and prior-art attack;
+- independent synthetic expert challenges where appropriate;
+- an adjudicated source check;
+- the cheapest discriminating next evidence;
+- a concise decision memo: `ADVANCE | REWORK | STOP | NOT_EVALUABLE`.
+
+## How long does it take, and what does it cost?
+
+The founding pilot is 5 business days, at EUR 4,950 excl. VAT. There are 3 founding design-partner slots. The scope is fixed, subject to a decision-sufficient brief and the final contracting route.
+
+## How is this different from a literature review?
+
+A literature review summarizes what has been published. A falsification-first review asks what the published evidence can actually support. It counts shared cohorts once, keeps negative and contradictory results in view, tests each link in the causal chain separately, and ends with a decision rather than a summary. In our own prospective tests, that difference was the whole point: one mechanism that survived initial AI review turned out to be [not evaluable from public human data](https://radar.firstaimovers.com/not-evaluable-is-a-result), and one striking signal [did not replicate](https://radar.firstaimovers.com/pp4-0992-was-not-replication).
+
+## What does NOT\_EVALUABLE mean?
+
+It means the available lawful public data cannot decide the question. It is a result, not a failure to finish. We report it as such rather than rounding it up to "promising" or down to "false", and we tell you what evidence would decide it.
+
+## Does Biodius discover or validate drug targets?
+
+No. Biodius does not discover drug targets, predict clinical success or validate a target. It tests whether the evidence behind a target you already have has earned the next expensive step.
+
+## Does it give clinical advice or validate safety?
+
+No. Biodius does not provide clinical advice, validate safety or efficacy, perform wet-lab work, or replace legal, patent or regulatory review. It does not substitute for qualified scientific judgment.
+
+## How is AI used, and why should I trust the output?
+
+AI research agents do the broad evidence gathering, and independent AI reviewers are tasked with falsifying the case rather than improving it. Their challenges are then adjudicated against primary sources, and the analysis rules are fixed before the decisive evidence is read. We do not claim the AI is unbiased; the workflow is designed so that a weak claim has to survive more than one attempt to break it.
+
+## What evidence is there that the method is useful?
+
+Our own four prospective experiments on public data, written up in our [technical report](https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment). It is a technical report and is not peer reviewed, and the method has not been externally validated. Our current commercial hypothesis is that this workflow is useful as scientific diligence before a costly downstream decision; the founding pilots exist to test that.
+
+## What if my rationale is confidential?
+
+Start with a 20-minute fit call and share only what you are comfortable sharing at that stage. We will tell you whether the question fits the format before you send anything detailed.
+
+## How do I start?
+
+**Send us one target + indication + rationale. We will tell you whether it deserves the next expensive step.** Email [info@firstaimovers.com](mailto:info@firstaimovers.com?subject=Biodius%20Target%20Challenge), or ask for a 20-minute fit call at the same address. You can also read more [about First AI Movers](https://radar.firstaimovers.com/page/about).
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Biodius Target Challenge FAQ: Scope, Inputs, Price and Limits",
+  "description": "What the Biodius Target Challenge reviews, what you send, what you get back, what it costs, and what it does not claim to do.",
+  "datePublished": "2026-09-22T09:36:26.611557+00:00",
+  "dateModified": "2026-09-22T09:36:26.611557+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/biodius-target-challenge-faq"
+  },
+  "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+-->
+
+
+---
+
+# Not Evaluable Is a Result: When Public Human Genetics Cannot Decide the Causal Bridge
+
+- **Published:** 2026-09-22
+- **URL:** https://radar.firstaimovers.com/not-evaluable-is-a-result
+- **Topics:** Healthcare AI
+
+> **TL;DR:** A plausible mechanism survived AI review. Public human genetics still could not decide the causal bridge, so the hypothesis was not promoted.
+
+A plausible mechanism survived AI review. Public human genetics still could not decide the causal bridge. This case study, from our prospectively frozen analysis of public data, shows why "not yet disproven" is a different thing from "ready for the next expensive step".
+
+It is part of our technical report, [Falsification-First AI for Biological Target Assessment](https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment). Technical report; not peer reviewed. Nothing here is a clinical or therapeutic claim.
+
+## The setup
+
+**Hypothesis.** An AI research workflow generated a biologically coherent ulcerative colitis (UC) hypothesis. It linked a genetic signal in the HNF4A region, biology associated with SLC26A3, and a penetrable-mucus phenotype.
+
+**Source facts.** The pieces were individually reasonable. The HNF4A region is an established UC susceptibility locus from genome-wide association analysis [1], and a penetrable inner colonic mucus layer has been described in patients with UC [2].
+
+The hypothesis survived an initial frozen evidence bar and two independent synthetic falsifiers: AI reviewers tasked with breaking it rather than improving it. At that point, a conventional research summary would call it a lead.
+
+## The challenge
+
+We did not accept "survived review" as confirmation. We froze a genotype-resolved causal adjudication before inspecting the decisive outcomes. The rules, the admissible public data sources and the conditions for each possible verdict were fixed in advance, so the result could not quietly shape the method.
+
+The question the adjudication had to answer was specific: does public human-genetic data support each link in the chain, from the genetic signal, to the gene, to the downstream biology?
+
+## What happened
+
+**Our result.** Link by link:
+
+- **The gene assignment weakened.** Cell-type-resolved evidence did not support assigning the signal to HNF4A strongly enough under the frozen tiering.
+- **The decisive bridge was not evaluable.** The HNF4A→SLC26A3 mediation step could not be evaluated from the lawful public aggregate data available, because no admitted public trans-eQTL or equivalent mediation surface could decide it.
+- **Locus support softened.** Support at the SLC26A3 locus weakened under cell-state adjustment and turned out to depend on the dataset.
+- **Tissue specificity stayed open.** Whether the effect is specific to the colon rather than the ileum remained not evaluable.
+
+## Decision
+
+The hypothesis was not promoted. The decisive causal bridge could not be established from public data.
+
+To be precise about what that means: the hypothesis was **not disproven**. Its outcome is `NOT_EVALUABLE`: the available lawful public data cannot decide the step the whole mechanism depends on. Failure to falsify is not confirmation, and missing data is a result.
+
+## Why it matters
+
+A conventional research summary can easily turn "plausible and not yet disproven" into confidence. Two reviewers tried and failed to break it; the pieces each have literature behind them; the story reads well. The diligence question is different: **what causal statement has actually earned the next expensive step?**
+
+Here, the honest answer was "not this one, not yet". That is useful to know before committing budget, and it points at the exact evidence that would change the answer: a way to measure the mediation link directly.
+
+The same pattern shows up well beyond biology. Our guide on [why agentic AI autonomy is not ready to run unchecked](https://radar.firstaimovers.com/agentic-ai-reality-check-autonomy-not-ready) makes the business version of the argument. A companion case study, [0.992 Was Not Replication](https://radar.firstaimovers.com/pp4-0992-was-not-replication), shows the other common trap: one impressive number from one dataset.
+
+## Try it on your own target
+
+We have packaged this method as the [Biodius Target Challenge](https://radar.firstaimovers.com/biodius-scientific-diligence): a fixed-scope, five-business-day adversarial review of one target or mechanism, ending in a decision memo. **Send us one target + indication + rationale.** We will tell you whether it deserves the next expensive step. You can reach us at [info@firstaimovers.com](mailto:info@firstaimovers.com?subject=Biodius%20Target%20Challenge), or learn more [about First AI Movers](https://radar.firstaimovers.com/page/about).
+
+## References
+
+1. UK IBD Genetics Consortium. Genome-wide association study of ulcerative colitis identifies three new susceptibility loci, including the HNF4A region. _Nature Genetics_ 41(12): 1330-1334 (2009). https://doi.org/10.1038/ng.483
+2. Johansson et al. Bacteria penetrate the normally impenetrable inner colon mucus layer in both murine colitis models and patients with ulcerative colitis. _Gut_ 63(2): 281-291 (2014). https://doi.org/10.1136/gutjnl-2012-303207
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Not Evaluable Is a Result: When Public Human Genetics Cannot Decide the Causal Bridge",
+  "description": "A plausible mechanism survived AI review. Public human genetics still could not decide the causal bridge, so the hypothesis was not promoted.",
+  "datePublished": "2026-09-22T09:34:22.183942+00:00",
+  "dateModified": "2026-09-22T09:34:22.183942+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/not-evaluable-is-a-result"
+  },
+  "image": "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+-->
+
+
+---
+
+# Why We Built a Service That Tries to Kill Your Biological Target
+
+- **Published:** 2026-09-22
+- **URL:** https://radar.firstaimovers.com/why-we-built-a-service-that-tries-to-kill-your-target
+- **Topics:** Healthcare AI, B2B SaaS Growth
+
+> **TL;DR:** Four prospective experiments taught us that scientific AI is most useful when it attacks a hypothesis. So we built a fixed-scope target diligence review.
+
+Three of our four prospective experiments did not end the way we hoped, and that turned out to be the most useful thing they produced.
+
+We spent the past months testing AI-assisted biological target assessment on ourselves, prospectively, using public data in pulmonary fibrosis and inflammatory bowel disease. We fixed our analysis rules before reading decisive outcomes and kept every negative result. The write-up is our technical report, [Falsification-First AI for Biological Target Assessment](https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment) (technical report; not peer reviewed). This article explains what we learned and what we are doing about it.
+
+## What the experiments taught us
+
+**Rigor has to earn its complexity.** A heavier scientific-agent architecture did not demonstrate more useful biological coverage than a strong agentic research workflow. It had useful safeguards, but more machinery did not mean more useful biology.
+
+**A small trust layer beat a bigger autonomous scientist.** When we cut the safeguards down to a lean layer, it preserved the useful output, added decision-relevant annotations about provenance, independence and contradictions, and transferred to a new disease area without being tuned to the old one.
+
+**Missing data is a result.** One candidate that survived initial adversarial review was later kept at `NOT_EVALUABLE`, because the causal bridge it depended on could not be measured from available lawful public data. It was not disproven. It just had not earned the next step. [The full case](https://radar.firstaimovers.com/not-evaluable-is-a-result).
+
+**One impressive number is not replication.** We independently challenged an apparent PP4 ≈ 0.992 T-cell signal and did not reproduce it in independent public blood T-cell resources. The discovery cells were gut-resident and the independent cohorts were blood, so this does not prove the original effect false; it shows the signal was single-dataset-only. [The full case](https://radar.firstaimovers.com/pp4-0992-was-not-replication).
+
+## The gap we think this fills
+
+AI is making it cheap to assemble a convincing biological story. It is not making it cheaper to find out whether that story deserves money. If anything, the gap is widening: more plausible hypotheses, written more fluently, arriving faster than anyone can check them.
+
+The people who feel this most are the ones about to commit to an expensive next step: a biotech team choosing which mechanism to take forward, or an investor deciding whether the biology behind an asset holds up. They do not need another literature summary. They need someone to try to break the case, count shared cohorts once, keep the contradicting results in view, and say plainly which causal claim has actually been earned.
+
+## What we are offering
+
+We have packaged the method as the **Biodius Target Challenge**. You send one target, pathway or mechanism, one indication, your current rationale and the decision you are facing. Over five business days we run a falsification-first review: provenance, human-genetics and causal-gene evidence where relevant, cohort independence, contradictions and failed programs, a causal-chain audit, a novelty attack and independent synthetic challenges adjudicated against primary sources. You get a concise decision memo, `ADVANCE`, `REWORK`, `STOP` or `NOT_EVALUABLE`, plus the cheapest evidence that would change it.
+
+The founding pilot is EUR 4,950 excl. VAT, with 3 founding design-partner slots, fixed scope, subject to a decision-sufficient brief and final contracting route. Details are on the [Biodius Target Challenge page](https://radar.firstaimovers.com/biodius-scientific-diligence).
+
+## What it is not
+
+Biodius is experimental scientific diligence tooling. It does not discover drug targets, predict clinical success, provide clinical advice, validate safety or efficacy, perform wet-lab work, or replace qualified scientific, legal, patent or regulatory judgment. It has not been externally validated.
+
+## An honest hypothesis
+
+Our current commercial hypothesis is that this workflow is useful as scientific diligence before a costly downstream decision. We could be wrong about that, and the founding pilots exist to find out. We would rather test the hypothesis on real target decisions than keep generating new biology of our own.
+
+If you have a target or mechanism you would value having independently stress-tested, **send us one target + indication + rationale** at [info@firstaimovers.com](mailto:info@firstaimovers.com?subject=Biodius%20Target%20Challenge). We will tell you whether it deserves the next expensive step. You can also read more [about First AI Movers](https://radar.firstaimovers.com/page/about).
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Why We Built a Service That Tries to Kill Your Biological Target",
+  "description": "Four prospective experiments taught us that scientific AI is most useful when it attacks a hypothesis. So we built a fixed-scope target diligence review.",
+  "datePublished": "2026-09-22T09:40:32.292381+00:00",
+  "dateModified": "2026-09-22T09:40:32.292381+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/why-we-built-a-service-that-tries-to-kill-your-target"
+  },
+  "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+-->
 
 
 ---

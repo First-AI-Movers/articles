@@ -1,11 +1,97 @@
 {
-  "last_updated": "2026-09-18",
-  "total_articles": 932,
+  "last_updated": "2026-09-26",
+  "total_articles": 937,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-09-24-pp4-0992-was-not-replication",
+      "slug": "pp4-0992-was-not-replication",
+      "title": "0.992 Was Not Replication: Why One Exciting Posterior Is Not a Causal Story",
+      "published_date": "2026-09-24",
+      "tags": [
+        "ai",
+        "biotechnology",
+        "research",
+        "science"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/pp4-0992-was-not-replication"
+    },
+    {
+      "folder": "2026-09-22-biodius-scientific-diligence",
+      "slug": "biodius-scientific-diligence",
+      "title": "Try to kill your target before you fund the next expensive step.",
+      "published_date": "2026-09-22",
+      "tags": [
+        "ai",
+        "biotechnology",
+        "research",
+        "science"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/biodius-scientific-diligence"
+    },
+    {
+      "folder": "2026-09-22-biodius-target-challenge-faq",
+      "slug": "biodius-target-challenge-faq",
+      "title": "Biodius Target Challenge FAQ: Scope, Inputs, Price and Limits",
+      "published_date": "2026-09-22",
+      "tags": [
+        "ai",
+        "biotechnology",
+        "research",
+        "science"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/biodius-target-challenge-faq"
+    },
+    {
+      "folder": "2026-09-22-not-evaluable-is-a-result",
+      "slug": "not-evaluable-is-a-result",
+      "title": "Not Evaluable Is a Result: When Public Human Genetics Cannot Decide the Causal Bridge",
+      "published_date": "2026-09-22",
+      "tags": [
+        "ai",
+        "biotechnology",
+        "research",
+        "science"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/not-evaluable-is-a-result"
+    },
+    {
+      "folder": "2026-09-22-why-we-built-a-service-that-tries-to-kill-your-target",
+      "slug": "why-we-built-a-service-that-tries-to-kill-your-target",
+      "title": "Why We Built a Service That Tries to Kill Your Biological Target",
+      "published_date": "2026-09-22",
+      "tags": [
+        "ai",
+        "biotechnology",
+        "research",
+        "Startups"
+      ],
+      "topics": [
+        "Healthcare AI",
+        "B2B SaaS Growth"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/why-we-built-a-service-that-tries-to-kill-your-target"
+    },
     {
       "folder": "2026-07-25-agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar",
       "slug": "agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar",
