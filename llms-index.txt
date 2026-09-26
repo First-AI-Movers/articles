@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 932
-- Date range: 2025-02-17 to 2026-07-25
+- Articles: 937
+- Date range: 2025-02-17 to 2026-09-24
 - Topic count: 103
-- Generated: 2026-09-18
+- Generated: 2026-09-26
 
 ## Companion files
 
@@ -28,6 +28,41 @@ archive URL, publication date, topics, optional DOI/series, and a
 short summary. Articles are listed newest-first.
 
 ---
+
+## 0.992 Was Not Replication: Why One Exciting Posterior Is Not a Causal Story
+- Date: 2026-09-24
+- Canonical: https://radar.firstaimovers.com/pp4-0992-was-not-replication
+- Archive: https://articles.firstaimovers.com/articles/2026-09-24-pp4-0992-was-not-replication/article.md
+- Topics: Healthcare AI
+- Summary: A T-cell signal reached PP4 near 0.992 in one dataset. Three independent public blood T-cell resources did not reproduce it.
+
+## Try to kill your target before you fund the next expensive step.
+- Date: 2026-09-22
+- Canonical: https://radar.firstaimovers.com/biodius-scientific-diligence
+- Archive: https://articles.firstaimovers.com/articles/2026-09-22-biodius-scientific-diligence/article.md
+- Topics: Healthcare AI
+- Summary: A fixed-scope, five-business-day adversarial review of one biological target or mechanism, ending in an ADVANCE, REWORK, STOP or NOT\_EVALUABLE memo.
+
+## Biodius Target Challenge FAQ: Scope, Inputs, Price and Limits
+- Date: 2026-09-22
+- Canonical: https://radar.firstaimovers.com/biodius-target-challenge-faq
+- Archive: https://articles.firstaimovers.com/articles/2026-09-22-biodius-target-challenge-faq/article.md
+- Topics: Healthcare AI
+- Summary: What the Biodius Target Challenge reviews, what you send, what you get back, what it costs, and what it does not claim to do.
+
+## Not Evaluable Is a Result: When Public Human Genetics Cannot Decide the Causal Bridge
+- Date: 2026-09-22
+- Canonical: https://radar.firstaimovers.com/not-evaluable-is-a-result
+- Archive: https://articles.firstaimovers.com/articles/2026-09-22-not-evaluable-is-a-result/article.md
+- Topics: Healthcare AI
+- Summary: A plausible mechanism survived AI review. Public human genetics still could not decide the causal bridge, so the hypothesis was not promoted.
+
+## Why We Built a Service That Tries to Kill Your Biological Target
+- Date: 2026-09-22
+- Canonical: https://radar.firstaimovers.com/why-we-built-a-service-that-tries-to-kill-your-target
+- Archive: https://articles.firstaimovers.com/articles/2026-09-22-why-we-built-a-service-that-tries-to-kill-your-target/article.md
+- Topics: Healthcare AI, B2B SaaS Growth
+- Summary: Four prospective experiments taught us that scientific AI is most useful when it attacks a hypothesis. So we built a fixed-scope target diligence review.
 
 ## July 2026 Momentum Across Open Agent Platforms
 - Date: 2026-07-25
