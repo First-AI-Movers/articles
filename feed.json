@@ -13,6 +13,57 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-09-24:2026-09-24-pp4-0992-was-not-replication",
+      "url": "https://radar.firstaimovers.com/pp4-0992-was-not-replication",
+      "title": "0.992 Was Not Replication: Why One Exciting Posterior Is Not a Causal Story",
+      "date_published": "2026-09-24T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "A T-cell signal reached PP4 near 0.992 in one dataset. Three independent public blood T-cell resources did not reproduce it."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-09-22:2026-09-22-biodius-scientific-diligence",
+      "url": "https://radar.firstaimovers.com/biodius-scientific-diligence",
+      "title": "Try to kill your target before you fund the next expensive step.",
+      "date_published": "2026-09-22T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "A fixed-scope, five-business-day adversarial review of one biological target or mechanism, ending in an ADVANCE, REWORK, STOP or NOT\\_EVALUABLE memo."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-09-22:2026-09-22-biodius-target-challenge-faq",
+      "url": "https://radar.firstaimovers.com/biodius-target-challenge-faq",
+      "title": "Biodius Target Challenge FAQ: Scope, Inputs, Price and Limits",
+      "date_published": "2026-09-22T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "What the Biodius Target Challenge reviews, what you send, what you get back, what it costs, and what it does not claim to do."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-09-22:2026-09-22-not-evaluable-is-a-result",
+      "url": "https://radar.firstaimovers.com/not-evaluable-is-a-result",
+      "title": "Not Evaluable Is a Result: When Public Human Genetics Cannot Decide the Causal Bridge",
+      "date_published": "2026-09-22T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "A plausible mechanism survived AI review. Public human genetics still could not decide the causal bridge, so the hypothesis was not promoted."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-09-22:2026-09-22-why-we-built-a-service-that-tries-to-kill-your-target",
+      "url": "https://radar.firstaimovers.com/why-we-built-a-service-that-tries-to-kill-your-target",
+      "title": "Why We Built a Service That Tries to Kill Your Biological Target",
+      "date_published": "2026-09-22T00:00:00Z",
+      "tags": [
+        "Healthcare AI",
+        "B2B SaaS Growth"
+      ],
+      "content_text": "Four prospective experiments taught us that scientific AI is most useful when it attacks a hypothesis. So we built a fixed-scope target diligence review."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-07-25:2026-07-25-agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar",
       "url": "https://radar.firstaimovers.com/agent-frameworks-july-2026-momentum-across-open-agent-platforms-summar",
       "title": "July 2026 Momentum Across Open Agent Platforms",
@@ -555,72 +606,6 @@
         "software development"
       ],
       "content_text": "AI agents need memory, but enterprise memory must be governed, reviewable, and auditable. Here is why canonical docs should come before vector databases."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-acceptable-use-policy-engineering-teams",
-      "url": "https://radar.firstaimovers.com/ai-acceptable-use-policy-engineering-teams",
-      "title": "What Your AI Acceptable Use Policy Should Actually Cover (And What Most Companies Miss)",
-      "date_published": "2026-05-03T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "company-tech-strategy",
-        "digital-transformation",
-        "ai-automation",
-        "business-automation"
-      ],
-      "content_text": "What an effective AI acceptable use policy covers: data classification, model tiers, prompt hygiene, and escalation triggers for engineering organisations."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-incident-response-engineering-leaders",
-      "url": "https://radar.firstaimovers.com/ai-incident-response-engineering-leaders",
-      "title": "AI Incident Response for Engineering Leaders: What to Do When Your AI Tooling Leaks, Hallucinates, or Breaks Production",
-      "date_published": "2026-05-03T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "company-tech-strategy",
-        "digital-transformation",
-        "ai-automation",
-        "business-automation"
-      ],
-      "content_text": "A practical incident response playbook for AI-specific failures: hallucinations, data leaks, agent overreach, and production breaks from AI tooling."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-pull-request-auto-merge-enterprise-guide-2026",
-      "url": "https://radar.firstaimovers.com/ai-pull-request-auto-merge-enterprise-guide-2026",
-      "title": "The Merge Button Should Be Policy, Not a Person",
-      "date_published": "2026-05-03T00:00:00Z",
-      "tags": [
-        "Executive AI Literacy"
-      ],
-      "content_text": "AI is accelerating code creation. Learn how enterprises automate pull request review and auto-merge with policy, CI, merge queues, and human gates."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-ai-security-posture-engineering-organisation",
-      "url": "https://radar.firstaimovers.com/ai-security-posture-engineering-organisation",
-      "title": "How to Build an AI Security Posture for Your Engineering Organisation Before It Becomes an Emergency",
-      "date_published": "2026-05-03T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "company-tech-strategy",
-        "digital-transformation",
-        "ai-automation",
-        "business-automation"
-      ],
-      "content_text": "A practical framework for CTOs building an AI security posture: identity, permissions, data boundaries, review gates, and incident readiness."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-03:2026-05-03-cto-checklist-securing-coding-agents-rollout",
-      "url": "https://radar.firstaimovers.com/cto-checklist-securing-coding-agents-rollout",
-      "title": "The CTO's Checklist for Securing Coding Agents Before a Team-Wide Rollout",
-      "date_published": "2026-05-03T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "company-tech-strategy",
-        "digital-transformation",
-        "ai-automation",
-        "business-automation"
-      ],
-      "content_text": "Seven security controls every CTO should verify before expanding coding agent access: access model, secrets, review gates, sandboxing, and audit trail."
     }
   ]
 }
