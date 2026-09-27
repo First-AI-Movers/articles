@@ -45,7 +45,7 @@ updates:
       - "dependencies"
       - "github-actions"
 
-  # npm — root + mcp-server + og-worker. (The /mcp-server-scoped vitest semver-major ignore was
+  # npm — root + mcp-server + og-worker. (An earlier /mcp-server-scoped vitest semver-major ignore was
   # LIFTED 2026-06-22: its documented lift condition is met — mcp-server migrated to
   # @cloudflare/vitest-pool-workers 0.16 + vitest 4 in #289 (pool-workers now peers vitest ^4), so
   # vitest-major updates flow normally again and the separate /mcp-server entry is no longer needed.)
@@ -96,6 +96,26 @@ updates:
         update-types:
           - "minor"
           - "patch"
+    ignore:
+      # vitest 5 CANNOT INSTALL in either worker tree, so a carrier for it is a PR that
+      # can never go green (#432; Dependabot #451/#452, closed as superseded):
+      #
+      #   npm error While resolving: @cloudflare/vitest-pool-workers@0.22.0
+      #   npm error Found: vitest@5.0.0
+      #   npm error peer vitest@"^4.1.0" from @cloudflare/vitest-pool-workers@0.22.0
+      #
+      # 0.22.0 (2026-08-18) is the LATEST pool-workers release, so this is not a
+      # "wait for the patch" state — the ecosystem has not moved yet. Minor and patch
+      # vitest updates still flow; only the major is held.
+      #
+      # LIFT CONDITION (executable, not a promise): when a pool-workers release peers
+      # vitest ^5 and the lockfiles carry it, `tools/tests/test_dependabot_ignore_lift_conditions.py`
+      # FAILS and names this entry. Delete these lines then; do not renew them by hand.
+      # This is the same hold, and the same kind of lift, as the /mcp-server-scoped
+      # ignore that was removed on 2026-06-22 when pool-workers 0.16 peered vitest ^4.
+      - dependency-name: "vitest"
+        update-types:
+          - "version-update:semver-major"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
