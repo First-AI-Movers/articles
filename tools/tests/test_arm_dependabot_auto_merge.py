@@ -144,6 +144,48 @@ class TestPathAllowlist:
             f"got {sorted(mod.WORKFLOW_ROOTS)}"
         )
 
+    def test_every_github_actions_directory_exists_on_disk(self):
+        """Every `github-actions` directory in dependabot.yml really holds
+        workflows.
+
+        An entry whose `directory:` resolves to nothing is silently inert: it
+        parses, it appears to grant coverage, and it bumps nothing. #362 asks
+        whether the template entry -- whose directory name is literally
+        `{{cookiecutter.repo_slug}}`, braces and all -- resolves at all. This
+        test cannot answer that; only Dependabot's own path resolution can, and
+        it is not observable from here while all four template pins sit at their
+        latest major (nothing to bump means silence proves nothing either way).
+
+        What this test does own is the failure mode that IS checkable: the
+        directory must exist and contain at least one workflow. A rename of the
+        template folder, or a typo in the entry, now fails here instead of
+        quietly widening the gap #362 was opened for.
+        """
+        yaml = pytest.importorskip("yaml")
+        cfg = yaml.safe_load(
+            (REPO_ROOT / ".github" / "dependabot.yml").read_text(encoding="utf-8")
+        )
+        checked = 0
+        for entry in cfg["updates"]:
+            if entry["package-ecosystem"] != "github-actions":
+                continue
+            for d in entry.get("directories") or [entry["directory"]]:
+                wf_dir = REPO_ROOT / d.strip("/") / ".github" / "workflows"
+                assert wf_dir.is_dir(), (
+                    f"dependabot.yml watches github-actions in {d!r}, but "
+                    f"{wf_dir.relative_to(REPO_ROOT)} is not a directory -- that "
+                    f"entry is inert (#362)"
+                )
+                assert list(wf_dir.glob("*.yml")) or list(wf_dir.glob("*.yaml")), (
+                    f"{wf_dir.relative_to(REPO_ROOT)} holds no workflow file, so "
+                    f"the github-actions entry for {d!r} has nothing to govern"
+                )
+                checked += 1
+        assert checked >= 2, (
+            "expected at least the root and the cookiecutter template to be "
+            f"watched for github-actions; checked {checked}"
+        )
+
 
 # --------------------------------------------------------------------------
 # classify()
