@@ -43,11 +43,22 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
 import time
 
 EXPECTED_TITLE = "ingest(articles): add articles from Airtable"
+# Title prefix of the incident this script files. It is deliberately NOT the
+# `E41 cron ingestion incident:` prefix the workflow's own alarm uses: the two
+# report different things (this one, a blocked candidate PR; that one, a failed
+# cron run). The cost of the separate prefix is that `ingest-airtable.yml`'s
+# cleanup step cannot sweep these — it filters
+# `startswith("E41 cron ingestion incident:")` exactly, by design, so it can
+# never close an unrelated issue. Nothing owned this family's end of life, so it
+# accumulated: #454-#458 were one block on PR #453 reported five times.
+# `close_resolved_blocked_issues()` below is that missing owner.
+BLOCKED_TITLE_PREFIX = "E41 auto-merge blocked:"
 # Match the cron workflow's PR branch exactly. E20b dispatch opens PRs on
 # `ingest/airtable-record-rec<id>` branches — those must NEVER be matched
 # here, even if a future operator sets `AUTO_MERGE_HEAD_BRANCH` to one of
@@ -219,48 +230,146 @@ def find_open_pr(head_branch, repo=None):
     return data[0] if data else None
 
 
-def _has_open_blocked_issue(pr_num, repo=None):
-    """Whether an open `E41 auto-merge blocked` issue already references PR #pr_num.
+def _open_blocked_issues(repo=None):
+    """Open `E41 auto-merge blocked:` issues, newest first.
 
-    Best-effort: a `gh issue list` failure returns False so a transient list
-    error can never suppress a genuinely-needed incident.
+    A plain `gh issue list` with a local title filter and deliberately no
+    `--search`. The search index is not a dependency worth having here: it is
+    eventually consistent, and when the search path errors the dedupe below
+    fails open and files a duplicate. That is how one block on PR #453 became
+    five issues (#454-#458) while `_has_open_blocked_issue()` resolved `True`
+    for the same PR when run against the same repository from a seat whose
+    token could search. Listing open issues is exact and needs no index.
+    """
+    out = _run_gh(
+        [
+            "issue", "list", "--state", "open",
+            "--limit", "100", "--json", "number,title,body",
+        ],
+        repo=repo,
+    )
+    return [
+        i for i in json.loads(out)
+        if (i.get("title") or "").startswith(BLOCKED_TITLE_PREFIX)
+    ]
+
+
+def _referenced_pr_number(body):
+    """The PR number an incident body records, or None."""
+    m = re.search(r"\*\*PR number:\*\*\s*(\d+)", body or "")
+    return int(m.group(1)) if m else None
+
+
+def _find_open_blocked_issue(pr_num, repo=None):
+    """The newest open blocked incident that references PR #pr_num, or None.
+
+    Best-effort: any listing failure returns None so a transient error can
+    never suppress a genuinely-needed incident. Failing open costs a duplicate;
+    failing closed costs the alarm.
     """
     if not pr_num:
-        return False
+        return None
+    try:
+        issues = _open_blocked_issues(repo=repo)
+    except (GhError, ValueError, TypeError):
+        return None
+    for issue in issues:
+        if _referenced_pr_number(issue.get("body")) == int(pr_num):
+            return issue
+    return None
+
+
+def _has_open_blocked_issue(pr_num, repo=None):
+    """Whether an open blocked incident already references PR #pr_num."""
+    return _find_open_blocked_issue(pr_num, repo=repo) is not None
+
+
+def _pr_state(pr_number, repo=None):
+    """`OPEN` / `MERGED` / `CLOSED` for a PR, or None when it cannot be read."""
     try:
         out = _run_gh(
-            [
-                "issue", "list", "--state", "open",
-                "--search", 'in:title "E41 auto-merge blocked"',
-                "--limit", "50", "--json", "number,body",
-            ],
+            ["pr", "view", str(pr_number), "--json", "state"], repo=repo
+        )
+        return (json.loads(out).get("state") or "").upper() or None
+    except (GhError, ValueError, TypeError):
+        return None
+
+
+def _close_issue(number, comment, repo=None):
+    """Close an issue, preferring a closing comment but never requiring one.
+
+    Mirrors the workflow cleanup step's token-scope tolerance: the cron token
+    can create and close issues but has been observed unauthorized for the
+    `addComment` GraphQL mutation (run 26708845288). A comment we cannot write
+    must not keep a resolved incident open.
+    """
+    try:
+        _run_gh(
+            ["issue", "close", str(number), "--reason", "completed",
+             "--comment", comment],
             repo=repo,
         )
+        return True
     except GhError:
-        return False
+        _run_gh(["issue", "close", str(number), "--reason", "completed"], repo=repo)
+        return True
+
+
+def close_resolved_blocked_issues(repo=None):
+    """Close open blocked incidents whose PR is no longer open.
+
+    Called only from paths where this script has just established that there is
+    no blocked candidate: a completed squash-merge, a PR that vanished mid-poll,
+    or no open PR at all. An incident whose PR merged or closed is a resolved
+    alarm, and a resolved alarm left open is what trains an operator to skim
+    past the family (#423, incident dedupe). Never raises and never changes the
+    exit code: cleanup cannot be allowed to fail an otherwise successful cron.
+    """
     try:
-        needle = f"**PR number:** {pr_num}"
-        return any(needle in (i.get("body") or "") for i in json.loads(out))
-    except (ValueError, TypeError):
-        return False
+        issues = _open_blocked_issues(repo=repo)
+    except (GhError, ValueError, TypeError) as e:
+        print(f"[warn] could not list open blocked incidents: {e}", file=sys.stderr)
+        return
+    for issue in issues:
+        pr_num = _referenced_pr_number(issue.get("body"))
+        if not pr_num:
+            continue
+        state = _pr_state(pr_num, repo=repo)
+        if state is None or state == "OPEN":
+            # Unreadable or still open: leave the alarm standing.
+            continue
+        try:
+            _close_issue(
+                issue.get("number"),
+                f"Resolved: PR #{pr_num} is {state.lower()}, so the auto-merge "
+                f"block this incident reports no longer holds. Closed "
+                f"automatically by `tools/auto_merge_ingestion_pr.py`.",
+                repo=repo,
+            )
+            print(
+                f"[cleanup] closed incident #{issue.get('number')} "
+                f"(PR #{pr_num} {state.lower()})."
+            )
+        except GhError as e:
+            print(
+                f"[warn] could not close incident #{issue.get('number')}: {e}",
+                file=sys.stderr,
+            )
 
 
 def open_incident_issue(reason, pr=None, repo=None):
-    """File an `E41 auto-merge blocked` issue, deduplicated by PR number.
+    """Report an auto-merge block: one open incident per PR, one comment per run.
 
-    The cron ingest PR uses a fixed head branch, so the same PR persists
-    across cron runs until it merges. Without dedup, every run that finds the
-    same stuck PR files a new issue. Skip creation when an open
-    `E41 auto-merge blocked` issue already references this PR number; the
-    operator triages the existing one.
+    The cron ingest PR uses a fixed head branch, so the same PR persists across
+    runs until it merges. The order is the one PR #424 established for the
+    workflow's own alarm family, now applied to this one: an open incident for
+    this PR gets the run appended as a comment; a new issue is filed only when
+    none is open, or when the comment could not be written -- so a failed dedupe
+    can never become a lost alarm. What ends the incident is
+    `close_resolved_blocked_issues()`.
     """
     pr_num = (pr or {}).get("number", "")
-    if pr_num and _has_open_blocked_issue(pr_num, repo=repo):
-        print(
-            f"[skip] an open 'E41 auto-merge blocked' issue already tracks "
-            f"PR #{pr_num}; not duplicating."
-        )
-        return
+    existing = _find_open_blocked_issue(pr_num, repo=repo) if pr_num else None
     run_url = (
         f"{os.environ.get('GITHUB_SERVER_URL', 'https://github.com')}/"
         f"{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/"
@@ -305,6 +414,28 @@ def open_incident_issue(reason, pr=None, repo=None):
         "2. If the block is an allowlist violation, the PR contains unexpected paths — review and either fix the ingestion script or merge manually after CODEOWNERS approval.",
         "3. If the block is a timeout, increase `AUTO_MERGE_TIMEOUT_SECONDS` or temporarily set `AUTO_MERGE_INGESTION_PRS=0`.",
     ]
+    if existing:
+        existing_num = existing.get("number")
+        try:
+            _run_gh(
+                ["issue", "comment", str(existing_num),
+                 "--body", "\n".join(body_lines)],
+                repo=repo,
+            )
+            print(
+                f"[dedup] appended this run to open incident #{existing_num} "
+                f"already tracking PR #{pr_num}; not duplicating."
+            )
+            return
+        except GhError as e:
+            # A dedupe that cannot write its comment must not swallow the
+            # alarm: fall through and file the issue.
+            print(
+                f"[warn] could not comment on incident #{existing_num} ({e}); "
+                f"filing a new incident so the block is still reported.",
+                file=sys.stderr,
+            )
+
     try:
         _run_gh(
             ["issue", "create", "--title", title, "--body", "\n".join(body_lines)],
@@ -360,6 +491,7 @@ def main():
 
     if not pr:
         print(f"[skip] no open PR with head '{head_branch}'; nothing to merge.")
+        close_resolved_blocked_issues(repo=repo)
         return 0
 
     pr_number = pr.get("number")
@@ -474,6 +606,7 @@ def main():
             return 1
         if not pr:
             print("[skip] PR disappeared during polling (manually merged or closed).")
+            close_resolved_blocked_issues(repo=repo)
             return 0
 
     print(f"[merge] squash-merging PR #{pr_number}")
@@ -491,6 +624,7 @@ def main():
         open_incident_issue(reason, pr=pr, repo=repo)
         return 0
     print(f"[done] PR #{pr_number} squash-merged.")
+    close_resolved_blocked_issues(repo=repo)
     return 0
 
 
