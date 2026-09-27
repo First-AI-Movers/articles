@@ -89,6 +89,18 @@ Squash-only, zero required approvals, one required check: `aeos-merge-ready`.
 5. Do not wait and do not poll CI. Move to the next unit. Post-merge smoke runs by
    itself; a failure there is a new Issue, not a reopened decision.
 
+A unit blocked on a routine dependency — a pending PR, CI, an AI review, or another
+owner — is not a stop either. Do exactly one of: take the next dependency-ready
+unit; leave one bounded GitHub-native handoff (an Issue or PR comment) with the
+existing known owner and continue disjoint work; or persist a typed wake predicate
+and yield to the existing continuation machinery, which wakes exactly one successor
+when the predicate changes (`DEPENDENCY_WAIT_PERSISTS_WAKE_PREDICATE`). A successor
+session reconstructs from GitHub Issues, PRs and current `main` alone — no
+transcript, no operator copy-paste, no operator relay
+(`SESSION_ROLLOVER_RECONSTRUCTS_FROM_GITHUB`). A pending PR, CI, or review state is
+never a session terminal and never a reason to return to the operator for
+`continue`.
+
 ## Durable canon
 
 [`README.md`](README.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md) ·
