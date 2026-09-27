@@ -46,7 +46,7 @@ Each check is its own workflow file so a failure pinpoints the cause quickly.
 
 | Check name | Tier | Workflow file | What it gates |
 |---|---|---|---|
-| `test` | branch-protection required | `.github/workflows/tests.yml` | Python unit tests (`pytest tools/tests`), changelog freshness on PRs, duplicate-title gate, errata validation. Runs on every PR. |
+| `test` | branch-protection required | `.github/workflows/tests.yml` | Python unit tests (`pytest tools/tests`), duplicate-title gate, errata validation. Runs on every PR. (`docs/CHANGELOG.md` freshness is not checked here: a squash merge always leaves the snapshot one entry behind, so the check was red on every PR opened after a merge; refresh it locally with `build_changelog.py`.) |
 | `e2e` | branch-protection required | `.github/workflows/e2e.yml` | Playwright browser tests against the freshly built static site. Single-workflow design (N6-H): the `e2e` job always reports — on pure-docs PRs it skips the Playwright run internally but still reports SUCCESS. |
 | `gitleaks` | branch-protection required | `.github/workflows/gitleaks.yml` | Secret scanning across the full repo (no `paths-ignore` — secrets can land anywhere). |
 | `check` | branch-protection required | `.github/workflows/generated-artifacts.yml` | Runs `tools/check_generated_artifacts.py`: rebuild + diff against committed `index.json`, `sitemap.xml`, `feed.xml`, `feed.json`, `llms.txt`, `llms-full.txt`, `llms-recent.txt`, `README.md`. The `check` job runs on every PR (heavy drift check, or a no-op skip step for the safe-maintenance allowlist) and always reports. |
