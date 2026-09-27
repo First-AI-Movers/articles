@@ -617,15 +617,22 @@ class TestMergeRejectionAndDedup:
         assert rc == 0
         assert "gh pr merge failed" in issued["r"]
 
+    def _open_incident(self, num=329, pr_num=328):
+        return {
+            "number": num,
+            "title": f"E41 auto-merge blocked: required CI failed — {pr_num}",
+            "body": f"- **PR number:** {pr_num}\n",
+        }
+
     def test_incident_deduped_when_open_issue_exists(self, mod, monkeypatch, capsys):
-        """F3b: open_incident_issue skips creation when an open blocked issue
-        already references the PR number."""
+        """F3b: an open blocked issue for this PR takes the run as a comment,
+        never a second issue."""
         gh_calls = []
 
         def _fake_gh(args, repo=None):
             gh_calls.append(args)
             if args[:2] == ["issue", "list"]:
-                return json.dumps([{"number": 329, "body": "- **PR number:** 328\n"}])
+                return json.dumps([self._open_incident()])
             return ""
 
         monkeypatch.setattr(mod, "_run_gh", _fake_gh)
@@ -633,7 +640,163 @@ class TestMergeRejectionAndDedup:
         assert not any(a[:2] == ["issue", "create"] for a in gh_calls), (
             "must not create a new issue when an open one already tracks the PR"
         )
-        assert "[skip]" in capsys.readouterr().out
+        commented = [a for a in gh_calls if a[:2] == ["issue", "comment"]]
+        assert commented and commented[0][2] == "329", (
+            "the run must be appended to the open incident"
+        )
+        assert "[dedup]" in capsys.readouterr().out
+
+    def test_dedupe_falls_back_to_create_when_comment_fails(self, mod, monkeypatch):
+        """A dedupe that cannot write its comment must still report the block:
+        a failed dedupe may cost a duplicate, never the alarm."""
+        gh_calls = []
+
+        def _fake_gh(args, repo=None):
+            gh_calls.append(args)
+            if args[:2] == ["issue", "list"]:
+                return json.dumps([self._open_incident()])
+            if args[:2] == ["issue", "comment"]:
+                raise mod.GhError("HTTP 403: addComment not authorized")
+            return ""
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod.open_incident_issue("some reason", pr={"number": 328, "url": "u"}, repo="o/r")
+        assert any(a[:2] == ["issue", "create"] for a in gh_calls), (
+            "a failed comment must fall back to filing the incident"
+        )
+
+    def test_lookup_does_not_depend_on_the_search_index(self, mod, monkeypatch):
+        """The duplicate-per-day defect (#454-#458) came from a `--search`
+        lookup failing open. The listing must not use the search index."""
+        gh_calls = []
+
+        def _fake_gh(args, repo=None):
+            gh_calls.append(args)
+            return json.dumps([self._open_incident()])
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod._open_blocked_issues(repo="o/r")
+        assert gh_calls, "expected a listing call"
+        assert "--search" not in gh_calls[0], (
+            "lookup must not depend on the eventually-consistent search index"
+        )
+
+    def test_lookup_filters_by_title_prefix(self, mod, monkeypatch):
+        """A body that happens to mention the PR is not an incident of this
+        family; only the exact title prefix is."""
+        monkeypatch.setattr(
+            mod, "_run_gh",
+            lambda args, repo=None: json.dumps([
+                {"number": 1, "title": "Unrelated report",
+                 "body": "- **PR number:** 328\n"},
+                self._open_incident(num=2),
+            ]),
+        )
+        found = mod._open_blocked_issues(repo="o/r")
+        assert [i["number"] for i in found] == [2]
+        assert mod._find_open_blocked_issue(328, repo="o/r")["number"] == 2
+
+    def test_resolved_incident_is_closed_when_its_pr_merged(self, mod, monkeypatch, capsys):
+        """The gap #454-#458 sat in: `ingest-airtable.yml` only sweeps the
+        `E41 cron ingestion incident:` prefix, so nothing ended this family."""
+        gh_calls = []
+
+        def _fake_gh(args, repo=None):
+            gh_calls.append(args)
+            if args[:2] == ["issue", "list"]:
+                return json.dumps([self._open_incident(num=458, pr_num=453)])
+            if args[:2] == ["pr", "view"]:
+                return json.dumps({"state": "MERGED"})
+            return ""
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod.close_resolved_blocked_issues(repo="o/r")
+        closed = [a for a in gh_calls if a[:2] == ["issue", "close"]]
+        assert closed and closed[0][2] == "458", "a merged PR resolves its incident"
+        assert "[cleanup]" in capsys.readouterr().out
+
+    def test_incident_for_a_still_open_pr_is_left_alone(self, mod, monkeypatch):
+        def _fake_gh(args, repo=None):
+            if args[:2] == ["issue", "list"]:
+                return json.dumps([self._open_incident(num=458, pr_num=453)])
+            if args[:2] == ["pr", "view"]:
+                return json.dumps({"state": "OPEN"})
+            if args[:2] == ["issue", "close"]:
+                raise AssertionError("must not close an incident whose PR is open")
+            return ""
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod.close_resolved_blocked_issues(repo="o/r")
+
+    def test_unreadable_pr_state_leaves_the_alarm_standing(self, mod, monkeypatch):
+        """Failing closed here would silently retire a live alarm."""
+        def _fake_gh(args, repo=None):
+            if args[:2] == ["issue", "list"]:
+                return json.dumps([self._open_incident(num=458, pr_num=453)])
+            if args[:2] == ["pr", "view"]:
+                raise mod.GhError("HTTP 502")
+            if args[:2] == ["issue", "close"]:
+                raise AssertionError("must not close on an unreadable PR state")
+            return ""
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod.close_resolved_blocked_issues(repo="o/r")
+
+    def test_close_falls_back_to_bare_close_without_comment_scope(self, mod, monkeypatch):
+        """Mirrors the workflow step's tolerance: the cron token can close but
+        has been observed unauthorized for `addComment` (run 26708845288)."""
+        gh_calls = []
+
+        def _fake_gh(args, repo=None):
+            gh_calls.append(args)
+            if args[:2] == ["issue", "list"]:
+                return json.dumps([self._open_incident(num=458, pr_num=453)])
+            if args[:2] == ["pr", "view"]:
+                return json.dumps({"state": "MERGED"})
+            if args[:2] == ["issue", "close"] and "--comment" in args:
+                raise mod.GhError("addComment not authorized")
+            return ""
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod.close_resolved_blocked_issues(repo="o/r")
+        bare = [a for a in gh_calls
+                if a[:2] == ["issue", "close"] and "--comment" not in a]
+        assert bare, "a comment we cannot write must not keep a resolved incident open"
+
+    def test_cleanup_never_raises_when_listing_fails(self, mod, monkeypatch):
+        """Cleanup must not be able to fail an otherwise successful cron."""
+        def _fake_gh(args, repo=None):
+            raise mod.GhError("HTTP 503")
+
+        monkeypatch.setattr(mod, "_run_gh", _fake_gh)
+        mod.close_resolved_blocked_issues(repo="o/r")
+
+    def test_merge_path_sweeps_resolved_incidents(self, mod, monkeypatch):
+        """A completed squash-merge is the moment its incident is resolved."""
+        monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")
+        monkeypatch.setattr(mod, "find_open_pr", lambda *a, **kw: self._clean_pr())
+        monkeypatch.setattr(mod, "squash_merge", lambda n, repo=None: None)
+        swept = []
+        monkeypatch.setattr(
+            mod, "close_resolved_blocked_issues",
+            lambda repo=None: swept.append(repo or "default"),
+        )
+        assert mod.main() == 0
+        assert swept, "the merge path must sweep resolved incidents"
+
+    def test_no_open_pr_sweeps_resolved_incidents(self, mod, monkeypatch):
+        """The steady state after a merge: no candidate PR, and the incident
+        the last blocked run filed is now resolved. This is the path that had
+        to run five times before anything closed #454-#458."""
+        monkeypatch.setenv("AUTO_MERGE_INGESTION_PRS", "1")
+        monkeypatch.setattr(mod, "find_open_pr", lambda *a, **kw: None)
+        swept = []
+        monkeypatch.setattr(
+            mod, "close_resolved_blocked_issues",
+            lambda repo=None: swept.append(repo or "default"),
+        )
+        assert mod.main() == 0
+        assert swept, "the no-candidate path must sweep resolved incidents"
 
     def test_incident_created_when_no_existing_issue(self, mod, monkeypatch):
         gh_calls = []

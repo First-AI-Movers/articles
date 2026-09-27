@@ -182,7 +182,14 @@ If a record is missing `slug` but has `GUID`:
   the file allowlist, mergeability, and that every required CI check
   ended in `SUCCESS`. On pass it squash-merges the PR and deletes the
   branch. On any block it opens an `E41 auto-merge blocked: <reason>`
-  issue rather than crashing the cron. See
+  issue rather than crashing the cron. That issue family has the same
+  bounded lifecycle as the cron-incident family above, and owns it in
+  Python because the workflow's cleanup step filters the
+  `E41 cron ingestion incident:` prefix exactly and so cannot sweep it:
+  while an incident for a given PR is open, each further blocked run is
+  appended to it as a comment rather than filed as a new issue, and a run
+  that finds the PR merged or closed closes the incident. Before that
+  (#423), one block on PR #453 stood as five open issues (#454–#458). See
   [`docs/AUTONOMOUS_AIRTABLE_PUBLISHING_PLAN.md`](AUTONOMOUS_AIRTABLE_PUBLISHING_PLAN.md)
   for the full activation procedure.
 
