@@ -22,6 +22,7 @@
 
 ## Documentation
 
+- docs(dependabot): cite the workflow_run contract the arming depends on [#432] ([448](https://github.com/First-AI-Movers/articles/pull/448))
 - docs(adr): archive-eligibility-by-verified-publication-receipt Archive eligibility by verified publication receipt [#423 #388] ([426](https://github.com/First-AI-Movers/articles/pull/426))
 - docs(ir): state the zizmor retirement rationale and the two pin policies precisely [agent-toolkit#3460] ([401](https://github.com/First-AI-Movers/articles/pull/401))
 - docs(3311): retire the tools/tests file index and the stale PR-lifecycle prose [#3311] ([393](https://github.com/First-AI-Movers/articles/pull/393))
@@ -30,10 +31,12 @@
 
 ## Tests
 
+- test(changelog): stop the suite from rewriting the repository's own snapshot ([447](https://github.com/First-AI-Movers/articles/pull/447))
 - test: isolate the suite from the runner's ARCHIVE_ELIGIBILITY_GATE [#423] ([434](https://github.com/First-AI-Movers/articles/pull/434))
 
 ## Chores
 
+- chore(deps): bump the npm-minor-patch group across 3 directories with 4 updates ([450](https://github.com/First-AI-Movers/articles/pull/450))
 - chore(dependabot): watch the cookiecutter template's workflows [#362] ([446](https://github.com/First-AI-Movers/articles/pull/446))
 - chore(deps): bump hono from 4.13.7 to 4.13.8 in /mcp-server [#432] ([443](https://github.com/First-AI-Movers/articles/pull/443))
 - chore(embeddings): refresh article embedding index ([440](https://github.com/First-AI-Movers/articles/pull/440))
@@ -54,9 +57,6 @@
 - chore(embeddings): refresh article embedding index ([352](https://github.com/First-AI-Movers/articles/pull/352))
 - chore(deps): bump @modelcontextprotocol/sdk from 1.26.0 to 1.29.0 in /mcp-server ([304](https://github.com/First-AI-Movers/articles/pull/304))
 - chore(deps): bump actions/setup-node from 6 to 7 ([353](https://github.com/First-AI-Movers/articles/pull/353))
-- chore(deps): update openai requirement from >=2.48.0 to >=3.3.1 in /tools ([371](https://github.com/First-AI-Movers/articles/pull/371))
-- chore(deps): update python-dotenv requirement from >=1.2.2 to >=1.2.3 in /tools ([370](https://github.com/First-AI-Movers/articles/pull/370))
-- chore(deps): update pyarrow requirement from >=25.0.0 to >=25.0.1 in /tools ([367](https://github.com/First-AI-Movers/articles/pull/367))
 
 ## CI/CD
 
