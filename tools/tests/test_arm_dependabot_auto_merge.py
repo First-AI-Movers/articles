@@ -379,3 +379,105 @@ def test_main_without_repository_is_a_typed_refusal(mod, monkeypatch, capsys):
     monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
     assert mod.main() == 1
     assert f"{mod.RESULT_PREFIX} REFUSED" in capsys.readouterr().out
+
+
+# --------------------------------------------------------------------------
+# A transient PR state is not a refusal (#432, PR #468)
+# --------------------------------------------------------------------------
+
+UNSTABLE_ERR = (
+    "gh pr merge 468 --repo First-AI-Movers/articles --squash --auto exited 1: "
+    "GraphQL: Pull request Pull request is in unstable status"
+)
+
+
+class TestRetryableGhFailure:
+    """`requested` fires seconds after Dependabot opens a PR, before its checks
+    settle, so `gh pr merge --auto` can lose a race the workflow already plans
+    for: `completed` is the retry. Reporting that as REFUSED made every healthy
+    Dependabot PR a red run claiming a refusal that never happened -- seen on
+    #468, which `completed` then merged with nobody involved.
+    """
+
+    @pytest.mark.parametrize("message", [
+        UNSTABLE_ERR,
+        "GraphQL: Pull request is in dirty status",
+        "GraphQL: Pull request is in blocked status",
+        "GraphQL: Pull request is in unknown status",
+        "GraphQL: Pull request is not mergeable",
+        "GraphQL: Base branch was modified. Review and try the merge again.",
+        "graphql: pull request IS IN UNSTABLE STATUS",  # case-insensitive
+    ])
+    def test_transient_states_are_retryable(self, mod, message):
+        assert mod.is_retryable_gh_failure(message) is True
+
+    @pytest.mark.parametrize("message", [
+        "HTTP 401: Bad credentials",
+        "HTTP 404: Not Found",
+        "GraphQL: Resource not accessible by integration",
+        "gh: command not found",
+        "",
+    ])
+    def test_real_failures_are_not_retryable(self, mod, message):
+        assert mod.is_retryable_gh_failure(message) is False
+
+    def test_main_skips_and_exits_zero_on_a_transient_state(
+        self, mod, env, monkeypatch, capsys
+    ):
+        """The whole point: exit 0 so Actions stays green for a PR that is
+        simply not ready yet, and say which event will retry."""
+        gh = _Gh(_pr(), _files("package.json"))
+        real = gh.__call__
+
+        def failing(args, *, check=True):
+            if args[:2] == ["pr", "merge"]:
+                gh.calls.append(list(args))
+                raise mod.GhError(UNSTABLE_ERR)
+            return real(args, check=check)
+
+        monkeypatch.setattr(mod, "_run_gh", failing)
+        assert mod.main() == 0, "a transient state must not fail the run"
+        out = capsys.readouterr().out
+        assert f"{mod.RESULT_PREFIX} SKIP" in out
+        assert f"{mod.RESULT_PREFIX} REFUSED" not in out
+        assert "completed" in out, "the reason must name the retry"
+        assert "unstable status" in out, "and carry the provider's own wording"
+
+    def test_main_still_fails_on_a_real_gh_failure(
+        self, mod, env, monkeypatch, capsys
+    ):
+        """Bad credentials must stay a red REFUSED -- this must not become a
+        blanket swallow of every gh error."""
+        gh = _Gh(_pr(), _files("package.json"))
+        real = gh.__call__
+
+        def failing(args, *, check=True):
+            if args[:2] == ["pr", "merge"]:
+                raise mod.GhError("HTTP 401: Bad credentials")
+            return real(args, check=check)
+
+        monkeypatch.setattr(mod, "_run_gh", failing)
+        assert mod.main() == 1
+        out = capsys.readouterr().out
+        assert f"{mod.RESULT_PREFIX} REFUSED" in out
+        assert "Bad credentials" in out
+
+    def test_a_transient_state_posts_no_refusal_comment(
+        self, mod, env, monkeypatch
+    ):
+        """#468 carried no refusal comment and must never carry one: a PR that
+        merged two minutes later must not be told it was refused."""
+        gh = _Gh(_pr(), _files("package.json"))
+        real = gh.__call__
+
+        def failing(args, *, check=True):
+            if args[:2] == ["pr", "merge"]:
+                gh.calls.append(list(args))
+                raise mod.GhError(UNSTABLE_ERR)
+            return real(args, check=check)
+
+        monkeypatch.setattr(mod, "_run_gh", failing)
+        assert mod.main() == 0
+        assert not [c for c in gh.calls if "-X" in c and "POST" in c], (
+            "no comment may be posted for a state the next event resolves"
+        )
