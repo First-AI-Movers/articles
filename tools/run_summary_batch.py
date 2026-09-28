@@ -821,7 +821,16 @@ def run_one_article(
     summaries = gen.get("summaries")
     if summaries is None:
         outcome.action = ACTION_GENERATION_FAILED
-        outcome.gen_error = "generation produced no summaries"
+        # Carry the generator's own reason. Without this the batch replaces a
+        # specific cause ("provider refused: 1008 insufficient balance") with a
+        # generic one, which is the second place run 36386726810 lost the truth
+        # -- surfacing it in `_call_*_once` is not enough if the layer above
+        # overwrites it.
+        detail = "; ".join(str(i) for i in (gen.get("gate_issues") or [])[:3])
+        outcome.gen_error = (
+            f"generation produced no summaries: {detail}"
+            if detail else "generation produced no summaries"
+        )
         return outcome
 
     # Always write the draft review file — even on RETRYABLE/HUMAN_REVIEW the
@@ -1411,6 +1420,42 @@ def _print_plan_header(
         )
 
 
+def _total_generation_failure_exit(live, selected, outcomes):
+    """Exit 1 when a live run selected candidates and EVERY one failed generation.
+
+    A live apply run in which no article reached the provider currently exits 0.
+    The workflow's applied-count gate then reads 0, skips the rebuild, the PR
+    body and `Open summaries PR`, uploads no artifact -- and reports `success`.
+    That is what run 36386726810 did with an operator's `apply=true`
+    authorization on #299: five candidates, five `generation_failed`,
+    `cost=$0.000000`, a green tick and no PR. The provider had simply refused
+    (`base_resp 1008 insufficient balance`), and the only record of it died with
+    the runner.
+
+    Narrow by construction, because a red run is a real cost: it fires only when
+    the run was live, candidates WERE selected, and EVERY outcome is
+    `generation_failed`. A clean no-op (nothing selected) stays green -- that is
+    a correct success. A partial failure stays green too: some summaries landed,
+    and the report carries the rest.
+    """
+    if not live or not selected:
+        return 0
+    failed = [o for o in outcomes if o.action == ACTION_GENERATION_FAILED]
+    if len(failed) != len(outcomes) or not failed:
+        return 0
+    reasons = []
+    for o in failed:
+        r = (o.gen_error or "").strip() or "unknown"
+        if r not in reasons:
+            reasons.append(r)
+    print(
+        f"[batch] FAILED: all {len(failed)} selected candidate(s) failed generation "
+        f"and nothing was applied. Distinct reasons: {reasons}",
+        file=sys.stderr,
+    )
+    return 1
+
+
 def main(argv: Optional[list[str]] = None) -> int:
     args = build_parser().parse_args(argv)
 
@@ -1622,7 +1667,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         print("  python3 tools/rebuild_local.py")
         print("  python3 tools/check_generated_artifacts.py")
 
-    return 0
+    return _total_generation_failure_exit(live, selected, outcomes)
 
 
 if __name__ == "__main__":
