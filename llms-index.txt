@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 937
-- Date range: 2025-02-17 to 2026-09-24
+- Articles: 941
+- Date range: 2025-02-17 to 2026-09-27
 - Topic count: 103
-- Generated: 2026-09-27
+- Generated: 2026-09-28
 
 ## Companion files
 
@@ -28,6 +28,27 @@ archive URL, publication date, topics, optional DOI/series, and a
 short summary. Articles are listed newest-first.
 
 ---
+
+## Before You Automate a Workflow: 7 Questions That Decide BUILD, REPAIR_FIRST, DEFER, or STOP
+- Date: 2026-09-27
+- Canonical: https://radar.firstaimovers.com/before-you-automate-a-workflow-7-questions
+- Archive: https://articles.firstaimovers.com/articles/2026-09-27-before-you-automate-a-workflow-7-questions/article.md
+- Topics: ai, automation, operations, business-strategy
+- Summary: Seven questions that decide whether one workflow should be automated now, repaired first, deferred, or left alone before you commit budget to an AI build.
+
+## Choose the Reference That Tests the Decision
+- Date: 2026-09-27
+- Canonical: https://radar.firstaimovers.com/choose-the-reference-that-tests-the-decision
+- Archive: https://articles.firstaimovers.com/articles/2026-09-27-choose-the-reference-that-tests-the-decision/article.md
+- Topics: ai, Machine Learning, business-strategy, technology
+- Summary: Five tests that decide whether a dataset, benchmark or prior deployment can carry the decision you have to make, before you build an evaluation on it.
+
+## CRA Reporting Readiness: The Platform Field Is Not the Gap
+- Date: 2026-09-27
+- Canonical: https://radar.firstaimovers.com/cra-article-14-reporting-readiness-2026
+- Archive: https://articles.firstaimovers.com/articles/2026-09-27-cra-article-14-reporting-readiness-2026/article.md
+- Topics: AI Governance
+- Summary: The CRA platform already records when you became aware. The readiness gap is internal: awareness evidence, named ownership and a clock you can defend.
 
 ## 0.992 Was Not Replication: Why One Exciting Posterior Is Not a Causal Story
 - Date: 2026-09-24
@@ -49,6 +70,13 @@ short summary. Articles are listed newest-first.
 - Archive: https://articles.firstaimovers.com/articles/2026-09-22-biodius-target-challenge-faq/article.md
 - Topics: Healthcare AI
 - Summary: What the Biodius Target Challenge reviews, what you send, what you get back, what it costs, and what it does not claim to do.
+
+## Falsification-First AI for Biological Target Assessment: What Four Prospective Experiments Taught Us About Scientific Agents
+- Date: 2026-09-22
+- Canonical: https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment
+- Archive: https://articles.firstaimovers.com/articles/2026-09-22-falsification-first-ai-biological-target-assessment/article.md
+- Topics: Healthcare AI
+- Summary: A technical report on four prospective experiments: why scientific AI is more useful when it preserves negative evidence and stops when data runs out.
 
 ## Not Evaluable Is a Result: When Public Human Genetics Cannot Decide the Causal Bridge
 - Date: 2026-09-22

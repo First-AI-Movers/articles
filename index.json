@@ -1,11 +1,58 @@
 {
-  "last_updated": "2026-09-27",
-  "total_articles": 937,
+  "last_updated": "2026-09-28",
+  "total_articles": 941,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-09-27-before-you-automate-a-workflow-7-questions",
+      "slug": "before-you-automate-a-workflow-7-questions",
+      "title": "Before You Automate a Workflow: 7 Questions That Decide BUILD, REPAIR_FIRST, DEFER, or STOP",
+      "published_date": "2026-09-27",
+      "tags": [
+        "ai",
+        "automation",
+        "operations",
+        "business-strategy"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/before-you-automate-a-workflow-7-questions"
+    },
+    {
+      "folder": "2026-09-27-choose-the-reference-that-tests-the-decision",
+      "slug": "choose-the-reference-that-tests-the-decision",
+      "title": "Choose the Reference That Tests the Decision",
+      "published_date": "2026-09-27",
+      "tags": [
+        "ai",
+        "Machine Learning",
+        "business-strategy",
+        "technology"
+      ],
+      "topics": [],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/choose-the-reference-that-tests-the-decision"
+    },
+    {
+      "folder": "2026-09-27-cra-article-14-reporting-readiness-2026",
+      "slug": "cra-article-14-reporting-readiness-2026",
+      "title": "CRA Reporting Readiness: The Platform Field Is Not the Gap",
+      "published_date": "2026-09-27",
+      "tags": [
+        "cybersecurity",
+        "compliance",
+        "product-management",
+        "technology"
+      ],
+      "topics": [
+        "AI Governance"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/cra-article-14-reporting-readiness-2026"
+    },
     {
       "folder": "2026-09-24-pp4-0992-was-not-replication",
       "slug": "pp4-0992-was-not-replication",
@@ -56,6 +103,23 @@
       ],
       "funnel_stage": null,
       "canonical_url": "https://radar.firstaimovers.com/biodius-target-challenge-faq"
+    },
+    {
+      "folder": "2026-09-22-falsification-first-ai-biological-target-assessment",
+      "slug": "falsification-first-ai-biological-target-assessment",
+      "title": "Falsification-First AI for Biological Target Assessment: What Four Prospective Experiments Taught Us About Scientific Agents",
+      "published_date": "2026-09-22",
+      "tags": [
+        "ai",
+        "biotechnology",
+        "research",
+        "science"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment"
     },
     {
       "folder": "2026-09-22-not-evaluable-is-a-result",

@@ -17,14 +17,623 @@ Please preserve article titles, canonical URLs, publication dates, and attributi
 - Author: Dr. Hernani Costa — https://drhernanicosta.com (ORCID 0000-0002-6813-4641)
 - Publication: First AI Movers — https://firstaimovers.com
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-- Articles in window: 5
-- Window: 2026-08-25 to 2026-09-24
-- Generated: 2026-09-27
+- Articles in window: 9
+- Window: 2026-08-28 to 2026-09-27
+- Generated: 2026-09-28
 
 Full corpus (all articles, ~7 MB): https://articles.firstaimovers.com/llms-full.txt  
 Machine-readable catalog: https://articles.firstaimovers.com/index.json
 
 Each article below is prefixed with title, date, URL, and topics, separated by `---` lines.
+
+
+---
+
+# Before You Automate a Workflow: 7 Questions That Decide BUILD, REPAIR_FIRST, DEFER, or STOP
+
+- **Published:** 2026-09-27
+- **URL:** https://radar.firstaimovers.com/before-you-automate-a-workflow-7-questions
+- **Topics:** 
+
+> **TL;DR:** Seven questions that decide whether one workflow should be automated now, repaired first, deferred, or left alone before you commit budget to an AI build.
+
+The useful first deliverable of an automation project is not a list of AI ideas. It is enough evidence to decide whether one specific workflow should be automated now, repaired first, deferred, or deliberately left alone. Most teams skip that decision. They pick the workflow that annoys them most, ask a vendor or an internal engineer for a demo, and discover the real constraints after the budget is committed.
+
+Why this matters: a workflow that is not decision-ready cannot be automated well, only faster. If the process produces noise, automation produces noise at scale. If the process depends on a fact nobody can access lawfully, the agent will guess. If nobody can define what "good enough" means, the build never leaves pilot. The seven questions below are the diagnostic we use before any implementation conversation. Each one ends in a fact you can write down, and the last one ends in exactly one verdict: **BUILD**, **REPAIR\_FIRST**, **DEFER**, or **STOP**.
+
+They are written for the people who own the budget and the risk: the CTO or technical leader who will be asked to build it, the COO or Head of Operations who lives with the workflow today, and the founder of a 20-person company who is being told that "AI automation" is the obvious next step.
+
+## 1. What decision or outcome does the workflow exist to produce?
+
+Start with the output, not the steps. Every workflow exists to produce something a person acts on: an approved invoice, a quote a customer can accept, a ticket routed to the right engineer, a compliance record an auditor will trust. Write that outcome down in one sentence, and name who consumes it.
+
+If the answer is vague, stop here for a moment. A workflow whose output is not decision-useful, one that generates reports nobody reads or updates a spreadsheet nobody trusts, is a candidate for removal, not for automation. Automating the steps only accelerates the noise. Some of the best outcomes of this question are workflows that get deleted.
+
+If the output is clearly useful, you now have the acceptance target that every later question refers back to.
+
+## 2. Where is time or failure actually concentrated?
+
+Capture a current baseline in a directly observable unit before anyone estimates savings: manual minutes per item, rework count, wait time between handoffs, exception rate, or how often the same item is touched twice. Measure it for a week or two, or pull it from the systems you already have. Do not invent the number, and do not let a vendor invent it for you.
+
+Two things happen when you do this. First, you often find that the expensive part is not the part people complain about. The complaint is usually about tedium; the cost is usually in exceptions, waiting, and rework. Second, you get the only baseline that can later tell you whether the automation worked. Without it, every later claim of improvement is a story.
+
+If you cannot measure the workflow at all, that is a finding in itself. It usually points to REPAIR\_FIRST, because a process nobody can observe is not one you can safely hand to software.
+
+## 3. What is the strongest non-AI alternative?
+
+For every candidate workflow, name the best alternative that involves no model at all. The honest list is usually short and often better than a bespoke agent: remove the step entirely, change a configuration in a system you already pay for, connect two systems with a plain integration, write a deterministic rule, or buy an existing product that already does this well.
+
+The reason to be strict here is cost of ownership, not fashion. A rule-based check or a native integration is cheaper to test, cheaper to explain to an auditor, and cheaper to keep running when the underlying system changes. An AI component earns its place only where the input is genuinely unstructured or the judgement is genuinely fuzzy, and even then it should be the smallest possible part of the pipeline.
+
+Our guide to the [four-level automation maturity ladder](https://radar.firstaimovers.com/ai-workflow-automation-maturity-ladder-smes) covers where deterministic automation stops and where model-based steps start to make sense.
+
+## 4. Which systems and data must be touched?
+
+Name the integration boundary explicitly: every system the workflow reads from, every system it writes to, and every fact it needs that lives in someone's head, inbox, or personal spreadsheet. Then classify each input. Is it available through a supported interface? Is it private, regulated, or subject to a contract? Is it operationally fragile, meaning it changes shape without notice?
+
+This question is where many "quick wins" quietly become platform projects. A workflow that needs three facts from a system with no supported interface, one fact that is personal data with no lawful basis for the new use, and one fact that only exists in a manager's memory is not ready. Naming the boundary also tells you who has to be in the room: the data owner, the system owner, and whoever answers for privacy.
+
+If the boundary is clean, note it and move on. If it is not, the verdict is almost always REPAIR\_FIRST or DEFER, and you now know exactly which dependency to fix.
+
+## 5. What can fail, and who notices?
+
+Define the failure modes before building around a demo. For each one, decide three things: whether a human is in the loop before the effect lands, how the effect is rolled back, and what audit trail exists afterwards. Then write down the one thing that must never fail silently. In a quoting workflow that is a wrong price reaching a customer; in a payroll workflow it is a wrong amount reaching a bank.
+
+Silent failure is the specific risk that separates automation from delegation. A person who is unsure asks; software that is unsure proceeds. If the workflow would fall under the EU AI Act's high-risk categories, human oversight is a design requirement under [Article 14 of the regulation](https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27/eng), not a preference. Even outside those categories, the operational question is the same: who sees the failure, how quickly, and with what means to undo it.
+
+The public account of [why pure automation failed at a large fintech and had to be partially reversed](https://radar.firstaimovers.com/klarna-ai-reality-check-automation-failed) is a useful reminder that the failure that matters is often the one nobody was watching for.
+
+## 6. What does "good enough" mean before production?
+
+Specify the evaluation and the acceptance threshold before anyone builds. That means a reference set of real past items with known correct outcomes, an agreed measure (accuracy on the reference, exception rate, time to resolution), and a threshold below which the automation stays out of production. The reference should be assembled by the people who own the workflow, not by the people who want to build the automation.
+
+This is the question a demo is designed to skip. A demo shows the happy path on chosen examples; a reference tests the decision on the examples that actually arrive. If you cannot assemble a reference from your own history, you have learned that the workflow is not yet observable enough, which is again REPAIR\_FIRST territory.
+
+Write the threshold down with the baseline from question 2. Together they are the whole contract: here is where we are, here is the number at which we switch this on, here is the number at which we switch it off.
+
+## 7. What is the decision today?
+
+Pick exactly one verdict and record the evidence behind it. Do not leave the workshop with a "maybe".
+
+- **BUILD.** The outcome is decision-useful, the baseline is measured, no non-AI alternative dominates, the integration boundary is clean, failure modes have owners and rollbacks, and a reference with a threshold exists. Proceed to the smallest implementation that can be tested against that reference.
+- **REPAIR\_FIRST.** The workflow is worth automating but is not ready: the process is unobservable, the data boundary is broken, or the output is inconsistent. Fix the named dependency first. This is the most common honest verdict.
+- **DEFER.** Automation is plausible but the expected value does not beat the current cost, or a dependency is changing (a system migration, a regulatory clarification). Set the condition that reopens the decision and a date to re-check it.
+- **STOP.** The workflow should not be automated: the output is not useful, a non-AI alternative removes the need, or the failure modes cannot be made acceptable. Retire the idea explicitly so it does not come back as someone else's project.
+
+A single-page record with the seven answers and the verdict is the deliverable. It is more valuable than a roadmap of twenty automation ideas, because it is the one document that lets the technical leader, the operations leader, and the budget owner say the same thing about the same workflow.
+
+## How this fits with a wider AI plan
+
+This diagnostic is deliberately narrow: one workflow, one verdict. If you are earlier in the process and do not yet know which workflows to examine, our [map-first method for planning an AI project](https://radar.firstaimovers.com/map-before-you-build-ai-project-planning-sme-2026) is the step before this one. Run the map, pick the one workflow that matters most, then run the seven questions on it before anyone writes code.
+
+Teams that do this in order tend to find that their first automation is smaller and more boring than they expected, and that it ships.
+
+## Get a decision on one workflow
+
+Have one workflow you are unsure is worth automating? Send the workflow, the systems it touches, and the current manual pain. We will tell you whether the next step should be BUILD, REPAIR\_FIRST, DEFER, or STOP before you commit to an implementation. Write to [info@firstaimovers.com](mailto:info@firstaimovers.com?subject=Workflow%20decision), or read how we work with European SME leaders on [AI consulting](https://radar.firstaimovers.com/page/ai-consulting).
+
+## Frequently Asked Questions
+
+### Q: Can we run the seven questions ourselves?
+
+Yes. The questions are designed to be answered by the people who own the workflow, and the deliverable is a one-page record. Outside help is useful when the team cannot agree on the baseline, cannot access the systems involved, or wants an independent view on the non-AI alternatives.
+
+### Q: What if the answer to most workflows is REPAIR\_FIRST?
+
+That is the normal result in a growing company, and it is good news: it means you have found the specific process and data problems that would otherwise have surfaced halfway through an implementation. Fix the one that unblocks the most valuable workflow first.
+
+### Q: How long should the diagnostic take?
+
+For one workflow with cooperative owners, a few working days: one to gather the baseline and the system list, one for the workshop, and time to write the record. If it takes much longer, the workflow is probably not observable enough yet, which is itself a finding.
+
+### Q: Does a STOP verdict mean we were wrong to consider automation?
+
+No. STOP is a legitimate outcome and often a cheap one. The cost of a STOP verdict is a few days of attention; the cost of discovering the same thing after a build is months.
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Before You Automate a Workflow: 7 Questions That Decide BUILD, REPAIR\_FIRST, DEFER, or STOP",
+  "description": "Seven questions that decide whether one workflow should be automated now, repaired first, deferred, or left alone before you commit budget to an AI build.",
+  "datePublished": "2026-09-27T12:09:32.121077+00:00",
+  "dateModified": "2026-09-27T12:09:32.121077+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/before-you-automate-a-workflow-7-questions"
+  },
+  "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Q: Can we run the seven questions ourselves?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The questions are designed to be answered by the people who own the workflow, and the deliverable is a one-page record. Outside help is useful when the team cannot agree on the baseline, cannot access the systems involved, or wants an independent view on the non-AI alternatives."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: What if the answer to most workflows is REPAIR\_FIRST?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That is the normal result in a growing company, and it is good news: it means you have found the specific process and data problems that would otherwise have surfaced halfway through an implementation. Fix the one that unblocks the most valuable workflow first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: How long should the diagnostic take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For one workflow with cooperative owners, a few working days: one to gather the baseline and the system list, one for the workshop, and time to write the record. If it takes much longer, the workflow is probably not observable enough yet, which is itself a finding."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Q: Does a STOP verdict mean we were wrong to consider automation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. STOP is a legitimate outcome and often a cheap one. The cost of a STOP verdict is a few days of attention; the cost of discovering the same thing after a build is months."
+      }
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# Choose the Reference That Tests the Decision
+
+- **Published:** 2026-09-27
+- **URL:** https://radar.firstaimovers.com/choose-the-reference-that-tests-the-decision
+- **Topics:** 
+
+> **TL;DR:** Five tests that decide whether a dataset, benchmark or prior deployment can carry the decision you have to make, before you build an evaluation on it.
+
+Someone hands you a reference and expects it to end the argument. A public dataset, a benchmark score, a pilot at a company in your sector. It looks like evidence, it is cited with confidence, and it is usually offered at the moment a decision is about to cost money.
+
+The question is never whether the reference is good. Published datasets and benchmarks are mostly careful work by people who documented exactly what they built. The question is whether that particular reference tests the particular decision in front of you. Most of the time it tests a neighbouring decision, and the gap between the two is where budget disappears.
+
+Why this matters: an evaluation built on the wrong reference produces a number that is correct and useless. It will pass review, it will go in the deck, and it will not predict what happens when the system meets your data, your conditions and your users. Worse, it is hard to argue with afterwards, because nobody disputes the arithmetic. They dispute the fit, eighteen months late.
+
+What follows is the five-test pass we run before accepting any reference as decision-grade, and the four verdicts it ends in: **ACCEPT**, **QUALIFY**, **SUBSTITUTE**, or **REJECT**.
+
+## The reference is not the evidence. The fit is.
+
+Write down the decision first, in one sentence, before you look at what you were given. Something like: can this model read our incoming supplier documents accurately enough that a person only checks the exceptions? Or: will this bearing monitoring approach warn us early enough on our own machines to change a maintenance window?
+
+Now hold the reference up against that sentence. A reference earns the word evidence only if a poor result on it would actually change your mind. If a bad score would leave you saying "that was a different setting anyway", the reference was decoration from the start. This is the same discipline as declaring what an unclear outcome means before you run the test, which our note on why [not evaluable is itself a result](https://radar.firstaimovers.com/not-evaluable-is-a-result) works through in a research setting.
+
+## Test 1: Can you name exactly what you were shown?
+
+Ask for the identity of the reference, not its nickname. "The bearing dataset" and "the standard NER benchmark" are not names. A name is a persistent identifier plus a version, and the good sources give you one without being asked.
+
+Two public examples show what that looks like. The Zenodo record [run-to-failure data set of ball bearings subjected to time-varying load and speed conditions](https://zenodo.org/records/10868257) carries a digital object identifier, 10.5281/zenodo.10868257, and a deposit year of 2024. The [Reuters corpora distributed by the United States National Institute of Standards and Technology](https://trec.nist.gov/data/reuters/reuters.html) are specified to a level most vendors never reach: the English Volume 1 collection is dated 1996-08-20 to 1997-08-19, with a release date of 2000-11-03, format version 1 and correction level 0.
+
+Correction level is the detail worth noticing. A corpus can be re-released with fixes, which means two people can both say "we used Volume 1" and have used different bytes. If your supplier cannot tell you the version and the correction state of what they measured, you do not have a reproducible reference, you have an anecdote with a number attached.
+
+## Test 2: Was it collected under the conditions you operate in?
+
+This is where most references fail, and they fail quietly, because the topic matches.
+
+Consider the bearing example. A run-to-failure set recorded under **time-varying** load and speed is not interchangeable with an older fault corpus recorded at constant speed, even when both are bearings from the same laboratory family. The whole difficulty of the varying-condition case is that the signal shifts with the operating point, which is why the accompanying conference work, "Remaining Useful Lifetime Estimation of Bearings Operating under Time-Varying Conditions", treats it as its own problem rather than a harder version of the constant-speed one. A method validated on the constant-speed corpus has not been shown to work on your variable-duty equipment.
+
+The language case is sharper still. A named-entity benchmark from the 2003 shared task published at the Conference on Computational Natural Language Learning, "Introduction to the CoNLL-2003 Shared Task: Language-Independent Named Entity Recognition", measures finding people, places and organisations in news wire text from the 1990s. It does not tell you how a system reads Dutch legal correspondence containing personal data, and a strong score on it is not a privacy control.
+
+Note the trap in the near miss. The multilingual Reuters Volume 2 collection does contain Dutch, over 487,000 stories across thirteen languages, so a supplier can honestly say "Dutch is covered". Read one line further: those stories were written by local reporters and are explicitly not parallel translations of each other, and they are still news. Dutch news from the 1990s is not your contract archive. Domain, register, era and document structure all have to survive the comparison, not just the language label.
+
+## Test 3: May you actually use it for this purpose?
+
+Rights are a separate question from quality, and they are decided by whoever holds them, not by how easy the download is.
+
+The two public examples sit at opposite ends. The Zenodo bearing deposit is published under a Creative Commons Attribution 4.0 licence, which is permissive and asks for credit. The Reuters corpora are not a download at all: the distributing institute requires a request and signed agreements before release. Same field, same apparent availability, completely different obligations.
+
+Three rules keep this clean. Read the licence on the record itself rather than a summary in a slide. Establish who signs, because an agreement naming a university research group does not extend to your commercial deployment. And never let anyone, including an adviser, tell you that a dataset is cleared for your commercial use as a reassurance; that is a conclusion for whoever holds the rights and, where it matters, your own counsel. If the rights question is unresolved, the reference is not usable yet, however good it is.
+
+## Test 4: Who decided what "correct" means?
+
+Every score compares a system output against something treated as truth. Ask where that truth came from, because the answer sets the ceiling on what the number can mean.
+
+The strongest form is an observed outcome. Run-to-failure data is valuable precisely because the component actually failed: the end of life is recorded, not estimated by a reviewer. The next form is independent annotation, where people other than the system builders labelled the data under a published scheme, which is what a shared task provides. The weakest form, and the most common one in vendor material, is truth produced by the same party that produced the system, or by another model.
+
+When the builder both answers and marks the paper, the number tells you about internal consistency, not accuracy. That is not fraud, it is just a different measurement, and it should be labelled as one. Our piece on the distance between [benchmark results and delivered value](https://radar.firstaimovers.com/delivering-ai-value-vs-benchmarks-2026) covers what usually survives that translation.
+
+## Test 5: Does the reported metric move the decision you have to make?
+
+A reference can be correctly identified, well matched, properly licensed, independently labelled, and still report the wrong quantity.
+
+Translate the metric into your operating consequence before you accept it. An entity-level score says nothing directly about how many documents reach a person for review, which is the number that decides whether the workflow saves anyone time. A remaining-life estimate is only useful if its error is small relative to the notice you need to move a maintenance window; being right on average while wrong by a week is not actionable if your window is three days. Ask what error rate you can absorb, and in which direction, then check whether the reference reports that at all. Often it does not, and the honest conclusion is that a further measurement is needed.
+
+## Reading the verdict: ACCEPT, QUALIFY, SUBSTITUTE, REJECT
+
+One reference, one verdict, written down where the decision is recorded.
+
+**ACCEPT** when all five tests pass: named and versioned, collected under conditions close enough to yours, usable under rights you actually hold, independently grounded, and reporting a quantity that changes your decision. Proceed, and cite it by identifier.
+
+**QUALIFY** when the reference is sound but narrower than the claim it is being used to support. Keep it, and write the limit next to it: this evidence covers constant-speed operation, or news-domain text, and the question of our own conditions remains open. Most good references end here, and that is a healthy outcome rather than a failure.
+
+**SUBSTITUTE** when the question is right and the reference is wrong. The fix is not a better model, it is a fitting reference: a public source collected under your conditions, or a small, purpose-built evaluation set from your own data with your own accepted truth. Budget for building one; it is usually cheaper than the wrong build it prevents.
+
+**REJECT** when the reference cannot inform this decision at all, when it is unnamed or unversioned, when the truth was produced by the party being evaluated, or when nobody can state the rights position. Rejecting a reference is not rejecting the project. It means the project does not yet have the evidence to justify the next commitment, which is a finding worth having before the invoice.
+
+## What to ask for in writing
+
+Send five requests, and treat a missing answer as an answer.
+
+1. The persistent identifier and version of every dataset or benchmark behind the claim.
+2. The collection conditions: when, where, in which language and register, under what operating regime.
+3. The licence or agreement, and who the signing party is.
+4. How the reference truth was established, and by whom, independently of the system.
+5. The metric definition, and the operating consequence it maps to for us.
+
+Suppliers who work this way answer in a day and often volunteer the limits themselves. That response is itself a strong signal, usually a better one than the score. The same before-you-commit posture applies to the workflow itself, which our companion piece on the [seven questions that decide whether to automate at all](https://radar.firstaimovers.com/before-you-automate-a-workflow-7-questions) sets out.
+
+## Frequently Asked Questions
+
+### Does this mean public benchmarks are not useful?
+
+They are very useful, for the decisions they were built to inform. A public benchmark is a well-documented measurement of a specific setting, and its documentation is usually the most honest part of the whole conversation. The failure is not in the benchmark, it is in borrowing its authority for a different setting.
+
+### We have no public reference that matches our conditions. What then?
+
+That is a SUBSTITUTE verdict, and it is common outside consumer domains. Build a small evaluation set from your own data with an accepted definition of correct, sized to the decision rather than to research convention. A few hundred well-chosen, honestly labelled items usually decides a workflow question that no public benchmark can.
+
+### A supplier showed us a deployment at a company like ours. Is that a reference?
+
+It can be, and the same five tests apply. Name it precisely, establish which conditions matched and which did not, confirm what you are permitted to be told and repeat, ask who measured the result, and check that the reported outcome is the quantity you care about. An unnamed result at an unnamed company fails Test 1 before you reach the interesting questions.
+
+### Who should own this pass internally?
+
+Whoever will be accountable for the outcome, supported by someone who can read a data record. In a company of twenty to fifty people that is usually the CTO or engineering leader together with the COO or operations leader who owns the process, with the founder involved only where the rights position is unresolved. It is deliberately not delegated to the party proposing the build.
+
+## Related reading
+
+- [Not evaluable is a result](https://radar.firstaimovers.com/not-evaluable-is-a-result), on declaring in advance what an unclear outcome will mean.
+- [Delivering value against benchmark results](https://radar.firstaimovers.com/delivering-ai-value-vs-benchmarks-2026), on what survives the move from score to operation.
+- [Seven questions before you automate a workflow](https://radar.firstaimovers.com/before-you-automate-a-workflow-7-questions), the decision that comes before this one.
+
+Have a reference you are being asked to trust?
+
+Send the reference, the decision it is supposed to settle, and the conditions you actually operate in. We will tell you whether it should be ACCEPT, QUALIFY, SUBSTITUTE, or REJECT before you build an evaluation on top of it.
+
+Write to [info@firstaimovers.com](mailto:info@firstaimovers.com?subject=Reference%20decision) or read how we work on [AI consulting](https://radar.firstaimovers.com/page/ai-consulting).
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Choose the Reference That Tests the Decision",
+  "description": "Five tests that decide whether a dataset, benchmark or prior deployment can carry the decision you have to make, before you build an evaluation on it.",
+  "datePublished": "2026-09-27T21:35:37.865736+00:00",
+  "dateModified": "2026-09-27T21:35:37.865736+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/choose-the-reference-that-tests-the-decision"
+  },
+  "image": "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this mean public benchmarks are not useful?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They are very useful, for the decisions they were built to inform. A public benchmark is a well-documented measurement of a specific setting, and its documentation is usually the most honest part of the whole conversation. The failure is not in the benchmark, it is in borrowing its authority for ..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "We have no public reference that matches our conditions. What then?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That is a SUBSTITUTE verdict, and it is common outside consumer domains. Build a small evaluation set from your own data with an accepted definition of correct, sized to the decision rather than to research convention. A few hundred well-chosen, honestly labelled items usually decides a workflow ..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "A supplier showed us a deployment at a company like ours. Is that a reference?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It can be, and the same five tests apply. Name it precisely, establish which conditions matched and which did not, confirm what you are permitted to be told and repeat, ask who measured the result, and check that the reported outcome is the quantity you care about. An unnamed result at an unnamed..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who should own this pass internally?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Whoever will be accountable for the outcome, supported by someone who can read a data record. In a company of twenty to fifty people that is usually the CTO or engineering leader together with the COO or operations leader who owns the process, with the founder involved only where the rights posit..."
+      }
+    }
+  ]
+}
+</script>
+-->
+
+
+---
+
+# CRA Reporting Readiness: The Platform Field Is Not the Gap
+
+- **Published:** 2026-09-27
+- **URL:** https://radar.firstaimovers.com/cra-article-14-reporting-readiness-2026
+- **Topics:** AI Governance
+
+> **TL;DR:** The CRA platform already records when you became aware. The readiness gap is internal: awareness evidence, named ownership and a clock you can defend.
+
+If your company puts a product with digital elements on the European market, a reporting obligation has been running since **11 September 2026**. On that date the Cyber Resilience Act reporting duties under Article 14 became applicable, and the Single Reporting Platform operated by the European Union Agency for Cybersecurity went live to receive the filings.
+
+The common reading of this is a tooling problem: a new portal, a form to learn, an integration to build. That reading gets the difficulty backwards. The platform is straightforward and it already records the thing that matters most, including a field for the date and time you became aware of the incident or the actively exploited vulnerability.
+
+Why this matters: every deadline in Article 14 is measured from **your awareness**, not from the platform, not from a customer complaint, and not from the moment somebody senior finds out. So the readiness question is not whether you can use a portal under pressure. It is whether you can say, with evidence, when you became aware, prove it months later, and get a filing submitted within 24 hours by a named person who is not asleep. Most of that work sits inside your own organisation, and none of it can be bought.
+
+This is a readiness diagnostic, not legal advice. It ends in one of four verdicts: **OUT_OF_SCOPE**, **READY**, **GAPS**, or **NOT\_READY**. For how the obligations should be interpreted for your specific products, the European Commission publishes implementation guidance, and where the stakes are high this is a question for your own counsel.
+
+## What Article 14 actually obliges, and from when
+
+The current published deadlines form a cascade, and each stage starts from awareness rather than from the previous filing:
+
+- **Early warning**: without undue delay and in any case within **24 hours** of becoming aware of the actively exploited vulnerability or severe incident.
+- **Notification**: without undue delay and in any case within **72 hours** of becoming aware, carrying general information and an initial assessment.
+- **Final report**: for an actively exploited vulnerability, no later than **14 days** after a corrective or mitigating measure such as a patch becomes available. For a severe incident, within **1 month** after the 72-hour notification.
+
+Filings go through the platform, where the submitter selects the relevant national computer security incident response team designated as coordinator. Not every field is required at every stage: some that are optional in the 24-hour early warning become required in the 72-hour notification or in the final report, which is a detail worth knowing before the clock is running rather than during.
+
+One scope point is easy to miss. The reporting duty applies from 11 September 2026 to products with digital elements that fall within scope, including products that were already on the market, rather than only to things you ship from now on. Your installed base is in scope, which for most companies is the larger surface.
+
+## The counter on the platform is not your legal clock
+
+Here is the detail that most readiness checklists have not caught up with, and it is documented openly in the platform's own published answers.
+
+In the current release, the 72-hour counter displays a due date and time **48 hours after you submit the 24-hour early warning**, rather than 72 hours after you became aware. The consequence is stated plainly: in some cases a notification may be displayed as **overdue before 72 hours have actually elapsed** since awareness. The operator has said this logic will be updated in a future release to calculate the deadline from the awareness field instead, for both actively exploited vulnerabilities and severe incidents. For actively exploited vulnerabilities, a final-report counter is not currently implemented at all.
+
+Two practical consequences follow, and both are about your own discipline rather than the tool:
+
+1. **Do not let a screen define your obligation.** Your legal deadline runs from awareness. Track it yourself, from your own recorded timestamp, and treat any on-screen counter as a convenience that may currently be conservative or absent.
+2. **File the early warning early, not at hour 23.** Because the displayed 72-hour deadline is derived from when you submitted the early warning, a late first filing compresses the window the platform shows you for the second one. Submitting promptly costs nothing and removes an entirely self-inflicted squeeze.
+
+Neither point is a criticism of the platform. It is a young system, its operator has documented the current behaviour and the intended change, and reading that documentation is part of being ready.
+
+## Test 1: Are you in scope, and as what?
+
+Scope and role come before every other question. Are you a manufacturer of a product with digital elements, or are you a distributor, an importer, or the steward of an open-source project, each of which carries a different position? A company that only uses software is in a different situation from one that ships it.
+
+Write down each product you place on the market, including the ones you inherited through an acquisition or maintain for a single large customer, and state your role for each. If this list does not exist, it is the first thing to build, because you cannot report on an inventory you do not have. If nothing you do places a product with digital elements on the market, your verdict is **OUT_OF_SCOPE** and you can stop here with that written down and dated.
+
+## Test 2: When exactly did you become aware, and who says so?
+
+This is the test that decides most outcomes, and it is almost entirely an internal evidence question.
+
+Awareness arrives through unglamorous channels: a support ticket, an alert, a security researcher's email, a customer telephone call, a post on a forum, a monitoring threshold. Ask what your timestamp would be if you had to defend it a year later. Which record is authoritative, what time zone is it in, and does it survive a ticket being reassigned, merged, or closed and reopened?
+
+Then ask the harder version. If a support engineer received a credible report on Friday afternoon and it reached the security owner on Monday, when did the company become aware? Decide that rule in advance, write it down, and make the recording of it automatic rather than a matter of someone's memory. The platform gives you a field for this timestamp; what it cannot give you is a defensible basis for the value you type into it.
+
+## Test 3: Who owns the 24-hour filing, at 02:00 on a Sunday?
+
+Twenty-four hours is a real constraint for a company of twenty to fifty people, where the CTO, the COO and the founder are often three names on the same short escalation list. Name the accountable person and at least two deputies, and make sure each is registered on the platform and has actually logged in **before** an incident, not during one. An access problem discovered at hour 20 is an avoidable failure.
+
+Rehearse one filing end to end against a fabricated scenario. You are looking for the boring obstacles: who can approve saying something publicly consequential, who reviews wording that admits active exploitation, what happens when the named owner is on holiday, and how the deputies find out they are now responsible. A rehearsal that takes an afternoon reliably finds two or three of these.
+
+Our [incident response playbook for European SMEs](https://radar.firstaimovers.com/ai-incident-response-playbook-european-smes-2026) covers the internal escalation mechanics this depends on, and the [NIS2 compliance guide](https://radar.firstaimovers.com/nis2-cybersecurity-compliance-guide-european-smes-2026) covers the adjacent regime, which is a different duty: NIS2 reporting attaches to you as an operating entity, while Article 14 here attaches to you as the maker of a product. A company can easily owe both, through different channels, for the same bad weekend.
+
+## Test 4: Can you produce the 72-hour assessment without an API?
+
+At the initial release, the platform provides **no application programming interface**, so notifications are submitted through its interface, and automated bulk submission is not available. Interface support may be considered in a future phase. What you may do, explicitly, is automate your own internal workflows and integrate the reporting requirements into your own systems and records.
+
+That is the correct division of effort. Do not build towards an integration that does not exist yet. Instead make sure that, within 72 hours, you can assemble an initial assessment from evidence you already hold: what is affected and in which versions, what the likely root cause or triggering threat is, what mitigations are applied or under way, and what the severity and impact look like on current information. If producing that means three engineers reading chat history for a day, you have found a real gap, and it is an internal one.
+
+Keep the wording cautious and conditional where the facts are still moving. An initial assessment is explicitly initial, and a final report follows later.
+
+## Test 5: What happens after the notification?
+
+Readiness does not end at hour 72. For an actively exploited vulnerability the final report is due no later than 14 days after a corrective or mitigating measure becomes available, which ties your reporting deadline to your **release** process. If your patch pipeline takes six weeks for a supported older version, that interacts with this obligation in a way worth understanding before it happens.
+
+For a severe incident the final report is due within a month of the 72-hour notification. Note also that a counter is not currently implemented for the actively-exploited-vulnerability final report, so that one is yours to track without help from the screen.
+
+## Reading the verdict: OUT_OF_SCOPE, READY, GAPS, NOT\_READY
+
+One verdict, dated and written down where decisions are recorded, with the evidence beside it.
+
+**OUT_OF_SCOPE** when you do not place products with digital elements on the European market in a role that carries the duty. Record the reasoning and the date, and revisit it when you ship something new or acquire a product line.
+
+**READY** when you have a product inventory with roles, a written awareness rule, an automatic and durable awareness timestamp, a named owner plus registered deputies who have logged in, a rehearsed filing, and the ability to assemble an initial assessment inside 72 hours from evidence you already keep.
+
+**GAPS** when the obligation is understood and most of the structure exists, but one or two specific things are missing, most commonly the awareness rule or the deputy registration. Name each gap with an owner and a date. This is where most prepared companies honestly sit.
+
+**NOT\_READY** when awareness cannot be timestamped defensibly, or no individual owns a 24-hour filing, or nobody has logged in to the platform. This is not a reason for alarm, but it is a reason to spend the next fortnight on it rather than on something more interesting, because the duty is already live and the first hours of a real event are the worst possible time to discover any of it.
+
+## What to put in place this month
+
+Five items, in order, none of which needs new software:
+
+1. The product inventory, with your role for each product and the supported versions.
+2. The written awareness rule, including the multi-channel and weekend cases, and where the authoritative timestamp lives.
+3. The named owner and two registered deputies, each having logged in to the platform at least once.
+4. One rehearsed filing against a fabricated scenario, with the obstacles written down and assigned.
+5. An evidence checklist for the 72-hour initial assessment, mapped to systems you already run.
+
+For the current published answers on registration, deadlines, fields and platform behaviour, read the operator's own [frequently asked questions for the reporting platform](https://www.enisa.europa.eu/topics/product-security/vulnerability-services/eu-incident-response-and-cyber-crisis-management/single-reporting-platform-srp/frequently-asked-questions), which is updated as the system is implemented. Check it again before you rely on any specific behaviour described here, including the counter detail above, because the operator has said that part is due to change.
+
+## Frequently Asked Questions
+
+### Does the platform record when we became aware, or not?
+
+It does. There is a field for the date and time you became aware of the incident or actively exploited vulnerability, so any advice built on the idea that awareness time goes unrecorded is out of date. What is currently true is narrower: the 72-hour counter shown on screen is presently derived from when you submitted the 24-hour early warning, and the operator has said it will be changed to use the awareness field.
+
+### We are a small team. Is a 24-hour filing realistic?
+
+It is, but only if the decision structure is settled in advance. The 24-hour early warning is a warning, not a full analysis, and not every field is required at that stage. What makes small teams miss it is not analysis time, it is an unregistered account, an absent approver, or nobody being sure whose job it is.
+
+### Do we need to build an integration?
+
+No, and at the initial release you cannot: no interface for automated submission is provided, and filings go through the platform directly. Automate your own internal capture and evidence instead, which is where the work pays off regardless of what the platform later supports.
+
+### Is this the same as our NIS2 reporting?
+
+No. They are different duties with different triggers and channels, and they can both apply to the same organisation. Treat them as two obligations that may share evidence, never as one filing.
+
+## Related reading
+
+- [Incident response playbook for European SMEs](https://radar.firstaimovers.com/ai-incident-response-playbook-european-smes-2026), on the internal escalation this depends on.
+- [NIS2 compliance guide](https://radar.firstaimovers.com/nis2-cybersecurity-compliance-guide-european-smes-2026), on the adjacent entity-level regime.
+- [Compliance monitoring checklist](https://radar.firstaimovers.com/ai-compliance-monitoring-checklist-european-smes-2026), on keeping obligations observable rather than remembered.
+
+Not sure whether your products are in scope, or whether your awareness timestamp would hold up?
+
+Send the product list, how a report reaches you today, and who would file inside 24 hours. We will tell you whether your position is OUT_OF_SCOPE, READY, GAPS, or NOT\_READY, and what the shortest path to READY looks like.
+
+Start with the [readiness assessment](https://radar.firstaimovers.com/page/ai-readiness-assessment) or write to [info@firstaimovers.com](mailto:info@firstaimovers.com?subject=CRA%20reporting%20readiness).
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "CRA Reporting Readiness: The Platform Field Is Not the Gap",
+  "description": "The CRA platform already records when you became aware. The readiness gap is internal: awareness evidence, named ownership and a clock you can defend.",
+  "datePublished": "2026-09-27T21:37:41.208818+00:00",
+  "dateModified": "2026-09-27T21:37:41.208818+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/cra-article-14-reporting-readiness-2026"
+  },
+  "image": "https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does the platform record when we became aware, or not?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It does. There is a field for the date and time you became aware of the incident or actively exploited vulnerability, so any advice built on the idea that awareness time goes unrecorded is out of date. What is currently true is narrower: the 72-hour counter shown on screen is presently derived fr..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "We are a small team. Is a 24-hour filing realistic?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is, but only if the decision structure is settled in advance. The 24-hour early warning is a warning, not a full analysis, and not every field is required at that stage. What makes small teams miss it is not analysis time, it is an unregistered account, an absent approver, or nobody being sure..."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do we need to build an integration?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, and at the initial release you cannot: no interface for automated submission is provided, and filings go through the platform directly. Automate your own internal capture and evidence instead, which is where the work pays off regardless of what the platform later supports."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this the same as our NIS2 reporting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. They are different duties with different triggers and channels, and they can both apply to the same organisation. Treat them as two obligations that may share evidence, never as one filing."
+      }
+    }
+  ]
+}
+</script>
+-->
 
 
 ---
@@ -393,6 +1002,248 @@ Start with a 20-minute fit call and share only what you are comfortable sharing 
       "/html/body//article//p[2]"
     ]
   }
+}
+</script>
+-->
+
+
+---
+
+# Falsification-First AI for Biological Target Assessment: What Four Prospective Experiments Taught Us About Scientific Agents
+
+- **Published:** 2026-09-22
+- **URL:** https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment
+- **Topics:** Healthcare AI
+
+> **TL;DR:** A technical report on four prospective experiments: why scientific AI is more useful when it preserves negative evidence and stops when data runs out.
+
+_Why autonomous scientific systems should be rewarded for killing weak hypotheses, not generating more of them._
+
+**Technical report; not peer reviewed.** Version 1, September 2026. This report describes our prospectively frozen analysis of public data. It makes no clinical or therapeutic claim, and it does not claim validated drug discovery.
+
+## Abstract
+
+Generative AI can increase the speed of biological research without increasing the reliability of the resulting scientific decisions. We developed and prospectively tested a falsification-first workflow for AI-assisted biological target assessment in which evaluation criteria, source boundaries, lineage rules and stop conditions are fixed before decisive outcomes are read. Across four sequential experiments in pulmonary fibrosis and inflammatory bowel disease, the program repeatedly produced results that were less flattering but more decision-useful than the original hypotheses. A complex scientific-agent architecture did not justify its additional complexity against a strong agentic baseline; a smaller safeguard layer transferred while preserving useful coverage; a mechanistically plausible IBD hypothesis remained not evaluable when a required human-genetic mediation link could not be tested from lawful public data; and an unexpected T-cell colocalization signal with a discovery posterior near 0.992 failed to reproduce in independent public blood T-cell cohorts. These studies do not establish a therapeutic target or clinical mechanism. They instead support a narrower proposition: scientific AI becomes more useful when it is designed to preserve negative evidence, collapse non-independent evidence, resist post-result method changes and terminate explicitly when the available data cannot support the next causal claim.
+
+### How to read this report
+
+We keep five kinds of statement apart, and we label them where the difference matters:
+
+- **Source fact:** what a cited public source reports.
+- **Author claim:** what the authors of a source argue, which is not the same as what their data show.
+- **Our result:** the outcome of our prospectively frozen analysis of public data.
+- **Inference:** what we think a result implies, stated as our reading.
+- **Hypothesis:** a claim that has not been tested yet.
+
+## The problem: AI increases scientific throughput, not truth
+
+AI research agents are good at producing plausible biology. They can read a large literature quickly, connect a genetic signal to a pathway, and write a coherent mechanism in minutes. That speed is real. What it does not do on its own is make the resulting decision more reliable.
+
+The failure modes are familiar to anyone who has sat in a target review. Multiple papers that look like independent support share one cohort. A causal chain has one link nobody has actually measured. A striking statistic comes from a single dataset. A method gets quietly adjusted after the first results come in. More throughput makes each of these easier to produce and harder to notice.
+
+So the question we set out to test was not "can an AI system generate good hypotheses?" It was narrower and, we think, more useful: **can an AI-assisted workflow be built so that it reliably tells you when a hypothesis has not earned the next expensive step?**
+
+## Methods: how the workflow resists being fooled
+
+Every experiment in this program shared five disciplines.
+
+1. **Prospective freezes.** Evaluation criteria, source boundaries, lineage rules and stop conditions were written down and fixed before the decisive outcomes were read. We prospectively froze analysis rules before reading decisive outcomes, and a rule that changed after a result was treated as a new experiment, not a correction.
+2. **Lineage independence.** We distinguish publications from independent cohorts and collapse shared lineages. Five papers drawing on one cohort count as one line of evidence, not five.
+3. **Contradiction and null preservation.** We deliberately preserved negative, contradictory and not-evaluable results. A failed program, a null association or a contradicting cohort is kept in the record, not filtered out of the summary.
+4. **Reproducibility.** Each decision rule, source boundary and terminal outcome was recorded before and after the decisive read, so the path from evidence to decision can be retraced.
+5. **Synthetic adversarial review.** Independent AI reviewers were tasked with falsifying a candidate rather than improving it. Their challenges were then adjudicated against primary sources. A synthetic reviewer failing to break a claim was never treated as confirmation.
+
+The method runs as one chain:
+
+`claim or target thesis → source identity and provenance → human-genetics and causal-gene evidence where applicable → study and cohort lineage collapse → contradictions, nulls and failed programs → causal-chain audit → novelty and prior-art attack → independent synthetic expert challenge → primary-source adjudication → cheapest discriminating next evidence → ADVANCE | REWORK | STOP | NOT_EVALUABLE`
+
+`NOT_EVALUABLE` is a first-class outcome. It means the available lawful public data cannot decide the question, and it is reported as such rather than rounded up to "promising" or down to "false".
+
+## Experiment 1: a heavier architecture against a strong agentic baseline
+
+**Our result.** In a prospective benchmark in idiopathic pulmonary fibrosis (IPF), a heavier scientific-agent architecture did not demonstrate superior useful biological coverage over a strong agentic research workflow.
+
+The heavier system was not useless. It demonstrated useful safeguards around leakage, provenance, lineage and reproducibility. But its additional machinery did not buy additional useful biology.
+
+**Inference.** The result argued against retaining complexity merely because it looked rigorous. The lesson we took forward: **rigor has to earn its complexity.**
+
+## Experiment 2: a lean trust layer that transferred
+
+We then reduced the safeguard stack, prospectively, to a small scientific trust layer and transfer-tested it on inflammatory bowel disease (IBD), a different disease area from the one it was designed in.
+
+**Our result.**
+
+- The lean layer preserved the agentic output rather than deleting coverage.
+- It added measurable, decision-relevant annotations around provenance, independence, boundaries and contradiction handling.
+- It transferred without IPF-specific, result-aware tuning.
+
+**Inference.** The useful product was not a larger autonomous scientist. It was a small layer that made strong AI research harder to fool. This does not show that the layer produces better drug discovery; it shows that it adds decision-relevant scrutiny without removing useful coverage.
+
+## Case study: a plausible mechanism that public human genetics could not decide
+
+**Hypothesis.** A generated hypothesis linked an HNF4A-region ulcerative colitis (UC) genetic signal, SLC26A3-associated biology and a penetrable-mucus phenotype.
+
+**Source facts.** The HNF4A region is an established UC susceptibility locus from genome-wide association analysis [5]. A penetrable inner colonic mucus layer has been described in patients with UC [6].
+
+The hypothesis survived the initial frozen candidate bar and two independent synthetic falsifiers. Many research workflows would stop there and call it a lead.
+
+**Our result.** A deeper, prospectively frozen adjudication using public human genetics then found:
+
+- cell-type-resolved evidence did not support the HNF4A assignment strongly enough under the frozen tiering;
+- the HNF4A→SLC26A3 mediation link was **not evaluable** from lawful public aggregate data, because no admitted public trans-eQTL or equivalent mediation surface could decide it;
+- the SLC26A3 locus support weakened under state adjustment and dataset dependence;
+- colon-versus-ileum specificity remained not evaluable.
+
+**Decision.** The hypothesis was not promoted. The decisive causal bridge could not be established from public data.
+
+This is not a claim that the hypothesis is false. It was not disproven. Failure to falsify is not confirmation, and missing data is a result. The full case is written up in [Not Evaluable Is a Result](https://radar.firstaimovers.com/not-evaluable-is-a-result).
+
+## Case study: an exciting posterior that did not replicate
+
+**Our result (discovery).** During the analysis above, an unexpected TTPAL signal at the UC 20q13 locus reached a colocalization posterior of approximately PP4 = 0.992 in three gut-resident T-cell groups in the discovery resource. PP4 is the posterior probability, under a Bayesian colocalization test, that two association signals share a single causal variant [1].
+
+We treated that number as nomination evidence only. We sealed the discovery dataset and prospectively defined an independent confirmation before reading any independent outcome.
+
+**Our result (independent test).**
+
+- **Primary independent cohort:** OneK1K, a peripheral-blood single-cell eQTL resource [2], with up to approximately 954 donors in the eligible cell classes used by the frozen study. TTPAL had no usable supporting signal at the frozen locus and window; the maximum PP4 in the evaluated T-cell classes was approximately 0.031.
+- **Secondary independent resources:** CEDAR [3] did not support the nominated TTPAL effect, and Kasela 2017 [4] had no usable confirming signal.
+- No local gene clearly won the independent confirmation analysis.
+
+**Decision.** `SINGLE_DATASET_ONLY`. The exciting discovery signal remained single-dataset-only.
+
+**The caveat that has to travel with this result.** The discovery cells were gut-resident T cells; the admissible independent public cohorts were peripheral blood. So this result does not prove that a tissue-resident TTPAL effect is false, and it does not say the discovery result was wrong. It shows only that the discovery signal did not independently reproduce on the public data available for this test. An impressive posterior in one dataset is not replication. The full case is written up in [0.992 Was Not Replication](https://radar.firstaimovers.com/pp4-0992-was-not-replication).
+
+## What failed: the negative results in one place
+
+We are listing these together because a report that only shows its successes would contradict its own method.
+
+| Experiment | What we hoped | What happened |
+|---|---|---|
+| Heavier architecture | More useful biology from more machinery | No demonstrated gain in useful coverage over a strong agentic baseline |
+| Lean trust layer | Keep the safeguards, lose the weight | Worked; preserved coverage and transferred to a new disease area |
+| Mucus hypothesis | A promotable causal chain | Not promoted: the decisive mediation link was not evaluable from public data |
+| T-cell signal | Independent replication of PP4 ≈ 0.992 | Not reproduced in the independent public blood cohorts |
+
+Three of the four outcomes are, by the standard of a pitch deck, disappointing. By the standard of a decision, each of them is useful: they tell you what not to fund yet, and why.
+
+## Limitations
+
+- **Four experiments, two disease areas.** This is a small program. It supports a narrow claim about workflow design, not a general claim about AI in biology.
+- **Public data only.** Every adjudication used lawful public aggregate data. Our `NOT_EVALUABLE` outcome reflects what public data cannot answer, not what a well-designed private study could.
+- **Tissue mismatch in replication.** The independent T-cell cohorts were peripheral blood, while the discovery signal came from gut-resident cells.
+- **Synthetic reviewers are not experts.** AI falsifiers were used to generate challenges, not to replace qualified scientific judgment. Every challenge was adjudicated against primary sources.
+- **No external validation.** These are our own prospective experiments. They have not been independently replicated or peer reviewed.
+- **No wet-lab work.** Nothing here was tested experimentally.
+
+## Implications for target assessment and scientific diligence
+
+**Inference.** If AI makes it cheap to produce convincing biology, the scarce thing becomes the discipline to decide which convincing stories have actually earned money. That points to a specific job for scientific AI: not generating more hypotheses, but attacking the one you are about to fund.
+
+In practice that means asking, before the next expensive step:
+
+- Which pieces of evidence are genuinely independent, once shared cohorts are collapsed?
+- Which link in the causal chain has actually been measured, and which has only been assumed?
+- What contradicting results and failed programs exist, and were they looked for?
+- Is the striking statistic replicated, or is it one dataset?
+- What is the cheapest piece of evidence that would change the decision?
+
+Our current commercial hypothesis is that this workflow is useful as scientific diligence before a costly downstream decision. We have packaged it as the [Biodius Target Challenge](https://radar.firstaimovers.com/biodius-scientific-diligence) to test that hypothesis with real target decisions. For how this fits a broader view of checking AI output before acting on it, see our guide to [verifier agents and trustworthy AI output](https://radar.firstaimovers.com/verifier-agents-trustworthy-ai-output-sme-2026).
+
+## Reproducibility and provenance
+
+For each experiment, the decision rules, source boundaries, stop conditions and terminal outcomes were recorded in a version-controlled record before and after the decisive read. Public inputs are identified in this report by their public publications. The internal records are retained so that each decision can be retraced; this report does not publish them.
+
+For more about the team behind this work, see [About First AI Movers](https://radar.firstaimovers.com/page/about).
+
+## No clinical or therapeutic claim
+
+This report does not establish a therapeutic target, a clinical mechanism, or the safety or efficacy of any intervention. It does not claim validated drug discovery. Nothing in it is medical advice, and none of it substitutes for qualified scientific, clinical, legal, patent or regulatory review.
+
+## References
+
+1. Giambartolomei et al. Bayesian test for colocalisation between pairs of genetic association studies using summary statistics. _PLoS Genetics_ 10(5): e1004383 (2014). https://doi.org/10.1371/journal.pgen.1004383
+2. Yazar et al. Single-cell eQTL mapping identifies cell type-specific genetic control of autoimmune disease. _Science_ 376(6589): eabf3041 (2022). https://doi.org/10.1126/science.abf3041
+3. Momozawa et al. IBD risk loci are enriched in multigenic regulatory modules encompassing putative causative genes. _Nature Communications_ 9: 2427 (2018). https://doi.org/10.1038/s41467-018-04365-8
+4. Kasela et al. Pathogenic implications for autoimmune mechanisms derived by comparative eQTL analysis of CD4+ versus CD8+ T cells. _PLoS Genetics_ 13(3): e1006643 (2017). https://doi.org/10.1371/journal.pgen.1006643
+5. UK IBD Genetics Consortium. Genome-wide association study of ulcerative colitis identifies three new susceptibility loci, including the HNF4A region. _Nature Genetics_ 41(12): 1330-1334 (2009). https://doi.org/10.1038/ng.483
+6. Johansson et al. Bacteria penetrate the normally impenetrable inner colon mucus layer in both murine colitis models and patients with ulcerative colitis. _Gut_ 63(2): 281-291 (2014). https://doi.org/10.1136/gutjnl-2012-303207
+
+<!-- structured-data
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Falsification-First AI for Biological Target Assessment: What Four Prospective Experiments Taught Us About Scientific Agents",
+  "description": "A technical report on four prospective experiments: why scientific AI is more useful when it preserves negative evidence and stops when data runs out.",
+  "datePublished": "2026-09-22T09:32:18.195262+00:00",
+  "dateModified": "2026-09-22T09:32:18.195262+00:00",
+  "author": {
+    "@type": "Person",
+    "@id": "https://radar.firstaimovers.com/page/dr-hernani-costa#dr-hernani-costa",
+    "name": "Dr. Hernani Costa",
+    "url": "https://radar.firstaimovers.com/page/dr-hernani-costa"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "First AI Movers",
+    "url": "https://radar.firstaimovers.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radar.firstaimovers.com/favicon.ico"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment"
+  },
+  "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&h=630&fit=crop&q=80",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".article-body > p:first-of-type",
+      ".article-body > p:nth-of-type(2)"
+    ],
+    "xpath": [
+      "/html/body//article//p[1]",
+      "/html/body//article//p[2]"
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Falsification-First AI for Biological Target Assessment: What Four Prospective Experiments Taught Us About Scientific Agents",
+  "description": "A technical report on four prospective experiments: why scientific AI is more useful when it preserves negative evidence and stops when data runs out.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Prospective freezes.",
+      "text": "Evaluation criteria, source boundaries, lineage rules and stop conditions were written down and fixed before the decisive outcomes were read. We prospectively froze analysis rules before reading decisive outcomes, and a rule that changed after a result was treated as a new experiment, not a correction."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Lineage independence.",
+      "text": "We distinguish publications from independent cohorts and collapse shared lineages. Five papers drawing on one cohort count as one line of evidence, not five."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Contradiction and null preservation.",
+      "text": "We deliberately preserved negative, contradictory and not-evaluable results. A failed program, a null association or a contradicting cohort is kept in the record, not filtered out of the summary."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Reproducibility.",
+      "text": "Each decision rule, source boundary and terminal outcome was recorded before and after the decisive read, so the path from evidence to decision can be retraced."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Synthetic adversarial review.",
+      "text": "Independent AI reviewers were tasked with falsifying a candidate rather than improving it. Their challenges were then adjudicated against primary sources. A synthetic reviewer failing to break a claim was never treated as confirmation."
+    }
+  ]
 }
 </script>
 -->

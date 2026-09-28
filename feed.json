@@ -13,6 +13,42 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-09-27:2026-09-27-before-you-automate-a-workflow-7-questions",
+      "url": "https://radar.firstaimovers.com/before-you-automate-a-workflow-7-questions",
+      "title": "Before You Automate a Workflow: 7 Questions That Decide BUILD, REPAIR_FIRST, DEFER, or STOP",
+      "date_published": "2026-09-27T00:00:00Z",
+      "tags": [
+        "ai",
+        "automation",
+        "operations",
+        "business-strategy"
+      ],
+      "content_text": "Seven questions that decide whether one workflow should be automated now, repaired first, deferred, or left alone before you commit budget to an AI build."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-09-27:2026-09-27-choose-the-reference-that-tests-the-decision",
+      "url": "https://radar.firstaimovers.com/choose-the-reference-that-tests-the-decision",
+      "title": "Choose the Reference That Tests the Decision",
+      "date_published": "2026-09-27T00:00:00Z",
+      "tags": [
+        "ai",
+        "Machine Learning",
+        "business-strategy",
+        "technology"
+      ],
+      "content_text": "Five tests that decide whether a dataset, benchmark or prior deployment can carry the decision you have to make, before you build an evaluation on it."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-09-27:2026-09-27-cra-article-14-reporting-readiness-2026",
+      "url": "https://radar.firstaimovers.com/cra-article-14-reporting-readiness-2026",
+      "title": "CRA Reporting Readiness: The Platform Field Is Not the Gap",
+      "date_published": "2026-09-27T00:00:00Z",
+      "tags": [
+        "AI Governance"
+      ],
+      "content_text": "The CRA platform already records when you became aware. The readiness gap is internal: awareness evidence, named ownership and a clock you can defend."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-09-24:2026-09-24-pp4-0992-was-not-replication",
       "url": "https://radar.firstaimovers.com/pp4-0992-was-not-replication",
       "title": "0.992 Was Not Replication: Why One Exciting Posterior Is Not a Causal Story",
@@ -41,6 +77,16 @@
         "Healthcare AI"
       ],
       "content_text": "What the Biodius Target Challenge reviews, what you send, what you get back, what it costs, and what it does not claim to do."
+    },
+    {
+      "id": "tag:articles.firstaimovers.com,2026-09-22:2026-09-22-falsification-first-ai-biological-target-assessment",
+      "url": "https://radar.firstaimovers.com/falsification-first-ai-biological-target-assessment",
+      "title": "Falsification-First AI for Biological Target Assessment: What Four Prospective Experiments Taught Us About Scientific Agents",
+      "date_published": "2026-09-22T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "A technical report on four prospective experiments: why scientific AI is more useful when it preserves negative evidence and stops when data runs out."
     },
     {
       "id": "tag:articles.firstaimovers.com,2026-09-22:2026-09-22-not-evaluable-is-a-result",
@@ -562,50 +608,6 @@
         "AI DevOps"
       ],
       "content_text": "Rust is replacing Python and JavaScript in high-performance AI developer tools. Here is why engineering leaders should care, and where to start."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-09:2026-05-09-terminal-native-vs-workflow-native-coding-agents-2026",
-      "url": "https://radar.firstaimovers.com/terminal-native-vs-workflow-native-coding-agents-2026",
-      "title": "Coding Agents Are Splitting Into Two Camps: Terminal-Native vs Workflow-Native",
-      "date_published": "2026-05-09T00:00:00Z",
-      "tags": [
-        "AI DevOps"
-      ],
-      "content_text": "Coding agents are splitting into terminal-native and workflow-native camps. Here is how to choose the right paradigm for your engineering team."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-08:2026-05-08-pkl-vs-yaml-typed-configuration-enterprise-2026",
-      "url": "https://radar.firstaimovers.com/pkl-vs-yaml-typed-configuration-enterprise-2026",
-      "title": "Pkl vs YAML: Why Developers Should Consider Typed Configuration in 2026",
-      "date_published": "2026-05-08T00:00:00Z",
-      "tags": [
-        "AI DevOps"
-      ],
-      "content_text": "YAML works for simple files, but enterprise teams need validation and reuse. Here is when Pkl makes sense, and how to migrate safely."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-04:2026-05-04-canonical-docs-ai-memory-system-2026",
-      "url": "https://radar.firstaimovers.com/canonical-docs-ai-memory-system-2026",
-      "title": "Canonical Docs Are the Most Underrated AI Memory System",
-      "date_published": "2026-05-04T00:00:00Z",
-      "tags": [
-        "Executive AI Literacy"
-      ],
-      "content_text": "AGENTS.md and CLAUDE.md outperform vector databases on the metrics that matter: reviewable, reversible, auditable, and free. Here is how to build them."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-04:2026-05-04-enterprise-ai-agent-memory-layer-2026",
-      "url": "https://radar.firstaimovers.com/enterprise-ai-agent-memory-layer-2026",
-      "title": "The Memory Layer Enterprises Actually Need for AI Agents",
-      "date_published": "2026-05-04T00:00:00Z",
-      "tags": [
-        "ai-governance",
-        "ai-automation",
-        "company-tech-strategy",
-        "digital-transformation",
-        "software development"
-      ],
-      "content_text": "AI agents need memory, but enterprise memory must be governed, reviewable, and auditable. Here is why canonical docs should come before vector databases."
     }
   ]
 }
