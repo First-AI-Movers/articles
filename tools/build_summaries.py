@@ -576,6 +576,34 @@ def _build_deepseek_fallback_prompt(article_text: str, reason: str = "") -> str:
     )
 
 
+def _provider_refusal(envelope):
+    """The provider's own reason for returning an empty `choices` array, or "".
+
+    MiniMax signals a refusal with **HTTP 200** and an empty `choices` list,
+    putting the real cause in `base_resp` -- so the `status != 200` branch never
+    fires and the caller is left with a generic "no choices". That cost an
+    authorized #299 apply run: all five articles failed at $0.000000, the
+    workflow went green, and `base_resp.status_code 1008 / "insufficient
+    balance"` was discarded at this exact line. Read it out instead. OpenAI-shaped
+    providers use a top-level `error` object; both are handled.
+    """
+    if not isinstance(envelope, dict):
+        return ""
+    base = envelope.get("base_resp")
+    if isinstance(base, dict) and base.get("status_code") not in (None, 0):
+        msg = str(base.get("status_msg") or "").strip()
+        return f"provider refused: {base.get('status_code')}" + (f" {msg}" if msg else "")
+    err = envelope.get("error")
+    if isinstance(err, dict):
+        msg = str(err.get("message") or "").strip()
+        code = err.get("code") or err.get("type") or ""
+        if msg or code:
+            return f"provider refused: {code} {msg}".strip()
+    if isinstance(err, str) and err.strip():
+        return f"provider refused: {err.strip()}"
+    return ""
+
+
 def _deepseek_usage_cost(model, usage):
     pricing = DEEPSEEK_PRICING.get(model)
     if not pricing:
@@ -666,8 +694,9 @@ def _call_deepseek_once(
 
     choices = envelope.get("choices") or []
     if not choices:
-        result["error"] = "provider response had no choices"
-        result["error_kind"] = "no_choices"
+        refusal = _provider_refusal(envelope)
+        result["error"] = refusal or "provider response had no choices"
+        result["error_kind"] = "provider_refused" if refusal else "no_choices"
         return result
     message = choices[0].get("message") or {}
     content = message.get("content") or message.get("reasoning_content") or ""
@@ -847,8 +876,9 @@ def _call_minimax_once(
 
     choices = envelope.get("choices") or []
     if not choices:
-        result["error"] = "provider response had no choices"
-        result["error_kind"] = "no_choices"
+        refusal = _provider_refusal(envelope)
+        result["error"] = refusal or "provider response had no choices"
+        result["error_kind"] = "provider_refused" if refusal else "no_choices"
         return result
     message = choices[0].get("message") or {}
     content = message.get("content") or message.get("reasoning_content") or ""

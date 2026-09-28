@@ -1378,3 +1378,105 @@ class TestRepairLoopPlumbing:
             "--report-path", str(report),
         ])
         assert rc == 0
+
+
+class TestTotalGenerationFailureExit:
+    """A live run where nothing reached the provider must not report success.
+
+    Run 36386726810 (#299, operator-authorized `apply=true`) selected five
+    candidates, failed all five at `cost=$0.000000`, skipped the rebuild, the PR
+    body and `Open summaries PR` on the zero applied-count gate, and exited 0.
+    The operator saw a green tick and no PR.
+    """
+
+    def _outcome(self, action, folder="f", err=""):
+        o = rsb.ArticleOutcome(folder=folder, slug=folder, title=folder)
+        o.action = action
+        o.gen_error = err
+        return o
+
+    def test_all_failed_in_live_run_exits_nonzero(self, capsys):
+        outcomes = [
+            self._outcome(rsb.ACTION_GENERATION_FAILED, "a", "provider refused: 1008 insufficient balance"),
+            self._outcome(rsb.ACTION_GENERATION_FAILED, "b", "provider refused: 1008 insufficient balance"),
+        ]
+        rc = rsb._total_generation_failure_exit(True, ["a", "b"], outcomes)
+        assert rc == 1
+        err = capsys.readouterr().err
+        assert "all 2 selected candidate(s) failed generation" in err
+        assert "insufficient balance" in err, "the operator must see the reason"
+
+    def test_clean_no_op_stays_green(self):
+        """Nothing selected is a correct success, not a failure."""
+        assert rsb._total_generation_failure_exit(True, [], []) == 0
+
+    def test_partial_failure_stays_green(self):
+        """Some summaries landed; the report carries the rest."""
+        outcomes = [
+            self._outcome(rsb.ACTION_AUTO_APPLIED, "a"),
+            self._outcome(rsb.ACTION_GENERATION_FAILED, "b", "boom"),
+        ]
+        assert rsb._total_generation_failure_exit(True, ["a", "b"], outcomes) == 0
+
+    def test_dry_run_stays_green(self):
+        """A dry run never generates, so its failures are not this signal."""
+        outcomes = [self._outcome(rsb.ACTION_GENERATION_FAILED, "a", "boom")]
+        assert rsb._total_generation_failure_exit(False, ["a"], outcomes) == 0
+
+    def test_other_exception_actions_are_not_this_signal(self):
+        """A cost-capped or rejected run reached the provider; only a total
+        generation failure means nothing did."""
+        outcomes = [
+            self._outcome(rsb.ACTION_SKIPPED_COST_CAP, "a"),
+            self._outcome(rsb.ACTION_REJECTED, "b"),
+        ]
+        assert rsb._total_generation_failure_exit(True, ["a", "b"], outcomes) == 0
+
+    def test_distinct_reasons_are_deduplicated(self, capsys):
+        outcomes = [
+            self._outcome(rsb.ACTION_GENERATION_FAILED, "a", "same reason"),
+            self._outcome(rsb.ACTION_GENERATION_FAILED, "b", "same reason"),
+            self._outcome(rsb.ACTION_GENERATION_FAILED, "c", "other reason"),
+        ]
+        assert rsb._total_generation_failure_exit(True, ["a", "b", "c"], outcomes) == 1
+        err = capsys.readouterr().err
+        assert err.count("same reason") == 1
+        assert "other reason" in err
+
+
+    def test_main_exits_nonzero_when_the_provider_refuses_everything(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        """End-to-end wiring: a live apply run whose provider refuses every
+        article must return non-zero from main(), so the workflow step fails
+        instead of skipping the PR steps behind a zero applied-count and
+        reporting success (#299, run 36386726810)."""
+        _stage_repo(tmp_path, [{"folder": "f1", "slug": "s1"}])
+        _wire_module_roots(monkeypatch, tmp_path)
+        _set_keys(monkeypatch)
+
+        def refuse(url, headers, body, timeout):
+            return 200, 5.0, json.dumps({
+                "base_resp": {"status_code": 1008, "status_msg": "insufficient balance"},
+                "choices": [],
+            })
+
+        monkeypatch.setattr(bs, "_http_post_json", refuse)
+        monkeypatch.setattr(vs, "_http_post_json", refuse)
+        report = Path("/tmp") / f"batch-test-refused-{tmp_path.name}.md"
+        rc = rsb.main([
+            "--batch", "--allow-network", "--max-budget-usd", "1.00",
+            "--apply-auto-approved",
+            "--articles-dir", str(tmp_path / "articles"),
+            "--index-path", str(tmp_path / "index.json"),
+            "--summaries-dir", str(tmp_path / "summaries"),
+            "--report-path", str(report),
+        ])
+        assert rc == 1, "a run that applied nothing because the provider refused must fail"
+        err = capsys.readouterr().err
+        assert "failed generation" in err
+        assert "insufficient balance" in err, (
+            "the provider's own reason must reach the log, not 'no choices'"
+        )
+        meta = json.loads((tmp_path / "articles" / "f1" / "metadata.json").read_text())
+        assert "summary_short" not in meta, "nothing may be applied on a refusal"

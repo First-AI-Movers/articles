@@ -1293,6 +1293,57 @@ class TestMiniMaxJSONValidityHardening:
         assert result["error_kind"] == "invalid_json"
 
     # ------------------------------------------------------------------
+    # A provider refusal arrives as HTTP 200 with no choices (#299)
+    # ------------------------------------------------------------------
+
+    def test_minimax_refusal_surfaces_base_resp(self, monkeypatch):
+        """MiniMax signals a refusal with HTTP 200 + empty `choices`, putting
+        the cause in `base_resp`. Run 36386726810 lost `1008 insufficient
+        balance` here and reported a green no-op on an authorized apply."""
+        mod = self._import_module()
+
+        def fake_post(url, headers, body, timeout):
+            return 200, 10.0, json.dumps({
+                "base_resp": {"status_code": 1008, "status_msg": "insufficient balance"},
+                "choices": [],
+            })
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        result = mod._call_minimax_once("body", "MiniMax-M2", "fake-key")
+        assert result["ok"] is False
+        assert result["error_kind"] == "provider_refused"
+        assert "1008" in result["error"] and "insufficient balance" in result["error"]
+
+    def test_deepseek_refusal_surfaces_error_object(self, monkeypatch):
+        """The OpenAI-shaped fallback provider uses a top-level `error`."""
+        mod = self._import_module()
+
+        def fake_post(url, headers, body, timeout):
+            return 200, 10.0, json.dumps({
+                "error": {"code": "insufficient_quota", "message": "You exceeded your quota"},
+                "choices": [],
+            })
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        result = mod._call_deepseek_once("body", "deepseek-v4-flash", "fake-key")
+        assert result["ok"] is False
+        assert result["error_kind"] == "provider_refused"
+        assert "insufficient_quota" in result["error"]
+
+    def test_genuinely_empty_choices_keeps_the_generic_message(self, monkeypatch):
+        """No refusal envelope means we must not invent one."""
+        mod = self._import_module()
+
+        def fake_post(url, headers, body, timeout):
+            return 200, 10.0, json.dumps({"choices": [], "base_resp": {"status_code": 0}})
+
+        monkeypatch.setattr(mod, "_http_post_json", fake_post)
+        result = mod._call_minimax_once("body", "MiniMax-M2", "fake-key")
+        assert result["ok"] is False
+        assert result["error_kind"] == "no_choices"
+        assert result["error"] == "provider response had no choices"
+
+    # ------------------------------------------------------------------
     # Corrective retry behavior in _generate_with_retries
     # ------------------------------------------------------------------
 
