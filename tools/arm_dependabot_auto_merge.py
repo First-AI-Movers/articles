@@ -39,7 +39,8 @@ Eligibility (fail-closed; every exit prints one typed result line):
 Result vocabulary (stdout, one line, `DEPENDABOT_AUTO_MERGE_RESULT: ...`):
   ARMED      auto-merge is now enabled on the PR
   MERGED     the PR was already mergeable and has been squash-merged
-  SKIP       nothing to do (not a Dependabot PR, already armed/merged, ...)
+  SKIP       nothing to do (not a Dependabot PR, already armed/merged, or the
+             PR is not in an armable state YET -- see RETRYABLE_GH_FAILURES)
   REFUSED    a Dependabot PR that must not be armed; the reason is posted on
              the PR so it carries its own routing state, and the run fails
              so the refusal is visible in Actions.
@@ -192,6 +193,31 @@ def refusal_comment(reason: str, run_url: str) -> str:
 # --------------------------------------------------------------------------
 
 
+# GitHub rejections that mean "not in an armable state YET", not "must not be
+# armed". The `requested` activity type fires within seconds of Dependabot
+# opening a PR, long before its checks settle, so `gh pr merge --auto` can come
+# back with one of these purely because it lost a race the workflow already
+# plans for: `completed` is the documented retry. Reporting them as REFUSED
+# turns every Dependabot PR into a red Actions run whose step summary claims a
+# refusal that never happened -- observed on #468, which the `completed` run
+# then merged 2m14s later with nobody involved (#432 clause 10). An alarm that
+# fires on every healthy PR is one nobody reads.
+RETRYABLE_GH_FAILURES = (
+    "pull request is in unstable status",
+    "pull request is in dirty status",
+    "pull request is in blocked status",
+    "pull request is in unknown status",
+    "pull request is not mergeable",
+    "base branch was modified",
+)
+
+
+def is_retryable_gh_failure(message: str) -> bool:
+    """Whether a gh failure is a transient PR state the next event will resolve."""
+    lowered = (message or "").lower()
+    return any(marker in lowered for marker in RETRYABLE_GH_FAILURES)
+
+
 class GhError(RuntimeError):
     pass
 
@@ -307,6 +333,16 @@ def main() -> int:
             return 1
         outcome = arm(repo, int(pr["number"]))
     except GhError as exc:
+        if is_retryable_gh_failure(str(exc)):
+            # Not a refusal: the PR is not armable yet. The `completed`
+            # activity type on the same workflow_run is the retry, and it is
+            # idempotent -- by then the PR is armed, merged, or still pending.
+            _result(
+                "SKIP",
+                f"pull request is not in an armable state yet, awaiting the "
+                f"`completed` retry: {exc}",
+            )
+            return 0
         _result("REFUSED", f"gh failed: {exc}")
         return 1
     _result(outcome, f"#{pr['number']} {pr.get('html_url', '')}: {reason}")

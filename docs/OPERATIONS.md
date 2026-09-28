@@ -338,6 +338,13 @@ already passed, that call merges at that head; otherwise the PR merges when it p
 
 - **A PR it refuses** carries a `Dependabot auto-merge not armed` comment with the typed
   reason and stays open for a person. The run is red so the refusal is visible in Actions.
+- **A PR that is not armable *yet* is a green `SKIP`, not a refusal.** The `requested` event
+  fires within seconds of Dependabot opening a PR, before its checks settle, so
+  `gh pr merge --auto` can come back with `Pull request is in unstable status` (and kin).
+  Those are transient states listed in `arm_dependabot_auto_merge.py::RETRYABLE_GH_FAILURES`:
+  the run exits 0, posts no comment, and names `completed` as the retry. Only a genuine
+  failure — bad credentials, a missing resource — is a red `REFUSED`. So a red arming run
+  always means a PR that really does need a person.
 - **Nothing is merged around the gate**: the arming reads no test results and changes no
   ruleset; `main-smoke` verifies the merged SHA afterwards.
 - **Overlapping bumps** resolve themselves: once a grouped PR lands, Dependabot closes the
