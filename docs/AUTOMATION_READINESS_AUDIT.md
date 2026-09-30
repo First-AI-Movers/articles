@@ -5,6 +5,14 @@
 **Scope:** Audit every automation surface in the First AI Movers article archive to identify gaps before final closeout.  
 **Source of truth:** the closeout-track decisions merged in PR #131.
 
+> **Superseded in part (2026-09, #388) — `ARTICLE_INGESTION_PR_TOKEN`.** Where this document
+> lists that PAT as a credential the publishing path uses, read it as the position at the date
+> above. The PAT is retired: no workflow on `main` reads it, and branch/PR publication now mints
+> a short-lived installation token in-run from the `Articles Automation` App
+> (`ARTICLES_AUTOMATION_APP_PRIVATE_KEY`, with the `ARTICLES_AUTOMATION_APP_ID` variable). The live
+> rotation inventory is [`INCIDENT_RESPONSE_RUNBOOK.md`](INCIDENT_RESPONSE_RUNBOOK.md) §2, pinned to
+> the workflows by `tools/tests/test_incident_runbook_secret_inventory.py`.
+
 ---
 
 ## 1. Executive summary
