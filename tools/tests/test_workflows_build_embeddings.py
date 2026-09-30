@@ -114,3 +114,72 @@ def test_scheduled_failure_opens_incident():
         "the incident step should fire only on scheduled failures "
         "(manual dispatch failures are left for the triggering operator)"
     )
+
+
+# ---------------------------------------------------------------------------
+# The incident family must be bounded at both ends (#473).
+# ---------------------------------------------------------------------------
+
+def _named_step(fragment: str) -> dict:
+    matches = [s for s in _steps() if fragment in (s.get("name") or "")]
+    assert len(matches) == 1, (
+        f"expected exactly one step whose name contains {fragment!r}, found {len(matches)}"
+    )
+    return matches[0]
+
+
+def _command_lines(run: str) -> str:
+    """The step body without whole-line shell comments.
+
+    Both steps *explain* why they avoid the search index, and prose naming a
+    flag is not a use of it.
+    """
+    return "\n".join(l for l in run.splitlines() if not l.lstrip().startswith("#"))
+
+
+def test_a_successful_scheduled_refresh_closes_the_incident():
+    """Dedupe bounds the rate; only a closer bounds the population.
+
+    #402 sat open 2026-09-06 -> 2026-09-20 and was closed by hand, long after
+    the weekly refresh had recovered.
+    """
+    closer = _named_step("Close the embeddings incident")
+    cond = closer["if"]
+    assert "success()" in cond, f"the closer must run on a green refresh; got {cond!r}"
+    assert "github.event_name == 'schedule'" in cond, (
+        "only a scheduled run establishes that the weekly refresh is healthy again; "
+        f"a dispatch or push must not close the incident. got {cond!r}"
+    )
+    run = closer["run"]
+    assert "gh issue close" in run, "the closer must actually close the issue"
+    assert "gh issue comment" not in run, (
+        "the closer must close, not comment: a bare `gh issue comment` means a path "
+        "reports success while the issue stays open"
+    )
+
+
+def test_alarm_and_closer_cover_both_outcomes():
+    alarm = _named_step("Open incident issue on scheduled failure")["if"]
+    closer = _named_step("Close the embeddings incident")["if"]
+    assert "failure()" in alarm and "success()" in closer, (
+        "a scheduled run must have an owner whether it passes or fails.\n"
+        f"  alarm:  {alarm}\n  closer: {closer}"
+    )
+
+
+def test_neither_incident_step_dedupes_through_the_search_index():
+    """`--search` fails open when the index lags, and files a duplicate (#462)."""
+    for fragment in ("Open incident issue on scheduled failure", "Close the embeddings incident"):
+        run = _command_lines(_named_step(fragment)["run"])
+        assert "--search" not in run, (
+            f"{fragment!r} must not use `gh issue list --search`: the search index is "
+            "eventually consistent, and when it lags the dedupe fails open and files a "
+            "duplicate. Use a plain listing with a local title filter."
+        )
+
+
+def test_closer_is_best_effort():
+    run = _named_step("Close the embeddings incident")["run"]
+    assert "set +e" in run and run.rstrip().endswith("exit 0"), (
+        "incident bookkeeping must never turn a green refresh red"
+    )
