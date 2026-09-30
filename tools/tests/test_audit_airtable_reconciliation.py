@@ -272,3 +272,99 @@ class TestReceiptGateReconcile:
         assert v.calls == [("decide", "https://www.firstaimovers.com/p/missing"),
                            ("decide", "https://www.firstaimovers.com/p/absent-no-receipt")]
         assert detail == [("rec3", "no_receipt", "stub (editorial_status='posted')")]
+
+
+class TestIncidentFamilyIsBounded:
+    """The discrepancy family must be bounded at both ends (#473).
+
+    Dedupe bounds how fast the family grows. Only a closer bounds how large it
+    gets, and this workflow had no closer at all: its alarm step is gated on
+    `missing != '0'`, so on a clean run nothing executed and a resolved
+    discrepancy stayed open until a human noticed. #342, #369 and #470 were
+    three filings of this one family and all three were closed by hand; #369
+    outlived its own discrepancy by at least nine days. This is the signal
+    #423 verifies its backlog drain against, so a stale positive is expensive.
+    """
+
+    def _text(self):
+        from pathlib import Path
+        p = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "audit-airtable-reconciliation.yml"
+        return p.read_text(encoding="utf-8")
+
+    def _steps(self):
+        yaml = pytest.importorskip("yaml")
+        wf = yaml.safe_load(self._text())
+        return wf["jobs"]["reconcile"]["steps"]
+
+    def _named(self, fragment):
+        matches = [s for s in self._steps() if fragment in (s.get("name") or "")]
+        assert len(matches) == 1, (
+            f"expected exactly one step whose name contains {fragment!r}, found {len(matches)}"
+        )
+        return matches[0]
+
+    def test_a_closer_step_exists_and_actually_closes(self):
+        run = self._named("Close the discrepancy issue")["run"]
+        assert "gh issue close" in run, "the closer step must actually close the issue"
+        # A closer that comments instead of closing looks right and bounds
+        # nothing. The closing note rides on `gh issue close --comment`, so a
+        # bare `gh issue comment` in this step means some path reports success
+        # having left the issue open.
+        assert "gh issue comment" not in run, (
+            "the closer must close, not comment: the explanatory note belongs on "
+            "`gh issue close --comment`. A `gh issue comment` call here means a path "
+            "reports success while the issue stays open."
+        )
+        assert "--comment" in run, (
+            "closing without a reason leaves no trace of which run resolved it"
+        )
+
+    def test_closer_runs_exactly_when_the_backlog_is_clear(self):
+        cond = self._named("Close the discrepancy issue")["if"]
+        assert "steps.recon.outputs.missing == '0'" in cond, (
+            f"the closer must be gated on a clean reconciliation; got {cond!r}"
+        )
+
+    def test_closer_never_runs_on_a_gate_override_report(self):
+        """An override run is a report; its counts do not describe the tracked backlog."""
+        cond = self._named("Close the discrepancy issue")["if"]
+        assert "inputs.eligibility_gate == ''" in cond, (
+            "a gate-override run must never close the discrepancy issue -- its counts "
+            f"describe a hypothetical gate, not the live backlog; got {cond!r}"
+        )
+
+    def test_alarm_and_closer_are_complementary(self):
+        """No live-gate outcome may leave both steps idle, or fire both."""
+        alarm = self._named("Open deduplicated discrepancy issue")["if"]
+        closer = self._named("Close the discrepancy issue")["if"]
+        assert "missing != '0'" in alarm and "missing == '0'" in closer, (
+            "the two steps must partition the outcome space on the live-gate path, "
+            f"otherwise a state exists with no owner.\n  alarm:  {alarm}\n  closer: {closer}"
+        )
+
+    def test_neither_step_dedupes_through_the_search_index(self):
+        """`--search` fails open when the index lags, and files a duplicate (#462)."""
+        for fragment in ("Open deduplicated discrepancy issue", "Close the discrepancy issue"):
+            # Strip shell comments first: both steps *explain* why they avoid
+            # `--search`, and prose naming the flag is not a use of it.
+            run = "\n".join(
+                line for line in self._named(fragment)["run"].splitlines()
+                if not line.lstrip().startswith("#")
+            )
+            assert "--search" not in run, (
+                f"{fragment!r} must not use `gh issue list --search`: the search index is "
+                "eventually consistent, and when it lags the dedupe fails open and files a "
+                "duplicate (that is how one block became #454-#458). Use a plain listing "
+                "with a local exact-title filter."
+            )
+            assert "--json number,title" in run, (
+                f"{fragment!r} must list titles so it can filter them locally"
+            )
+
+    def test_closer_is_best_effort_and_cannot_fail_the_run(self):
+        run = self._named("Close the discrepancy issue")["run"]
+        assert run.rstrip().endswith("exit 0"), (
+            "incident bookkeeping must never fail the reconciliation run; a failed close "
+            "costs a stale issue, a failed run costs the signal"
+        )
+        assert "set +e" in run, "the closer must not abort on the first non-zero gh exit"

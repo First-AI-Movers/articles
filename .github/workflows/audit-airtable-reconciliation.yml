@@ -105,11 +105,16 @@ jobs:
         run: |
           set +e
           TITLE="Airtable reconciliation: eligible records missing from archive"
+          # Plain listing with a local exact-title filter, deliberately NO
+          # `--search`: the search index is eventually consistent, and when it
+          # lags the dedupe fails open and files a duplicate. That is how one
+          # block on PR #453 became five issues (#454-#458). Listing open
+          # issues is exact and needs no index (#462, #473).
           existing=$(gh issue list \
             --repo "${GITHUB_REPOSITORY}" \
             --state open \
-            --search "in:title \"${TITLE}\"" \
-            --limit 1 --json number --jq '.[0].number')
+            --limit 100 --json number,title \
+            --jq "[.[] | select(.title == \"${TITLE}\") | .number] | first // empty")
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --repo "${GITHUB_REPOSITORY}" \
               --body "Latest reconciliation: **${MISSING}** eligible Posted record(s) missing from the archive. Run: ${RUN_URL}"
@@ -133,4 +138,55 @@ jobs:
           the configured credentials.
           EOF
           )"
+          exit 0
+
+      - name: Close the discrepancy issue once the backlog is clear
+        # THE OTHER HALF OF THE DEDUPE (#473). The step above bounds how *fast*
+        # this family grows; without a closer nothing bounds how *large* it
+        # gets. #342, #369 and #470 were three filings of this one family and
+        # all three were closed by hand -- #369 sat open for 34 days, at least
+        # 9 of them after its own count had already reached 0. A reconciliation
+        # issue that outlives its discrepancy is worse than no issue: it is the
+        # signal #423 verifies its backlog drain against, so a stale positive
+        # costs a triage cycle distinguishing it from a real one.
+        #
+        # Never on a gate-override run, for the same reason the alarm skips
+        # them: those are reports, and their counts do not describe the backlog
+        # this issue tracks. Closing on one could retire a live discrepancy.
+        if: steps.recon.outputs.missing == '0' && inputs.eligibility_gate == ''
+        env:
+          # GITHUB_TOKEN, not the App token, matching the alarm it closes (#388).
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          TITLE="Airtable reconciliation: eligible records missing from archive"
+          mapfile -t ISSUES < <(
+            gh issue list \
+              --repo "${GITHUB_REPOSITORY}" \
+              --state open \
+              --limit 100 --json number,title \
+              --jq ".[] | select(.title == \"${TITLE}\") | .number"
+          )
+          if [ "${#ISSUES[@]}" -eq 0 ]; then
+            echo "Reconciliation clean; no open discrepancy issue to close."
+            exit 0
+          fi
+          echo "Reconciliation clean; closing ${#ISSUES[@]} resolved discrepancy issue(s)."
+          for n in "${ISSUES[@]}"; do
+            if gh issue close "$n" \
+                --repo "${GITHUB_REPOSITORY}" \
+                --comment "Closed automatically: reconciliation reports 0 eligible records missing from the archive. Run: ${RUN_URL}"; then
+              echo "Closed issue #${n} with comment."
+            else
+              echo "WARN: close-with-comment failed for #${n}; trying bare close."
+              if gh issue close "$n" --repo "${GITHUB_REPOSITORY}"; then
+                echo "Closed issue #${n} without comment."
+              else
+                echo "WARN: failed to close issue #${n}; leaving it for manual cleanup."
+              fi
+            fi
+          done
+          # Best-effort, exactly like the alarm: bookkeeping must never fail the
+          # run, and a failed close costs a stale issue, not a lost signal.
           exit 0
