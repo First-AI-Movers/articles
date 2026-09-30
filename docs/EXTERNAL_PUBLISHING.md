@@ -123,7 +123,7 @@ If an incorrect article is ingested:
 
 - **No secrets in payload.** Never pass `AIRTABLE_PAT`, `GITHUB_TOKEN`, or other secrets inside `client_payload`.
 - **Secrets live in GitHub Encrypted Secrets only.**
-- **PRs created with `GITHUB_TOKEN` do not trigger downstream CI.** If you need automatic test runs on ingestion PRs, configure the optional `ARTICLE_INGESTION_PR_TOKEN` secret.
+- **Ingestion PRs are opened with a short-lived App token, so CI does run on them.** `ingest-article.yml` mints an installation token in-run from the `Articles Automation` App (~1 h lifetime) and passes it to the PR-creating step. This matters because a PR opened with the default `GITHUB_TOKEN` does *not* trigger downstream workflows, so it could never satisfy `aeos-merge-ready`. **Do not provision a long-lived PAT for this** — the former `ARTICLE_INGESTION_PR_TOKEN` is retired and is read by no workflow; adding one back would put an elevated standing credential in the repository for no effect.
 - **Validation happens before PR creation.** Invalid payloads are rejected without creating files.
 
 ## Local testing
