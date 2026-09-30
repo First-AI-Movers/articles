@@ -8,7 +8,7 @@
 **`persist-credentials: false` on all 22 `actions/checkout` steps.** This stops the `GITHUB_TOKEN` (or a passed PAT) from being persisted into `.git/config`, where a later step or compromised action could read it. Verified safe:
 
 - **No workflow does `git push` / `git commit` / `git add`** — none relies on the persisted credential.
-- The PR-creating workflows (`ingest-airtable`, `ingest-article`, `ingest-airtable-dispatch`, `summary-auto-apply`, `build-embeddings`) authenticate `peter-evans/create-pull-request` via an **explicit `token:` input** (`ARTICLE_INGESTION_PR_TOKEN || GITHUB_TOKEN`), not the checkout credential.
+- The PR-creating workflows (`ingest-airtable`, `ingest-article`, `ingest-airtable-dispatch`, `summary-auto-apply`, `build-embeddings`) authenticate `peter-evans/create-pull-request` via an **explicit `token:` input**, not the checkout credential. *(At this document's date that input was `ARTICLE_INGESTION_PR_TOKEN || GITHUB_TOKEN`. #388 replaced it with a short-lived installation token minted in-run from the `Articles Automation` App; the PAT is retired and unread. The finding — that no workflow depends on the persisted checkout credential — is unaffected.)*
 - The Pages deploy uses the `deploy-pages` **OIDC** action, not git.
 - Existing `with:` inputs (`fetch-depth`, `token`) are preserved.
 
