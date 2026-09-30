@@ -236,3 +236,91 @@ def test_action_pins(prefix, pin):
         uses = str(s.get("uses", ""))
         if uses.startswith(prefix):
             assert uses.endswith(pin)
+
+
+# ---------------------------------------------------------------------------
+# Both of this workflow's incident families must be bounded at both ends (#473).
+#
+# This monitor carries TWO families, and neither had a closer:
+#   * "Fresh article summaries ready"        -- the signal it exists to raise
+#   * "Summary fresh-candidate monitor failed" -- its own failure incident
+# Dedupe bounded how fast each grew; nothing bounded how large either got, so
+# a signal could outlive its condition indefinitely. #299 has been open since
+# 2026-06-24.
+# ---------------------------------------------------------------------------
+
+READY_TITLE = "Fresh article summaries ready"
+FAILURE_TITLE = "Summary fresh-candidate monitor failed"
+
+
+def _named(fragment: str) -> dict:
+    matches = [s for s in _steps(_wf()) if fragment in (s.get("name") or "")]
+    assert len(matches) == 1, (
+        f"expected exactly one step whose name contains {fragment!r}, found {len(matches)}"
+    )
+    return matches[0]
+
+
+def _commands(run: str) -> str:
+    """Step body minus whole-line shell comments (prose may name a flag)."""
+    return "\n".join(l for l in run.splitlines() if not l.lstrip().startswith("#"))
+
+
+def test_zero_candidates_retires_the_ready_signal():
+    """selected==0 must close the signal, not merely decline to open one."""
+    step = _named("No fresh candidates")
+    assert "steps.detect.outputs.selected == '0'" in step["if"], (
+        f"retirement must be gated on the zero-candidate path; got {step['if']!r}"
+    )
+    run = step["run"]
+    assert "gh issue close" in run, (
+        "a monitor that opens a signal and never closes it leaves the signal to go "
+        "stale; selected==0 is exactly the condition that retires it"
+    )
+    assert READY_TITLE in run, "the closer must target the ready-signal title"
+
+
+def test_ready_signal_open_and_close_are_complementary():
+    opener = _named("Notify via deduplicated issue")["if"]
+    closer = _named("No fresh candidates")["if"]
+    assert "selected != '0'" in opener and "selected == '0'" in closer, (
+        "the two steps must partition the candidate-count outcome, or a state exists "
+        f"with no owner.\n  opener: {opener}\n  closer: {closer}"
+    )
+
+
+def test_monitor_failure_family_has_a_closer():
+    step = _named("Close the monitor-failure incident")
+    cond = step["if"]
+    assert "success()" in cond and "github.event_name == 'schedule'" in cond, (
+        "a clean scheduled run is what establishes the monitor recovered; "
+        f"got {cond!r}"
+    )
+    run = step["run"]
+    assert "gh issue close" in run and FAILURE_TITLE in run, (
+        "the closer must close the monitor-failure family by its exact title"
+    )
+
+
+def test_no_incident_step_dedupes_through_the_search_index():
+    """`--search` fails open when the index lags, and files a duplicate (#462)."""
+    for fragment in (
+        "No fresh candidates",
+        "Notify via deduplicated issue",
+        "Incident issue on monitor failure",
+        "Close the monitor-failure incident",
+    ):
+        run = _commands(_named(fragment)["run"])
+        assert "--search" not in run, (
+            f"{fragment!r} must not use `gh issue list --search`: the index is eventually "
+            "consistent, and when it lags the dedupe fails open and files a duplicate. "
+            "Use a plain listing with a local exact-title filter."
+        )
+
+
+def test_both_closers_are_best_effort():
+    for fragment in ("No fresh candidates", "Close the monitor-failure incident"):
+        run = _named(fragment)["run"]
+        assert "set +e" in run and run.rstrip().endswith("exit 0"), (
+            f"{fragment!r}: incident bookkeeping must never fail an otherwise clean run"
+        )

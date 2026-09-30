@@ -125,11 +125,40 @@ jobs:
           echo "cutoff=${cutoff:-unknown}" >> "$GITHUB_OUTPUT"
           echo "[monitor] selected=${selected} cutoff=${cutoff:-unknown}"
 
-      # selected=0: clean no-op. No issue is opened (avoid issue churn).
-      - name: No fresh candidates (no-op)
+      # selected=0: no issue is opened, AND any open one is retired. Opening
+      # without closing bounds the rate but not the population (#473): the
+      # signal would outlive the condition and go stale, which is the failure
+      # AGENTS.md warns about for in-repo status mirrors.
+      - name: No fresh candidates — retire the open signal
         if: ${{ steps.detect.outputs.selected == '0' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
+          set +e
           echo "Summary fresh-candidate monitor: **selected=0** — no fresh missing-summary articles within the window. No issue opened." >> "$GITHUB_STEP_SUMMARY"
+          title="Fresh article summaries ready"
+          # Plain listing, local exact-title filter, deliberately no search
+          # index: it is eventually consistent and fails open when it lags.
+          mapfile -t NUMS < <(
+            gh issue list --repo "${GITHUB_REPOSITORY}" --state open \
+              --limit 100 --json number,title \
+              --jq ".[] | select(.title == \"${title}\") | .number"
+          )
+          if [ "${#NUMS[@]}" -eq 0 ]; then
+            echo "[monitor] nothing to retire."
+            exit 0
+          fi
+          for n in "${NUMS[@]}"; do
+            if gh issue close "${n}" --repo "${GITHUB_REPOSITORY}" \
+                --comment "Closed automatically: the monitor now selects 0 fresh missing-summary articles within the freshness window. Run: ${RUN_URL}"; then
+              echo "[monitor] closed #${n}"
+            else
+              echo "::warning::failed to close #${n}; leaving it for manual cleanup"
+            fi
+          done
+          # Best-effort: retiring a signal must never fail a clean monitor run.
+          exit 0
 
       # selected>0: compose a VALUE-SAFE issue body (counts + cutoff + inputs +
       # folder/slug identifiers + run URL only), scan it count-only, then
@@ -185,7 +214,7 @@ jobs:
           # runs so two runs cannot race here. Do NOT loosen that concurrency
           # without adding a stronger dedup key (e.g. a stable label).
           mapfile -t NUMS < <(gh issue list --repo "${GITHUB_REPOSITORY}" --state open \
-            --search "in:title \"${title}\"" --json number,title \
+            --limit 100 --json number,title \
             --jq ".[] | select(.title==\"${title}\") | .number")
           if [ "${#NUMS[@]}" -gt 0 ]; then
             n="${NUMS[0]}"
@@ -221,10 +250,43 @@ jobs:
           title="Summary fresh-candidate monitor failed"
           body="The summary fresh-candidate monitor run failed. Run: ${RUN_URL}. No raw logs are recorded here; investigate via the run URL. This monitor uses no providers, no provider secrets, and writes no metadata."
           existing=$(gh issue list --repo "${GITHUB_REPOSITORY}" --state open \
-            --search "in:title \"${title}\"" --json number --jq '.[0].number // empty')
+            --limit 100 --json number,title \
+            --jq "[.[] | select(.title == \"${title}\") | .number] | first // empty")
           if [ -n "${existing}" ]; then
             gh issue comment "${existing}" --repo "${GITHUB_REPOSITORY}" --body "${body}"
           else
             gh issue create --repo "${GITHUB_REPOSITORY}" --title "${title}" --body "${body}"
           fi
+          exit 0
+
+      # The monitor-failure family's other half (#473). This workflow carries
+      # TWO families, and both were unbounded: the "ready" signal above and
+      # this failure incident. A monitor that recovers must retire its own
+      # failure issue, or the next reader sees a monitor reported as broken
+      # while it is running green every night.
+      - name: Close the monitor-failure incident once the monitor runs clean
+        if: ${{ success() && github.event_name == 'schedule' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          title="Summary fresh-candidate monitor failed"
+          mapfile -t NUMS < <(
+            gh issue list --repo "${GITHUB_REPOSITORY}" --state open \
+              --limit 100 --json number,title \
+              --jq ".[] | select(.title == \"${title}\") | .number"
+          )
+          if [ "${#NUMS[@]}" -eq 0 ]; then
+            echo "[monitor] no open monitor-failure incident to close."
+            exit 0
+          fi
+          for n in "${NUMS[@]}"; do
+            if gh issue close "${n}" --repo "${GITHUB_REPOSITORY}" \
+                --comment "Closed automatically by a clean scheduled monitor run: ${RUN_URL}"; then
+              echo "[monitor] closed #${n}"
+            else
+              echo "::warning::failed to close #${n}; leaving it for manual cleanup"
+            fi
+          done
           exit 0
