@@ -15,6 +15,20 @@ While that range admits only vitest 4, the ignore is justified. When a lockfile 
 carrying a pool-workers whose peer range admits vitest 5, this test fails and names the
 entry to delete — which is exactly when the hold should end.
 
+A hold also has a second failure direction, and this module owns both. The test above
+asks "is the hold still justified?". It cannot ask "did the held major land anyway?" —
+and on 2026-10-05 it did: Dependabot #485/#486 carried vitest 5.0.1 into both worker
+lockfiles while pool-workers 0.22.0 still peered `vitest@^4.1.0`, and both merged. The
+justification test passed throughout, correctly: pool-workers had not moved, so the hold
+was still justified. Nothing asserted that the tree the lockfile describes can actually
+be installed, so `npm ci` began failing on `main` in both workers for ~30 h with the exact
+error the hold's own comment quotes.
+
+The merge was not stopped by the surface's own red check, because `mcp-server` and
+`og-worker` are not required contexts — `aeos-merge-ready` is the only one. So the guard
+has to be an offline assertion over the committed lockfiles, which is what
+`test_both_worker_lockfiles_are_installable` is.
+
 No network: the ranges are read from the committed lockfiles, never from the registry.
 """
 
@@ -68,6 +82,84 @@ def _admits_major_above(spec: str, major: int) -> bool:
     if not match:
         return True
     return int(match.group(2)) > major
+
+
+def _installed_version(lockfile: Path, dependency: str) -> str | None:
+    packages = json.loads(lockfile.read_text(encoding="utf-8")).get("packages") or {}
+    return (packages.get(f"node_modules/{dependency}") or {}).get("version")
+
+
+def _satisfies(version: str, spec: str) -> bool | None:
+    """Does `version` satisfy the simple caret/tilde/exact range `spec`?
+
+    Returns None — "cannot decide" — for any shape this deliberately does not parse, so
+    an unreadable range is never turned into a failure the reader cannot act on. That is
+    the opposite default from `_admits_major_above`, and for the opposite reason: there,
+    an unparsed range must not let a stale hold survive; here, it must not invent a
+    conflict that npm would not report.
+    """
+    range_match = SIMPLE_RANGE_RE.match(spec or "")
+    version_match = SIMPLE_RANGE_RE.match(version or "")
+    if not range_match or not version_match or version_match.group(1):
+        return None
+    operator, *bound = range_match.groups()
+    low = tuple(int(part) for part in bound)
+    found = tuple(int(part) for part in version_match.groups()[1:])
+    if found < low:
+        return False
+    if operator == "^":
+        # npm's caret pins the leftmost non-zero component: ^4.1.0 admits 4.x, but
+        # ^0.22.0 admits only 0.22.x.
+        return found[0] == low[0] if low[0] else found[:2] == low[:2]
+    if operator == "~":
+        return found[:2] == low[:2]
+    return found == low
+
+
+def test_satisfaction_check_matches_npm_on_the_shapes_it_decides():
+    assert _satisfies("4.1.11", "^4.1.0") is True
+    assert _satisfies("5.0.1", "^4.1.0") is False
+    assert _satisfies("4.0.9", "^4.1.0") is False
+    assert _satisfies("0.22.3", "^0.22.0") is True
+    assert _satisfies("0.23.0", "^0.22.0") is False
+    assert _satisfies("4.1.11", "~4.1.0") is True
+    assert _satisfies("4.2.0", "~4.1.0") is False
+    assert _satisfies("4.1.0", "4.1.0") is True
+    assert _satisfies("4.1.11", "^4.1.0 || ^5.0.0") is None
+    assert _satisfies("4.1.11", ">=4") is None
+
+
+def test_both_worker_lockfiles_are_installable():
+    """A committed lockfile whose own peer ranges conflict is an `npm ci` that cannot run.
+
+    This is the regression direction the justification test structurally cannot see
+    (#485/#486, measured on `main` 2026-10-05 -> 2026-10-06):
+
+        npm error While resolving: @cloudflare/vitest-pool-workers@0.22.0
+        npm error Found: vitest@5.0.1
+        npm error peer vitest@"^4.1.0" from @cloudflare/vitest-pool-workers@0.22.0
+
+    It is asserted unconditionally — whether or not the `ignore` entry is present — so it
+    keeps working after the hold is lifted, which is exactly when an incompatible pair
+    becomes easy to land again.
+    """
+    for name in LOCKFILES:
+        lockfile = REPO_ROOT / name
+        holder_version, spec = _peer_range(lockfile, PEER_HOLDER, HELD)
+        if not spec:
+            continue
+        installed = _installed_version(lockfile, HELD)
+        assert installed, f"{name}: {HELD} is not in the lockfile, but {PEER_HOLDER} peers it"
+        verdict = _satisfies(installed, spec)
+        if verdict is None:
+            continue
+        assert verdict, (
+            f"{name}: {HELD}@{installed} does not satisfy the `{HELD}@{spec}` peer range "
+            f"declared by @cloudflare/vitest-pool-workers@{holder_version}, so `npm ci` in "
+            f"that worker fails with ERESOLVE. Either hold {HELD} at a version the peer "
+            f"range admits, or bump pool-workers to a release that peers the new major — "
+            f"do not commit the pair."
+        )
 
 
 def test_the_vitest_hold_is_still_justified_by_both_lockfiles():
