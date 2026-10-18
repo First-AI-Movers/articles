@@ -109,7 +109,7 @@
 | Entry | Type | Justification | Risk assessment |
 |---|---|---|---|
 | ee4c7a6ad2464b84a2320e9edf0fe996 | Exact regex | IndexNow public verification key (proof-of-host ownership, not a secret) | Acceptable — key is public by design |
-| AKIAQCMHTQSE2JGAGXHJ | Exact regex | Third-party AWS credential in a Beehiiv presigned URL inside article content; URL was published by the canonical publisher; credential is not ours | Acceptable — documented in config; scrubber tool exists (tools/scrub_presigned_urls.py) |
+| AKIA…GXHJ | Exact regex | Third-party AWS credential in a Beehiiv presigned URL inside article content; URL was published by the canonical publisher; credential is not ours | Acceptable — documented in config; scrubber tool exists (tools/scrub_presigned_urls.py) |
 | site/.*\.txt$ | Path | Generated artifacts where public keys may be documented | Acceptable — site/ is gitignored; only built artifacts |
 | docs/.* | Path | Documentation files | Acceptable — docs contain no secrets |
 | CONTRIBUTING.md, SECURITY.md, ROADMAP.md, README.md | Path | Markdown documentation | Acceptable |
@@ -189,7 +189,7 @@ The following actions must not happen without explicit owner approval:
 | F1 | Local gitleaks not installed | Low | Acknowledged | which gitleaks → not found | CI is authoritative; install locally if desired for pre-commit checks |
 | F2 | Generated artifacts are stale (index.json, sitemap.xml, llms-full.txt, llms-recent.txt, README.md) | Low | Known / tracked | python3 tools/check_generated_artifacts.py → FAILED | Not a security issue; documented in docs/GENERATED_ARTIFACTS.md (B4) |
 | F3 | CHANGELOG.md is stale | Low | Known / tracked | python3 tools/build_changelog.py --check → would change | Not a security issue; documented in docs/AUTOMATION_READINESS_AUDIT.md (B3) |
-| F4 | Third-party AWS credential in article content (AKIAQCMHTQSE2JGAGXHJ) | Low | Allowlisted | .gitleaks.toml line 26; articles/2025-09-28-llm-limits-solved-ai-workarounds-guide-2025/article.md | Run tools/scrub_presigned_urls.py if owner wants to remove the audio block; not a security risk (third-party, already public) |
+| F4 | Third-party AWS credential in article content (AKIA…GXHJ) | Low | Allowlisted | .gitleaks.toml line 26; articles/2025-09-28-llm-limits-solved-ai-workarounds-guide-2025/article.md | Run tools/scrub_presigned_urls.py if owner wants to remove the audio block; not a security risk (third-party, already public) |
 | F5 | pytest tools/tests fails locally due to missing numpy | Low | Expected | python3 -m pytest tools/tests → ModuleNotFoundError: No module named numpy | Optional dependency; CI installs all required packages; not a blocker |
 | F6 | .env.example contains placeholder token patterns (ghp_your_token_here, sk-your-key-here) | None | Acceptable | .env.example lines 5, 10 | File is explicitly an example; not committed as real secrets; gitleaks does not flag it |
 
