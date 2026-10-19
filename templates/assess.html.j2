@@ -1,0 +1,141 @@
+{% extends "base.html.j2" %}
+{% block title %}Workflow Automation Assessment — First AI Movers{% endblock %}
+{% block description %}Answer seven questions about one workflow and get a provisional BUILD, REPAIR_FIRST, DEFER or STOP recommendation. Runs entirely in your browser.{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site_url }}/"},
+    {"@type": "ListItem", "position": 2, "name": "Workflow Assessment", "item": "{{ site_url }}/assess/"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{{ rel_root }}">Home</a> / Workflow Assessment</nav>
+
+<h1>Workflow Automation Assessment</h1>
+
+<p class="lede">Answer seven questions about <strong>one</strong> workflow. You get a provisional verdict — BUILD, REPAIR_FIRST, DEFER or STOP — with the reasons behind it, and a one-page record you can download.</p>
+
+<p>This applies the method published in
+<a href="{{ rel_root }}articles/before-you-automate-a-workflow-7-questions/">Before You Automate a Workflow: 7 Questions That Decide BUILD, REPAIR_FIRST, DEFER, or STOP</a>.
+Read the article for the reasoning behind each question.</p>
+
+<div class="assess-notice" role="note">
+  <p><strong>Everything stays in your browser.</strong> This tool makes no network requests, calls no AI model, and stores nothing — not on a server and not on this device. Closing the tab discards your answers. The downloaded record is generated locally.</p>
+  <p>It is a structured aid to your own judgement, not advice, an audit, or any form of certification. It produces no estimate of savings, cost or time: the article is explicit that the baseline must be measured by you, and this page cannot measure it.</p>
+</div>
+
+<form id="assess-form" class="assess-form" novalidate>
+
+  <fieldset class="assess-q" data-q="1">
+    <legend><span class="assess-qn">1</span> What decision or outcome does the workflow exist to produce?</legend>
+    <p class="assess-hint">Start with the output, not the steps. Name the thing a person acts on, and who consumes it.</p>
+    <div class="assess-options">
+      <label><input type="radio" name="q1" value="useful"> A specific output a named person acts on, and it is consistent</label>
+      <label><input type="radio" name="q1" value="inconsistent"> A specific output, but it is inconsistent or not trusted</label>
+      <label><input type="radio" name="q1" value="not_useful"> No clear decision-useful output, or nobody acts on it</label>
+    </div>
+    <label class="assess-eviclabel" for="e1">The fact you can write down <span class="assess-optional">(optional)</span></label>
+    <textarea id="e1" name="e1" rows="2" maxlength="600" placeholder="e.g. An approved supplier invoice, consumed by the finance controller."></textarea>
+  </fieldset>
+
+  <fieldset class="assess-q" data-q="2">
+    <legend><span class="assess-qn">2</span> Where is time or failure actually concentrated?</legend>
+    <p class="assess-hint">A baseline in a directly observable unit: manual minutes per item, rework count, wait time, exception rate. Measured, not estimated.</p>
+    <div class="assess-options">
+      <label><input type="radio" name="q2" value="measured"> Measured from real data, and the value justifies the work</label>
+      <label><input type="radio" name="q2" value="measured_low"> Measured, but the value does not clearly beat the current cost</label>
+      <label><input type="radio" name="q2" value="unmeasured"> Not measurable today, or the only numbers are estimates</label>
+    </div>
+    <label class="assess-eviclabel" for="e2">The fact you can write down <span class="assess-optional">(optional)</span></label>
+    <textarea id="e2" name="e2" rows="2" maxlength="600" placeholder="e.g. 14 min/item median, 22% exception rate, measured over 3 weeks."></textarea>
+  </fieldset>
+
+  <fieldset class="assess-q" data-q="3">
+    <legend><span class="assess-qn">3</span> What is the strongest non-AI alternative?</legend>
+    <p class="assess-hint">Removing the step, a configuration change, a plain integration, a deterministic rule, or an existing product.</p>
+    <div class="assess-options">
+      <label><input type="radio" name="q3" value="none_dominates"> Considered, and none of them dominates an AI step</label>
+      <label><input type="radio" name="q3" value="comparable"> A non-AI option is roughly comparable on cost and risk</label>
+      <label><input type="radio" name="q3" value="dominates"> A non-AI option removes the need entirely</label>
+    </div>
+    <label class="assess-eviclabel" for="e3">The fact you can write down <span class="assess-optional">(optional)</span></label>
+    <textarea id="e3" name="e3" rows="2" maxlength="600" placeholder="e.g. Native ERP rule covers 80% of cases; the rest is genuinely unstructured."></textarea>
+  </fieldset>
+
+  <fieldset class="assess-q" data-q="4">
+    <legend><span class="assess-qn">4</span> Which systems and data must be touched?</legend>
+    <p class="assess-hint">Every system read from and written to, and every fact that lives in someone's head, inbox or personal spreadsheet.</p>
+    <div class="assess-options">
+      <label><input type="radio" name="q4" value="clean"> Every input has a supported interface and a lawful basis</label>
+      <label><input type="radio" name="q4" value="changing"> Clean, but a dependency is changing (migration, regulatory clarification)</label>
+      <label><input type="radio" name="q4" value="broken"> An input has no supported interface, no lawful basis, or exists only in someone's head</label>
+    </div>
+    <label class="assess-eviclabel" for="e4">The fact you can write down <span class="assess-optional">(optional)</span></label>
+    <textarea id="e4" name="e4" rows="2" maxlength="600" placeholder="e.g. Reads CRM (API) and the shared mailbox; one approval rule is undocumented."></textarea>
+  </fieldset>
+
+  <fieldset class="assess-q" data-q="5">
+    <legend><span class="assess-qn">5</span> What can fail, and who notices?</legend>
+    <p class="assess-hint">For each failure mode: is a human in the loop before the effect lands, how is it rolled back, and what audit trail exists? Name the one thing that must never fail silently.</p>
+    <div class="assess-options">
+      <label><input type="radio" name="q5" value="owned"> Failure modes are named, with owners, rollback and an audit trail</label>
+      <label><input type="radio" name="q5" value="partial"> Named, but rollback or the audit trail is incomplete</label>
+      <label><input type="radio" name="q5" value="unacceptable"> The failure modes cannot be made acceptable</label>
+    </div>
+    <label class="assess-eviclabel" for="e5">The one thing that must never fail silently <span class="assess-optional">(optional)</span></label>
+    <textarea id="e5" name="e5" rows="2" maxlength="600" placeholder="e.g. A wrong price reaching a customer."></textarea>
+  </fieldset>
+
+  <fieldset class="assess-q" data-q="6">
+    <legend><span class="assess-qn">6</span> What does "good enough" mean before production?</legend>
+    <p class="assess-hint">A reference set of real past items with known correct outcomes, an agreed measure, and a threshold below which it stays out of production.</p>
+    <div class="assess-options">
+      <label><input type="radio" name="q6" value="reference"> A reference set and an agreed threshold exist, or can be assembled now</label>
+      <label><input type="radio" name="q6" value="threshold_only"> A threshold is agreed, but no reference set can be assembled yet</label>
+      <label><input type="radio" name="q6" value="none"> Neither a reference set nor a threshold exists</label>
+    </div>
+    <label class="assess-eviclabel" for="e6">The fact you can write down <span class="assess-optional">(optional)</span></label>
+    <textarea id="e6" name="e6" rows="2" maxlength="600" placeholder="e.g. 300 past tickets with known routing; switch on at 95% on that set."></textarea>
+  </fieldset>
+
+  <fieldset class="assess-q assess-q7" data-q="7">
+    <legend><span class="assess-qn">7</span> What is the decision today?</legend>
+    <p class="assess-hint">The article is firm on this: pick exactly one verdict and record the evidence behind it. Do not leave with a "maybe". The recommendation below is an input to that decision, not the decision.</p>
+  </fieldset>
+
+  <div class="assess-actions">
+    <button type="submit" id="assess-submit" class="btn-primary">Show recommendation</button>
+    <button type="button" id="assess-reset" class="assess-secondary">Clear answers</button>
+  </div>
+</form>
+
+<section id="assess-result" class="assess-result" hidden aria-live="polite">
+  <h2>Provisional recommendation</h2>
+  <p id="assess-verdict" class="assess-verdict"></p>
+  <p id="assess-verdict-gloss" class="assess-verdict-gloss"></p>
+
+  <h3>Why</h3>
+  <ul id="assess-reasons"></ul>
+
+  <h3 id="assess-next-heading">What the article says to do next</h3>
+  <p id="assess-next"></p>
+
+  <p class="assess-provisional"><strong>This is provisional.</strong> It reflects only the options you selected. The verdict of record is the one you write down in question 7, with the evidence behind it.</p>
+
+  <div class="assess-actions">
+    <button type="button" id="assess-download" class="btn-primary">Download one-page record</button>
+    <button type="button" id="assess-print" class="assess-secondary">Print</button>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ rel_root }}assess.js"></script>
+{% endblock %}

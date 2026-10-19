@@ -1590,6 +1590,9 @@ def build_site(index):
     # Ask the Archive page
     _render("ask.html.j2", "ask/index.html")
 
+    # Seven-question workflow assessment (browser-only; no model, no network)
+    _render("assess.html.j2", "assess/index.html")
+
     # Offline fallback page
     _render("offline.html.j2", "offline/index.html")
 
