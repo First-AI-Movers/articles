@@ -104,18 +104,42 @@ updates:
       #   npm error Found: vitest@5.0.0
       #   npm error peer vitest@"^4.1.0" from @cloudflare/vitest-pool-workers@0.22.0
       #
-      # 0.22.0 (2026-08-18) is the LATEST pool-workers release, so this is not a
-      # "wait for the patch" state — the ecosystem has not moved yet. Minor and patch
+      # 0.23.0 (latest as of 2026-10-19) STILL peers vitest ^4.1.0, so this is not a
+      # "wait for the patch" state — the ecosystem has not moved. Minor and patch
       # vitest updates still flow; only the major is held.
       #
       # LIFT CONDITION (executable, not a promise): when a pool-workers release peers
       # vitest ^5 and the lockfiles carry it, `tools/tests/test_dependabot_ignore_lift_conditions.py`
-      # FAILS and names this entry. Delete these lines then; do not renew them by hand.
+      # FAILS and names this entry. Delete BOTH entries below then; do not renew them by hand.
       # This is the same hold, and the same kind of lift, as the /mcp-server-scoped
       # ignore that was removed on 2026-06-22 when pool-workers 0.16 peered vitest ^4.
+      #
+      # WHY THERE ARE TWO ENTRIES (#488). The `update-types` entry below has now FAILED
+      # TO HOLD THREE TIMES: #451/#452 (2026-09-21, before it existed), #485/#486
+      # (2026-10-05) and #498/#499 (2026-10-12), each landing a vitest 5 carrier that
+      # cannot install and leaving `main` red — the last time for six days.
+      #
+      # It is not that Dependabot cannot see this entry: on 2026-10-05 it proposed
+      # 5.0.1 rather than the then-latest 5.0.3, which is exactly the newest release
+      # at least `semver-major-days: 14` old, so it read and applied THIS ENTRY'S OWN
+      # `cooldown` block. The entry resolves and parses; only `ignore` fails to fire.
+      #
+      # So the second entry below expresses the same hold through `versions:`, a
+      # DIFFERENT matching path, as the cheap experiment #488 asked for. It is additive
+      # and cannot break a build: an ignore can only ever withhold a PR.
+      #
+      # HOW TO READ THE RESULT, on the next Monday run after this lands:
+      #   * no vitest 5 PR appears  -> the `versions:` path works; record it on #488 and
+      #     delete the `update-types` entry as dead weight.
+      #   * a vitest 5 PR appears anyway -> BOTH ignore paths are ineffective here. Stop
+      #     trying config, and take #489 instead (make the red surface check block the
+      #     merge), which is the only remedy that does not depend on Dependabot obeying.
       - dependency-name: "vitest"
         update-types:
           - "version-update:semver-major"
+      - dependency-name: "vitest"
+        versions:
+          - ">=5.0.0"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
