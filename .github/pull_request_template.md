@@ -23,6 +23,10 @@
 
 ## Validation checklist
 
+<!-- Check completed proof only; explain pending or inapplicable items. Open ready
+     and arm ordinary squash auto-merge while the gate is pending; do not wait for CI.
+     Protected review classes remain. Issue 423 backlog PRs must never be auto-merged. -->
+
 - [ ] **Code-reviewed** — logic inspected for correctness and minimalism.
 - [ ] **Test-proven** — `python3 -m pytest tools/tests -v` passes.
 - [ ] **Dry-run proven** — `python3 tools/normalize_tags.py --dry-run` passes.
@@ -40,7 +44,7 @@
 
 ## CI and deployment
 
-- [ ] CI passes (or expected failures are documented).
+- [ ] CI verified green after completion (leave unchecked while pending; not required to open this PR).
 - [ ] Workflow changes were inspected for permission and trigger safety.
 
 ## Live site / browser proof
