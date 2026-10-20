@@ -1,4 +1,5 @@
-# Global fallback — all changes need owner review
+# Global fallback — ownership routing; ordinary merges use aeos-merge-ready
+# Ownership does not require approval for every change. Protected review classes remain.
 * @hpcosta
 
 # Archive content — article text and metadata

@@ -173,14 +173,14 @@ flowchart LR
     C --> D["tools/normalize_tags.py<br/>tags → canonical topics"]
     D --> E["tools/rebuild_local.py<br/>index.json / sitemap.xml / feeds / site/"]
     E --> F["GitHub Pages<br/>articles.firstaimovers.com"]
-    E --> G["Pull Request<br/>review + merge"]
+    E --> G["Pull Request<br/>merge gate"]
 ```
 
 1. **Ingest** — Articles enter via Airtable cron (`E20a`), external API push (`E18`), or manual PR.
 2. **Validate** — Every payload is checked against `tools/article_schema.json`.
 3. **Normalize** — Tags are mapped to canonical topics automatically.
 4. **Rebuild** — `tools/rebuild_local.py` regenerates all machine-readable artifacts and the static site.
-5. **Review** — Automated PRs are reviewed before merge; no direct pushes to `main`.
+5. **Merge gate** — Automated PRs use `aeos-merge-ready`; no direct pushes to `main`. Ordinary PRs open ready with squash auto-merge armed while the gate is pending. Editorial authorization and protected review classes still apply. Backlog recovery under Issue 423 section 2 requires diff and CI review and is never auto-merged.
 6. **Deploy** — GitHub Pages serves the built `site/` directory.
 
 ## Repository Structure

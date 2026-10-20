@@ -134,7 +134,7 @@ See [`docs/search-visibility-monitoring.md`](docs/search-visibility-monitoring.m
    - `refactor(...)` — code refactoring
    - `chore(...)` — tooling, dependencies, cleanup
 5. **Push** and open a PR — ready, not draft.
-6. **Fill out the PR template.** Every PR must declare proof levels (code-reviewed, test-proven, CI-proven, etc.).
+6. **Fill out the PR template.** Declare completed proof levels and mark pending or inapplicable proof honestly. CI proof is recorded only after CI completes; do not wait for it before opening the PR.
 7. **Arm squash auto-merge in the same step**, while the gate is still pending. Then move on: the gate decides, and there is nothing to wait for.
 
 ### Analytics changes
@@ -145,9 +145,12 @@ Changes to analytics scripts, tracking endpoints, or privacy-related configurati
 
 Comments are powered by Giscus and stored in GitHub Discussions. Moderation (hiding, locking, or deleting comments) is handled through the GitHub Discussions UI, not through article markdown or repository changes. See [`docs/COMMENTS.md`](docs/COMMENTS.md) for setup and rollback.
 
-### Owner review
+### Ownership routing
 
-`.github/CODEOWNERS` requires owner (`@hpcosta`) approval for changes to:
+`.github/CODEOWNERS` routes the following paths to owner (`@hpcosta`); it does not
+require owner approval for ordinary changes. Editorial approval, analytics privacy
+review, human-reviewed translations, and other protected review classes still apply:
+
 - `/articles/` — archive content
 - `/tools/` — generation logic
 - `/templates/` and `/static/` — site assets
@@ -210,7 +213,7 @@ The archive accepts articles from external publishing platforms via a controlled
 - **Airtable cron:** `.github/workflows/ingest-airtable.yml` polls Airtable on a schedule and opens PRs for new records.
 
 In both cases:
-- **No direct push to `main`.** All ingestion creates a PR for review.
+- **No direct push to `main`.** All ingestion creates a PR governed by `aeos-merge-ready` and the applicable editorial authorization. Ordinary PRs follow the PR workflow above. Backlog recovery under Issue 423 section 2 requires review of the diff and CI and must never be auto-merged.
 - **Validation runs before PR creation:** schema check, tag normalization, duplicate-title gate, pytest, rebuild.
 - **Secrets live in GitHub Encrypted Secrets only.** Never pass tokens or keys in payload text.
 
@@ -223,14 +226,17 @@ In both cases:
 
 ## Reporting proof levels
 
-Every PR must report which proof levels were validated. Use this checklist in the PR description:
+Every PR must report which proof levels were validated. Check only completed proof;
+leave pending or inapplicable items unchecked and explain them. CI proof is not a
+prerequisite to opening a ready PR or arming ordinary squash auto-merge. Use this
+checklist in the PR description:
 
 - [ ] **Code-reviewed** — logic inspected for correctness and minimalism.
 - [ ] **Content-reviewed** — article text, metadata, or topic intros checked.
 - [ ] **Metadata-reviewed** — `metadata.json` fields validated.
 - [ ] **Test-proven** — `pytest` passes locally.
 - [ ] **Generated-artifact-proven** — `rebuild_local.py` output inspected.
-- [ ] **CI-proven** — GitHub Actions passes.
+- [ ] **CI-proven** — GitHub Actions verified green after completion (pending at PR opening).
 - [ ] **URL/canonical-proven** — canonical links, sitemap, feed URLs verified.
 - [ ] **Browser/Pages-proven** — live site or browser checked (only when relevant).
 
