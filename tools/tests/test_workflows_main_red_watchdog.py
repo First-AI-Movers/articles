@@ -99,6 +99,20 @@ def test_single_job_on_ubuntu_with_a_timeout(document):
     assert jobs["watchdog"]["timeout-minutes"] <= 10
 
 
+def test_the_job_name_matches_the_self_exclusion_constant():
+    """The script excludes its own check-run by name, because a scheduled run
+    attaches it to the very head being censused. The check-run's name is this
+    job's `name:`, so a rename here would silently re-include it and make every
+    census SKIP forever."""
+    import importlib
+    import sys
+
+    sys.path.insert(0, str(REPO_ROOT / "tools"))
+    watchdog = importlib.import_module("main_red_watchdog")
+    document = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8")) or {}
+    assert document["jobs"]["watchdog"]["name"] == watchdog.SELF_CHECK_NAME
+
+
 def test_every_action_is_sha_pinned(document):
     """AGENTS.md: every non-local `uses:` is pinned to a 40-hex commit SHA."""
     for step in _steps(document):

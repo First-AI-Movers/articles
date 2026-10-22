@@ -143,6 +143,40 @@ class TestClassify:
             [_check("test", "success", run_id=1), _check("e2e", None, run_id=2, status="queued")]
         ) == ("SKIP", [])
 
+    def test_the_watchdogs_own_running_check_does_not_block_green(self, mod):
+        """A `schedule` run attaches its check-runs to the head it is censusing,
+        so the watchdog always sees itself `in_progress`. Counting that would
+        make every census SKIP forever -- no GREEN, and so no closer, ever."""
+        assert mod.classify(
+            [
+                _check("test", "success", run_id=1),
+                _check(mod.SELF_CHECK_NAME, None, run_id=2, status="in_progress"),
+            ]
+        ) == ("GREEN", [])
+
+    def test_the_watchdogs_own_failure_is_not_self_reported(self, mod):
+        """It cannot report itself: its newest run under that name is always the
+        currently-executing one, so an earlier failed attempt is already retired
+        by the time a census could read it. Excluded explicitly rather than
+        left to that accident."""
+        assert mod.classify(
+            [_check("test", "success", run_id=1), _check(mod.SELF_CHECK_NAME, "failure", run_id=2)]
+        ) == ("GREEN", [])
+
+    def test_a_real_failure_is_still_red_while_the_watchdog_runs(self, mod):
+        verdict, failed = mod.classify(
+            [
+                _check("og-worker", "failure", run_id=1),
+                _check(mod.SELF_CHECK_NAME, None, run_id=2, status="in_progress"),
+            ]
+        )
+        assert verdict == "RED"
+        assert failed == ["og-worker"], "the watchdog must not name itself in the incident"
+
+    def test_a_head_carrying_only_the_watchdog_is_skip(self, mod):
+        """Nothing judgeable has reported, so there is no verdict to give."""
+        assert mod.classify([_check(mod.SELF_CHECK_NAME, "success")]) == ("SKIP", [])
+
     def test_a_failure_outranks_an_unsettled_head(self, mod):
         """A settled failure is actionable whatever else is still running."""
         verdict, failed = mod.classify(
