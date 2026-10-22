@@ -196,19 +196,23 @@ class TestIssueBody:
             details={"mcp-server": "https://example.invalid/job/1"},
             commit_subject="chore(deps-dev): bump vitest",
             pull_request=498,
-            run_url="https://example.invalid/run/9",
         )
         assert body.startswith(mod.ISSUE_MARKER)
         assert "mcp-server" in body and "og-worker" in body
         assert HEAD[:12] in body
         assert "#498" in body, "the PR is the route to an accountable owner"
         assert "https://example.invalid/job/1" in body
-        assert "https://example.invalid/run/9" in body
 
-    def test_body_is_stable_for_the_same_state(self, mod):
-        """The body is PATCHed in place on every run while the red lasts, so an
-        unchanged condition must not produce churn."""
-        kwargs = dict(branch="main", sha=HEAD, failed=["og-worker"], run_url="https://x.invalid/1")
+    def test_body_is_a_pure_function_of_head_state(self, mod):
+        """Nothing per-run may enter the body: it is rewritten on every census
+        while the red lasts, so a per-run value would edit the issue hourly for
+        no new information. `issue_body` takes no run identity at all, which is
+        what makes that structural rather than a convention."""
+        import inspect
+
+        params = set(inspect.signature(mod.issue_body).parameters)
+        assert "run_url" not in params and "run_id" not in params
+        kwargs = dict(branch="main", sha=HEAD, failed=["og-worker"])
         assert mod.issue_body(**kwargs) == mod.issue_body(**kwargs)
 
     def test_body_tolerates_a_missing_pr_and_subject(self, mod):
@@ -229,12 +233,16 @@ class TestIssueBody:
 class _Gh:
     """Answers the exact gh argument shapes the module issues."""
 
-    def __init__(self, *, check_runs=(), open_issues=(), sha=HEAD, subject="a commit", pulls=()):
+    def __init__(
+        self, *, check_runs=(), open_issues=(), sha=HEAD, subject="a commit", pulls=(),
+        issue_bodies=None,
+    ):
         self.check_runs = list(check_runs)
         self.open_issues = list(open_issues)  # [(number, title)]
         self.sha = sha
         self.subject = subject
         self.pulls = list(pulls)
+        self.issue_bodies = dict(issue_bodies or {})
         self.calls: list[list[str]] = []
         self.created = 777
 
@@ -248,6 +256,11 @@ class _Gh:
             return json.dumps([{"number": n} for n in self.pulls])
         if args[:2] == ["api", "--paginate"] and "/issues?state=open" in args[2]:
             return "\n".join(json.dumps([n, t]) for n, t in self.open_issues)
+        for number in self.issue_bodies:
+            if args == ["api", f"repos/{REPO}/issues/{number}"]:
+                return json.dumps({"number": number, "body": self.issue_bodies[number]})
+        if len(args) == 2 and args[0] == "api" and args[1].startswith(f"repos/{REPO}/issues/"):
+            return json.dumps({"body": ""})
         if args[:3] == ["api", "-X", "PATCH"]:
             return "{}"
         if args[:2] == ["api", f"repos/{REPO}/issues"] and "POST" in args:
@@ -296,6 +309,45 @@ def test_red_head_refreshes_the_existing_issue_instead_of_opening_a_second(
     assert mod.main() == 0
     assert "refreshed #500" in capsys.readouterr().out
     assert not [c for c in gh.calls if c[:2] == ["api", f"repos/{REPO}/issues"] and "POST" in c]
+    assert gh.patched(f"repos/{REPO}/issues/500")
+
+
+def test_an_unchanged_red_writes_nothing(mod, env, monkeypatch, capsys):
+    """Hourly censuses during a multi-day outage must not edit the issue once an
+    hour. The body is a function of the head, so an unchanged body means an
+    unchanged red and there is nothing to write."""
+    checks = [_check("og-worker", "failure")]
+    expected = mod.issue_body(
+        branch="main",
+        sha=HEAD,
+        failed=["og-worker"],
+        details=mod.failing_details(checks, ["og-worker"]),
+        commit_subject="a commit",
+        pull_request=None,
+    )
+    gh = _Gh(
+        check_runs=checks,
+        open_issues=[(500, mod.ISSUE_TITLE)],
+        issue_bodies={500: expected},
+    )
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 0
+    out = capsys.readouterr().out
+    assert f"{mod.RESULT_PREFIX} RED" in out, "it is still red, and must still say so"
+    assert "unchanged #500" in out
+    assert not [c for c in gh.calls if c[:3] == ["api", "-X", "PATCH"]], "no edit for no change"
+
+
+def test_a_changed_red_does_refresh(mod, env, monkeypatch, capsys):
+    """The other half: a red that moved to a different surface must update."""
+    gh = _Gh(
+        check_runs=[_check("mcp-server", "failure")],
+        open_issues=[(500, mod.ISSUE_TITLE)],
+        issue_bodies={500: "an older body naming og-worker"},
+    )
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 0
+    assert "refreshed #500" in capsys.readouterr().out
     assert gh.patched(f"repos/{REPO}/issues/500")
 
 

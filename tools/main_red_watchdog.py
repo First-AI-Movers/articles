@@ -98,12 +98,19 @@ def issue_body(
     details: dict[str, str] | None = None,
     commit_subject: str = "",
     pull_request: int | None = None,
-    run_url: str = "",
 ) -> str:
     """The incident body: who must repair what, and nothing else.
 
     Identifiers and URLs only -- no log excerpts, so a public issue cannot
     accidentally carry build output.
+
+    A pure function of the head's state, deliberately: the body is rewritten on
+    every census while the red lasts, so anything per-run in here (the
+    watchdog's own run URL, a timestamp) would edit the issue every hour of an
+    outage for no new information. What a repair owner needs is the failing
+    checks' own run links, the head, and the pull request -- all of which are
+    properties of the state. The watchdog's run URL belongs in the step summary
+    and in the close comment, where it is written once.
     """
     lines = [
         ISSUE_MARKER,
@@ -126,8 +133,6 @@ def issue_body(
     ]
     if pull_request:
         lines.append(f"- **Merged from:** #{pull_request} — the repair owner starts there")
-    if run_url:
-        lines.append(f"- **Watchdog run:** {run_url}")
     lines += [
         "",
         "### Why this needed an issue",
@@ -233,11 +238,31 @@ def open_incidents(repo: str) -> list[int]:
     return numbers
 
 
+def issue_body_of(repo: str, number: int) -> str:
+    """The issue's current body, or "" when it cannot be read.
+
+    An unreadable body must not suppress the refresh, so the empty string makes
+    the comparison in `open_or_refresh` fail open and write.
+    """
+    try:
+        return ((_api_json(f"repos/{repo}/issues/{number}") or {}).get("body") or "")
+    except GhError:  # pragma: no cover - network path
+        return ""
+
+
 def open_or_refresh(repo: str, body: str) -> tuple[str, int]:
-    """Keep exactly one incident issue current. Returns (action, number)."""
+    """Keep exactly one incident issue current. Returns (action, number).
+
+    Writes nothing when the state has not moved: the body is a pure function of
+    the head, so an unchanged body means an unchanged red and there is nothing
+    to say. A multi-day outage therefore leaves one issue with one edit per
+    actual change, not one per hourly census.
+    """
     existing = open_incidents(repo)
     if existing:
         number = existing[0]
+        if issue_body_of(repo, number) == body:
+            return ("unchanged", number)
         _run_gh(["api", "-X", "PATCH", f"repos/{repo}/issues/{number}", "-f", f"body={body}"])
         if len(existing) > 1:
             print(
@@ -348,7 +373,6 @@ def main() -> int:
             details=failing_details(checks, failed),
             commit_subject=subject,
             pull_request=pull_request_for(repo, sha),
-            run_url=_run_url(),
         )
         action, number = open_or_refresh(repo, body)
     except GhError as exc:
