@@ -65,6 +65,24 @@ ISSUE_TITLE = "main is red: a check on the default branch is failing"
 ISSUE_MARKER = "<!-- main-red-watchdog -->"
 ISSUE_LABELS = ("automation", "ci")
 
+# This watchdog's own check-run name, i.e. the `name:` of the job in
+# .github/workflows/main-red-watchdog.yml. It is excluded from the census
+# because the watchdog cannot judge itself (#489):
+#
+#   * A `schedule` run attaches its check-runs to the default branch's head, so
+#     while the census is executing, `main-red-watchdog` is sitting on that very
+#     head as `in_progress`. Requiring a fully settled head would then make
+#     every census SKIP forever -- no GREEN, and so no closer, ever.
+#   * Self-failure could not be reported either way: the newest check-run under
+#     this name is always the currently-executing one, which retires any earlier
+#     failed attempt before it could be read.
+#
+# A broken watchdog is therefore visible in Actions and through the absence of
+# its result, not through its own alarm. `test_workflows_main_red_watchdog.py`
+# pins this constant to the workflow's job name so a rename cannot silently
+# re-include it.
+SELF_CHECK_NAME = "main-red-watchdog"
+
 
 class GhError(RuntimeError):
     pass
@@ -149,6 +167,15 @@ def issue_body(
     return "\n".join(lines)
 
 
+def judgeable(check_runs) -> dict[str, dict]:
+    """The live check run per name, excluding this watchdog's own (SELF_CHECK_NAME)."""
+    return {
+        name: run
+        for name, run in ci_check_runs.newest_runs_by_name(check_runs).items()
+        if name != SELF_CHECK_NAME
+    }
+
+
 def classify(check_runs) -> tuple[str, list[str]]:
     """("RED", names) | ("GREEN", []) | ("SKIP", []) for one head's check runs.
 
@@ -167,10 +194,15 @@ def classify(check_runs) -> tuple[str, list[str]]:
       If a check run is abandoned in `queued` the head never settles and an open
       incident simply stays open, which is the safe direction for this tool.
     """
-    newest = ci_check_runs.newest_runs_by_name(check_runs)
-    failed = ci_check_runs.failed_check_names(check_runs)
+    newest = judgeable(check_runs)
+    failed = [
+        name
+        for name, run in newest.items()
+        if run.get("status") == "completed"
+        and (run.get("conclusion") or "").lower() in ci_check_runs.BLOCKING_CONCLUSIONS
+    ]
     if failed:
-        return ("RED", failed)
+        return ("RED", sorted(failed))
     if not newest or any(run.get("status") != "completed" for run in newest.values()):
         return ("SKIP", [])
     return ("GREEN", [])
@@ -178,7 +210,7 @@ def classify(check_runs) -> tuple[str, list[str]]:
 
 def failing_details(check_runs, failed: list[str]) -> dict[str, str]:
     """Map each failing check name to its newest run's `details_url`."""
-    newest = ci_check_runs.newest_runs_by_name(check_runs)
+    newest = judgeable(check_runs)
     out = {}
     for name in failed:
         url = (newest.get(name) or {}).get("details_url")
@@ -341,7 +373,7 @@ def main() -> int:
             # opened and -- crucially -- nothing open is closed.
             pending = sorted(
                 name
-                for name, run in ci_check_runs.newest_runs_by_name(checks).items()
+                for name, run in judgeable(checks).items()
                 if run.get("status") != "completed"
             )
             detail = (
