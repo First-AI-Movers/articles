@@ -130,6 +130,30 @@ class TestClassify:
             [],
         )
 
+    @pytest.mark.parametrize("status", ["queued", "in_progress", "waiting", "pending"])
+    def test_an_unsettled_head_is_skip_not_green(self, mod, status):
+        """GREEN closes an open incident, so it must mean "proven clean", never
+        "nothing has failed yet". A commit landing on a broken `main` presents a
+        head whose checks are all unfinished; calling that GREEN would close a
+        live incident and reopen it an hour later."""
+        assert mod.classify([_check("test", None, status=status)]) == ("SKIP", [])
+
+    def test_one_green_check_does_not_settle_a_head_with_others_running(self, mod):
+        assert mod.classify(
+            [_check("test", "success", run_id=1), _check("e2e", None, run_id=2, status="queued")]
+        ) == ("SKIP", [])
+
+    def test_a_failure_outranks_an_unsettled_head(self, mod):
+        """A settled failure is actionable whatever else is still running."""
+        verdict, failed = mod.classify(
+            [
+                _check("mcp-server", "failure", run_id=1),
+                _check("e2e", None, run_id=2, status="in_progress"),
+            ]
+        )
+        assert verdict == "RED"
+        assert failed == ["mcp-server"]
+
     def test_a_failure_is_red_with_every_name(self, mod):
         verdict, failed = mod.classify(
             [
@@ -317,6 +341,21 @@ def test_a_head_with_no_checks_yet_changes_nothing(mod, env, monkeypatch, capsys
     assert mod.main() == 0
     assert f"{mod.RESULT_PREFIX} SKIP" in capsys.readouterr().out
     assert not [c for c in gh.calls if c[:3] == ["api", "-X", "PATCH"]]
+
+
+def test_an_unsettled_head_does_not_close_a_live_incident(mod, env, monkeypatch, capsys):
+    """The regression this exists for: a commit landing on a broken `main`
+    presents an unsettled head, and the incident must survive it."""
+    gh = _Gh(
+        check_runs=[_check("test", None, status="queued"), _check("e2e", None, run_id=2, status="in_progress")],
+        open_issues=[(500, mod.ISSUE_TITLE)],
+    )
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 0
+    out = capsys.readouterr().out
+    assert f"{mod.RESULT_PREFIX} SKIP" in out
+    assert "still running" in out and "e2e" in out, "the reason must name what is pending"
+    assert not [c for c in gh.patched(f"repos/{REPO}/issues/500")], "the incident must stay open"
 
 
 def test_a_gh_failure_is_a_typed_error(mod, env, monkeypatch, capsys):

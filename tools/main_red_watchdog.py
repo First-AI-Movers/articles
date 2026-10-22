@@ -145,12 +145,30 @@ def issue_body(
 
 
 def classify(check_runs) -> tuple[str, list[str]]:
-    """("RED", names) | ("GREEN", []) | ("SKIP", []) for one head's check runs."""
+    """("RED", names) | ("GREEN", []) | ("SKIP", []) for one head's check runs.
+
+    Order matters, and each branch is load-bearing:
+
+    * **RED wins immediately.** A settled failure is actionable whatever else is
+      still running, so it is never held back waiting for the rest of the head.
+    * **GREEN requires a fully settled head.** `GREEN` closes an open incident,
+      so it must mean "this head is proven clean", not "nothing has failed yet".
+      Declaring it on a head whose checks are still queued would close a real
+      incident the moment any commit landed on a broken `main`, then reopen it
+      an hour later -- a spurious "closed, main is clean" on a branch that was
+      never clean.
+    * **Everything else is SKIP**, which changes nothing: no alarm, no close.
+      A normal head settles in minutes, so the next hourly census judges it.
+      If a check run is abandoned in `queued` the head never settles and an open
+      incident simply stays open, which is the safe direction for this tool.
+    """
     newest = ci_check_runs.newest_runs_by_name(check_runs)
-    if not newest:
-        return ("SKIP", [])
     failed = ci_check_runs.failed_check_names(check_runs)
-    return ("RED", failed) if failed else ("GREEN", [])
+    if failed:
+        return ("RED", failed)
+    if not newest or any(run.get("status") != "completed" for run in newest.values()):
+        return ("SKIP", [])
+    return ("GREEN", [])
 
 
 def failing_details(check_runs, failed: list[str]) -> dict[str, str]:
@@ -294,8 +312,19 @@ def main() -> int:
         verdict, failed = classify(checks)
 
         if verdict == "SKIP":
-            # A head whose checks have not reported yet is not a red head.
-            _result("SKIP", f"no check run has reported on {sha[:12]} yet")
+            # An unsettled head is not evidence either way, so nothing is
+            # opened and -- crucially -- nothing open is closed.
+            pending = sorted(
+                name
+                for name, run in ci_check_runs.newest_runs_by_name(checks).items()
+                if run.get("status") != "completed"
+            )
+            detail = (
+                f"{sha[:12]} is not settled yet; still running: {', '.join(pending)}"
+                if pending
+                else f"no check run has reported on {sha[:12]} yet"
+            )
+            _result("SKIP", detail)
             return 0
 
         if verdict == "GREEN":
