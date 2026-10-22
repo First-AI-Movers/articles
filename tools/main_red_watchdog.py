@@ -195,14 +195,9 @@ def classify(check_runs) -> tuple[str, list[str]]:
       incident simply stays open, which is the safe direction for this tool.
     """
     newest = judgeable(check_runs)
-    failed = [
-        name
-        for name, run in newest.items()
-        if run.get("status") == "completed"
-        and (run.get("conclusion") or "").lower() in ci_check_runs.BLOCKING_CONCLUSIONS
-    ]
+    failed = ci_check_runs.failed_check_names(check_runs, exclude={SELF_CHECK_NAME})
     if failed:
-        return ("RED", sorted(failed))
+        return ("RED", failed)
     if not newest or any(run.get("status") != "completed" for run in newest.values()):
         return ("SKIP", [])
     return ("GREEN", [])

@@ -52,17 +52,32 @@ def newest_runs_by_name(check_runs) -> dict[str, dict]:
     return newest
 
 
-def failed_check_names(check_runs) -> list[str]:
+def has_failed(run) -> bool:
+    """Whether one check run is a settled failure.
+
+    The single predicate. Both consumers ask this rather than re-deriving
+    "completed and in BLOCKING_CONCLUSIONS", so a change to what counts as a
+    settled failure cannot land in one of them and not the other.
+    """
+    return (run or {}).get("status") == "completed" and (
+        ((run or {}).get("conclusion") or "").lower() in BLOCKING_CONCLUSIONS
+    )
+
+
+def failed_check_names(check_runs, *, exclude=()) -> list[str]:
     """Names of check runs whose newest attempt on this commit failed.
+
+    `exclude` drops names from consideration entirely -- a scheduled watchdog
+    passes its own job name, because its run sits on the very head it reads.
 
     Sorted, so a caller that puts the list in a comment or an issue body
     produces the same text for the same state.
     """
+    excluded = frozenset(exclude)
     return sorted(
         name
         for name, run in newest_runs_by_name(check_runs).items()
-        if run.get("status") == "completed"
-        and (run.get("conclusion") or "").lower() in BLOCKING_CONCLUSIONS
+        if name not in excluded and has_failed(run)
     )
 
 

@@ -79,6 +79,27 @@ class TestSharedDefinition:
     def test_malformed_entries_are_ignored(self, shared):
         assert shared.failed_check_names([_check("", "failure"), "nonsense", None, {}]) == []
 
+    @pytest.mark.parametrize(
+        "run, expected",
+        [
+            ({"status": "completed", "conclusion": "failure"}, True),
+            ({"status": "completed", "conclusion": "FAILURE"}, True),
+            ({"status": "completed", "conclusion": "success"}, False),
+            ({"status": "completed", "conclusion": "skipped"}, False),
+            ({"status": "in_progress", "conclusion": None}, False),
+            ({}, False),
+            (None, False),
+        ],
+    )
+    def test_has_failed_is_the_single_predicate(self, shared, run, expected):
+        assert shared.has_failed(run) is expected
+
+    def test_exclude_drops_a_name_entirely(self, shared):
+        runs = [_check("og-worker", "failure", run_id=1), _check("self", "failure", run_id=2)]
+        assert shared.failed_check_names(runs) == ["og-worker", "self"]
+        assert shared.failed_check_names(runs, exclude={"self"}) == ["og-worker"]
+        assert shared.failed_check_names(runs, exclude={"self", "og-worker"}) == []
+
     def test_prevention_and_detection_share_one_definition(self, shared):
         """The arming script and the watchdog must never disagree about a
         surface, so neither may keep a private copy of the definition.
@@ -103,6 +124,14 @@ class TestSharedDefinition:
             source = (tools / consumer).read_text(encoding="utf-8")
             assert "ci_check_runs" in source, f"{consumer} must read the shared definition"
             assert "timed_out" not in source, f"{consumer} must not restate the conclusions"
+            # Asking `has_failed` / `failed_check_names` is fine; spelling the
+            # membership test out again is the drift this module exists to stop.
+            assert "in BLOCKING_CONCLUSIONS" not in source, (
+                f"{consumer} must ask the shared predicate, not re-derive it"
+            )
+            assert "in ci_check_runs.BLOCKING_CONCLUSIONS" not in source, (
+                f"{consumer} must ask the shared predicate, not re-derive it"
+            )
 
         assert arming.BLOCKING_CONCLUSIONS == shared.BLOCKING_CONCLUSIONS
         assert watchdog.ci_check_runs.BLOCKING_CONCLUSIONS == shared.BLOCKING_CONCLUSIONS
