@@ -35,6 +35,23 @@ Eligibility (fail-closed; every exit prints one typed result line):
      workflow file is allowed only as the `github-actions` ecosystem's manifest,
      under a directory that file configures; the organization gate's workflow
      policy judges those bytes, not this script.
+  5. No check run on that head has already failed (BLOCKING_CONCLUSIONS).
+
+Why clause 5 exists (#489)
+--------------------------
+`aeos-merge-ready` is this repository's only required context, so a check run
+that is *not* required -- `mcp-server`, `og-worker`, and every other
+`paths:`-filtered surface -- is visible but cannot block a merge. Three times
+(#451/#452, #485/#486, #498/#499) a bump merged with its own surface red and
+left `main` broken for days: the last of those for six, with the #487 guard
+naming the conflict correctly in a `test` job nobody was gated on.
+
+Clause 5 is the half of that remedy this repository owns. It does not touch
+branch protection, the required-context list, or the organization gate -- it
+withholds *this script's* arming, so a bump whose surface is already red stays
+open for a person instead of auto-merging. A PR with checks still running is
+not red: arming while the gate is pending is the ordinary lifecycle, and only a
+settled failure refuses. Human PRs are unaffected, by construction.
 
 Result vocabulary (stdout, one line, `DEPENDABOT_AUTO_MERGE_RESULT: ...`):
   ARMED      auto-merge is now enabled on the PR
@@ -93,6 +110,18 @@ WORKFLOW_SUFFIXES = (".yml", ".yaml")
 
 REFUSAL_MARKER = "<!-- dependabot-auto-merge: REFUSED -->"
 
+# Check-run conclusions that mean "this surface is broken at this head" (#489).
+# Deliberately tight: `skipped` is the normal conclusion for every
+# `paths:`-filtered workflow that did not apply and for the unarmed
+# `main-smoke` revert legs, `neutral` and `stale` are not verdicts, and
+# `cancelled` is usually a superseded run rather than a result. Only a settled,
+# self-reported failure withholds arming.
+BLOCKING_CONCLUSIONS = frozenset({"failure", "timed_out", "action_required"})
+
+# Opening of the clause-5 refusal reason, so the posted comment can recognise
+# its own case and route it (#489) without parsing a sentence.
+FAILING_CHECKS_REASON = "check run(s) already failing"
+
 
 # --------------------------------------------------------------------------
 # Pure functions -- unit-testable without the gh CLI.
@@ -125,7 +154,37 @@ def first_disallowed_path(paths) -> str | None:
     return None
 
 
-def classify(pr: dict | None, files, expected_head_sha: str) -> tuple[str, str]:
+def failed_check_names(check_runs) -> list[str]:
+    """Names of check runs whose newest attempt on this head failed (#489).
+
+    One check name can legitimately appear several times on a head, always from
+    distinct workflow runs -- a re-run, or a scheduled workflow that runs again
+    on an unchanged `main`. Check-run ids increase with creation, so the highest
+    id is the newest verdict for that name and it retires any earlier one: a red
+    surface that is re-run green does not keep refusing.
+
+    Returns a sorted list so the refusal reason is stable for the
+    one-comment-per-reason dedupe in `post_refusal`.
+    """
+    newest: dict[str, dict] = {}
+    for run in check_runs or ():
+        if not isinstance(run, dict):
+            continue
+        name = (run.get("name") or "").strip()
+        if not name:
+            continue
+        current = newest.get(name)
+        if current is None or (run.get("id") or 0) >= (current.get("id") or 0):
+            newest[name] = run
+    return sorted(
+        name
+        for name, run in newest.items()
+        if run.get("status") == "completed"
+        and (run.get("conclusion") or "").lower() in BLOCKING_CONCLUSIONS
+    )
+
+
+def classify(pr: dict | None, files, expected_head_sha: str, check_runs=()) -> tuple[str, str]:
     """Decide what to do with the PR: ("ARM" | "SKIP" | "REFUSED", reason).
 
     SKIP is "not a job for this script" (no PR, already handled, not a
@@ -168,24 +227,46 @@ def classify(pr: dict | None, files, expected_head_sha: str) -> tuple[str, str]:
     bad = first_disallowed_path(paths)
     if bad is not None:
         return ("REFUSED", f"changed path {bad!r} is not a dependency manifest or lockfile")
+
+    failed = failed_check_names(check_runs)
+    if failed:
+        return (
+            "REFUSED",
+            f"{FAILING_CHECKS_REASON} at {head_sha[:12]}: {', '.join(failed)}",
+        )
     return ("ARM", f"{len(paths)} dependency file(s) changed by Dependabot at {head_sha[:12]}")
 
 
 def refusal_comment(reason: str, run_url: str) -> str:
-    return "\n".join(
-        [
-            REFUSAL_MARKER,
-            "## Dependabot auto-merge not armed",
+    lines = [
+        REFUSAL_MARKER,
+        "## Dependabot auto-merge not armed",
+        "",
+        f"**Reason:** {reason}",
+        "",
+        f"- **Run:** {run_url}",
+        "",
+        "This PR stays open for a person to decide. The arming step only arms squash "
+        "auto-merge on a Dependabot PR whose every changed path is a dependency manifest "
+        "or lockfile; nothing here bypasses `aeos-merge-ready`. See #432.",
+    ]
+    if reason.startswith(FAILING_CHECKS_REASON):
+        lines += [
             "",
-            f"**Reason:** {reason}",
+            "That check is not a required context, so it would not have stopped this merge "
+            "by itself -- which is exactly how #451/#452, #485/#486 and #498/#499 left `main` "
+            "broken. Withholding arming is the half of the remedy this repository owns; the "
+            "required-context list and branch protection are unchanged (#489).",
             "",
-            f"- **Run:** {run_url}",
-            "",
-            "This PR stays open for a person to decide. The arming step only arms squash "
-            "auto-merge on a Dependabot PR whose every changed path is a dependency manifest "
-            "or lockfile; nothing here bypasses `aeos-merge-ready`. See #432.",
+            "**To proceed:** push a fix to this branch -- that re-runs `Run tests`, and the "
+            "arming listens to it, so a head whose surfaces are green is armed normally. "
+            "A newer green run of the same check retires the red, but re-running *only* the "
+            "failing workflow fires no arming event (this step is triggered by `Run tests`, "
+            "and `requested` does not fire on a re-run): re-run `Run tests` afterwards to be "
+            "picked up. Merging it red stays a deliberate choice for a person with repository "
+            "access, not something this step will do.",
         ]
-    )
+    return "\n".join(lines)
 
 
 # --------------------------------------------------------------------------
@@ -258,6 +339,19 @@ def pr_files(repo: str, number: int) -> list[dict]:
     return [json.loads(line) for line in out.splitlines() if line.strip()]
 
 
+def head_check_runs(repo: str, sha: str) -> list[dict]:
+    """Every check run GitHub has recorded against `sha` (#489)."""
+    if not sha:
+        return []
+    out = _run_gh(
+        [
+            "api", "--paginate", f"repos/{repo}/commits/{sha}/check-runs?per_page=100",
+            "--jq", ".check_runs[]",
+        ]
+    )
+    return [json.loads(line) for line in out.splitlines() if line.strip()]
+
+
 def arm(repo: str, number: int) -> str:
     """`gh pr merge --squash --auto`: arms when the gate is pending, merges when
     the PR is already mergeable (GitHub refuses to arm a clean PR). Returns the
@@ -322,8 +416,10 @@ def main() -> int:
 
     try:
         pr = resolve_pr(repo, number, head_branch)
-        files = pr_files(repo, int(pr["number"])) if pr and pr.get("state") == "open" else []
-        verdict, reason = classify(pr, files, head_sha)
+        open_pr = bool(pr) and pr.get("state") == "open"
+        files = pr_files(repo, int(pr["number"])) if open_pr else []
+        checks = head_check_runs(repo, head_sha) if open_pr else []
+        verdict, reason = classify(pr, files, head_sha, checks)
         if verdict == "SKIP":
             _result("SKIP", reason)
             return 0
