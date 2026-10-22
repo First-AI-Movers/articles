@@ -5,6 +5,8 @@ Covers:
   - is_path_allowed / first_disallowed_path, and their alignment with the
     directories `.github/dependabot.yml` actually configures
   - classify(): the SKIP / REFUSED / ARM decision table
+  - failed_check_names() and clause 5: a head whose own surface check has
+    already failed is not armed (#489)
   - main(): the gh shell-outs are stubbed, so the flow is exercised end to end
     without a network, including the typed result line and exit codes
 """
@@ -48,6 +50,10 @@ def _pr(**overrides):
 
 def _files(*paths):
     return [{"filename": p} for p in paths]
+
+
+def _check(name, conclusion, *, run_id=1, status="completed"):
+    return {"id": run_id, "name": name, "status": status, "conclusion": conclusion}
 
 
 # --------------------------------------------------------------------------
@@ -255,6 +261,121 @@ class TestClassify:
 
 
 # --------------------------------------------------------------------------
+# failed_check_names() and clause 5: a red surface withholds arming (#489)
+# --------------------------------------------------------------------------
+
+
+class TestFailedCheckNames:
+    def test_no_check_runs_is_not_a_failure(self, mod):
+        """The ordinary arming window: nothing has reported yet."""
+        assert mod.failed_check_names([]) == []
+        assert mod.failed_check_names(None) == []
+
+    @pytest.mark.parametrize("conclusion", ["failure", "timed_out", "action_required"])
+    def test_blocking_conclusions_are_reported(self, mod, conclusion):
+        assert mod.failed_check_names([_check("mcp-server", conclusion)]) == ["mcp-server"]
+
+    @pytest.mark.parametrize("conclusion", ["success", "skipped", "neutral", "cancelled", "stale"])
+    def test_non_verdicts_are_not_failures(self, mod, conclusion):
+        """`skipped` is what every `paths:`-filtered workflow concludes when it
+        did not apply, and what the unarmed `main-smoke` revert legs conclude on
+        a healthy head -- treating it as red would refuse every PR."""
+        assert mod.failed_check_names([_check("og-worker", conclusion)]) == []
+
+    def test_a_still_running_check_is_not_a_failure(self, mod):
+        assert mod.failed_check_names(
+            [_check("test", None, status="in_progress"), _check("e2e", None, status="queued")]
+        ) == []
+
+    def test_newest_attempt_per_name_wins(self, mod):
+        """A check re-run green must retire its own earlier red: same name, from
+        a later workflow run, so the higher check-run id is the live verdict."""
+        runs = [_check("mcp-server", "failure", run_id=1), _check("mcp-server", "success", run_id=2)]
+        assert mod.failed_check_names(runs) == []
+        assert mod.failed_check_names(list(reversed(runs))) == [], "order must not matter"
+
+    def test_a_newer_red_overrides_an_earlier_green(self, mod):
+        runs = [_check("og-worker", "success", run_id=5), _check("og-worker", "failure", run_id=9)]
+        assert mod.failed_check_names(runs) == ["og-worker"]
+
+    def test_every_failing_name_is_listed_sorted(self, mod):
+        runs = [
+            _check("og-worker", "failure", run_id=2),
+            _check("mcp-server", "failure", run_id=1),
+            _check("test", "success", run_id=3),
+        ]
+        assert mod.failed_check_names(runs) == ["mcp-server", "og-worker"]
+
+    def test_unnamed_and_malformed_entries_are_ignored(self, mod):
+        runs = [_check("", "failure"), {"id": 2, "status": "completed"}, "nonsense", None]
+        assert mod.failed_check_names(runs) == []
+
+
+class TestClauseFiveRefusal:
+    """#485/#486 and #498/#499 merged with `mcp-server`/`og-worker` red because
+    neither is a required context. Clause 5 withholds this script's arming for
+    exactly that head state.
+    """
+
+    def test_a_red_surface_refuses_the_arming(self, mod):
+        verdict, reason = mod.classify(
+            _pr(),
+            _files("mcp-server/package-lock.json"),
+            HEAD,
+            [_check("mcp-server", "failure")],
+        )
+        assert verdict == "REFUSED"
+        assert "mcp-server" in reason
+        assert HEAD[:12] in reason
+
+    def test_a_green_head_still_arms(self, mod):
+        verdict, _ = mod.classify(
+            _pr(),
+            _files("mcp-server/package-lock.json"),
+            HEAD,
+            [_check("mcp-server", "success"), _check("test", "success", run_id=2)],
+        )
+        assert verdict == "ARM"
+
+    def test_checks_still_running_still_arm(self, mod):
+        """Arming while the gate is pending is the lifecycle, not a hazard."""
+        verdict, _ = mod.classify(
+            _pr(),
+            _files("package.json"),
+            HEAD,
+            [_check("test", None, status="in_progress")],
+        )
+        assert verdict == "ARM"
+
+    def test_an_earlier_refusal_still_takes_precedence(self, mod):
+        """A disallowed path is the more fundamental refusal and keeps its reason,
+        so the existing routing does not change shape when a surface is also red."""
+        verdict, reason = mod.classify(
+            _pr(),
+            _files("package.json", "tools/build_embeddings.py"),
+            HEAD,
+            [_check("mcp-server", "failure")],
+        )
+        assert verdict == "REFUSED"
+        assert "tools/build_embeddings.py" in reason
+
+    def test_the_refusal_comment_routes_to_489(self, mod):
+        _, reason = mod.classify(
+            _pr(), _files("package.json"), HEAD, [_check("og-worker", "failure")]
+        )
+        body = mod.refusal_comment(reason, "https://example.invalid/run/1")
+        assert body.startswith(mod.REFUSAL_MARKER)
+        assert "og-worker" in body
+        assert "#489" in body
+        assert "required-context list and branch protection are unchanged" in body
+
+    def test_an_unrelated_refusal_comment_stays_unchanged(self, mod):
+        body = mod.refusal_comment("pull request is a draft", "https://example.invalid/run/1")
+        assert "#489" not in body
+        assert "#432" in body
+
+
+# --------------------------------------------------------------------------
 # main() with gh stubbed
 # --------------------------------------------------------------------------
 
@@ -266,18 +387,23 @@ class _Gh:
     module calls gh fails here instead of being silently answered.
     """
 
-    def __init__(self, pr, files, *, merged_after=False, armed_after=True, comments=""):
+    def __init__(
+        self, pr, files, *, merged_after=False, armed_after=True, comments="", check_runs=()
+    ):
         self.pr = pr
         self.files = files
         self.merged_after = merged_after
         self.armed_after = armed_after
         self.comments = comments
+        self.check_runs = list(check_runs)
         self.calls: list[list[str]] = []
 
     def __call__(self, args, *, check=True):
         self.calls.append(list(args))
         repo = "First-AI-Movers/articles"
         n = self.pr["number"]
+        if args[:2] == ["api", "--paginate"] and "/check-runs" in args[2]:
+            return "\n".join(json.dumps(c) for c in self.check_runs)
         if args[:2] == ["pr", "merge"]:
             if self.merged_after:
                 self.pr = dict(self.pr, merged=True, state="closed")
@@ -372,6 +498,46 @@ def test_main_resolves_pr_by_head_branch_when_number_missing(mod, env, monkeypat
     assert f"{mod.RESULT_PREFIX} ARMED" in capsys.readouterr().out
     lookups = [c for c in gh.calls if any("head=First-AI-Movers:dependabot/" in a for a in c)]
     assert lookups, "the PR must be looked up by owner:head-branch when no number is given"
+
+
+def test_main_refuses_a_red_surface_without_merging(mod, env, monkeypatch, capsys):
+    """The #485/#486 head state, end to end: the bump is not armed, not merged,
+    and the PR carries the reason (#489)."""
+    gh = _Gh(
+        _pr(),
+        _files("mcp-server/package-lock.json"),
+        check_runs=[_check("mcp-server", "failure"), _check("test", "success", run_id=2)],
+    )
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 1, "the refusal must be visible as a failed run"
+    out = capsys.readouterr().out
+    assert f"{mod.RESULT_PREFIX} REFUSED" in out
+    assert "mcp-server" in out
+    assert not [c for c in gh.calls if c[:2] == ["pr", "merge"]], "nothing may be merged or armed"
+    posts = [c for c in gh.calls if "-X" in c and "POST" in c]
+    assert len(posts) == 1
+    assert "#489" in posts[0][-1]
+
+
+def test_main_arms_when_the_head_is_green(mod, env, monkeypatch, capsys):
+    gh = _Gh(
+        _pr(),
+        _files("mcp-server/package-lock.json"),
+        check_runs=[_check("mcp-server", "success"), _check("og-worker", "skipped", run_id=2)],
+    )
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 0
+    assert f"{mod.RESULT_PREFIX} ARMED" in capsys.readouterr().out
+
+
+def test_main_reads_check_runs_for_the_event_head(mod, env, monkeypatch, capsys):
+    """The census must be taken on the SHA the event reported, not on `main`."""
+    gh = _Gh(_pr(), _files("package.json"))
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 0
+    census = [c for c in gh.calls if any("/check-runs" in a for a in c)]
+    assert census, "clause 5 needs the head's check runs"
+    assert any(HEAD in a for c in census for a in c)
 
 
 def test_main_without_repository_is_a_typed_refusal(mod, monkeypatch, capsys):
