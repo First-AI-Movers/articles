@@ -79,6 +79,8 @@ import os
 import subprocess
 import sys
 
+import ci_check_runs
+
 RESULT_PREFIX = "DEPENDABOT_AUTO_MERGE_RESULT:"
 
 DEPENDABOT_LOGIN = "dependabot[bot]"
@@ -110,13 +112,9 @@ WORKFLOW_SUFFIXES = (".yml", ".yaml")
 
 REFUSAL_MARKER = "<!-- dependabot-auto-merge: REFUSED -->"
 
-# Check-run conclusions that mean "this surface is broken at this head" (#489).
-# Deliberately tight: `skipped` is the normal conclusion for every
-# `paths:`-filtered workflow that did not apply and for the unarmed
-# `main-smoke` revert legs, `neutral` and `stale` are not verdicts, and
-# `cancelled` is usually a superseded run rather than a result. Only a settled,
-# self-reported failure withholds arming.
-BLOCKING_CONCLUSIONS = frozenset({"failure", "timed_out", "action_required"})
+# What "red" means is shared with tools/main_red_watchdog.py (#489): one
+# definition, so prevention and detection cannot disagree about a surface.
+BLOCKING_CONCLUSIONS = ci_check_runs.BLOCKING_CONCLUSIONS
 
 # Opening of the clause-5 refusal reason, so the posted comment can recognise
 # its own case and route it (#489) without parsing a sentence.
@@ -157,31 +155,11 @@ def first_disallowed_path(paths) -> str | None:
 def failed_check_names(check_runs) -> list[str]:
     """Names of check runs whose newest attempt on this head failed (#489).
 
-    One check name can legitimately appear several times on a head, always from
-    distinct workflow runs -- a re-run, or a scheduled workflow that runs again
-    on an unchanged `main`. Check-run ids increase with creation, so the highest
-    id is the newest verdict for that name and it retires any earlier one: a red
-    surface that is re-run green does not keep refusing.
-
-    Returns a sorted list so the refusal reason is stable for the
-    one-comment-per-reason dedupe in `post_refusal`.
+    Thin alias for the shared definition, kept so the decision table below reads
+    as one module. The sorted result is what makes the refusal reason stable for
+    the one-comment-per-reason dedupe in `post_refusal`.
     """
-    newest: dict[str, dict] = {}
-    for run in check_runs or ():
-        if not isinstance(run, dict):
-            continue
-        name = (run.get("name") or "").strip()
-        if not name:
-            continue
-        current = newest.get(name)
-        if current is None or (run.get("id") or 0) >= (current.get("id") or 0):
-            newest[name] = run
-    return sorted(
-        name
-        for name, run in newest.items()
-        if run.get("status") == "completed"
-        and (run.get("conclusion") or "").lower() in BLOCKING_CONCLUSIONS
-    )
+    return ci_check_runs.failed_check_names(check_runs)
 
 
 def classify(pr: dict | None, files, expected_head_sha: str, check_runs=()) -> tuple[str, str]:
@@ -341,15 +319,7 @@ def pr_files(repo: str, number: int) -> list[dict]:
 
 def head_check_runs(repo: str, sha: str) -> list[dict]:
     """Every check run GitHub has recorded against `sha` (#489)."""
-    if not sha:
-        return []
-    out = _run_gh(
-        [
-            "api", "--paginate", f"repos/{repo}/commits/{sha}/check-runs?per_page=100",
-            "--jq", ".check_runs[]",
-        ]
-    )
-    return [json.loads(line) for line in out.splitlines() if line.strip()]
+    return ci_check_runs.fetch_check_runs(_run_gh, repo, sha)
 
 
 def arm(repo: str, number: int) -> str:

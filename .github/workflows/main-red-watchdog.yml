@@ -1,0 +1,76 @@
+# main-red watchdog (#489) — REPORT ONLY.
+#
+# WHAT GAP THIS FILLS. `aeos-merge-ready` is this repository's only required
+# context, so a check run that is not required -- `mcp-server`, `og-worker`,
+# every other `paths:`-filtered surface -- is visible but cannot block a merge,
+# and AGENTS.md's lifecycle is explicitly "arm auto-merge and do not wait". Twice
+# that left `main` broken with nothing saying so: #485/#486 for about 30 h,
+# #498/#499 for SIX DAYS. Both were found by a governor sweep. The second time,
+# the #487 guard failed on `main` and named the conflict exactly -- in the `test`
+# job, a correct detector with no route to a person.
+#
+# WHAT IT DOES NOT DO. It does not revert, push, merge, or change how merges
+# happen: no branch protection, no required-context list, no organization policy.
+# `main-smoke` keeps its own decisions, which live in the organization-owned
+# reusable workflow, and this does not duplicate them -- `main-smoke` smokes the
+# deployed site, this reads check-run conclusions on the default branch's head.
+#
+# WHY SCHEDULED AND NOT `push: main`. At push time no check run on the new head
+# has reported yet, so a push-triggered census would always see an empty head and
+# say nothing. The schedule is the only trigger that observes a settled head.
+#
+# WHY IT EXITS GREEN WHEN `main` IS RED. The red is reported through a
+# deduplicated issue, not by failing this run. A watchdog that went red with
+# `main` would be one more failing check nobody is gated on -- precisely the
+# defect it exists to cover.
+#
+# The issue is opened once, refreshed in place while the condition lasts, and
+# CLOSED by this same workflow once the head is clean (#473): dedupe bounds a
+# signal's rate, only a closer bounds its population, and an incident that
+# outlives its condition is the stale status mirror AGENTS.md warns about.
+#
+# No `pull_request_target`; `permissions` declared and minimal; every `uses:` is
+# SHA-pinned; no `${{ secrets.* }}` and nothing author-controlled in a `run:`
+# body -- the only credential is the default `GITHUB_TOKEN`, passed as an env var.
+name: main-red watchdog
+
+on:
+  schedule:
+    # Hourly at :25 — clear of the 06:00/06:17 UTC ingest + e2e window and of the
+    # 14:00 summary monitor. GitHub Actions cron is UTC. Hourly turns the measured
+    # six-day detection gap into a one-hour bound for a read-only job.
+    - cron: "25 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+# One census at a time; a queued run then re-reads the head rather than racing
+# the issue list/create window, which is not atomic.
+concurrency:
+  group: main-red-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    name: main-red-watchdog
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version-file: .python-version
+
+      # Standard library and `gh` only: no `pip install`, so the watchdog cannot
+      # be taken down by a dependency resolution failure -- which is exactly the
+      # class of breakage it is here to report.
+      - name: Census the default branch head and route a red one
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MAIN_BRANCH: ${{ github.event.repository.default_branch || 'main' }}
+        run: python3 tools/main_red_watchdog.py
