@@ -77,7 +77,7 @@ production module, and takes shared constants from `tools/tests/_fixtures.py`.
 
 ## PR lifecycle
 
-Squash-only, zero required approvals, one required check: `aeos-merge-ready`.
+Squash-only, zero required approvals, one required check: `aeos-merge-judge` (the organization's merge judge, a GitHub App check).
 
 1. Branch from fresh `origin/main`; smallest coherent unit.
 2. Prove it — run the tests for the surface you changed. If a change is docs-only and
