@@ -222,3 +222,46 @@ def test_the_page_links_back_to_the_article_it_implements(template):
     assert "before-you-automate-a-workflow-7-questions" in template, (
         "the page must link to the article whose method it applies"
     )
+
+
+SERVICES_URL = "https://www.firstaimovers.com/services"
+CONTACT_URL = "https://www.firstaimovers.com/contact"
+
+
+@pytest.fixture(scope="module")
+def rendered_content() -> str:
+    """The page's content block as Jinja renders it, without the site chrome."""
+    import jinja2  # a declared requirement; a skip here would be unread proof
+
+    env = jinja2.Environment(
+        loader=jinja2.FileSystemLoader(str(TEMPLATE.parent)),
+        autoescape=True,
+    )
+    tmpl = env.get_template(TEMPLATE.name)
+    ctx = tmpl.new_context({"rel_root": "../", "site_url": "https://example.invalid"})
+    return "".join(tmpl.blocks["content"](ctx))
+
+
+def test_the_result_offers_a_plain_enquiry_next_step(rendered_content):
+    """#508 §3/§6: after a verdict, a truthful way to talk it through.
+
+    Both are plain links with no query string, so nothing a visitor answered can
+    ride along with the click; the result section is the only place they appear.
+    """
+    result = re.search(
+        r"<section id=\"assess-result\".*?</section>", rendered_content, re.DOTALL
+    )
+    assert result, "the result section is missing"
+    for url in (SERVICES_URL, CONTACT_URL):
+        assert f'<a href="{url}">' in result.group(0), (
+            f"the result section does not link plainly to {url}"
+        )
+    hrefs = re.findall(r'href="(https://www\.firstaimovers\.com/[^"]*)"', rendered_content)
+    assert all("?" not in h and "#" not in h for h in hrefs), (
+        f"an enquiry link carries a query or fragment: {hrefs}"
+    )
+
+
+def test_the_downloaded_record_names_the_contact_page(script):
+    """The one-page record gives the reader the same way to follow up."""
+    assert CONTACT_URL in script, "the record no longer names the contact page"
