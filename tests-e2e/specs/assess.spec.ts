@@ -104,6 +104,7 @@ test.describe("Seven-question workflow assessment", () => {
     expect(body).toContain("An approved supplier invoice, consumed by finance.");
     expect(body).toContain("What is the decision today?");
     expect(body).toContain("Verdict of record");
+    expect(body).toContain("https://www.firstaimovers.com/contact");
   });
 
   test("clearing the answers hides the recommendation", async ({ page }) => {
@@ -113,6 +114,28 @@ test.describe("Seven-question workflow assessment", () => {
     await expect(page.locator("#assess-result")).toBeVisible();
     await page.locator("#assess-reset").click();
     await expect(page.locator("#assess-result")).toBeHidden();
+  });
+
+  test("after a verdict, plain services and contact links are offered", async ({ page }) => {
+    const external: string[] = [];
+    page.on("request", (req) => {
+      const url = req.url();
+      if (!url.startsWith("http://localhost") && !url.startsWith("http://127.0.0.1") && !url.startsWith("blob:") && !url.startsWith("data:")) {
+        external.push(url);
+      }
+    });
+    await page.goto("/assess/");
+    await expect(page.locator("#assess-enquiry")).toBeHidden();
+    await answer(page, { ...ALL_CLEAR, q2: "unmeasured" });
+    await page.locator("#assess-submit").click();
+    await expect(page.locator("#assess-verdict")).toHaveText("REPAIR_FIRST");
+    const services = page.locator('#assess-enquiry a[href="https://www.firstaimovers.com/services"]');
+    const contact = page.locator('#assess-enquiry a[href="https://www.firstaimovers.com/contact"]');
+    await expect(services).toBeVisible();
+    await expect(contact).toBeVisible();
+    // Showing the links sends nothing: only the site's own analytics may leave.
+    const unexpected = external.filter((u) => !u.includes("goatcounter") && !u.includes("gc.zgo.at"));
+    expect(unexpected).toEqual([]);
   });
 
   test("the page issues no network request while being used", async ({ page }) => {

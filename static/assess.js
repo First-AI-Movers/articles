@@ -216,6 +216,8 @@
     lines.push('   Verdict of record: ____________________  (BUILD / REPAIR_FIRST / DEFER / STOP)');
     lines.push('   Decided by: ____________________   Date: ____________');
     lines.push('');
+    lines.push('To talk this through: https://www.firstaimovers.com/contact');
+    lines.push('');
     return lines.join('\n');
   }
 
