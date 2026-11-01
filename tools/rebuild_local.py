@@ -1694,7 +1694,7 @@ def build_site(index):
     # LLM / raw-data mirror: copy every public root-level artifact into the
     # staging dir so existing URLs stay byte-identical after the deploy switches.
     mirror_files = [
-        "index.json", "llms.txt", "llms-full.txt", "llms-recent.txt",
+        "index.json", "llms.txt", "llms-index.txt", "llms-full.txt", "llms-recent.txt",
         "feed.xml", "sitemap.xml", "citation_graph.json",
         "hernanicosta.json", "CITATION.cff", "ABOUT.md", "README.md",
         "robots.txt", "CNAME",

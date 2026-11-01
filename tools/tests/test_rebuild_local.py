@@ -370,6 +370,16 @@ class TestBuildSite:
         m.build_site(index)
         return tmp_path / "site"
 
+    def test_every_llms_corpus_file_is_served(self, monkeypatch, tmp_path):
+        """llms.txt advertises llms-index.txt beside llms-full/recent, so the
+        deployed site/ must carry every one of them, not only the repo root."""
+        names = ("llms.txt", "llms-index.txt", "llms-full.txt", "llms-recent.txt")
+        for name in names:
+            (tmp_path / name).write_text(f"{name} body\n", encoding="utf-8")
+        site = self._run(monkeypatch, tmp_path, {"articles": []})
+        for name in names:
+            assert (site / name).read_text(encoding="utf-8") == f"{name} body\n"
+
     def test_slugify_produces_stable_urls(self):
         m = self._mod()
         assert m._slugify("AI Governance") == "ai-governance"
