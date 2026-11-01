@@ -15,13 +15,14 @@ User ──→ /ask/ (static HTML page + ask.js)
                           │
                           ├──→ lexical search (searchArticles)
                           ├──→ semantic search (optional, Workers AI)
-                          └──→ Workers AI text generation (@cf/meta/llama-3.1-8b-instruct)
+                          └──→ quoted article summaries (default; no model call)
+                                └──→ optional Workers AI generation (explicit opt-in)
 ```
 
 - **Frontend:** `templates/ask.html.j2` + `static/ask.js`
 - **Backend:** `mcp-server/src/ask.ts` — `/api/ask` route on the same Worker as the MCP server
 - **Retrieval:** Reuses `searchArticles` from `mcp-server/src/search.ts`
-- **Generation:** Cloudflare Workers AI binding (only when deployed with binding)
+- **Answers:** Quotes from matched public article summaries by default. Workers AI generation requires both the AI binding and `ASK_MODEL_ENABLED="true"`; a binding alone never enables generation.
 
 ## Pages
 
@@ -56,9 +57,11 @@ Every answer must cite source articles. The response includes:
 - `slug` — URL-safe identifier
 - `local_url` — link to archive page
 - `canonical_url` — link to original publisher
+- `published_date` — article publication date
+- `passage` — quoted summary passage (up to 400 characters, plus a truncation marker)
 - `score` — retrieval relevance score
 
-If no relevant articles are found, the response says so clearly and suggests browsing topic hubs. The system prompt explicitly forbids inventing facts, dates, URLs, or claims.
+A result must match at least half the question's content terms as whole words in its title, topics, summary or excerpt. If none qualifies, the response abstains and suggests topic hubs. This overlap rule is a relevance heuristic, not proof that an article answers every premise of the question. Material claims still need passage checks.
 
 ## Request / response format
 
@@ -92,14 +95,16 @@ Validation:
       "score": 42.5
     }
   ],
-  "mode": "lexical"
+  "mode": "extractive"
 }
 ```
 
 Modes:
-- `lexical` — keyword-based retrieval
-- `semantic` — vector-based retrieval (only when enabled and working)
-- `mock` — no AI binding available; returns a placeholder answer for testing
+- `extractive` — quotes matched public article summaries; no generation call
+- `abstained` — no supporting result; empty citations
+- `model` — explicit opt-in generation succeeded; failures fall back to extractive answers
+
+Retrieval uses lexical search by default; retrieval mode is separate from the response mode. There is no mock-answer mode.
 
 ## Workers AI models
 
@@ -108,7 +113,7 @@ Modes:
 | Query embedding | `@cf/baai/bge-small-en-v1.5` | `env.AI` |
 | Text generation | `@cf/meta/llama-3.1-8b-instruct` | `env.AI` |
 
-The generation model is capped at 512 output tokens and uses a strict system prompt requiring citations and forbidding hallucination.
+When explicitly enabled, the generation model is capped at 512 output tokens and uses a strict system prompt requiring citations and forbidding hallucination.
 
 ## Deployment
 
@@ -164,6 +169,8 @@ python3 tools/rebuild_local.py
 
 ## Safety
 
+Ask accepts public topics only: do not submit private, client or personal information. The handler stores no questions or question history and logs only a model error class on generation failure. Cloudflare request metadata logging remains separate; verify provider retention settings during activation.
+
 - **No article mutation:** The endpoint is read-only
 - **No secrets in browser:** Endpoint URL is configurable but no API keys are exposed
 - **No answer without citations:** If retrieval fails, the response says so
@@ -195,7 +202,9 @@ python3 tools/rebuild_local.py
 - No production rate limiting in code
 - Semantic retrieval compatibility unverified without live deployment
 - Streaming responses deferred to v2
-- Answer quality depends on Workers AI model capabilities
+- Default answers are summary extracts, not full-article synthesis
+- Term overlap cannot prove that a passage answers every premise
+- Optional model output requires separate evaluation before activation
 
 ## Testing
 
@@ -207,7 +216,10 @@ python3 tools/rebuild_local.py
 - Limit capping
 - Citation presence
 - Empty-context handling
-- Lexical fallback when AI binding missing
+- Extractive default even when an AI binding is present
+- No model call unless explicitly enabled
+- Abstention on unsupported questions
+- Model failure falls back to extractive answers
 - Error response structure (no stack traces)
 
 ### Frontend (Playwright E2E)

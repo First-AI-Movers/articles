@@ -114,7 +114,7 @@ To enable deployment:
 
 1. Add secrets in GitHub Settings → Secrets and variables → Actions
 2. Add `MCP_DEPLOY_ENABLED=1` in Variables
-3. Push to `main` or run the workflow manually
+3. Use the authorized main-push release path for a change matching this workflow's path filters. `workflow_dispatch` runs validation only: its deploy job explicitly requires a `push` event.
 
 ### Manual deployment
 
@@ -136,7 +136,7 @@ npm run deploy
 - **File:** `.github/workflows/mcp-server.yml`
 - **Triggers:** PR and push to `main` when `mcp-server/**`, `tools/export_mcp_data.py`, or the workflow itself changes
 - **Jobs:**
-  1. `test` — type check, Node unit tests, dry-run build
+  1. `mcp-server` — type check, Node unit tests, dry-run build
   2. `export-data` — Python contract tests, verify generated data is up to date
   3. `deploy` — gated deployment to Cloudflare Workers (only on `main` push)
 
