@@ -1078,6 +1078,19 @@ class TestAskPage:
         site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
         page = (site / "ask" / "index.html").read_text(encoding="utf-8")
         assert 'ask-disabled' in page
+
+    def test_ask_page_has_privacy_and_retention_notice(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        page = (site / "ask" / "index.html").read_text(encoding="utf-8")
+        assert 'id="ask-privacy"' in page
+        assert "Do not submit private, client or personal information." in page
+        assert "stores no questions" in page
+
+    def test_ask_page_disabled_state_does_not_blame_the_model(self, monkeypatch, tmp_path):
+        site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
+        page = (site / "ask" / "index.html").read_text(encoding="utf-8")
+        assert "endpoint not yet deployed" in page
+        assert "Workers AI endpoint" not in page
         assert "endpoint not yet deployed" in page
 
     def test_ask_page_has_breadcrumb(self, monkeypatch, tmp_path):

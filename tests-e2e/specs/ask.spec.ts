@@ -44,6 +44,46 @@ test.describe("Ask the Archive page", () => {
     await expect(page.locator("#ask-disabled")).toContainText("endpoint not yet deployed");
   });
 
+  test("privacy and retention notice is visible", async ({ page }) => {
+    await page.goto("/ask/");
+    const notice = page.locator("#ask-privacy");
+    await expect(notice).toBeVisible();
+    await expect(notice).toContainText("Do not submit private, client or personal information.");
+    await expect(notice).toContainText("stores no questions");
+  });
+
+  test("extractive answer renders citations with dates", async ({ page }) => {
+    await page.route("**/api/ask", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          mode: "extractive",
+          answer: "unused",
+          citations: [
+            {
+              title: "Example article",
+              slug: "example",
+              local_url: "/articles/example/",
+              canonical_url: "https://example.com/example",
+              published_date: "2026-01-02",
+              passage: "Quoted summary passage.",
+              score: 1,
+            },
+          ],
+        }),
+      })
+    );
+    await page.goto("/ask/");
+    await page.locator("#ask-question").fill("AI governance for SMEs");
+    await page.locator("#ask-submit").click();
+    const list = page.locator("#ask-citations-list");
+    await expect(list).toContainText("Example article");
+    await expect(list.locator("time")).toHaveText("2026-01-02");
+    await expect(list).toContainText("Quoted summary passage.");
+    await expect(page.locator("#ask-answer-text")).toContainText("No AI model wrote this answer");
+  });
+
   test("nav link exists", async ({ page }) => {
     await page.goto("/");
     const askLink = page.locator('nav a[href$="ask/"]');
