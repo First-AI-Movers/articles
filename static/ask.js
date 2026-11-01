@@ -60,6 +60,14 @@
     answerTextEl.innerHTML = html;
   }
 
+  function safeHref(url) {
+    // Only same-site paths and https links are rendered as links.
+    if (typeof url !== 'string') return '';
+    if (url.charAt(0) === '/' && url.charAt(1) !== '/') return url;
+    if (/^https:\/\//i.test(url)) return url;
+    return '';
+  }
+
   function renderCitations(citations) {
     if (!citationsListEl) return;
     if (!citations || !citations.length) {
@@ -69,20 +77,38 @@
     var html = '';
     for (var i = 0; i < citations.length; i++) {
       var c = citations[i];
-      var local = c.local_url || '';
-      var canonical = c.canonical_url || '';
+      var local = safeHref(c.local_url);
+      var canonical = safeHref(c.canonical_url);
       var title = c.title || 'Untitled';
-      html += '<li>' +
-        '<strong>' + escapeHtml(title) + '</strong>' +
-        ' <span class="ask-citation-score">(score ' + (typeof c.score === 'number' ? c.score.toFixed(3) : '—') + ')</span>' +
-        '<br><a href="' + escapeHtml(local) + '">Read in archive</a>';
-      if (canonical && canonical !== local) {
-        html += ' · <a href="' + escapeHtml(canonical) + '" rel="noopener noreferrer">Original source</a>';
+      var date = typeof c.published_date === 'string' ? c.published_date : '';
+      html += '<li>' + '<strong>' + escapeHtml(title) + '</strong>';
+      if (date) {
+        html += ' <time class="ask-citation-date" datetime="' + escapeHtml(date) + '">' + escapeHtml(date) + '</time>';
       }
+      if (typeof c.passage === 'string' && c.passage) {
+        html += '<blockquote class="ask-citation-passage">' + escapeHtml(c.passage) + '</blockquote>';
+      }
+      var links = [];
+      if (local) links.push('<a href="' + escapeHtml(local) + '">Read in archive</a>');
+      if (canonical && canonical !== local) {
+        links.push('<a href="' + escapeHtml(canonical) + '" rel="noopener noreferrer">Original source</a>');
+      }
+      if (links.length) html += '<br>' + links.join(' · ');
       html += '</li>';
     }
     citationsListEl.innerHTML = html;
     setHidden(citationsEl, false);
+  }
+
+  function renderResponse(data) {
+    if (data.mode === 'extractive' && data.citations && data.citations.length) {
+      // The citations carry each quoted passage; show a short lead only.
+      renderAnswer('Quoted from the archive. No AI model wrote this answer.');
+    } else if (data.answer) {
+      renderAnswer(data.answer);
+    }
+    setHidden(answerEl, false);
+    renderCitations(data.citations);
   }
 
   if (!form) return;
@@ -130,13 +156,7 @@
           showError(data.error);
           return;
         }
-        if (data.answer) {
-          renderAnswer(data.answer);
-          setHidden(answerEl, false);
-        }
-        if (data.citations) {
-          renderCitations(data.citations);
-        }
+        renderResponse(data);
       })
       .catch(function(err) {
         setHidden(loadingEl, true);

@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { handleAsk } from "../src/ask.js";
 
 describe("handleAsk", () => {
@@ -90,7 +90,7 @@ describe("handleAsk", () => {
       expect(c.local_url).toBeDefined();
       expect(typeof c.score).toBe("number");
     }
-    expect(body.mode).toBe("mock"); // no AI binding in test env
+    expect(body.mode).toBe("extractive");
   });
 
   it("refuses to answer when no context matches", async () => {
@@ -101,12 +101,13 @@ describe("handleAsk", () => {
     });
     const res = await handleAsk(req, {});
     expect(res.status).toBe(200);
-    const body = (await res.json()) as { answer: string; citations: unknown[] };
+    const body = (await res.json()) as { answer: string; citations: unknown[]; mode: string };
     expect(body.citations.length).toBe(0);
-    expect(body.answer).toContain("couldn't find");
+    expect(body.mode).toBe("abstained");
+    expect(body.answer).toContain("Not found in the archive");
   });
 
-  it("uses lexical fallback when AI binding missing", async () => {
+  it("answers extractively when AI binding missing", async () => {
     const req = new Request("http://localhost/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -116,7 +117,7 @@ describe("handleAsk", () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as { mode: string; citations: unknown[] };
     expect(body.citations.length).toBeGreaterThan(0);
-    expect(body.mode).toBe("mock");
+    expect(body.mode).toBe("extractive");
   });
 
   it("does not expose stack traces", async () => {
@@ -143,5 +144,133 @@ describe("handleAsk", () => {
     const body = (await res.json()) as { answer: string; citations: unknown[] };
     expect(typeof body.answer).toBe("string");
     expect(Array.isArray(body.citations)).toBe(true);
+  });
+
+  it("accepts a long question without a server error", async () => {
+    const res = await ask({ question: "AI governance ".repeat(30).trim() });
+    expect(res.status).toBe(200);
+  });
+});
+
+function ask(body: unknown): Promise<Response> {
+  return handleAsk(
+    new Request("http://localhost/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }),
+    {}
+  );
+}
+
+function askWith(body: unknown, env: Record<string, unknown>): Promise<Response> {
+  return handleAsk(
+    new Request("http://localhost/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }),
+    env
+  );
+}
+
+type AskBody = {
+  answer: string;
+  mode: string;
+  citations: Array<{
+    title: string;
+    published_date: string;
+    canonical_url: string;
+    local_url: string;
+    passage: string;
+  }>;
+};
+
+describe("handleAsk — extractive, no model by default", () => {
+  it("a supported question yields an extractive answer citing date and URL", async () => {
+    const res = await ask({ question: "AI governance for European SMEs", limit: 3 });
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as AskBody;
+    expect(body.mode).toBe("extractive");
+    expect(body.citations.length).toBeGreaterThan(0);
+    for (const c of body.citations) {
+      expect(c.published_date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(c.canonical_url).toMatch(/^https:\/\//);
+      expect(c.local_url).toMatch(/^\/articles\//);
+      expect(c.passage.length).toBeGreaterThan(0);
+      // The answer is composed only from the cited articles' own words.
+      expect(body.answer).toContain(c.title);
+      expect(body.answer).toContain(c.published_date);
+      expect(body.answer).toContain(c.passage);
+    }
+    expect(body.answer).not.toContain("POC mode");
+  });
+
+  it.each([
+    "xyzqwerty12345 nonsense",
+    "recipe for chocolate cake",
+    "football world cup results",
+    "what is the weather like today",
+  ])("an unsupported question abstains: %s", async (question) => {
+    const res = await ask({ question });
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as AskBody;
+    expect(body.mode).toBe("abstained");
+    expect(body.citations).toEqual([]);
+    expect(body.answer).toContain("Not found in the archive");
+  });
+
+  it("never calls a present AI binding when ASK_MODEL_ENABLED is unset", async () => {
+    const run = vi.fn(async () => ({ response: "generated" }));
+    const res = await askWith({ question: "AI governance for European SMEs" }, { AI: { run } });
+    const body = (await res.json()) as AskBody;
+    expect(run).not.toHaveBeenCalled();
+    expect(body.mode).toBe("extractive");
+  });
+
+  it("never calls the AI binding when ASK_MODEL_ENABLED is not exactly 'true'", async () => {
+    const run = vi.fn(async () => ({ response: "generated" }));
+    await askWith(
+      { question: "AI governance for European SMEs" },
+      { AI: { run }, ASK_MODEL_ENABLED: "1" }
+    );
+    expect(run).not.toHaveBeenCalled();
+  });
+
+  it("calls the AI binding only when ASK_MODEL_ENABLED is 'true'", async () => {
+    const run = vi.fn(async () => ({ response: "generated answer" }));
+    const res = await askWith(
+      { question: "AI governance for European SMEs" },
+      { AI: { run }, ASK_MODEL_ENABLED: "true" }
+    );
+    const body = (await res.json()) as AskBody;
+    expect(run).toHaveBeenCalledTimes(1);
+    expect(body.mode).toBe("model");
+    expect(body.answer).toBe("generated answer");
+    expect(body.citations.length).toBeGreaterThan(0);
+  });
+
+  it("does not call the model when the question abstains, even if enabled", async () => {
+    const run = vi.fn(async () => ({ response: "generated" }));
+    const res = await askWith(
+      { question: "xyzqwerty12345 nonsense" },
+      { AI: { run }, ASK_MODEL_ENABLED: "true" }
+    );
+    const body = (await res.json()) as AskBody;
+    expect(run).not.toHaveBeenCalled();
+    expect(body.mode).toBe("abstained");
+  });
+
+  it("falls back to the extractive answer when the enabled model fails", async () => {
+    const run = vi.fn(async () => {
+      throw new Error("boom");
+    });
+    const res = await askWith(
+      { question: "AI governance for European SMEs" },
+      { AI: { run }, ASK_MODEL_ENABLED: "true" }
+    );
+    const body = (await res.json()) as AskBody;
+    expect(run).toHaveBeenCalledTimes(1);
+    expect(body.mode).toBe("extractive");
   });
 });

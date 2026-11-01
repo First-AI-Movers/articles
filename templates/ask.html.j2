@@ -21,7 +21,12 @@
 
 <h1>Ask the Archive</h1>
 
-<p class="lede">Ask a practical question about AI strategy, governance, or adoption for European SMEs. Answers are grounded in the archive and cite source articles.</p>
+<p class="lede">Ask a practical question about AI strategy, governance, or adoption for European SMEs. Answers are quoted from the archive's own article summaries, with the title, date and link of each source. No AI model writes the answer. If nothing in the archive supports your question, the answer says so.</p>
+
+<div id="ask-privacy" class="ask-privacy">
+  <p><strong>Do not submit private, client or personal information.</strong> Ask about public topics only.</p>
+  <p>The answer service stores no questions. It keeps no question history and writes no question to its own logs. The hosting platform (Cloudflare Workers) keeps its standard request logs, which can include request metadata such as time, URL path, status and approximate location.</p>
+</div>
 
 <div class="ask-box">
   <form id="ask-form" class="ask-form" action="#" method="post">
@@ -40,14 +45,14 @@
   </form>
 
   <div id="ask-loading" class="ask-loading" hidden aria-live="polite">
-    <p>Searching the archive and generating an answer…</p>
+    <p>Searching the archive…</p>
   </div>
 
   <div id="ask-error" class="ask-error" hidden role="alert"></div>
 
   <div id="ask-disabled" class="ask-disabled" hidden>
     <p><strong>Proof of concept — endpoint not yet deployed.</strong></p>
-    <p>The Ask the Archive feature is a work in progress. The page and backend route are built, but the live Workers AI endpoint is gated until Cloudflare credentials and rate limiting are configured.</p>
+    <p>The Ask the Archive page and its answer service are built, but the answer endpoint has not been deployed yet.</p>
     <p>In the meantime, try the <a href="{{ rel_root }}">client-side search</a> or browse <a href="{{ rel_root }}topics/">topic hubs</a>.</p>
   </div>
 
