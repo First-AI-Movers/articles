@@ -3,7 +3,7 @@
 
 Why this exists
 ---------------
-`aeos-merge-ready` is this repository's only required context. A check run that
+`aeos-merge-judge` is this repository's only required context. A check run that
 is *not* required -- `mcp-server`, `og-worker`, every other `paths:`-filtered
 surface -- is visible but cannot block a merge, and AGENTS.md's lifecycle is
 explicitly "arm auto-merge and do not wait". So a bump or a merge can leave
@@ -83,6 +83,21 @@ ISSUE_LABELS = ("automation", "ci")
 # re-include it.
 SELF_CHECK_NAME = "main-red-watchdog"
 
+# Check runs that sit on the default branch's head but report on a pull request,
+# so they say nothing about `main`. A `workflow_run` job executes in the
+# default-branch context, and its check run attaches to whatever `main` was when
+# it fired: the Dependabot arming job (`dependabot-auto-merge`) leaves one on
+# `main` for every Dependabot `Run tests` event, 15 of them on a single head on
+# 2026-10-26. Its red is a REFUSED arming -- a Dependabot head that must not be
+# armed, already reported on that PR -- and since clause 6 (#489) that happens
+# for every red Dependabot head. Counting it would open "main is red" against
+# whichever PR last merged, for a fault that never reached `main`.
+# `test_workflows_main_red_watchdog.py` pins each name to its workflow's job name.
+PULL_REQUEST_SCOPED_CHECK_NAMES = frozenset({"dependabot-auto-merge"})
+
+# Everything the census leaves out, for both the verdict and the settled test.
+EXCLUDED_CHECK_NAMES = frozenset({SELF_CHECK_NAME}) | PULL_REQUEST_SCOPED_CHECK_NAMES
+
 
 class GhError(RuntimeError):
     pass
@@ -155,7 +170,7 @@ def issue_body(
         "",
         "### Why this needed an issue",
         "",
-        "`aeos-merge-ready` is the only required context here, so a failing "
+        "`aeos-merge-judge` is the only required context here, so a failing "
         "surface check does not block a merge and nothing announced this. "
         "#485/#486 left `main` red for about 30 h and #498/#499 for six days, "
         "both found by a sweep rather than an alarm (#489).",
@@ -168,11 +183,12 @@ def issue_body(
 
 
 def judgeable(check_runs) -> dict[str, dict]:
-    """The live check run per name, excluding this watchdog's own (SELF_CHECK_NAME)."""
+    """The live check run per name, excluding EXCLUDED_CHECK_NAMES: this
+    watchdog's own, and the pull-request-scoped runs that only sit on `main`."""
     return {
         name: run
         for name, run in ci_check_runs.newest_runs_by_name(check_runs).items()
-        if name != SELF_CHECK_NAME
+        if name not in EXCLUDED_CHECK_NAMES
     }
 
 
@@ -195,7 +211,7 @@ def classify(check_runs) -> tuple[str, list[str]]:
       incident simply stays open, which is the safe direction for this tool.
     """
     newest = judgeable(check_runs)
-    failed = ci_check_runs.failed_check_names(check_runs, exclude={SELF_CHECK_NAME})
+    failed = ci_check_runs.failed_check_names(check_runs, exclude=EXCLUDED_CHECK_NAMES)
     if failed:
         return ("RED", failed)
     if not newest or any(run.get("status") != "completed" for run in newest.values()):

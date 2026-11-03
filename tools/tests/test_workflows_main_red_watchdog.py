@@ -163,3 +163,31 @@ def test_script_exists_and_reports_the_typed_vocabulary():
     assert "MAIN_RED_WATCHDOG_RESULT:" in text
     for code in ("GREEN", "RED", "SKIP", "ERROR"):
         assert code in text
+
+
+def test_pull_request_scoped_exclusions_are_workflow_run_jobs_named_as_excluded():
+    """Each excluded name must be a job that runs on `workflow_run` -- the reason
+    its check run sits on `main` while reporting on a pull request -- and must be
+    that job's `name:`, so a rename cannot silently re-include it, nor can an
+    ordinary check be hidden from the census by adding it to the set."""
+    import importlib
+    import sys
+
+    sys.path.insert(0, str(REPO_ROOT / "tools"))
+    watchdog = importlib.import_module("main_red_watchdog")
+    assert watchdog.PULL_REQUEST_SCOPED_CHECK_NAMES, "the set exists for a reason; see #489"
+    by_job_name = {}
+    for path in sorted(WORKFLOW.parent.glob("*.yml")):
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        triggers = doc.get(True, doc.get("on")) or {}
+        for job in (doc.get("jobs") or {}).values():
+            if isinstance(job, dict) and job.get("name"):
+                by_job_name[job["name"]] = (path.name, triggers)
+    for name in watchdog.PULL_REQUEST_SCOPED_CHECK_NAMES:
+        assert name in by_job_name, f"no workflow job is named {name!r}"
+        path_name, triggers = by_job_name[name]
+        assert set(triggers) == {"workflow_run"}, (
+            f"{name!r} ({path_name}) is excluded as pull-request-scoped, so it must run "
+            f"only on workflow_run; got {sorted(triggers)}"
+        )
+    assert watchdog.SELF_CHECK_NAME in watchdog.EXCLUDED_CHECK_NAMES

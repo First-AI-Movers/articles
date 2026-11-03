@@ -1,7 +1,7 @@
 """Workflow-shape tests for dependabot-auto-merge.yml (#432).
 
 The workflow is the one step of the ordinary PR lifecycle Dependabot never
-performs -- arming squash auto-merge under `aeos-merge-ready`. These tests pin
+performs -- arming squash auto-merge under `aeos-merge-judge`. These tests pin
 the properties that make it safe and keep it attached:
 
   * it hooks `workflow_run` on a workflow that actually runs for every
@@ -143,6 +143,10 @@ def test_arming_runs_on_the_app_token_with_env_bound_inputs():
     )
     for key in ("DEPENDABOT_PR_NUMBER", "DEPENDABOT_HEAD_BRANCH", "DEPENDABOT_HEAD_SHA"):
         assert key in env, f"{key} must be bound through env:"
+    # Clause 6 (#489): the script arms only on `completed` and withdraws on a new
+    # head's `requested`, so it must be told which one fired. Without this binding
+    # every invocation is an unknown action and nothing is ever armed.
+    assert env.get("DEPENDABOT_EVENT_ACTION") == "${{ github.event.action }}"
     assert arm[0]["run"].strip() == "python3 tools/arm_dependabot_auto_merge.py"
     for step in _steps():
         run = step.get("run")
@@ -154,5 +158,5 @@ def test_script_exists_and_reports_the_typed_vocabulary():
     script = REPO_ROOT / "tools" / "arm_dependabot_auto_merge.py"
     text = script.read_text(encoding="utf-8")
     assert "DEPENDABOT_AUTO_MERGE_RESULT:" in text
-    for code in ("ARMED", "MERGED", "SKIP", "REFUSED"):
+    for code in ("ARMED", "MERGED", "DISARMED", "SKIP", "REFUSED"):
         assert f'"{code}"' in text

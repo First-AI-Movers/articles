@@ -1,7 +1,7 @@
 # Dependabot auto-merge arming (#432).
 #
 # WHAT THIS IS. The one step of the ordinary PR lifecycle that Dependabot never
-# performs: arming squash auto-merge while `aeos-merge-ready` -- the organization's
+# performs: arming squash auto-merge while `aeos-merge-judge` -- the organization's
 # only required check -- is still pending. Six green dependency bumps sat in the
 # operator's queue because nobody was that author (#432). This workflow is that
 # author for Dependabot PRs and nothing more: no second merge controller, no
@@ -34,15 +34,20 @@
 # in every ecosystem. Renaming that workflow detaches this trigger silently;
 # tools/tests/test_workflows_dependabot_auto_merge.py pins the binding.
 #
-# `requested` AND `completed`. Both, for two reasons. The gate is fast (about 30 s), so by the time this
-# job has a runner the PR is often already mergeable; `gh pr merge --squash
-# --auto` then squash-merges it at that head instead of arming, because GitHub
-# refuses to arm a PR that is already in clean status. Either outcome is the
-# ordinary lifecycle end state. `completed` is the retry for a head the first
-# attempt found not yet evaluated -- and it is the only listener that survives a
-# re-run, since "the `requested` activity type does not occur when a workflow is
-# re-run" (docs.github.com, Events that trigger workflows). Both invocations are
-# idempotent: an armed or merged PR is a SKIP.
+# `requested` AND `completed`, WITH DIFFERENT JOBS (#489). Only `completed` arms.
+# By then `Run tests` has its own verdict and the surface checks (`mcp-server`,
+# `og-worker`, about 10 s) have long settled, so the script's red-head census sees
+# them; `aeos-merge-judge` reports only after the other checks settle, so it has
+# not passed yet and the PR is still armable. `requested` arms nothing. It fires
+# when Dependabot opens or rebases a PR, and on a rebase it withdraws any arm an
+# earlier head earned, because GitHub keeps auto-merge armed across Dependabot's
+# force-push. All 16 Dependabot PRs of 2026-10-26 and 2026-11-02 were armed at
+# `requested`, before any surface had reported; the four vitest-5 bumps among them
+# merged red (#522/#523, #538/#539). `completed` is also the only
+# listener that survives a re-run, since "the `requested` activity type does not
+# occur when a workflow is re-run" (docs.github.com, Events that trigger
+# workflows). The action arrives as DEPENDABOT_EVENT_ACTION; both invocations are
+# idempotent.
 #
 # The pull-request shape the script matches was verified against this repository's
 # own Dependabot PRs (#416, #418, #425): `user.login` is `dependabot[bot]` with
@@ -121,7 +126,7 @@ jobs:
         with:
           python-version-file: .python-version
 
-      - name: Arm squash auto-merge on the Dependabot PR
+      - name: Arm or withdraw squash auto-merge on the Dependabot PR
         # Every event value arrives as an environment variable; nothing from the
         # event is interpolated into the script body.
         env:
@@ -129,4 +134,5 @@ jobs:
           DEPENDABOT_PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number || '' }}
           DEPENDABOT_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
           DEPENDABOT_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          DEPENDABOT_EVENT_ACTION: ${{ github.event.action }}
         run: python3 tools/arm_dependabot_auto_merge.py

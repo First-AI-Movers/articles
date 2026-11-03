@@ -5,7 +5,7 @@ Why this exists
 ---------------
 Under the AUTONOMOUS-MAIN lifecycle (AGENTS.md § PR lifecycle) an ordinary PR
 reaches `main` because its author arms squash auto-merge while the one
-required check, `aeos-merge-ready`, is still pending. Dependabot opens PRs
+required check, `aeos-merge-judge`, is still pending. Dependabot opens PRs
 but never arms auto-merge, so every dependency bump sat green in the
 operator's queue until somebody clicked (#432: six of them). This script is
 the missing "author arms auto-merge" step for that one class of PR. It is
@@ -36,10 +36,13 @@ Eligibility (fail-closed; every exit prints one typed result line):
      under a directory that file configures; the organization gate's workflow
      policy judges those bytes, not this script.
   5. No check run on that head has already failed (BLOCKING_CONCLUSIONS).
+  6. The census in clause 5 is taken after `Run tests` has completed on that
+     head (the `completed` event), never at `requested`. A new Dependabot
+     head disarms an arm an earlier head earned.
 
 Why clause 5 exists (#489)
 --------------------------
-`aeos-merge-ready` is this repository's only required context, so a check run
+`aeos-merge-judge` is this repository's only required context, so a check run
 that is *not* required -- `mcp-server`, `og-worker`, and every other
 `paths:`-filtered surface -- is visible but cannot block a merge. Three times
 (#451/#452, #485/#486, #498/#499) a bump merged with its own surface red and
@@ -53,11 +56,39 @@ open for a person instead of auto-merging. A PR with checks still running is
 not red: arming while the gate is pending is the ordinary lifecycle, and only a
 settled failure refuses. Human PRs are unaffected, by construction.
 
+Why clause 6 exists (#489, measured 2026-10-26 and 2026-11-02)
+-------------------------------------------------------------
+Clause 5 alone lost every race it was built for. All 16 Dependabot PRs of those
+two Monday runs were ARMED by the `requested` invocation, within about 20 s of
+the PR opening, before any surface check had settled. Under the retired
+`aeos-merge-ready` (about 30 s) a PR could already be `unstable` by then, and
+GitHub declined the arm until `completed` (#468). Under `aeos-merge-judge`, which
+reports only after the other checks settle, the PR is merely `blocked`, so GitHub
+accepts the arm at once. The census therefore read nothing red:
+
+  * #522 was armed 2 s after `mcp-server` failed, by a census taken before it did;
+    #523 was armed before `og-worker` had even started.
+  * Dependabot then rebased both. GitHub keeps auto-merge armed across that
+    force-push, so every later invocation answered "already armed" and never
+    looked. `aeos-merge-judge` passed and GitHub merged with the surface and
+    `test` both red. #538 and #539 did the same on 2026-11-02.
+
+So the census now waits for `completed`: by then `Run tests` itself has a
+verdict and the surface checks (about 10 s) have long settled, while
+`aeos-merge-judge` has not yet passed (it followed `test` by 15-70 s on all four
+red heads). At `requested` the script arms nothing. An arm on an earlier head is
+withdrawn, because the census that earned it was about a different commit, and
+an arm on a head found red at `completed` is withdrawn before the refusal is
+posted.
+
 Result vocabulary (stdout, one line, `DEPENDABOT_AUTO_MERGE_RESULT: ...`):
   ARMED      auto-merge is now enabled on the PR
   MERGED     the PR was already mergeable and has been squash-merged
-  SKIP       nothing to do (not a Dependabot PR, already armed/merged, or the
-             PR is not in an armable state YET -- see RETRYABLE_GH_FAILURES)
+  DISARMED   a new Dependabot head arrived on an armed PR; the arm is withdrawn
+             until the `completed` census of this head decides again
+  SKIP       nothing to do (not a Dependabot PR, already armed/merged, a
+             `requested` event deferring to `completed`, or the PR is not in an
+             armable state -- see RETRYABLE_GH_FAILURES)
   REFUSED    a Dependabot PR that must not be armed; the reason is posted on
              the PR so it carries its own routing state, and the run fails
              so the refusal is visible in Actions.
@@ -68,6 +99,7 @@ Environment:
   DEPENDABOT_PR_NUMBER     PR number from the event, when GitHub supplied it.
   DEPENDABOT_HEAD_BRANCH   the run's head branch (used to find the PR).
   DEPENDABOT_HEAD_SHA      the run's head SHA (the exact head to act on).
+  DEPENDABOT_EVENT_ACTION  the workflow_run activity: `requested` or `completed`.
 
 The `gh` CLI is the integration surface; this script never touches git.
 """
@@ -120,6 +152,11 @@ BLOCKING_CONCLUSIONS = ci_check_runs.BLOCKING_CONCLUSIONS
 # its own case and route it (#489) without parsing a sentence.
 FAILING_CHECKS_REASON = "check run(s) already failing"
 
+# The two `workflow_run` activities the workflow listens to (clause 6). Only the
+# `completed` census may arm: at `requested` no surface check has settled yet.
+EVENT_REQUESTED = "requested"
+EVENT_COMPLETED = "completed"
+
 
 # --------------------------------------------------------------------------
 # Pure functions -- unit-testable without the gh CLI.
@@ -162,12 +199,24 @@ def failed_check_names(check_runs) -> list[str]:
     return ci_check_runs.failed_check_names(check_runs)
 
 
-def classify(pr: dict | None, files, expected_head_sha: str, check_runs=()) -> tuple[str, str]:
-    """Decide what to do with the PR: ("ARM" | "SKIP" | "REFUSED", reason).
+def classify(
+    pr: dict | None,
+    files,
+    expected_head_sha: str,
+    check_runs=(),
+    event_action: str = EVENT_COMPLETED,
+) -> tuple[str, str]:
+    """Decide what to do with the PR: ("ARM" | "DISARM" | "SKIP" | "REFUSED", reason).
 
     SKIP is "not a job for this script" (no PR, already handled, not a
-    Dependabot PR at all). REFUSED is "a Dependabot PR this script must not
-    arm" -- an author or content property that makes it ineligible.
+    Dependabot PR at all) or "not yet" (a `requested` event, which defers to
+    the `completed` census). REFUSED is "a Dependabot PR this script must not
+    arm" -- an author or content property, or a red head, that makes it
+    ineligible. DISARM is "an arm earned by an earlier head must not carry over
+    to this one" (clause 6).
+
+    An existing arm is never a reason to skip the census: that is how #522/#523
+    and #538/#539 merged red after a rebase (#489).
     """
     if not pr:
         return ("SKIP", "no open pull request for this head")
@@ -175,8 +224,6 @@ def classify(pr: dict | None, files, expected_head_sha: str, check_runs=()) -> t
         return ("SKIP", f"pull request is {pr.get('state')!r}, not open")
     if pr.get("merged"):
         return ("SKIP", "pull request is already merged")
-    if pr.get("auto_merge"):
-        return ("SKIP", "auto-merge is already armed")
 
     user = pr.get("user") or {}
     if user.get("login") != DEPENDABOT_LOGIN or user.get("type") != "Bot":
@@ -206,12 +253,33 @@ def classify(pr: dict | None, files, expected_head_sha: str, check_runs=()) -> t
     if bad is not None:
         return ("REFUSED", f"changed path {bad!r} is not a dependency manifest or lockfile")
 
+    armed = bool(pr.get("auto_merge"))
+    if event_action == EVENT_REQUESTED:
+        if armed:
+            return (
+                "DISARM",
+                f"new Dependabot head {head_sha[:12]} on a PR armed for an earlier head; "
+                f"the `{EVENT_COMPLETED}` census of this head decides again",
+            )
+        return (
+            "SKIP",
+            f"deferred to the `{EVENT_COMPLETED}` census: at `{EVENT_REQUESTED}` no check "
+            f"on {head_sha[:12]} has settled yet",
+        )
+    if event_action != EVENT_COMPLETED:
+        return (
+            "REFUSED",
+            f"event action {event_action!r} is neither {EVENT_REQUESTED!r} nor {EVENT_COMPLETED!r}",
+        )
+
     failed = failed_check_names(check_runs)
     if failed:
         return (
             "REFUSED",
             f"{FAILING_CHECKS_REASON} at {head_sha[:12]}: {', '.join(failed)}",
         )
+    if armed:
+        return ("SKIP", f"auto-merge is already armed and the census at {head_sha[:12]} is clean")
     return ("ARM", f"{len(paths)} dependency file(s) changed by Dependabot at {head_sha[:12]}")
 
 
@@ -226,7 +294,7 @@ def refusal_comment(reason: str, run_url: str) -> str:
         "",
         "This PR stays open for a person to decide. The arming step only arms squash "
         "auto-merge on a Dependabot PR whose every changed path is a dependency manifest "
-        "or lockfile; nothing here bypasses `aeos-merge-ready`. See #432.",
+        "or lockfile; nothing here bypasses `aeos-merge-judge`. See #432.",
     ]
     if reason.startswith(FAILING_CHECKS_REASON):
         lines += [
@@ -234,7 +302,8 @@ def refusal_comment(reason: str, run_url: str) -> str:
             "That check is not a required context, so it would not have stopped this merge "
             "by itself -- which is exactly how #451/#452, #485/#486 and #498/#499 left `main` "
             "broken. Withholding arming is the half of the remedy this repository owns; the "
-            "required-context list and branch protection are unchanged (#489).",
+            "required-context list and branch protection are unchanged (#489). If this PR "
+            "was armed for an earlier head, that arm has been withdrawn.",
             "",
             "**To proceed:** push a fix to this branch -- that re-runs `Run tests`, and the "
             "arming listens to it, so a head whose surfaces are green is armed normally. "
@@ -338,6 +407,19 @@ def arm(repo: str, number: int) -> str:
     )
 
 
+def disarm(repo: str, number: int) -> str:
+    """`gh pr merge --disable-auto`: withdraw an arm this head did not earn
+    (clause 6). Read back like `arm`, so a PR that merged first is a failure the
+    run reports, never a silent success."""
+    _run_gh(["pr", "merge", str(number), "--repo", repo, "--disable-auto"])
+    after = _api_json(f"repos/{repo}/pulls/{number}") or {}
+    if after.get("merged"):
+        raise GhError(f"#{number} merged before its arm could be withdrawn")
+    if after.get("auto_merge"):
+        raise GhError(f"gh pr merge --disable-auto returned success but #{number} is still armed")
+    return "DISARMED"
+
+
 def post_refusal(repo: str, number: int, reason: str) -> None:
     """One refusal comment per PR head; best-effort, never masks the exit code."""
     run_url = (
@@ -383,30 +465,43 @@ def main() -> int:
     number = os.environ.get("DEPENDABOT_PR_NUMBER", "")
     head_branch = os.environ.get("DEPENDABOT_HEAD_BRANCH", "").strip()
     head_sha = os.environ.get("DEPENDABOT_HEAD_SHA", "").strip()
+    event_action = os.environ.get("DEPENDABOT_EVENT_ACTION", "").strip()
 
+    arming = False
     try:
         pr = resolve_pr(repo, number, head_branch)
         open_pr = bool(pr) and pr.get("state") == "open"
         files = pr_files(repo, int(pr["number"])) if open_pr else []
         checks = head_check_runs(repo, head_sha) if open_pr else []
-        verdict, reason = classify(pr, files, head_sha, checks)
+        verdict, reason = classify(pr, files, head_sha, checks, event_action)
         if verdict == "SKIP":
             _result("SKIP", reason)
             return 0
+        if verdict == "DISARM":
+            _result(disarm(repo, int(pr["number"])), f"#{pr['number']}: {reason}")
+            return 0
         if verdict == "REFUSED":
+            if open_pr and pr.get("auto_merge"):
+                # A refused head must not stay armed: the arm is withdrawn before
+                # the refusal is posted, so the comment never claims a state the
+                # PR does not have (clause 6).
+                disarm(repo, int(pr["number"]))
             post_refusal(repo, int(pr["number"]), reason)
             _result("REFUSED", reason)
             return 1
+        arming = True
         outcome = arm(repo, int(pr["number"]))
     except GhError as exc:
-        if is_retryable_gh_failure(str(exc)):
-            # Not a refusal: the PR is not armable yet. The `completed`
-            # activity type on the same workflow_run is the retry, and it is
-            # idempotent -- by then the PR is armed, merged, or still pending.
+        # Only an arm can meet a transient PR state. A failed disarm always
+        # fails the run: an arm that should have been withdrawn is still live.
+        if arming and is_retryable_gh_failure(str(exc)):
+            # Not a refusal: GitHub would not accept the arm in the PR's current
+            # state. Only `completed` arms, so no later event retries this head;
+            # a new head, or a re-run of `Run tests`, decides it again.
             _result(
                 "SKIP",
-                f"pull request is not in an armable state yet, awaiting the "
-                f"`completed` retry: {exc}",
+                f"pull request is not in an armable state; a new head or a re-run "
+                f"of `Run tests` retries it: {exc}",
             )
             return 0
         _result("REFUSED", f"gh failed: {exc}")

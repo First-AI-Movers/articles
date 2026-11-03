@@ -7,6 +7,9 @@ Covers:
   - classify(): the SKIP / REFUSED / ARM decision table
   - failed_check_names() and clause 5: a head whose own surface check has
     already failed is not armed (#489)
+  - clause 6: only the `completed` census arms, and a new Dependabot head
+    withdraws an arm an earlier head earned (#489, the 2026-10-26 and
+    2026-11-02 red merges)
   - main(): the gh shell-outs are stubbed, so the flow is exercised end to end
     without a network, including the typed result line and exit codes
 """
@@ -388,12 +391,23 @@ class _Gh:
     """
 
     def __init__(
-        self, pr, files, *, merged_after=False, armed_after=True, comments="", check_runs=()
+        self,
+        pr,
+        files,
+        *,
+        merged_after=False,
+        armed_after=True,
+        comments="",
+        check_runs=(),
+        disarm_sticks=True,
+        merged_before_disarm=False,
     ):
         self.pr = pr
         self.files = files
         self.merged_after = merged_after
         self.armed_after = armed_after
+        self.disarm_sticks = disarm_sticks
+        self.merged_before_disarm = merged_before_disarm
         self.comments = comments
         self.check_runs = list(check_runs)
         self.calls: list[list[str]] = []
@@ -404,6 +418,13 @@ class _Gh:
         n = self.pr["number"]
         if args[:2] == ["api", "--paginate"] and "/check-runs" in args[2]:
             return "\n".join(json.dumps(c) for c in self.check_runs)
+        if args[:2] == ["pr", "merge"] and "--disable-auto" in args:
+            assert args == ["pr", "merge", str(n), "--repo", repo, "--disable-auto"], args
+            if self.merged_before_disarm:
+                self.pr = dict(self.pr, merged=True, state="closed")
+            elif self.disarm_sticks:
+                self.pr = dict(self.pr, auto_merge=None)
+            return ""
         if args[:2] == ["pr", "merge"]:
             if self.merged_after:
                 self.pr = dict(self.pr, merged=True, state="closed")
@@ -429,6 +450,7 @@ def env(monkeypatch, tmp_path):
     monkeypatch.setenv("DEPENDABOT_PR_NUMBER", "999")
     monkeypatch.setenv("DEPENDABOT_HEAD_BRANCH", "dependabot/npm_and_yarn/mcp-server/qs-6.16.0")
     monkeypatch.setenv("DEPENDABOT_HEAD_SHA", HEAD)
+    monkeypatch.setenv("DEPENDABOT_EVENT_ACTION", "completed")
     monkeypatch.setenv("GITHUB_RUN_ID", "1")
     summary = tmp_path / "summary.md"
     monkeypatch.setenv("GITHUB_STEP_SUMMARY", str(summary))
@@ -558,11 +580,11 @@ UNSTABLE_ERR = (
 
 
 class TestRetryableGhFailure:
-    """`requested` fires seconds after Dependabot opens a PR, before its checks
-    settle, so `gh pr merge --auto` can lose a race the workflow already plans
-    for: `completed` is the retry. Reporting that as REFUSED made every healthy
-    Dependabot PR a red run claiming a refusal that never happened -- seen on
-    #468, which `completed` then merged with nobody involved.
+    """GitHub can decline an arm for a PR state that is not a refusal (#468 was
+    `unstable` while its checks ran). Reporting that as REFUSED made every
+    healthy Dependabot PR a red run claiming a refusal that never happened.
+    Since clause 6 only `completed` arms, so the reason names what retries it:
+    a new head, or a re-run of `Run tests`.
     """
 
     @pytest.mark.parametrize("message", [
@@ -591,7 +613,7 @@ class TestRetryableGhFailure:
         self, mod, env, monkeypatch, capsys
     ):
         """The whole point: exit 0 so Actions stays green for a PR that is
-        simply not ready yet, and say which event will retry."""
+        simply not ready, and say truthfully what will retry it."""
         gh = _Gh(_pr(), _files("package.json"))
         real = gh.__call__
 
@@ -606,7 +628,8 @@ class TestRetryableGhFailure:
         out = capsys.readouterr().out
         assert f"{mod.RESULT_PREFIX} SKIP" in out
         assert f"{mod.RESULT_PREFIX} REFUSED" not in out
-        assert "completed" in out, "the reason must name the retry"
+        assert "re-run of `Run tests`" in out, "the reason must name what retries it"
+        assert "awaiting" not in out, "no later event retries this head; do not promise one"
         assert "unstable status" in out, "and carry the provider's own wording"
 
     def test_main_still_fails_on_a_real_gh_failure(
@@ -647,3 +670,222 @@ class TestRetryableGhFailure:
         assert not [c for c in gh.calls if "-X" in c and "POST" in c], (
             "no comment may be posted for a state the next event resolves"
         )
+
+
+# --------------------------------------------------------------------------
+# Clause 6: only the `completed` census arms; a new head withdraws an old arm
+# (#489, the red merges of 2026-10-26 and 2026-11-02)
+# --------------------------------------------------------------------------
+
+ARMED = {"enabled_by": {"login": "articles-automation[bot]"}, "merge_method": "squash"}
+OTHER = "fedcba9876543210fedcba9876543210fedcba98"
+
+
+class TestClauseSix:
+    """Every Dependabot PR of those two Mondays was armed by the `requested`
+    invocation before any surface reported, so clause 5's census read nothing
+    red; a rebase kept the arm, and every later invocation answered "already
+    armed" without looking. These pin the decision table that closes both holes.
+    """
+
+    def test_requested_never_arms_even_a_clean_head(self, mod):
+        verdict, reason = mod.classify(
+            _pr(), _files("package.json"), HEAD, [], mod.EVENT_REQUESTED
+        )
+        assert verdict == "SKIP"
+        assert "completed" in reason and HEAD[:12] in reason
+
+    def test_requested_with_checks_in_flight_is_the_522_state_and_does_not_arm(self, mod):
+        """#522 at 09:22:4xZ: `mcp-server` and `test` still running. The old
+        census armed here; the surface failed seconds later."""
+        verdict, _ = mod.classify(
+            _pr(),
+            _files("mcp-server/package.json", "mcp-server/package-lock.json"),
+            HEAD,
+            [
+                _check("mcp-server", None, status="in_progress"),
+                _check("test", None, run_id=2, status="in_progress"),
+            ],
+            mod.EVENT_REQUESTED,
+        )
+        assert verdict == "SKIP"
+
+    def test_requested_on_an_armed_pr_disarms(self, mod):
+        """A Dependabot rebase: GitHub kept the arm across the force-push."""
+        verdict, reason = mod.classify(
+            _pr(auto_merge=ARMED), _files("package.json"), HEAD, [], mod.EVENT_REQUESTED
+        )
+        assert verdict == "DISARM"
+        assert HEAD[:12] in reason
+
+    def test_completed_on_an_armed_red_head_is_refused_not_skipped(self, mod):
+        """The old table returned SKIP "already armed" before the census, which
+        is how #538 merged red at its third head."""
+        verdict, reason = mod.classify(
+            _pr(auto_merge=ARMED),
+            _files("mcp-server/package-lock.json"),
+            HEAD,
+            [_check("mcp-server", "failure"), _check("test", "failure", run_id=2)],
+            mod.EVENT_COMPLETED,
+        )
+        assert verdict == "REFUSED"
+        assert "mcp-server" in reason and "test" in reason
+
+    def test_completed_on_an_armed_clean_head_skips(self, mod):
+        verdict, reason = mod.classify(
+            _pr(auto_merge=ARMED),
+            _files("package.json"),
+            HEAD,
+            [_check("test", "success")],
+            mod.EVENT_COMPLETED,
+        )
+        assert verdict == "SKIP"
+        assert "already armed" in reason
+
+    def test_completed_on_a_clean_unarmed_head_arms(self, mod):
+        verdict, _ = mod.classify(
+            _pr(), _files("package.json"), HEAD, [_check("test", "success")], mod.EVENT_COMPLETED
+        )
+        assert verdict == "ARM"
+
+    @pytest.mark.parametrize("action", ["", "rerequested", "COMPLETED"])
+    def test_an_unknown_event_action_never_arms(self, mod, action):
+        verdict, reason = mod.classify(_pr(), _files("package.json"), HEAD, [], action)
+        assert verdict == "REFUSED"
+        assert "event action" in reason
+
+    def test_a_disallowed_path_is_refused_at_requested_too(self, mod):
+        """Content refusals keep their timing: visible on the first event."""
+        verdict, reason = mod.classify(
+            _pr(), _files("tools/build_embeddings.py"), HEAD, [], mod.EVENT_REQUESTED
+        )
+        assert verdict == "REFUSED"
+        assert "tools/build_embeddings.py" in reason
+
+    def test_head_moved_still_skips_before_any_disarm(self, mod):
+        """An event for a superseded head must not touch the PR: the new head's
+        own `requested` event owns the disarm."""
+        verdict, _ = mod.classify(
+            _pr(auto_merge=ARMED), _files("package.json"), OTHER, [], mod.EVENT_REQUESTED
+        )
+        assert verdict == "SKIP"
+
+
+def _merges(gh):
+    return [c for c in gh.calls if c[:2] == ["pr", "merge"]]
+
+
+def _posts(gh):
+    return [c for c in gh.calls if "-X" in c and "POST" in c]
+
+
+def test_main_requested_defers_without_writing(mod, env, monkeypatch, capsys):
+    monkeypatch.setenv("DEPENDABOT_EVENT_ACTION", "requested")
+    gh = _Gh(_pr(), _files("mcp-server/package-lock.json"))
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 0
+    assert f"{mod.RESULT_PREFIX} SKIP" in capsys.readouterr().out
+    assert not _merges(gh) and not _posts(gh)
+
+
+def test_main_requested_on_an_armed_pr_withdraws_the_arm(mod, env, monkeypatch, capsys):
+    monkeypatch.setenv("DEPENDABOT_EVENT_ACTION", "requested")
+    gh = _Gh(_pr(auto_merge=ARMED), _files("package.json"))
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 0
+    assert f"{mod.RESULT_PREFIX} DISARMED" in capsys.readouterr().out
+    assert _merges(gh) == [["pr", "merge", "999", "--repo", "First-AI-Movers/articles", "--disable-auto"]]
+    assert gh.pr["auto_merge"] is None
+    assert not _posts(gh), "a withdrawn arm is not a refusal"
+
+
+def test_main_completed_red_and_armed_disarms_before_it_refuses(mod, env, monkeypatch, capsys):
+    gh = _Gh(
+        _pr(auto_merge=ARMED),
+        _files("og-worker/package-lock.json"),
+        check_runs=[_check("og-worker", "failure"), _check("test", "failure", run_id=2)],
+    )
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 1
+    assert f"{mod.RESULT_PREFIX} REFUSED" in capsys.readouterr().out
+    assert gh.pr["auto_merge"] is None, "a red head must not stay armed"
+    disarm_at = next(i for i, c in enumerate(gh.calls) if "--disable-auto" in c)
+    post_at = next(i for i, c in enumerate(gh.calls) if "-X" in c and "POST" in c)
+    assert disarm_at < post_at, "the arm is withdrawn before the refusal says so"
+    assert "has been withdrawn" in _posts(gh)[0][-1]
+    assert not [c for c in _merges(gh) if "--auto" in c], "nothing may be armed"
+
+
+def test_main_completed_red_and_unarmed_refuses_without_a_disarm_call(mod, env, monkeypatch):
+    gh = _Gh(_pr(), _files("package.json"), check_runs=[_check("mcp-server", "failure")])
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 1
+    assert not _merges(gh)
+
+
+@pytest.mark.parametrize(
+    "stub, needle",
+    [
+        ({"disarm_sticks": False}, "still armed"),
+        ({"merged_before_disarm": True}, "merged before"),
+    ],
+)
+def test_main_a_failed_disarm_fails_the_run(mod, env, monkeypatch, capsys, stub, needle):
+    """A live arm that should have been withdrawn must be loud."""
+    monkeypatch.setenv("DEPENDABOT_EVENT_ACTION", "requested")
+    gh = _Gh(_pr(auto_merge=ARMED), _files("package.json"), **stub)
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 1
+    out = capsys.readouterr().out
+    assert f"{mod.RESULT_PREFIX} REFUSED" in out
+    assert needle in out
+
+
+def test_main_a_disarm_failure_is_never_treated_as_transient(mod, env, monkeypatch, capsys):
+    """The retryable allowance belongs to arming. The same provider wording on
+    a disarm leaves a red head armed, so it must fail the run."""
+    monkeypatch.setenv("DEPENDABOT_EVENT_ACTION", "requested")
+    gh = _Gh(_pr(auto_merge=ARMED), _files("package.json"))
+    real = gh.__call__
+
+    def failing(args, *, check=True):
+        if "--disable-auto" in args:
+            raise mod.GhError(UNSTABLE_ERR)
+        return real(args, check=check)
+
+    monkeypatch.setattr(mod, "_run_gh", failing)
+    assert mod.main() == 1
+    assert f"{mod.RESULT_PREFIX} REFUSED" in capsys.readouterr().out
+
+
+def test_replay_of_522_never_arms_a_head_that_goes_red(mod, env, monkeypatch, capsys):
+    """#522 on 2026-10-26, as event sequence: requested on the first head while
+    `mcp-server` runs, completed with it red; Dependabot rebases; requested and
+    completed on the new head, red again. Under clause 6 no step arms it."""
+    first = _pr()
+    runs_red = [_check("mcp-server", "failure"), _check("test", "failure", run_id=2)]
+
+    monkeypatch.setenv("DEPENDABOT_EVENT_ACTION", "requested")
+    gh = _Gh(first, _files("mcp-server/package-lock.json"),
+             check_runs=[_check("mcp-server", None, status="in_progress")])
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 0
+    assert not _merges(gh)
+
+    monkeypatch.setenv("DEPENDABOT_EVENT_ACTION", "completed")
+    gh = _Gh(gh.pr, _files("mcp-server/package-lock.json"), check_runs=runs_red)
+    monkeypatch.setattr(mod, "_run_gh", gh)
+    assert mod.main() == 1
+    assert not _merges(gh)
+
+    rebased = dict(gh.pr, head=dict(gh.pr["head"], sha=OTHER))
+    monkeypatch.setenv("DEPENDABOT_HEAD_SHA", OTHER)
+    for action, expected_rc in (("requested", 0), ("completed", 1)):
+        monkeypatch.setenv("DEPENDABOT_EVENT_ACTION", action)
+        gh = _Gh(rebased, _files("mcp-server/package-lock.json"), check_runs=runs_red)
+        monkeypatch.setattr(mod, "_run_gh", gh)
+        assert mod.main() == expected_rc
+        assert not [c for c in _merges(gh) if "--auto" in c], f"{action}: nothing may be armed"
+        rebased = gh.pr
+    assert not rebased.get("auto_merge")
+    capsys.readouterr()

@@ -328,32 +328,44 @@ See [`docs/decisions/adr-001-c2pa-content-credentials.md`](decisions/adr-001-c2p
 ## Dependency Bumps (Dependabot)
 
 Dependabot PRs are ordinary PRs under the AUTONOMOUS-MAIN lifecycle: the only required
-check is `aeos-merge-ready`, and the merge is GitHub's native squash auto-merge. Dependabot
+check is `aeos-merge-judge`, and the merge is GitHub's native squash auto-merge. Dependabot
 never arms auto-merge itself, so `.github/workflows/dependabot-auto-merge.yml` does it
-(#432): on every `Run tests` run that a Dependabot pull request requests, it verifies the
-PR is Dependabot-authored, targets `main`, is at the head the event reported, and changes
-only dependency manifests/lockfiles (`tools/arm_dependabot_auto_merge.py::ALLOWED_PATHS`),
-then runs `gh pr merge --squash --auto` with the Articles Automation App token. If the gate
-already passed, that call merges at that head; otherwise the PR merges when it passes.
+(#432): when `Run tests` **completes** on a Dependabot head, it verifies the PR is
+Dependabot-authored, targets `main`, is at the head the event reported, changes only
+dependency manifests/lockfiles (`tools/arm_dependabot_auto_merge.py::ALLOWED_PATHS`), and
+has no check run already failing on that head. Then it runs `gh pr merge --squash --auto`
+with the Articles Automation App token. If the gate already passed, that call merges at
+that head; otherwise the PR merges when it passes.
+
+- **Only `completed` arms; a new head withdraws an old arm (#489).** `mcp-server`,
+  `og-worker` and the other surfaces are not required contexts, so the red-head census is
+  the only thing standing between a broken bump and `main`. Taken at `requested`, it read
+  nothing: on 2026-10-26 and 2026-11-02 every Dependabot PR was armed within about 20 s of
+  opening, before any surface reported, and four vitest-5 bumps merged red
+  (#522/#523, #538/#539). At `completed`, `Run tests` and the surfaces have settled while
+  `aeos-merge-judge` has not yet passed. GitHub keeps auto-merge armed when Dependabot
+  rebases, so a `requested` event for a new head on an armed PR **withdraws** the arm
+  (`DISARMED`), and that head's own `completed` census decides again. A head found red at
+  `completed` is disarmed if it was armed, then refused.
 
 - **A PR it refuses** carries a `Dependabot auto-merge not armed` comment with the typed
   reason and stays open for a person. The run is red so the refusal is visible in Actions.
-- **A PR that is not armable *yet* is a green `SKIP`, not a refusal.** The `requested` event
-  fires within seconds of Dependabot opening a PR, before its checks settle, so
+- **A PR GitHub will not arm in its current state is a green `SKIP`, not a refusal.**
   `gh pr merge --auto` can come back with `Pull request is in unstable status` (and kin).
-  Those are transient states listed in `arm_dependabot_auto_merge.py::RETRYABLE_GH_FAILURES`:
-  the run exits 0, posts no comment, and names `completed` as the retry. Only a genuine
-  failure — bad credentials, a missing resource — is a red `REFUSED`. So a red arming run
-  always means a PR that really does need a person.
+  Those states are listed in `arm_dependabot_auto_merge.py::RETRYABLE_GH_FAILURES`: the
+  run exits 0 and posts no comment. Since only `completed` arms, no later event retries
+  that head. A new head does, or a re-run of `Run tests`. Only a genuine failure is a red
+  `REFUSED`: bad credentials, a missing resource, or a disarm that did not take. So a red
+  arming run always means a PR that really does need a person.
 - **Nothing is merged around the gate**: the arming reads no test results and changes no
   ruleset; `main-smoke` verifies the merged SHA afterwards.
 - **Overlapping bumps** resolve themselves: once a grouped PR lands, Dependabot closes the
-  bumps it made redundant ("up-to-date now") and rebases the rest, and each rebased head is
-  armed again by the same workflow.
+  bumps it made redundant ("up-to-date now") and rebases the rest. Each rebased head has
+  its earlier arm withdrawn at `requested` and is censused and armed again at `completed`.
 - **It fires twice per pull request and is inert for everything that is not Dependabot.**
   The trigger is `workflow_run` on `Run tests` with `types: [requested, completed]`, so two
-  runs appear per PR; both are idempotent, and an already-armed or already-merged PR is a
-  SKIP. The job gate requires `workflow_run.event == 'pull_request'`, an actor of
+  runs appear per head: `requested` defers (or withdraws an earlier head's arm) and
+  `completed` decides. Both are idempotent, and an already-merged PR is a SKIP. The job gate requires `workflow_run.event == 'pull_request'`, an actor of
   `dependabot[bot]`, a head repository equal to this one and a `dependabot/` head branch —
   so every other PR, including one opened by the automation App itself, shows the run as
   `skipped`. A `skipped` run on a human or App PR is the correct outcome, not a fault.
