@@ -1,6 +1,6 @@
 # main-red watchdog (#489) — REPORT ONLY.
 #
-# WHAT GAP THIS FILLS. `aeos-merge-ready` is this repository's only required
+# WHAT GAP THIS FILLS. `aeos-merge-judge` is this repository's only required
 # context, so a check run that is not required -- `mcp-server`, `og-worker`,
 # every other `paths:`-filtered surface -- is visible but cannot block a merge,
 # and AGENTS.md's lifecycle is explicitly "arm auto-merge and do not wait". Twice

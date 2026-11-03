@@ -202,6 +202,38 @@ class TestClassify:
         assert verdict == "RED"
         assert failed == ["og-worker"], "the watchdog must not name itself in the incident"
 
+    def test_a_refused_dependabot_arming_on_main_is_not_main_red(self, mod):
+        """The arming job runs on `workflow_run`, so its check run sits on `main`'s
+        head while reporting on a Dependabot PR. Since clause 6 (#489) every red
+        Dependabot head produces a REFUSED arming; counting it would open "main
+        is red" for a fault that never reached `main`."""
+        assert mod.classify(
+            [
+                _check("test", "success", run_id=1),
+                _check("dependabot-auto-merge", "failure", run_id=2),
+            ]
+        ) == ("GREEN", [])
+
+    def test_a_real_failure_is_red_without_naming_the_arming(self, mod):
+        verdict, failed = mod.classify(
+            [
+                _check("mcp-server", "failure", run_id=1),
+                _check("dependabot-auto-merge", "failure", run_id=2),
+            ]
+        )
+        assert verdict == "RED"
+        assert failed == ["mcp-server"]
+
+    def test_an_arming_still_running_does_not_hold_back_green(self, mod):
+        """15 arming runs landed on one `main` head on 2026-10-26; one of them
+        in flight must not make a clean head unjudgeable."""
+        assert mod.classify(
+            [
+                _check("test", "success", run_id=1),
+                _check("dependabot-auto-merge", None, run_id=2, status="in_progress"),
+            ]
+        ) == ("GREEN", [])
+
     def test_a_head_carrying_only_the_watchdog_is_skip(self, mod):
         """Nothing judgeable has reported, so there is no verdict to give."""
         assert mod.classify([_check(mod.SELF_CHECK_NAME, "success")]) == ("SKIP", [])
