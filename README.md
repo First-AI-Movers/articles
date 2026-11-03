@@ -180,7 +180,7 @@ flowchart LR
 2. **Validate** — Every payload is checked against `tools/article_schema.json`.
 3. **Normalize** — Tags are mapped to canonical topics automatically.
 4. **Rebuild** — `tools/rebuild_local.py` regenerates all machine-readable artifacts and the static site.
-5. **Merge gate** — Automated PRs use `aeos-merge-ready`; no direct pushes to `main`. Ordinary PRs open ready with squash auto-merge armed while the gate is pending. Editorial authorization and protected review classes still apply. Backlog recovery under Issue 423 section 2 requires diff and CI review and is never auto-merged.
+5. **Merge gate** — Automated PRs use `aeos-merge-judge`; no direct pushes to `main`. Ordinary PRs open ready with squash auto-merge armed while the gate is pending. Editorial authorization and protected review classes still apply. Backlog recovery under Issue 423 section 2 requires diff and CI review and is never auto-merged.
 6. **Deploy** — GitHub Pages serves the built `site/` directory.
 
 ## Repository Structure

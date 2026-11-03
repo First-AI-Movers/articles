@@ -164,9 +164,9 @@ review, human-reviewed translations, and other protected review classes still ap
 
 `main` is protected by an organization ruleset: pull request required, no direct
 pushes, no force push, squash-merge only, zero required approvals, and one required
-check — `aeos-merge-ready`, produced by an org-owned workflow the pull request cannot
-edit. Green gate is the merge condition. Review is encouraged for risky changes and
-required for none.
+check — `aeos-merge-judge`, the organization's merge judge, a GitHub App check the
+pull request cannot edit (`aeos-merge-ready` is retired). Green gate is the merge
+condition. Review is encouraged for risky changes and required for none.
 
 Verify the live configuration in repository Settings → Rules rather than trusting this
 paragraph.
@@ -213,7 +213,7 @@ The archive accepts articles from external publishing platforms via a controlled
 - **Airtable cron:** `.github/workflows/ingest-airtable.yml` polls Airtable on a schedule and opens PRs for new records.
 
 In both cases:
-- **No direct push to `main`.** All ingestion creates a PR governed by `aeos-merge-ready` and the applicable editorial authorization. Ordinary PRs follow the PR workflow above. Backlog recovery under Issue 423 section 2 requires review of the diff and CI and must never be auto-merged.
+- **No direct push to `main`.** All ingestion creates a PR governed by `aeos-merge-judge` and the applicable editorial authorization. Ordinary PRs follow the PR workflow above. Backlog recovery under Issue 423 section 2 requires review of the diff and CI and must never be auto-merged.
 - **Validation runs before PR creation:** schema check, tag normalization, duplicate-title gate, pytest, rebuild.
 - **Secrets live in GitHub Encrypted Secrets only.** Never pass tokens or keys in payload text.
 
