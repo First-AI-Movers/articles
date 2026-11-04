@@ -10,10 +10,10 @@ metadata only, fetch `index.json`.
 
 Creative Commons Attribution 4.0 International (CC BY 4.0). Reuse and citation explicitly permitted with attribution to Dr. Hernani Costa / First AI Movers and the original canonical URL.
 
-- Articles: 941
-- Date range: 2025-02-17 to 2026-09-27
+- Articles: 942
+- Date range: 2025-02-17 to 2026-11-03
 - Topic count: 103
-- Generated: 2026-09-28
+- Generated: 2026-11-04
 
 ## Companion files
 
@@ -28,6 +28,13 @@ archive URL, publication date, topics, optional DOI/series, and a
 short summary. Articles are listed newest-first.
 
 ---
+
+## Biodius Scientific Portfolio: Preprint, Case Pages and Editorial Analysis
+- Date: 2026-11-03
+- Canonical: https://radar.firstaimovers.com/biodius-scientific-portfolio
+- Archive: https://articles.firstaimovers.com/articles/2026-11-03-biodius-scientific-portfolio/article.md
+- Topics: Healthcare AI
+- Summary: The public Biodius evidence in one place: a technical preprint (not peer reviewed), two case pages, three editorials, the offer, the FAQ and the limits.
 
 ## Before You Automate a Workflow: 7 Questions That Decide BUILD, REPAIR_FIRST, DEFER, or STOP
 - Date: 2026-09-27
