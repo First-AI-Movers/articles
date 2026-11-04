@@ -1,11 +1,28 @@
 {
-  "last_updated": "2026-09-28",
-  "total_articles": 941,
+  "last_updated": "2026-11-04",
+  "total_articles": 942,
   "author": "Dr. Hernani Costa",
   "publication": "First AI Movers",
   "canonical_base": "https://radar.firstaimovers.com",
   "license": "CC BY 4.0",
   "articles": [
+    {
+      "folder": "2026-11-03-biodius-scientific-portfolio",
+      "slug": "biodius-scientific-portfolio",
+      "title": "Biodius Scientific Portfolio: Preprint, Case Pages and Editorial Analysis",
+      "published_date": "2026-11-03",
+      "tags": [
+        "ai",
+        "biotechnology",
+        "research",
+        "scientific-diligence"
+      ],
+      "topics": [
+        "Healthcare AI"
+      ],
+      "funnel_stage": null,
+      "canonical_url": "https://radar.firstaimovers.com/biodius-scientific-portfolio"
+    },
     {
       "folder": "2026-09-27-before-you-automate-a-workflow-7-questions",
       "slug": "before-you-automate-a-workflow-7-questions",

@@ -13,6 +13,16 @@
   "language": "en",
   "items": [
     {
+      "id": "tag:articles.firstaimovers.com,2026-11-03:2026-11-03-biodius-scientific-portfolio",
+      "url": "https://radar.firstaimovers.com/biodius-scientific-portfolio",
+      "title": "Biodius Scientific Portfolio: Preprint, Case Pages and Editorial Analysis",
+      "date_published": "2026-11-03T00:00:00Z",
+      "tags": [
+        "Healthcare AI"
+      ],
+      "content_text": "The public Biodius evidence in one place: a technical preprint (not peer reviewed), two case pages, three editorials, the offer, the FAQ and the limits."
+    },
+    {
       "id": "tag:articles.firstaimovers.com,2026-09-27:2026-09-27-before-you-automate-a-workflow-7-questions",
       "url": "https://radar.firstaimovers.com/before-you-automate-a-workflow-7-questions",
       "title": "Before You Automate a Workflow: 7 Questions That Decide BUILD, REPAIR_FIRST, DEFER, or STOP",
@@ -598,16 +608,6 @@
         "AI DevOps"
       ],
       "content_text": "The open-source AI tooling boom is real, but winning companies evaluate repos by governance, not star count. Here is what to watch and what to avoid."
-    },
-    {
-      "id": "tag:articles.firstaimovers.com,2026-05-09:2026-05-09-rust-ai-developer-tools-infrastructure-language-2026",
-      "url": "https://radar.firstaimovers.com/rust-ai-developer-tools-infrastructure-language-2026",
-      "title": "Why Rust Is Becoming the Infrastructure Language for AI Developer Tools",
-      "date_published": "2026-05-09T00:00:00Z",
-      "tags": [
-        "AI DevOps"
-      ],
-      "content_text": "Rust is replacing Python and JavaScript in high-performance AI developer tools. Here is why engineering leaders should care, and where to start."
     }
   ]
 }
