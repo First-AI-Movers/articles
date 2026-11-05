@@ -36,12 +36,26 @@ test.describe("Ask the Archive page", () => {
   });
 
   test("disabled endpoint state is user-friendly", async ({ page }) => {
+    await page.route("**/api/ask", (route) =>
+      route.fulfill({ status: 503, contentType: "application/json", body: "{}" })
+    );
     await page.goto("/ask/");
     await page.locator("#ask-question").fill("How should SMEs approach AI governance?");
     await page.locator("#ask-submit").click();
-    // Since /api/ask is not served by the static test server, fetch returns 404
+    // Simulate an unavailable HTTP endpoint without contacting production.
     await expect(page.locator("#ask-disabled")).toBeVisible({ timeout: 5000 });
     await expect(page.locator("#ask-disabled")).toContainText("endpoint not yet deployed");
+  });
+
+  test("network failure shows an error and permits retry", async ({ page }) => {
+    await page.route("**/api/ask", (route) => route.abort("failed"));
+    await page.goto("/ask/");
+    await page.locator("#ask-question").fill("How should SMEs approach AI governance?");
+    await page.locator("#ask-submit").click();
+    await expect(page.locator("#ask-error")).toContainText("Failed to reach the answer endpoint.");
+    await expect(page.locator("#ask-loading")).toBeHidden();
+    await expect(page.locator("#ask-submit")).toBeEnabled();
+    await expect(page.locator("#ask-disabled")).toBeHidden();
   });
 
   test("privacy and retention notice is visible", async ({ page }) => {
