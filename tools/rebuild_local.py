@@ -1588,7 +1588,8 @@ def build_site(index):
     _render("about.html.j2", "about/index.html", person_jsonld=person_jsonld)
 
     # Ask the Archive page
-    _render("ask.html.j2", "ask/index.html")
+    _render("ask.html.j2", "ask/index.html",
+            ask_endpoint="https://articles-api.firstaimovers.com/api/ask")
 
     # Seven-question workflow assessment (browser-only; no model, no network)
     _render("assess.html.j2", "assess/index.html")
