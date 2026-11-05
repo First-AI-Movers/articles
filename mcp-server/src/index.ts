@@ -379,7 +379,22 @@ export default {
     }
 
     if (url.pathname === "/api/ask") {
-      return handleAsk(request, env);
+      const origin = request.headers.get("Origin");
+      const archiveOrigin = new URL(String(env.ARCHIVE_SITE_URL || "https://articles.firstaimovers.com")).origin;
+      if (origin && origin !== archiveOrigin) {
+        return new Response("Origin not allowed", { status: 403, headers: { Vary: "Origin" } });
+      }
+      const response = request.method === "OPTIONS"
+        ? new Response(null, { status: 204 })
+        : await handleAsk(request, env);
+      const headers = new Headers(response.headers);
+      headers.set("Vary", "Origin");
+      if (origin === archiveOrigin) {
+        headers.set("Access-Control-Allow-Origin", archiveOrigin);
+        headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+        headers.set("Access-Control-Allow-Headers", "Content-Type");
+      }
+      return new Response(response.body, { status: response.status, headers });
     }
 
     if (url.pathname === "/mcp") {

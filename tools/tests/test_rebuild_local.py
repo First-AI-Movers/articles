@@ -1073,6 +1073,7 @@ class TestAskPage:
         page = (site / "ask" / "index.html").read_text(encoding="utf-8")
         assert 'ask.js' in page
         assert 'ASK_ARCHIVE_ENDPOINT' in page
+        assert 'https://articles-api.firstaimovers.com/api/ask' in page
 
     def test_ask_page_has_disabled_banner(self, monkeypatch, tmp_path):
         site = self._run(monkeypatch, tmp_path, {"articles": [], "topics": []})
