@@ -88,8 +88,8 @@ long-lived token. Each mints a short-lived GitHub App installation token
 - **If the credentials are missing** every publishing workflow fails at a step named
   `Assert the App credentials are visible`, which says exactly which one is absent.
 - **Why not `GITHUB_TOKEN`.** GitHub suppresses workflow runs on PRs created with the
-  default token, so such a PR never runs `aeos-merge-ready` — the only required check — and
-  can never merge.
+  default token, so such a PR runs none of this repository's CI and reaches the one required
+  check, `aeos-merge-judge`, with no test evidence.
 - **The alert path is deliberately separate.** Incident and cleanup steps run on
   `github.token`, never the publication credential, so an expired credential cannot silence
   the report about itself. This replaced `ARTICLE_INGESTION_PR_TOKEN`, a PAT whose expiry

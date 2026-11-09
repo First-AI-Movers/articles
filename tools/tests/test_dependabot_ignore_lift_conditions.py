@@ -25,7 +25,7 @@ be installed, so `npm ci` began failing on `main` in both workers for ~30 h with
 error the hold's own comment quotes.
 
 The merge was not stopped by the surface's own red check, because `mcp-server` and
-`og-worker` are not required contexts — `aeos-merge-ready` is the only one. So the guard
+`og-worker` are not required contexts — `aeos-merge-judge` is the only one. So the guard
 has to be an offline assertion over the committed lockfiles, which is what
 `test_both_worker_lockfiles_are_installable` is.
 

@@ -65,8 +65,8 @@ def test_pr_step_uses_ci_triggering_token():
     short-lived App token failed a test whose actual concern was fully satisfied.
 
     The requirement is mechanical: GitHub suppresses workflow runs on a PR created with the
-    default GITHUB_TOKEN, to prevent recursion. Such a PR would never run `aeos-merge-ready`,
-    the organization's only required check, and so could never merge. Any non-GITHUB_TOKEN
+    default GITHUB_TOKEN, to prevent recursion. Such a PR would run none of this repository's
+    CI, so the required `aeos-merge-judge` gate would see no test evidence. Any non-GITHUB_TOKEN
     identity satisfies it; the App token does, with an hour-long lifetime instead of a year's.
     """
     pr_steps = [
@@ -78,8 +78,8 @@ def test_pr_step_uses_ci_triggering_token():
     assert token.strip(), "create-pull-request must be given an explicit token"
     assert "secrets.GITHUB_TOKEN" not in token, (
         f"create-pull-request must NOT use the default GITHUB_TOKEN: PRs it creates do not "
-        f"trigger workflow runs, so `aeos-merge-ready` would never run and the PR could never "
-        f"merge. Got {token!r}"
+        f"trigger workflow runs, so no CI would run and `aeos-merge-judge` would see no "
+        f"evidence. Got {token!r}"
     )
     assert "app_token" in token, (
         f"the PR token should be the short-lived App installation token minted in-workflow "

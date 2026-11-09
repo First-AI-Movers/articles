@@ -3,7 +3,7 @@
 
 Why this is shared
 ------------------
-`aeos-merge-ready` is this repository's only required context, so a check run
+`aeos-merge-judge` is this repository's only required context, so a check run
 that is *not* required -- `mcp-server`, `og-worker`, and every other
 `paths:`-filtered surface -- is visible but cannot block a merge. Two owners act
 on that same fact and must agree about what "red" means:
