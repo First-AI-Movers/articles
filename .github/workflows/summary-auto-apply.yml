@@ -103,8 +103,8 @@ jobs:
         #
         # AN APP TOKEN RATHER THAN GITHUB_TOKEN, for a mechanical reason: GitHub suppresses
         # workflow runs on a PR created with the default GITHUB_TOKEN, to prevent recursion. A
-        # PR opened that way would never run `aeos-merge-ready` -- the organization's only
-        # required check -- and so could never merge. Working around that is exactly why a PAT
+        # PR opened that way would run none of this repository's CI, so the required
+        # `aeos-merge-judge` gate would see no test evidence for it. Working around that is why a PAT
         # was here; an App token has the same property with none of the lifetime.
         #
         # A DEDICATED APP, NOT THE ORGANIZATION'S RECOVERY APP. An earlier revision of this
@@ -337,8 +337,8 @@ jobs:
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           # The App token minted above, not GITHUB_TOKEN: GitHub suppresses workflow runs on a
-          # PR created with the default token, so the required `aeos-merge-ready` check would
-          # never run and the PR could never merge. No fallback -- see the mint step (#388).
+          # PR created with the default token, so none of this repository's CI would run and the
+          # required `aeos-merge-judge` gate would see no evidence. No fallback -- see the mint step (#388).
           token: ${{ steps.app_token.outputs.token }}
           branch: summaries/auto-apply
           title: "summaries(auto): apply dual-verifier-approved fresh summaries"
