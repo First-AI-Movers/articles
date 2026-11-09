@@ -44,39 +44,18 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
+    # The cookiecutter template's workflows are NOT watched by Dependabot (#362). A second
+    # entry with `directory: "/cookiecutter-archive-template/{{cookiecutter.repo_slug}}"`
+    # existed from 2026-09-20 to 2026-11-09 and never ran: in eight Monday schedules every
+    # github-actions job was the root one ("github_actions in /."), none named the template
+    # directory, and no template PR ever opened. An entry that parses but schedules nothing
+    # only looks like coverage, so it was removed. The template's pins are held to the root
+    # convention by tools/tests/test_template_action_pins.py instead.
 
   # npm — root + mcp-server + og-worker. (An earlier /mcp-server-scoped vitest semver-major ignore was
   # LIFTED 2026-06-22: its documented lift condition is met — mcp-server migrated to
   # @cloudflare/vitest-pool-workers 0.16 + vitest 4 in #289 (pool-workers now peers vitest ^4), so
   # vitest-major updates flow normally again and the separate /mcp-server entry is no longer needed.)
-  # SECOND github-actions ENTRY, NOT a `directories:` list on the one above (#362).
-  # The template's directory name is literally `{{cookiecutter.repo_slug}}`, braces and
-  # all. `directories:` is glob-matched, and brace expansion is a glob feature, so a
-  # pattern containing `{{...}}` may expand instead of matching the literal name -- the
-  # open question #362 asks to settle. Keeping this as its own entry means that if the
-  # path resolves to nothing, only this entry is affected: the root `/` coverage above
-  # is a separate update job and keeps running. If the evidence says the path cannot be
-  # expressed, this entry is removed and the limitation recorded on #362; the pin-drift
-  # guard (tools/tests/test_template_action_pins.py) covers the surface either way.
-  - package-ecosystem: "github-actions"
-    directory: "/cookiecutter-archive-template/{{cookiecutter.repo_slug}}"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "Europe/Lisbon"
-    cooldown:
-      default-days: 7
-    groups:
-      actions-minor-patch:
-        update-types:
-          - "minor"
-          - "patch"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "github-actions"
-
   - package-ecosystem: "npm"
     directories:
       - "/"

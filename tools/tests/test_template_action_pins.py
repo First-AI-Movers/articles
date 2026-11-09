@@ -7,8 +7,10 @@ second, unwatched copy of the same surface: nothing bumped them and no test read
 so they drifted three majors behind (`checkout@v4`, `upload-pages-artifact@v3`,
 `deploy-pages@v4`) and every repository generated from the template started there.
 
-Dependabot coverage keeps the pins current; this guard is the part that cannot silently
-stop working. It is deliberately a *comparison against the root workflows* rather than a
+Dependabot does not watch the template: its entry for the braced directory never
+scheduled a job and was removed (#362). This guard is therefore the only thing holding
+the template's pins, and it holds them to *agreement with the root*, not to currency:
+when the root moves, the template must follow. It is deliberately a *comparison against the root workflows* rather than a
 hardcoded version table: a table would itself go stale, and the contract is that a
 repository generated from the template starts where this repository already is.
 

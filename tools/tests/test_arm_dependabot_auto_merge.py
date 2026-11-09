@@ -77,7 +77,6 @@ class TestPathAllowlist:
             "tools/requirements.txt",
             ".github/workflows/tests.yml",
             ".github/workflows/e2e.yaml",
-            "cookiecutter-archive-template/{{cookiecutter.repo_slug}}/.github/workflows/tests.yml",
         ],
     )
     def test_allowed(self, mod, path):
@@ -98,6 +97,8 @@ class TestPathAllowlist:
             ".github/actions/thing/action.yml",
             "somewhere-else/.github/workflows/tests.yml",
             "cookiecutter-archive-template/.github/workflows/tests.yml",
+            # Not watched since #362 removed the inert template entry.
+            "cookiecutter-archive-template/{{cookiecutter.repo_slug}}/.github/workflows/tests.yml",
             "/package.json",
             "../package.json",
             "tools/../package.json",
@@ -158,17 +159,15 @@ class TestPathAllowlist:
         workflows.
 
         An entry whose `directory:` resolves to nothing is silently inert: it
-        parses, it appears to grant coverage, and it bumps nothing. #362 asks
-        whether the template entry -- whose directory name is literally
-        `{{cookiecutter.repo_slug}}`, braces and all -- resolves at all. This
-        test cannot answer that; only Dependabot's own path resolution can, and
-        it is not observable from here while all four template pins sit at their
-        latest major (nothing to bump means silence proves nothing either way).
+        parses, it appears to grant coverage, and it bumps nothing. That is not
+        hypothetical here: the cookiecutter template's entry, whose directory
+        name is literally `{{cookiecutter.repo_slug}}`, never scheduled a single
+        Dependabot job in eight weeks and was removed (#362).
 
-        What this test does own is the failure mode that IS checkable: the
-        directory must exist and contain at least one workflow. A rename of the
-        template folder, or a typo in the entry, now fails here instead of
-        quietly widening the gap #362 was opened for.
+        This test cannot see Dependabot's own path resolution. What it owns is
+        the failure mode that IS checkable: the directory must exist and contain
+        at least one workflow, so a rename or a typo fails here instead of
+        quietly widening the gap.
         """
         yaml = pytest.importorskip("yaml")
         cfg = yaml.safe_load(
@@ -190,9 +189,8 @@ class TestPathAllowlist:
                     f"the github-actions entry for {d!r} has nothing to govern"
                 )
                 checked += 1
-        assert checked >= 2, (
-            "expected at least the root and the cookiecutter template to be "
-            f"watched for github-actions; checked {checked}"
+        assert checked >= 1, (
+            f"expected at least the root to be watched for github-actions; checked {checked}"
         )
 
 
