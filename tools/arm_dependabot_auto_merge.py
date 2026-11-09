@@ -135,10 +135,12 @@ ALLOWED_PATHS = frozenset(
     }
 )
 # Directories whose `.github/workflows/` the `github-actions` ecosystem watches, as
-# `.github/dependabot.yml` configures them: the repository root, and the cookiecutter
-# template, whose workflows are a second copy of the same surface (#362). A github-actions
-# bump edits workflow files; the organization gate's workflow policy judges those bytes.
-WORKFLOW_ROOTS = ("", "cookiecutter-archive-template/{{cookiecutter.repo_slug}}/")
+# `.github/dependabot.yml` configures them: the repository root only. The cookiecutter
+# template's entry never scheduled a job and was removed (#362), so a Dependabot PR that
+# touches the template's workflows is outside what this repository asked Dependabot for
+# and is refused. A github-actions bump edits workflow files; the organization gate's
+# workflow policy judges those bytes.
+WORKFLOW_ROOTS = ("",)
 WORKFLOW_DIR = ".github/workflows/"
 WORKFLOW_SUFFIXES = (".yml", ".yaml")
 
