@@ -52,10 +52,6 @@ updates:
     # only looks like coverage, so it was removed. The template's pins are held to the root
     # convention by tools/tests/test_template_action_pins.py instead.
 
-  # npm — root + mcp-server + og-worker. (An earlier /mcp-server-scoped vitest semver-major ignore was
-  # LIFTED 2026-06-22: its documented lift condition is met — mcp-server migrated to
-  # @cloudflare/vitest-pool-workers 0.16 + vitest 4 in #289 (pool-workers now peers vitest ^4), so
-  # vitest-major updates flow normally again and the separate /mcp-server entry is no longer needed.)
   - package-ecosystem: "npm"
     # npm -- three single-`directory:` entries, NOT one `directories:` list (#488).
     #
@@ -78,13 +74,12 @@ updates:
     # scheduled job from 2026-10-05 to 2026-11-09, while the SAME entry's `cooldown` arrived
     # intact. The ignore was never delivered; its shape was never the problem.
     #
-    # The split tests the one structural difference: this was the only multi-directory
-    # entry. HOW TO READ THE RESULT -- in the next npm job log for /mcp-server or /og-worker
-    # (`gh run view <id> --log`, runs with event `dynamic`), read `"ignore-conditions"`:
-    #   * it lists vitest -> `directories:` was dropping the ignore; keep the split.
-    #   * still `[]`      -> the cause is elsewhere on GitHub's side. Report it upstream.
-    # Either way, a red Dependabot head is refused by the arming step (#489, closed), so
-    # this hold is no longer what keeps a vitest-5 carrier off `main`.
+    # The split was the fix. The first jobs after it (2026-11-09, runs 42657264836 and
+    # 42657264485) carried both vitest rules in `"ignore-conditions"` and logged "All updates
+    # for vitest were ignored". So DO NOT fold these entries back into `directories:` while
+    # any of them carries an `ignore`: the multi-directory form silently drops it. To check
+    # a hold, read `"ignore-conditions"` in the job log (`gh run view <id> --log`, runs with
+    # event `dynamic`). A red Dependabot head is also refused by the arming step (#489).
     directory: "/"
     schedule:
       interval: "weekly"
