@@ -318,8 +318,8 @@ class TestWorkflowAndDocs:
         """The workflow must not present itself as a required check.
 
         Scanned over ACTIVE lines only. A raw-text search cannot tell a workflow's behaviour
-        from its prose: #388's comments explain that a GITHUB_TOKEN-created PR would never run
-        `aeos-merge-ready`, "the organization's only required check" — and reading that
+        from its prose: #388's comments explain that a GITHUB_TOKEN-created PR would run no CI before the
+        "required `aeos-merge-judge` gate" — and reading that
         explanation as a self-declaration is a false positive on a warning.
         """
         wf = REPO_ROOT / ".github" / "workflows" / "build-embeddings.yml"

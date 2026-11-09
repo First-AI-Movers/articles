@@ -1,4 +1,4 @@
-# Global fallback — ownership routing; ordinary merges use aeos-merge-ready
+# Global fallback — ownership routing; ordinary merges use aeos-merge-judge
 # Ownership does not require approval for every change. Protected review classes remain.
 * @hpcosta
 
