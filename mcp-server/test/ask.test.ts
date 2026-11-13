@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
-import { handleAsk } from "../src/ask.js";
+import { handleAsk, plainPassageText } from "../src/ask.js";
+import { archive } from "../src/archive.js";
 
 describe("handleAsk", () => {
   it("rejects missing question", async () => {
@@ -272,5 +273,44 @@ describe("handleAsk — extractive, no model by default", () => {
     const body = (await res.json()) as AskBody;
     expect(run).toHaveBeenCalledTimes(1);
     expect(body.mode).toBe("extractive");
+  });
+});
+
+describe("plainPassageText — passages carry the article's words, not its markdown", () => {
+  it("removes heading, escaped-heading, quote, emphasis and link syntax", () => {
+    expect(plainPassageText("# MCP in 2026  ## The protocol is no longer a list")).toBe(
+      "MCP in 2026 The protocol is no longer a list"
+    );
+    expect(plainPassageText("\\# AI Sovereignty  \\## Main Article  The development")).toBe(
+      "AI Sovereignty Main Article The development"
+    );
+    expect(plainPassageText("> **TL;DR:** Read [the guide](https://example.com/g) and `run` it")).toBe(
+      "TL;DR: Read the guide and run it"
+    );
+  });
+
+  it("keeps a plain sentence, including a '#' that is not a heading marker", () => {
+    expect(plainPassageText("Ranked #1 in C# tooling for 2026.")).toBe("Ranked #1 in C# tooling for 2026.");
+  });
+
+  it("leaves no markdown heading or emphasis in any archive record's passage source", () => {
+    const offenders = archive.articles
+      .map((a) => ({ slug: a.slug, text: plainPassageText(a.summary || a.excerpt || "") }))
+      .filter((x) => /(^|\s)\\?#{1,6}\s|\*\*|(^|\s)>\s/.test(x.text));
+    expect(offenders.map((o) => o.slug)).toEqual([]);
+  });
+
+  it("says the extractive answer quotes a summary or the opening text", async () => {
+    const res = await handleAsk(
+      new Request("https://x/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: "What is the Model Context Protocol used for?" }),
+      }),
+      {}
+    );
+    const body = (await res.json()) as { answer: string; mode: string };
+    expect(body.mode).toBe("extractive");
+    expect(body.answer).toContain("own summary or opening text");
   });
 });

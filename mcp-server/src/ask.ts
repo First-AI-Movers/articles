@@ -123,9 +123,26 @@ export function supportingResults(question: string, results: SearchResult[]): Se
   });
 }
 
+/**
+ * The article's own words with markdown syntax removed. Most archive records
+ * (649 of 942 on 2026-11-13) have no summary, so the passage falls back to the
+ * excerpt, which is the article's opening markdown: `# Title ## Section`,
+ * sometimes escaped as `\# Title`. Remove the markup, never the words.
+ */
+export function plainPassageText(text: string): string {
+  return text
+    .replace(/\\([\\`*_{}\[\]()#+\-.!>|~])/g, "$1") // markdown escapes: \# -> #
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1") // [text](url) and images -> text
+    .replace(/(^|\s)#{1,6}(?=\s)/g, "$1") // heading markers
+    .replace(/(^|\s)>(?=\s)/g, "$1") // blockquote markers
+    .replace(/(\*\*|__|`)/g, "") // bold and inline code
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function passageFor(r: SearchResult): string {
   const record = archive.articles.find((a) => a.slug === r.slug);
-  const text = (record?.summary || r.excerpt || "").replace(/\s+/g, " ").trim();
+  const text = plainPassageText(record?.summary || r.excerpt || "");
   if (text.length <= MAX_PASSAGE_CHARS) return text;
   return text.slice(0, MAX_PASSAGE_CHARS).replace(/\s+\S*$/, "") + "…";
 }
@@ -145,7 +162,7 @@ function toCitations(results: SearchResult[]): Citation[] {
 /** Compose an answer only from the cited articles' own words. */
 function extractiveAnswer(citations: Citation[]): string {
   const parts = [
-    "From the archive (quoted from each article's own summary; no AI model wrote this answer):",
+    "From the archive (quoted from each article's own summary or opening text; no AI model wrote this answer):",
   ];
   for (const c of citations) {
     parts.push(`"${c.title}" (${c.published_date}): ${c.passage}`);
