@@ -9,6 +9,8 @@ export interface ArticleRecord {
   topics: string[];
   summary: string;
   excerpt: string;
+  /** Repository folder; names the published `/articles/<folder>/article.md`. */
+  folder?: string;
 }
 
 export interface ArchiveData {

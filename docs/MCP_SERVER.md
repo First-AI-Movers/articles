@@ -41,7 +41,7 @@ mcp-server/
 | Tool | Description |
 |---|---|
 | `search_articles` | Search by keyword with optional topic filter. Returns ranked results with titles, URLs, dates, and excerpts. |
-| `get_article` | Retrieve one article by slug: metadata, summary, links and an excerpt of the opening text (up to 500 characters). It does **not** return the full article text. |
+| `get_article` | Retrieve one article by slug: metadata, summary, links and an excerpt of the opening text (up to 500 characters). With `include_full_text: true` it also returns the article body, at most 20,000 characters per call, with `total_chars`, `truncated` and `next_offset`; pass `offset` to read the next page. The body is fetched from the archive's own published `/articles/<folder>/article.md`, cached at the edge, and carries `source_url`, `license` (CC BY 4.0) and `attribution`. |
 | `list_topics` | List canonical topics, optionally filtered by minimum article count. |
 | `get_topic_intro` | Get overview for a topic including sample articles. |
 | `get_quick_reads` | Get short summaries for articles in a topic, ordered by recency. |
@@ -95,7 +95,7 @@ const result = await client.callTool({ name: "search_articles", arguments: { que
 
 **Python and other HTTP clients: send your own `User-Agent`.** The host's edge protection refuses Python `urllib`'s default `User-Agent` (`Python-urllib/3.x`) with HTTP 403 (Cloudflare error 1010). Any descriptive value works, for example `User-Agent: my-archive-client/1.0`. The default user agents of `curl`, Node `fetch` and the MCP SDK are accepted.
 
-**Limits.** Tools return metadata, summaries and short excerpts, with links to the archive and the original source. Read the full text at the returned `local_url` or `canonical_url`.
+**Limits.** Search and topic tools return metadata, summaries and short excerpts. `get_article` returns the full body only on request, in pages of at most 20,000 characters, and each page names its source and licence. If the published copy cannot be fetched, the response carries `full_text_error` and the metadata is still returned.
 
 ## Search modes
 
@@ -186,8 +186,9 @@ npm run deploy
 
 ## Bundle size
 
-- **Raw:** ~4.2 MB (includes `archive-data.json` with 829 articles)
-- **Gzipped:** ~1.1 MB
+- **Raw:** ~2.5 MB (includes `archive-data.json` with 942 articles; `wrangler deploy --dry-run`, 2026-11-13)
+- **Gzipped:** ~0.5 MB
+- Full article text is **not** bundled: it is about 3.4 MB gzipped, which would take the Worker past the 3 MB compressed limit of the free tier. `get_article` fetches it at request time instead.
 - Well within Cloudflare Workers free tier limits
 
 ## Security

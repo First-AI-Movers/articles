@@ -171,6 +171,8 @@ class TestExportData:
         assert data[0]["slug"] == "test-article"
         assert data[0]["title"] == "Test Article"
         assert data[0]["local_url"] == "/articles/test-article/"
+        # The Worker builds the published article.md URL from the folder (#508 full text).
+        assert data[0]["folder"] == "2026-04-01-test-article"
         assert data[0]["summary"] == ""
         assert "Body text here." in data[0]["excerpt"]
 
