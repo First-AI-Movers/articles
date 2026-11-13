@@ -55,7 +55,7 @@ Everything else is either `ready`, `ready but gated` (awaiting credentials/owner
 | **Airtable cron** | `.github/workflows/ingest-airtable.yml`, `tools/ingest_airtable.py` | ready but gated | `AIRTABLE_PAT`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_NAME`, `AIRTABLE_VIEW_NAME` (optional) | Daily cron + manual | Medium | Controlled write test before enabling `INGEST_DRY_RUN=0` | Dry-run clean (67/67 records) |
 | **Airtable dispatch** | `.github/workflows/ingest-airtable-dispatch.yml` | ready but gated | Same as Airtable cron | `repository_dispatch` + manual | Medium | Same controlled write test as cron | Record ID validation works |
 | **Embeddings** | `.github/workflows/build-embeddings.yml`, `tools/build_embeddings.py` | ready | None | Weekly cron + manual | Low | None | CI green; opens PR if parquet changes |
-| **MCP server** | `.github/workflows/mcp-server.yml`, `mcp-server/` | ready but gated | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` | PR (filtered paths) + push + manual | Low | Owner adds secrets + sets `MCP_DEPLOY_ENABLED=1` | Type check, tests, build green |
+| **MCP server** | `.github/workflows/mcp-server.yml`, `mcp-server/` | ready but gated | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` | PR (filtered paths) + push + manual | Low | Owner adds both secrets to the `mcp-deploy` environment | Type check, tests, build green |
 | **Ask endpoint** | `mcp-server/src/ask.ts` | ready but gated | Same as MCP server | Deployed with MCP Worker | Low | Same as MCP server | Local dev server works |
 | **OG worker** | `og-worker/` | deferred | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` | No CI workflow | Low | Worker scaffold shipped; no deployment automation | Tests exist; not wired to CI |
 | **Zenodo / DOI** | `docs/ZENODO_RELEASE.md`, `tools/mint_dois.py`, `tools/check_citation.py` | manual only | `ZENODO_API_TOKEN`, `ZENODO_SANDBOX_API_TOKEN` | Manual release + manual minting | Low | Owner creates Zenodo release when ready | Citation check passes; release checklist documented |
@@ -133,7 +133,7 @@ Everything else is either `ready`, `ready but gated` (awaiting credentials/owner
 
 ### 4.6 Medium — MCP server deploy silently skips
 
-**Finding:** The deploy job in `mcp-server.yml` silently exits `0` when credentials are missing or `MCP_DEPLOY_ENABLED` is not set. This is safe but means the deploy step provides no signal that deployment is not happening.
+**Finding:** The deploy job in `mcp-server.yml` exits `0` when credentials are missing, and now says so with a "Deploy inputs absent" notice and skips every later step. The deploy job runs in the `mcp-deploy` environment and `MCP_DEPLOY_ENABLED` is retired.
 
 **Impact:** An owner might believe MCP is deployed when it is not.
 
@@ -184,7 +184,7 @@ Everything else is either `ready`, `ready but gated` (awaiting credentials/owner
 | `CLOUDFLARE_ACCOUNT_ID` | `mcp-server.yml` | ❌ Not configured | `docs/MCP_SERVER.md` |
 | `ZENODO_API_TOKEN` | `tools/mint_dois.py` | ❌ Not configured | `docs/ZENODO_RELEASE.md` |
 | `ZENODO_SANDBOX_API_TOKEN` | `tools/mint_dois.py` | ❌ Not configured | `docs/ZENODO_RELEASE.md` |
-| `MCP_DEPLOY_ENABLED` | `mcp-server.yml` | ❌ Not set | `docs/MCP_SERVER.md` |
+| `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` (`mcp-deploy` environment) | `mcp-server.yml` | Not read | `docs/MCP_SERVER.md` |
 | `INGEST_DRY_RUN` | `ingest-airtable.yml`, `ingest-airtable-dispatch.yml` | ✅ Unset (safe default = dry-run) | `docs/OPERATIONS.md` |
 
 **No secrets are committed to the repo.** `gitleaks` enforces this.

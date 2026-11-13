@@ -23,7 +23,7 @@
 | **CITATION.cff** | `ready` | None | `cff-version: 1.2.0`; `check_citation.py` exits 0; ORCID, license, author present; DOI placeholder is intentional | None | Keep current; uncomment DOI only after Zenodo mints | No |
 | **GitHub release process** | `manual only` | None | Release checklist doc exists; no tags/releases in repo; tag convention documented (`vYYYY.MM.DD`) | D6 — When to create first release? | Create first release only after final audit + owner approval | No |
 | **Wayback snapshots** | `ready but gated` | None | `.github/workflows/wayback-snapshot.yml` auto-triggers on `release: published`; manual `workflow_dispatch` available; tool has `--dry-run` default | None | Will auto-fire on first release; manual dispatch available now | No |
-| **MCP server** | `ready but gated` | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `MCP_DEPLOY_ENABLED=1` | Code complete (5 tools + 3 resources); `mcp-server/test/` covers lookups, search, ask; CI runs typecheck + tests + dry-run build; `archive-data.json` committed and current | D7 — Deploy live or leave scaffolded for v2? | If "deploy", add Cloudflare secrets + set `MCP_DEPLOY_ENABLED=1` | No |
+| **MCP server** | `ready but gated` | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` (`mcp-deploy` environment secrets) | Code complete (5 tools + 3 resources); `mcp-server/test/` covers lookups, search, ask; CI runs typecheck + tests + dry-run build; `archive-data.json` committed and current | D7 — Deploy live or leave scaffolded for v2? | If "deploy", add both Cloudflare secrets to the `mcp-deploy` environment | No |
 | **Ask endpoint** | `ready but gated` | Same as MCP server (shares Worker) | `POST /api/ask` implemented in `mcp-server/src/ask.ts`; validation, citations, mock fallback all present; E2E tests cover disabled-state rendering; `/ask/` page is `noindex` until live | D7 — Same as MCP (deploy together) | Same as MCP server | No |
 | **Embeddings** | `ready` | None | `embeddings.parquet` committed (~2 MB); `build-embeddings.yml` runs weekly (Sundays 03:17 UTC); opens PR if changed; never pushes to main; `BAAI/bge-small-en-v1.5` (384-dim, MIT license) | None | Keep weekly schedule; monitor PRs | No |
 | **IndexNow live mode** | `ready but gated` | `INDEXNOW_API_KEY_ARTICLES_FAIM` | `tools/submit_indexnow.py` shipped; `build-and-deploy.yml` runs `--dry-run` step after deploy; key validation present; multi-host support | D8 — Switch to live submission or keep dry-run? | If "live", replace `--dry-run` with live submit in `build-and-deploy.yml` | No |
@@ -48,7 +48,7 @@
 
 ### `ready but gated` — needs a secret, variable, or owner flip
 - Wayback snapshots (auto on release; ready now)
-- MCP server (needs Cloudflare credentials + `MCP_DEPLOY_ENABLED=1`)
+- MCP server (needs Cloudflare credentials in the `mcp-deploy` environment)
 - Ask endpoint (same gates as MCP)
 - IndexNow live mode (needs `INDEXNOW_API_KEY_ARTICLES_FAIM` + `--dry-run` removal)
 - Airtable ingestion E20a/E20b (needs `INGEST_DRY_RUN=0`)
@@ -131,7 +131,7 @@ The following actions **must not** happen without explicit owner approval:
   3. The cron workflow (E20a) is watched for one cycle.
 
 ### No MCP/Ask deployment without Cloudflare credentials and explicit enablement
-- `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, and `MCP_DEPLOY_ENABLED=1` must all be present.
+- `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` must both be present as `mcp-deploy` environment secrets.
 - Rate-limiting rules should be configured in Cloudflare before publicizing the endpoint.
 - The `/ask/` page is `noindex` until live; do not remove `noindex` before deployment.
 

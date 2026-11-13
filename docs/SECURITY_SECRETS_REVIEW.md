@@ -37,7 +37,6 @@
 | ARTICLE_INGESTION_PR_TOKEN | ingest-article.yml, ingest-airtable-dispatch.yml | Trigger CI on automated PRs | GitHub secret (optional); falls back to GITHUB_TOKEN | Low | No | Generate fine-grained PAT if auto-CI triggering is desired |
 | CLOUDFLARE_API_TOKEN | mcp-server.yml | Cloudflare Workers deploy | GitHub secret; not configured | Low | No | Add when owner approves MCP deploy |
 | CLOUDFLARE_ACCOUNT_ID | mcp-server.yml | Cloudflare account selection | GitHub secret; not configured | Low | No | Add when owner approves MCP deploy |
-| MCP_DEPLOY_ENABLED | mcp-server.yml | Deploy gate variable | GitHub repository variable; not set | Low | No | Set to 1 when owner approves deploy |
 | ZENODO_API_TOKEN | tools/mint_dois.py | Production DOI minting | Environment variable only; not configured in CI | Low | No | Set locally when owner approves |
 | ZENODO_SANDBOX_API_TOKEN | tools/mint_dois.py | Sandbox DOI testing | Environment variable only; not configured in CI | Low | No | Set locally for testing |
 | GITHUB_TOKEN | All workflows | Checkout, PR creation, artifact upload | Auto-provided by GitHub Actions | Low | No | Auto-rotated by GitHub |
@@ -62,7 +61,7 @@
 | ingest-article.yml | repository_dispatch + manual | contents: write, pull-requests: write | Yes (opens PR) | Yes | No | No | Payload validated before write; always opens PR |
 | ingest-airtable.yml | Daily cron + manual | contents: write, pull-requests: write | Yes (opens PR) | Yes | No | Yes (Airtable API) | Gated by INGEST_DRY_RUN (default 1) |
 | ingest-airtable-dispatch.yml | repository_dispatch + manual | contents: write, pull-requests: write | Yes (opens PR) | Yes | No | Yes (Airtable API) | Gated by INGEST_DRY_RUN (default 1) |
-| mcp-server.yml | PR (filtered) + push main + manual | contents: read | No | No | Yes (Cloudflare Workers) | No | Deploy gated by CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, and MCP_DEPLOY_ENABLED |
+| mcp-server.yml | PR (filtered) + push main + manual | contents: read | No | No | Yes (Cloudflare Workers) | No | Deploy job in the `mcp-deploy` environment; skipped unless CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are both present |
 | release-citation-check.yml | Manual only | contents: read | No | No | No | No | N/A |
 | wayback-snapshot.yml | Release published + manual | contents: read | No | No | No | Yes (Wayback Machine) | Release-gated; manual dispatch available |
 
@@ -80,7 +79,7 @@
 | DeepL | tools/translate_articles.py | Requires DEEPL_API_KEY env var + explicit --provider deepl + --allow-network | Code-reviewed; no CI automation | No |
 | IndexNow | build-and-deploy.yml indexnow job | --dry-run hardcoded; key required but dry-run prints payload only | .github/workflows/build-and-deploy.yml line 80 | No |
 | Airtable write | ingest-airtable.yml / ingest-airtable-dispatch.yml | INGEST_DRY_RUN repository variable must be 0; defaults to 1 | .github/workflows/ingest-airtable.yml line 13 | No |
-| MCP/Ask deploy | mcp-server.yml deploy job | Requires CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, and MCP_DEPLOY_ENABLED=1 | .github/workflows/mcp-server.yml lines 92-99 | No |
+| MCP/Ask deploy | mcp-server.yml deploy job | Requires CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in the `mcp-deploy` environment; absent means skip | .github/workflows/mcp-server.yml `deploy` job | No |
 | Zenodo DOI | tools/mint_dois.py | Defaults to --dry-run; production requires --yes-i-understand-production-dois-are-permanent | tools/mint_dois.py lines 314-320 | No |
 | Giscus | tools/comments_config.json | enabled: false; empty repo_id and category_id; template checks all three | tools/comments_config.json; templates/partials/giscus.html.j2 | No |
 | OG worker | tools/og_config.json | enabled: false; no CI workflow; no DNS | tools/og_config.json | No |
@@ -175,7 +174,7 @@ The following actions must not happen without explicit owner approval:
 4. Do not change repository settings (branch protection, secret scanning, etc.) via automation.
 5. Do not enable live IndexNow without owner approval — keep --dry-run in build-and-deploy.yml.
 6. Do not enable Airtable write mode without a controlled single-record test — keep INGEST_DRY_RUN unset or 1.
-7. Do not deploy MCP/Ask/OG without Cloudflare credentials + MCP_DEPLOY_ENABLED=1.
+7. Do not deploy MCP/Ask/OG without Cloudflare credentials in the `mcp-deploy` environment.
 8. Do not mint DOIs without owner approval — production requires explicit flag.
 9. Do not call DeepL except through tools/translate_articles.py with explicit --provider deepl.
 10. Do not enable Giscus without GitHub Discussions + app install + valid IDs.
