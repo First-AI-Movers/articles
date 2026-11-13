@@ -10,7 +10,7 @@ Enable AI assistants (Claude, Cursor, etc.) to search, browse, and retrieve arti
 
 - **Runtime:** Cloudflare Workers (stateless, edge-deployed)
 - **Protocol:** MCP over HTTP (Streamable HTTP transport)
-- **SDK:** `@modelcontextprotocol/sdk` v1.26.0
+- **SDK:** `@modelcontextprotocol/sdk` 1.32.2 (the version pinned in `mcp-server/package-lock.json`)
 - **Data source:** Bundled `archive-data.json` (generated from `index.json` + article Markdown)
 - **Search:** Lexical scoring (default) with optional semantic search via Workers AI
 
@@ -41,7 +41,7 @@ mcp-server/
 | Tool | Description |
 |---|---|
 | `search_articles` | Search by keyword with optional topic filter. Returns ranked results with titles, URLs, dates, and excerpts. |
-| `get_article` | Retrieve full metadata for a single article by slug. |
+| `get_article` | Retrieve one article by slug: metadata, summary, links and an excerpt of the opening text (up to 500 characters). It does **not** return the full article text. |
 | `list_topics` | List canonical topics, optionally filtered by minimum article count. |
 | `get_topic_intro` | Get overview for a topic including sample articles. |
 | `get_quick_reads` | Get short summaries for articles in a topic, ordered by recency. |
@@ -53,6 +53,49 @@ mcp-server/
 | `corpus` | `firstaimovers://corpus` | Archive metadata (article count, date range, site URL) |
 | `article` | `firstaimovers://article/{slug}` | Individual article metadata |
 | `topic` | `firstaimovers://topic/{slug}` | Topic metadata (name, article count) |
+
+## Connecting a client
+
+The server is public and read-only. It needs no account, key or token.
+
+- **URL:** `https://articles-api.firstaimovers.com/mcp`
+- **Transport:** Streamable HTTP. `POST` JSON-RPC to `/mcp`; responses arrive as server-sent events.
+- **Health:** `GET https://articles-api.firstaimovers.com/health` returns `{"status":"ok", …}` with the article and topic counts.
+
+Each of these was run against the deployed URL on 2026-11-13. None of them calls a model.
+
+**Claude Code**
+
+```bash
+claude mcp add --transport http faim-articles https://articles-api.firstaimovers.com/mcp
+claude mcp get faim-articles        # Status: ✔ Connected
+```
+
+**MCP Inspector (CLI)**
+
+```bash
+npx @modelcontextprotocol/inspector --cli https://articles-api.firstaimovers.com/mcp \
+  --transport http --method tools/list
+npx @modelcontextprotocol/inspector --cli https://articles-api.firstaimovers.com/mcp \
+  --transport http --method tools/call --tool-name search_articles \
+  --tool-arg query="AI governance" --tool-arg limit=2
+```
+
+**TypeScript SDK**
+
+```js
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+
+const client = new Client({ name: "my-client", version: "1.0.0" });
+await client.connect(new StreamableHTTPClientTransport(new URL("https://articles-api.firstaimovers.com/mcp")));
+const { tools } = await client.listTools();
+const result = await client.callTool({ name: "search_articles", arguments: { query: "AI governance", limit: 2 } });
+```
+
+**Python and other HTTP clients: send your own `User-Agent`.** The host's edge protection refuses Python `urllib`'s default `User-Agent` (`Python-urllib/3.x`) with HTTP 403 (Cloudflare error 1010). Any descriptive value works, for example `User-Agent: my-archive-client/1.0`. The default user agents of `curl`, Node `fetch` and the MCP SDK are accepted.
+
+**Limits.** Tools return metadata, summaries and short excerpts, with links to the archive and the original source. Read the full text at the returned `local_url` or `canonical_url`.
 
 ## Search modes
 
