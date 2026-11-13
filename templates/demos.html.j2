@@ -1,0 +1,102 @@
+{% extends "base.html.j2" %}
+{% block title %}Try the demos: how they work — First AI Movers{% endblock %}
+{% block description %}Three working demonstrations built on this archive: ask a question and get quoted, cited answers; connect an AI assistant over MCP; assess one workflow with seven questions. No AI model is called by any of them.{% endblock %}
+
+{% block head_extra %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site_url }}/"},
+    {"@type": "ListItem", "position": 2, "name": "Demos", "item": "{{ site_url }}/demos/"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{{ rel_root }}">Home</a> / Demos</nav>
+
+<h1>Try the demos</h1>
+<div class="prose">
+<p class="lede">Three working demonstrations built on this public archive. None of them calls an AI model, so none of them can invent an answer. Each one is described below as it actually works, with its limits and the measurements behind it.</p>
+
+<div class="card">
+  <h2><a href="{{ rel_root }}ask/">Ask the archive</a></h2>
+  <p>Ask a practical question. The answer quotes the matching articles' own words, with each article's title, date and link. If nothing in the archive supports the question, the answer says so instead of guessing.</p>
+</div>
+
+<div class="card">
+  <h2><a href="#connect">Connect your AI assistant</a></h2>
+  <p>A public, read-only <abbr title="Model Context Protocol">MCP</abbr> server lets an assistant such as Claude Code search the archive and read whole articles, with sources. No account or key is needed.</p>
+</div>
+
+<div class="card">
+  <h2><a href="{{ rel_root }}assess/">Assess one workflow</a></h2>
+  <p>Answer seven questions about a single workflow and get a provisional BUILD, REPAIR_FIRST, DEFER or STOP recommendation with reasons, plus a one-page record to download. It runs entirely in your browser.</p>
+</div>
+
+<h2 id="how-it-works">How it works</h2>
+
+<h3>Architecture</h3>
+<ul>
+  <li><strong>The archive</strong> is static HTML built from the article Markdown in the <a href="https://github.com/First-AI-Movers/articles">public repository</a> and published on GitHub Pages. Each article's Markdown is also published, at <code>/articles/&lt;folder&gt;/article.md</code>.</li>
+  <li><strong>Ask and MCP</strong> are served by one Cloudflare Worker at <code>articles-api.firstaimovers.com</code>. It carries the archive's titles, dates, topics, summaries and short excerpts. When an assistant asks for a whole article, the Worker fetches that article's published Markdown and caches it at the edge.</li>
+  <li><strong>The assessment</strong> is a page and a script. Your answers and the record you download never leave your browser.</li>
+</ul>
+
+<h3>Ask the archive</h3>
+<ul>
+  <li>Your question is reduced to its meaningful words (common words such as "what" and "how" are dropped), and the archive is searched for them.</li>
+  <li>An article counts as support only if it contains at least half of those words, and at least two of them when the question has two or more, in its title, topics, summary or opening text.</li>
+  <li>The answer quotes each supporting article's summary or, where it has none, its opening text. Nothing is paraphrased or generated.</li>
+  <li>Questions are not stored by the answer service. See the <a href="{{ rel_root }}ask/">Ask page</a> for what the hosting platform logs.</li>
+</ul>
+
+<h3 id="connect">Connect your AI assistant</h3>
+<ul>
+  <li>URL: <code>https://articles-api.firstaimovers.com/mcp</code> (Streamable HTTP, read-only, no key).</li>
+  <li>Claude Code: <code>claude mcp add --transport http faim-articles https://articles-api.firstaimovers.com/mcp</code></li>
+  <li>Tools: <code>search_articles</code>, <code>get_article</code>, <code>list_topics</code>, <code>get_topic_intro</code>, <code>get_quick_reads</code>. <code>get_article</code> can return the whole article, at most 20,000 characters per call with a pointer to the next part, and every part names its source and its licence (CC BY 4.0).</li>
+  <li>Setup for MCP Inspector and the TypeScript SDK: <a href="https://github.com/First-AI-Movers/articles/blob/main/docs/MCP_SERVER.md">docs/MCP_SERVER.md</a>.</li>
+</ul>
+
+<h3>Assess one workflow</h3>
+<ul>
+  <li>The seven questions and the four verdicts come from the published article <a href="{{ rel_root }}articles/before-you-automate-a-workflow-7-questions/">Before You Automate a Workflow</a>. If the answers are incomplete, the result is "insufficient evidence", not a guess.</li>
+  <li>The recommendation is provisional. It is not a compliance or certification assessment, and it does not estimate savings.</li>
+</ul>
+
+<h3>Limits</h3>
+<ul>
+  <li>Ask matches words, not meaning. A question phrased very differently from the articles can return "not found" even when an article covers it. Try different wording or browse the <a href="{{ rel_root }}topics/">topic hubs</a>.</li>
+  <li>Ask quotes; it does not combine or summarise several articles into one answer.</li>
+  <li>The archive is written in English, and so are the best questions to ask it.</li>
+  <li>Scripts that call the MCP server or the Ask endpoint should send their own <code>User-Agent</code>; the default one of Python's <code>urllib</code> is refused by the host's edge protection.</li>
+</ul>
+
+<h3>Measured, not estimated</h3>
+<p>Measured on 13 November 2026 from one client against the live services. These are single runs, so your times will differ.</p>
+<ul>
+  <li>Ask, 15 test questions sent straight to the answer service: each answered in 0.08 to 0.32 seconds. All 10 questions the archive covers were answered, and all 5 off-topic or adversarial ones (including an attempt to make it reveal its instructions) were declined. All 27 quoted sources matched a real article and date.</li>
+  <li>Ask in a browser, from loading the page to the rendered answer: 0.8 to 5.4 seconds over six questions.</li>
+  <li>MCP, an assistant client connecting, listing the tools and running one search: 0.3 seconds.</li>
+  <li>MCP, reading the archive's longest article (87,201 characters) in five parts: 1.4 seconds including the connection.</li>
+  <li>Assessment: zero network requests while answering the questions, getting the verdict and downloading the record.</li>
+  <li>No AI model is called by any of the three demos, so there is no per-question model charge.</li>
+</ul>
+
+<h3>Test cases</h3>
+<p>The checks behind these claims are public and run on every change:</p>
+<ul>
+  <li><a href="https://github.com/First-AI-Movers/articles/blob/main/mcp-server/test/ask.test.ts">mcp-server/test/ask.test.ts</a>: supported questions answer, off-topic and adversarial ones are declined, passages carry no Markdown syntax.</li>
+  <li><a href="https://github.com/First-AI-Movers/articles/blob/main/mcp-server/test/fulltext.test.ts">mcp-server/test/fulltext.test.ts</a>: whole-article reading is bounded, paged without loss, sourced and licensed.</li>
+  <li><a href="https://github.com/First-AI-Movers/articles/blob/main/tests-e2e/specs/ask.spec.ts">tests-e2e/specs/ask.spec.ts</a> and <a href="https://github.com/First-AI-Movers/articles/blob/main/tests-e2e/specs/assess.spec.ts">tests-e2e/specs/assess.spec.ts</a>: the pages, in a real browser.</li>
+  <li><a href="https://github.com/First-AI-Movers/articles/blob/main/tools/tests/test_assess_page.py">tools/tests/test_assess_page.py</a>: the assessment follows the published article and sends nothing.</li>
+</ul>
+
+<h3>Want this for your own work?</h3>
+<p>These demos run on a public archive. If you want to discuss something similar for your own documents or workflows, see <a href="https://www.firstaimovers.com/services">First AI Movers services</a> or <a href="https://www.firstaimovers.com/contact">get in touch</a>.</p>
+</div>
+{% endblock %}

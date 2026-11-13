@@ -1594,6 +1594,9 @@ def build_site(index):
     # Seven-question workflow assessment (browser-only; no model, no network)
     _render("assess.html.j2", "assess/index.html")
 
+    # Try the demos / How it works (#508 step 6)
+    _render("demos.html.j2", "demos/index.html")
+
     # Offline fallback page
     _render("offline.html.j2", "offline/index.html")
 
