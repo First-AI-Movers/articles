@@ -116,11 +116,13 @@ test.describe("Seven-question workflow assessment", () => {
     await expect(page.locator("#assess-result")).toBeHidden();
   });
 
-  test("after a verdict, plain services and contact links are offered", async ({ page }) => {
+  test("after a verdict, plain services and contact links are offered", async ({ page, baseURL }) => {
+    // The site's own origin, whether the local build or the live site (#508).
+    const origin = new URL(baseURL!).origin;
     const external: string[] = [];
     page.on("request", (req) => {
       const url = req.url();
-      if (!url.startsWith("http://localhost") && !url.startsWith("http://127.0.0.1") && !url.startsWith("blob:") && !url.startsWith("data:")) {
+      if (!url.startsWith(origin + "/") && !url.startsWith("blob:") && !url.startsWith("data:")) {
         external.push(url);
       }
     });
@@ -138,11 +140,13 @@ test.describe("Seven-question workflow assessment", () => {
     expect(unexpected).toEqual([]);
   });
 
-  test("the page issues no network request while being used", async ({ page }) => {
+  test("the page issues no network request while being used", async ({ page, baseURL }) => {
+    // The site's own origin, whether the local build or the live site (#508).
+    const origin = new URL(baseURL!).origin;
     const external: string[] = [];
     page.on("request", (req) => {
       const url = req.url();
-      if (!url.startsWith("http://localhost") && !url.startsWith("http://127.0.0.1") && !url.startsWith("blob:") && !url.startsWith("data:")) {
+      if (!url.startsWith(origin + "/") && !url.startsWith("blob:") && !url.startsWith("data:")) {
         external.push(url);
       }
     });
