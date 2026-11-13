@@ -47,6 +47,13 @@ const MAX_CONTEXT_ARTICLES = 5;
 /** A result supports the question when at least this share of the question's
  * content terms appear as whole words in its title, topics or summary. */
 const MIN_TERM_COVERAGE = 0.5;
+/** A question with two or more content terms needs at least two of them in an
+ *  article. At half coverage alone, a two-term question was "supported" by one
+ *  stray word ("speed" in "Lightning Speed" answered "What is the speed of light?"). */
+const MIN_TERM_HITS = 2;
+/** Candidates checked for support. This is search's own maximum, so the citation
+ *  limit applies after the support rule, not before it (#508 recall). */
+const SEARCH_POOL = 10;
 
 export const ABSTAIN_ANSWER =
   "Not found in the archive. No article supports an answer to that question. " +
@@ -119,7 +126,7 @@ export function supportingResults(question: string, results: SearchResult[]): Se
       [r.title, r.topics.join(" "), record?.summary ?? "", r.excerpt].join(" ")
     );
     const hits = terms.filter((t) => words.has(t)).length;
-    return hits / terms.length >= MIN_TERM_COVERAGE;
+    return hits >= Math.min(terms.length, MIN_TERM_HITS) && hits / terms.length >= MIN_TERM_COVERAGE;
   });
 }
 
@@ -261,13 +268,19 @@ export async function handleAsk(
   const { question, limit } = validated.data;
 
   try {
+    // Search on the question's content terms, not its raw text. The lexical
+    // scorer rewards filler: for "What is RAG?" every top result matched only
+    // "what", so no RAG article was ever a candidate and the answer abstained.
+    // The support rule below is unchanged in strictness; it only sees better
+    // candidates, from a wider pool, before the citation limit is applied.
+    const searchQuery = contentTerms(question).join(" ") || question;
     const results = await searchArticles(
-      question.slice(0, MAX_SEARCH_QUERY_LEN),
-      limit,
+      searchQuery.slice(0, MAX_SEARCH_QUERY_LEN),
+      SEARCH_POOL,
       undefined,
       env
     );
-    const citations = toCitations(supportingResults(question, results));
+    const citations = toCitations(supportingResults(question, results).slice(0, limit));
 
     const { answer, mode } = await generateAnswer(question, citations, env);
 

@@ -61,7 +61,7 @@ Every answer must cite source articles. The response includes:
 - `passage` — quoted summary passage (up to 400 characters, plus a truncation marker)
 - `score` — retrieval relevance score
 
-A result must match at least half the question's content terms as whole words in its title, topics, summary or excerpt. If none qualifies, the response abstains and suggests topic hubs. This overlap rule is a relevance heuristic, not proof that an article answers every premise of the question. Material claims still need passage checks.
+Search runs on the question's content terms (common words such as "what" and "how" removed), and up to 10 candidates are checked before the citation limit applies. A result must match at least half the question's content terms, and at least two of them when the question has two or more, as whole words in its title, topics, summary or excerpt. If none qualifies, the response abstains and suggests topic hubs. This overlap rule is a relevance heuristic, not proof that an article answers every premise of the question. Material claims still need passage checks.
 
 ## Request / response format
 
