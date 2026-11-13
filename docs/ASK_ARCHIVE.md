@@ -120,9 +120,10 @@ When explicitly enabled, the generation model is capped at 512 output tokens and
 **Live deployment is gated.**
 
 Requirements:
-1. `CLOUDFLARE_API_TOKEN` repository secret
-2. `CLOUDFLARE_ACCOUNT_ID` repository secret
-3. `MCP_DEPLOY_ENABLED=1` repository variable
+1. `CLOUDFLARE_API_TOKEN` secret in the `mcp-deploy` environment
+2. `CLOUDFLARE_ACCOUNT_ID` secret in the `mcp-deploy` environment
+
+With either absent the deploy job ends green and skips the deploy.
 
 The `/api/ask` route ships as part of the existing MCP server Worker. No separate Worker is needed.
 
@@ -183,7 +184,7 @@ Ask accepts public topics only: do not submit private, client or personal inform
 1. Remove "Ask" from primary nav in `templates/base.html.j2`
 2. Add `noindex` to `/ask/` (already present)
 3. Disable `/api/ask` route in `mcp-server/src/index.ts`
-4. Turn off `MCP_DEPLOY_ENABLED` variable
+4. Remove the Cloudflare secrets from the `mcp-deploy` environment (the deploy job then skips)
 5. Remove `templates/ask.html.j2`, `static/ask.js`, and build integration if fully retiring
 
 ## Relationship to other epics

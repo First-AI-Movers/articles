@@ -5,11 +5,9 @@ Two remaining audit items:
 1. gitleaks.yml has no scheduled run. A pre-existing secret leaked in a file
    no PR ever touches would never get caught. Add a weekly cron.
 
-2. mcp-server.yml's deploy job spins up a runner + runs `npm ci` on every
-   push to main even when MCP_DEPLOY_ENABLED is unset, exits cleanly via an
-   internal `if [ ... ]; then exit 0; fi`. Wasteful runner provisioning.
-   Gate the job at the workflow `if:` level so no runner spins up unless
-   the var is set.
+2. mcp-server.yml's deploy job runs in the `mcp-deploy` environment and gates
+   its steps on the presence of the Cloudflare inputs (a job-level `if:` cannot
+   read secrets), so with no inputs the job ends green and calls nothing.
 """
 
 from __future__ import annotations
@@ -71,39 +69,73 @@ def test_gitleaks_workflow_dispatch_for_on_demand_scans():
 
 
 # ----------------------------------------------------------------------------
-# mcp-server — deploy job gated at workflow level
+# mcp-server — deploy job scoped to an environment, gated on input presence
 # ----------------------------------------------------------------------------
 
 
-def test_mcp_deploy_job_gated_by_deploy_enabled_var():
-    """The deploy job must check `vars.MCP_DEPLOY_ENABLED` in its `if:` so the
-    runner does not spin up when MCP is not configured.
+def _deploy_job() -> dict:
+    return _load("mcp-server.yml")["jobs"]["deploy"]
 
-    The internal `if [ ... ]; then exit 0; fi` inside the runner shell step
-    is defense in depth, but it still pays the cost of `actions/checkout`,
-    `actions/setup-node`, and `npm ci` before deciding to skip. Hoisting the
-    check to the job-level conditional avoids those entirely.
-    """
-    wf = _load("mcp-server.yml")
-    deploy_job = wf["jobs"]["deploy"]
-    job_if = deploy_job.get("if", "")
-    assert "vars.MCP_DEPLOY_ENABLED" in job_if, (
-        f"mcp-server.yml `deploy` job `if:` must reference "
-        f"`vars.MCP_DEPLOY_ENABLED` so the runner does not spin up "
-        f"when MCP deployment is not enabled. Current if: {job_if!r}"
-    )
-    # Existing safety gates must remain — only deploy on push to main, never PR.
-    assert "github.ref == 'refs/heads/main'" in job_if, (
-        f"mcp-server.yml `deploy` job lost its main-branch guard: {job_if!r}"
-    )
-    assert "github.event_name == 'push'" in job_if, (
-        f"mcp-server.yml `deploy` job lost its push-event guard: {job_if!r}"
-    )
+
+def test_mcp_deploy_job_runs_in_the_mcp_deploy_environment():
+    """The deploy job names the `mcp-deploy` environment, so the Cloudflare
+    inputs are environment secrets rather than repository secrets."""
+    assert _deploy_job().get("environment") == "mcp-deploy"
+
+
+def test_mcp_deploy_job_if_keeps_main_push_guards_and_drops_the_variable_switch():
+    """`MCP_DEPLOY_ENABLED` is retired as the switch. A job-level `if:` cannot
+    read `secrets.*`, so the job-level condition is only the main-push guard."""
+    job_if = _deploy_job().get("if", "")
+    assert "MCP_DEPLOY_ENABLED" not in job_if
+    assert "secrets." not in job_if
+    assert "github.ref == 'refs/heads/main'" in job_if
+    assert "github.event_name == 'push'" in job_if
+    assert "MCP_DEPLOY_ENABLED" not in (WORKFLOWS / "mcp-server.yml").read_text(encoding="utf-8")
+
+
+def test_mcp_deploy_guard_step_runs_first_and_exposes_only_a_boolean():
+    """With no environment secrets the guard step reports `present=false`, and
+    it never receives a credential value."""
+    steps = _deploy_job()["steps"]
+    guard = steps[0]
+    assert guard.get("id") == "inputs"
+    assert "if" not in guard, "the guard step must always run"
+    env = guard.get("env", {})
+    assert set(env) == {"INPUTS_PRESENT"}
+    expr = env["INPUTS_PRESENT"]
+    assert "secrets.CLOUDFLARE_API_TOKEN" in expr
+    assert "secrets.CLOUDFLARE_ACCOUNT_ID" in expr
+    # The guard's own working directory must exist before checkout.
+    assert guard.get("working-directory") == "."
+    assert "Deploy inputs absent" in guard["run"]
+    assert "exit 1" not in guard["run"], "an absent input ends the job green"
+
+
+def test_mcp_deploy_every_step_after_the_guard_is_skipped_when_inputs_are_absent():
+    """No checkout, install or Cloudflare call happens unless the guard said so."""
+    steps = _deploy_job()["steps"][1:]
+    assert steps, "deploy steps are missing"
+    for step in steps:
+        assert step.get("if") == "steps.inputs.outputs.present == 'true'", step
+
+
+def test_mcp_deploy_credentials_reach_only_the_deploy_step():
+    """The Cloudflare secrets are mapped into the one step that deploys, not the
+    job, so `npm ci` never sees them."""
+    job = _deploy_job()
+    assert "env" not in job
+    carrying = [
+        s for s in job["steps"]
+        if "CLOUDFLARE_API_TOKEN" in s.get("env", {})
+    ]
+    assert [s.get("run") for s in carrying] == ["npm run deploy"]
+    assert set(carrying[0]["env"]) == {"CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID"}
 
 
 def test_mcp_deploy_still_depends_on_test_and_export_data():
     """The deploy job must still wait for the build + `export-data` jobs to pass.
-    Hoisting MCP_DEPLOY_ENABLED to `if:` must not have collapsed `needs:`.
+    Scoping the job to an environment must not have collapsed `needs:`.
     The build job id is `mcp-server` (renamed from `test` to disambiguate its
     check-run context from tests.yml's required `test` context).
     """

@@ -106,15 +106,16 @@ python3 tools/export_mcp_data.py --check
 
 Deployment is gated and **not automatic**:
 
-1. Requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets
-2. Requires `MCP_DEPLOY_ENABLED=1` repository variable
+1. The `deploy` job runs in the `mcp-deploy` GitHub environment (GitHub creates it the first time the job runs)
+2. It needs `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as secrets of that environment
 3. Runs only on `push` to `main`
+
+The two secrets are the only switch. A job-level `if:` cannot read secrets, so the first step checks that both are present. When either is absent, the job ends green with a "Deploy inputs absent" notice, skips every later step and makes no Cloudflare call. There is no repository variable to set.
 
 To enable deployment:
 
-1. Add secrets in GitHub Settings → Secrets and variables → Actions
-2. Add `MCP_DEPLOY_ENABLED=1` in Variables
-3. Use the authorized main-push release path for a change matching this workflow's path filters. `workflow_dispatch` runs validation only: its deploy job explicitly requires a `push` event.
+1. Add both secrets under GitHub Settings → Environments → `mcp-deploy`
+2. Use the authorized main-push release path for a change matching this workflow's path filters. `workflow_dispatch` runs validation only: its deploy job explicitly requires a `push` event.
 
 ### Manual deployment
 
