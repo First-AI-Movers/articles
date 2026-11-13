@@ -15,14 +15,14 @@ User ──→ /ask/ (static HTML page + ask.js)
                           │
                           ├──→ lexical search (searchArticles)
                           ├──→ semantic search (optional, Workers AI)
-                          └──→ quoted article summaries (default; no model call)
+                          └──→ quoted summary or opening text (default; no model call)
                                 └──→ optional Workers AI generation (explicit opt-in)
 ```
 
 - **Frontend:** `templates/ask.html.j2` + `static/ask.js`
 - **Backend:** `mcp-server/src/ask.ts` — `/api/ask` route on the same Worker as the MCP server
 - **Retrieval:** Reuses `searchArticles` from `mcp-server/src/search.ts`
-- **Answers:** Quotes from matched public article summaries by default. Workers AI generation requires both the AI binding and `ASK_MODEL_ENABLED="true"`; a binding alone never enables generation.
+- **Answers:** Quotes from each matched article's public summary by default or, where an article has no summary (649 of 942 records on 2026-11-13), from its opening text with markdown syntax removed. Workers AI generation requires both the AI binding and `ASK_MODEL_ENABLED="true"`; a binding alone never enables generation.
 
 ## Pages
 
@@ -100,7 +100,7 @@ Validation:
 ```
 
 Modes:
-- `extractive` — quotes matched public article summaries; no generation call
+- `extractive` — quotes each matched article's summary or opening text; no generation call
 - `abstained` — no supporting result; empty citations
 - `model` — explicit opt-in generation succeeded; failures fall back to extractive answers
 
