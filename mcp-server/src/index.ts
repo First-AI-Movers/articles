@@ -10,6 +10,14 @@ import {
 } from "./archive.js";
 import { searchArticles } from "./search.js";
 import { handleAsk } from "./ask.js";
+import { fetchFullText, FULL_TEXT_MAX_CHARS } from "./fulltext.js";
+import type { ArticleRecord } from "./archive.js";
+
+/** Full-text fields for get_article: the bounded page, or why it is missing. */
+async function fullTextFields(article: ArticleRecord, env: Record<string, unknown>, offset: number) {
+  const result = await fetchFullText(article, env, offset);
+  return result.ok ? { full_text: result.page } : { full_text_error: result.error };
+}
 
 function createServer(env: Record<string, unknown>) {
   const server = new McpServer({
@@ -66,15 +74,27 @@ function createServer(env: Record<string, unknown>) {
   // Tool: get_article
   server.tool(
     "get_article",
-    "Retrieve a specific article by its URL slug. Returns metadata, summary, excerpt, and links.",
+    "Retrieve a specific article by its URL slug. Returns metadata, summary, excerpt, and links. " +
+      "Set include_full_text to also get the article body (CC BY 4.0, with source and attribution), " +
+      `at most ${FULL_TEXT_MAX_CHARS} characters per call; page through longer articles with offset = next_offset.`,
     {
       slug: z
         .string()
         .min(1)
         .regex(/^[a-z0-9-]+$/)
         .describe("Article slug (e.g. 'ai-governance-european-smes-2026')"),
+      include_full_text: z
+        .boolean()
+        .optional()
+        .describe("Also return the article body, bounded and cited. Default false."),
+      offset: z
+        .number()
+        .int()
+        .min(0)
+        .optional()
+        .describe("Character offset into the body, for the next page of a long article. Default 0."),
     },
-    async ({ slug }) => {
+    async ({ slug, include_full_text, offset }) => {
       const article = getArticleBySlug(slug);
       if (!article) {
         return {
@@ -100,6 +120,7 @@ function createServer(env: Record<string, unknown>) {
                 topics: article.topics,
                 summary: article.summary,
                 excerpt: article.excerpt,
+                ...(include_full_text ? await fullTextFields(article, env, offset ?? 0) : {}),
               },
               null,
               2

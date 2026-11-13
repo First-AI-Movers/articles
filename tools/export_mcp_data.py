@@ -106,6 +106,7 @@ def export_data(out_dir: Path, check_mode: bool) -> int:
 
         record = {
             "slug": art.get("slug", ""),
+            "folder": folder,
             "title": art.get("title", ""),
             "published_date": art.get("published_date", ""),
             "canonical_url": art.get("canonical_url", ""),
