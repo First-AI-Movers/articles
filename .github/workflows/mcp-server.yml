@@ -76,8 +76,10 @@ jobs:
   deploy:
     needs: [mcp-server, export-data]
     runs-on: ubuntu-latest
-    # The job runs on every main push, inside the `mcp-deploy` environment
-    # (GitHub creates it on first use). Environment secrets exist only after
+    # The job runs on every main push and on a manual `workflow_dispatch` of
+    # main, inside the `mcp-deploy` environment (GitHub creates it on first
+    # use). Dispatch lets a release or a credential rotation redeploy without a
+    # code change; a dispatch of any other ref is still skipped (#508). Environment secrets exist only after
     # the job has started, and a job-level `if:` cannot read `secrets.*`, so
     # whether the two Cloudflare inputs are present is decided by the first
     # step. When either is absent every later step is skipped, the job ends
@@ -85,7 +87,7 @@ jobs:
     # switch: there is no repository variable to flip.
     if: >-
       github.ref == 'refs/heads/main' &&
-      github.event_name == 'push'
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     environment: mcp-deploy
     defaults:
       run:

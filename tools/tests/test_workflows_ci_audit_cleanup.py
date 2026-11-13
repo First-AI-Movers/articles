@@ -85,12 +85,18 @@ def test_mcp_deploy_job_runs_in_the_mcp_deploy_environment():
 
 def test_mcp_deploy_job_if_keeps_main_push_guards_and_drops_the_variable_switch():
     """`MCP_DEPLOY_ENABLED` is retired as the switch. A job-level `if:` cannot
-    read `secrets.*`, so the job-level condition is only the main-push guard."""
+    read `secrets.*`, so the job-level condition is only the main-ref guard
+    over two events: a push to main, or a manual dispatch of main (#508).
+
+    Pinned as the exact expression. A substring check would accept the ref
+    guard ORed with the events, which deploys a dispatch of any branch."""
     job_if = _deploy_job().get("if", "")
     assert "MCP_DEPLOY_ENABLED" not in job_if
     assert "secrets." not in job_if
-    assert "github.ref == 'refs/heads/main'" in job_if
-    assert "github.event_name == 'push'" in job_if
+    assert " ".join(job_if.split()) == (
+        "github.ref == 'refs/heads/main' && "
+        "(github.event_name == 'push' || github.event_name == 'workflow_dispatch')"
+    ), f"deploy job condition changed: {job_if!r}"
     assert "MCP_DEPLOY_ENABLED" not in (WORKFLOWS / "mcp-server.yml").read_text(encoding="utf-8")
 
 
