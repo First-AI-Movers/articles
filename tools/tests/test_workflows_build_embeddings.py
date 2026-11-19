@@ -183,3 +183,32 @@ def test_closer_is_best_effort():
     assert "set +e" in run and run.rstrip().endswith("exit 0"), (
         "incident bookkeeping must never turn a green refresh red"
     )
+
+
+def test_publisher_arms_squash_auto_merge_on_the_pr_it_just_published():
+    """#551 sat clean and judge-passed because this workflow never armed auto-merge.
+
+    The arm belongs to the publisher, in the same job, and only for a pull request this
+    run created or updated. A no-op refresh must not arm an older head.
+    """
+    import re
+
+    opened = _named_step("Open PR if changed")
+    assert opened.get("id") == "embeddings_pr"
+    arm = _named_step("Arm squash Auto-merge")
+    condition = str(arm.get("if") or "")
+    assert "created" in condition and "updated" in condition, condition
+    assert "pull-request-operation" in condition, condition
+    token = str((arm.get("env") or {}).get("GH_TOKEN") or "")
+    assert "app_token" in token, token
+    assert "secrets.GITHUB_TOKEN" not in token
+    run = str(arm.get("run") or "")
+    assert "gh pr merge" in run and "--squash" in run and "--auto" in run
+    assert "PR_NUMBER" in run
+    assert "${{" not in run, "the pull request number must arrive through the environment"
+    sha = re.compile(r"@[0-9a-f]{40}$")
+    for step in _steps():
+        uses = step.get("uses")
+        if isinstance(uses, str):
+            action = uses.split()[0]
+            assert sha.search(action), f"unpinned action: {uses}"
