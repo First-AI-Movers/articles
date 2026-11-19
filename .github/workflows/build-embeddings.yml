@@ -24,7 +24,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -82,7 +82,7 @@ jobs:
           app-id: ${{ vars.ARTICLES_AUTOMATION_APP_ID }}
           private-key: ${{ secrets.ARTICLES_AUTOMATION_APP_PRIVATE_KEY }}
 
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version-file: .python-version
 
@@ -92,7 +92,7 @@ jobs:
           pip install pytest
 
       - name: Cache embedding model
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.cache/huggingface
           key: ${{ runner.os }}-embeddings-model-${{ hashFiles('tools/requirements.txt') }}
@@ -103,13 +103,14 @@ jobs:
         run: python3 tools/build_embeddings.py --out embeddings.parquet
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: embeddings-parquet
           path: embeddings.parquet
           retention-days: 7
 
       - name: Open PR if changed
+        id: embeddings_pr
         uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8 # v8.1.2
         with:
           # The App token minted above, not GITHUB_TOKEN: GitHub suppresses workflow runs on a
@@ -131,6 +132,24 @@ jobs:
           add-paths: |
             embeddings.parquet
           delete-branch: true
+
+      - name: Arm squash Auto-merge on the embeddings PR
+        # The weekly publisher used to open the pull request and stop. A clean,
+        # judge-passed refresh then waited with auto-merge unset (#551). This
+        # repository's lifecycle is that the publisher arms squash auto-merge
+        # in the same turn, while aeos-merge-judge is still pending. When the
+        # head is already mergeable, `gh pr merge --squash --auto` merges
+        # immediately; that is the ordinary end state, not a second decision.
+        # Gate on the operation this run actually performed so a no-op refresh
+        # does not arm an older head. The App token is the publication
+        # credential; the incident steps below stay on github.token (#388).
+        if: steps.embeddings_pr.outputs.pull-request-operation == 'created' || steps.embeddings_pr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+          PR_NUMBER: ${{ steps.embeddings_pr.outputs.pull-request-number }}
+        run: |
+          set -euo pipefail
+          gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --squash --auto
 
       - name: Open incident issue on scheduled failure
         # Fires only when a scheduled run fails, so a silent weekly breakage
