@@ -16,6 +16,13 @@ any worker lockfile's holder admits only vitest 4, the ignore is justified. When
 worker lockfile carries a holder whose peer range admits vitest 5, this test fails and
 names the entry to delete — which is exactly when the hold should end.
 
+The hold was lifted on 2026-11-24 (#580), once both workers carried vitest-plugin (peers
+`vitest ^4.1.0 || ^5.0.0`): the `ignore` entries are gone, so the justification test skips
+and the synthetic-lockfile tests keep its logic exercised. `test_both_worker_lockfiles_are_installable`
+still runs unconditionally, but it only decides simple caret/tilde/exact peer ranges, so it
+is a no-op for vitest-plugin's `||` range; an uninstallable carrier now shows up as that
+worker's own `npm ci` failure instead.
+
 A hold also has a second failure direction, and this module owns both. The test above
 asks "is the hold still justified?". It cannot ask "did the held major land anyway?" —
 and on 2026-10-05 it did: Dependabot #485/#486 carried vitest 5.0.1 into both worker
