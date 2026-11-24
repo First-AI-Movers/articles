@@ -32,7 +32,7 @@ mcp-server/
 │   └── ask.test.ts       # Unit tests for Ask endpoint
 ├── package.json
 ├── tsconfig.json
-├── vitest.config.ts      # Vitest pool-workers config
+├── vitest.config.ts      # Vitest config (@cloudflare/vitest-plugin)
 └── wrangler.jsonc        # Cloudflare Workers config
 ```
 
@@ -125,7 +125,7 @@ npm install
 # Type check
 npm run typecheck
 
-# Run tests (uses vitest pool-workers)
+# Run tests (uses @cloudflare/vitest-plugin)
 npm test
 
 # Local dev server
