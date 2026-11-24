@@ -10,10 +10,11 @@ vitest ^4.
 
 So the lift condition is expressed as a test rather than a promise in a comment. The
 evidence is offline and already in the repository: `package-lock.json` records the
-installed `@cloudflare/vitest-pool-workers` and the `peerDependencies` range it declares.
-While that range admits only vitest 4, the ignore is justified. When a lockfile arrives
-carrying a pool-workers whose peer range admits vitest 5, this test fails and names the
-entry to delete — which is exactly when the hold should end.
+peer holder — `@cloudflare/vitest-pool-workers`, or its successor `@cloudflare/vitest-plugin`
+(#580), whichever a lockfile carries — and the `peerDependencies` range it declares. While
+any worker lockfile's holder admits only vitest 4, the ignore is justified. When EVERY
+worker lockfile carries a holder whose peer range admits vitest 5, this test fails and
+names the entry to delete — which is exactly when the hold should end.
 
 A hold also has a second failure direction, and this module owns both. The test above
 asks "is the hold still justified?". It cannot ask "did the held major land anyway?" —
@@ -45,7 +46,11 @@ yaml = pytest.importorskip("yaml")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEPENDABOT = REPO_ROOT / ".github" / "dependabot.yml"
 LOCKFILES = ("mcp-server/package-lock.json", "og-worker/package-lock.json")
-PEER_HOLDER = "node_modules/@cloudflare/vitest-pool-workers"
+# A worker's vitest peer holder: the deprecated pool, or the plugin that replaced it (#580).
+PEER_HOLDERS = (
+    "node_modules/@cloudflare/vitest-pool-workers",
+    "node_modules/@cloudflare/vitest-plugin",
+)
 HELD = "vitest"
 MAJOR_UPDATE = "version-update:semver-major"
 
@@ -66,10 +71,17 @@ def _ignored_majors() -> set[str]:
     return held
 
 
-def _peer_range(lockfile: Path, holder: str, dependency: str) -> tuple[str | None, str | None]:
+def _peer_range(lockfile: Path, dependency: str) -> tuple[str | None, str | None, str | None]:
+    """The lockfile's peer holder as (holder, version, the holder's peer range for `dependency`).
+
+    The first of PEER_HOLDERS the lockfile carries; (None, None, None) when it carries none.
+    """
     packages = json.loads(lockfile.read_text(encoding="utf-8")).get("packages") or {}
-    entry = packages.get(holder) or {}
-    return entry.get("version"), (entry.get("peerDependencies") or {}).get(dependency)
+    for holder in PEER_HOLDERS:
+        entry = packages.get(holder)
+        if entry:
+            return holder, entry.get("version"), (entry.get("peerDependencies") or {}).get(dependency)
+    return None, None, None
 
 
 def _admits_major_above(spec: str, major: int) -> bool:
@@ -145,25 +157,56 @@ def test_both_worker_lockfiles_are_installable():
     """
     for name in LOCKFILES:
         lockfile = REPO_ROOT / name
-        holder_version, spec = _peer_range(lockfile, PEER_HOLDER, HELD)
+        holder, holder_version, spec = _peer_range(lockfile, HELD)
         if not spec:
             continue
         installed = _installed_version(lockfile, HELD)
-        assert installed, f"{name}: {HELD} is not in the lockfile, but {PEER_HOLDER} peers it"
+        assert installed, f"{name}: {HELD} is not in the lockfile, but {holder} peers it"
         verdict = _satisfies(installed, spec)
         if verdict is None:
             continue
         assert verdict, (
             f"{name}: {HELD}@{installed} does not satisfy the `{HELD}@{spec}` peer range "
-            f"declared by @cloudflare/vitest-pool-workers@{holder_version}, so `npm ci` in "
+            f"declared by {holder.removeprefix('node_modules/')}@{holder_version}, so `npm ci` in "
             f"that worker fails with ERESOLVE. Either hold {HELD} at a version the peer "
-            f"range admits, or bump pool-workers to a release that peers the new major — "
+            f"range admits, or bump the holder to a release that peers the new major — "
             f"do not commit the pair."
         )
 
 
-def test_the_vitest_hold_is_still_justified_by_both_lockfiles():
-    """While pool-workers peers vitest ^4, a vitest 5 carrier can never install.
+def _hold_failure(lockfiles: list[Path]) -> str | None:
+    """Why the vitest hold is wrong for these lockfiles, or None while it is still justified.
+
+    Justified while ANY lockfile's peer holder excludes vitest 5: that tree cannot install a
+    vitest 5 carrier, so the ignore is still doing work. A lockfile with no holder (or a
+    holder that declares no vitest peer) is never a silent pass — the hold would rest on
+    nothing for that tree — so it fails first. Lifted only when EVERY holder admits a major
+    above 4.
+    """
+    held: list[str] = []
+    still_excluded = False
+    for lockfile in lockfiles:
+        holder, version, spec = _peer_range(lockfile, HELD)
+        if not spec:
+            return (
+                f"{lockfile.parent.name}: none of {', '.join(PEER_HOLDERS)} declares a "
+                f"`{HELD}` peer range, so the semver-major hold in .github/dependabot.yml "
+                f"rests on nothing. Re-derive it or delete the ignore entry."
+            )
+        held.append(f"{lockfile.parent.name}: {holder.removeprefix('node_modules/')}@{version} peers `{HELD}@{spec}`")
+        still_excluded = still_excluded or not _admits_major_above(spec, 4)
+    if still_excluded:
+        return None
+    return (
+        "every worker lockfile's vitest peer holder now admits a major above 4 ("
+        + "; ".join(held)
+        + ") — the documented lift condition is MET. Delete the "
+        + f"`{HELD}` semver-major `ignore` entries from .github/dependabot.yml and let the bump flow."
+    )
+
+
+def test_the_vitest_hold_is_still_justified_by_the_lockfiles():
+    """While any worker's vitest peer holder peers vitest ^4, a vitest 5 carrier cannot install there.
 
     Measured failure this hold answers (Dependabot #451/#452, 2026-09-26):
     `npm error peer vitest@"^4.1.0" from @cloudflare/vitest-pool-workers@0.22.0`
@@ -171,20 +214,58 @@ def test_the_vitest_hold_is_still_justified_by_both_lockfiles():
     """
     if HELD not in _ignored_majors():
         pytest.skip("the vitest semver-major hold has been lifted; nothing to justify")
-    for name in LOCKFILES:
-        lockfile = REPO_ROOT / name
-        version, spec = _peer_range(lockfile, PEER_HOLDER, HELD)
-        assert spec, (
-            f"{name}: {PEER_HOLDER} declares no `{HELD}` peer range, so the "
-            f"semver-major hold in .github/dependabot.yml rests on nothing. Re-derive it "
-            f"or delete the ignore entry."
-        )
-        assert not _admits_major_above(spec, 4), (
-            f"{name}: @cloudflare/vitest-pool-workers@{version} now peers "
-            f"`{HELD}@{spec}`, which admits a major above 4 — the documented lift "
-            f"condition is MET. Delete the `{HELD}` semver-major `ignore` entry from "
-            f".github/dependabot.yml and let the bump flow."
-        )
+    failure = _hold_failure([REPO_ROOT / name for name in LOCKFILES])
+    assert failure is None, failure
+
+
+def _write_lockfile(root: Path, name: str, holder: str | None, peer: str | None) -> Path:
+    packages: dict = {"node_modules/vitest": {"version": "4.1.12"}}
+    if holder:
+        entry: dict = {"version": "1.0.0"}
+        if peer:
+            entry["peerDependencies"] = {HELD: peer}
+        packages[holder] = entry
+    path = root / name / "package-lock.json"
+    path.parent.mkdir(parents=True)
+    path.write_text(json.dumps({"packages": packages}), encoding="utf-8")
+    return path
+
+
+POOL, PLUGIN = PEER_HOLDERS
+
+
+def test_a_mixed_migration_state_keeps_the_hold_justified(tmp_path):
+    migrated = _write_lockfile(tmp_path, "a", PLUGIN, "^4.1.0 || ^5.0.0")
+    pending = _write_lockfile(tmp_path, "b", POOL, "^4.1.0")
+    assert _hold_failure([migrated, pending]) is None
+    assert _hold_failure([pending, migrated]) is None
+
+
+def test_the_hold_is_lifted_only_once_every_holder_admits_vitest_5(tmp_path):
+    first = _write_lockfile(tmp_path, "a", PLUGIN, "^4.1.0 || ^5.0.0")
+    second = _write_lockfile(tmp_path, "b", PLUGIN, "^4.1.0 || ^5.0.0")
+    failure = _hold_failure([first, second])
+    assert failure and "lift condition is MET" in failure
+    assert "vitest-plugin@1.0.0" in failure
+
+
+def test_a_lockfile_with_no_peer_holder_never_silently_passes(tmp_path):
+    pending = _write_lockfile(tmp_path, "a", POOL, "^4.1.0")
+    bare = _write_lockfile(tmp_path, "b", None, None)
+    no_peer = _write_lockfile(tmp_path, "c", PLUGIN, None)
+    for lockfiles in ([pending, bare], [bare, pending], [pending, no_peer], [bare]):
+        failure = _hold_failure(lockfiles)
+        assert failure and "rests on nothing" in failure
+
+
+def test_the_peer_holder_is_whichever_of_the_two_a_lockfile_carries(tmp_path):
+    assert _peer_range(_write_lockfile(tmp_path, "a", POOL, "^4.1.0"), HELD) == (POOL, "1.0.0", "^4.1.0")
+    assert _peer_range(_write_lockfile(tmp_path, "b", PLUGIN, "^4.1.0 || ^5.0.0"), HELD) == (
+        PLUGIN,
+        "1.0.0",
+        "^4.1.0 || ^5.0.0",
+    )
+    assert _peer_range(_write_lockfile(tmp_path, "c", None, None), HELD) == (None, None, None)
 
 
 def test_every_major_hold_names_its_lift_condition_in_the_file():
